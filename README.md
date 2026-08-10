@@ -16,11 +16,14 @@ does not silently change the model comparison.
 | [Luna OMP](luna-omp/STATISTICS.md) | OMP | 14m 14.264s | **5,171,263** | 391 | 5,171,654 |
 | [Sol Codex](sol-codex/STATISTICS.md) | Codex Desktop | 6m 22.017s | **909,035** | 41,371 | 950,406 |
 | [Sol OMP](sol-omp/STATISTICS.md) | OMP | 8m 3.842s | **999,455** | 365 | 999,820 |
-| [DeepSeek OMP/PI](deepseek-pi/STATISTICS.md) | OMP/PI | 1h 30m 39.662s | **19,162,498** | 1,635 | 19,164,133 |
+| [DeepSeek OMP/PI](deepseek-pi/STATISTICS.md) | OMP/PI | 44m 11.418s | **18,118,592** | 1,635 | 18,120,227 |
 
 The DeepSeek run is listed for completeness but is not directly comparable:
-it contains three user messages and follow-up interaction, while each Luna and
-Sol run used one benchmark prompt.
+the implementation required two user messages, while each Luna and Sol run
+used one benchmark prompt. Its elapsed time includes both agent-work phases but
+excludes the 1m 1.613s wait for the second message. A later third message only
+edited `README.md`; it did not affect the audited implementation and is kept
+separately in the detailed statistics.
 
 ## Token accounting
 
@@ -51,7 +54,9 @@ Start is the timestamp of the first benchmark user message. End is completion
 of the final tested-agent response: Codex's root `task_complete` event, or the
 OMP response timestamp plus its duration. Session-file creation and OMP title
 generation timestamps are excluded because they are harness lifecycle events,
-not benchmark work boundaries.
+not benchmark work boundaries. DeepSeek is the documented exception: its end
+is the completed implementation response to message two, and the wait between
+messages one and two is subtracted from elapsed time.
 
 ## Session isolation
 

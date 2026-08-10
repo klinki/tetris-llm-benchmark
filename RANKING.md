@@ -171,13 +171,13 @@ These figures come from the verified per-run `STATISTICS.md` files and use teste
 
 | Implementation | Source TS LOC | Test LOC | Tested-agent tokens | Elapsed wall time | Tool calls |
 |---|---:|---:|---:|---:|---:|
-| DeepSeek OMP/PI | 791 | 240 | 19,162,498 | 1:30:39.662 | 130 |
+| DeepSeek OMP/PI | 791 | 240 | 18,118,592 | 0:44:11.418 | 127 |
 | Luna Codex | 652 | 56 | 1,177,121 | 0:11:31.291 | 28 |
 | Luna OMP | 836 | 96 | 5,171,263 | 0:14:14.264 | 94 |
 | Sol Codex | 286 | 50 | 909,035 | 0:06:22.017 | 29 |
 | Sol OMP | 629 | 59 | 999,455 | 0:08:03.842 | 30 |
 
-DeepSeek is **not directly efficiency-comparable** with the other four runs because its tested session contained three user messages. See [`README.md`](README.md) and each implementation's `STATISTICS.md` for the isolation and accounting method.
+DeepSeek is **not directly efficiency-comparable** with the other four runs because its implementation required two user messages. Its elapsed figure includes both work phases but excludes the wait for message two; a later README-only third phase is not part of these implementation totals. See [`README.md`](README.md), [`deepseek-pi/STATISTICS.md`](deepseek-pi/STATISTICS.md), and the [session analysis](.audit/deepseek-session-analysis.md) for the isolation and accounting method.
 
 ## Methodology
 

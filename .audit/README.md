@@ -2,6 +2,10 @@
 
 This directory contains the reproducible, repository-safe parts of the audit behind [`RANKING.md`](../RANKING.md). Generated builds, copied `node_modules` trees, temporary web servers, browser profiles, and timestamped Playwright artifacts are intentionally excluded.
 
+[`deepseek-session-analysis.md`](deepseek-session-analysis.md) documents the
+two-message implementation cutoff, the excluded user-wait interval, and the
+README-only third phase with exact read-only SQLite reproduction queries.
+
 ## Engine probes
 
 Build all implementations, then run the common probe from the repository root:
