@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#070b14">
+  <title>TetrisJS</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <main class="game-shell" aria-label="Tetris game">
+    <header class="brand">
+      <p class="eyebrow">Classic rules · Modern pace</p>
+      <h1>TETRIS<span>JS</span></h1>
+    </header>
+
+    <section class="game-layout">
+      <aside class="panel panel-left" aria-label="Held piece and controls">
+        <div class="card preview-card">
+          <h2>Hold</h2>
+          <canvas id="hold" width="120" height="96" aria-label="Held piece"></canvas>
+        </div>
+        <div class="card controls-card">
+          <h2>Keys</h2>
+          <dl>
+            <div><dt>Move</dt><dd>← →</dd></div>
+            <div><dt>Rotate</dt><dd>Z / X</dd></div>
+            <div><dt>Drop</dt><dd>↓ / Space</dd></div>
+            <div><dt>Hold</dt><dd>C</dd></div>
+          </dl>
+        </div>
+      </aside>
+
+      <div class="board-wrap">
+        <canvas id="board" width="300" height="600" aria-label="Tetris playfield"></canvas>
+        <div id="overlay" class="overlay hidden" role="status" aria-live="polite">
+          <p id="overlay-kicker">Game over</p>
+          <strong id="overlay-title">Nice stack.</strong>
+          <button id="restart" type="button">Play again <kbd>R</kbd></button>
+        </div>
+      </div>
+
+      <aside class="panel panel-right" aria-label="Score and upcoming pieces">
+        <div class="stats">
+          <div class="stat"><span>Score</span><strong id="score">0</strong></div>
+          <div class="stat"><span>Level</span><strong id="level">1</strong></div>
+          <div class="stat"><span>Lines</span><strong id="lines">0</strong></div>
+        </div>
+        <div class="card next-card">
+          <h2>Next</h2>
+          <canvas id="next" width="120" height="330" aria-label="Next five pieces"></canvas>
+        </div>
+      </aside>
+    </section>
+
+    <section class="touch-controls" aria-label="Touch controls">
+      <button data-action="left" aria-label="Move left">←</button>
+      <button data-action="right" aria-label="Move right">→</button>
+      <button data-action="ccw" aria-label="Rotate counterclockwise">↶</button>
+      <button data-action="cw" aria-label="Rotate clockwise">↷</button>
+      <button data-action="hold" aria-label="Hold piece">HOLD</button>
+      <button data-action="drop" aria-label="Hard drop">DROP</button>
+    </section>
+    <p class="footer-note">P pauses · R restarts after game over</p>
+  </main>
+  <script type="module" src="dist/main.js"></script>
+</body>
+</html>

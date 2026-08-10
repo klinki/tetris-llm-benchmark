@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="A dependency-free browser Tetris game">
+    <title>TetrisJS</title>
+    <link rel="stylesheet" href="/style.css">
+  </head>
+  <body>
+    <main class="game-shell">
+      <header class="topbar">
+        <div>
+          <p class="eyebrow">TetrisJS</p>
+          <h1>Stack with purpose.</h1>
+        </div>
+        <div id="status" class="status" aria-live="polite">Playing</div>
+      </header>
+
+      <section class="game-layout" aria-label="Tetris game">
+        <aside class="side-panel left-panel">
+          <section class="card">
+            <h2>Hold</h2>
+            <canvas id="hold" width="120" height="96" aria-label="Held piece"></canvas>
+            <p class="hint">C to hold</p>
+          </section>
+          <section class="card stats" aria-label="Score">
+            <div><span>Score</span><strong id="score">0</strong></div>
+            <div><span>Lines</span><strong id="lines">0</strong></div>
+            <div><span>Level</span><strong id="level">1</strong></div>
+          </section>
+        </aside>
+
+        <div class="board-wrap">
+          <canvas id="board" width="300" height="600" aria-label="Tetris board"></canvas>
+          <div class="board-caption">Ghost piece enabled</div>
+        </div>
+
+        <aside class="side-panel right-panel">
+          <section class="card">
+            <h2>Next</h2>
+            <canvas id="next" width="150" height="360" aria-label="Next pieces"></canvas>
+          </section>
+          <section class="card controls">
+            <h2>Controls</h2>
+            <dl>
+              <div><dt>← / →</dt><dd>Move</dd></div>
+              <div><dt>↑ / X</dt><dd>Rotate</dd></div>
+              <div><dt>Z / Ctrl</dt><dd>Rotate back</dd></div>
+              <div><dt>↓</dt><dd>Soft drop</dd></div>
+              <div><dt>Space</dt><dd>Hard drop</dd></div>
+              <div><dt>R</dt><dd>Restart</dd></div>
+            </dl>
+          </section>
+        </aside>
+      </section>
+
+      <footer class="actions">
+        <button id="pause" type="button">Pause</button>
+        <button id="restart" type="button" class="primary">Restart</button>
+      </footer>
+    </main>
+    <script type="module" src="/dist/main.js"></script>
+  </body>
+</html>

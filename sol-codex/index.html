@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="theme-color" content="#0b0b12">
+  <title>TetrisJS — Stack. Clear. Repeat.</title>
+  <meta name="description" content="A fast, dependency-free browser Tetris built to the modern Guideline.">
+  <link rel="stylesheet" href="src/style.css">
+</head>
+<body>
+  <main class="shell">
+    <header class="masthead">
+      <div class="brand"><span class="brand-mark" aria-hidden="true"></span><h1>TETRIS<span>JS</span></h1></div>
+      <p>STACK. CLEAR. REPEAT.</p>
+    </header>
+
+    <section class="game-layout" aria-label="Tetris game">
+      <aside class="side side-left">
+        <section class="panel"><h2>Hold</h2><canvas id="hold" width="128" height="96" aria-label="Held piece"></canvas></section>
+        <section class="panel stats">
+          <div><span>Score</span><strong id="score">0</strong></div>
+          <div><span>Level</span><strong id="level">1</strong></div>
+          <div><span>Lines</span><strong id="lines">0</strong></div>
+        </section>
+      </aside>
+
+      <div class="board-wrap">
+        <div class="board-glow"></div>
+        <canvas id="board" width="300" height="600" aria-label="Tetris playfield"></canvas>
+        <div id="overlay" class="overlay hidden" role="status">
+          <div><p id="overlay-kicker">Game over</p><h2 id="overlay-title">Stack collapsed</h2><p id="overlay-copy">Press R to play again</p><button id="restart">Restart</button></div>
+        </div>
+      </div>
+
+      <aside class="side side-right">
+        <section class="panel next"><h2>Next</h2><div id="next-list"></div></section>
+        <section class="panel controls-help">
+          <h2>Controls</h2>
+          <p><kbd>←</kbd><kbd>→</kbd><span>Move</span></p>
+          <p><kbd>↑</kbd><kbd>X</kbd><span>Rotate</span></p>
+          <p><kbd>Z</kbd><kbd>Ctrl</kbd><span>Rotate back</span></p>
+          <p><kbd>Space</kbd><span>Hard drop</span></p>
+          <p><kbd>C</kbd><span>Hold</span></p>
+        </section>
+      </aside>
+    </section>
+
+    <nav class="touch-controls" aria-label="Touch controls">
+      <button data-action="left" aria-label="Move left">←</button>
+      <button data-action="right" aria-label="Move right">→</button>
+      <button data-action="down" aria-label="Soft drop">↓</button>
+      <button data-action="ccw" aria-label="Rotate counter-clockwise">↶</button>
+      <button data-action="cw" aria-label="Rotate clockwise">↷</button>
+      <button class="wide" data-action="drop" aria-label="Hard drop">DROP</button>
+      <button data-action="hold" aria-label="Hold piece">HOLD</button>
+    </nav>
+  </main>
+  <script type="module" src="dist/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>TetrisJS</title>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <main class="game-shell">
+      <header class="game-header">
+        <div>
+          <p class="eyebrow">TetrisJS</p>
+          <h1>Stack smart. Clear lines.</h1>
+        </div>
+        <div class="status-pill" id="status" aria-live="polite">Playing</div>
+      </header>
+
+      <section class="game-layout" aria-label="Tetris game">
+        <aside class="side-panel left-panel">
+          <section class="info-card hold-card">
+            <h2>Hold <span>C</span></h2>
+            <canvas id="hold-canvas" class="preview-canvas" width="128" height="96" aria-label="Held piece"></canvas>
+          </section>
+
+          <section class="info-card stats-card">
+            <div class="stat-row"><span>Score</span><strong id="score">0</strong></div>
+            <div class="stat-row"><span>Lines</span><strong id="lines">0</strong></div>
+            <div class="stat-row"><span>Level</span><strong id="level">1</strong></div>
+          </section>
+        </aside>
+
+        <div class="board-column">
+          <div class="board-frame">
+            <canvas id="board-canvas" width="300" height="600" aria-label="Tetris board" tabindex="0"></canvas>
+            <div class="board-message" id="board-message" hidden>
+              <strong>Game over</strong>
+              <span>Press R to restart</span>
+            </div>
+          </div>
+          <p class="board-hint">Arrow keys to move · Space to drop</p>
+        </div>
+
+        <aside class="side-panel right-panel">
+          <section class="info-card next-card">
+            <h2>Next</h2>
+            <div id="next-list" class="next-list" aria-label="Next pieces"></div>
+          </section>
+
+          <section class="info-card controls-card">
+            <h2>Controls</h2>
+            <dl>
+              <div><dt>← →</dt><dd>Move</dd></div>
+              <div><dt>↑ / X</dt><dd>Rotate</dd></div>
+              <div><dt>Z / Ctrl</dt><dd>Rotate back</dd></div>
+              <div><dt>↓</dt><dd>Soft drop</dd></div>
+              <div><dt>Space</dt><dd>Hard drop</dd></div>
+              <div><dt>C</dt><dd>Hold</dd></div>
+              <div><dt>R</dt><dd>Restart</dd></div>
+            </dl>
+          </section>
+        </aside>
+      </section>
+
+      <footer>Seven-bag randomizer · SRS wall kicks · Ghost piece · Lock delay</footer>
+    </main>
+    <script type="module" src="/dist/main.js"></script>
+  </body>
+</html>

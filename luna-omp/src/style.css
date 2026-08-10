@@ -1,0 +1,83 @@
+/* The UI intentionally uses system fonts so the game has no runtime dependencies. */
+ 
+:root {
+  color-scheme: dark;
+  font-family: "Space Grotesk", system-ui, sans-serif;
+  background: #090b10;
+  color: #eaf0ff;
+  font-synthesis: none;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  min-width: 320px;
+  min-height: 100vh;
+  margin: 0;
+  background:
+    radial-gradient(circle at 50% -10%, rgba(90, 107, 230, 0.22), transparent 40rem),
+    #090b10;
+}
+
+button { font: inherit; }
+
+.game-shell {
+  width: min(980px, calc(100% - 32px));
+  margin: 0 auto;
+  padding: 38px 0 28px;
+}
+
+.topbar, .actions, .game-layout { display: flex; }
+.topbar { align-items: end; justify-content: space-between; margin-bottom: 24px; }
+.eyebrow { margin: 0 0 5px; color: #91a3ff; font: 500 0.78rem/1 "DM Mono", monospace; letter-spacing: 0.16em; text-transform: uppercase; }
+h1 { margin: 0; font-size: clamp(1.8rem, 4vw, 2.8rem); letter-spacing: -0.06em; }
+h2 { margin: 0 0 14px; color: #aeb9d7; font-size: 0.82rem; letter-spacing: 0.12em; text-transform: uppercase; }
+
+.status { padding: 9px 13px; border: 1px solid #344067; border-radius: 999px; color: #b9c7ff; font: 500 0.78rem "DM Mono", monospace; }
+.status.paused { color: #f2d64b; border-color: #776b2d; }
+.status.game-over { color: #ff8c99; border-color: #7e3844; }
+
+.game-layout { align-items: flex-start; justify-content: center; gap: 18px; }
+.side-panel { display: grid; width: 180px; gap: 18px; }
+.card { padding: 17px; border: 1px solid #202a43; border-radius: 12px; background: rgba(17, 22, 36, 0.82); box-shadow: 0 16px 35px rgba(0, 0, 0, 0.16); }
+.card canvas { display: block; width: 100%; height: auto; border-radius: 7px; }
+.left-panel canvas { margin: 8px auto; }
+.right-panel canvas { width: 100%; }
+.hint, .board-caption { margin: 12px 0 0; color: #6f7d9d; font: 0.72rem "DM Mono", monospace; }
+
+.board-wrap { padding: 8px; border: 1px solid #2c3858; border-radius: 13px; background: #0d111d; box-shadow: 0 22px 70px rgba(0, 0, 0, 0.36); }
+#board { display: block; width: min(300px, 70vw); height: auto; border-radius: 7px; }
+.board-caption { text-align: center; }
+
+.stats { display: grid; gap: 13px; }
+.stats div { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; }
+.stats span { color: #71809e; font-size: 0.75rem; }
+.stats strong { color: #dfe6ff; font: 500 1rem "DM Mono", monospace; }
+
+.controls dl { display: grid; gap: 9px; margin: 0; }
+.controls dl div { display: flex; align-items: baseline; justify-content: space-between; gap: 8px; }
+.controls dt { color: #c9d4ff; font: 0.68rem "DM Mono", monospace; white-space: nowrap; }
+.controls dd { margin: 0; color: #71809e; font-size: 0.7rem; text-align: right; }
+
+.actions { justify-content: center; gap: 10px; margin-top: 22px; }
+button { cursor: pointer; padding: 10px 20px; border: 1px solid #354363; border-radius: 7px; background: #151c2d; color: #becaff; transition: border-color 120ms ease, background 120ms ease, transform 120ms ease; }
+button:hover { border-color: #7083d8; background: #1b2540; }
+button:active { transform: translateY(1px); }
+button.primary { border-color: #7184ef; background: #5368db; color: white; }
+
+@media (max-width: 760px) {
+  .game-shell { padding-top: 24px; }
+  .game-layout { align-items: stretch; flex-wrap: wrap; }
+  .board-wrap { order: -1; width: 100%; max-width: 316px; margin: 0 auto; }
+  .side-panel { width: calc(50% - 9px); }
+  .right-panel { grid-template-rows: auto 1fr; }
+}
+
+@media (max-width: 440px) {
+  .game-shell { width: min(100% - 18px, 360px); }
+  .topbar { align-items: flex-start; gap: 12px; flex-direction: column; }
+  .side-panel { width: calc(50% - 6px); gap: 12px; }
+  .game-layout { gap: 12px; }
+  .card { padding: 12px; }
+  .controls dd { display: none; }
+}

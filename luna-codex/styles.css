@@ -1,0 +1,146 @@
+:root {
+  color-scheme: dark;
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  background: #080b16;
+  color: #f4f7ff;
+  --surface: rgba(20, 27, 49, 0.8);
+  --surface-border: rgba(151, 171, 226, 0.18);
+  --muted: #8f9bbd;
+  --accent: #9c8cff;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  min-width: 320px;
+  min-height: 100vh;
+  margin: 0;
+  background:
+    radial-gradient(circle at 50% -10%, rgba(87, 64, 187, 0.34), transparent 42rem),
+    linear-gradient(145deg, #0b1022 0%, #080b16 58%, #11152a 100%);
+}
+
+button, canvas { -webkit-tap-highlight-color: transparent; }
+
+.game-shell {
+  width: min(1060px, calc(100% - 32px));
+  margin: 0 auto;
+  padding: 46px 0 30px;
+}
+
+.game-header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 24px;
+  margin-bottom: 28px;
+}
+
+.eyebrow {
+  margin: 0 0 8px;
+  color: var(--accent);
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+}
+
+h1, h2, p { margin-top: 0; }
+h1 { margin-bottom: 0; font-size: clamp(2rem, 5vw, 3.8rem); line-height: 0.95; letter-spacing: -0.06em; }
+h2 { margin-bottom: 14px; font-size: 0.78rem; letter-spacing: 0.14em; text-transform: uppercase; color: #d9def5; }
+h2 span { color: var(--muted); font-weight: 500; }
+
+.status-pill {
+  padding: 9px 15px;
+  border: 1px solid rgba(130, 240, 190, 0.24);
+  border-radius: 999px;
+  color: #a1f4ca;
+  background: rgba(66, 175, 125, 0.12);
+  font-size: 0.77rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.status-pill.over {
+  border-color: rgba(255, 123, 151, 0.35);
+  color: #ff9cb3;
+  background: rgba(192, 59, 91, 0.14);
+}
+
+.game-layout {
+  display: grid;
+  grid-template-columns: 180px minmax(300px, 1fr) 180px;
+  align-items: start;
+  justify-content: center;
+  gap: 28px;
+}
+
+.side-panel { display: grid; gap: 16px; }
+.info-card {
+  padding: 18px;
+  border: 1px solid var(--surface-border);
+  border-radius: 17px;
+  background: var(--surface);
+  box-shadow: 0 18px 42px rgba(0, 0, 0, 0.18);
+  backdrop-filter: blur(12px);
+}
+
+.preview-canvas { display: block; width: 100%; height: auto; }
+.board-column { display: flex; flex-direction: column; align-items: center; }
+.board-frame {
+  position: relative;
+  width: min(300px, 100%);
+  overflow: hidden;
+  border: 1px solid rgba(151, 171, 226, 0.28);
+  border-radius: 12px;
+  background: #0e1427;
+  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.35), 0 0 0 7px rgba(91, 72, 178, 0.07);
+}
+
+#board-canvas { display: block; width: 100%; height: auto; outline: none; }
+.board-hint { margin: 16px 0 0; color: var(--muted); font-size: 0.78rem; }
+
+.board-message {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background: rgba(7, 10, 23, 0.78);
+  text-align: center;
+}
+.board-message strong { font-size: 1.45rem; letter-spacing: -0.03em; }
+.board-message span { color: #abb4d2; font-size: 0.82rem; }
+
+.stat-row { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; padding: 9px 0; border-bottom: 1px solid rgba(151, 171, 226, 0.1); }
+.stat-row:first-child { padding-top: 0; }
+.stat-row:last-child { padding-bottom: 0; border-bottom: 0; }
+.stat-row span { color: var(--muted); font-size: 0.75rem; }
+.stat-row strong { font-variant-numeric: tabular-nums; font-size: 1.05rem; }
+
+.next-list { display: grid; gap: 8px; }
+.next-slot { width: 100%; border-radius: 9px; background: rgba(5, 8, 19, 0.33); }
+.controls-card dl { display: grid; gap: 10px; margin: 0; }
+.controls-card dl div { display: flex; align-items: baseline; justify-content: space-between; gap: 8px; }
+.controls-card dt { color: #e9ecff; font-size: 0.71rem; font-weight: 800; white-space: nowrap; }
+.controls-card dd { margin: 0; color: var(--muted); font-size: 0.7rem; text-align: right; }
+
+footer { margin-top: 32px; color: #687393; font-size: 0.72rem; letter-spacing: 0.06em; text-align: center; }
+
+@media (max-width: 760px) {
+  .game-shell { width: min(440px, calc(100% - 24px)); padding-top: 28px; }
+  .game-header { align-items: flex-start; margin-bottom: 20px; }
+  .game-header h1 { font-size: clamp(2rem, 11vw, 3rem); }
+  .status-pill { margin-top: 3px; padding: 7px 10px; font-size: 0.65rem; }
+  .game-layout { grid-template-columns: 1fr 1.72fr; gap: 12px; }
+  .board-column { grid-column: 2; grid-row: 1 / span 2; }
+  .left-panel { grid-column: 1; grid-row: 1; }
+  .right-panel { grid-column: 1; grid-row: 2; }
+  .right-panel .next-card { display: none; }
+  .info-card { padding: 13px; border-radius: 13px; }
+  .controls-card dl { gap: 7px; }
+  footer { margin-top: 22px; line-height: 1.5; }
+}

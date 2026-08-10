@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>TetrisJS</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <main class="layout">
+      <aside class="panel">
+        <section class="box">
+          <h2>Hold</h2>
+          <canvas id="hold" width="96" height="96"></canvas>
+          <p class="hint"><kbd>C</kbd> hold</p>
+        </section>
+        <section class="box">
+          <h2>Stats</h2>
+          <div class="stat"><span>Score</span><span id="score">0</span></div>
+          <div class="stat"><span>Level</span><span id="level">1</span></div>
+          <div class="stat"><span>Lines</span><span id="lines">0</span></div>
+        </section>
+      </aside>
+
+      <section class="board-wrap">
+        <canvas id="board" width="300" height="600"></canvas>
+        <div id="overlay" class="overlay hidden">
+          <h1>Game Over</h1>
+          <p>Press <kbd>R</kbd> to restart</p>
+        </div>
+      </section>
+
+      <aside class="panel">
+        <section class="box">
+          <h2>Next</h2>
+          <canvas id="next" width="96" height="288"></canvas>
+        </section>
+      </aside>
+    </main>
+
+    <p class="controls">
+      <kbd>&larr;</kbd>/<kbd>&rarr;</kbd> move &middot; <kbd>&uarr;</kbd>/<kbd>X</kbd> rotate CW
+      &middot; <kbd>Z</kbd>/<kbd>Ctrl</kbd> rotate CCW &middot; <kbd>&darr;</kbd> soft drop
+      &middot; <kbd>Space</kbd> hard drop &middot; <kbd>C</kbd> hold &middot; <kbd>R</kbd> restart
+    </p>
+
+    <script type="module" src="dist/main.js"></script>
+  </body>
+</html>
