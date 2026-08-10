@@ -10,6 +10,7 @@ The primary benchmark figure is **tested-agent total**. Harness-generated
 requests are reported separately so that title generation or approval review
 does not silently change the model comparison.
 
+<!-- benchmark-results:start -->
 | Run | Harness | Elapsed | Tested-agent total | Harness overhead | Combined recorded total |
 |---|---|---:|---:|---:|---:|
 | [Luna Codex](luna-codex/STATISTICS.md) | Codex Desktop | 11m 31.291s | **1,177,121** | 68,227 | 1,245,348 |
@@ -18,12 +19,8 @@ does not silently change the model comparison.
 | [Sol OMP](sol-omp/STATISTICS.md) | OMP | 8m 3.842s | **999,455** | 365 | 999,820 |
 | [DeepSeek OMP/PI](deepseek-pi/STATISTICS.md) | OMP/PI | 44m 11.418s | **18,118,592** | 1,635 | 18,120,227 |
 
-The DeepSeek run is listed for completeness but is not directly comparable:
-the implementation required two user messages, while each Luna and Sol run
-used one benchmark prompt. Its elapsed time includes both agent-work phases but
-excludes the 1m 1.613s wait for the second message. A later third message only
-edited `README.md`; it did not affect the audited implementation and is kept
-separately in the detailed statistics.
+**DeepSeek OMP/PI:** The implementation required two user messages, while the other runs used one benchmark prompt. Elapsed time includes both agent-work phases but excludes the wait for the second message. A later README-only message did not affect the audited implementation and is reported separately.
+<!-- benchmark-results:end -->
 
 ## Token accounting
 
@@ -63,13 +60,11 @@ messages one and two is subtracted from elapsed time.
 Sessions were matched by exact ID, working directory, model, prompt, and time.
 Broad date filtering is unsafe because unrelated sessions overlap these runs.
 
-| Run | Tested session ID | Overhead record |
-|---|---|---|
-| Luna Codex | `019fe763-4679-7e92-902c-0ea1c4cc638f` | Guardian `019fe76a-a36f-7892-911c-d70ed9e5a31e` |
-| Luna OMP | `019fe752-f49b-7000-a874-a3871c2487c7` | Two title events with the same session ID |
-| Sol Codex | `019fea5f-5c72-7df2-bf83-3a3edfbf7192` | Guardian `019fea63-1466-7b12-9a36-fdd3f81aba9a` |
-| Sol OMP | `019fea22-4474-7000-91b9-3ac7ff12f162` | Two title events with the same session ID |
-| DeepSeek OMP/PI | `019fe238-a6de-7000-9e4a-fa92e19ad158` | Two title events with the same session ID |
+The authoritative mappings are stored in
+[`benchmark-runs.json`](benchmark-runs.json). Each run declares its tested
+session ID, expected provider/model/directory, cutoff policy, and exact
+guardian IDs or expected OMP title count. Generated `STATISTICS.md` files also
+display the tested session ID.
 
 For Codex, guardian records are included only when their `parent_thread_id`
 matches the tested root session. For OMP, database rows are grouped by the
@@ -180,3 +175,45 @@ jq -s --arg id "$omp_session_id" '
 
 The OMP directory used for these runs was `/Users/agent/.omp`; the originally
 suggested singular path `/User/agent/.omp` does not exist.
+
+## Adding a benchmark run
+
+The benchmark CLI uses only the Python standard library. It ingests completed
+runs; it does not launch Codex or OMP, modify implementations, update quality
+rankings, or create Git commits.
+
+1. Put the completed implementation in a new repository subdirectory with a
+   `package.json`, `package-lock.json`, and working `npm test` command.
+2. Add one entry to [`benchmark-runs.json`](benchmark-runs.json), including the
+   exact root session ID, provider/model, working-directory basename, cutoff,
+   and overhead policy.
+3. Point `CODEX_HOME` or `OMP_HOME` at the machine that owns the session data.
+4. Refresh the run, review the generated Markdown, and commit it.
+
+```sh
+# Codex defaults to CODEX_HOME=~/.codex
+python3 scripts/benchmark.py refresh new-codex-run
+
+# OMP can live under another user's home directory
+OMP_HOME=/Users/agent/.omp \
+  python3 scripts/benchmark.py refresh new-omp-run
+```
+
+`refresh` finds only the configured session, fails closed when identity or
+overhead evidence is missing, installs dependencies and runs tests in an
+isolated temporary copy, regenerates the run's `STATISTICS.md`, and refreshes
+the marked results block above. Other useful commands are:
+
+```sh
+OMP_HOME=/Users/agent/.omp python3 scripts/benchmark.py refresh --all
+python3 scripts/benchmark.py refresh RUN_ID --dry-run
+python3 scripts/benchmark.py verify
+OMP_HOME=/Users/agent/.omp python3 scripts/benchmark.py verify RUN_ID
+python3 -m unittest discover -s tests -v
+```
+
+Generated Markdown is the committed result record. `verify` without a run ID
+checks report arithmetic and README consistency without needing historical
+session files. `verify RUN_ID` additionally recollects that exact source and
+requires its generated statistics to match byte-for-byte. Quality scoring in
+[`RANKING.md`](RANKING.md) remains a separate audited workflow.

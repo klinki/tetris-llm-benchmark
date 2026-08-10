@@ -1,0 +1,126 @@
+{
+  "schema_version": 1,
+  "generator_version": 1,
+  "runs": [
+    {
+      "id": "luna-codex",
+      "label": "Luna Codex",
+      "order": 10,
+      "project_dir": "luna-codex",
+      "harness": "codex",
+      "harness_label": "Codex Desktop",
+      "provider": "openai",
+      "provider_label": "OpenAI",
+      "model": "gpt-5.6-luna",
+      "session_id": "019fe763-4679-7e92-902c-0ea1c4cc638f",
+      "expected_cwd_basename": "luna-codex",
+      "cutoff": {
+        "through_user_message": 1,
+        "exclude_inter_message_wait": true
+      },
+      "overhead": {
+        "kind": "codex_guardian",
+        "session_ids": ["019fe76a-a36f-7892-911c-d70ed9e5a31e"]
+      }
+    },
+    {
+      "id": "luna-omp",
+      "label": "Luna OMP",
+      "order": 20,
+      "project_dir": "luna-omp",
+      "harness": "omp",
+      "harness_label": "OMP",
+      "provider": "openai-codex",
+      "provider_label": "openai-codex",
+      "model": "gpt-5.6-luna",
+      "session_id": "019fe752-f49b-7000-a874-a3871c2487c7",
+      "expected_cwd_basename": "luna-omp",
+      "cutoff": {
+        "through_user_message": 1,
+        "exclude_inter_message_wait": true
+      },
+      "overhead": {
+        "kind": "omp_titles",
+        "expected_count": 2
+      },
+      "append_only": "inactive (setting: auto (openai-codex))"
+    },
+    {
+      "id": "sol-codex",
+      "label": "Sol Codex",
+      "order": 30,
+      "project_dir": "sol-codex",
+      "harness": "codex",
+      "harness_label": "Codex Desktop",
+      "provider": "openai",
+      "provider_label": "OpenAI",
+      "model": "gpt-5.6-sol",
+      "session_id": "019fea5f-5c72-7df2-bf83-3a3edfbf7192",
+      "expected_cwd_basename": "tetris-sol",
+      "cutoff": {
+        "through_user_message": 1,
+        "exclude_inter_message_wait": true
+      },
+      "overhead": {
+        "kind": "codex_guardian",
+        "session_ids": ["019fea63-1466-7b12-9a36-fdd3f81aba9a"]
+      }
+    },
+    {
+      "id": "sol-omp",
+      "label": "Sol OMP",
+      "order": 40,
+      "project_dir": "sol-omp",
+      "harness": "omp",
+      "harness_label": "OMP",
+      "provider": "openai-codex",
+      "provider_label": "openai-codex",
+      "model": "gpt-5.6-sol",
+      "session_id": "019fea22-4474-7000-91b9-3ac7ff12f162",
+      "expected_cwd_basename": "sol-omp",
+      "cutoff": {
+        "through_user_message": 1,
+        "exclude_inter_message_wait": true
+      },
+      "overhead": {
+        "kind": "omp_titles",
+        "expected_count": 2
+      },
+      "append_only": "inactive (setting: auto (openai-codex))"
+    },
+    {
+      "id": "deepseek-pi",
+      "label": "DeepSeek OMP/PI",
+      "order": 50,
+      "project_dir": "deepseek-pi",
+      "harness": "omp",
+      "harness_label": "OMP/PI",
+      "provider": "opencode-go",
+      "provider_label": "opencode-go",
+      "model": "deepseek-v4-flash",
+      "session_id": "019fe238-a6de-7000-9e4a-fa92e19ad158",
+      "expected_cwd_basename": "deepseek-pi",
+      "cutoff": {
+        "through_user_message": 2,
+        "exclude_inter_message_wait": true
+      },
+      "overhead": {
+        "kind": "omp_titles",
+        "expected_count": 2
+      },
+      "append_only": "inactive (setting: auto (opencode-go))",
+      "comparison_note": "The implementation required two user messages, while the other runs used one benchmark prompt. Elapsed time includes both agent-work phases but excludes the wait for the second message. A later README-only message did not affect the audited implementation and is reported separately.",
+      "phase_labels": [
+        "Initial unsuccessful turn",
+        "Implementation after message 2",
+        "README-only follow-up"
+      ],
+      "phase_notes": [
+        "The first message produced two read calls and one glob, but no implementation, writes, edits, shell commands, build, or test.",
+        "The second message produced the complete implementation.",
+        "The third message performed one shell call, one edit, and one read; only README.md changed, so this phase is excluded from implementation totals."
+      ],
+      "audit_link": "../.audit/deepseek-session-analysis.md"
+    }
+  ]
+}
