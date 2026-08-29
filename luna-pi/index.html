@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#0b0f19" />
+    <title>TetrisJS</title>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <main class="game-shell">
+      <header class="game-header">
+        <div>
+          <p class="eyebrow">TetrisJS</p>
+          <h1>Classic Tetris</h1>
+        </div>
+        <p class="tagline">Build lines. Chase the high score.</p>
+      </header>
+
+      <section class="game-layout" aria-label="Tetris game">
+        <div class="board-frame">
+          <canvas id="board" aria-label="Tetris playfield"></canvas>
+          <div id="game-over" class="game-over" aria-live="polite">
+            <strong>Game over</strong>
+            <span>Press R or use Restart</span>
+          </div>
+        </div>
+
+        <aside class="sidebar">
+          <div class="panel preview-panel">
+            <h2>Hold <span class="key-hint">C</span></h2>
+            <canvas id="hold" aria-label="Held piece"></canvas>
+          </div>
+
+          <div class="panel preview-panel next-panel">
+            <h2>Next</h2>
+            <canvas id="next" aria-label="Next pieces"></canvas>
+          </div>
+
+          <div class="panel stats-panel">
+            <div class="stat"><span>Score</span><strong id="score">0</strong></div>
+            <div class="stat"><span>Lines</span><strong id="lines">0</strong></div>
+            <div class="stat"><span>Level</span><strong id="level">1</strong></div>
+            <div class="stat"><span>Combo</span><strong id="combo">—</strong></div>
+          </div>
+
+          <button id="restart" class="restart-button" type="button">Restart</button>
+
+          <div class="panel controls-panel">
+            <h2>Controls</h2>
+            <dl>
+              <div><dt>← / →</dt><dd>Move</dd></div>
+              <div><dt>↑ / X</dt><dd>Rotate</dd></div>
+              <div><dt>Z / Ctrl</dt><dd>Rotate back</dd></div>
+              <div><dt>↓</dt><dd>Soft drop</dd></div>
+              <div><dt>Space</dt><dd>Hard drop</dd></div>
+              <div><dt>C</dt><dd>Hold</dd></div>
+              <div><dt>R</dt><dd>Restart</dd></div>
+            </dl>
+          </div>
+        </aside>
+      </section>
+    </main>
+    <script type="module" src="/dist/main.js"></script>
+  </body>
+</html>
