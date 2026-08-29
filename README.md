@@ -15,6 +15,7 @@ does not silently change the model comparison.
 |---|---|---:|---:|---:|---:|
 | [Luna Codex](luna-codex/STATISTICS.md) | Codex Desktop | 11m 31.291s | **1,177,121** | 68,227 | 1,245,348 |
 | [Luna OMP](luna-omp/STATISTICS.md) | OMP | 14m 14.264s | **5,171,263** | 391 | 5,171,654 |
+| [Luna PI](luna-pi/STATISTICS.md) | PI | 12m 26.483s | **970,356** | 0 | 970,356 |
 | [Sol Codex](sol-codex/STATISTICS.md) | Codex Desktop | 6m 22.017s | **909,035** | 41,371 | 950,406 |
 | [Sol OMP](sol-omp/STATISTICS.md) | OMP | 8m 3.842s | **999,455** | 365 | 999,820 |
 | [DeepSeek OMP/PI](deepseek-pi/STATISTICS.md) | OMP/PI | 44m 11.418s | **18,118,592** | 1,635 | 18,120,227 |
@@ -48,12 +49,13 @@ the detailed files only as **non-cache tokens**, not as total usage.
 ### Timing convention
 
 Start is the timestamp of the first benchmark user message. End is completion
-of the final tested-agent response: Codex's root `task_complete` event, or the
-OMP response timestamp plus its duration. Session-file creation and OMP title
-generation timestamps are excluded because they are harness lifecycle events,
-not benchmark work boundaries. DeepSeek is the documented exception: its end
-is the completed implementation response to message two, and the wait between
-messages one and two is subtracted from elapsed time.
+of the final tested-agent response: Codex's root `task_complete` event, the OMP
+response timestamp plus its duration, or the final PI assistant-message
+timestamp. Session-file creation and title-generation timestamps are excluded
+because they are harness lifecycle events, not benchmark work boundaries.
+DeepSeek is the documented exception: its end is the completed implementation
+response to message two, and the wait between messages one and two is
+subtracted from elapsed time.
 
 ## Session isolation
 
@@ -71,6 +73,13 @@ matches the tested root session. For OMP, database rows are grouped by the
 exact `session_file`, and log overhead is included only when its `sessionId`
 matches. This excludes, among other data, an overlapping `chrome-bookmarks`
 OMP session and the later statistics-audit Codex session.
+
+For PI, the collector opens the one JSONL file whose filename contains the
+exact configured session ID, then validates the session record's ID, version,
+working directory, provider, and model. Usage is summed across assistant
+responses in the included user-message phases; tool calls and results are
+counted from those same messages. PI reasoning tokens are an informational
+subset of output and are not added again.
 
 ## Reproducing the calculations
 
@@ -176,6 +185,36 @@ jq -s --arg id "$omp_session_id" '
 The OMP directory used for these runs was `/Users/agent/.omp`; the originally
 suggested singular path `/User/agent/.omp` does not exist.
 
+### PI
+
+PI sessions are append-only JSON Lines files under
+`~/.pi/agent/sessions/`. Restrict collection to the exact session ID and sum
+the per-response usage objects:
+
+```sh
+pi_session=/path/to/exact-pi-session.jsonl
+
+jq -s '
+  [.[]
+   | select(.type == "message")
+   | select(.message.role == "assistant")
+   | .message.usage]
+  | {
+      responses: length,
+      input: (map(.input // 0) | add),
+      cache_read: (map(.cacheRead // 0) | add),
+      cache_write: (map(.cacheWrite // 0) | add),
+      output: (map(.output // 0) | add),
+      total: (map(.totalTokens // 0) | add),
+      reasoning_subset: (map(.reasoning // 0) | add),
+      cost: (map(.cost.total // 0) | add)
+    }
+' "$pi_session"
+```
+
+Each PI response must satisfy the common total equation independently. The
+session used for Luna PI declared no separate model-powered harness overhead.
+
 ## Adding a benchmark run
 
 The benchmark CLI uses only the Python standard library. It ingests completed
@@ -187,7 +226,8 @@ rankings, or create Git commits.
 2. Add one entry to [`benchmark-runs.json`](benchmark-runs.json), including the
    exact root session ID, provider/model, working-directory basename, cutoff,
    and overhead policy.
-3. Point `CODEX_HOME` or `OMP_HOME` at the machine that owns the session data.
+3. Point `CODEX_HOME`, `OMP_HOME`, or `PI_HOME` at the machine that owns the
+   session data.
 4. Refresh the run, review the generated Markdown, and commit it.
 
 ```sh
@@ -197,6 +237,10 @@ python3 scripts/benchmark.py refresh new-codex-run
 # OMP can live under another user's home directory
 OMP_HOME=/Users/agent/.omp \
   python3 scripts/benchmark.py refresh new-omp-run
+
+# PI defaults to PI_HOME=~/.pi
+PI_HOME=/Users/agent/.pi \
+  python3 scripts/benchmark.py refresh new-pi-run
 ```
 
 `refresh` finds only the configured session, fails closed when identity or

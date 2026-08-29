@@ -1,18 +1,19 @@
 # Tetris Implementation Quality Ranking
 
-This ranking evaluates the five committed implementations against [`TETRIS.md`](TETRIS.md). Quality is scored independently of generation time and token use; efficiency data appears only as non-scoring context.
+This ranking evaluates the six committed implementations against [`TETRIS.md`](TETRIS.md). Quality is scored independently of generation time and token use; efficiency data appears only as non-scoring context.
 
-The audit was performed on 2026-08-10. Every project built and passed its declared test command in an isolated temporary copy. The browser checks used each project's intended server and Chromium at 1280×800 and 390×844. Reproducible probes and recorded browser measurements are in [`.audit`](.audit/README.md).
+The original audit was performed on 2026-08-10 and Luna PI was added on 2026-08-29. Every project built and passed its declared test command in an isolated temporary copy. The browser checks used each project's intended server and Chromium at 1280×800 and 390×844. Reproducible probes and recorded browser measurements are in [`.audit`](.audit/README.md).
 
 ## Ranking
 
 | Rank | Implementation | Correctness (40%) | Tests (20%) | Code (20%) | Simplicity (10%) | Browser UX (10%) | Weighted score | Confirmed bugs |
 |---:|---|---:|---:|---:|---:|---:|---:|---:|
 | 1 | Luna OMP | 10.0 | 6.5 | 8.5 | 7.0 | 9.0 | **8.60** | 0 |
-| 2 | Sol OMP | 9.5 | 5.5 | 8.5 | 8.0 | 9.0 | **8.30** | 1 minor |
-| 3 | Sol Codex | 8.0 | 6.5 | 9.0 | 9.5 | 9.5 | **8.20** | 1 major, 1 minor |
-| 4 | Luna Codex | 7.5 | 7.0 | 8.0 | 7.5 | 8.5 | **7.60** | 1 major, 2 minor |
-| 5 | DeepSeek OMP/PI | 6.5 | 8.5 | 8.0 | 7.0 | 7.0 | **7.30** | 2 major, 1 minor |
+| 2 | Luna PI | 9.5 | 6.5 | 9.0 | 7.0 | 8.5 | **8.45** | 1 minor |
+| 3 | Sol OMP | 9.5 | 5.5 | 8.5 | 8.0 | 9.0 | **8.30** | 1 minor |
+| 4 | Sol Codex | 8.0 | 6.5 | 9.0 | 9.5 | 9.5 | **8.20** | 1 major, 1 minor |
+| 5 | Luna Codex | 7.5 | 7.0 | 8.0 | 7.5 | 8.5 | **7.60** | 1 major, 2 minor |
+| 6 | DeepSeek OMP/PI | 6.5 | 8.5 | 8.0 | 7.0 | 7.0 | **7.30** | 2 major, 1 minor |
 
 The ordering is deterministic. There are no equal weighted scores; if there were, the tie-break order would be correctness, tests, then code quality.
 
@@ -32,25 +33,25 @@ Example for Luna OMP: `10.0×0.40 + 6.5×0.20 + 8.5×0.20 + 7.0×0.10 + 9.0×0.1
 
 Legend: ✅ conforming in the audited scope; ◐ partially conforming because of the cited defect.
 
-| Requirement from `TETRIS.md` | DeepSeek OMP/PI | Luna Codex | Luna OMP | Sol Codex | Sol OMP |
-|---|:---:|:---:|:---:|:---:|:---:|
-| Runs in a browser; TypeScript | ✅ | ✅ | ✅ | ✅ | ✅ |
-| Dependency-free at runtime | ✅ | ✅ | ✅ | ✅ | ✅ |
-| Seven standard shapes and distinct colors | ✅ | ✅ | ✅ | ✅ | ✅ |
-| Left/right movement | ✅ | ✅ | ✅ | ✅ | ✅ |
-| CW rotation with Up/X | ✅ | ✅ | ✅ | ✅ | ✅ |
-| CCW rotation with Z/Left Ctrl | ✅ | ✅ | ✅ | ✅ | ✅ |
-| Soft and hard drop | ✅ | ✅ | ✅ | ✅ | ✅ |
-| Hold with C | ✅ | ✅ | ✅ | ✅ | ✅ |
-| Restart with R after game over | ✅ | ✅ | ✅ | ✅ | ✅ |
-| Seven-bag randomizer | ✅ | ✅ | ✅ | ✅ | ✅ |
-| SRS orientations and wall kicks | ✅ | ◐ | ✅ | ✅ | ✅ |
-| Ghost piece | ✅ | ✅ | ✅ | ✅ | ✅ |
-| Hold and next queue | ✅ | ✅ | ✅ | ✅ | ✅ |
-| Lock delay | ◐ | ✅ | ✅ | ◐ | ✅ |
-| Guideline scoring | ◐ | ◐ | ✅ | ◐ | ◐ |
-| Guideline-style gravity and levels | ✅ | ✅ | ✅ | ✅ | ✅ |
-| Top-out on blocked spawn | ✅ | ✅ | ✅ | ✅ | ✅ |
+| Requirement from `TETRIS.md` | DeepSeek OMP/PI | Luna Codex | Luna OMP | Luna PI | Sol Codex | Sol OMP |
+|---|:---:|:---:|:---:|:---:|:---:|:---:|
+| Runs in a browser; TypeScript | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
+| Dependency-free at runtime | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
+| Seven standard shapes and distinct colors | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
+| Left/right movement | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
+| CW rotation with Up/X | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
+| CCW rotation with Z/Left Ctrl | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
+| Soft and hard drop | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
+| Hold with C | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
+| Restart with R after game over | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
+| Seven-bag randomizer | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
+| SRS orientations and wall kicks | ✅ | ◐ | ✅ | ✅ | ✅ | ✅ |
+| Ghost piece | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
+| Hold and next queue | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
+| Lock delay | ◐ | ✅ | ✅ | ✅ | ◐ | ✅ |
+| Guideline scoring | ◐ | ◐ | ✅ | ◐ | ◐ | ◐ |
+| Guideline-style gravity and levels | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
+| Top-out on blocked spawn | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
 
 “Guideline scoring” was interpreted to include drop points, normal clears, T-spins including mini classification, back-to-back, combos, and perfect clears. A binary full-T-spin implementation is useful but not the complete scoring model requested by the task.
 
@@ -58,20 +59,20 @@ Legend: ✅ conforming in the audited scope; ◐ partially conforming because of
 
 This compares tested behavior and assertion quality, not merely test-file size or printed test count. `Strong` means the suite makes deterministic, behavior-specific assertions; `Some` means coverage is indirect or incomplete; `—` means no meaningful existing test was found.
 
-| Behavior | DeepSeek OMP/PI | Luna Codex | Luna OMP | Sol Codex | Sol OMP |
-|---|---|---|---|---|---|
-| Seven-bag distribution | Strong: seven bags / 49 draws | Strong | Strong | Strong | Strong |
-| Movement and drops | Strong | Some | Strong | Strong | Strong |
-| Real SRS kick outcomes | Strong: T and I wall kicks | — | Some: rotation state/cell count | Strong: wall kick | Some: rotation state |
-| Ghost piece | Some: hard drop shares ghost projection | — | — | — | — |
-| Hold and next queue | Strong | Strong | Some | Some: hold only | Some: hold only |
-| Lock delay and reset limit | — | — | — | — | — |
-| Scoring | Some: drops and normal clears | Strong helpers: normal/T-spin/B2B | Some: line clear | Some: line clear | — |
-| Gravity/level progression | Strong | Some | Strong, including pause | — | Some: pause |
-| Top-out and restart | Strong | Strong | — | Strong | — |
-| Browser controls/layout/runtime | — | — | — | — | — |
+| Behavior | DeepSeek OMP/PI | Luna Codex | Luna OMP | Luna PI | Sol Codex | Sol OMP |
+|---|---|---|---|---|---|---|
+| Seven-bag distribution | Strong: seven bags / 49 draws | Strong | Strong | Strong: two bags | Strong | Strong |
+| Movement and drops | Strong | Some | Strong | Some: hard drop via scoring | Strong | Strong |
+| Real SRS kick outcomes | Strong: T and I wall kicks | — | Some: rotation state/cell count | Strong: I wall kick | Strong: wall kick | Some: rotation state |
+| Ghost piece | Some: hard drop shares ghost projection | — | — | Some: projection relation | — | — |
+| Hold and next queue | Strong | Strong | Some | Strong: hold; queue indirect | Some: hold only | Some: hold only |
+| Lock delay and reset limit | — | — | — | — | — | — |
+| Scoring | Some: drops and normal clears | Strong helpers: normal/T-spin/B2B | Some: line clear | Some: single/perfect clear | Some: line clear | — |
+| Gravity/level progression | Strong | Some | Strong, including pause | Some: gravity | — | Some: pause |
+| Top-out and restart | Strong | Strong | — | — | Strong | — |
+| Browser controls/layout/runtime | — | — | — | — | — | — |
 
-All five suites are deterministic enough for repeatable smoke testing and are connected to `npm test`. None would catch every confirmed defect: no suite probes moving off a supporting ledge, canonical coordinates for all 28 SRS states, mini T-spin scoring, responsive overflow, or hidden-overlay rendering.
+All six suites are deterministic enough for repeatable smoke testing and are connected to `npm test`. None would catch every confirmed defect: no suite probes moving off a supporting ledge, canonical coordinates for all 28 SRS states, higher-level combo scoring, mini T-spin scoring, responsive overflow, or hidden-overlay rendering.
 
 ## Per-implementation audit
 
@@ -90,9 +91,28 @@ Confirmed bugs:
 Test gaps and rationale:
 
 - Existing tests cover the bag, movement, hard drop, hold, rotation, gravity/pause, dimensions, and a line clear, but do not assert concrete kick offsets, lock-delay timing/reset limits, ghost projection, top-out/restart, advanced scoring, or browser behavior.
-- The engine is the largest of the five and contains proportionate but substantial rule machinery, which lowers simplicity relative to the compact Sol implementations.
+- The engine is one of the larger implementations and contains proportionate but substantial rule machinery, which lowers simplicity relative to the compact Sol implementations.
 
-### 2. Sol OMP — 8.30
+### 2. Luna PI — 8.45
+
+Strengths:
+
+- A comprehensive engine with canonical SRS orientations and kick tables, a seven-bag, five-piece queue, hold, ghost, a 500 ms lock delay with a 15-reset cap, T-spin mini/full detection, back-to-back, combos, perfect clears, Guideline-style gravity, and blocked-spawn top-out in [`src/game.ts`](luna-pi/src/game.ts).
+- The cleanest separation among the larger implementations: board, geometry, randomizer, rules, rendering, and browser input live in focused modules with strong types and defensive handling of invalid time/random input.
+- Desktop presentation is polished, the 390 px layout has no horizontal overflow, the full required keyboard sequence works, and the exercised browser flow has no application console errors.
+
+Confirmed bugs:
+
+- **Minor (−0.5 correctness): combo points are multiplied by the level twice.** At level two with one prior consecutive clear, a single should award `100×2 + 50×1×2 = 300`. [`awardLineScore`](luna-pi/src/game.ts) adds an already level-scaled combo bonus to `base`, then multiplies all of `base` by the level, awarding 400. The committed audit probe reproduces the over-award. Scoring effect: correctness `10.0 → 9.5`.
+
+Test gaps and rationale:
+
+- Existing tests cover two seven-bags, line clearing, a concrete I-piece kick, hold, gravity, ghost projection, and single-line perfect-clear scoring. They omit lock-delay timing/reset limits, top-out/restart, T-spins, back-to-back, higher-level combos, the full SRS matrix, and browser behavior.
+- At 1,076 source lines it is the largest implementation in the set. The modules remain easy to reason about, but the size and complete rule machinery lower simplicity; the mobile layout is also vertically long and has no touch controls.
+
+Detailed evidence is in the [Luna PI audit record](.audit/luna-pi-review.md).
+
+### 3. Sol OMP — 8.30
 
 Strengths:
 
@@ -109,7 +129,7 @@ Test gaps and rationale:
 - The compact tests cover bag uniqueness, wall blocking, hard drop, hold, rotation state, and pause, but omit line scoring, actual kick displacement, gravity cadence, ghost/next projection, lock delay, top-out, restart, and the browser.
 - The sparse suite is the main reason it ranks below Luna OMP despite excellent implementation quality.
 
-### 3. Sol Codex — 8.20
+### 4. Sol Codex — 8.20
 
 Strengths:
 
@@ -127,7 +147,7 @@ Test gaps and rationale:
 - Tests cover bag behavior, hard drop, line clear, hold, a wall kick, and blocked-spawn top-out. They do not cover gravity, next/ghost output, lock delay, scoring beyond a normal clear, restart, or browser behavior.
 - The serious ledge defect holds correctness below the two OMP implementations; otherwise this is the clearest and most maintainable codebase in the set.
 
-### 4. Luna Codex — 7.60
+### 5. Luna Codex — 7.60
 
 Strengths:
 
@@ -146,7 +166,7 @@ Test gaps and rationale:
 - Tests cover bag generation, spawn/next, hold, a gravity helper, scoring helpers, line clearing, and top-out, but do not exercise real rotation coordinates/kicks, ghost output, lock-delay behavior, combo/perfect-clear integration, restart, or browser rendering.
 - The abstractions are generally sensible, but the large single engine module and duplicated shape data make the SRS-table defect harder to notice locally.
 
-### 5. DeepSeek OMP/PI — 7.30
+### 6. DeepSeek OMP/PI — 7.30
 
 Strengths:
 
@@ -174,6 +194,7 @@ These figures come from the verified per-run `STATISTICS.md` files and use teste
 | DeepSeek OMP/PI | 791 | 240 | 18,118,592 | 0:44:11.418 | 127 |
 | Luna Codex | 652 | 56 | 1,177,121 | 0:11:31.291 | 28 |
 | Luna OMP | 836 | 96 | 5,171,263 | 0:14:14.264 | 94 |
+| Luna PI | 1,076 | 74 | 970,356 | 0:12:26.483 | 41 |
 | Sol Codex | 286 | 50 | 909,035 | 0:06:22.017 | 29 |
 | Sol OMP | 629 | 59 | 999,455 | 0:08:03.842 | 30 |
 
@@ -194,7 +215,7 @@ Correctness is clamped to 0–10. A confirmed defect is deducted once; it is not
 ### Audit procedure
 
 1. Copied each project to an isolated temporary directory so compilation could not alter committed `dist` files.
-2. Ran the declared `npm test` workflow, which includes each build. All five passed.
+2. Ran the declared `npm test` workflow, which includes each build. All six passed.
 3. Compared every implementation with one requirements matrix and reviewed shape data, SRS kicks, scoring, lock delay, top-out, queues/hold, gravity, state transitions, controls, and rendering.
 4. Ran implementation-specific engine adapters for equivalent probes. The common SRS probe normalized and compared all 28 piece/orientation coordinate sets. Targeted ledge probes exercised the two different lock-delay designs.
 5. Served each isolated build with its intended server. In Playwright/Chromium, exercised left/right, both rotation directions, soft drop, hard drop, and hold; inspected accessible state, screenshots, overflow, and console output at desktop and mobile viewport sizes.
@@ -206,6 +227,6 @@ Four implementations requested a missing `/favicon.ico`, producing a harmless 40
 
 - This is a focused conformance audit, not an exhaustive state-space proof or a long-duration playtest.
 - SRS shapes and targeted lock-delay paths received equivalent automated probes; other engine behaviors were assessed using existing tests plus source review where private APIs prevented a common adapter.
-- Browser checks used Chromium only. Touch buttons were inspected and keyboard controls exercised, but cross-browser input timing and physical touch devices were not tested.
+- Browser checks used Chromium only. Touch buttons were inspected where provided and keyboard controls exercised, but cross-browser input timing and physical touch devices were not tested.
 - Visual quality is necessarily the most judgment-based category. Runtime cleanliness, clipping/overflow, control discoverability, information hierarchy, and responsive behavior were used to constrain that judgment.
 - “No confirmed bug in the audited scope” means no reproducible defect was found by this process; it does not mean untested behavior is proven bug-free.

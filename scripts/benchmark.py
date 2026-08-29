@@ -104,6 +104,7 @@ class RunResult:
     raw_tested_events: list[dict[str, Any]]
     raw_overhead_events: list[dict[str, Any]]
     average_duration_ms: float
+    reasoning_output: int = 0
 
     @property
     def start_ms(self) -> float:
@@ -158,7 +159,7 @@ def load_manifest(root: Path) -> tuple[dict[str, Any], list[dict[str, Any]]]:
             raise BenchmarkError(f"Run {run.get('id', '<unknown>')} missing {sorted(missing)}")
         if run["id"] in ids or run["order"] in orders:
             raise BenchmarkError("Run IDs and display orders must be unique")
-        if run["harness"] not in {"codex", "omp"}:
+        if run["harness"] not in {"codex", "omp", "pi"}:
             raise BenchmarkError(f"Unsupported harness for {run['id']}: {run['harness']}")
         through = run["cutoff"].get("through_user_message")
         if not isinstance(through, int) or through < 1:
@@ -571,10 +572,157 @@ def collect_omp(run: dict[str, Any], omp_home: Path) -> RunResult:
     )
 
 
-def collect_run(run: dict[str, Any], codex_home: Path, omp_home: Path) -> RunResult:
+def usage_from_pi(raw: dict[str, Any]) -> Usage:
+    required = {"input", "cacheRead", "cacheWrite", "output", "reasoning", "totalTokens", "cost"}
+    missing = required - set(raw)
+    if missing or not isinstance(raw.get("cost"), dict) or "total" not in raw["cost"]:
+        raise BenchmarkError(f"Unsupported PI usage schema; missing {sorted(missing)} or cost.total")
+    usage = Usage(
+        input=int(raw.get("input", 0)),
+        cache_read=int(raw.get("cacheRead", 0)),
+        cache_write=int(raw.get("cacheWrite", 0)),
+        output=int(raw.get("output", 0)),
+        total=int(raw.get("totalTokens", 0)),
+        cost=float(raw.get("cost", {}).get("total", 0)),
+    )
+    usage.validate("PI usage")
+    reasoning = int(raw.get("reasoning", 0))
+    if reasoning < 0 or reasoning > usage.output:
+        raise BenchmarkError("PI reasoning tokens must be a non-negative subset of output")
+    return usage
+
+
+def collect_pi(run: dict[str, Any], pi_home: Path) -> RunResult:
+    session_path = find_exact_session(pi_home / "agent" / "sessions", run["session_id"])
+    entries = read_jsonl(session_path)
+    sessions = [entry for entry in entries if entry.get("type") == "session"]
+    if len(sessions) != 1:
+        raise BenchmarkError(f"PI run {run['id']} must contain one session record")
+    session = sessions[0]
+    if session.get("version") != 3:
+        raise BenchmarkError(f"Unsupported PI session version for {run['id']}: {session.get('version')}")
+    if session.get("id") != run["session_id"]:
+        raise BenchmarkError(f"PI session identity mismatch for {run['id']}")
+    if Path(session.get("cwd", "")).name != run["expected_cwd_basename"]:
+        raise BenchmarkError(f"PI cwd mismatch for {run['id']}: {session.get('cwd')}")
+
+    message_entries = [entry for entry in entries if entry.get("type") == "message"]
+    users = [
+        (index, entry) for index, entry in enumerate(message_entries)
+        if entry.get("message", {}).get("role") == "user"
+    ]
+    if not users:
+        raise BenchmarkError(f"No PI user messages for {run['id']}")
+
+    phases: list[Phase] = []
+    phase_reasoning: list[int] = []
+    phase_request_durations: list[float] = []
+    for number, (start_index, user_entry) in enumerate(users, 1):
+        end_index = users[number][0] if number < len(users) else len(message_entries)
+        segment = message_entries[start_index + 1:end_index]
+        assistants = [
+            entry for entry in segment
+            if entry.get("message", {}).get("role") == "assistant"
+        ]
+        if not assistants:
+            raise BenchmarkError(f"PI user message {number} has no model response")
+        if assistants[-1]["message"].get("stopReason") != "stop":
+            raise BenchmarkError(f"PI user message {number} has no completed final response")
+        identities = {
+            (entry["message"].get("provider"), entry["message"].get("model"))
+            for entry in assistants
+        }
+        if identities != {(run["provider"], run["model"])}:
+            raise BenchmarkError(f"PI provider/model mismatch for {run['id']}: {sorted(identities)}")
+
+        usage = sum(
+            (usage_from_pi(entry["message"].get("usage", {})) for entry in assistants),
+            Usage(),
+        )
+        phase_reasoning.append(sum(
+            int(entry["message"].get("usage", {}).get("reasoning", 0))
+            for entry in assistants
+        ))
+        tool_types: dict[str, int] = {}
+        calls = []
+        for entry in assistants:
+            for content in entry["message"].get("content", []):
+                if content.get("type") == "toolCall":
+                    calls.append(content)
+                    name = content.get("name", "unknown")
+                    tool_types[name] = tool_types.get(name, 0) + 1
+        results = [
+            entry for entry in segment
+            if entry.get("message", {}).get("role") == "toolResult"
+        ]
+
+        previous_ms = parse_iso_ms(user_entry["timestamp"])
+        request_duration = 0.0
+        for entry in segment:
+            timestamp_ms = parse_iso_ms(entry["timestamp"])
+            if entry.get("message", {}).get("role") == "assistant":
+                request_duration += max(0, timestamp_ms - previous_ms)
+            previous_ms = timestamp_ms
+        phase_request_durations.append(request_duration)
+
+        phases.append(Phase(
+            number=number,
+            start_ms=parse_iso_ms(user_entry["timestamp"]),
+            end_ms=parse_iso_ms(assistants[-1]["timestamp"]),
+            usage=usage,
+            responses=len(assistants),
+            assistant_messages=0,
+            tool_calls=len(calls),
+            tool_results=len(results),
+            model_errors=sum(
+                entry["message"].get("stopReason") in {"error", "aborted"}
+                for entry in assistants
+            ),
+            tool_errors=sum(entry["message"].get("isError") is True for entry in results),
+            tool_types=tool_types,
+        ))
+
+    through = run["cutoff"]["through_user_message"]
+    if through > len(phases):
+        raise BenchmarkError(f"Cutoff for {run['id']} exceeds its {len(phases)} phases")
+    included = phases[:through]
+    tested = sum((phase.usage for phase in included), Usage())
+
+    overhead_config = run["overhead"]
+    if overhead_config.get("kind") != "none":
+        raise BenchmarkError(f"Invalid PI overhead kind for {run['id']}")
+    overhead = Usage()
+    combined = tested + overhead
+    tested.validate("Tested agent")
+    combined.validate("Combined")
+    return RunResult(
+        run=run,
+        session_file=str(session_path),
+        phases=phases,
+        included_phases=included,
+        tested=tested,
+        overhead=overhead,
+        combined=combined,
+        overhead_label="None declared",
+        overhead_count=0,
+        raw_tested_events=[],
+        raw_overhead_events=[],
+        average_duration_ms=(
+            sum(phase_request_durations[:through])
+            / sum(phase.responses for phase in included)
+        ),
+        reasoning_output=sum(phase_reasoning[:through]),
+    )
+
+
+def collect_run(
+    run: dict[str, Any], codex_home: Path, omp_home: Path, pi_home: Path,
+) -> RunResult:
     if run["harness"] == "codex":
         return collect_codex(run, codex_home)
-    return collect_omp(run, omp_home)
+    if run["harness"] == "omp":
+        return collect_omp(run, omp_home)
+    return collect_pi(run, pi_home)
 
 
 def usage_row(usage: Usage, bold_total: bool = True) -> str:
@@ -613,7 +761,7 @@ def render_statistics(result: RunResult) -> str:
         f"- Tool calls: {tool_calls}",
         f"- Tool results: {tool_results}",
     ])
-    if run["harness"] == "omp":
+    if run["harness"] in {"omp", "pi"}:
         lines.extend([f"- Model/API errors: {model_errors}", f"- Tool errors: {tool_errors}"])
     lines.extend([
         f"- Start: `{iso_ms(result.start_ms)}`",
@@ -675,20 +823,37 @@ def render_statistics(result: RunResult) -> str:
         cache_denominator = result.tested.input + result.tested.cache_read + result.tested.cache_write
         cache_rate = result.tested.cache_read / cache_denominator * 100 if cache_denominator else 0
         lines.extend([
-            "", "## Normalized OMP output", "", "```text", "Messages",
+            "", f"## Normalized {run['harness_label']} output", "", "```text", "Messages",
             f"  User through implementation: {len(included)}",
             f"  Model responses: {sum(phase.responses for phase in included)}",
             f"  Tool calls: {tool_calls}", f"  Tool results: {tool_results}",
             f"  Model/API errors: {model_errors}", f"  Tool errors: {tool_errors}", "",
-            f"Append-Only: {run.get('append_only', 'unknown')}", "", "Tokens",
+        ])
+        if run["harness"] == "omp":
+            lines.extend([f"Append-Only: {run.get('append_only', 'unknown')}", ""])
+        else:
+            lines.extend(["Session storage: append-only PI JSONL", ""])
+        lines.extend([
+            "Tokens",
             f"  Input: {result.tested.input:,}", f"  Cache Read: {result.tested.cache_read:,}",
             f"  Cache Write: {result.tested.cache_write:,}", f"  Output: {result.tested.output:,}",
+        ])
+        if run["harness"] == "pi":
+            lines.append(
+                f"  Reasoning output subset: {result.reasoning_output:,} (already included in Output)"
+            )
+        lines.extend([
             f"  Non-cache tokens (Input + Output): {non_cache:,}", f"  Total: {result.tested.total:,}",
             f"  Cache-read rate: {cache_rate:.2f}%", "", "Requests",
             f"  Count: {sum(phase.responses for phase in included)}",
             f"  Average duration: {result.average_duration_ms / 1000:.2f}s", "", "Cost",
             f"  Tested agent: ${result.tested.cost:.9f}",
-            f"  Title-generation overhead: ${result.overhead.cost:.9f}",
+        ])
+        if run["harness"] == "omp":
+            lines.append(f"  Title-generation overhead: ${result.overhead.cost:.9f}")
+        else:
+            lines.append(f"  Harness overhead: ${result.overhead.cost:.9f}")
+        lines.extend([
             f"  Combined recorded: ${result.combined.cost:.9f}", "```",
         ])
 
@@ -858,13 +1023,14 @@ def refresh(
     selected: list[dict[str, Any]],
     codex_home: Path,
     omp_home: Path,
+    pi_home: Path,
     dry_run: bool,
 ) -> None:
     results: dict[str, RunResult] = {}
     reports: dict[str, str] = {}
     for run in selected:
         print(f"Collecting {run['label']}...", file=sys.stderr)
-        result = collect_run(run, codex_home, omp_home)
+        result = collect_run(run, codex_home, omp_home, pi_home)
         validate_project(root, run)
         report = render_statistics(result)
         path = root / run["project_dir"] / "STATISTICS.md"
@@ -902,8 +1068,9 @@ def verify_source(
     run: dict[str, Any],
     codex_home: Path,
     omp_home: Path,
+    pi_home: Path,
 ) -> None:
-    expected = render_statistics(collect_run(run, codex_home, omp_home))
+    expected = render_statistics(collect_run(run, codex_home, omp_home, pi_home))
     path = root / run["project_dir"] / "STATISTICS.md"
     if path.read_text() != expected:
         raise BenchmarkError(f"{path} is stale; run refresh {run['id']}")
@@ -932,6 +1099,7 @@ def main(argv: list[str] | None = None) -> int:
     by_id = {run["id"]: run for run in runs}
     codex_home = Path(os.environ.get("CODEX_HOME", Path.home() / ".codex")).expanduser()
     omp_home = Path(os.environ.get("OMP_HOME", Path.home() / ".omp")).expanduser()
+    pi_home = Path(os.environ.get("PI_HOME", Path.home() / ".pi")).expanduser()
     if args.command == "refresh":
         if args.all:
             selected = runs
@@ -939,13 +1107,13 @@ def main(argv: list[str] | None = None) -> int:
             if args.run_id not in by_id:
                 raise BenchmarkError(f"Unknown run ID: {args.run_id}")
             selected = [by_id[args.run_id]]
-        refresh(root, runs, selected, codex_home, omp_home, args.dry_run)
+        refresh(root, runs, selected, codex_home, omp_home, pi_home, args.dry_run)
     else:
         verify_documents(root, runs)
         if args.run_id:
             if args.run_id not in by_id:
                 raise BenchmarkError(f"Unknown run ID: {args.run_id}")
-            verify_source(root, by_id[args.run_id], codex_home, omp_home)
+            verify_source(root, by_id[args.run_id], codex_home, omp_home, pi_home)
     return 0
 
 

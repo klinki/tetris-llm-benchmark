@@ -15,8 +15,8 @@ for (const link of localLinks) {
   assert.equal(existsSync(resolve(dirname(rankingPath), link)), true, `Missing local link: ${link}`);
 }
 
-const rankingRows = markdown.split("\n").filter((line) => /^\| [1-5] \|/.test(line));
-assert.equal(rankingRows.length, 5, "Expected five ranking rows");
+const rankingRows = markdown.split("\n").filter((line) => /^\| [1-6] \|/.test(line));
+assert.equal(rankingRows.length, 6, "Expected six ranking rows");
 
 for (const row of rankingRows) {
   const columns = row.split("|").map((column) => column.trim());

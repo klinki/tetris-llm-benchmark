@@ -46,6 +46,26 @@
       "append_only": "inactive (setting: auto (openai-codex))"
     },
     {
+      "id": "luna-pi",
+      "label": "Luna PI",
+      "order": 25,
+      "project_dir": "luna-pi",
+      "harness": "pi",
+      "harness_label": "PI",
+      "provider": "openai-codex",
+      "provider_label": "openai-codex",
+      "model": "gpt-5.6-luna",
+      "session_id": "01a04d53-e6c9-79d1-9951-23a0fa6b6e30",
+      "expected_cwd_basename": "luna-pi",
+      "cutoff": {
+        "through_user_message": 1,
+        "exclude_inter_message_wait": true
+      },
+      "overhead": {
+        "kind": "none"
+      }
+    },
+    {
       "id": "sol-codex",
       "label": "Sol Codex",
       "order": 30,

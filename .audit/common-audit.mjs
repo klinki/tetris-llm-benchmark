@@ -9,6 +9,7 @@ const deepGameModule = await load("deepseek-pi/dist/game.js");
 const deepBoard = await load("deepseek-pi/dist/board.js");
 const lunaCodex = await load("luna-codex/dist/engine.js");
 const lunaOmp = await load("luna-omp/dist/game.js");
+const lunaPi = await load("luna-pi/dist/index.js");
 const solCodex = await load("sol-codex/dist/game.js");
 const solOmp = await load("sol-omp/dist/game.js");
 
@@ -59,6 +60,15 @@ const adapters = {
   "Luna OMP": (type, rotation) => new lunaOmp.TetrisGame(() => 0.5)
     .getPieceCells(type, rotation)
     .map(({ x, y }) => [x, y]),
+  "Luna PI": (type, rotation) => {
+    const cells = [];
+    lunaPi.SHAPES[type][rotation].forEach((row, y) => {
+      row.forEach((cell, x) => {
+        if (cell) cells.push([x, y]);
+      });
+    });
+    return cells;
+  },
   "Sol Codex": (type, rotation) => solCodex.cells({ name: type, x: 0, y: 0, rotation }),
   "Sol OMP": (type, rotation) => solOmp.cellsFor({ kind: type, x: 0, y: 0, rotation }),
 };
@@ -67,6 +77,7 @@ const expectedOrientationFailures = {
   "DeepSeek OMP/PI": [],
   "Luna Codex": ["S2", "Z1", "Z2", "Z3"],
   "Luna OMP": [],
+  "Luna PI": [],
   "Sol Codex": [],
   "Sol OMP": [],
 };
@@ -83,6 +94,19 @@ for (const [name, cellsFor] of Object.entries(adapters)) {
 
   assert.deepEqual(failures, expectedOrientationFailures[name], `${name} SRS result changed`);
   console.log(`${name} canonical SRS orientations: ${failures.length ? `FAIL ${failures.join(",")}` : "PASS"}`);
+}
+
+{
+  const game = new lunaPi.TetrisGame(() => 0.5);
+  game.score = 0;
+  game.level = 2;
+  game.lines = 10;
+  game.combo = 0;
+  game.awardLineScore(1, "none", false);
+
+  assert.equal(game.score, 400, "Expected the audited level-two combo over-award");
+  assert.notEqual(game.score, 300, "Guideline single plus combo should award 300 at level two");
+  console.log("Luna PI level-two combo: FAIL awarded 400 instead of 300");
 }
 
 {

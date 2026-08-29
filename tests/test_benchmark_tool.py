@@ -233,6 +233,97 @@ class OmpCollectorTests(unittest.TestCase):
                 benchmark.open_omp_database(path)
 
 
+class PiCollectorTests(unittest.TestCase):
+    def setUp(self) -> None:
+        self.temporary = tempfile.TemporaryDirectory()
+        self.home = Path(self.temporary.name) / ".pi"
+        self.session_id = "fixture-pi-session"
+        self.session_path = (
+            self.home / "agent" / "sessions" / "--tmp-fixture-pi--"
+            / f"run_{self.session_id}.jsonl"
+        )
+        self.run = {
+            "id": "fixture-pi",
+            "label": "Fixture PI",
+            "project_dir": "fixture-pi",
+            "harness": "pi",
+            "harness_label": "PI",
+            "provider": "fixture-provider",
+            "provider_label": "fixture-provider",
+            "model": "fixture-model",
+            "session_id": self.session_id,
+            "expected_cwd_basename": "fixture-pi",
+            "cutoff": {"through_user_message": 1, "exclude_inter_message_wait": True},
+            "overhead": {"kind": "none"},
+        }
+        usage_one = {
+            "input": 10, "cacheRead": 20, "cacheWrite": 0, "output": 5,
+            "reasoning": 3, "totalTokens": 35, "cost": {"total": 0.1},
+        }
+        usage_two = {
+            "input": 7, "cacheRead": 30, "cacheWrite": 0, "output": 8,
+            "reasoning": 6, "totalTokens": 45, "cost": {"total": 0.2},
+        }
+        entries = [
+            {"type": "session", "version": 3, "id": self.session_id,
+             "timestamp": "2026-01-01T00:00:00.000Z", "cwd": "/tmp/fixture-pi"},
+            {"type": "message", "timestamp": "2026-01-01T00:00:01.000Z", "message": {
+                "role": "user", "content": [{"type": "text", "text": "Implement it"}],
+            }},
+            {"type": "message", "timestamp": "2026-01-01T00:00:02.000Z", "message": {
+                "role": "assistant", "provider": "fixture-provider", "model": "fixture-model",
+                "usage": usage_one, "stopReason": "toolUse",
+                "content": [{"type": "thinking"}, {"type": "toolCall", "name": "write"}],
+            }},
+            {"type": "message", "timestamp": "2026-01-01T00:00:02.100Z", "message": {
+                "role": "toolResult", "isError": True, "content": [{"type": "text", "text": "failed"}],
+            }},
+            {"type": "message", "timestamp": "2026-01-01T00:00:04.000Z", "message": {
+                "role": "assistant", "provider": "fixture-provider", "model": "fixture-model",
+                "usage": usage_two, "stopReason": "stop", "content": [{"type": "text", "text": "Done"}],
+            }},
+        ]
+        write_jsonl(self.session_path, entries)
+
+    def tearDown(self) -> None:
+        self.temporary.cleanup()
+
+    def test_collects_exact_jsonl_session_and_per_response_usage(self) -> None:
+        result = benchmark.collect_pi(self.run, self.home)
+        self.assertEqual(dataclasses.astuple(result.tested)[:5], (17, 50, 0, 13, 80))
+        self.assertAlmostEqual(result.tested.cost, 0.3)
+        self.assertEqual(result.overhead.total, 0)
+        self.assertEqual(result.active_elapsed_ms, 3_000)
+        self.assertEqual(result.included_phases[0].responses, 2)
+        self.assertEqual(result.included_phases[0].tool_calls, 1)
+        self.assertEqual(result.included_phases[0].tool_errors, 1)
+        report = benchmark.render_statistics(result)
+        self.assertIn("## Normalized PI output", report)
+        self.assertIn("Session storage: append-only PI JSONL", report)
+        self.assertIn("Reasoning output subset: 9 (already included in Output)", report)
+        self.assertIn("| 17 | 50 | 0 | 13 | **80** |", report)
+
+    def test_rejects_reasoning_larger_than_output(self) -> None:
+        entries = benchmark.read_jsonl(self.session_path)
+        entries[2]["message"]["usage"]["reasoning"] = 6
+        write_jsonl(self.session_path, entries)
+        with self.assertRaisesRegex(benchmark.BenchmarkError, "subset of output"):
+            benchmark.collect_pi(self.run, self.home)
+
+    def test_rejects_unsupported_usage_schema(self) -> None:
+        entries = benchmark.read_jsonl(self.session_path)
+        del entries[2]["message"]["usage"]["cacheRead"]
+        write_jsonl(self.session_path, entries)
+        with self.assertRaisesRegex(benchmark.BenchmarkError, "Unsupported PI usage schema"):
+            benchmark.collect_pi(self.run, self.home)
+
+    def test_rejects_ambiguous_session(self) -> None:
+        duplicate = self.session_path.with_name(f"duplicate_{self.session_id}.jsonl")
+        duplicate.write_text(self.session_path.read_text())
+        with self.assertRaisesRegex(benchmark.BenchmarkError, "found 2"):
+            benchmark.collect_pi(self.run, self.home)
+
+
 class RenderingAndValidationTests(unittest.TestCase):
     def test_readme_markers_are_deterministic(self) -> None:
         original = "# Benchmark\n\n## Results\n\nIntro.\n\n| Run | Harness | Elapsed | X |\n|---|---|---|---|\n| old | old | old | old |\n\nOld note.\n\n## Token accounting\n\nKeep me.\n"

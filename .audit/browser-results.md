@@ -1,6 +1,6 @@
 # Browser audit results
 
-Audit date: 2026-08-10
+Original audit date: 2026-08-10; Luna PI added 2026-08-29
 
 Browser: Chromium 140.0.7339.16 (Playwright build 1237)
 
@@ -15,6 +15,7 @@ Each isolated build was served using its declared start-server behavior. Luna OM
 | DeepSeek OMP/PI | Clear board, hold, stats, next queue, ghost, and controls | **Yes:** 501 px document width | None | Side panels clip outside the 390 px viewport |
 | Luna Codex | Clear three-column layout | No: 390 px document width | None | `#board-message` has `hidden=true` but computed `display:flex` while status is `Playing` |
 | Luna OMP | Clear, polished three-column layout | No: 390 px document width | None | Intended server loaded the stylesheet and all application assets correctly |
+| Luna PI | Clear board, hold, five-piece queue, stats, ghost, and controls | No: 390 px document width | None | Required keyboard sequence worked; narrow layout reflows the sidebar below the board |
 | Sol Codex | Clear, high-contrast layout | No: 390 px document width | None | Narrow layout exposes large touch controls and preserves supporting state |
 | Sol OMP | Clear board and supporting panels | No: 390 px document width | None | Narrow layout exposes touch controls and keeps the board prominent |
 
