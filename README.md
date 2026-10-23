@@ -6,66 +6,58 @@ to produce a correct implementation efficiently, including token use.
 
 ## Results
 
-The primary benchmark figure is **tested-agent total**. Harness-generated
-requests are reported separately so that title generation or approval review
-does not silently change the model comparison.
+Each run is one model implementing [TETRIS.md](TETRIS.md) once, in one agent
+harness. Runs are ordered by quality score, with token use and time alongside.
+Tokens count only the tested agent; harness-generated requests such as title
+generation or approval review are reported in each run's statistics so they do
+not skew the model comparison.
+
+The table is generated from [`benchmark-runs.json`](benchmark-runs.json),
+[`ranking.json`](ranking.json), and each run's `STATISTICS.md`.
 
 <!-- benchmark-results:start -->
-| Run | Harness | Elapsed | Tested-agent total | Harness overhead | Combined recorded total |
-|---|---|---:|---:|---:|---:|
-| [Luna Codex](luna-codex/STATISTICS.md) | Codex Desktop | 11m 31.291s | **1,177,121** | 68,227 | 1,245,348 |
-| [Luna OMP](luna-omp/STATISTICS.md) | OMP | 14m 14.264s | **5,171,263** | 391 | 5,171,654 |
-| [Luna PI](luna-pi/STATISTICS.md) | PI | 12m 26.483s | **970,356** | 0 | 970,356 |
-| [Sol Codex](sol-codex/STATISTICS.md) | Codex Desktop | 6m 22.017s | **909,035** | 41,371 | 950,406 |
-| [Sol OMP](sol-omp/STATISTICS.md) | OMP | 8m 3.842s | **999,455** | 365 | 999,820 |
-| [DeepSeek OMP/PI](deepseek-pi/STATISTICS.md) | OMP/PI | 44m 11.418s | **18,118,592** | 1,635 | 18,120,227 |
-| [Beam](beam/STATISTICS.md) | T3 Code / OpenCode | 3m 3.429s | **1,334,888** | Not verified | Not verified |
-| [Cat-jam](cat-jam/STATISTICS.md) | T3 Code / OpenCode | 23m 42.424s | **2,070,440** | Not verified | Not verified |
-| [Gemini-4](gemini-4/STATISTICS.md) | T3 Code / OpenCode | 6m 36.862s | **590,203** | Not verified | Not verified |
-| [Nemotron](nemotron/STATISTICS.md) | T3 Code / OpenCode | 9m 8.773s | **1,851,716** | Not verified | Not verified |
-| [Space-bunny](space-bunny/STATISTICS.md) | T3 Code / OpenCode | 13m 19.433s | **21,547,591** | Not verified | Not verified |
-| [Opus 5.5](opus-5.5/STATISTICS.md) | T3 Code / Claude Agent SDK | 7m 17.232s | **1,510,085** | Not verified | Not verified |
-| [Muse Spark 1.3 (medium)](muse-spark-1.3-medium/STATISTICS.md) | T3 Code / OpenCode | 2m 13.321s | **923,864** | Not verified | Not verified |
+| # | Run | Model | Effort | Harness | Quality | Tokens | Time | Main finding |
+|---:|---|---|---|---|---:|---:|---:|---|
+| 1 | [Opus 5.5](opus-5.5/STATISTICS.md) | `claude-opus-5-5` | `medium` | T3 Code / Claude Agent SDK | **9.05** | 1,510,085 | 7m 17.232s | Strongest tests and rules coverage; board does not fit a phone screen |
+| 2 | [Luna OMP](luna-omp/STATISTICS.md) | `gpt-5.6-luna` | — | OMP | **8.60** | 5,171,263 | 14m 14.264s | No confirmed bugs; tests skip kicks, lock delay and advanced scoring |
+| 3 | [Gemini-4](gemini-4/STATISTICS.md) | `gemini-4-argon-contributor` | `medium` | T3 Code / OpenCode | **8.50** | 590,203 | 6m 36.862s | No perfect-clear bonus; side panels overflow on phones |
+| 4 | [Luna PI](luna-pi/STATISTICS.md) | `gpt-5.6-luna` | — | PI | **8.45** | 970,356 | 12m 26.483s | Combo bonus is multiplied by the level twice |
+| 5 | [Muse Spark 1.3 (medium)](muse-spark-1.3-medium/STATISTICS.md)† | `muse-spark-1.3-contributor` | `medium` | T3 Code / OpenCode | **8.40** | 923,864 | 2m 13.321s | No perfect-clear bonus; board collapses to nothing on phones |
+| 6 | [Sol OMP](sol-omp/STATISTICS.md) | `gpt-5.6-sol` | — | OMP | **8.30** | 999,455 | 8m 3.842s | No mini T-spins; sparse test suite |
+| 7 | [Sol Codex](sol-codex/STATISTICS.md) | `gpt-5.6-sol` | — | Codex Desktop | **8.20** | 909,035 | 6m 22.017s | Piece can lock in mid-air after a ledge move; no mini T-spins |
+| 8 | [Luna Codex](luna-codex/STATISTICS.md) | `gpt-5.6-luna` | — | Codex Desktop | **7.60** | 1,177,121 | 11m 31.291s | Four S/Z rotation states are not SRS; game-over overlay shows during play |
+| 9 | [Cat-jam](cat-jam/STATISTICS.md) | `longcat-2.5-preview-free` | `default` | T3 Code / OpenCode | **7.40** | 2,070,440 | 23m 42.424s | Malformed L rotation state; no T-spin, B2B or perfect-clear scoring |
+| 10 | [DeepSeek OMP/PI](deepseek-pi/STATISTICS.md)† | `deepseek-v4-flash` | — | OMP/PI | **7.30** | 18,118,592 | 44m 11.418s | Piece can lock in mid-air after a ledge move; basic scoring only |
+| 11 | [Space-bunny](space-bunny/STATISTICS.md) | `space-bunny` | `xhigh` | T3 Code / OpenCode | **6.75** | 21,547,591 | 13m 19.433s | Non-SRS shapes and kicks, flattened ghost piece, scoring errors |
+| 12 | [Beam](beam/STATISTICS.md) | `beam-free` | `xhigh` | T3 Code / OpenCode | **5.60** | 1,334,888 | 3m 3.429s | Lock timer mixes two clocks; classic scoring table |
+| 13 | [Nemotron](nemotron/STATISTICS.md) | `nvidia/nemotron-3.5-super-vl:free` | `thinking` | T3 Code / OpenCode | **4.00** | 1,851,716 | 9m 8.773s | Does not start in the browser: imports lack .js extensions |
 
-**DeepSeek OMP/PI:** The implementation required two user messages, while the other runs used one benchmark prompt. Elapsed time includes both agent-work phases but excludes the wait for the second message. A later README-only message did not affect the audited implementation and is reported separately.
-**Muse Spark 1.3 (medium):** Reference-assisted run: the medium-reasoning child read Gemini-4's engine, shape tables, tests, and build files before writing this implementation, so token/time efficiency is not an independent from-scratch comparison. Primary time covers the child task only. The xhigh parent prepared/delegated and verified/reported the result: 339,157 recorded parent tokens and 2m 54.475s end-to-end are documented separately.
-**Unverified overhead:** T3 agent totals and elapsed times are verified. Harness overhead and combined totals are not verified; unknown does not mean zero.
+**† Muse Spark 1.3 (medium):** Reference-assisted run: the medium-reasoning child read Gemini-4's engine, shape tables, tests, and build files before writing this implementation, so token/time efficiency is not an independent from-scratch comparison. Primary time covers the child task only. The xhigh parent prepared/delegated and verified/reported the result: 339,157 recorded parent tokens and 2m 54.475s end-to-end are documented separately.
+
+**† DeepSeek OMP/PI:** The implementation required two user messages, while the other runs used one benchmark prompt. Elapsed time includes both agent-work phases but excludes the wait for the second message. A later README-only message did not affect the audited implementation and is reported separately.
+
+**Columns:** Quality is the weighted [ranking](RANKING.md) score out of 10; token use and time do not affect it. Tokens are the tested agent's total (input + cache read + cache write + output). Effort is the recorded reasoning setting; `—` means it was not recorded. Effort labels are provider-specific, not equivalent reasoning budgets.
+
+**Harness overhead:** each run's statistics report separate harness requests. For T3 runs they are not verified; unknown does not mean zero.
 <!-- benchmark-results:end -->
 
 ## Implementation quality
 
-[`RANKING.md`](RANKING.md) compares all 13 implementations using the same
-weighted quality rubric. The five T3 Code/OpenCode implementations were
-imported and reviewed on 2026-10-20:
+[`RANKING.md`](RANKING.md) has the rubric, per-criterion scores,
+task-conformance and test-coverage tables, and the audit of each
+implementation. Scores are recorded in [`ranking.json`](ranking.json); after
+changing them, run `python3 scripts/benchmark.py render` to regenerate the
+leaderboard above and the ranking table.
 
-| Implementation | Recorded reasoning variant | Quality score | Main finding |
-|---|---|---:|---|
-| [Gemini-4](gemini-4/README.md) | `medium` | 8.50 | Strongest new implementation; perfect-clear bonus and narrow layout gaps |
-| [Cat-jam](cat-jam/README.md) | `default` | 7.40 | Malformed L rotation state and incomplete advanced scoring |
-| [Space-bunny](space-bunny/README.md) | `xhigh` | 6.75 | Incorrect SRS, collapsed ghost geometry, and scoring integration defects |
-| [Beam](beam/README.md) | `xhigh` | 5.60 | Mixed lock-timer clocks and incomplete scoring |
-| [Nemotron](nemotron/README.md) | `thinking` | 4.00 | Builds/tests pass, but extensionless imports prevent browser startup |
+Evidence is in the audit records: the [October audit](.audit/october-review.md)
+for the five T3 Code/OpenCode imports, the [October 23 audit](.audit/oct23-review.md)
+for Opus 5.5 and Muse Spark, and the [audit index](.audit/README.md) for the
+rest. They hold exact session mappings, reproducible probes, browser evidence,
+and test-coverage limitations.
 
-Reasoning variants are the exact configured OpenCode settings stored by T3.
-They are provider-specific labels, not equivalent reasoning budgets across
-models; `default` does not mean reasoning was disabled.
-
-The [October audit record](.audit/october-review.md) includes exact T3/OpenCode
-session mappings, main-agent token counts and timing, reproducible probes,
-browser evidence, and test-coverage limitations. These runs are registered in
-the generated results block above, with per-run `STATISTICS.md` files.
-
-The two additions reviewed on 2026-10-23 are:
-
-| Implementation | Harness | Recorded reasoning | Quality score | Main finding |
-|---|---|---|---:|---|
-| [Opus 5.5](opus-5.5/README.md) | T3 Code / Claude Agent SDK | `medium`, fast mode off | 9.05 | Strongest test/rules coverage; fixed-width phone layout |
-| [Muse Spark 1.3](muse-spark-1.3-medium/README.md) | T3 Code / OpenCode | `medium` child | 8.40 | Missing perfect-clear bonus; phone board collapses |
-
-Muse's child read Gemini-4's implementation and tests before writing its
-version, so its efficiency is reference-assisted. The xhigh setup/verification
-parent is recorded separately. See the [October 23 audit](.audit/oct23-review.md)
-for exact session isolation, reasoning evidence, parent usage, and findings.
+Effort values are the exact settings T3 stored. Cat-jam's `default` means the
+provider's default setting, not that reasoning was disabled. Opus 5.5 ran with
+fast mode off.
 
 ## Token accounting
 
@@ -86,6 +78,9 @@ Total = Input + Cache Read + Cache Write + Output
   operation: Codex guardian approval reviews or OMP title generation.
 - **Combined recorded total** is tested-agent usage plus harness overhead.
   It is shown as `Not verified` when overhead is unknown.
+
+The leaderboard's **Tokens** column is the tested-agent total. Harness overhead
+and combined totals appear in each run's `STATISTICS.md`.
 
 OMP's earlier `Tokens total` values of `172,351` for Luna and `78,367` for Sol
 were actually `Input + Output`; they excluded cache reads. They are retained in
@@ -316,7 +311,11 @@ rankings, or create Git commits.
    directory, and reasoning variant.
 3. Point `CODEX_HOME`, `OMP_HOME`, `PI_HOME`, or `T3_HOME` at the machine that
    owns the session data.
-4. Refresh the run, review the generated Markdown, and commit it.
+4. Refresh the run, review the generated Markdown, and commit it. Until the
+   run is scored it appears at the bottom of the leaderboard as `Pending`.
+5. After auditing it, add its entry to [`ranking.json`](ranking.json) and its
+   audit section to [`RANKING.md`](RANKING.md), then run
+   `python3 scripts/benchmark.py render`.
 
 ```sh
 # Codex defaults to CODEX_HOME=~/.codex
@@ -341,20 +340,23 @@ T3_HOME=/Users/david/.t3 python3 scripts/benchmark.py refresh opus-5.5
 `refresh` finds only the configured session, fails closed when identity or
 expected overhead evidence is missing, installs dependencies and runs tests in an
 isolated temporary copy, regenerates the run's `STATISTICS.md`, and refreshes
-the marked results block above. An explicit T3 `unknown` policy permits the
+the README leaderboard and the RANKING table. An explicit T3 `unknown` policy permits the
 verified agent total while clearly marking overhead and combined usage as
 unverified. Other useful commands are:
 
 ```sh
 OMP_HOME=/Users/agent/.omp python3 scripts/benchmark.py refresh --all
 python3 scripts/benchmark.py refresh RUN_ID --dry-run
+python3 scripts/benchmark.py render
 python3 scripts/benchmark.py verify
 OMP_HOME=/Users/agent/.omp python3 scripts/benchmark.py verify RUN_ID
 python3 -m unittest discover -s tests -v
 ```
 
-Generated Markdown is the committed result record. `verify` without a run ID
-checks report arithmetic and README consistency without needing historical
-session files. `verify RUN_ID` additionally recollects that exact source and
-requires its generated statistics to match byte-for-byte. Quality scoring in
-[`RANKING.md`](RANKING.md) remains a separate audited workflow.
+Generated Markdown is the committed result record. `render` regenerates the
+README leaderboard and RANKING table from committed statistics and
+`ranking.json`, without session files. `verify` without a run ID checks report
+arithmetic, that both generated tables are current, and that every scored run
+has a matching RANKING.md audit heading. `verify RUN_ID` additionally
+recollects that exact source and requires its generated statistics to match
+byte-for-byte. Quality scoring itself remains a separate audited workflow.

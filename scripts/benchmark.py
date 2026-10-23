@@ -7,6 +7,7 @@ import argparse
 from contextlib import closing
 import dataclasses
 import datetime as dt
+from decimal import ROUND_HALF_UP, Decimal
 import difflib
 import json
 import os
@@ -27,6 +28,16 @@ GENERATED_NOTICE = (
 )
 README_START = "<!-- benchmark-results:start -->"
 README_END = "<!-- benchmark-results:end -->"
+RANKING_START = "<!-- ranking-table:start -->"
+RANKING_END = "<!-- ranking-table:end -->"
+CRITERIA = [
+    ("correctness", "Correctness"),
+    ("tests", "Tests"),
+    ("code", "Code"),
+    ("simplicity", "Simplicity"),
+    ("browser_ux", "Browser UX"),
+]
+BUG_KINDS = ("critical", "major", "minor")
 
 
 class BenchmarkError(RuntimeError):
@@ -173,6 +184,72 @@ def load_manifest(root: Path) -> tuple[dict[str, Any], list[dict[str, Any]]]:
         ids.add(run["id"])
         orders.add(run["order"])
     return manifest, sorted(runs, key=lambda item: item["order"])
+
+
+def load_ranking(root: Path, runs: list[dict[str, Any]]) -> dict[str, Any]:
+    path = root / "ranking.json"
+    try:
+        ranking = json.loads(path.read_text())
+    except (OSError, json.JSONDecodeError) as error:
+        raise BenchmarkError(f"Cannot read {path}: {error}") from error
+    if ranking.get("schema_version") != 1:
+        raise BenchmarkError("Unsupported ranking.json schema_version")
+    criteria = {key for key, _ in CRITERIA}
+    weights = ranking.get("weights")
+    if (
+        not isinstance(weights, dict)
+        or set(weights) != criteria
+        or any(not isinstance(value, int) or value < 0 for value in weights.values())
+        or sum(weights.values()) != 100
+    ):
+        raise BenchmarkError("ranking.json weights must be integer percentages for every criterion summing to 100")
+    known = {run["id"] for run in runs}
+    seen: set[str] = set()
+    entries = ranking.get("entries")
+    if not isinstance(entries, list):
+        raise BenchmarkError("ranking.json must contain an entries array")
+    for entry in entries:
+        run_id = entry.get("run_id")
+        if run_id not in known:
+            raise BenchmarkError(f"ranking.json scores unregistered run: {run_id}")
+        if run_id in seen:
+            raise BenchmarkError(f"ranking.json scores {run_id} more than once")
+        seen.add(run_id)
+        scores = entry.get("scores")
+        if not isinstance(scores, dict) or set(scores) != criteria:
+            raise BenchmarkError(f"ranking.json entry {run_id} must score exactly {sorted(criteria)}")
+        for value in scores.values():
+            if (
+                isinstance(value, bool)
+                or not isinstance(value, (int, float))
+                or not 0 <= value <= 10
+                or value * 2 != int(value * 2)
+            ):
+                raise BenchmarkError(f"ranking.json entry {run_id} has a score that is not a 0-10 half point")
+        bugs = entry.get("bugs")
+        if (
+            not isinstance(bugs, dict)
+            or set(bugs) != set(BUG_KINDS)
+            or any(isinstance(count, bool) or not isinstance(count, int) or count < 0 for count in bugs.values())
+        ):
+            raise BenchmarkError(f"ranking.json entry {run_id} must count {list(BUG_KINDS)} bugs")
+        if not entry.get("summary") or "|" in entry["summary"] or not entry.get("audited"):
+            raise BenchmarkError(f"ranking.json entry {run_id} needs an audit date and a summary without '|'")
+    return ranking
+
+
+def weighted_score(entry: dict[str, Any], weights: dict[str, int]) -> Decimal:
+    # Half-point scores times integer percentages keep the weighted sum exact.
+    half_points = sum(int(entry["scores"][key] * 2) * weights[key] for key, _ in CRITERIA)
+    return (Decimal(half_points) / 200).quantize(Decimal("0.01"), rounding=ROUND_HALF_UP)
+
+
+def ranked_entries(ranking: dict[str, Any]) -> list[tuple[int, dict[str, Any], Decimal]]:
+    scored = [(entry, weighted_score(entry, ranking["weights"])) for entry in ranking["entries"]]
+    scored.sort(key=lambda item: (
+        item[1], item[0]["scores"]["correctness"], item[0]["scores"]["tests"], item[0]["scores"]["code"],
+    ), reverse=True)
+    return [(rank, entry, score) for rank, (entry, score) in enumerate(scored, start=1)]
 
 
 def parse_iso_ms(value: str) -> float:
@@ -1175,34 +1252,86 @@ def extract_report_values(path: Path, content: str | None = None) -> dict[str, A
     return values
 
 
-def render_readme_block(runs: list[dict[str, Any]], reports: dict[str, str], root: Path) -> str:
+def render_readme_block(
+    runs: list[dict[str, Any]], reports: dict[str, str], root: Path, ranking: dict[str, Any],
+) -> str:
     lines = [README_START,
-        "| Run | Harness | Elapsed | Tested-agent total | Harness overhead | Combined recorded total |",
-        "|---|---|---:|---:|---:|---:|",
+        "| # | Run | Model | Effort | Harness | Quality | Tokens | Time | Main finding |",
+        "|---:|---|---|---|---|---:|---:|---:|---|",
     ]
+    by_id = {run["id"]: run for run in runs}
+    rows: list[tuple[str, dict[str, Any], dict[str, Any] | None, Decimal | None]] = [
+        (str(rank), by_id[entry["run_id"]], entry, score) for rank, entry, score in ranked_entries(ranking)
+    ]
+    scored_ids = {entry["run_id"] for entry in ranking["entries"]}
+    rows.extend(("—", run, None, None) for run in runs if run["id"] not in scored_ids)
     notes: list[str] = []
     unknown_overhead = False
-    for run in runs:
+    for rank, run, entry, score in rows:
         path = root / run["project_dir"] / "STATISTICS.md"
         values = extract_report_values(path, reports.get(run["id"]))
-        overhead = f"{values['overhead']:,}" if values["overhead"] is not None else "Not verified"
-        combined = f"{values['combined']:,}" if values["combined"] is not None else "Not verified"
         unknown_overhead |= values["overhead"] is None
+        marker = "†" if run.get("comparison_note") else ""
+        effort = f"`{run['reasoning_variant']}`" if run.get("reasoning_variant") else "—"
+        quality = f"**{score}**" if score is not None else "Pending"
+        finding = entry["summary"] if entry else "Not ranked yet"
         lines.append(
-            f"| [{run['label']}]({run['project_dir']}/STATISTICS.md) | {run['harness_label']} | "
-            f"{values['elapsed']} | **{values['tested']:,}** | {overhead} | {combined} |"
+            f"| {rank} | [{run['label']}]({run['project_dir']}/STATISTICS.md){marker} | `{run['model']}` | "
+            f"{effort} | {run['harness_label']} | {quality} | {values['tested']:,} | {values['elapsed']} | {finding} |"
         )
-        if run.get("comparison_note"):
-            notes.append(f"**{run['label']}:** {run['comparison_note']}")
+        if marker:
+            notes.append(f"**† {run['label']}:** {run['comparison_note']}")
+    notes.append(
+        "**Columns:** Quality is the weighted [ranking](RANKING.md) score out of 10; token use and time "
+        "do not affect it. Tokens are the tested agent's total (input + cache read + cache write + output). "
+        "Effort is the recorded reasoning setting; `—` means it was not recorded. Effort labels are "
+        "provider-specific, not equivalent reasoning budgets."
+    )
     if unknown_overhead:
         notes.append(
-            "**Unverified overhead:** T3 agent totals and elapsed times are verified. "
-            "Harness overhead and combined totals are not verified; unknown does not mean zero."
+            "**Harness overhead:** each run's statistics report separate harness requests. "
+            "For T3 runs they are not verified; unknown does not mean zero."
         )
-    if notes:
-        lines.extend([""] + notes)
+    for note in notes:
+        lines.extend(["", note])
     lines.append(README_END)
     return "\n".join(lines)
+
+
+def render_ranking_table(runs: list[dict[str, Any]], ranking: dict[str, Any]) -> str:
+    labels = {run["id"]: run["label"] for run in runs}
+    weights = ranking["weights"]
+    criteria = " | ".join(f"{label} ({weights[key]}%)" for key, label in CRITERIA)
+    lines = [
+        RANKING_START,
+        f"| Rank | Implementation | {criteria} | Weighted score | Confirmed bugs |",
+        "|---:|---|" + "---:|" * (len(CRITERIA) + 1) + "---:|",
+    ]
+    for rank, entry, score in ranked_entries(ranking):
+        scores = " | ".join(f"{float(entry['scores'][key]):.1f}" for key, _ in CRITERIA)
+        bugs = ", ".join(f"{entry['bugs'][kind]} {kind}" for kind in BUG_KINDS if entry["bugs"][kind]) or "0"
+        lines.append(f"| {rank} | {labels[entry['run_id']]} | {scores} | **{score}** | {bugs} |")
+    lines.append(RANKING_END)
+    return "\n".join(lines)
+
+
+def replace_marked_block(text: str, start: str, end: str, block: str, name: str) -> str:
+    if text.count(start) != 1 or text.count(end) != 1:
+        raise BenchmarkError(f"{name} generated-block markers are missing or malformed")
+    pattern = re.compile(re.escape(start) + r".*?" + re.escape(end), re.S)
+    return pattern.sub(lambda _: block, text)
+
+
+def render_documents(
+    root: Path, runs: list[dict[str, Any]], reports: dict[str, str], ranking: dict[str, Any],
+) -> dict[Path, str]:
+    readme_path = root / "README.md"
+    ranking_path = root / "RANKING.md"
+    readme = replace_readme_block(readme_path.read_text(), render_readme_block(runs, reports, root, ranking))
+    ranking_md = replace_marked_block(
+        ranking_path.read_text(), RANKING_START, RANKING_END, render_ranking_table(runs, ranking), "RANKING.md",
+    )
+    return {readme_path: readme, ranking_path: ranking_md}
 
 
 def replace_readme_block(readme: str, block: str) -> str:
@@ -1289,6 +1418,7 @@ def show_diff(path: Path, content: str) -> None:
 def refresh(
     root: Path,
     runs: list[dict[str, Any]],
+    ranking: dict[str, Any],
     selected: list[dict[str, Any]],
     codex_home: Path,
     omp_home: Path,
@@ -1307,20 +1437,28 @@ def refresh(
         check_report_arithmetic(report, path)
         results[run["id"]] = result
         reports[run["id"]] = report
-    readme_path = root / "README.md"
-    block = render_readme_block(runs, reports, root)
-    readme = replace_readme_block(readme_path.read_text(), block)
+    documents = render_documents(root, runs, reports, ranking)
     if dry_run:
         for run in selected:
             show_diff(root / run["project_dir"] / "STATISTICS.md", reports[run["id"]])
-        show_diff(readme_path, readme)
+        for path, content in documents.items():
+            show_diff(path, content)
         return
     for run in selected:
         atomic_write(root / run["project_dir"] / "STATISTICS.md", reports[run["id"]])
-    atomic_write(readme_path, readme)
+    for path, content in documents.items():
+        atomic_write(path, content)
 
 
-def verify_documents(root: Path, runs: list[dict[str, Any]]) -> None:
+def render(root: Path, runs: list[dict[str, Any]], ranking: dict[str, Any], dry_run: bool) -> None:
+    for path, content in render_documents(root, runs, {}, ranking).items():
+        if dry_run:
+            show_diff(path, content)
+        else:
+            atomic_write(path, content)
+
+
+def verify_documents(root: Path, runs: list[dict[str, Any]], ranking: dict[str, Any]) -> None:
     for run in runs:
         path = root / run["project_dir"] / "STATISTICS.md"
         content = path.read_text()
@@ -1330,10 +1468,15 @@ def verify_documents(root: Path, runs: list[dict[str, Any]]) -> None:
         values = extract_report_values(path, content)
         if (values["overhead"] is None) != (run["overhead"]["kind"] == "unknown"):
             raise BenchmarkError(f"Report overhead does not match registry policy in {path}")
-    expected = render_readme_block(runs, {}, root)
-    readme = root.joinpath("README.md").read_text()
-    if expected not in readme:
-        raise BenchmarkError("README generated results block is stale; run refresh")
+    for path, content in render_documents(root, runs, {}, ranking).items():
+        if path.read_text() != content:
+            raise BenchmarkError(f"{path.name} generated block is stale; run render")
+    ranking_md = root.joinpath("RANKING.md").read_text()
+    labels = {run["id"]: run["label"] for run in runs}
+    for rank, entry, score in ranked_entries(ranking):
+        heading = f"### {rank}. {labels[entry['run_id']]} — {score}"
+        if heading not in ranking_md:
+            raise BenchmarkError(f"RANKING.md is missing the audit heading: {heading}")
 
 
 def verify_source(
@@ -1359,6 +1502,10 @@ def parse_args(argv: list[str]) -> argparse.Namespace:
     target.add_argument("run_id", nargs="?")
     target.add_argument("--all", action="store_true")
     refresh_parser.add_argument("--dry-run", action="store_true")
+    render_parser = subparsers.add_parser(
+        "render", help="Regenerate README and RANKING tables from committed statistics and ranking.json",
+    )
+    render_parser.add_argument("--dry-run", action="store_true")
     verify_parser = subparsers.add_parser("verify", help="Verify generated documents or one source")
     verify_parser.add_argument("run_id", nargs="?")
     return parser.parse_args(argv)
@@ -1370,6 +1517,7 @@ def main(argv: list[str] | None = None) -> int:
     if args.manifest:
         root = args.manifest.resolve().parent
     _, runs = load_manifest(root)
+    ranking = load_ranking(root, runs)
     by_id = {run["id"]: run for run in runs}
     codex_home = Path(os.environ.get("CODEX_HOME", Path.home() / ".codex")).expanduser()
     omp_home = Path(os.environ.get("OMP_HOME", Path.home() / ".omp")).expanduser()
@@ -1382,9 +1530,11 @@ def main(argv: list[str] | None = None) -> int:
             if args.run_id not in by_id:
                 raise BenchmarkError(f"Unknown run ID: {args.run_id}")
             selected = [by_id[args.run_id]]
-        refresh(root, runs, selected, codex_home, omp_home, pi_home, t3_home, args.dry_run)
+        refresh(root, runs, ranking, selected, codex_home, omp_home, pi_home, t3_home, args.dry_run)
+    elif args.command == "render":
+        render(root, runs, ranking, args.dry_run)
     else:
-        verify_documents(root, runs)
+        verify_documents(root, runs, ranking)
         if args.run_id:
             if args.run_id not in by_id:
                 raise BenchmarkError(f"Unknown run ID: {args.run_id}")

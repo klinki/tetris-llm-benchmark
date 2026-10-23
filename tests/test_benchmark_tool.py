@@ -16,6 +16,24 @@ def write_jsonl(path: Path, entries: list[dict]) -> None:
     path.write_text("".join(json.dumps(entry) + "\n" for entry in entries))
 
 
+def empty_ranking() -> dict:
+    return {
+        "schema_version": 1,
+        "weights": {"correctness": 40, "tests": 20, "code": 20, "simplicity": 10, "browser_ux": 10},
+        "entries": [],
+    }
+
+
+def ranking_entry(run_id: str, correctness: float, tests: float, **bugs: int) -> dict:
+    return {
+        "run_id": run_id,
+        "audited": "2026-10-23",
+        "scores": {"correctness": correctness, "tests": tests, "code": 8.0, "simplicity": 8.0, "browser_ux": 8.0},
+        "bugs": {"critical": 0, "major": 0, "minor": 0, **bugs},
+        "summary": f"{run_id} finding",
+    }
+
+
 def event(timestamp: str, payload_type: str, **payload: object) -> dict:
     return {
         "timestamp": timestamp,
@@ -423,9 +441,9 @@ class T3CollectorTests(unittest.TestCase):
         self.assertNotIn("$0.000000000", report)
         self.assertIn('"reasoningTokens": 12', report)
         block = benchmark.render_readme_block(
-            [self.run], {self.run["id"]: report}, Path(self.temporary.name),
+            [self.run], {self.run["id"]: report}, Path(self.temporary.name), empty_ranking(),
         )
-        self.assertIn("3.000s | **140** | Not verified | Not verified |", block)
+        self.assertIn("| `xhigh` | T3 Code / OpenCode | Pending | 140 | 3.000s | Not ranked yet |", block)
         self.assertIn("unknown does not mean zero", block)
 
     def test_rejects_numeric_combined_total_with_unknown_overhead(self) -> None:
@@ -572,6 +590,65 @@ class RenderingAndValidationTests(unittest.TestCase):
             benchmark.validate_project(root, {"id": "fixture", "project_dir": "fixture"})
             self.assertFalse((project / "node_modules").exists())
             self.assertFalse((project / "dist").exists())
+
+
+class RankingTests(unittest.TestCase):
+    def setUp(self) -> None:
+        self.temporary = tempfile.TemporaryDirectory()
+        self.root = Path(self.temporary.name)
+        self.runs = [{"id": "a", "label": "Run A"}, {"id": "b", "label": "Run B"}, {"id": "c", "label": "Run C"}]
+
+    def tearDown(self) -> None:
+        self.temporary.cleanup()
+
+    def load(self, ranking: dict) -> dict:
+        (self.root / "ranking.json").write_text(json.dumps(ranking))
+        return benchmark.load_ranking(self.root, self.runs)
+
+    def test_weighted_scores_are_exact_and_ties_break_on_correctness(self) -> None:
+        ranking = empty_ranking()
+        # A and B both weigh 8.20; B wins on correctness. C is lower.
+        ranking["entries"] = [
+            ranking_entry("a", 8.0, 9.0),
+            ranking_entry("b", 8.5, 8.0, minor=1),
+            ranking_entry("c", 9.5, 4.5),
+        ]
+        ranked = benchmark.ranked_entries(self.load(ranking))
+        self.assertEqual(
+            [(rank, entry["run_id"], str(score)) for rank, entry, score in ranked],
+            [(1, "b", "8.20"), (2, "a", "8.20"), (3, "c", "7.90")],
+        )
+        table = benchmark.render_ranking_table(self.runs, ranking)
+        self.assertIn("| Rank | Implementation | Correctness (40%) | Tests (20%) |", table)
+        self.assertIn("| 1 | Run B | 8.5 | 8.0 | 8.0 | 8.0 | 8.0 | **8.20** | 1 minor |", table)
+        self.assertIn("| 2 | Run A | 8.0 | 9.0 | 8.0 | 8.0 | 8.0 | **8.20** | 0 |", table)
+
+    def test_rejects_invalid_rankings(self) -> None:
+        cases = [
+            ("unregistered", [ranking_entry("missing", 8.0, 8.0)], None, "unregistered run"),
+            ("duplicate", [ranking_entry("a", 8.0, 8.0), ranking_entry("a", 7.0, 7.0)], None, "more than once"),
+            ("quarter point", [ranking_entry("a", 8.25, 8.0)], None, "half point"),
+            ("weights", [], {"correctness": 50, "tests": 20, "code": 20, "simplicity": 10, "browser_ux": 10},
+             "summing to 100"),
+        ]
+        for name, entries, weights, message in cases:
+            with self.subTest(name):
+                ranking = empty_ranking()
+                ranking["entries"] = entries
+                if weights:
+                    ranking["weights"] = weights
+                with self.assertRaisesRegex(benchmark.BenchmarkError, message):
+                    self.load(ranking)
+
+    def test_ranking_block_requires_markers(self) -> None:
+        block = f"{benchmark.RANKING_START}\nnew\n{benchmark.RANKING_END}"
+        replaced = benchmark.replace_marked_block(
+            f"Intro\n{benchmark.RANKING_START}\nold\n{benchmark.RANKING_END}\nRest\n",
+            benchmark.RANKING_START, benchmark.RANKING_END, block, "RANKING.md",
+        )
+        self.assertEqual(replaced, f"Intro\n{block}\nRest\n")
+        with self.assertRaisesRegex(benchmark.BenchmarkError, "markers are missing"):
+            benchmark.replace_marked_block("No markers", benchmark.RANKING_START, benchmark.RANKING_END, block, "RANKING.md")
 
 
 if __name__ == "__main__":

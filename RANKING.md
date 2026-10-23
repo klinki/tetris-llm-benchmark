@@ -8,6 +8,9 @@ Opus 5.5 and Muse Spark 1.3 (medium) were added on 2026-10-23 with the same scor
 
 ## Ranking
 
+Scores are recorded in [`ranking.json`](ranking.json); this table and the README leaderboard are generated from it by `python3 scripts/benchmark.py render`.
+
+<!-- ranking-table:start -->
 | Rank | Implementation | Correctness (40%) | Tests (20%) | Code (20%) | Simplicity (10%) | Browser UX (10%) | Weighted score | Confirmed bugs |
 |---:|---|---:|---:|---:|---:|---:|---:|---:|
 | 1 | Opus 5.5 | 9.5 | 9.0 | 9.0 | 8.0 | 8.5 | **9.05** | 1 minor |
@@ -23,6 +26,7 @@ Opus 5.5 and Muse Spark 1.3 (medium) were added on 2026-10-23 with the same scor
 | 11 | Space-bunny | 5.5 | 7.5 | 8.0 | 6.5 | 8.0 | **6.75** | 3 major |
 | 12 | Beam | 6.0 | 4.5 | 5.0 | 6.5 | 6.5 | **5.60** | 2 major, 2 minor |
 | 13 | Nemotron | 0.0 | 6.0 | 6.5 | 8.5 | 6.5 | **4.00** | 1 critical, 2 major, 2 minor |
+<!-- ranking-table:end -->
 
 The ordering is deterministic. There are no equal weighted scores; if there were, the tie-break order would be correctness, tests, then code quality.
 
