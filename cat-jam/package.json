@@ -1,0 +1,15 @@
+{
+  "name": "tetrisjs",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Browser based implementation of the famous Tetris game, following the Tetris Guideline.",
+  "scripts": {
+    "build": "tsc -p tsconfig.json && tsc -p tsconfig.server.json",
+    "start": "node dist/server.js",
+    "test": "npm run build && tsc -p tsconfig.test.json && node dist-test/test/smoke.test.js"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.2",
+    "typescript": "^5.7.2"
+  }
+}

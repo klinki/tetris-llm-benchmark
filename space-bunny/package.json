@@ -1,0 +1,24 @@
+{
+  "name": "tetris",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Browser based Tetris written in TypeScript. Guideline compliant, no runtime dependencies.",
+  "type": "module",
+  "scripts": {
+    "build": "tsc",
+    "start": "npm run build && node scripts/serve.js",
+    "serve": "node scripts/serve.js",
+    "test": "npm run build && node dist/tests/smoke.js",
+    "typecheck": "tsc --noEmit"
+  },
+  "keywords": [
+    "tetris",
+    "game",
+    "typescript",
+    "canvas"
+  ],
+  "license": "MIT",
+  "devDependencies": {
+    "typescript": "^5.6.3"
+  }
+}

@@ -7,19 +7,37 @@ const repositoryRoot = fileURLToPath(new URL("..", import.meta.url));
 const rankingPath = resolve(repositoryRoot, "RANKING.md");
 const markdown = readFileSync(rankingPath, "utf8");
 
-const localLinks = [...markdown.matchAll(/\[[^\]]+\]\(([^)]+)\)/g)]
-  .map((match) => match[1])
-  .filter((link) => !link.includes(":"));
-
-for (const link of localLinks) {
-  assert.equal(existsSync(resolve(dirname(rankingPath), link)), true, `Missing local link: ${link}`);
+let localLinkCount = 0;
+const documents = [
+  "RANKING.md", "README.md", ".audit/README.md", ".audit/browser-results.md",
+  ".audit/october-review.md",
+];
+for (const relativePath of documents) {
+  const documentPath = resolve(repositoryRoot, relativePath);
+  const content = readFileSync(documentPath, "utf8").replace(/```[^\n]*\n[\s\S]*?```/g, "");
+  const links = [...content.matchAll(/\[[^\]]+\]\(([^)]+)\)/g)]
+    .map(match => match[1]).filter(link => !link.includes(":"));
+  for (const link of links) {
+    assert.equal(existsSync(resolve(dirname(documentPath), link.split("#")[0])), true,
+      `Missing local link in ${relativePath}: ${link}`);
+  }
+  localLinkCount += links.length;
+  for (const block of content.split(/\n\n+/).filter(part => part.startsWith("|"))) {
+    const widths = block.split("\n").filter(Boolean).map(line => line.split("|").length);
+    assert.equal(new Set(widths).size, 1, `Ragged Markdown table in ${relativePath}: ${block.split("\n")[0]}`);
+  }
 }
 
-const rankingRows = markdown.split("\n").filter((line) => /^\| [1-6] \|/.test(line));
-assert.equal(rankingRows.length, 6, "Expected six ranking rows");
+const implementationCount = Number(markdown.match(/evaluates (\d+) implementations/)?.[1]);
+assert.equal(Number.isInteger(implementationCount), true, "Missing implementation count in introduction");
+const rankingRows = markdown.split("\n").filter((line) => /^\| \d+ \|/.test(line));
+assert.equal(rankingRows.length, implementationCount, "Ranking row count does not match introduction");
 
-for (const row of rankingRows) {
+let previousOrder;
+
+for (const [index, row] of rankingRows.entries()) {
   const columns = row.split("|").map((column) => column.trim());
+  assert.equal(Number(columns[1]), index + 1, `Nonsequential ranking: ${row}`);
   const scores = columns.slice(3, 8).map(Number);
   for (const score of scores) {
     assert.equal(Number.isFinite(score), true, `Invalid score in row: ${row}`);
@@ -34,11 +52,20 @@ for (const row of rankingRows) {
     + scores[4] * 0.1;
   const displayed = Number(columns[8].replaceAll("*", ""));
   assert.equal(recomputed.toFixed(2), displayed.toFixed(2), `Weighted score mismatch: ${row}`);
+
+  const bugCount = kind => Number(columns[9].match(new RegExp(`(\\d+) ${kind}`))?.[1] ?? 0);
+  const critical = bugCount("critical");
+  const beforeOtherDeductions = critical > 0 ? Math.min(4, 10 - 4 * critical) : 10;
+  const correctness = Math.max(0, beforeOtherDeductions - 1.5 * bugCount("major") - 0.5 * bugCount("minor"));
+  assert.equal(scores[0], correctness, `Correctness does not match documented bug deductions: ${row}`);
+
+  const order = [Number(recomputed.toFixed(2)), scores[0], scores[1], scores[2]];
+  if (previousOrder) {
+    const firstDifference = order.findIndex((value, position) => value !== previousOrder[position]);
+    assert.equal(firstDifference < 0 || order[firstDifference] < previousOrder[firstDifference], true,
+      `Ranking order or tie-break mismatch: ${row}`);
+  }
+  previousOrder = order;
 }
 
-for (const block of markdown.split(/\n\n+/).filter((part) => part.startsWith("|"))) {
-  const rowWidths = block.split("\n").filter(Boolean).map((line) => line.split("|").length);
-  assert.equal(new Set(rowWidths).size, 1, `Ragged Markdown table: ${block.split("\n")[0]}`);
-}
-
-console.log(`Validated ${localLinks.length} local links, ${rankingRows.length} score rows, and all Markdown tables.`);
+console.log(`Validated ${localLinkCount} local links, ${rankingRows.length} score rows, deductions, ordering, and tables in ${documents.length} documents.`);

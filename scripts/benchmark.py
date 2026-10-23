@@ -4,6 +4,7 @@
 from __future__ import annotations
 
 import argparse
+from contextlib import closing
 import dataclasses
 import datetime as dt
 import difflib
@@ -97,8 +98,8 @@ class RunResult:
     phases: list[Phase]
     included_phases: list[Phase]
     tested: Usage
-    overhead: Usage
-    combined: Usage
+    overhead: Usage | None
+    combined: Usage | None
     overhead_label: str
     overhead_count: int
     raw_tested_events: list[dict[str, Any]]
@@ -159,11 +160,16 @@ def load_manifest(root: Path) -> tuple[dict[str, Any], list[dict[str, Any]]]:
             raise BenchmarkError(f"Run {run.get('id', '<unknown>')} missing {sorted(missing)}")
         if run["id"] in ids or run["order"] in orders:
             raise BenchmarkError("Run IDs and display orders must be unique")
-        if run["harness"] not in {"codex", "omp", "pi"}:
+        if run["harness"] not in {"codex", "omp", "pi", "t3_opencode"}:
             raise BenchmarkError(f"Unsupported harness for {run['id']}: {run['harness']}")
         through = run["cutoff"].get("through_user_message")
         if not isinstance(through, int) or through < 1:
             raise BenchmarkError(f"Invalid cutoff for {run['id']}")
+        if run["harness"] == "t3_opencode":
+            if not {"t3_thread_id", "expected_cwd", "reasoning_variant"} <= set(run):
+                raise BenchmarkError(f"Missing T3 thread, exact cwd, or reasoning variant for {run['id']}")
+            if run["overhead"].get("kind") != "unknown":
+                raise BenchmarkError(f"T3 overhead must explicitly be unknown for {run['id']}")
         ids.add(run["id"])
         orders.add(run["order"])
     return manifest, sorted(runs, key=lambda item: item["order"])
@@ -409,6 +415,7 @@ def open_omp_database(path: Path) -> sqlite3.Connection:
     for table, columns in required.items():
         actual = {row[1] for row in connection.execute(f"PRAGMA table_info({table})")}
         if not columns <= actual:
+            connection.close()
             raise BenchmarkError(f"Unsupported OMP schema: {table} missing {sorted(columns - actual)}")
     return connection
 
@@ -715,17 +722,131 @@ def collect_pi(run: dict[str, Any], pi_home: Path) -> RunResult:
     )
 
 
+def usage_from_t3(raw: dict[str, Any]) -> Usage:
+    required = {
+        "inputTokens", "cachedInputTokens", "cacheCreationTokens", "outputTokens",
+        "reasoningTokens", "usageStatus", "usageScope", "hasSubagents",
+    }
+    if not isinstance(raw, dict):
+        raise BenchmarkError("Unsupported T3 usage schema: expected an object")
+    if not required <= set(raw):
+        raise BenchmarkError(f"Unsupported T3 usage schema: missing {sorted(required - set(raw))}")
+    if raw["usageStatus"] != "complete" or raw["usageScope"] != "main_agent" or raw["hasSubagents"] is not False:
+        raise BenchmarkError("T3 usage must be complete main-agent usage without subagents")
+    for key in required - {"usageStatus", "usageScope", "hasSubagents"}:
+        if type(raw[key]) is not int or raw[key] < 0:
+            raise BenchmarkError(f"Invalid T3 token count: {key}")
+    usage = Usage(
+        input=raw["inputTokens"] - raw["cachedInputTokens"] - raw["cacheCreationTokens"],
+        cache_read=raw["cachedInputTokens"],
+        cache_write=raw["cacheCreationTokens"],
+        output=raw["outputTokens"],
+        total=raw["inputTokens"] + raw["outputTokens"],
+    )
+    usage.validate("T3 usage")
+    if raw["reasoningTokens"] > usage.output:
+        raise BenchmarkError("T3 reasoning tokens must be a subset of output")
+    return usage
+
+
+def collect_t3_opencode(run: dict[str, Any], t3_home: Path) -> RunResult:
+    database = t3_home / "userdata" / "statev2.sqlite"
+    if not database.is_file():
+        raise BenchmarkError(f"T3 database does not exist: {database}")
+    with closing(sqlite3.connect(database.resolve().as_uri() + "?mode=ro", uri=True)) as connection:
+        connection.row_factory = sqlite3.Row
+        try:
+            records = connection.execute("""
+                SELECT p.workspace_root, t.default_provider, pt.provider,
+                       pt.payload_json AS provider_thread_json,
+                       u.payload_json AS turn_json, u.status, u.completed_at,
+                       u.provider_turn_id
+                FROM orchestration_v2_projection_threads t
+                JOIN projection_projects p ON p.project_id=t.project_id
+                JOIN orchestration_v2_projection_provider_threads pt ON pt.thread_id=t.thread_id
+                JOIN orchestration_v2_projection_provider_turns u
+                  ON u.provider_thread_id=pt.provider_thread_id AND u.thread_id=t.thread_id
+                WHERE t.thread_id=?
+                  AND json_extract(pt.payload_json, '$.nativeThreadRef.nativeId')=?
+                ORDER BY u.ordinal
+            """, (run["t3_thread_id"], run["session_id"])).fetchall()
+            messages = connection.execute("""
+                SELECT role, created_at, payload_json
+                FROM orchestration_v2_projection_messages
+                WHERE thread_id=? ORDER BY created_at, message_id
+            """, (run["t3_thread_id"],)).fetchall()
+        except sqlite3.DatabaseError as error:
+            raise BenchmarkError(f"Unsupported T3 database schema: {error}") from error
+    # This adapter supports the audited single-prompt, single-provider-turn
+    # schema. Fail explicitly rather than guessing at future multi-turn data.
+    users = [message for message in messages if message["role"] == "user"]
+    if len(records) != 1 or len(users) != 1 or run["cutoff"]["through_user_message"] != 1:
+        raise BenchmarkError(
+            f"Expected one T3 user message and provider turn for {run['id']}; "
+            f"found {len(users)} messages and {len(records)} turns"
+        )
+    record = records[0]
+    if record["workspace_root"] != run["expected_cwd"] or Path(record["workspace_root"]).name != run["expected_cwd_basename"]:
+        raise BenchmarkError(f"T3 cwd mismatch for {run['id']}: {record['workspace_root']}")
+    if record["default_provider"] != "opencode" or record["provider"] != "opencode":
+        raise BenchmarkError(f"T3 driver/provider mismatch for {run['id']}")
+    try:
+        provider_thread = json.loads(record["provider_thread_json"])
+        turn = json.loads(record["turn_json"])
+        selection = provider_thread["nativeMetadata"]["modelSelection"]
+        raw_usage = turn["turnTokenUsage"]
+    except (KeyError, TypeError, json.JSONDecodeError) as error:
+        raise BenchmarkError(f"Unsupported T3 record schema for {run['id']}") from error
+    if not isinstance(selection, dict) or not isinstance(selection.get("options"), list):
+        raise BenchmarkError(f"Unsupported T3 model-selection schema for {run['id']}")
+    if any(not isinstance(option, dict) for option in selection["options"]):
+        raise BenchmarkError(f"Unsupported T3 model options for {run['id']}")
+    if selection.get("model") != f"{run['provider']}/{run['model']}":
+        raise BenchmarkError(f"T3 provider/model mismatch for {run['id']}")
+    variants = [option.get("value") for option in selection.get("options", []) if option.get("id") == "variant"]
+    if variants != [run["reasoning_variant"]]:
+        raise BenchmarkError(f"T3 reasoning variant mismatch for {run['id']}: {variants}")
+    if record["status"] != "completed" or turn.get("status") != "completed" or not record["completed_at"]:
+        raise BenchmarkError(f"T3 turn has no completed response for {run['id']}")
+    if run["overhead"].get("kind") != "unknown":
+        raise BenchmarkError(f"T3 overhead must explicitly be unknown for {run['id']}")
+    start_ms = parse_iso_ms(users[0]["created_at"])
+    end_ms = parse_iso_ms(record["completed_at"])
+    if end_ms < start_ms:
+        raise BenchmarkError(f"T3 response ends before the user message for {run['id']}")
+    tested = usage_from_t3(raw_usage)
+    phase = Phase(
+        number=1, start_ms=start_ms, end_ms=end_ms, usage=tested,
+        responses=0, assistant_messages=sum(message["role"] == "assistant" for message in messages),
+        tool_calls=0, tool_results=0, model_errors=0, tool_errors=0, tool_types={},
+    )
+    return RunResult(
+        run=run, session_file=str(database), phases=[phase], included_phases=[phase],
+        tested=tested, overhead=None, combined=None, overhead_label="Not verified",
+        overhead_count=0, raw_tested_events=[{"turnTokenUsage": raw_usage}],
+        raw_overhead_events=[], average_duration_ms=0,
+        reasoning_output=raw_usage["reasoningTokens"],
+    )
+
+
 def collect_run(
     run: dict[str, Any], codex_home: Path, omp_home: Path, pi_home: Path,
+    t3_home: Path,
 ) -> RunResult:
     if run["harness"] == "codex":
         return collect_codex(run, codex_home)
     if run["harness"] == "omp":
         return collect_omp(run, omp_home)
-    return collect_pi(run, pi_home)
+    if run["harness"] == "pi":
+        return collect_pi(run, pi_home)
+    if run["harness"] == "t3_opencode":
+        return collect_t3_opencode(run, t3_home)
+    raise BenchmarkError(f"Unsupported harness: {run['harness']}")
 
 
-def usage_row(usage: Usage, bold_total: bool = True) -> str:
+def usage_row(usage: Usage | None, bold_total: bool = True) -> str:
+    if usage is None:
+        return "| Not verified | Not verified | Not verified | Not verified | Not verified |"
     total = f"**{usage.total:,}**" if bold_total else f"{usage.total:,}"
     return (
         f"| {usage.input:,} | {usage.cache_read:,} | {usage.cache_write:,} | "
@@ -753,14 +874,21 @@ def render_statistics(result: RunResult) -> str:
         f"- Session ID: `{run['session_id']}`",
         f"- User messages through implementation: {len(included)}",
     ]
-    if run["harness"] == "codex":
+    if run["harness"] == "t3_opencode":
+        lines.extend([
+            f"- T3 thread ID: `{run['t3_thread_id']}`",
+            f"- Recorded reasoning variant: `{run['reasoning_variant']}`",
+            f"- T3 assistant messages (not model-request count): {sum(phase.assistant_messages for phase in included)}",
+            "- Model responses: Not verified",
+            "- Tool calls/results: Not verified",
+            "- Model/API and tool errors: Not verified",
+        ])
+    elif run["harness"] == "codex":
         lines.append(f"- Assistant messages: {sum(phase.assistant_messages for phase in included)}")
     else:
         lines.append(f"- Model responses: {sum(phase.responses for phase in included)}")
-    lines.extend([
-        f"- Tool calls: {tool_calls}",
-        f"- Tool results: {tool_results}",
-    ])
+    if run["harness"] != "t3_opencode":
+        lines.extend([f"- Tool calls: {tool_calls}", f"- Tool results: {tool_results}"])
     if run["harness"] in {"omp", "pi"}:
         lines.extend([f"- Model/API errors: {model_errors}", f"- Tool errors: {tool_errors}"])
     lines.extend([
@@ -793,7 +921,9 @@ def render_statistics(result: RunResult) -> str:
         usage_row(result.tested),
         "", "## Harness overhead", "",
     ])
-    if run["harness"] == "codex":
+    if result.overhead is None:
+        lines.append("Harness overhead has not been verified. Unknown usage is not treated as zero.")
+    elif run["harness"] == "codex":
         lines.append("Codex guardian usage is included only for configured rollouts whose `parent_thread_id` matches the tested root session.")
     elif result.overhead_count:
         lines.append("OMP title-generation requests are matched by exact session ID and are not part of `stats.db`'s tested-agent aggregate.")
@@ -802,14 +932,27 @@ def render_statistics(result: RunResult) -> str:
     lines.extend([
         "", "| Source | Input | Cache Read | Cache Write | Output | Total |",
         "|---|---:|---:|---:|---:|---:|",
-        f"| {result.overhead_label} | {result.overhead.input:,} | {result.overhead.cache_read:,} | {result.overhead.cache_write:,} | {result.overhead.output:,} | **{result.overhead.total:,}** |",
+        f"| {result.overhead_label} {usage_row(result.overhead)}",
         "", "## Combined recorded usage", "",
         "| Input | Cache Read | Cache Write | Output | Total |",
         "|---:|---:|---:|---:|---:|",
         usage_row(result.combined),
     ])
 
-    if run["harness"] == "codex":
+    if run["harness"] == "t3_opencode":
+        lines.extend([
+            "", "## Raw T3 turn usage", "",
+            "The completed provider turn's `turnTokenUsage` is the whole-turn aggregate. "
+            "The latest-request `tokenUsage` is not used.", "",
+            "```json", json.dumps(result.raw_tested_events[-1], indent=2), "```", "",
+            "T3 input includes cache reads and writes. Uncached Input subtracts both; "
+            "Output already includes the reasoning subset shown above.", "",
+            "Cost is not verified. T3 activity items have not been normalized into "
+            "model-request or tool-call counts.", "",
+            "The recorded reasoning variant is a provider-specific configuration label, "
+            "not a common reasoning budget across models.",
+        ])
+    elif run["harness"] == "codex":
         lines.extend(["", "## Raw Codex usage", "", "Final cumulative token event for the tested agent:", "", "```json"])
         lines.extend(json.dumps(result.raw_tested_events[-1], indent=2).splitlines())
         lines.append("```")
@@ -913,7 +1056,12 @@ def extract_report_values(path: Path, content: str | None = None) -> dict[str, A
         if not data_rows:
             raise BenchmarkError(f"Cannot parse {heading} table in {path}")
         cells = [cell.strip().replace("*", "").replace(",", "") for cell in data_rows[-1].strip("|").split("|")]
-        values[key] = int(cells[-1])
+        if cells[-1] == "Not verified":
+            if key == "tested" or any(cell != "Not verified" for cell in cells[-5:]):
+                raise BenchmarkError(f"Invalid unknown-usage row in {path}")
+            values[key] = None
+        else:
+            values[key] = int(cells[-1])
     return values
 
 
@@ -923,15 +1071,24 @@ def render_readme_block(runs: list[dict[str, Any]], reports: dict[str, str], roo
         "|---|---|---:|---:|---:|---:|",
     ]
     notes: list[str] = []
+    unknown_overhead = False
     for run in runs:
         path = root / run["project_dir"] / "STATISTICS.md"
         values = extract_report_values(path, reports.get(run["id"]))
+        overhead = f"{values['overhead']:,}" if values["overhead"] is not None else "Not verified"
+        combined = f"{values['combined']:,}" if values["combined"] is not None else "Not verified"
+        unknown_overhead |= values["overhead"] is None
         lines.append(
             f"| [{run['label']}]({run['project_dir']}/STATISTICS.md) | {run['harness_label']} | "
-            f"{values['elapsed']} | **{values['tested']:,}** | {values['overhead']:,} | {values['combined']:,} |"
+            f"{values['elapsed']} | **{values['tested']:,}** | {overhead} | {combined} |"
         )
         if run.get("comparison_note"):
             notes.append(f"**{run['label']}:** {run['comparison_note']}")
+    if unknown_overhead:
+        notes.append(
+            "**Unverified overhead:** T3 Code/OpenCode agent totals and elapsed times are verified. "
+            "Harness overhead and combined totals are not verified; unknown does not mean zero."
+        )
     if notes:
         lines.extend([""] + notes)
     lines.append(README_END)
@@ -979,7 +1136,9 @@ def validate_project(root: Path, run: dict[str, Any]) -> None:
 
 def check_report_arithmetic(content: str, path: Path) -> None:
     values = extract_report_values(path, content)
-    if values["tested"] + values["overhead"] != values["combined"]:
+    if (values["overhead"] is None) != (values["combined"] is None):
+        raise BenchmarkError(f"Unknown overhead must have unknown combined usage in {path}")
+    if values["overhead"] is not None and values["tested"] + values["overhead"] != values["combined"]:
         raise BenchmarkError(f"Combined total mismatch in {path}")
     for row in re.findall(r"^\|.*\|$", content, re.M):
         if "---" in row or "Input" in row or "Source" in row or "Phase" in row:
@@ -1024,13 +1183,14 @@ def refresh(
     codex_home: Path,
     omp_home: Path,
     pi_home: Path,
+    t3_home: Path,
     dry_run: bool,
 ) -> None:
     results: dict[str, RunResult] = {}
     reports: dict[str, str] = {}
     for run in selected:
         print(f"Collecting {run['label']}...", file=sys.stderr)
-        result = collect_run(run, codex_home, omp_home, pi_home)
+        result = collect_run(run, codex_home, omp_home, pi_home, t3_home)
         validate_project(root, run)
         report = render_statistics(result)
         path = root / run["project_dir"] / "STATISTICS.md"
@@ -1057,6 +1217,9 @@ def verify_documents(root: Path, runs: list[dict[str, Any]]) -> None:
         if not content.startswith(GENERATED_NOTICE + "\n"):
             raise BenchmarkError(f"{path} is not generated by benchmark CLI v{GENERATOR_VERSION}")
         check_report_arithmetic(content, path)
+        values = extract_report_values(path, content)
+        if (values["overhead"] is None) != (run["overhead"]["kind"] == "unknown"):
+            raise BenchmarkError(f"Report overhead does not match registry policy in {path}")
     expected = render_readme_block(runs, {}, root)
     readme = root.joinpath("README.md").read_text()
     if expected not in readme:
@@ -1069,8 +1232,9 @@ def verify_source(
     codex_home: Path,
     omp_home: Path,
     pi_home: Path,
+    t3_home: Path,
 ) -> None:
-    expected = render_statistics(collect_run(run, codex_home, omp_home, pi_home))
+    expected = render_statistics(collect_run(run, codex_home, omp_home, pi_home, t3_home))
     path = root / run["project_dir"] / "STATISTICS.md"
     if path.read_text() != expected:
         raise BenchmarkError(f"{path} is stale; run refresh {run['id']}")
@@ -1100,6 +1264,7 @@ def main(argv: list[str] | None = None) -> int:
     codex_home = Path(os.environ.get("CODEX_HOME", Path.home() / ".codex")).expanduser()
     omp_home = Path(os.environ.get("OMP_HOME", Path.home() / ".omp")).expanduser()
     pi_home = Path(os.environ.get("PI_HOME", Path.home() / ".pi")).expanduser()
+    t3_home = Path(os.environ.get("T3_HOME", Path.home() / ".t3")).expanduser()
     if args.command == "refresh":
         if args.all:
             selected = runs
@@ -1107,13 +1272,13 @@ def main(argv: list[str] | None = None) -> int:
             if args.run_id not in by_id:
                 raise BenchmarkError(f"Unknown run ID: {args.run_id}")
             selected = [by_id[args.run_id]]
-        refresh(root, runs, selected, codex_home, omp_home, pi_home, args.dry_run)
+        refresh(root, runs, selected, codex_home, omp_home, pi_home, t3_home, args.dry_run)
     else:
         verify_documents(root, runs)
         if args.run_id:
             if args.run_id not in by_id:
                 raise BenchmarkError(f"Unknown run ID: {args.run_id}")
-            verify_source(root, by_id[args.run_id], codex_home, omp_home, pi_home)
+            verify_source(root, by_id[args.run_id], codex_home, omp_home, pi_home, t3_home)
     return 0
 
 

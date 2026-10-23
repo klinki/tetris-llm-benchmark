@@ -1,0 +1,16 @@
+{
+  "name": "tetris",
+  "version": "1.0.0",
+  "description": "Browser based Tetris implementation following the Tetris Guideline",
+  "private": true,
+  "scripts": {
+    "build": "tsc",
+    "start": "http-server . -p 8321 -c-1",
+    "test": "tsc && tsx test/smoke.test.ts"
+  },
+  "devDependencies": {
+    "http-server": "^14.1.1",
+    "tsx": "^4.19.0",
+    "typescript": "^5.7.0"
+  }
+}

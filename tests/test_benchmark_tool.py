@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import dataclasses
+from contextlib import closing
 import json
 from pathlib import Path
 import sqlite3
@@ -322,6 +323,151 @@ class PiCollectorTests(unittest.TestCase):
         duplicate.write_text(self.session_path.read_text())
         with self.assertRaisesRegex(benchmark.BenchmarkError, "found 2"):
             benchmark.collect_pi(self.run, self.home)
+
+
+class T3CollectorTests(unittest.TestCase):
+    def setUp(self) -> None:
+        self.temporary = tempfile.TemporaryDirectory()
+        self.home = Path(self.temporary.name) / ".t3"
+        self.database = self.home / "userdata" / "statev2.sqlite"
+        self.database.parent.mkdir(parents=True)
+        self.run = {
+            "id": "fixture-t3", "label": "Fixture T3", "project_dir": "fixture-t3",
+            "harness": "t3_opencode", "harness_label": "T3 Code / OpenCode",
+            "provider": "fixture-provider", "provider_label": "fixture-provider",
+            "model": "fixture-model", "session_id": "native-session",
+            "t3_thread_id": "app-thread", "expected_cwd": "/tmp/fixture-t3",
+            "expected_cwd_basename": "fixture-t3", "reasoning_variant": "xhigh",
+            "cutoff": {"through_user_message": 1, "exclude_inter_message_wait": True},
+            "overhead": {"kind": "unknown"},
+        }
+        self.provider = {
+            "nativeThreadRef": {"nativeId": "native-session"},
+            "nativeMetadata": {"modelSelection": {
+                "model": "fixture-provider/fixture-model",
+                "options": [{"id": "variant", "value": "xhigh"}],
+            }},
+        }
+        self.turn = {
+            "status": "completed",
+            "turnTokenUsage": {
+                "inputTokens": 120, "cachedInputTokens": 80, "cacheCreationTokens": 10,
+                "outputTokens": 20, "reasoningTokens": 12,
+                "usageStatus": "complete", "usageScope": "main_agent", "hasSubagents": False,
+            },
+            # Deliberately smaller latest-request counts: using these is incorrect.
+            "tokenUsage": {"inputTokens": 4, "cachedInputTokens": 2, "outputTokens": 1},
+        }
+        with closing(sqlite3.connect(self.database)) as connection, connection:
+            connection.executescript("""
+                CREATE TABLE projection_projects (project_id TEXT, workspace_root TEXT);
+                CREATE TABLE orchestration_v2_projection_threads (
+                    thread_id TEXT, project_id TEXT, default_provider TEXT);
+                CREATE TABLE orchestration_v2_projection_provider_threads (
+                    provider_thread_id TEXT, thread_id TEXT, provider TEXT, payload_json TEXT);
+                CREATE TABLE orchestration_v2_projection_provider_turns (
+                    provider_turn_id TEXT, thread_id TEXT, provider_thread_id TEXT,
+                    payload_json TEXT, status TEXT, completed_at TEXT, ordinal INTEGER);
+                CREATE TABLE orchestration_v2_projection_messages (
+                    message_id TEXT, thread_id TEXT, role TEXT, created_at TEXT, payload_json TEXT);
+                INSERT INTO projection_projects VALUES ('project', '/tmp/fixture-t3');
+                INSERT INTO orchestration_v2_projection_threads VALUES ('app-thread', 'project', 'opencode');
+                INSERT INTO orchestration_v2_projection_messages VALUES
+                    ('user-1', 'app-thread', 'user', '2026-01-01T00:00:01.000Z', '{}'),
+                    ('assistant-1', 'app-thread', 'assistant', '2026-01-01T00:00:03.900Z', '{}'),
+                    ('unrelated-user', 'unrelated-thread', 'user', '2026-01-01T00:00:01.000Z', '{}');
+            """)
+            connection.execute(
+                "INSERT INTO orchestration_v2_projection_provider_threads VALUES (?,?,?,?)",
+                ("provider-thread", "app-thread", "opencode", json.dumps(self.provider)),
+            )
+            connection.execute(
+                "INSERT INTO orchestration_v2_projection_provider_turns VALUES (?,?,?,?,?,?,?)",
+                ("turn", "app-thread", "provider-thread", json.dumps(self.turn),
+                 "completed", "2026-01-01T00:00:04.000Z", 1),
+            )
+
+    def tearDown(self) -> None:
+        self.temporary.cleanup()
+
+    def save_turn(self) -> None:
+        with closing(sqlite3.connect(self.database)) as connection, connection:
+            connection.execute(
+                "UPDATE orchestration_v2_projection_provider_turns SET payload_json=? WHERE provider_turn_id='turn'",
+                (json.dumps(self.turn),),
+            )
+
+    def test_whole_turn_cache_normalization_reasoning_and_readonly_isolation(self) -> None:
+        before = self.database.read_bytes()
+        result = benchmark.collect_t3_opencode(self.run, self.home)
+        self.assertEqual(self.database.read_bytes(), before)
+        self.assertEqual(dataclasses.astuple(result.tested)[:5], (30, 80, 10, 20, 140))
+        self.assertEqual(result.reasoning_output, 12)
+        self.assertEqual(result.active_elapsed_ms, 3000)
+        self.assertEqual(result.included_phases[0].assistant_messages, 1)
+        self.assertIsNone(result.overhead)
+        self.assertIsNone(result.combined)
+
+    def test_unknown_overhead_survives_report_and_readme_rendering(self) -> None:
+        result = benchmark.collect_t3_opencode(self.run, self.home)
+        report = benchmark.render_statistics(result)
+        report_path = Path(self.temporary.name) / "fixture-t3/STATISTICS.md"
+        benchmark.check_report_arithmetic(report, report_path)
+        values = benchmark.extract_report_values(report_path, report)
+        self.assertEqual(values["tested"], 140)
+        self.assertIsNone(values["overhead"])
+        self.assertIsNone(values["combined"])
+        self.assertIn("- Recorded reasoning variant: `xhigh`", report)
+        self.assertIn("Model responses: Not verified", report)
+        self.assertNotIn("$0.000000000", report)
+        self.assertIn('"reasoningTokens": 12', report)
+        block = benchmark.render_readme_block(
+            [self.run], {self.run["id"]: report}, Path(self.temporary.name),
+        )
+        self.assertIn("3.000s | **140** | Not verified | Not verified |", block)
+        self.assertIn("unknown does not mean zero", block)
+
+    def test_rejects_numeric_combined_total_with_unknown_overhead(self) -> None:
+        report = benchmark.render_statistics(benchmark.collect_t3_opencode(self.run, self.home))
+        before, after = report.split("## Combined recorded usage", 1)
+        after = after.replace(benchmark.usage_row(None), benchmark.usage_row(benchmark.Usage()), 1)
+        with self.assertRaisesRegex(benchmark.BenchmarkError, "Unknown overhead"):
+            benchmark.check_report_arithmetic(before + "## Combined recorded usage" + after, Path("report.md"))
+
+    def test_rejects_mismatched_identity_model_directory_and_variant(self) -> None:
+        for field, value, message in [
+            ("session_id", "different-native-session", "Expected one T3"),
+            ("t3_thread_id", "different-app-thread", "Expected one T3"),
+            ("model", "different-model", "provider/model mismatch"),
+            ("expected_cwd", "/different/fixture-t3", "cwd mismatch"),
+            ("reasoning_variant", "low", "reasoning variant mismatch"),
+        ]:
+            with self.subTest(field=field):
+                with self.assertRaisesRegex(benchmark.BenchmarkError, message):
+                    benchmark.collect_t3_opencode({**self.run, field: value}, self.home)
+
+    def test_rejects_partial_subagent_and_unsupported_usage(self) -> None:
+        for field, value in [("usageStatus", "partial"), ("hasSubagents", True), ("reasoningTokens", 21)]:
+            original = self.turn["turnTokenUsage"][field]
+            self.turn["turnTokenUsage"][field] = value
+            self.save_turn()
+            with self.subTest(field=field), self.assertRaises(benchmark.BenchmarkError):
+                benchmark.collect_t3_opencode(self.run, self.home)
+            self.turn["turnTokenUsage"][field] = original
+        del self.turn["turnTokenUsage"]["cachedInputTokens"]
+        self.save_turn()
+        with self.assertRaisesRegex(benchmark.BenchmarkError, "Unsupported T3 usage schema"):
+            benchmark.collect_t3_opencode(self.run, self.home)
+
+    def test_rejects_ambiguous_provider_turn(self) -> None:
+        with closing(sqlite3.connect(self.database)) as connection, connection:
+            connection.execute("""
+                INSERT INTO orchestration_v2_projection_provider_turns
+                SELECT 'duplicate', thread_id, provider_thread_id, payload_json, status, completed_at, 2
+                FROM orchestration_v2_projection_provider_turns WHERE provider_turn_id='turn'
+            """)
+        with self.assertRaisesRegex(benchmark.BenchmarkError, "found 1 messages and 2 turns"):
+            benchmark.collect_t3_opencode(self.run, self.home)
 
 
 class RenderingAndValidationTests(unittest.TestCase):

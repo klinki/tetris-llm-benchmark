@@ -19,9 +19,38 @@ does not silently change the model comparison.
 | [Sol Codex](sol-codex/STATISTICS.md) | Codex Desktop | 6m 22.017s | **909,035** | 41,371 | 950,406 |
 | [Sol OMP](sol-omp/STATISTICS.md) | OMP | 8m 3.842s | **999,455** | 365 | 999,820 |
 | [DeepSeek OMP/PI](deepseek-pi/STATISTICS.md) | OMP/PI | 44m 11.418s | **18,118,592** | 1,635 | 18,120,227 |
+| [Beam](beam/STATISTICS.md) | T3 Code / OpenCode | 3m 3.429s | **1,334,888** | Not verified | Not verified |
+| [Cat-jam](cat-jam/STATISTICS.md) | T3 Code / OpenCode | 23m 42.424s | **2,070,440** | Not verified | Not verified |
+| [Gemini-4](gemini-4/STATISTICS.md) | T3 Code / OpenCode | 6m 36.862s | **590,203** | Not verified | Not verified |
+| [Nemotron](nemotron/STATISTICS.md) | T3 Code / OpenCode | 9m 8.773s | **1,851,716** | Not verified | Not verified |
+| [Space-bunny](space-bunny/STATISTICS.md) | T3 Code / OpenCode | 13m 19.433s | **21,547,591** | Not verified | Not verified |
 
 **DeepSeek OMP/PI:** The implementation required two user messages, while the other runs used one benchmark prompt. Elapsed time includes both agent-work phases but excludes the wait for the second message. A later README-only message did not affect the audited implementation and is reported separately.
+**Unverified overhead:** T3 Code/OpenCode agent totals and elapsed times are verified. Harness overhead and combined totals are not verified; unknown does not mean zero.
 <!-- benchmark-results:end -->
+
+## Implementation quality
+
+[`RANKING.md`](RANKING.md) compares all 11 implementations using the same
+weighted quality rubric. The five T3 Code/OpenCode implementations were
+imported and reviewed on 2026-10-20:
+
+| Implementation | Recorded reasoning variant | Quality score | Main finding |
+|---|---|---:|---|
+| [Gemini-4](gemini-4/README.md) | `medium` | 8.50 | Strongest new implementation; perfect-clear bonus and narrow layout gaps |
+| [Cat-jam](cat-jam/README.md) | `default` | 7.40 | Malformed L rotation state and incomplete advanced scoring |
+| [Space-bunny](space-bunny/README.md) | `xhigh` | 6.75 | Incorrect SRS, collapsed ghost geometry, and scoring integration defects |
+| [Beam](beam/README.md) | `xhigh` | 5.60 | Mixed lock-timer clocks and incomplete scoring |
+| [Nemotron](nemotron/README.md) | `thinking` | 4.00 | Builds/tests pass, but extensionless imports prevent browser startup |
+
+Reasoning variants are the exact configured OpenCode settings stored by T3.
+They are provider-specific labels, not equivalent reasoning budgets across
+models; `default` does not mean reasoning was disabled.
+
+The [October audit record](.audit/october-review.md) includes exact T3/OpenCode
+session mappings, main-agent token counts and timing, reproducible probes,
+browser evidence, and test-coverage limitations. These runs are registered in
+the generated results block above, with per-run `STATISTICS.md` files.
 
 ## Token accounting
 
@@ -41,6 +70,7 @@ Total = Input + Cache Read + Cache Write + Output
 - **Harness overhead** includes identifiable model requests made for harness
   operation: Codex guardian approval reviews or OMP title generation.
 - **Combined recorded total** is tested-agent usage plus harness overhead.
+  It is shown as `Not verified` when overhead is unknown.
 
 OMP's earlier `Tokens total` values of `172,351` for Luna and `78,367` for Sol
 were actually `Input + Output`; they excluded cache reads. They are retained in
@@ -50,8 +80,8 @@ the detailed files only as **non-cache tokens**, not as total usage.
 
 Start is the timestamp of the first benchmark user message. End is completion
 of the final tested-agent response: Codex's root `task_complete` event, the OMP
-response timestamp plus its duration, or the final PI assistant-message
-timestamp. Session-file creation and title-generation timestamps are excluded
+response timestamp plus its duration, the final PI assistant-message
+timestamp, or T3's completed provider-turn timestamp. Session-file creation and title-generation timestamps are excluded
 because they are harness lifecycle events, not benchmark work boundaries.
 DeepSeek is the documented exception: its end is the completed implementation
 response to message two, and the wait between messages one and two is
@@ -65,8 +95,10 @@ Broad date filtering is unsafe because unrelated sessions overlap these runs.
 The authoritative mappings are stored in
 [`benchmark-runs.json`](benchmark-runs.json). Each run declares its tested
 session ID, expected provider/model/directory, cutoff policy, and exact
-guardian IDs or expected OMP title count. Generated `STATISTICS.md` files also
-display the tested session ID.
+guardian IDs, expected OMP title count, or explicitly unknown T3 overhead.
+T3 runs additionally declare their exact T3 thread ID, original working
+directory, and recorded reasoning variant. Generated `STATISTICS.md` files
+also display the tested session ID.
 
 For Codex, guardian records are included only when their `parent_thread_id`
 matches the tested root session. For OMP, database rows are grouped by the
@@ -80,6 +112,10 @@ working directory, provider, and model. Usage is summed across assistant
 responses in the included user-message phases; tool calls and results are
 counted from those same messages. PI reasoning tokens are an informational
 subset of output and are not added again.
+
+For T3 Code/OpenCode, both the exact T3 thread ID and native OpenCode session
+ID must match. The collector validates the original project directory, model
+alias, reasoning variant, and complete main-agent usage without subagents.
 
 ## Reproducing the calculations
 
@@ -215,6 +251,32 @@ jq -s '
 Each PI response must satisfy the common total equation independently. The
 session used for Luna PI declared no separate model-powered harness overhead.
 
+### T3 Code / OpenCode
+
+T3 stores the audited runs in `~/.t3/userdata/statev2.sqlite`. The collector
+joins the exact configured T3 thread to its project, native OpenCode session,
+and completed provider turn. It uses the whole-turn `turnTokenUsage` field,
+not the latest-request `tokenUsage` snapshot:
+
+```text
+Input = inputTokens - cachedInputTokens - cacheCreationTokens
+Cache Read = cachedInputTokens
+Cache Write = cacheCreationTokens
+Output = outputTokens
+Total = inputTokens + outputTokens
+```
+
+Here `outputTokens` already includes `reasoningTokens`. The recorded reasoning
+variant is taken from the provider thread's model-selection options. The
+[October audit record](.audit/october-review.md) includes the read-only SQLite
+query and exact session mappings.
+
+This adapter supports the audited single-user-message, single-provider-turn
+schema. Partial usage, subagents, extra turns, identity/configuration
+mismatches, or unsupported schemas fail explicitly. T3 activity counts and
+cost are not yet verified. The registry declares overhead as `unknown`, so
+both overhead and combined totals remain `Not verified` rather than zero.
+
 ## Adding a benchmark run
 
 The benchmark CLI uses only the Python standard library. It ingests completed
@@ -225,9 +287,10 @@ rankings, or create Git commits.
    `package.json`, `package-lock.json`, and working `npm test` command.
 2. Add one entry to [`benchmark-runs.json`](benchmark-runs.json), including the
    exact root session ID, provider/model, working-directory basename, cutoff,
-   and overhead policy.
-3. Point `CODEX_HOME`, `OMP_HOME`, or `PI_HOME` at the machine that owns the
-   session data.
+   and overhead policy. For T3, also include its T3 thread ID, exact original
+   directory, and reasoning variant.
+3. Point `CODEX_HOME`, `OMP_HOME`, `PI_HOME`, or `T3_HOME` at the machine that
+   owns the session data.
 4. Refresh the run, review the generated Markdown, and commit it.
 
 ```sh
@@ -241,12 +304,18 @@ OMP_HOME=/Users/agent/.omp \
 # PI defaults to PI_HOME=~/.pi
 PI_HOME=/Users/agent/.pi \
   python3 scripts/benchmark.py refresh new-pi-run
+
+# T3 defaults to T3_HOME=~/.t3
+T3_HOME=/Users/david/.t3 \
+  python3 scripts/benchmark.py refresh beam
 ```
 
 `refresh` finds only the configured session, fails closed when identity or
-overhead evidence is missing, installs dependencies and runs tests in an
+expected overhead evidence is missing, installs dependencies and runs tests in an
 isolated temporary copy, regenerates the run's `STATISTICS.md`, and refreshes
-the marked results block above. Other useful commands are:
+the marked results block above. An explicit T3 `unknown` policy permits the
+verified agent total while clearly marking overhead and combined usage as
+unverified. Other useful commands are:
 
 ```sh
 OMP_HOME=/Users/agent/.omp python3 scripts/benchmark.py refresh --all

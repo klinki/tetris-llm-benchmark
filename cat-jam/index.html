@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Tetris</title>
+    <link rel="stylesheet" href="./style.css" />
+  </head>
+  <body>
+    <main class="layout">
+      <section class="board-panel">
+        <canvas id="board" width="300" height="600"></canvas>
+      </section>
+
+      <aside class="side-panel">
+        <div class="panel">
+          <h2>Hold</h2>
+          <canvas id="hold" width="120" height="90"></canvas>
+        </div>
+
+        <div class="panel">
+          <h2>Next</h2>
+          <canvas id="next" width="120" height="270"></canvas>
+        </div>
+
+        <div class="panel stats">
+          <dl>
+            <div><dt>Score</dt><dd id="score">0</dd></div>
+            <div><dt>Level</dt><dd id="level">1</dd></div>
+            <div><dt>Lines</dt><dd id="lines">0</dd></div>
+            <div><dt>Combo</dt><dd id="combo">—</dd></div>
+            <div><dt>Time</dt><dd id="time">0:00</dd></div>
+          </dl>
+        </div>
+
+        <div class="panel controls">
+          <h2>Controls</h2>
+          <ul>
+            <li><kbd>&larr;</kbd><kbd>&rarr;</kbd> move</li>
+            <li><kbd>&uarr;</kbd>/<kbd>X</kbd> rotate</li>
+            <li><kbd>Z</kbd>/<kbd>Ctrl</kbd> rotate CCW</li>
+            <li><kbd>&darr;</kbd> soft drop</li>
+            <li><kbd>Space</kbd> hard drop</li>
+            <li><kbd>C</kbd> hold</li>
+            <li><kbd>R</kbd> restart</li>
+          </ul>
+        </div>
+      </aside>
+    </main>
+
+    <script type="module" src="./dist/main.js"></script>
+  </body>
+</html>

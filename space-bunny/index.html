@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Tetris</title>
+    <link rel="stylesheet" href="./styles.css" />
+    <link rel="icon" href="data:," />
+  </head>
+  <body>
+    <main class="stage">
+      <canvas id="board" width="600" height="800" aria-label="Tetris playfield"></canvas>
+      <section class="controls">
+        <h1>Tetris</h1>
+        <dl>
+          <dt>&larr; &rarr;</dt>
+          <dd>move</dd>
+          <dt>&uarr; / X</dt>
+          <dd>rotate clockwise</dd>
+          <dt>Z / Ctrl</dt>
+          <dd>rotate counter clockwise</dd>
+          <dt>&darr;</dt>
+          <dd>soft drop</dd>
+          <dt>Space</dt>
+          <dd>hard drop</dd>
+          <dt>C</dt>
+          <dd>hold piece</dd>
+          <dt>P</dt>
+          <dd>pause</dd>
+          <dt>R</dt>
+          <dd>restart</dd>
+        </dl>
+      </section>
+    </main>
+    <script type="module" src="./dist/main.js"></script>
+  </body>
+</html>

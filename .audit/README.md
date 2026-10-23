@@ -39,6 +39,42 @@ The validator recomputes every weighted score, verifies the 0–10 half-point sc
 [`luna-pi-review.md`](luna-pi-review.md) records the new implementation's
 source, test, engine-probe, session-isolation, and browser evidence.
 
+## October T3 Code/OpenCode imports
+
+[`october-review.md`](october-review.md) covers Beam, Cat-jam, Gemini-4,
+Nemotron, and Space-bunny, imported on 2026-10-20. It includes exact source
+directories, T3/OpenCode session IDs, main-agent usage/timing, the scoring
+deductions, test limitations, and desktop/mobile browser evidence.
+
+Rebuild and test these five in fresh temporary copies, then run their probes:
+
+```sh
+python3 .audit/run-october-audit.py --offline
+```
+
+Omit `--offline` if dependencies are not cached. The runner executes every
+declared `npm test`, creates a separate temporary CommonJS compile for
+Nemotron's engine probes, and runs [`october-audit.mjs`](october-audit.mjs).
+The original browser build remains unchanged. A successful probe run confirms
+the recorded defects still reproduce; it does not certify a bug-free game.
+
+[`october-browser.cjs`](october-browser.cjs) is the reusable Playwright CLI
+snippet for fresh navigation, control input, asset failures, measurements,
+and screenshots. See the October record for its invocation and server ports.
+No new implementation source was changed to fix an audit finding.
+
+The benchmark CLI also collects these five runs from T3's read-only SQLite
+database and generates their `STATISTICS.md` files and README results rows:
+
+```sh
+T3_HOME=/Users/david/.t3 python3 scripts/benchmark.py refresh beam
+T3_HOME=/Users/david/.t3 python3 scripts/benchmark.py verify beam
+```
+
+Whole-turn main-agent tokens, timing, and the recorded reasoning variant are
+verified. Overhead, combined usage, cost, and normalized tool-call counts stay
+explicitly unverified until their accounting is established.
+
 The tested keyboard sequence was:
 
 ```text
