@@ -19,12 +19,26 @@
       "source": "https://developers.openai.com/api/docs/models/GPT-5.6",
       "note": "Standard rate; reproduces the cost OMP recorded for Sol OMP. A later promotional rate of $4 / $20 is not applied."
     },
+    "gpt-6-luna": {
+      "label": "GPT-6 Luna",
+      "prices": {"input": 0.10, "cache_read": 0.01, "cache_write": 0.125, "output": 0.50},
+      "evidence": "official",
+      "source": "https://developers.openai.com/api/docs/models/gpt-6-luna",
+      "note": "Standard tier. Requests with more than 272K input tokens are billed at 2x input and cache rates and 1.5x output; T3 records only whole-turn totals, so the estimate is a lower bound."
+    },
     "deepseek-v4-flash": {
       "label": "DeepSeek V4 Flash",
       "prices": {"input": 0.14, "cache_read": 0.0028, "cache_write": null, "output": 0.28},
       "evidence": "recorded",
       "source": "https://eesel.ai/blog/deepseek-v4-flash-pricing",
       "note": "DeepSeek direct rates (cache hits 98% below input). Reproduces the cost OMP recorded for this run."
+    },
+    "deepseek-v4.1-flash": {
+      "label": "DeepSeek V4.1 Flash",
+      "prices": {"input": 0.15, "cache_read": 0.003, "cache_write": null, "output": 0.60},
+      "evidence": "official",
+      "source": "https://api-docs.deepseek.com/quick_start/pricing/",
+      "note": "Off-peak rate. Weekday peak hours (01:00-04:00 and 06:00-10:00 UTC) cost double; the October 24, 2026 runs ran on a Saturday, which is off-peak all day."
     },
     "claude-opus-5-5": {
       "label": "Claude Opus 5.5",
@@ -39,6 +53,13 @@
       "evidence": "official",
       "source": "https://platform.claude.com/docs/en/about-claude/pricing",
       "note": "Priced at the rate for prompts up to 100,000 tokens, with cache writes at the 5-minute rate. Requests whose prompt exceeds 100,000 tokens are billed at five times these prices ($0.50 / $0.625 / $0.05 / $2.50); T3 records only whole-turn totals, so the estimate is a lower bound."
+    },
+    "claude-sonnet-5-5": {
+      "label": "Claude Sonnet 5.5",
+      "prices": {"input": 2.00, "cache_read": 0.10, "cache_write": 2.50, "output": 10.00},
+      "evidence": "official",
+      "source": "https://platform.claude.com/docs/en/about-claude/pricing",
+      "note": "Cache writes priced at the 5-minute rate; the 1-hour rate is $4."
     },
     "gemini-4-argon-contributor": {
       "label": "Gemini 4 Argon",
@@ -60,6 +81,13 @@
       "evidence": "third-party",
       "source": "https://zenmux.ai/meituan/longcat-2.5-preview",
       "note": "The run used OpenCode's free variant; the paid API rate (a limited-time launch price) is used."
+    },
+    "glm-5.3-flash-free": {
+      "label": "GLM-5.3-Flash",
+      "prices": {"input": 0.15, "cache_read": 0.03, "cache_write": null, "output": 0.50},
+      "evidence": "official",
+      "source": "https://docs.z.ai/guides/overview/pricing",
+      "note": "The runs used OpenCode's free variant; Z.ai's paid list rate is used. Cached-input storage is free for a limited time."
     },
     "nvidia/nemotron-3.5-super-vl:free": {
       "label": "Nemotron 3.5 Super VL",

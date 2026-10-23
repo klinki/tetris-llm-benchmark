@@ -179,6 +179,17 @@ Its only out-of-workspace reads were its own screenshots under
 `/tmp/tetris-fuzz`. This quality audit did not rerun the broader session scan
 or change isolation/accounting data.
 
+One contact with another process was found afterwards. At 21:41:08 UTC the
+agent started its server on its default port 8321, which was already taken by
+an unrelated `node server.js` serving the Opus 5.5 game. The server exited with
+`EADDRINUSE`, so the status-code `curl` probes in the same command most likely
+reached the Opus server; they print only HTTP codes. The agent inspected the
+port with `lsof`, which shows the command but not its directory, and ran every
+later server, `curl`, and Playwright check against its own server on port 8399.
+No other run's code or page content reached it, so the score is unaffected.
+Later runs are executed one at a time, and `benchmark.py overlaps` reports
+shared `/tmp` entries and ports.
+
 Session IDs and recorded high effort are already in
 [`STATISTICS.md`](../claude-haiku-5-5-high/STATISTICS.md): T3 thread
 `mcp:6ff643b2-5f69-4f0f-97ea-57f72261bc9c`, native session

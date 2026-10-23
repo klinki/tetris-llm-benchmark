@@ -30,6 +30,7 @@ FINISHED_TURN_STATUSES = {"completed", "failed", "interrupted"}
 HARNESSES = {
     "claudeAgent": {"harness": "t3_claude", "harness_label": "T3 Code / Claude Agent SDK", "provider_label": "Claude Agent SDK"},
     "opencode": {"harness": "t3_opencode", "harness_label": "T3 Code / OpenCode"},
+    "codex": {"harness": "t3_codex", "harness_label": "T3 Code / Codex", "provider_label": "Codex"},
 }
 COPY_IGNORE = shutil.ignore_patterns("node_modules", "dist", ".git", ".DS_Store")
 PATH_KEYS = {"path", "file_path", "filePath", "fileName", "filename", "notebook_path", "cwd", "directory"}
@@ -146,12 +147,16 @@ def save_pending(root: Path, record: dict[str, Any]) -> None:
     (pending_dir(root) / f"{record['key']}.json").write_text(json.dumps(record, indent=2) + "\n")
 
 
-EFFORT_OPTION = {"opencode": "variant", "claudeAgent": "effort"}
+EFFORT_OPTION = {"opencode": "variant", "claudeAgent": "effort", "codex": "reasoningEffort"}
+# Codex service tiers that run faster at a higher price, like Claude's fast mode.
+FAST_SERVICE_TIERS = {"priority", "fast"}
 
 
 def model_selection(t3_home: Path, model: str, effort: str, instance: str | None = None) -> dict[str, Any]:
-    """The T3 model selection for a model ID: OpenCode IDs contain a provider prefix, Claude IDs start with claude-."""
-    driver = "opencode" if "/" in model else "claudeAgent" if model.startswith("claude-") else None
+    """The T3 model selection for a model ID: OpenCode IDs contain a provider prefix, Claude IDs start with claude-,
+    and Codex IDs with gpt-."""
+    driver = ("opencode" if "/" in model else "claudeAgent" if model.startswith("claude-")
+              else "codex" if model.startswith("gpt-") else None)
     if driver is None:
         raise RunError(f"Cannot tell which T3 driver runs {model}; pass --instance")
     if instance is None:
@@ -166,6 +171,8 @@ def model_selection(t3_home: Path, model: str, effort: str, instance: str | None
     options: list[dict[str, Any]] = [{"id": EFFORT_OPTION[driver], "value": effort}]
     if driver == "claudeAgent":
         options.append({"id": "fastMode", "value": False})
+    elif driver == "codex":
+        options.append({"id": "serviceTier", "value": "default"})
     return {"instanceId": instance, "model": model, "options": options}
 
 
@@ -263,6 +270,28 @@ def claude_query(t3_home: Path, thread_id: str, session_id: str) -> dict[str, An
     return found[0]
 
 
+def codex_home() -> Path:
+    return Path(os.environ.get("CODEX_HOME", Path.home() / ".codex")).expanduser()
+
+
+def codex_turn_context(home: Path, session_id: str) -> dict[str, Any]:
+    """The model, effort, cwd, and service tier Codex itself recorded for a session, which T3 does not store."""
+    paths = sorted((home / "sessions").glob(f"**/rollout-*-{glob.escape(session_id)}.jsonl"))
+    if len(paths) != 1:
+        raise RunError(f"Found {len(paths)} Codex rollouts for session {session_id} under {home}")
+    contexts = []
+    for line in paths[0].read_text().splitlines():
+        record = json.loads(line)
+        if record.get("type") == "turn_context":
+            payload = record["payload"]
+            contexts.append({key: payload.get(key) for key in ("model", "effort", "cwd", "service_tier")})
+    if not contexts:
+        raise RunError(f"No Codex turn_context record for session {session_id}")
+    if any(context != contexts[0] for context in contexts[1:]):
+        raise RunError(f"Codex model, effort, cwd, or service tier changed during session {session_id}")
+    return contexts[0]
+
+
 def inspect_run(t3_home: Path, record: dict[str, Any]) -> dict[str, Any]:
     """Read what actually ran: thread, session, driver, model, and effort, all from T3's own records."""
     with closing(connect(t3_home)) as connection:
@@ -299,6 +328,14 @@ def inspect_run(t3_home: Path, record: dict[str, Any]) -> dict[str, Any]:
         settings = options.get("settings", {})
         if "fastMode" in settings:
             identity["fast_mode"] = bool(settings["fastMode"])
+    elif driver == "codex":
+        selection = json.loads(thread["app_json"])["modelSelection"]
+        context = codex_turn_context(codex_home(), session_id)
+        if context["model"] != selection.get("model") or context["cwd"] != record["workspace"]:
+            raise RunError(f"Codex model or working directory does not match T3's thread for {record['key']}")
+        if context["service_tier"] in FAST_SERVICE_TIERS:
+            raise RunError(f"{record['key']} ran on the faster {context['service_tier']} service tier")
+        identity.update(provider="codex", model=selection["model"], effort=context["effort"])
     else:
         selection = native["nativeMetadata"]["modelSelection"]
         provider, _, model = selection["model"].partition("/")
@@ -399,6 +436,59 @@ def outside_access(
                 tool = payload.get("toolName") or item["type"]
                 findings.append({"time": payload.get("startedAt", ""), "tool": tool, "kind": finding, "reference": text})
     return findings
+
+
+# Scratch locations every run on this machine shares: /tmp entries and local server ports.
+SHARED_PLACE = re.compile(r"""(?:/private)?(/tmp/[^\s'"|;&<>()`/\\]+)|\b(?:localhost|127\.0\.0\.1|0\.0\.0\.0):(\d{2,5})\b""")
+
+
+def _strings(value: Any) -> list[str]:
+    if isinstance(value, dict):
+        return [text for child in value.values() for text in _strings(child)]
+    if isinstance(value, list):
+        return [text for child in value for text in _strings(child)]
+    return [value] if isinstance(value, str) else []
+
+
+def shared_places(t3_home: Path, thread_id: str) -> dict[str, tuple[str, str]]:
+    """The /tmp entries and localhost ports a thread's tool calls name, with the first and last time each was named."""
+    places: dict[str, tuple[str, str]] = {}
+    with closing(connect(t3_home)) as connection:
+        items = connection.execute("""
+            SELECT payload_json FROM orchestration_v2_projection_turn_items
+            WHERE thread_id=? AND type NOT IN ('reasoning', 'assistant_message', 'user_message', 'checkpoint')
+            ORDER BY ordinal
+        """, (thread_id,)).fetchall()
+    for item in items:
+        payload = json.loads(item["payload_json"])
+        when = payload.get("startedAt", "")
+        for text in _strings({key: payload.get(key) for key in ("input", "pattern", "patterns", "fileName")}):
+            for tmp, port in SHARED_PLACE.findall(text):
+                place = tmp or f"localhost:{port}"
+                first, _ = places.get(place, (when, when))
+                places[place] = (first, when)
+    return places
+
+
+def concurrent_overlaps(t3_home: Path, threads: dict[str, str]) -> list[dict[str, Any]]:
+    """Shared places used by more than one of the given runs (label -> thread ID).
+
+    A /tmp entry is reported whenever two runs name it, because files persist between runs.
+    A port is reported only when the runs named it during overlapping intervals."""
+    users: dict[str, list[tuple[str, str, str]]] = {}
+    for label, thread_id in threads.items():
+        for place, (first, last) in shared_places(t3_home, thread_id).items():
+            users.setdefault(place, []).append((label, first, last))
+    overlaps = []
+    for place, used in sorted(users.items()):
+        if len(used) < 2:
+            continue
+        if place.startswith("localhost:") and not any(
+            a[1] <= b[2] and b[1] <= a[2] for i, a in enumerate(used) for b in used[i + 1:]
+        ):
+            continue
+        overlaps.append({"place": place, "runs": [{"run": label, "first": first, "last": last} for label, first, last in used]})
+    return overlaps
 
 
 def finding_kind(kind: str, text: str, workspace: Path, t3_data: Path, markers: list[str]) -> str | None:

@@ -46,6 +46,7 @@ CRITERIA = [
 BUG_KINDS = ("critical", "major", "minor")
 TOKEN_KINDS = ("input", "cache_read", "cache_write", "output")
 PRICE_EVIDENCE = ("recorded", "official", "third-party")
+T3_HARNESSES = {"t3_opencode", "t3_claude", "t3_codex"}
 # Estimates must reproduce a harness-recorded cost this closely, or the price table is wrong.
 RECORDED_COST_TOLERANCE = 0.01
 
@@ -181,12 +182,12 @@ def load_manifest(root: Path) -> tuple[dict[str, Any], list[dict[str, Any]]]:
             raise BenchmarkError(f"Run {run.get('id', '<unknown>')} missing {sorted(missing)}")
         if run["id"] in ids or run["order"] in orders:
             raise BenchmarkError("Run IDs and display orders must be unique")
-        if run["harness"] not in {"codex", "omp", "pi", "t3_opencode", "t3_claude"}:
+        if run["harness"] not in {"codex", "omp", "pi", *T3_HARNESSES}:
             raise BenchmarkError(f"Unsupported harness for {run['id']}: {run['harness']}")
         through = run["cutoff"].get("through_user_message")
         if not isinstance(through, int) or through < 1:
             raise BenchmarkError(f"Invalid cutoff for {run['id']}")
-        if run["harness"] in {"t3_opencode", "t3_claude"}:
+        if run["harness"] in T3_HARNESSES:
             if not {"t3_thread_id", "expected_cwd", "reasoning_variant"} <= set(run):
                 raise BenchmarkError(f"Missing T3 thread, exact cwd, or reasoning variant for {run['id']}")
             if run["overhead"].get("kind") != "unknown":
@@ -985,11 +986,27 @@ def collect_t3_parent(
     return events
 
 
-def collect_t3_opencode(run: dict[str, Any], t3_home: Path) -> RunResult:
+def validate_codex_effort(run: dict[str, Any], codex_home: Path) -> None:
+    """Validate the model, effort, and cwd Codex recorded, which T3's model options do not prove."""
+    try:
+        context = t3_runs.codex_turn_context(codex_home, run["session_id"])
+    except (t3_runs.RunError, OSError, KeyError, json.JSONDecodeError) as error:
+        raise BenchmarkError(f"Codex rollout evidence for {run['id']}: {error}") from error
+    if context["model"] != run["model"] or context["cwd"] != run["expected_cwd"]:
+        raise BenchmarkError(f"Codex request identity mismatch for {run['id']}")
+    if context["effort"] != run["reasoning_variant"]:
+        raise BenchmarkError(f"Codex effort mismatch for {run['id']}")
+    if context["service_tier"] in t3_runs.FAST_SERVICE_TIERS:
+        raise BenchmarkError(f"Codex ran {run['id']} on the faster {context['service_tier']} service tier")
+
+
+def collect_t3_opencode(run: dict[str, Any], t3_home: Path, codex_home: Path | None = None) -> RunResult:
     database = t3_home / "userdata" / "statev2.sqlite"
     if not database.is_file():
         raise BenchmarkError(f"T3 database does not exist: {database}")
-    driver = "claudeAgent" if run["harness"] == "t3_claude" else "opencode"
+    driver = {"t3_claude": "claudeAgent", "t3_codex": "codex"}.get(run["harness"], "opencode")
+    # Claude and Codex threads keep their model selection on T3's application thread.
+    uses_app_selection = driver in {"claudeAgent", "codex"}
     provider_instance = run.get("t3_provider_instance", driver)
     app_thread = None
     with closing(sqlite3.connect(database.resolve().as_uri() + "?mode=ro", uri=True)) as connection:
@@ -1014,7 +1031,7 @@ def collect_t3_opencode(run: dict[str, Any], t3_home: Path) -> RunResult:
                 FROM orchestration_v2_projection_messages
                 WHERE thread_id=? ORDER BY created_at, message_id
             """, (run["t3_thread_id"],)).fetchall()
-            if driver == "claudeAgent" or run.get("t3_parent"):
+            if uses_app_selection or run.get("t3_parent"):
                 app_rows = connection.execute(
                     "SELECT payload_json FROM orchestration_v2_projection_threads WHERE thread_id=?",
                     (run["t3_thread_id"],),
@@ -1040,7 +1057,7 @@ def collect_t3_opencode(run: dict[str, Any], t3_home: Path) -> RunResult:
     try:
         provider_thread = json.loads(record["provider_thread_json"])
         turn = json.loads(record["turn_json"])
-        selection = (app_thread["modelSelection"] if driver == "claudeAgent"
+        selection = (app_thread["modelSelection"] if uses_app_selection
                      else provider_thread["nativeMetadata"]["modelSelection"])
         raw_usage = turn["turnTokenUsage"]
     except (KeyError, TypeError, json.JSONDecodeError) as error:
@@ -1049,11 +1066,13 @@ def collect_t3_opencode(run: dict[str, Any], t3_home: Path) -> RunResult:
         raise BenchmarkError(f"Unsupported T3 model-selection schema for {run['id']}")
     if any(not isinstance(option, dict) for option in selection["options"]):
         raise BenchmarkError(f"Unsupported T3 model options for {run['id']}")
-    model = run["model"] if driver == "claudeAgent" else f"{run['provider']}/{run['model']}"
+    model = run["model"] if uses_app_selection else f"{run['provider']}/{run['model']}"
     if selection.get("model") != model:
         raise BenchmarkError(f"T3 provider/model mismatch for {run['id']}")
     if driver == "claudeAgent":
         validate_claude_effort(run, t3_home)
+    elif driver == "codex":
+        validate_codex_effort(run, codex_home or t3_runs.codex_home())
     else:
         variants = [option.get("value") for option in selection.get("options", []) if option.get("id") == "variant"]
         if variants != [run["reasoning_variant"]]:
@@ -1096,8 +1115,8 @@ def collect_run(
         return collect_omp(run, omp_home)
     if run["harness"] == "pi":
         return collect_pi(run, pi_home)
-    if run["harness"] in {"t3_opencode", "t3_claude"}:
-        return collect_t3_opencode(run, t3_home)
+    if run["harness"] in T3_HARNESSES:
+        return collect_t3_opencode(run, t3_home, codex_home)
     raise BenchmarkError(f"Unsupported harness: {run['harness']}")
 
 
@@ -1131,7 +1150,7 @@ def render_statistics(result: RunResult) -> str:
         f"- Session ID: `{run['session_id']}`",
         f"- User messages through implementation: {len(included)}",
     ]
-    if run["harness"] in {"t3_opencode", "t3_claude"}:
+    if run["harness"] in T3_HARNESSES:
         lines.extend([
             f"- T3 thread ID: `{run['t3_thread_id']}`",
             f"- Recorded reasoning variant: `{run['reasoning_variant']}`",
@@ -1148,7 +1167,7 @@ def render_statistics(result: RunResult) -> str:
         lines.append(f"- Assistant messages: {sum(phase.assistant_messages for phase in included)}")
     else:
         lines.append(f"- Model responses: {sum(phase.responses for phase in included)}")
-    if run["harness"] not in {"t3_opencode", "t3_claude"}:
+    if run["harness"] not in T3_HARNESSES:
         lines.extend([f"- Tool calls: {tool_calls}", f"- Tool results: {tool_results}"])
     if run["harness"] in {"omp", "pi"}:
         lines.extend([f"- Model/API errors: {model_errors}", f"- Tool errors: {tool_errors}"])
@@ -1200,7 +1219,7 @@ def render_statistics(result: RunResult) -> str:
         usage_row(result.combined),
     ])
 
-    if run["harness"] in {"t3_opencode", "t3_claude"}:
+    if run["harness"] in T3_HARNESSES:
         lines.extend([
             "", "## Raw T3 turn usage", "",
             "The completed provider turn's `turnTokenUsage` is the whole-turn aggregate. "
@@ -1781,6 +1800,31 @@ def isolation_report(root: Path, runs: list[dict[str, Any]], t3_home: Path) -> i
     return flagged
 
 
+def overlap_report(root: Path, by_id: dict[str, dict[str, Any]], t3_home: Path, keys: list[str]) -> int:
+    """Report /tmp entries and localhost ports shared by runs that may have interfered with each other."""
+    threads = {}
+    database = t3_runs.connect(t3_home)
+    try:
+        for key in keys:
+            if key in by_id:
+                threads[key] = by_id[key]["t3_thread_id"]
+                continue
+            thread = t3_runs.thread_for(database, t3_runs.find_pending(root, key))
+            if thread is None:
+                raise BenchmarkError(f"{key} has no T3 thread yet")
+            threads[key] = thread["thread_id"]
+    finally:
+        database.close()
+    overlaps = t3_runs.concurrent_overlaps(t3_home, threads)
+    if not overlaps:
+        print(f"No /tmp entry or localhost port is shared by {len(threads)} runs.")
+    for overlap in overlaps:
+        print(f"{overlap['place']}:")
+        for use in overlap["runs"]:
+            print(f"  {use['run']}: {use['first'][11:19]}-{use['last'][11:19]}")
+    return 1 if overlaps else 0
+
+
 def render(
     root: Path, runs: list[dict[str, Any]], ranking: dict[str, Any], pricing: dict[str, Any], dry_run: bool,
 ) -> None:
@@ -1878,6 +1922,10 @@ def parse_args(argv: list[str]) -> argparse.Namespace:
     import_parser.add_argument("--allow-approvals", action="store_true", help="Import a run not made in full-access mode")
     isolation_parser = subparsers.add_parser("isolation", help="Report T3 runs that reached outside their workspace")
     isolation_parser.add_argument("run_id", nargs="?")
+    overlaps_parser = subparsers.add_parser(
+        "overlaps", help="Report /tmp entries and localhost ports that concurrent T3 runs shared",
+    )
+    overlaps_parser.add_argument("keys", nargs="+", help="Registered run IDs or pending run keys")
     return parser.parse_args(argv)
 
 
@@ -1935,6 +1983,8 @@ def main(argv: list[str] | None = None) -> int:
         if args.run_id and args.run_id not in by_id:
             raise BenchmarkError(f"Unknown run ID: {args.run_id}")
         return 1 if isolation_report(root, selected, t3_home) else 0
+    elif args.command == "overlaps":
+        return overlap_report(root, by_id, t3_home, args.keys)
     else:
         verify_documents(root, runs, ranking, pricing)
         if args.run_id:

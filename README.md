@@ -326,7 +326,7 @@ jq -s '
 Each PI response must satisfy the common total equation independently. The
 session used for Luna PI declared no separate model-powered harness overhead.
 
-### T3 Code / OpenCode and Claude Agent SDK
+### T3 Code / OpenCode, Claude Agent SDK, and Codex
 
 T3 stores the audited runs in `~/.t3/userdata/statev2.sqlite`. The collector
 joins the exact configured T3 thread to its project, native OpenCode session,
@@ -352,6 +352,13 @@ matching SDK `query.open` provider log. For the delegated Muse run, the tested
 agent is the medium child; verified xhigh parent turns are shown separately as
 recorded orchestration usage, with a lower bound for child plus parent. These
 records do not establish a complete harness-overhead total.
+
+Codex runs in T3 (`t3_codex`) use the same whole-turn fields. Their model also
+comes from T3's application thread, and the model, effort, working directory,
+and service tier Codex actually used are validated from the session's own
+rollout under `CODEX_HOME` (`~/.codex/sessions/**/rollout-*-<session>.jsonl`),
+whose `turn_context` records must agree. A run on the faster `priority`
+service tier is refused.
 
 This adapter supports the audited single-user-message, single-provider-turn
 schema. Partial usage, subagents, extra turns, identity/configuration
@@ -499,6 +506,27 @@ in [`scripts/t3_runs.py`](scripts/t3_runs.py) looks only for file paths and
 benchmark names in tool inputs, so such a call would not be reported as
 `t3-data`. Haiku made no such call, but the check should flag any T3
 orchestration tool call from a tested thread.
+
+### Running several benchmarks
+
+Workspaces cannot see each other, but every run on the machine shares `/tmp`
+and local server ports, and agents of the same model pick the same names. The
+Haiku run left `/tmp/tetris-fuzz` (with its own Playwright install),
+`/tmp/tetris-serve.log`, and `/tmp/tetris-serve.pid`, and its first server
+attempt found its default port taken by an unrelated server for the Opus 5.5
+game. Concurrent runs, or later runs finding those leftovers, could therefore
+read each other's files or test each other's game. Runs are executed one at a
+time, which also keeps elapsed time free of CPU contention, and after each run:
+
+- the `/tmp` entries it named are removed and any server still running from
+  its workspace is stopped, before the next run starts;
+- `python3 scripts/benchmark.py overlaps KEY...` lists every `/tmp` entry named
+  by more than one of the given runs (pending keys or run IDs), and every
+  localhost port they used during overlapping intervals. It exits non-zero
+  when it finds one.
+
+GPT models run through T3's Codex provider: `new` selects it for `gpt-` model
+IDs, with the `reasoningEffort` option and the standard service tier.
 
 ## Adding a benchmark run
 

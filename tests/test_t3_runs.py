@@ -199,7 +199,45 @@ class ModelSelectionTests(unittest.TestCase):
             t3_runs.model_selection(self.home, "claude-opus-5-5", "high")
         self.assertEqual(t3_runs.model_selection(self.home, "claude-opus-5-5", "high", "claude_b")["instanceId"], "claude_b")
         with self.assertRaisesRegex(t3_runs.RunError, "Cannot tell which T3 driver"):
-            t3_runs.model_selection(self.home, "gpt-6.1-sol", "high")
+            t3_runs.model_selection(self.home, "grok-build", "high")
+
+    def test_codex_models_select_the_standard_service_tier(self) -> None:
+        self.write_instances({"codex": {"driver": "codex", "enabled": True}})
+        self.assertEqual(t3_runs.model_selection(self.home, "gpt-6-luna", "xhigh"), {
+            "instanceId": "codex", "model": "gpt-6-luna",
+            "options": [{"id": "reasoningEffort", "value": "xhigh"}, {"id": "serviceTier", "value": "default"}],
+        })
+
+
+class CodexTurnContextTests(unittest.TestCase):
+    def setUp(self) -> None:
+        self.temporary = tempfile.TemporaryDirectory()
+        self.home = Path(self.temporary.name)
+        self.day = self.home / "sessions" / "2026" / "10" / "24"
+        self.day.mkdir(parents=True)
+
+    def tearDown(self) -> None:
+        self.temporary.cleanup()
+
+    def write_rollout(self, *contexts: dict) -> None:
+        lines = [{"type": "session_meta", "payload": {"id": "abc"}}]
+        lines += [{"type": "turn_context", "payload": {"turn_id": str(i), **context}} for i, context in enumerate(contexts)]
+        (self.day / "rollout-2026-10-24T10-00-00-abc.jsonl").write_text("\n".join(json.dumps(line) for line in lines))
+
+    def test_reads_the_recorded_model_effort_cwd_and_tier(self) -> None:
+        context = {"model": "gpt-6-luna", "effort": "high", "cwd": "/w/tetris", "service_tier": None}
+        self.write_rollout(context, context)
+        self.assertEqual(t3_runs.codex_turn_context(self.home, "abc"), context)
+
+    def test_rejects_missing_or_changing_contexts(self) -> None:
+        with self.assertRaisesRegex(t3_runs.RunError, "Found 0 Codex rollouts"):
+            t3_runs.codex_turn_context(self.home, "abc")
+        self.write_rollout(
+            {"model": "gpt-6-luna", "effort": "high", "cwd": "/w/tetris"},
+            {"model": "gpt-6-luna", "effort": "low", "cwd": "/w/tetris"},
+        )
+        with self.assertRaisesRegex(t3_runs.RunError, "changed during session"):
+            t3_runs.codex_turn_context(self.home, "abc")
 
 
 class ImportTests(unittest.TestCase):
