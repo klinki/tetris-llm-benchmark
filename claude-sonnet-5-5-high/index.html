@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>TetrisJS</title>
+    <style>
+      body {
+        margin: 0;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 16px;
+        background: #05050a;
+        color: #9a9ab0;
+        font-family: system-ui, sans-serif;
+        font-size: 13px;
+      }
+      canvas {
+        border: 1px solid #2a2a40;
+      }
+      p {
+        margin: 0;
+      }
+    </style>
+  </head>
+  <body>
+    <canvas id="game"></canvas>
+    <p>
+      ← → move · ↑ / X rotate · Z / Left Ctrl rotate back · ↓ soft drop · Space hard drop · C hold · P pause · R restart
+    </p>
+    <script type="module" src="dist/main.js"></script>
+  </body>
+</html>
