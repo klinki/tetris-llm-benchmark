@@ -3,6 +3,8 @@
 Original audit date: 2026-08-10; Luna PI added 2026-08-29;
 five T3 Code/OpenCode imports added 2026-10-20.
 
+Opus 5.5 and Muse Spark 1.3 (medium) added 2026-10-23.
+
 Browser: Chromium 140.0.7339.16 (Playwright build 1237)
 
 Viewports: 1280×800 and 390×844
@@ -41,6 +43,21 @@ Missing favicon responses were again excluded. Nemotron's two required
 JavaScript module 404s are application failures. Required keys were sent to
 every page, but only the four successfully loaded games responded. Nemotron's
 engine-only test/probe results must not be described as browser conformance.
+
+## October 23 additions
+
+Same 1280×800 and 390×844 viewports, installed Chromium 156.0.8078.4,
+fresh isolated builds, and the common keyboard/asset/runtime probe.
+
+| Implementation | Desktop playfield | 390 px document width | Phone playfield | Application errors |
+|---|---|---:|---|---|
+| Opus 5.5 | 300×600, crisp board/hold/queue/stats/legend | 760 | 300×600 at x=230; much of board clipped | No application asset failures or page exceptions |
+| Muse Spark 1.3 (medium) | 300×600, polished game and supporting panels | 397 | 0×0 CSS pixels: center grid column collapses | No application asset failures or page exceptions |
+
+The full keyboard sequence responded on desktop for both. Active-play
+overlays remained hidden. Missing favicon requests were excluded; screenshots
+were inspected at both sizes. Details and exact session mappings are in
+[`oct23-review.md`](oct23-review.md).
 
 ## Reproducible DOM probes
 

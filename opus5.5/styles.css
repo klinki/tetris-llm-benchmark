@@ -1,0 +1,117 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  background: radial-gradient(circle at top, #20263f, #07080f 70%);
+  color: #e6e9f5;
+  font-family: system-ui, -apple-system, 'Segoe UI', sans-serif;
+}
+
+.game {
+  display: flex;
+  gap: 24px;
+  align-items: flex-start;
+  padding: 24px;
+}
+
+.panel {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  width: 180px;
+}
+
+.panel section {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 8px;
+  padding: 12px;
+}
+
+h2 {
+  margin: 0 0 8px;
+  font-size: 12px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: #8a91b4;
+}
+
+.stats p {
+  margin: 0 0 12px;
+  font-size: 22px;
+  font-variant-numeric: tabular-nums;
+}
+
+.stats p:last-child {
+  margin-bottom: 0;
+}
+
+.message {
+  min-height: 6em;
+  margin: 0;
+  white-space: pre-line;
+  font-weight: 700;
+  color: #ffd84d;
+  text-align: center;
+}
+
+.playfield {
+  position: relative;
+  border: 2px solid #3a4166;
+  border-radius: 4px;
+  box-shadow: 0 0 40px rgba(80, 110, 255, 0.15);
+  line-height: 0;
+}
+
+canvas {
+  display: block;
+}
+
+.overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  background: rgba(5, 6, 12, 0.75);
+  font-size: 32px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  line-height: 1.2;
+}
+
+.overlay[hidden] {
+  display: none;
+}
+
+.overlay small {
+  font-size: 14px;
+  font-weight: 400;
+  letter-spacing: normal;
+  color: #b6bcd8;
+}
+
+.controls dl {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 4px 10px;
+  margin: 0;
+  font-size: 13px;
+}
+
+.controls dt {
+  font-weight: 700;
+  color: #c9cff0;
+}
+
+.controls dd {
+  margin: 0;
+  color: #8a91b4;
+}

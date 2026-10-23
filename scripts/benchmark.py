@@ -160,12 +160,12 @@ def load_manifest(root: Path) -> tuple[dict[str, Any], list[dict[str, Any]]]:
             raise BenchmarkError(f"Run {run.get('id', '<unknown>')} missing {sorted(missing)}")
         if run["id"] in ids or run["order"] in orders:
             raise BenchmarkError("Run IDs and display orders must be unique")
-        if run["harness"] not in {"codex", "omp", "pi", "t3_opencode"}:
+        if run["harness"] not in {"codex", "omp", "pi", "t3_opencode", "t3_claude"}:
             raise BenchmarkError(f"Unsupported harness for {run['id']}: {run['harness']}")
         through = run["cutoff"].get("through_user_message")
         if not isinstance(through, int) or through < 1:
             raise BenchmarkError(f"Invalid cutoff for {run['id']}")
-        if run["harness"] == "t3_opencode":
+        if run["harness"] in {"t3_opencode", "t3_claude"}:
             if not {"t3_thread_id", "expected_cwd", "reasoning_variant"} <= set(run):
                 raise BenchmarkError(f"Missing T3 thread, exact cwd, or reasoning variant for {run['id']}")
             if run["overhead"].get("kind") != "unknown":
@@ -749,10 +749,80 @@ def usage_from_t3(raw: dict[str, Any]) -> Usage:
     return usage
 
 
+def validate_claude_effort(run: dict[str, Any], t3_home: Path) -> None:
+    """Validate the effective SDK effort, which is absent from T3's model options."""
+    paths = sorted((t3_home / "userdata" / "logs" / "provider").glob(
+        f"events.{run['t3_thread_id']}.log*"
+    ))
+    matched = 0
+    for path in paths:
+        for line in path.read_text().splitlines():
+            if '"query.open"' not in line:
+                continue
+            try:
+                record = json.loads(line[line.index("{"):])
+                payload = record.get("event", {}).get("payload", {})
+                options = payload.get("options", {})
+            except (ValueError, TypeError, json.JSONDecodeError) as error:
+                raise BenchmarkError(f"Unsupported Claude provider-log record in {path}") from error
+            if payload.get("type") != "query.open" or options.get("sessionId") != run["session_id"]:
+                continue
+            if options.get("model") != run["model"] or options.get("cwd") != run["expected_cwd"]:
+                raise BenchmarkError(f"Claude SDK request identity mismatch for {run['id']}")
+            if options.get("effort") != run["reasoning_variant"]:
+                raise BenchmarkError(f"Claude SDK effort mismatch for {run['id']}")
+            if "fast_mode" in run and options.get("settings", {}).get("fastMode") != run["fast_mode"]:
+                raise BenchmarkError(f"Claude SDK fast-mode mismatch for {run['id']}")
+            matched += 1
+    if not matched:
+        raise BenchmarkError(f"No matching Claude SDK query.open effort evidence for {run['id']}")
+
+
+def collect_t3_parent(
+    run: dict[str, Any], t3_home: Path, app_thread: dict[str, Any], user_message: sqlite3.Row,
+) -> list[dict[str, Any]]:
+    parent = run["t3_parent"]
+    sender = json.loads(user_message["payload_json"]).get("senderThreadId")
+    if app_thread.get("lineage", {}).get("parentThreadId") != parent["thread_id"] or sender != parent["thread_id"]:
+        raise BenchmarkError(f"T3 parent lineage mismatch for {run['id']}")
+    database = t3_home / "userdata" / "statev2.sqlite"
+    with closing(sqlite3.connect(database.resolve().as_uri() + "?mode=ro", uri=True)) as connection:
+        connection.row_factory = sqlite3.Row
+        rows = connection.execute("""
+            SELECT pt.payload_json AS parent_json, u.payload_json AS turn_json,
+                   u.status, u.completed_at, u.ordinal
+            FROM orchestration_v2_projection_provider_threads pt
+            JOIN orchestration_v2_projection_provider_turns u
+              ON u.provider_thread_id=pt.provider_thread_id AND u.thread_id=pt.thread_id
+            WHERE pt.thread_id=? AND pt.provider='opencode'
+              AND json_extract(pt.payload_json, '$.nativeThreadRef.nativeId')=?
+            ORDER BY u.ordinal
+        """, (parent["thread_id"], parent["session_id"])).fetchall()
+    if len(rows) != parent["expected_turns"]:
+        raise BenchmarkError(f"Unexpected T3 parent-turn count for {run['id']}: {len(rows)}")
+    events = []
+    for row in rows:
+        native = json.loads(row["parent_json"])
+        selection = native.get("nativeMetadata", {}).get("modelSelection", {})
+        variants = [option.get("value") for option in selection.get("options", []) if option.get("id") == "variant"]
+        if selection.get("model") != parent["model_alias"] or variants != [parent["reasoning_variant"]]:
+            raise BenchmarkError(f"T3 parent model/variant mismatch for {run['id']}")
+        turn = json.loads(row["turn_json"])
+        if row["status"] != "completed" or turn.get("status") != "completed":
+            raise BenchmarkError(f"Incomplete T3 parent turn for {run['id']}")
+        raw = turn.get("turnTokenUsage")
+        usage_from_t3(raw)
+        events.append({"ordinal": row["ordinal"], "completedAt": row["completed_at"], "turnTokenUsage": raw})
+    return events
+
+
 def collect_t3_opencode(run: dict[str, Any], t3_home: Path) -> RunResult:
     database = t3_home / "userdata" / "statev2.sqlite"
     if not database.is_file():
         raise BenchmarkError(f"T3 database does not exist: {database}")
+    driver = "claudeAgent" if run["harness"] == "t3_claude" else "opencode"
+    provider_instance = run.get("t3_provider_instance", driver)
+    app_thread = None
     with closing(sqlite3.connect(database.resolve().as_uri() + "?mode=ro", uri=True)) as connection:
         connection.row_factory = sqlite3.Row
         try:
@@ -775,6 +845,14 @@ def collect_t3_opencode(run: dict[str, Any], t3_home: Path) -> RunResult:
                 FROM orchestration_v2_projection_messages
                 WHERE thread_id=? ORDER BY created_at, message_id
             """, (run["t3_thread_id"],)).fetchall()
+            if driver == "claudeAgent" or run.get("t3_parent"):
+                app_rows = connection.execute(
+                    "SELECT payload_json FROM orchestration_v2_projection_threads WHERE thread_id=?",
+                    (run["t3_thread_id"],),
+                ).fetchall()
+                if len(app_rows) != 1:
+                    raise BenchmarkError(f"Ambiguous T3 application thread for {run['id']}")
+                app_thread = json.loads(app_rows[0]["payload_json"])
         except sqlite3.DatabaseError as error:
             raise BenchmarkError(f"Unsupported T3 database schema: {error}") from error
     # This adapter supports the audited single-prompt, single-provider-turn
@@ -788,12 +866,13 @@ def collect_t3_opencode(run: dict[str, Any], t3_home: Path) -> RunResult:
     record = records[0]
     if record["workspace_root"] != run["expected_cwd"] or Path(record["workspace_root"]).name != run["expected_cwd_basename"]:
         raise BenchmarkError(f"T3 cwd mismatch for {run['id']}: {record['workspace_root']}")
-    if record["default_provider"] != "opencode" or record["provider"] != "opencode":
+    if record["default_provider"] != provider_instance or record["provider"] != provider_instance:
         raise BenchmarkError(f"T3 driver/provider mismatch for {run['id']}")
     try:
         provider_thread = json.loads(record["provider_thread_json"])
         turn = json.loads(record["turn_json"])
-        selection = provider_thread["nativeMetadata"]["modelSelection"]
+        selection = (app_thread["modelSelection"] if driver == "claudeAgent"
+                     else provider_thread["nativeMetadata"]["modelSelection"])
         raw_usage = turn["turnTokenUsage"]
     except (KeyError, TypeError, json.JSONDecodeError) as error:
         raise BenchmarkError(f"Unsupported T3 record schema for {run['id']}") from error
@@ -801,15 +880,23 @@ def collect_t3_opencode(run: dict[str, Any], t3_home: Path) -> RunResult:
         raise BenchmarkError(f"Unsupported T3 model-selection schema for {run['id']}")
     if any(not isinstance(option, dict) for option in selection["options"]):
         raise BenchmarkError(f"Unsupported T3 model options for {run['id']}")
-    if selection.get("model") != f"{run['provider']}/{run['model']}":
+    model = run["model"] if driver == "claudeAgent" else f"{run['provider']}/{run['model']}"
+    if selection.get("model") != model:
         raise BenchmarkError(f"T3 provider/model mismatch for {run['id']}")
-    variants = [option.get("value") for option in selection.get("options", []) if option.get("id") == "variant"]
-    if variants != [run["reasoning_variant"]]:
-        raise BenchmarkError(f"T3 reasoning variant mismatch for {run['id']}: {variants}")
+    if driver == "claudeAgent":
+        validate_claude_effort(run, t3_home)
+    else:
+        variants = [option.get("value") for option in selection.get("options", []) if option.get("id") == "variant"]
+        if variants != [run["reasoning_variant"]]:
+            raise BenchmarkError(f"T3 reasoning variant mismatch for {run['id']}: {variants}")
     if record["status"] != "completed" or turn.get("status") != "completed" or not record["completed_at"]:
         raise BenchmarkError(f"T3 turn has no completed response for {run['id']}")
     if run["overhead"].get("kind") != "unknown":
         raise BenchmarkError(f"T3 overhead must explicitly be unknown for {run['id']}")
+    if run.get("expected_task_cwd"):
+        prompt = json.loads(users[0]["payload_json"]).get("text", "")
+        if run["expected_task_cwd"] not in prompt:
+            raise BenchmarkError(f"T3 delegated working-directory instruction mismatch for {run['id']}")
     start_ms = parse_iso_ms(users[0]["created_at"])
     end_ms = parse_iso_ms(record["completed_at"])
     if end_ms < start_ms:
@@ -820,11 +907,12 @@ def collect_t3_opencode(run: dict[str, Any], t3_home: Path) -> RunResult:
         responses=0, assistant_messages=sum(message["role"] == "assistant" for message in messages),
         tool_calls=0, tool_results=0, model_errors=0, tool_errors=0, tool_types={},
     )
+    parent_events = collect_t3_parent(run, t3_home, app_thread, users[0]) if run.get("t3_parent") else []
     return RunResult(
         run=run, session_file=str(database), phases=[phase], included_phases=[phase],
         tested=tested, overhead=None, combined=None, overhead_label="Not verified",
         overhead_count=0, raw_tested_events=[{"turnTokenUsage": raw_usage}],
-        raw_overhead_events=[], average_duration_ms=0,
+        raw_overhead_events=parent_events, average_duration_ms=0,
         reasoning_output=raw_usage["reasoningTokens"],
     )
 
@@ -839,7 +927,7 @@ def collect_run(
         return collect_omp(run, omp_home)
     if run["harness"] == "pi":
         return collect_pi(run, pi_home)
-    if run["harness"] == "t3_opencode":
+    if run["harness"] in {"t3_opencode", "t3_claude"}:
         return collect_t3_opencode(run, t3_home)
     raise BenchmarkError(f"Unsupported harness: {run['harness']}")
 
@@ -874,7 +962,7 @@ def render_statistics(result: RunResult) -> str:
         f"- Session ID: `{run['session_id']}`",
         f"- User messages through implementation: {len(included)}",
     ]
-    if run["harness"] == "t3_opencode":
+    if run["harness"] in {"t3_opencode", "t3_claude"}:
         lines.extend([
             f"- T3 thread ID: `{run['t3_thread_id']}`",
             f"- Recorded reasoning variant: `{run['reasoning_variant']}`",
@@ -883,11 +971,15 @@ def render_statistics(result: RunResult) -> str:
             "- Tool calls/results: Not verified",
             "- Model/API and tool errors: Not verified",
         ])
+        if "fast_mode" in run:
+            lines.append(f"- Fast mode: {'on' if run['fast_mode'] else 'off'}")
+        if run.get("expected_task_cwd"):
+            lines.append(f"- Delegated implementation directory: `{run['expected_task_cwd']}`")
     elif run["harness"] == "codex":
         lines.append(f"- Assistant messages: {sum(phase.assistant_messages for phase in included)}")
     else:
         lines.append(f"- Model responses: {sum(phase.responses for phase in included)}")
-    if run["harness"] != "t3_opencode":
+    if run["harness"] not in {"t3_opencode", "t3_claude"}:
         lines.extend([f"- Tool calls: {tool_calls}", f"- Tool results: {tool_results}"])
     if run["harness"] in {"omp", "pi"}:
         lines.extend([f"- Model/API errors: {model_errors}", f"- Tool errors: {tool_errors}"])
@@ -939,7 +1031,7 @@ def render_statistics(result: RunResult) -> str:
         usage_row(result.combined),
     ])
 
-    if run["harness"] == "t3_opencode":
+    if run["harness"] in {"t3_opencode", "t3_claude"}:
         lines.extend([
             "", "## Raw T3 turn usage", "",
             "The completed provider turn's `turnTokenUsage` is the whole-turn aggregate. "
@@ -952,6 +1044,24 @@ def render_statistics(result: RunResult) -> str:
             "The recorded reasoning variant is a provider-specific configuration label, "
             "not a common reasoning budget across models.",
         ])
+        if result.raw_overhead_events:
+            parent_usage = sum((usage_from_t3(event["turnTokenUsage"]) for event in result.raw_overhead_events), Usage())
+            lower_bound = result.tested + parent_usage
+            lines.extend([
+                "", "## Recorded parent/orchestration usage", "",
+                f"Parent T3 thread: `{run['t3_parent']['thread_id']}`; "
+                f"native session: `{run['t3_parent']['session_id']}`; "
+                f"reasoning variant: `{run['t3_parent']['reasoning_variant']}`.", "",
+                "These verified parent turns prepared the directory, delegated the work, "
+                "and verified/reported the result. They are separate from the tested implementation agent. "
+                "Other harness usage is not verified, so these values are a recorded subset, "
+                "not a complete harness-overhead total.", "",
+                "| Recorded scope | Input | Cache Read | Cache Write | Output | Total |",
+                "|---|---:|---:|---:|---:|---:|",
+                f"| Parent orchestration ({len(result.raw_overhead_events)} turns) {usage_row(parent_usage)}",
+                f"| Tested agent plus recorded parent (lower bound) {usage_row(lower_bound)}", "",
+                "```json", json.dumps(result.raw_overhead_events, indent=2), "```",
+            ])
     elif run["harness"] == "codex":
         lines.extend(["", "## Raw Codex usage", "", "Final cumulative token event for the tested agent:", "", "```json"])
         lines.extend(json.dumps(result.raw_tested_events[-1], indent=2).splitlines())
@@ -1086,7 +1196,7 @@ def render_readme_block(runs: list[dict[str, Any]], reports: dict[str, str], roo
             notes.append(f"**{run['label']}:** {run['comparison_note']}")
     if unknown_overhead:
         notes.append(
-            "**Unverified overhead:** T3 Code/OpenCode agent totals and elapsed times are verified. "
+            "**Unverified overhead:** T3 agent totals and elapsed times are verified. "
             "Harness overhead and combined totals are not verified; unknown does not mean zero."
         )
     if notes:

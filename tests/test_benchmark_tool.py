@@ -362,7 +362,7 @@ class T3CollectorTests(unittest.TestCase):
             connection.executescript("""
                 CREATE TABLE projection_projects (project_id TEXT, workspace_root TEXT);
                 CREATE TABLE orchestration_v2_projection_threads (
-                    thread_id TEXT, project_id TEXT, default_provider TEXT);
+                    thread_id TEXT, project_id TEXT, default_provider TEXT, payload_json TEXT DEFAULT '{}');
                 CREATE TABLE orchestration_v2_projection_provider_threads (
                     provider_thread_id TEXT, thread_id TEXT, provider TEXT, payload_json TEXT);
                 CREATE TABLE orchestration_v2_projection_provider_turns (
@@ -371,7 +371,8 @@ class T3CollectorTests(unittest.TestCase):
                 CREATE TABLE orchestration_v2_projection_messages (
                     message_id TEXT, thread_id TEXT, role TEXT, created_at TEXT, payload_json TEXT);
                 INSERT INTO projection_projects VALUES ('project', '/tmp/fixture-t3');
-                INSERT INTO orchestration_v2_projection_threads VALUES ('app-thread', 'project', 'opencode');
+                INSERT INTO orchestration_v2_projection_threads (thread_id, project_id, default_provider)
+                    VALUES ('app-thread', 'project', 'opencode');
                 INSERT INTO orchestration_v2_projection_messages VALUES
                     ('user-1', 'app-thread', 'user', '2026-01-01T00:00:01.000Z', '{}'),
                     ('assistant-1', 'app-thread', 'assistant', '2026-01-01T00:00:03.900Z', '{}'),
@@ -467,6 +468,83 @@ class T3CollectorTests(unittest.TestCase):
                 FROM orchestration_v2_projection_provider_turns WHERE provider_turn_id='turn'
             """)
         with self.assertRaisesRegex(benchmark.BenchmarkError, "found 1 messages and 2 turns"):
+            benchmark.collect_t3_opencode(self.run, self.home)
+
+    def test_claude_sdk_effective_effort_is_validated_from_matching_log(self) -> None:
+        self.run.update({
+            "harness": "t3_claude", "harness_label": "T3 Code / Claude Agent SDK",
+            "t3_provider_instance": "claudeAgent_custom", "provider": "claudeAgent",
+            "provider_label": "Claude Agent SDK", "reasoning_variant": "medium", "fast_mode": False,
+        })
+        app_thread = {"modelSelection": {"model": "fixture-model", "options": [{"id": "fastMode", "value": False}]}}
+        self.provider["nativeMetadata"] = None
+        with closing(sqlite3.connect(self.database)) as connection, connection:
+            connection.execute(
+                "UPDATE orchestration_v2_projection_threads SET default_provider=?,payload_json=?",
+                ("claudeAgent_custom", json.dumps(app_thread)),
+            )
+            connection.execute(
+                "UPDATE orchestration_v2_projection_provider_threads SET provider=?,payload_json=?",
+                ("claudeAgent_custom", json.dumps(self.provider)),
+            )
+        log = self.home / "userdata/logs/provider/events.app-thread.log"
+        log.parent.mkdir(parents=True)
+        request = {"event": {"payload": {"type": "query.open", "options": {
+            "sessionId": "native-session", "model": "fixture-model", "cwd": "/tmp/fixture-t3",
+            "effort": "medium", "settings": {"fastMode": False},
+        }}}}
+        log.write_text("[2026-01-01T00:00:01.100Z] NTIVE: " + json.dumps(request) + "\n")
+        result = benchmark.collect_t3_opencode(self.run, self.home)
+        self.assertEqual(result.tested.total, 140)
+        self.assertIn("- Fast mode: off", benchmark.render_statistics(result))
+        with self.assertRaisesRegex(benchmark.BenchmarkError, "SDK effort mismatch"):
+            benchmark.collect_t3_opencode({**self.run, "reasoning_variant": "high"}, self.home)
+        log.unlink()
+        with self.assertRaisesRegex(benchmark.BenchmarkError, "No matching Claude SDK"):
+            benchmark.collect_t3_opencode(self.run, self.home)
+
+    def test_recorded_parent_usage_is_separate_and_lineage_is_required(self) -> None:
+        self.run["expected_task_cwd"] = "/tmp/fixture-t3"
+        self.run["t3_parent"] = {
+            "thread_id": "parent-thread", "session_id": "parent-session", "expected_turns": 2,
+            "model_alias": "fixture-provider/fixture-model", "reasoning_variant": "xhigh",
+        }
+        parent = json.loads(json.dumps(self.provider))
+        parent["nativeThreadRef"]["nativeId"] = "parent-session"
+        app_thread = {"lineage": {"parentThreadId": "parent-thread"}}
+        prompt = {"text": "Work in /tmp/fixture-t3", "senderThreadId": "parent-thread"}
+        with closing(sqlite3.connect(self.database)) as connection, connection:
+            connection.execute(
+                "UPDATE orchestration_v2_projection_threads SET payload_json=? WHERE thread_id='app-thread'",
+                (json.dumps(app_thread),),
+            )
+            connection.execute(
+                "UPDATE orchestration_v2_projection_messages SET payload_json=? WHERE message_id='user-1'",
+                (json.dumps(prompt),),
+            )
+            connection.execute(
+                "INSERT INTO orchestration_v2_projection_provider_threads VALUES (?,?,?,?)",
+                ("parent-provider-thread", "parent-thread", "opencode", json.dumps(parent)),
+            )
+            for ordinal in (1, 2):
+                connection.execute(
+                    "INSERT INTO orchestration_v2_projection_provider_turns VALUES (?,?,?,?,?,?,?)",
+                    (f"parent-turn-{ordinal}", "parent-thread", "parent-provider-thread", json.dumps(self.turn),
+                     "completed", "2026-01-01T00:00:05.000Z", ordinal),
+                )
+        result = benchmark.collect_t3_opencode(self.run, self.home)
+        self.assertEqual(result.tested.total, 140)
+        self.assertIsNone(result.overhead)
+        self.assertEqual(len(result.raw_overhead_events), 2)
+        report = benchmark.render_statistics(result)
+        self.assertIn("Parent orchestration (2 turns) | 60 | 160 | 20 | 40 | **280**", report)
+        self.assertIn("Tested agent plus recorded parent (lower bound) | 90 | 240 | 30 | 60 | **420**", report)
+        benchmark.check_report_arithmetic(report, Path("fixture.md"))
+        with closing(sqlite3.connect(self.database)) as connection, connection:
+            connection.execute(
+                "UPDATE orchestration_v2_projection_threads SET payload_json='{}' WHERE thread_id='app-thread'"
+            )
+        with self.assertRaisesRegex(benchmark.BenchmarkError, "parent lineage mismatch"):
             benchmark.collect_t3_opencode(self.run, self.home)
 
 

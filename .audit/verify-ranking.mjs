@@ -11,6 +11,7 @@ let localLinkCount = 0;
 const documents = [
   "RANKING.md", "README.md", ".audit/README.md", ".audit/browser-results.md",
   ".audit/october-review.md",
+  ".audit/oct23-review.md",
 ];
 for (const relativePath of documents) {
   const documentPath = resolve(repositoryRoot, relativePath);

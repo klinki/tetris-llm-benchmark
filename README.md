@@ -24,14 +24,17 @@ does not silently change the model comparison.
 | [Gemini-4](gemini-4/STATISTICS.md) | T3 Code / OpenCode | 6m 36.862s | **590,203** | Not verified | Not verified |
 | [Nemotron](nemotron/STATISTICS.md) | T3 Code / OpenCode | 9m 8.773s | **1,851,716** | Not verified | Not verified |
 | [Space-bunny](space-bunny/STATISTICS.md) | T3 Code / OpenCode | 13m 19.433s | **21,547,591** | Not verified | Not verified |
+| [Opus 5.5](opus5.5/STATISTICS.md) | T3 Code / Claude Agent SDK | 7m 17.232s | **1,510,085** | Not verified | Not verified |
+| [Muse Spark 1.3 (medium)](muse-spark-1.3-medium/STATISTICS.md) | T3 Code / OpenCode | 2m 13.321s | **923,864** | Not verified | Not verified |
 
 **DeepSeek OMP/PI:** The implementation required two user messages, while the other runs used one benchmark prompt. Elapsed time includes both agent-work phases but excludes the wait for the second message. A later README-only message did not affect the audited implementation and is reported separately.
-**Unverified overhead:** T3 Code/OpenCode agent totals and elapsed times are verified. Harness overhead and combined totals are not verified; unknown does not mean zero.
+**Muse Spark 1.3 (medium):** Reference-assisted run: the medium-reasoning child read Gemini-4's engine, shape tables, tests, and build files before writing this implementation, so token/time efficiency is not an independent from-scratch comparison. Primary time covers the child task only. The xhigh parent prepared/delegated and verified/reported the result: 339,157 recorded parent tokens and 2m 54.475s end-to-end are documented separately.
+**Unverified overhead:** T3 agent totals and elapsed times are verified. Harness overhead and combined totals are not verified; unknown does not mean zero.
 <!-- benchmark-results:end -->
 
 ## Implementation quality
 
-[`RANKING.md`](RANKING.md) compares all 11 implementations using the same
+[`RANKING.md`](RANKING.md) compares all 13 implementations using the same
 weighted quality rubric. The five T3 Code/OpenCode implementations were
 imported and reviewed on 2026-10-20:
 
@@ -51,6 +54,18 @@ The [October audit record](.audit/october-review.md) includes exact T3/OpenCode
 session mappings, main-agent token counts and timing, reproducible probes,
 browser evidence, and test-coverage limitations. These runs are registered in
 the generated results block above, with per-run `STATISTICS.md` files.
+
+The two additions reviewed on 2026-10-23 are:
+
+| Implementation | Harness | Recorded reasoning | Quality score | Main finding |
+|---|---|---|---:|---|
+| [Opus 5.5](opus5.5/README.md) | T3 Code / Claude Agent SDK | `medium`, fast mode off | 9.05 | Strongest test/rules coverage; fixed-width phone layout |
+| [Muse Spark 1.3](muse-spark-1.3-medium/README.md) | T3 Code / OpenCode | `medium` child | 8.40 | Missing perfect-clear bonus; phone board collapses |
+
+Muse's child read Gemini-4's implementation and tests before writing its
+version, so its efficiency is reference-assisted. The xhigh setup/verification
+parent is recorded separately. See the [October 23 audit](.audit/oct23-review.md)
+for exact session isolation, reasoning evidence, parent usage, and findings.
 
 ## Token accounting
 
@@ -116,6 +131,9 @@ subset of output and are not added again.
 For T3 Code/OpenCode, both the exact T3 thread ID and native OpenCode session
 ID must match. The collector validates the original project directory, model
 alias, reasoning variant, and complete main-agent usage without subagents.
+T3 Claude Agent SDK runs also require a matching native `query.open` log
+record for their effective effort and fast-mode settings. Delegated Muse
+collection validates its parent lineage and explicit task-directory instruction.
 
 ## Reproducing the calculations
 
@@ -251,7 +269,7 @@ jq -s '
 Each PI response must satisfy the common total equation independently. The
 session used for Luna PI declared no separate model-powered harness overhead.
 
-### T3 Code / OpenCode
+### T3 Code / OpenCode and Claude Agent SDK
 
 T3 stores the audited runs in `~/.t3/userdata/statev2.sqlite`. The collector
 joins the exact configured T3 thread to its project, native OpenCode session,
@@ -270,6 +288,13 @@ Here `outputTokens` already includes `reasoningTokens`. The recorded reasoning
 variant is taken from the provider thread's model-selection options. The
 [October audit record](.audit/october-review.md) includes the read-only SQLite
 query and exact session mappings.
+
+Claude Agent SDK usage uses the same normalized whole-turn fields. Its model
+comes from T3's application thread, and effective effort is validated from the
+matching SDK `query.open` provider log. For the delegated Muse run, the tested
+agent is the medium child; verified xhigh parent turns are shown separately as
+recorded orchestration usage, with a lower bound for child plus parent. These
+records do not establish a complete harness-overhead total.
 
 This adapter supports the audited single-user-message, single-provider-turn
 schema. Partial usage, subagents, extra turns, identity/configuration
@@ -308,6 +333,9 @@ PI_HOME=/Users/agent/.pi \
 # T3 defaults to T3_HOME=~/.t3
 T3_HOME=/Users/david/.t3 \
   python3 scripts/benchmark.py refresh beam
+
+# Claude SDK effort also requires the matching T3 provider log
+T3_HOME=/Users/david/.t3 python3 scripts/benchmark.py refresh opus5.5
 ```
 
 `refresh` finds only the configured session, fails closed when identity or

@@ -75,6 +75,25 @@ Whole-turn main-agent tokens, timing, and the recorded reasoning variant are
 verified. Overhead, combined usage, cost, and normalized tool-call counts stay
 explicitly unverified until their accounting is established.
 
+## October 23 additions
+
+[`oct23-review.md`](oct23-review.md) reviews Opus 5.5 and Muse Spark 1.3
+(medium), including the Muse child/parent split and direct evidence that the
+child read Gemini-4's source/tests. The completed folders are `opus5.5` and
+`muse-spark-1.3-medium`; the README-only `opus-5.5` folder is not a third run.
+
+```sh
+python3 .audit/run-oct23-audit.py --offline
+T3_HOME=/Users/david/.t3 python3 scripts/benchmark.py verify opus5.5
+T3_HOME=/Users/david/.t3 python3 scripts/benchmark.py verify muse-spark-1.3-medium
+```
+
+The fresh-copy runner executes both declared test suites and
+[`oct23-audit.mjs`](oct23-audit.mjs). Browser checks reuse the common CLI
+snippet. Opus's medium effort is verified against its SDK request log;
+Muse's medium child is isolated from the xhigh parent, whose recorded usage
+is preserved separately without claiming complete overhead accounting.
+
 The tested keyboard sequence was:
 
 ```text

@@ -1,0 +1,9 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "rootDir": ".",
+    "outDir": "dist-test",
+    "types": []
+  },
+  "include": ["src/pieces.ts", "src/bag.ts", "src/game.ts", "tests"]
+}
