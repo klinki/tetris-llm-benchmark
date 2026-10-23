@@ -167,7 +167,7 @@ Opus's suite is the strongest in the current audited set, though its four-cells-
 
 Strengths:
 
-- The most complete new implementation: canonical SRS geometry generated from spawn shapes, correct kick tables, a 40-row internal field, five-piece queue, hold, ghost, extended-placement lock delay, full/mini T-spin scoring, B2B, combos, perfect clears, gravity, block/lock out, and restart in [`src/game.ts`](opus5.5/src/game.ts).
+- The most complete new implementation: canonical SRS geometry generated from spawn shapes, correct kick tables, a 40-row internal field, five-piece queue, hold, ghost, extended-placement lock delay, full/mini T-spin scoring, B2B, combos, perfect clears, gravity, block/lock out, and restart in [`src/game.ts`](opus-5.5/src/game.ts).
 - A particularly strong deterministic suite with exact scoring and timing assertions, actual kick results, full and mini spin integration, lock-reset limits, restart, and pause. Additional audit probes confirm all 28 SRS states, ledge handling, B2B continuity, level-two combo scoring, and a perfect clear.
 - Focused rules, geometry, input, bag, renderer, and entry-point modules. One animation clock drives timing; input handles repeat and focus loss. Desktop rendering is crisp and readable, and the required keyboard flow loads and runs without application errors.
 

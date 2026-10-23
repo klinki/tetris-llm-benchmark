@@ -8,7 +8,7 @@ import shutil
 import subprocess
 import tempfile
 
-PROJECTS = ("opus5.5", "muse-spark-1.3-medium")
+PROJECTS = ("opus-5.5", "muse-spark-1.3-medium")
 ROOT = Path(__file__).resolve().parents[1]
 
 

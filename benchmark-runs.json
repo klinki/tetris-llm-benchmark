@@ -233,10 +233,10 @@
       "overhead": {"kind": "unknown"}
     },
     {
-      "id": "opus5.5",
+      "id": "opus-5.5",
       "label": "Opus 5.5",
       "order": 110,
-      "project_dir": "opus5.5",
+      "project_dir": "opus-5.5",
       "harness": "t3_claude",
       "harness_label": "T3 Code / Claude Agent SDK",
       "provider": "claudeAgent",

@@ -4,8 +4,8 @@ import { fileURLToPath, pathToFileURL } from 'node:url';
 
 const root = resolve(process.argv[2] ?? fileURLToPath(new URL('..', import.meta.url)));
 const load = file => import(pathToFileURL(resolve(root, file)));
-const opus = await load('opus5.5/dist/game.js');
-const opusPieces = await load('opus5.5/dist/pieces.js');
+const opus = await load('opus-5.5/dist/game.js');
+const opusPieces = await load('opus-5.5/dist/pieces.js');
 const muse = await load('muse-spark-1.3-medium/dist/game.js');
 const musePieces = await load('muse-spark-1.3-medium/dist/pieces.js');
 

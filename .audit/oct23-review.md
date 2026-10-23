@@ -5,11 +5,12 @@ Audit date: 2026-10-23. This record supports the two new rows in
 
 ## Source and scope
 
-The completed projects were already present in [`opus5.5`](../opus5.5/README.md)
+The completed projects were already present in [`opus-5.5`](../opus-5.5/README.md)
 and [`muse-spark-1.3-medium`](../muse-spark-1.3-medium/README.md). Their source
 logic was reviewed without fixing it; only a trailing space in each task
-README heading was removed. The separate `opus-5.5` folder contains
-only a README and is not registered as another benchmark implementation.
+README heading was removed. Opus's implementation was originally in `opus5.5`;
+it was subsequently renamed to `opus-5.5`, replacing the README-only placeholder.
+This directory rename does not change the audited implementation or session.
 Builds and tests ran in temporary copies excluding dependencies and build
 output; the original generated `dist` files were not rebuilt in place.
 
@@ -106,7 +107,9 @@ setting, but not an effort option. The effective `medium` effort is verified
 from the matching `query.open` request in
 `~/.t3/userdata/logs/provider/events.af2b2b60-20dc-4378-85fa-b389e68fa779.log`.
 The request also matches the exact native session, model, and `opus5.5` working
-directory. The collector requires this evidence rather than guessing a default.
+directory. The registry deliberately preserves that historical working directory
+even though the implementation now lives in `opus-5.5`. The collector requires
+this evidence rather than guessing a default.
 
 Muse's child inherits the benchmark repository as its T3 project directory,
 but its task explicitly sets the implementation directory to
@@ -186,7 +189,7 @@ timestamp and first task/user message timestamp. The benchmark CLI performs
 these checks and preserves the primary raw usage in each generated report.
 
 ```sh
-T3_HOME=/Users/david/.t3 python3 scripts/benchmark.py refresh opus5.5
+T3_HOME=/Users/david/.t3 python3 scripts/benchmark.py refresh opus-5.5
 T3_HOME=/Users/david/.t3 python3 scripts/benchmark.py refresh muse-spark-1.3-medium
 python3 scripts/benchmark.py verify
 ```

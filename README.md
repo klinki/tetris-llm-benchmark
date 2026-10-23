@@ -24,7 +24,7 @@ does not silently change the model comparison.
 | [Gemini-4](gemini-4/STATISTICS.md) | T3 Code / OpenCode | 6m 36.862s | **590,203** | Not verified | Not verified |
 | [Nemotron](nemotron/STATISTICS.md) | T3 Code / OpenCode | 9m 8.773s | **1,851,716** | Not verified | Not verified |
 | [Space-bunny](space-bunny/STATISTICS.md) | T3 Code / OpenCode | 13m 19.433s | **21,547,591** | Not verified | Not verified |
-| [Opus 5.5](opus5.5/STATISTICS.md) | T3 Code / Claude Agent SDK | 7m 17.232s | **1,510,085** | Not verified | Not verified |
+| [Opus 5.5](opus-5.5/STATISTICS.md) | T3 Code / Claude Agent SDK | 7m 17.232s | **1,510,085** | Not verified | Not verified |
 | [Muse Spark 1.3 (medium)](muse-spark-1.3-medium/STATISTICS.md) | T3 Code / OpenCode | 2m 13.321s | **923,864** | Not verified | Not verified |
 
 **DeepSeek OMP/PI:** The implementation required two user messages, while the other runs used one benchmark prompt. Elapsed time includes both agent-work phases but excludes the wait for the second message. A later README-only message did not affect the audited implementation and is reported separately.
@@ -59,7 +59,7 @@ The two additions reviewed on 2026-10-23 are:
 
 | Implementation | Harness | Recorded reasoning | Quality score | Main finding |
 |---|---|---|---:|---|
-| [Opus 5.5](opus5.5/README.md) | T3 Code / Claude Agent SDK | `medium`, fast mode off | 9.05 | Strongest test/rules coverage; fixed-width phone layout |
+| [Opus 5.5](opus-5.5/README.md) | T3 Code / Claude Agent SDK | `medium`, fast mode off | 9.05 | Strongest test/rules coverage; fixed-width phone layout |
 | [Muse Spark 1.3](muse-spark-1.3-medium/README.md) | T3 Code / OpenCode | `medium` child | 8.40 | Missing perfect-clear bonus; phone board collapses |
 
 Muse's child read Gemini-4's implementation and tests before writing its
@@ -335,7 +335,7 @@ T3_HOME=/Users/david/.t3 \
   python3 scripts/benchmark.py refresh beam
 
 # Claude SDK effort also requires the matching T3 provider log
-T3_HOME=/Users/david/.t3 python3 scripts/benchmark.py refresh opus5.5
+T3_HOME=/Users/david/.t3 python3 scripts/benchmark.py refresh opus-5.5
 ```
 
 `refresh` finds only the configured session, fails closed when identity or

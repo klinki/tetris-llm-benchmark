@@ -79,12 +79,13 @@ explicitly unverified until their accounting is established.
 
 [`oct23-review.md`](oct23-review.md) reviews Opus 5.5 and Muse Spark 1.3
 (medium), including the Muse child/parent split and direct evidence that the
-child read Gemini-4's source/tests. The completed folders are `opus5.5` and
-`muse-spark-1.3-medium`; the README-only `opus-5.5` folder is not a third run.
+child read Gemini-4's source/tests. The completed folders are `opus-5.5` and
+`muse-spark-1.3-medium`. Opus's original `opus5.5` implementation folder was
+renamed to `opus-5.5`, replacing the README-only placeholder; it is one run.
 
 ```sh
 python3 .audit/run-oct23-audit.py --offline
-T3_HOME=/Users/david/.t3 python3 scripts/benchmark.py verify opus5.5
+T3_HOME=/Users/david/.t3 python3 scripts/benchmark.py verify opus-5.5
 T3_HOME=/Users/david/.t3 python3 scripts/benchmark.py verify muse-spark-1.3-medium
 ```
 
