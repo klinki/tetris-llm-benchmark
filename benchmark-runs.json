@@ -25,6 +25,7 @@
     },
     {
       "id": "luna-omp",
+      "static_aliases": {"style.css": "src/style.css"},
       "label": "Luna OMP",
       "order": 20,
       "project_dir": "luna-omp",
@@ -198,6 +199,7 @@
     },
     {
       "id": "nemotron",
+      "known_browser_failure": "Emitted imports omit .js extensions, so the browser cannot load the game modules.",
       "label": "Nemotron",
       "order": 90,
       "project_dir": "nemotron",

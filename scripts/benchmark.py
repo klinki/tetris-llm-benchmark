@@ -181,6 +181,14 @@ def load_manifest(root: Path) -> tuple[dict[str, Any], list[dict[str, Any]]]:
                 raise BenchmarkError(f"Missing T3 thread, exact cwd, or reasoning variant for {run['id']}")
             if run["overhead"].get("kind") != "unknown":
                 raise BenchmarkError(f"T3 overhead must explicitly be unknown for {run['id']}")
+        aliases = run.get("static_aliases", {})
+        if not isinstance(aliases, dict) or not all(
+            isinstance(alias, str) and isinstance(source, str) and alias and source
+            for alias, source in aliases.items()
+        ):
+            raise BenchmarkError(f"static_aliases for {run['id']} must map file paths to file paths")
+        if not isinstance(run.get("known_browser_failure", ""), str):
+            raise BenchmarkError(f"known_browser_failure for {run['id']} must be a description")
         ids.add(run["id"])
         orders.add(run["order"])
     return manifest, sorted(runs, key=lambda item: item["order"])
@@ -227,15 +235,24 @@ def load_ranking(root: Path, runs: list[dict[str, Any]]) -> dict[str, Any]:
             ):
                 raise BenchmarkError(f"ranking.json entry {run_id} has a score that is not a 0-10 half point")
         bugs = entry.get("bugs")
-        if (
-            not isinstance(bugs, dict)
-            or set(bugs) != set(BUG_KINDS)
-            or any(isinstance(count, bool) or not isinstance(count, int) or count < 0 for count in bugs.values())
+        if not isinstance(bugs, list) or any(
+            not isinstance(bug, dict)
+            or set(bug) != {"severity", "title", "detail"}
+            or bug["severity"] not in BUG_KINDS
+            or not bug["title"]
+            or not bug["detail"]
+            for bug in bugs
         ):
-            raise BenchmarkError(f"ranking.json entry {run_id} must count {list(BUG_KINDS)} bugs")
+            raise BenchmarkError(
+                f"ranking.json entry {run_id} bugs need a severity in {list(BUG_KINDS)}, a title, and a detail"
+            )
         if not entry.get("summary") or "|" in entry["summary"] or not entry.get("audited"):
             raise BenchmarkError(f"ranking.json entry {run_id} needs an audit date and a summary without '|'")
     return ranking
+
+
+def bug_counts(entry: dict[str, Any]) -> dict[str, int]:
+    return {kind: sum(bug["severity"] == kind for bug in entry["bugs"]) for kind in BUG_KINDS}
 
 
 def weighted_score(entry: dict[str, Any], weights: dict[str, int]) -> Decimal:
@@ -278,6 +295,14 @@ def duration(value_ms: float) -> str:
     if minutes:
         return f"{minutes}m {seconds:.3f}s"
     return f"{seconds:.3f}s"
+
+
+def parse_duration(value: str) -> int:
+    match = re.fullmatch(r"(?:(\d+)h )?(?:(\d+)m )?(\d+(?:\.\d+)?)s", value.strip())
+    if not match:
+        raise BenchmarkError(f"Invalid duration: {value}")
+    hours, minutes, seconds = match.groups()
+    return int(hours or 0) * 3_600_000 + int(minutes or 0) * 60_000 + round(float(seconds) * 1000)
 
 
 def markdown_duration(value_ms: float) -> str:
@@ -1249,6 +1274,12 @@ def extract_report_values(path: Path, content: str | None = None) -> dict[str, A
             values[key] = None
         else:
             values[key] = int(cells[-1])
+        if key == "tested":
+            values["tested_usage"] = dict(zip(("input", "cache_read", "cache_write", "output"), map(int, cells[-5:-1])))
+    values["elapsed_ms"] = parse_duration(values["elapsed"])
+    for label, key in [("Tool calls", "tool_calls"), ("Model responses", "model_responses")]:
+        match = re.search(rf"^- {label}: (\d+)$", text, re.M)
+        values[key] = int(match.group(1)) if match else None
     return values
 
 
@@ -1309,7 +1340,8 @@ def render_ranking_table(runs: list[dict[str, Any]], ranking: dict[str, Any]) ->
     ]
     for rank, entry, score in ranked_entries(ranking):
         scores = " | ".join(f"{float(entry['scores'][key]):.1f}" for key, _ in CRITERIA)
-        bugs = ", ".join(f"{entry['bugs'][kind]} {kind}" for kind in BUG_KINDS if entry["bugs"][kind]) or "0"
+        counts = bug_counts(entry)
+        bugs = ", ".join(f"{counts[kind]} {kind}" for kind in BUG_KINDS if counts[kind]) or "0"
         lines.append(f"| {rank} | {labels[entry['run_id']]} | {scores} | **{score}** | {bugs} |")
     lines.append(RANKING_END)
     return "\n".join(lines)
@@ -1450,6 +1482,60 @@ def refresh(
         atomic_write(path, content)
 
 
+def site_results(root: Path, runs: list[dict[str, Any]], ranking: dict[str, Any]) -> dict[str, Any]:
+    ranked = {entry["run_id"]: (rank, entry, score) for rank, entry, score in ranked_entries(ranking)}
+    records = []
+    for run in runs:
+        values = extract_report_values(root / run["project_dir"] / "STATISTICS.md")
+        record: dict[str, Any] = {
+            "id": run["id"],
+            "label": run["label"],
+            "project_dir": run["project_dir"],
+            "model": run["model"],
+            "effort": run.get("reasoning_variant"),
+            "harness_label": run["harness_label"],
+            "tokens": {**values["tested_usage"], "total": values["tested"]},
+            "elapsed": values["elapsed"],
+            "elapsed_ms": values["elapsed_ms"],
+            "tool_calls": values["tool_calls"],
+            "model_responses": values["model_responses"],
+            "overhead_verified": values["overhead"] is not None,
+            "comparison_note": run.get("comparison_note"),
+            "known_browser_failure": run.get("known_browser_failure"),
+            "static_aliases": run.get("static_aliases", {}),
+            "rank": None,
+        }
+        if run["id"] in ranked:
+            rank, entry, score = ranked[run["id"]]
+            record.update({
+                "rank": rank,
+                "score": float(score),
+                "score_text": str(score),
+                "scores": entry["scores"],
+                "bugs": entry["bugs"],
+                "bug_counts": bug_counts(entry),
+                "summary": entry["summary"],
+                "audited": entry["audited"],
+            })
+        records.append(record)
+    records.sort(key=lambda record: (record["rank"] is None, record["rank"] or 0))
+    return {
+        "criteria": [{"key": key, "label": label, "weight": ranking["weights"][key]} for key, label in CRITERIA],
+        "runs": records,
+    }
+
+
+def build_site(root: Path, runs: list[dict[str, Any]], ranking: dict[str, Any], out: Path, games: bool) -> None:
+    try:
+        from scripts import results_site
+    except ImportError:
+        import results_site
+    try:
+        results_site.build(root, site_results(root, runs, ranking), out, games)
+    except results_site.SiteError as error:
+        raise BenchmarkError(str(error)) from error
+
+
 def render(root: Path, runs: list[dict[str, Any]], ranking: dict[str, Any], dry_run: bool) -> None:
     for path, content in render_documents(root, runs, {}, ranking).items():
         if dry_run:
@@ -1506,6 +1592,9 @@ def parse_args(argv: list[str]) -> argparse.Namespace:
         "render", help="Regenerate README and RANKING tables from committed statistics and ranking.json",
     )
     render_parser.add_argument("--dry-run", action="store_true")
+    site_parser = subparsers.add_parser("site", help="Build the static results site with playable games")
+    site_parser.add_argument("--out", type=Path, default=Path("_site"), help="Output directory (default: _site)")
+    site_parser.add_argument("--skip-games", action="store_true", help="Do not build the playable games")
     verify_parser = subparsers.add_parser("verify", help="Verify generated documents or one source")
     verify_parser.add_argument("run_id", nargs="?")
     return parser.parse_args(argv)
@@ -1533,6 +1622,8 @@ def main(argv: list[str] | None = None) -> int:
         refresh(root, runs, ranking, selected, codex_home, omp_home, pi_home, t3_home, args.dry_run)
     elif args.command == "render":
         render(root, runs, ranking, args.dry_run)
+    elif args.command == "site":
+        build_site(root, runs, ranking, args.out.resolve(), not args.skip_games)
     else:
         verify_documents(root, runs, ranking)
         if args.run_id:

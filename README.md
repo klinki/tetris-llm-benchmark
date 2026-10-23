@@ -45,8 +45,8 @@ The table is generated from [`benchmark-runs.json`](benchmark-runs.json),
 
 [`RANKING.md`](RANKING.md) has the rubric, per-criterion scores,
 task-conformance and test-coverage tables, and the audit of each
-implementation. Scores are recorded in [`ranking.json`](ranking.json); after
-changing them, run `python3 scripts/benchmark.py render` to regenerate the
+implementation. Scores and confirmed bugs are recorded in
+[`ranking.json`](ranking.json); after changing them, run `python3 scripts/benchmark.py render` to regenerate the
 leaderboard above and the ranking table.
 
 Evidence is in the audit records: the [October audit](.audit/october-review.md)
@@ -58,6 +58,33 @@ and test-coverage limitations.
 Effort values are the exact settings T3 stored. Cat-jam's `default` means the
 provider's default setting, not that reasoning was disabled. Opus 5.5 ran with
 fast mode off.
+
+## Results site
+
+The same results are published as a static site with interactive charts
+(quality against tokens and time, token use, time, and score breakdown) and a
+page per run that shows its scores, confirmed bugs, usage, and a playable build
+of its game. [`pages.yml`](.github/workflows/pages.yml) builds and checks it on
+every pull request and deploys it to GitHub Pages from `main`.
+
+```sh
+python3 scripts/benchmark.py site            # builds _site/, including every game
+python3 scripts/benchmark.py site --skip-games
+npm ci && npx playwright install chromium   # once, for the browser check
+npm run check:site                           # loads every page and game in Chromium
+```
+
+Each game is built with its own `npm ci` and `npm run build` in an isolated copy
+and published as delivered, with two documented exceptions that only affect
+static hosting. Asset URLs starting with `/` in a game's `index.html` are made
+relative, because the site is served under a project path. A path the run's
+own server maps to another file is declared as `static_aliases` in
+[`benchmark-runs.json`](benchmark-runs.json) and copied into place. Each run
+page names any such change. Nemotron is published unfixed: it is declared as a
+`known_browser_failure`, and the browser check confirms it still fails.
+
+The page generator is [`scripts/results_site.py`](scripts/results_site.py); the
+charts and styles are in [`site/assets`](site/assets).
 
 ## Token accounting
 
@@ -313,9 +340,13 @@ rankings, or create Git commits.
    owns the session data.
 4. Refresh the run, review the generated Markdown, and commit it. Until the
    run is scored it appears at the bottom of the leaderboard as `Pending`.
-5. After auditing it, add its entry to [`ranking.json`](ranking.json) and its
-   audit section to [`RANKING.md`](RANKING.md), then run
+5. After auditing it, add its entry to [`ranking.json`](ranking.json),
+   including each confirmed bug's severity, title, and detail, and its audit
+   section to [`RANKING.md`](RANKING.md), then run
    `python3 scripts/benchmark.py render`.
+6. Build the site and run the browser check. If the game needs its own server
+   to load, declare the mapping as `static_aliases`, or record a
+   `known_browser_failure` if it cannot run in a browser at all.
 
 ```sh
 # Codex defaults to CODEX_HOME=~/.codex

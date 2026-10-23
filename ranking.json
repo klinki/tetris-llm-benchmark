@@ -1,102 +1,258 @@
 {
   "schema_version": 1,
-  "weights": {
-    "correctness": 40,
-    "tests": 20,
-    "code": 20,
-    "simplicity": 10,
-    "browser_ux": 10
-  },
+  "weights": {"correctness": 40, "tests": 20, "code": 20, "simplicity": 10, "browser_ux": 10},
   "entries": [
     {
       "run_id": "luna-codex",
       "audited": "2026-08-10",
       "scores": {"correctness": 7.5, "tests": 7.0, "code": 8.0, "simplicity": 7.5, "browser_ux": 8.5},
-      "bugs": {"critical": 0, "major": 1, "minor": 2},
+      "bugs": [
+        {
+          "severity": "major",
+          "title": "Four S/Z rotation states are not canonical SRS states",
+          "detail": "The common orientation probe compared every one of the 28 piece/orientation coordinate sets after normalization. `S2`, `Z1`, `Z2`, and `Z3` differ from the Guideline matrices, changing rotation pivots/placement behavior even though the kick table itself is present."
+        },
+        {
+          "severity": "minor",
+          "title": "Mini T-spins are not distinguished",
+          "detail": "The engine tracks T-spins as a boolean and awards the full-spin table."
+        },
+        {
+          "severity": "minor",
+          "title": "The game-over overlay is visible during active play",
+          "detail": "Immediately after reload the engine status is `Playing` and the element has `hidden=true`, but computed CSS reports `display:flex`; the stylesheet's `.board-message` rule overrides the HTML hidden presentation. This was reproduced at desktop and mobile sizes."
+        }
+      ],
       "summary": "Four S/Z rotation states are not SRS; game-over overlay shows during play"
     },
     {
       "run_id": "luna-omp",
       "audited": "2026-08-10",
       "scores": {"correctness": 10.0, "tests": 6.5, "code": 8.5, "simplicity": 7.0, "browser_ux": 9.0},
-      "bugs": {"critical": 0, "major": 0, "minor": 0},
+      "bugs": [],
       "summary": "No confirmed bugs; tests skip kicks, lock delay and advanced scoring"
     },
     {
       "run_id": "luna-pi",
       "audited": "2026-08-29",
       "scores": {"correctness": 9.5, "tests": 6.5, "code": 9.0, "simplicity": 7.0, "browser_ux": 8.5},
-      "bugs": {"critical": 0, "major": 0, "minor": 1},
+      "bugs": [
+        {
+          "severity": "minor",
+          "title": "Combo points are multiplied by the level twice",
+          "detail": "At level two with one prior consecutive clear, a single should award `100×2 + 50×1×2 = 300`. [`awardLineScore`](luna-pi/src/game.ts) adds an already level-scaled combo bonus to `base`, then multiplies all of `base` by the level, awarding 400. The committed audit probe reproduces the over-award."
+        }
+      ],
       "summary": "Combo bonus is multiplied by the level twice"
     },
     {
       "run_id": "sol-codex",
       "audited": "2026-08-10",
       "scores": {"correctness": 8.0, "tests": 6.5, "code": 9.0, "simplicity": 9.5, "browser_ux": 9.5},
-      "bugs": {"critical": 0, "major": 1, "minor": 1},
+      "bugs": [
+        {
+          "severity": "major",
+          "title": "Stale lock timing can lock an airborne piece after a ledge move",
+          "detail": "Reproduction: let a piece become grounded on a small support, wait close to 500 ms, then move it sideways so it can fall. `move`/`rotate` update `groundedAt` rather than clearing it when the piece becomes airborne; the animation loop can call `lock()` from the stale timestamp before gravity moves the piece. The isolated engine/source probe reproduced the stale state and the browser-loop lock path."
+        },
+        {
+          "severity": "minor",
+          "title": "Mini T-spins are not distinguished",
+          "detail": "[`isTSpin`](sol-codex/src/game.ts) is binary and all recognized spins use the full table."
+        }
+      ],
       "summary": "Piece can lock in mid-air after a ledge move; no mini T-spins"
     },
     {
       "run_id": "sol-omp",
       "audited": "2026-08-10",
       "scores": {"correctness": 9.5, "tests": 5.5, "code": 8.5, "simplicity": 8.0, "browser_ux": 9.0},
-      "bugs": {"critical": 0, "major": 0, "minor": 1},
+      "bugs": [
+        {
+          "severity": "minor",
+          "title": "Mini T-spins are not distinguished",
+          "detail": "Reproduction: construct a valid mini T-spin position, make rotation the final action, and lock it. [`isTSpin`](sol-omp/src/game.ts) returns only a boolean and [`applyScoring`](sol-omp/src/game.ts) uses the full T-spin table, so a mini receives full-T-spin treatment."
+        }
+      ],
       "summary": "No mini T-spins; sparse test suite"
     },
     {
       "run_id": "deepseek-pi",
       "audited": "2026-08-10",
       "scores": {"correctness": 6.5, "tests": 8.5, "code": 8.0, "simplicity": 7.0, "browser_ux": 7.0},
-      "bugs": {"critical": 0, "major": 2, "minor": 1},
+      "bugs": [
+        {
+          "severity": "major",
+          "title": "A piece can lock while airborne after moving off a ledge",
+          "detail": "Reproduction: ground a piece on a narrow support, move it sideways into empty space, then advance time beyond the 500 ms delay. `move()` resets the timer but leaves `grounded` true, so `update()` locks the piece without rechecking whether it can descend. The isolated engine probe reproduced this directly."
+        },
+        {
+          "severity": "major",
+          "title": "Guideline scoring is substantially incomplete",
+          "detail": "[`game.ts`](deepseek-pi/src/game.ts) awards drop points and the basic single/double/triple/Tetris table only; it has no T-spin, back-to-back, combo, or perfect-clear scoring."
+        },
+        {
+          "severity": "minor",
+          "title": "The narrow layout overflows horizontally",
+          "detail": "At a 390 px viewport, `documentElement.scrollWidth` was 501 px and both side panels were clipped off-screen rather than reflowing."
+        }
+      ],
       "summary": "Piece can lock in mid-air after a ledge move; basic scoring only"
     },
     {
       "run_id": "beam",
       "audited": "2026-10-20",
       "scores": {"correctness": 6.0, "tests": 4.5, "code": 5.0, "simplicity": 6.5, "browser_ux": 6.5},
-      "bugs": {"critical": 0, "major": 2, "minor": 2},
+      "bugs": [
+        {
+          "severity": "major",
+          "title": "Moving a grounded piece prevents normal timed locking",
+          "detail": "[`resetLockDelay`](beam/src/game.ts) stores `Date.now()`, but `updateLockDelay` receives `requestAnimationFrame`/`performance.now()` time. After a grounded move the lock timestamp is about 10¹² ms larger than the comparison clock. The piece remains unlocked even after a simulated nine-second wait."
+        },
+        {
+          "severity": "major",
+          "title": "Scoring uses a classic table and omits required modern scoring",
+          "detail": "Normal clears award 40/100/300/1200 instead of 100/300/500/800 at the initial level multiplier. Soft-drop points are returned but ignored, and no T-spin, B2B, combo, or perfect-clear scoring exists. This is one grouped scoring deduction."
+        },
+        {
+          "severity": "minor",
+          "title": "Narrow-screen panels are clipped",
+          "detail": "Document width is 467 px at 390 px, with the hold canvas beginning at x≈−77."
+        },
+        {
+          "severity": "minor",
+          "title": "A stray `EOF` marker is visibly rendered",
+          "detail": "It appears after the closing HTML and creates an extra flex item on desktop."
+        }
+      ],
       "summary": "Lock timer mixes two clocks; classic scoring table"
     },
     {
       "run_id": "cat-jam",
       "audited": "2026-10-20",
       "scores": {"correctness": 6.5, "tests": 7.5, "code": 8.5, "simplicity": 8.0, "browser_ux": 8.0},
-      "bugs": {"critical": 0, "major": 2, "minor": 1},
+      "bugs": [
+        {
+          "severity": "major",
+          "title": "L rotation state 2 changes the piece's shape",
+          "detail": "[`SHAPES.L[2]`](cat-jam/src/game/pieces.ts) is a J-shaped orientation rather than the canonical L state. The common coordinate probe finds exactly `L2` mismatching."
+        },
+        {
+          "severity": "major",
+          "title": "Advanced scoring is missing",
+          "detail": "The engine scores normal clears and combos but has no T-spin classification/scoring, back-to-back state, or perfect-clear bonus. A single-line perfect clear awards 100 rather than 900. These omissions are grouped into one scoring-feature deduction."
+        },
+        {
+          "severity": "minor",
+          "title": "The narrow layout overflows",
+          "detail": "At a 390 px viewport, document width is 538 px and the hold/next panels extend beyond the right edge."
+        }
+      ],
       "summary": "Malformed L rotation state; no T-spin, B2B or perfect-clear scoring"
     },
     {
       "run_id": "gemini-4",
       "audited": "2026-10-20",
       "scores": {"correctness": 9.0, "tests": 8.0, "code": 8.5, "simplicity": 7.0, "browser_ux": 9.0},
-      "bugs": {"critical": 0, "major": 0, "minor": 2},
+      "bugs": [
+        {
+          "severity": "minor",
+          "title": "No perfect-clear bonus under the benchmark's scoring profile",
+          "detail": "An I piece completing a single-line perfect clear at zero drop distance awards 100 rather than 900. `scorePlacement` has no empty-board/perfect-clear branch."
+        },
+        {
+          "severity": "minor",
+          "title": "Supporting panels overflow on narrow screens",
+          "detail": "At 390 px, document width is 570 px; hold is at x=−150 and next at x=415. The main board fits, but important state is off-screen."
+        }
+      ],
       "summary": "No perfect-clear bonus; side panels overflow on phones"
     },
     {
       "run_id": "nemotron",
       "audited": "2026-10-20",
       "scores": {"correctness": 0.0, "tests": 6.0, "code": 6.5, "simplicity": 8.5, "browser_ux": 6.5},
-      "bugs": {"critical": 1, "major": 2, "minor": 2},
+      "bugs": [
+        {
+          "severity": "critical",
+          "title": "The browser implementation does not start",
+          "detail": "[`src/main.ts`](nemotron/src/main.ts) and its imports omit `.js` extensions. `tsc` preserves those specifiers, while the declared `http-server` returns 404 for `/dist/game` and `/dist/render`. The page remains empty, controls do nothing, and score stays zero."
+        },
+        {
+          "severity": "major",
+          "title": "Piece states and kick data are not SRS",
+          "detail": "Twelve orientation states fail after accounting for the different piece origins; the I piece has copied non-I-style kicks instead of its required offsets."
+        },
+        {
+          "severity": "major",
+          "title": "Scoring is substantially incomplete",
+          "detail": "Normal clears use 40/100/300/1200; T-spins, B2B, combos, and perfect clears are absent. Soft-drop scoring rounds each animation frame separately, so four 16 ms frames move a piece down without awarding a point."
+        },
+        {
+          "severity": "minor",
+          "title": "Lock delay follows gravity ticks rather than elapsed grounded time",
+          "detail": "A piece resting on the floor at level one does not lock at 501 ms; it locks on the first failed 816 ms gravity tick. Grounded movement/rotation also has no finite reset cap."
+        },
+        {
+          "severity": "minor",
+          "title": "The narrow layout clips the board",
+          "detail": "At 390 px, the board starts at x=−22, document width is 412 px, and the body hides overflow."
+        }
+      ],
       "summary": "Does not start in the browser: imports lack .js extensions"
     },
     {
       "run_id": "space-bunny",
       "audited": "2026-10-20",
       "scores": {"correctness": 5.5, "tests": 7.5, "code": 8.0, "simplicity": 6.5, "browser_ux": 8.0},
-      "bugs": {"critical": 0, "major": 3, "minor": 0},
+      "bugs": [
+        {
+          "severity": "major",
+          "title": "Several shapes and counterclockwise kicks are not SRS",
+          "detail": "The coordinate probe finds `L2`, `L3`, `T1`, `T2`, and `T3` mismatches; `L2` is even T-shaped. Counterclockwise rotation reverses a transition table and mirrors only X, producing incorrect Y kicks. These are grouped as one broken SRS feature."
+        },
+        {
+          "severity": "major",
+          "title": "The required ghost preview is structurally wrong",
+          "detail": "[`ghostCells`](space-bunny/src/game.ts) returns the same Y coordinate for every cell, dropping each shape's local Y offset. An O ghost contains only two distinct coordinates instead of four, and other pieces become flat outlines that do not represent their landing shape. The same function drives rendering."
+        },
+        {
+          "severity": "major",
+          "title": "Scoring integration is substantially incorrect",
+          "detail": "Full T-spins are classified as mini in ordinary three-corner cases; a final-kick result is accepted even with no occupied corners; no-clear placements break B2B; a level-two combo awards 400 rather than 300; and three held-soft-drop rows award one point rather than three. These related scoring defects receive one grouped deduction, not five deductions."
+        }
+      ],
       "summary": "Non-SRS shapes and kicks, flattened ghost piece, scoring errors"
     },
     {
       "run_id": "opus-5.5",
       "audited": "2026-10-23",
       "scores": {"correctness": 9.5, "tests": 9.0, "code": 9.0, "simplicity": 8.0, "browser_ux": 8.5},
-      "bugs": {"critical": 0, "major": 0, "minor": 1},
+      "bugs": [
+        {
+          "severity": "minor",
+          "title": "Fixed-width layout does not fit a phone-sized viewport",
+          "detail": "At 390×844, document width is 760 px; the 300 px board begins at x=230, so much of the board and next panel lie beyond the viewport."
+        }
+      ],
       "summary": "Strongest tests and rules coverage; board does not fit a phone screen"
     },
     {
       "run_id": "muse-spark-1.3-medium",
       "audited": "2026-10-23",
       "scores": {"correctness": 9.0, "tests": 7.5, "code": 8.0, "simplicity": 8.0, "browser_ux": 9.0},
-      "bugs": {"critical": 0, "major": 0, "minor": 2},
+      "bugs": [
+        {
+          "severity": "minor",
+          "title": "Perfect-clear bonus is absent under the benchmark profile",
+          "detail": "A zero-distance single-line perfect clear leaves an empty field but awards 100, not 900. The scoring method has no empty-board bonus branch."
+        },
+        {
+          "severity": "minor",
+          "title": "The playfield collapses to 0×0 CSS pixels on a 390 px viewport",
+          "detail": "Fixed side columns consume the available grid width and `canvas { max-width:100% }` shrinks the automatic center column to zero. The board is entirely invisible even though desktop play works. This is scored as one responsive-layout defect under the same rubric as earlier narrow-layout findings."
+        }
+      ],
       "summary": "No perfect-clear bonus; board collapses to nothing on phones"
     }
   ]

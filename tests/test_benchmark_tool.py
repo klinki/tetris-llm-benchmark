@@ -8,7 +8,7 @@ import sqlite3
 import tempfile
 import unittest
 
-from scripts import benchmark
+from scripts import benchmark, results_site
 
 
 def write_jsonl(path: Path, entries: list[dict]) -> None:
@@ -24,12 +24,12 @@ def empty_ranking() -> dict:
     }
 
 
-def ranking_entry(run_id: str, correctness: float, tests: float, **bugs: int) -> dict:
+def ranking_entry(run_id: str, correctness: float, tests: float, *severities: str) -> dict:
     return {
         "run_id": run_id,
         "audited": "2026-10-23",
         "scores": {"correctness": correctness, "tests": tests, "code": 8.0, "simplicity": 8.0, "browser_ux": 8.0},
-        "bugs": {"critical": 0, "major": 0, "minor": 0, **bugs},
+        "bugs": [{"severity": severity, "title": "Bug", "detail": "Detail."} for severity in severities],
         "summary": f"{run_id} finding",
     }
 
@@ -610,7 +610,7 @@ class RankingTests(unittest.TestCase):
         # A and B both weigh 8.20; B wins on correctness. C is lower.
         ranking["entries"] = [
             ranking_entry("a", 8.0, 9.0),
-            ranking_entry("b", 8.5, 8.0, minor=1),
+            ranking_entry("b", 8.5, 8.0, "minor"),
             ranking_entry("c", 9.5, 4.5),
         ]
         ranked = benchmark.ranked_entries(self.load(ranking))
@@ -628,6 +628,7 @@ class RankingTests(unittest.TestCase):
             ("unregistered", [ranking_entry("missing", 8.0, 8.0)], None, "unregistered run"),
             ("duplicate", [ranking_entry("a", 8.0, 8.0), ranking_entry("a", 7.0, 7.0)], None, "more than once"),
             ("quarter point", [ranking_entry("a", 8.25, 8.0)], None, "half point"),
+            ("severity", [ranking_entry("a", 8.0, 8.0, "severe")], None, "bugs need a severity"),
             ("weights", [], {"correctness": 50, "tests": 20, "code": 20, "simplicity": 10, "browser_ux": 10},
              "summing to 100"),
         ]
@@ -649,6 +650,54 @@ class RankingTests(unittest.TestCase):
         self.assertEqual(replaced, f"Intro\n{block}\nRest\n")
         with self.assertRaisesRegex(benchmark.BenchmarkError, "markers are missing"):
             benchmark.replace_marked_block("No markers", benchmark.RANKING_START, benchmark.RANKING_END, block, "RANKING.md")
+
+
+class SiteTests(unittest.TestCase):
+    def test_root_relative_urls_become_relative_and_are_recorded(self) -> None:
+        original = (
+            '<link rel="stylesheet" href="/styles.css">\n'
+            "<script type=\"module\" src='/dist/main.js'></script>\n"
+            '<a href="//cdn.example/x.js">cdn</a> <script src="dist/other.js"></script>'
+        )
+        text, rewritten = results_site.relativize_urls(original)
+        self.assertEqual(rewritten, ["/styles.css", "/dist/main.js"])
+        self.assertIn('href="./styles.css"', text)
+        self.assertIn("src='./dist/main.js'", text)
+        self.assertIn('href="//cdn.example/x.js"', text)
+        self.assertIn('src="dist/other.js"', text)
+
+    def test_audit_markdown_is_escaped_and_links_point_at_the_repository(self) -> None:
+        rendered = results_site.inline_markdown(
+            "[`isTSpin`](sol-omp/src/game.ts) returns <b>true</b>; see [docs](https://example.com).",
+            "https://github.com/owner/repo",
+        )
+        self.assertIn(
+            '<a href="https://github.com/owner/repo/blob/main/sol-omp/src/game.ts"><code>isTSpin</code></a>', rendered,
+        )
+        self.assertIn("&lt;b&gt;true&lt;/b&gt;", rendered)
+        self.assertIn('<a href="https://example.com">docs</a>', rendered)
+        self.assertEqual(results_site.inline_markdown("[x](a.ts)", None), "x")
+
+    def test_output_directory_must_be_empty_or_previously_generated(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            out = Path(temporary) / "out"
+            out.mkdir()
+            (out / "keep.txt").write_text("not ours")
+            with self.assertRaisesRegex(results_site.SiteError, "Refusing to replace"):
+                results_site.prepare_output(out)
+            self.assertTrue((out / "keep.txt").exists())
+            (out / "keep.txt").unlink()
+            results_site.prepare_output(out)
+            (out / "stale.html").write_text("old build")
+            results_site.prepare_output(out)
+            self.assertFalse((out / "stale.html").exists())
+
+    def test_durations_round_trip(self) -> None:
+        for milliseconds in (133_321, 2_651_418, 3_723_004, 999):
+            self.assertEqual(benchmark.parse_duration(benchmark.duration(milliseconds)), milliseconds)
+
+    def test_github_heading_anchor(self) -> None:
+        self.assertEqual(results_site.github_slug("1. Opus 5.5 — 9.05"), "1-opus-55--905")
 
 
 if __name__ == "__main__":

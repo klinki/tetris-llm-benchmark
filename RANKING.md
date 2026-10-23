@@ -8,7 +8,7 @@ Opus 5.5 and Muse Spark 1.3 (medium) were added on 2026-10-23 with the same scor
 
 ## Ranking
 
-Scores are recorded in [`ranking.json`](ranking.json); this table and the README leaderboard are generated from it by `python3 scripts/benchmark.py render`.
+Scores and confirmed bugs are recorded in [`ranking.json`](ranking.json); this table and the README leaderboard are generated from it by `python3 scripts/benchmark.py render`.
 
 <!-- ranking-table:start -->
 | Rank | Implementation | Correctness (40%) | Tests (20%) | Code (20%) | Simplicity (10%) | Browser UX (10%) | Weighted score | Confirmed bugs |

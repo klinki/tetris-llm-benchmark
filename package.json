@@ -1,0 +1,12 @@
+{
+  "name": "tetris-llm-benchmark-site-check",
+  "private": true,
+  "description": "Browser check for the generated results site; the benchmark tool itself needs only Python.",
+  "type": "module",
+  "scripts": {
+    "check:site": "node scripts/check-site.mjs _site"
+  },
+  "devDependencies": {
+    "playwright": "1.64.0"
+  }
+}
