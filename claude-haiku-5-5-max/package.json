@@ -1,0 +1,16 @@
+{
+  "name": "tetris",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Browser Tetris that follows the Tetris Guideline",
+  "type": "module",
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "prestart": "npm run build",
+    "start": "node scripts/serve.mjs",
+    "test": "npm run build && node dist/test/smoke.js"
+  },
+  "devDependencies": {
+    "typescript": "^7.0.2"
+  }
+}
