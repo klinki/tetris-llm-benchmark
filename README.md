@@ -357,11 +357,84 @@ mismatches, or unsupported schemas fail explicitly. T3 activity counts and
 cost are not yet verified. The registry declares overhead as `unknown`, so
 both overhead and combined totals remain `Not verified` rather than zero.
 
+## Running a benchmark in T3 Code
+
+New runs are executed in [T3 Code](https://github.com/pingdotgg/t3code) and
+brought into the repository in three steps:
+
+```sh
+# 1. Prepare an isolated workspace and register it as a T3 project
+python3 scripts/benchmark.py new claude-opus-5-5 high
+python3 scripts/benchmark.py new opencode-go/gemini-4-argon-contributor medium --launch
+
+# 2. Wait for every pending run to finish and import each one
+python3 scripts/benchmark.py watch --import
+
+# 3. Or import one run by hand
+python3 scripts/benchmark.py import claude-opus-5-5-high-<id>
+```
+
+`new` takes the model ID as T3 reports it and the effort to select. It creates
+`~/tetris-bench/runs/<random>/tetris/` holding only `README.md`, a copy of
+[`TETRIS.md`](TETRIS.md), adds it to T3 as a project, and opens it. Start a
+thread there with that model and effort in full-access mode, and send the
+prompt that every T3 run has used, `Read the README.md file and implement it`;
+`new` copies it to the clipboard. With `--launch`, `new` starts the thread
+itself (see below).
+
+`watch` checks pending runs every 20 seconds by reading T3's database
+read-only. With `--import`, each finished run is imported immediately; runs
+that cannot be imported are reported and left pending.
+
+`import` reads the thread, native session, model, effort, and provider instance
+from T3's own records rather than from what was typed. It refuses the run when
+T3 used a different model or effort than `new` prepared, when the thread was
+not in full-access mode (elapsed time would include approval waits), or when
+the agent reached outside its workspace. It then adds the entry to
+[`benchmark-runs.json`](benchmark-runs.json), copies the implementation into
+the repository without `node_modules` or build output, runs `refresh`
+(collection, isolated `npm test`, `STATISTICS.md`, README and RANKING tables),
+and rolls everything back if any step fails. The run shows as `Pending` until
+it is audited and scored. Its model needs a [`pricing.json`](pricing.json)
+entry first.
+
+### Isolation
+
+Earlier runs shared a parent folder with other implementations, and several
+agents looked there. Each new workspace sits in its own randomly named folder,
+and both folders above it have the owner's read permission removed, so the
+agent, which runs as you, can enter its workspace but cannot list any other
+run. `ls ..` inside a workspace fails with "Permission denied". The folders
+can still be entered and written to; to delete old runs, restore read
+permission first (`chmod -R u+r ~/tetris-bench`).
+
+Isolation is also checked after the fact. `import` scans every tool call in the
+T3 session for paths outside the workspace: file reads, directory listings,
+searches, and paths in shell commands, ignoring system folders and package
+manager caches. A run that left its workspace is refused unless imported with
+`--allow-outside`, in which case the findings are stored with its registry
+entry. `python3 scripts/benchmark.py isolation [RUN_ID]` runs the same check on
+registered T3 runs.
+
+### Launching through T3's API
+
+`--launch` starts the thread through `orchestration.launchThread`, the RPC the
+T3 app itself uses: full-access mode, the fixed prompt, the effort as the
+model's option (`variant` for OpenCode, `effort` for Claude), and title
+generation off, which avoids an extra untracked model request.
+[`scripts/t3-launch.mjs`](scripts/t3-launch.mjs) authenticates with a
+five-minute session that can only operate threads, issued by
+`t3 auth session issue` and revoked once the thread starts. This API is
+internal and undocumented, so a T3 update can break it. When the launch fails,
+`new` falls back to opening the workspace for a manual start. Use `--instance`
+when more than one provider instance of the model's driver is enabled.
+
 ## Adding a benchmark run
 
-The benchmark CLI uses only the Python standard library. It ingests completed
-runs; it does not launch Codex or OMP, modify implementations, update quality
-rankings, or create Git commits.
+The benchmark CLI uses only the Python standard library. T3 Code runs are
+handled by the commands above; this section covers the manual path every
+harness supports. The CLI does not launch Codex, OMP, or PI, modify
+implementations, update quality rankings, or create Git commits.
 
 1. Put the completed implementation in a new repository subdirectory with a
    `package.json`, `package-lock.json`, and working `npm test` command.

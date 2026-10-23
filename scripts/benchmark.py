@@ -18,7 +18,13 @@ import sqlite3
 import subprocess
 import sys
 import tempfile
+import time
 from typing import Any, Iterable
+
+try:
+    from scripts import t3_runs
+except ImportError:
+    import t3_runs
 
 
 GENERATOR_VERSION = 1
@@ -1619,6 +1625,155 @@ def build_site(
         raise BenchmarkError(str(error)) from error
 
 
+def append_manifest_entry(root: Path, entry: dict[str, Any]) -> str:
+    """Append a run without reformatting the hand-maintained entries; returns the previous text."""
+    path = root / "benchmark-runs.json"
+    original = path.read_text()
+    end = original.rstrip().rfind("\n  ]")
+    if end < 0 or not original[:end].rstrip().endswith("}"):
+        raise BenchmarkError("Cannot find the end of the runs array in benchmark-runs.json")
+    block = "\n".join("    " + line for line in json.dumps(entry, indent=2, ensure_ascii=False).splitlines())
+    updated = original[:end].rstrip() + ",\n" + block + original[end:]
+    json.loads(updated)
+    atomic_write(path, updated)
+    return original
+
+
+def import_t3_run(
+    root: Path,
+    record: dict[str, Any],
+    homes: tuple[Path, Path, Path, Path],
+    allow_outside: bool,
+    allow_approvals: bool,
+) -> dict[str, Any]:
+    t3_home = homes[3]
+    state, detail = t3_runs.run_status(t3_home, record)
+    if state != "completed":
+        raise BenchmarkError(f"{record['key']} is not finished: {state} ({detail})")
+    identity = t3_runs.inspect_run(t3_home, record)
+    pending_file = t3_runs.pending_dir(root) / f"{record['key']}.json"
+    if not t3_runs.model_matches(record["expected_model"], identity) or identity["effort"] != record["expected_effort"]:
+        raise BenchmarkError(
+            f"T3 ran {identity['provider']}/{identity['model']} at effort {identity['effort']}, but the run was "
+            f"prepared for {record['expected_model']} at {record['expected_effort']}. If T3's setting is the one "
+            f"you meant, correct expected_model/expected_effort in {pending_file} and import again."
+        )
+    if identity["runtime_mode"] != "full-access" and not allow_approvals:
+        raise BenchmarkError(
+            f"The thread ran in {identity['runtime_mode']} mode, so elapsed time may include waiting for approvals. "
+            "Use --allow-approvals to import it anyway."
+        )
+    findings = t3_runs.outside_access(t3_home, identity["t3_thread_id"], record["workspace"])
+    if findings and not allow_outside:
+        listed = "\n".join(f"  {item['time'][11:19]} {item['tool']}: {item['reference']}" for item in findings[:10])
+        raise BenchmarkError(
+            f"The agent reached outside its workspace {len(findings)} time(s):\n{listed}\n"
+            "Review the session; use --allow-outside to import it anyway (the findings are recorded with the run)."
+        )
+
+    _, runs = load_manifest(root)
+    ranking = load_ranking(root, runs)
+    pricing = json.loads((root / "pricing.json").read_text())
+    price = pricing.get("models", {}).get(identity["model"])
+    if price is None:
+        raise BenchmarkError(
+            f"pricing.json has no entry for {identity['model']}. Add its price (or an `unpriced` reason) and import again."
+        )
+    taken = {run["id"] for run in runs} | {path.name for path in root.iterdir()}
+    run_id, label, copy = record["slug"], f"{price['label']} ({identity['effort']})", 1
+    while run_id in taken:
+        copy += 1
+        run_id, label = f"{record['slug']}-{copy}", f"{price['label']} ({identity['effort']}) #{copy}"
+    harness = t3_runs.HARNESSES[identity["driver"]]
+    entry: dict[str, Any] = {
+        "id": run_id,
+        "label": label,
+        "order": max(run["order"] for run in runs) + 10,
+        "project_dir": run_id,
+        "harness": harness["harness"],
+        "harness_label": harness["harness_label"],
+        "provider": identity["provider"],
+        "provider_label": harness.get("provider_label", identity["provider"]),
+        "model": identity["model"],
+        "session_id": identity["session_id"],
+        "t3_thread_id": identity["t3_thread_id"],
+        "expected_cwd": record["workspace"],
+        "expected_cwd_basename": Path(record["workspace"]).name,
+        "reasoning_variant": identity["effort"],
+        "cutoff": {"through_user_message": 1, "exclude_inter_message_wait": True},
+        "overhead": {"kind": "unknown"},
+        "spec": record["spec"],
+    }
+    if identity["provider_instance"] != identity["driver"]:
+        entry["t3_provider_instance"] = identity["provider_instance"]
+    if "fast_mode" in identity:
+        entry["fast_mode"] = identity["fast_mode"]
+    if findings:
+        entry["isolation"] = {"outside_access": findings}
+
+    destination = root / run_id
+    original_manifest = append_manifest_entry(root, entry)
+    try:
+        t3_runs.copy_workspace(record["workspace"], destination)
+        _, runs = load_manifest(root)
+        pricing = load_pricing(root, runs)
+        refresh(root, runs, ranking, pricing, [entry], *homes, dry_run=False)
+    except Exception:
+        atomic_write(root / "benchmark-runs.json", original_manifest)
+        if destination.exists():
+            shutil.rmtree(destination)
+        raise
+    imported = root / ".bench" / "imported"
+    imported.mkdir(parents=True, exist_ok=True)
+    pending_file.rename(imported / pending_file.name)
+    return entry
+
+
+def watch(root: Path, homes: tuple[Path, Path, Path, Path], interval: float, auto_import: bool, once: bool) -> None:
+    reported: dict[str, str] = {}
+    # A run settles once it is imported, cannot be imported, or (without --import) has finished.
+    settled: set[str] = set()
+    while True:
+        pending = [record for record in t3_runs.load_pending(root) if record["key"] not in settled]
+        if not pending:
+            print("Nothing left to watch.")
+            return
+        for record in pending:
+            try:
+                state, detail = t3_runs.run_status(homes[3], record)
+            except t3_runs.RunError as error:
+                state, detail = "error", str(error)
+            line = f"{record['key']}: {state} ({detail})"
+            if reported.get(record["key"]) != line:
+                print(line, flush=True)
+                reported[record["key"]] = line
+            if state == "completed" and auto_import:
+                try:
+                    entry = import_t3_run(root, record, homes, allow_outside=False, allow_approvals=False)
+                    print(f"{record['key']}: imported as {entry['id']}", flush=True)
+                except (BenchmarkError, t3_runs.RunError) as error:
+                    print(f"{record['key']}: import failed, run `import {record['key']}` after fixing:\n{error}", flush=True)
+                settled.add(record["key"])
+            elif state in ("completed", "failed", "error"):
+                settled.add(record["key"])
+        if once:
+            return
+        time.sleep(interval)
+
+
+def isolation_report(root: Path, runs: list[dict[str, Any]], t3_home: Path) -> int:
+    flagged = 0
+    for run in runs:
+        if not run["harness"].startswith("t3_"):
+            continue
+        findings = t3_runs.outside_access(t3_home, run["t3_thread_id"], run["expected_cwd"])
+        flagged += bool(findings)
+        print(f"{run['id']}: {'no access outside the workspace' if not findings else f'{len(findings)} outside reference(s)'}")
+        for item in findings:
+            print(f"  {item['time'][11:19]} {item['tool']} {item['kind']}: {item['reference']}")
+    return flagged
+
+
 def render(
     root: Path, runs: list[dict[str, Any]], ranking: dict[str, Any], pricing: dict[str, Any], dry_run: bool,
 ) -> None:
@@ -1693,6 +1848,29 @@ def parse_args(argv: list[str]) -> argparse.Namespace:
     site_parser.add_argument("--skip-games", action="store_true", help="Do not build the playable games")
     verify_parser = subparsers.add_parser("verify", help="Verify generated documents or one source")
     verify_parser.add_argument("run_id", nargs="?")
+    new_parser = subparsers.add_parser("new", help="Prepare an isolated T3 Code workspace for a new run")
+    new_parser.add_argument("model", help="Model ID as T3 reports it, e.g. claude-opus-5-5 or opencode-go/gemini-4-argon")
+    new_parser.add_argument("effort", help="Reasoning effort or variant to select in T3, e.g. high")
+    new_parser.add_argument(
+        "--workspaces", type=Path, default=Path("~/tetris-bench/runs"),
+        help="Where run workspaces are created, outside the repository (default: ~/tetris-bench/runs)",
+    )
+    new_parser.add_argument("--no-open", action="store_true", help="Do not open the workspace in T3 Code")
+    new_parser.add_argument(
+        "--launch", action="store_true",
+        help="Start the thread through T3's internal API instead of pasting the prompt (falls back to manual)",
+    )
+    new_parser.add_argument("--instance", help="T3 provider instance to launch with, when more than one is enabled")
+    watch_parser = subparsers.add_parser("watch", help="Follow pending T3 runs until they finish")
+    watch_parser.add_argument("--import", dest="auto_import", action="store_true", help="Import each run when it finishes")
+    watch_parser.add_argument("--interval", type=float, default=20, help="Seconds between checks (default: 20)")
+    watch_parser.add_argument("--once", action="store_true", help="Check once and exit")
+    import_parser = subparsers.add_parser("import", help="Register a finished T3 run and collect its statistics")
+    import_parser.add_argument("key", help="Pending run key printed by `new`, or its workspace path")
+    import_parser.add_argument("--allow-outside", action="store_true", help="Import even if the agent left its workspace")
+    import_parser.add_argument("--allow-approvals", action="store_true", help="Import a run not made in full-access mode")
+    isolation_parser = subparsers.add_parser("isolation", help="Report T3 runs that reached outside their workspace")
+    isolation_parser.add_argument("run_id", nargs="?")
     return parser.parse_args(argv)
 
 
@@ -1709,6 +1887,7 @@ def main(argv: list[str] | None = None) -> int:
     omp_home = Path(os.environ.get("OMP_HOME", Path.home() / ".omp")).expanduser()
     pi_home = Path(os.environ.get("PI_HOME", Path.home() / ".pi")).expanduser()
     t3_home = Path(os.environ.get("T3_HOME", Path.home() / ".t3")).expanduser()
+    homes = (codex_home, omp_home, pi_home, t3_home)
     if args.command == "refresh":
         if args.all:
             selected = runs
@@ -1721,6 +1900,34 @@ def main(argv: list[str] | None = None) -> int:
         render(root, runs, ranking, pricing, args.dry_run)
     elif args.command == "site":
         build_site(root, runs, ranking, pricing, args.out.resolve(), not args.skip_games)
+    elif args.command == "new":
+        record = t3_runs.new_run(root, args.model, args.effort, args.workspaces, open_app=not args.no_open)
+        print(f"Prepared {record['key']}\n  workspace: {record['workspace']}")
+        if args.launch:
+            try:
+                selection = t3_runs.model_selection(t3_home, args.model, args.effort, args.instance)
+                record["launched_thread_id"] = t3_runs.launch_thread(root, t3_home, record["t3_project_id"], selection)
+                t3_runs.save_pending(root, record)
+                print(f"Launched thread {record['launched_thread_id']} with {selection}.")
+                print("Run `python3 scripts/benchmark.py watch --import` to import it when it finishes.")
+                return 0
+            except t3_runs.RunError as error:
+                print(f"--launch did not work, so start the run by hand: {error}")
+        copied = t3_runs.copy_prompt()
+        print("In T3 Code, start a thread in this project with:")
+        print(f"  model: {args.model}   effort: {args.effort}   access: full access")
+        print(f"  prompt: {t3_runs.PROMPT}" + ("  (copied to the clipboard)" if copied else ""))
+        print("Then run `python3 scripts/benchmark.py watch --import`.")
+    elif args.command == "watch":
+        watch(root, homes, args.interval, args.auto_import, args.once)
+    elif args.command == "import":
+        entry = import_t3_run(root, t3_runs.find_pending(root, args.key), homes, args.allow_outside, args.allow_approvals)
+        print(f"Imported {args.key} as {entry['id']} ({entry['label']}); it appears as Pending until it is scored.")
+    elif args.command == "isolation":
+        selected = [by_id[args.run_id]] if args.run_id in by_id else runs
+        if args.run_id and args.run_id not in by_id:
+            raise BenchmarkError(f"Unknown run ID: {args.run_id}")
+        return 1 if isolation_report(root, selected, t3_home) else 0
     else:
         verify_documents(root, runs, ranking, pricing)
         if args.run_id:
@@ -1733,6 +1940,6 @@ def main(argv: list[str] | None = None) -> int:
 if __name__ == "__main__":
     try:
         raise SystemExit(main())
-    except BenchmarkError as error:
+    except (BenchmarkError, t3_runs.RunError) as error:
         print(f"benchmark: error: {error}", file=sys.stderr)
         raise SystemExit(1)

@@ -7,3 +7,4 @@ audit-cjs/
 .playwright-cli/
 output/playwright/
 _site/
+.bench/
