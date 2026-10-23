@@ -116,6 +116,23 @@ class BenchmarkLookupTests(unittest.TestCase):
         )
         self.assertEqual(t3_runs.finding_kind("path", "/Users/someone/notes.txt", workspace, t3_data, []), "path")
 
+    def test_t3_tools_are_flagged_except_the_preview_browser_and_its_own_screenshots(self) -> None:
+        own = f"{self.home}/userdata/browser-artifacts/own.png"
+        other = f"{self.home}/userdata/browser-artifacts/other.png"
+        # The temporary T3 home lives under a system temp folder, which the scan otherwise ignores.
+        with mock.patch.object(t3_runs, "SYSTEM_PREFIXES", ("/dev/",)):
+            found = self._screenshot_findings(own, other)
+        self.assertEqual(found, [("t3-data", other), ("t3-tool", '{"threadId": "old-run"}')])
+
+    def _screenshot_findings(self, own: str, other: str) -> list[tuple[str, str]]:
+        return self.findings(
+            tool_item(1, "dynamic_tool", toolName="mcp__t3-code__preview_snapshot", input={"save": True},
+                      output=json.dumps({"content": json.dumps({"screenshotPath": own})})),
+            tool_item(2, "dynamic_tool", toolName="Read", input={"file_path": own}),
+            tool_item(3, "dynamic_tool", toolName="Read", input={"file_path": other}),
+            tool_item(4, "dynamic_tool", toolName="mcp__t3-code__t3_thread_read", input={"threadId": "old-run"}),
+        )
+
 
 class NewRunTests(unittest.TestCase):
     def setUp(self) -> None:

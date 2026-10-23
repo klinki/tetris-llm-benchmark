@@ -32,6 +32,7 @@ The table is generated from [`benchmark-runs.json`](benchmark-runs.json),
 | 12 | [Space-bunny](space-bunny/STATISTICS.md) | `space-bunny` | `xhigh` | T3 Code / OpenCode | **6.75** | 21,547,591 | — | 13m 19.433s | Non-SRS shapes and kicks, flattened ghost piece, scoring errors |
 | 13 | [Beam](beam/STATISTICS.md) | `beam-free` | `xhigh` | T3 Code / OpenCode | **5.60** | 1,334,888 | — | 3m 3.429s | Lock timer mixes two clocks; classic scoring table |
 | 14 | [Nemotron](nemotron/STATISTICS.md) | `nvidia/nemotron-3.5-super-vl:free` | `thinking` | T3 Code / OpenCode | **4.00** | 1,851,716 | $0.20 | 9m 8.773s | Does not start in the browser: imports lack .js extensions |
+| — | [Claude Haiku 5.5 (xhigh)](claude-haiku-5-5-xhigh/STATISTICS.md) | `claude-haiku-5-5` | `xhigh` | T3 Code / Claude Agent SDK | Pending | 5,786,532 | $0.17 | 13m 19.187s | Not ranked yet |
 
 **† Muse Spark 1.3 (medium):** Reference-assisted run: the medium-reasoning child read Gemini-4's engine, shape tables, tests, and build files before writing this implementation, so token/time efficiency is not an independent from-scratch comparison. Primary time covers the child task only. The xhigh parent prepared/delegated and verified/reported the result: 339,157 recorded parent tokens and 2m 54.475s end-to-end are documented separately.
 
@@ -498,14 +499,13 @@ What the Haiku run established:
 - **Fast mode.** Models without fast mode, such as Haiku, have no `fastMode`
   setting in the SDK log, so none is recorded for them.
 
-One gap remains open, and it affects every T3 run however it is launched. The
-Claude SDK log shows tested agents are given `allowedTools:
-["mcp__t3-code__*"]`, including `t3_thread_search` and `t3_thread_read`, which
-can read earlier runs' transcripts without touching a file. The isolation check
-in [`scripts/t3_runs.py`](scripts/t3_runs.py) looks only for file paths and
-benchmark names in tool inputs, so such a call would not be reported as
-`t3-data`. Haiku made no such call, but the check should flag any T3
-orchestration tool call from a tested thread.
+Tested agents in T3 are given `allowedTools: ["mcp__t3-code__*"]`, which
+includes `t3_thread_search` and `t3_thread_read`; they can read earlier runs'
+transcripts without touching a file. The isolation check therefore reports any
+call to a T3 tool as `t3-tool`, except the preview browser (`preview_*`), which
+shows the agent its own pages. The screenshots the preview browser saves under
+`~/.t3/userdata/browser-artifacts` are not `t3-data` findings when the same
+thread saved them; the Haiku xhigh run checked its game this way.
 
 ### Running several benchmarks
 

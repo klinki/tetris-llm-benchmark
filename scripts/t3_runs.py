@@ -412,6 +412,11 @@ def _mentions_benchmark(text: str, workspace: Path, markers: list[str]) -> bool:
     return any(_normalized(marker) in text for marker in markers)
 
 
+# T3's own tools reach every thread's transcript; only its preview browser, which shows the agent's own pages, is allowed.
+T3_TOOL = re.compile(r"t3[-_]code(?:__|\W+)(\w+)$")
+SCREENSHOT_PATH = re.compile(r'"screenshotPath\\?"\s*:\s*\\?"([^"\\]+)')
+
+
 def outside_access(
     t3_home: Path, thread_id: str, workspace: str, markers: list[str] | None = None,
 ) -> list[dict[str, str]]:
@@ -425,16 +430,29 @@ def outside_access(
             WHERE thread_id=? AND type NOT IN ('reasoning', 'assistant_message', 'user_message', 'checkpoint')
             ORDER BY ordinal
         """, (thread_id,)).fetchall()
+    own_screenshots: set[str] = set()
     for item in items:
         payload = json.loads(item["payload_json"])
         if payload.get("title") == "Workspace ready":
             continue
+        tool = payload.get("toolName") or item["type"]
+        t3_tool = T3_TOOL.search(tool)
+        if t3_tool and not t3_tool.group(1).startswith("preview_"):
+            findings.append({
+                "time": payload.get("startedAt", ""), "tool": tool, "kind": "t3-tool",
+                "reference": json.dumps(payload.get("input"))[:500],
+            })
         fields = {key: payload.get(key) for key in ("input", "pattern", "patterns", "fileName", "results") if key in payload}
         for kind, text in _references(fields):
             finding = finding_kind(kind, text, root, t3_data, markers or [])
+            # The preview browser saves the agent's own screenshots under T3's data folder.
+            if finding == "t3-data" and os.path.normpath(os.path.expanduser(text)) in own_screenshots:
+                continue
             if finding:
-                tool = payload.get("toolName") or item["type"]
                 findings.append({"time": payload.get("startedAt", ""), "tool": tool, "kind": finding, "reference": text})
+        if t3_tool:
+            for text in _strings(payload.get("output")) + _strings(payload.get("results")):
+                own_screenshots.update(os.path.normpath(path) for path in SCREENSHOT_PATH.findall(text))
     return findings
 
 
