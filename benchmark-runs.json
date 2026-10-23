@@ -280,6 +280,36 @@
         "expected_turns": 2
       },
       "comparison_note": "Reference-assisted run: the medium-reasoning child read Gemini-4's engine, shape tables, tests, and build files before writing this implementation, so token/time efficiency is not an independent from-scratch comparison. Primary time covers the child task only. The xhigh parent prepared/delegated and verified/reported the result: 339,157 recorded parent tokens and 2m 54.475s end-to-end are documented separately."
+    },
+    {
+      "id": "claude-haiku-5-5-high",
+      "label": "Claude Haiku 5.5 (high)",
+      "order": 130,
+      "project_dir": "claude-haiku-5-5-high",
+      "harness": "t3_claude",
+      "harness_label": "T3 Code / Claude Agent SDK",
+      "provider": "claudeAgent",
+      "provider_label": "Claude Agent SDK",
+      "model": "claude-haiku-5-5",
+      "session_id": "6a7802dc-4ace-44ed-8fb0-1ba1981bbe51",
+      "t3_thread_id": "mcp:6ff643b2-5f69-4f0f-97ea-57f72261bc9c",
+      "expected_cwd": "/Users/david/tetris-bench/runs/2b4a11c68299/tetris",
+      "expected_cwd_basename": "tetris",
+      "reasoning_variant": "high",
+      "web": "open",
+      "cutoff": {
+        "through_user_message": 1,
+        "exclude_inter_message_wait": true
+      },
+      "overhead": {
+        "kind": "unknown"
+      },
+      "spec": {
+        "sha256": "36e2097a78fe8b5646e6216338640831cff0a284cc823c4b1f658991c8d40294",
+        "commit": "dd22b022e45fd7d519713ef7ac63404893731398",
+        "modified": false
+      },
+      "t3_provider_instance": "claudeAgent_claude_home"
     }
   ]
 }

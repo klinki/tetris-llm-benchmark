@@ -1,10 +1,14 @@
 # Tetris Implementation Quality Ranking
 
-This ranking evaluates 13 implementations against [`TETRIS.md`](TETRIS.md). Quality is scored independently of generation time and token use; efficiency data appears only as non-scoring context.
+This ranking evaluates 14 implementations against [`TETRIS.md`](TETRIS.md). Quality is scored independently of generation time and token use; efficiency data appears only as non-scoring context.
 
 The original audit was performed on 2026-08-10, Luna PI was added on 2026-08-29, and five T3 Code/OpenCode implementations were added on 2026-10-20. Every project passed its declared build/test workflow in an isolated temporary copy. Nemotron nevertheless fails to start in the browser because its emitted imports do not resolve. Browser checks used each project's intended server behavior and Chromium at 1280×800 and 390×844. Reproducible probes and evidence are in [`.audit`](.audit/README.md).
 
 Opus 5.5 and Muse Spark 1.3 (medium) were added on 2026-10-23 with the same scoring profile. Muse's implementation agent read Gemini-4's engine, shape data, tests, and build files before writing its version; its quality can be scored, but its efficiency is not an independent from-scratch comparison. See the [October 23 audit](.audit/oct23-review.md).
+
+Claude Haiku 5.5 (high) was audited on 2026-10-24 with the same rubric and
+scoring profile. Its isolated build/tests, engine probes and desktop/phone
+browser evidence are in the [Haiku audit](.audit/haiku-review.md).
 
 ## Ranking
 
@@ -15,17 +19,18 @@ Scores and confirmed bugs are recorded in [`ranking.json`](ranking.json); this t
 |---:|---|---:|---:|---:|---:|---:|---:|---:|
 | 1 | Opus 5.5 | 9.5 | 9.0 | 9.0 | 8.0 | 8.5 | **9.05** | 1 minor |
 | 2 | Luna OMP | 10.0 | 6.5 | 8.5 | 7.0 | 9.0 | **8.60** | 0 |
-| 3 | Gemini-4 | 9.0 | 8.0 | 8.5 | 7.0 | 9.0 | **8.50** | 2 minor |
-| 4 | Luna PI | 9.5 | 6.5 | 9.0 | 7.0 | 8.5 | **8.45** | 1 minor |
-| 5 | Muse Spark 1.3 (medium) | 9.0 | 7.5 | 8.0 | 8.0 | 9.0 | **8.40** | 2 minor |
-| 6 | Sol OMP | 9.5 | 5.5 | 8.5 | 8.0 | 9.0 | **8.30** | 1 minor |
-| 7 | Sol Codex | 8.0 | 6.5 | 9.0 | 9.5 | 9.5 | **8.20** | 1 major, 1 minor |
-| 8 | Luna Codex | 7.5 | 7.0 | 8.0 | 7.5 | 8.5 | **7.60** | 1 major, 2 minor |
-| 9 | Cat-jam | 6.5 | 7.5 | 8.5 | 8.0 | 8.0 | **7.40** | 2 major, 1 minor |
-| 10 | DeepSeek OMP/PI | 6.5 | 8.5 | 8.0 | 7.0 | 7.0 | **7.30** | 2 major, 1 minor |
-| 11 | Space-bunny | 5.5 | 7.5 | 8.0 | 6.5 | 8.0 | **6.75** | 3 major |
-| 12 | Beam | 6.0 | 4.5 | 5.0 | 6.5 | 6.5 | **5.60** | 2 major, 2 minor |
-| 13 | Nemotron | 0.0 | 6.0 | 6.5 | 8.5 | 6.5 | **4.00** | 1 critical, 2 major, 2 minor |
+| 3 | Claude Haiku 5.5 (high) | 9.0 | 7.5 | 9.0 | 8.0 | 8.5 | **8.55** | 2 minor |
+| 4 | Gemini-4 | 9.0 | 8.0 | 8.5 | 7.0 | 9.0 | **8.50** | 2 minor |
+| 5 | Luna PI | 9.5 | 6.5 | 9.0 | 7.0 | 8.5 | **8.45** | 1 minor |
+| 6 | Muse Spark 1.3 (medium) | 9.0 | 7.5 | 8.0 | 8.0 | 9.0 | **8.40** | 2 minor |
+| 7 | Sol OMP | 9.5 | 5.5 | 8.5 | 8.0 | 9.0 | **8.30** | 1 minor |
+| 8 | Sol Codex | 8.0 | 6.5 | 9.0 | 9.5 | 9.5 | **8.20** | 1 major, 1 minor |
+| 9 | Luna Codex | 7.5 | 7.0 | 8.0 | 7.5 | 8.5 | **7.60** | 1 major, 2 minor |
+| 10 | Cat-jam | 6.5 | 7.5 | 8.5 | 8.0 | 8.0 | **7.40** | 2 major, 1 minor |
+| 11 | DeepSeek OMP/PI | 6.5 | 8.5 | 8.0 | 7.0 | 7.0 | **7.30** | 2 major, 1 minor |
+| 12 | Space-bunny | 5.5 | 7.5 | 8.0 | 6.5 | 8.0 | **6.75** | 3 major |
+| 13 | Beam | 6.0 | 4.5 | 5.0 | 6.5 | 6.5 | **5.60** | 2 major, 2 minor |
+| 14 | Nemotron | 0.0 | 6.0 | 6.5 | 8.5 | 6.5 | **4.00** | 1 critical, 2 major, 2 minor |
 <!-- ranking-table:end -->
 
 The ordering is deterministic. There are no equal weighted scores; if there were, the tie-break order would be correctness, tests, then code quality.
@@ -113,6 +118,28 @@ The scoring profile above retains the original audit's modern scoring expectatio
 | Gravity, levels and blocked-spawn top-out | ✅ | ✅ |
 | Narrow layout preserves a visible playfield | ◐ | ◐ |
 
+### October 24 addition
+
+| Requirement | Claude Haiku 5.5 (high) |
+|---|:---:|
+| Browser starts; TypeScript; no browser runtime dependencies | ✅ |
+| Seven shapes and distinct colors | ✅ |
+| Left/right; Up/X CW; Z/Left Ctrl CCW | ✅ |
+| Soft and hard drop | ◐ |
+| C hold and R restart after game over | ✅ |
+| Seven-bag randomizer | ✅ |
+| Canonical SRS states and wall kicks | ✅ |
+| Ghost; hold; five-piece next queue | ✅ |
+| Lock delay and capped resets | ✅ |
+| Benchmark scoring profile | ◐ |
+| Normal gravity, levels and blocked-spawn top-out | ✅ |
+| Narrow layout preserves a visible playfield | ◐ |
+
+The soft-drop and scoring cells refer to one timer-transition defect: entering
+soft drop consumes accumulated normal-gravity time at the faster rate and
+awards points for the resulting jump. Normal clears, full/mini spins, B2B,
+combos and the benchmark perfect-clear bonus passed the targeted probes.
+
 ## Test-coverage comparison
 
 This compares tested behavior and assertion quality, not merely test-file size or printed test count. `Strong` means the suite makes deterministic, behavior-specific assertions; `Some` means coverage is indirect or incomplete; `—` means no meaningful existing test was found.
@@ -165,6 +192,25 @@ Printed counts are 5 tests for Beam, 16 cases for Cat-jam, 7 function groups for
 
 Opus's suite is the strongest in the current audited set, though its four-cells-per-state test is not a full canonical SRS oracle. Muse's tests were written after reading Gemini-4's tests and preserve important gaps, especially perfect clears and responsive layout. Added audit probes do not increase either implementation's own test-quality score.
 
+### October 24 test suite
+
+| Behavior | Claude Haiku 5.5 (high): 10 cases |
+|---|---|
+| Bags and spawning | Strong: three seeded bags; spawning/queue indirect |
+| Movement and drops | Strong: both walls, exact hard-drop points and locked cells; no soft-drop assertion |
+| SRS | Strong: concrete I wall kick; no canonical coordinate oracle or CCW case |
+| Ghost | Some: hard-drop distance shares the ghost path; no independent geometry assertion |
+| Hold | Strong: first hold, once-per-lock restriction and post-lock swap |
+| Lock delay | Some: grounded delay and eventual lock; no exact boundary, reset cap or ledge case |
+| Scoring | Some: exact single/perfect-clear total and full/mini detection helpers; no spin-score, B2B or combo integration |
+| Gravity, top-out and restart | Some: level-one timing and blocked-spawn/restart assertions; no level progression |
+| Browser loading/layout/input | — |
+
+These are the implementation's own tests. The additional audit probes do not
+raise its test-quality score. They cover the omitted canonical geometry,
+timing and scoring paths independently; the existing suite remains narrower
+than Opus's 19-case suite.
+
 ## Per-implementation audit
 
 ### 1. Opus 5.5 — 9.05
@@ -201,7 +247,28 @@ Test gaps and rationale:
 - Existing tests cover the bag, movement, hard drop, hold, rotation, gravity/pause, dimensions, and a line clear, but do not assert concrete kick offsets, lock-delay timing/reset limits, ghost projection, top-out/restart, advanced scoring, or browser behavior.
 - The engine is one of the larger implementations and contains proportionate but substantial rule machinery, which lowers simplicity relative to the compact Sol implementations.
 
-### 3. Gemini-4 — 8.50
+### 3. Claude Haiku 5.5 (high) — 8.55
+
+Strengths:
+
+- Canonical SRS geometry and kick tables, seven-bag generation, a 40-row field, five-piece queue, hold, ghost, capped lock-delay resets, full/mini T-spins, B2B, combos, perfect clears, levels, blocked-spawn/hidden lock-out and restart in [`src/game/game.ts`](claude-haiku-5-5-high/src/game/game.ts).
+- Ten deterministic tests pass in a fresh temporary copy. Additional audit probes confirm all 28 coordinate sets, every CW/CCW kick table, concrete T/I wall kicks, ghost/drop geometry, hold, the 499/500 ms lock boundary, reset cap, safe ledge handling, full/mini scoring integration, B2B continuity, a level-two combo of 300, and a single-line perfect clear of 900.
+- Focused geometry, board, bag, scoring, engine, input and renderer modules with strict types, one animation clock, keyboard repeat and focus-loss cleanup. Desktop controls respond and application assets/runtime are clean in Playwright/Chromium.
+
+Confirmed bugs:
+
+- **Minor (−0.5 correctness): starting soft drop reuses accumulated normal-gravity time.** After fifty 16 ms updates at level one, an O remains at y=18. Press Down through `Input`, advance 1 ms, and it jumps to y=34 with 16 points. `setSoftDrop` leaves the gravity accumulator unchanged, so the next frame consumes the previous 0.8 seconds at the new 50 ms interval. Playwright also observed 12 rows/points during a 120 ms Down hold. Scoring effect: `10.0 → 9.5`.
+- **Minor (−0.5 correctness): fixed-width layout clips the playfield on phones.** At 390×844, document width is 758 px; the board's 302×602 px border box starts at x=228 and ends at x=530. The next queue starts at x=554. The fixed flex layout has no narrow-screen reflow. Scoring effect: `9.5 → 9.0`.
+
+Test gaps and rationale:
+
+- Existing tests cover seeded bags, walls, a real I kick, hard-drop points, single/perfect-clear scoring, grounded lock delay, level-one gravity, hold restrictions, blocked spawn/restart and spin-classification helpers. They omit soft drop, the full SRS oracle, independent ghost geometry, exact lock/reset/ledge behavior, spin-score/B2B/combo integration, level progression and browser assertions.
+- The 876 source lines and 129 test lines are proportionate and readable. Engine state is private in TypeScript, though the read-only active-piece getter exposes its underlying object. Ten focused tests earn 7.5; broad coverage gaps keep it below Opus's suite. Code earns 9.0 and simplicity 8.0 for clear modules with proportionate rule machinery.
+- Browser UX 8.5 reflects the clear desktop board, supporting state and keyboard legend, with no touch controls or canvas accessibility labels. Phone clipping is deducted once in correctness, following Opus's audit. The timer-transition finding is one non-blocking control/scoring defect, not two deductions.
+
+Reproductions, browser measurements and isolation context are in the [Haiku audit record](.audit/haiku-review.md).
+
+### 4. Gemini-4 — 8.50
 
 Strengths:
 
@@ -219,7 +286,7 @@ Test gaps and rationale:
 - The suite lacks mini/full T-spin integration, back-to-back/combo edge cases, perfect clears, reset-cap/ledge timing, restart, and browser checks. The bag test uses random order but asserts invariant distribution.
 - At 1,587 source lines, the implementation is substantial; its abstractions remain readable, but the large rule/constant modules lower simplicity relative to the compact engines. Desktop UX is excellent; touch controls are absent.
 
-### 4. Luna PI — 8.45
+### 5. Luna PI — 8.45
 
 Strengths:
 
@@ -238,7 +305,7 @@ Test gaps and rationale:
 
 Detailed evidence is in the [Luna PI audit record](.audit/luna-pi-review.md).
 
-### 5. Muse Spark 1.3 (medium) — 8.40
+### 6. Muse Spark 1.3 (medium) — 8.40
 
 Strengths:
 
@@ -256,7 +323,7 @@ Test gaps and rationale:
 - The 840-line source is readable and compact. Input/rendering/storage share a large browser bootstrap; an unused repeat timer/comment and local-storage writes every rendered frame lower structural/performance robustness relative to more focused implementations.
 - **Reference-assisted:** the child read Gemini-4's implementation and tests before writing this version. This affects efficiency comparability, not the quality score of the delivered code. The separately recorded xhigh parent did setup/delegation and verification; the implementation child used medium reasoning.
 
-### 6. Sol OMP — 8.30
+### 7. Sol OMP — 8.30
 
 Strengths:
 
@@ -273,7 +340,7 @@ Test gaps and rationale:
 - The compact tests cover bag uniqueness, wall blocking, hard drop, hold, rotation state, and pause, but omit line scoring, actual kick displacement, gravity cadence, ghost/next projection, lock delay, top-out, restart, and the browser.
 - The sparse suite is the main reason it ranks below Luna OMP despite excellent implementation quality.
 
-### 7. Sol Codex — 8.20
+### 8. Sol Codex — 8.20
 
 Strengths:
 
@@ -291,7 +358,7 @@ Test gaps and rationale:
 - Tests cover bag behavior, hard drop, line clear, hold, a wall kick, and blocked-spawn top-out. They do not cover gravity, next/ghost output, lock delay, scoring beyond a normal clear, restart, or browser behavior.
 - The serious ledge defect holds correctness below the two OMP implementations; otherwise this is the clearest and most maintainable codebase in the set.
 
-### 8. Luna Codex — 7.60
+### 9. Luna Codex — 7.60
 
 Strengths:
 
@@ -310,7 +377,7 @@ Test gaps and rationale:
 - Tests cover bag generation, spawn/next, hold, a gravity helper, scoring helpers, line clearing, and top-out, but do not exercise real rotation coordinates/kicks, ghost output, lock-delay behavior, combo/perfect-clear integration, restart, or browser rendering.
 - The abstractions are generally sensible, but the large single engine module and duplicated shape data make the SRS-table defect harder to notice locally.
 
-### 9. Cat-jam — 7.40
+### 10. Cat-jam — 7.40
 
 Strengths:
 
@@ -329,7 +396,7 @@ Test gaps and rationale:
 - Strong coverage of core state transitions does not extend to canonical coordinates, actual kick displacements, lock-delay timing/reset caps, advanced scoring, or browser loading/layout. The suite checks that rotations have four cells, which cannot detect a malformed L state.
 - Code quality and simplicity score well for proportionate modules and readable state transitions. The static desktop layout is attractive and legible, with no touch controls or accessible canvas labels.
 
-### 10. DeepSeek OMP/PI — 7.30
+### 11. DeepSeek OMP/PI — 7.30
 
 Strengths:
 
@@ -348,7 +415,7 @@ Test gaps and rationale:
 - Despite being the best suite overall, it has no lock-delay/ledge test, advanced scoring tests, reset-limit test, or browser assertions. The current hard-drop test exercises the same projection used by the ghost but does not validate rendering.
 - The multi-file split is readable but more verbose than Sol Codex. Browser UX is good on desktop and materially weaker on a phone-sized viewport.
 
-### 11. Space-bunny — 6.75
+### 12. Space-bunny — 6.75
 
 Strengths:
 
@@ -367,7 +434,7 @@ Test gaps and rationale:
 - Several tests assert the implementation's mistakes: reverse/mirrored CCW tables, a full-spin position labeled mini, and breaking B2B on a no-clear placement. Ghost tests check count/noncollision but not the expected four distinct coordinates. Exact canonical data and independent expected outcomes would substantially improve the suite.
 - Its 1,687 source lines and 731 test lines contain considerable rule and rendering machinery. The structure is readable, but size lowers simplicity. The adaptive presentation is polished; its small-screen text is tiny and no touch controls are provided.
 
-### 12. Beam — 5.60
+### 13. Beam — 5.60
 
 Strengths:
 
@@ -386,7 +453,7 @@ Test gaps and rationale:
 - Only five small tests cover board dimensions, initial spawn/queue, generic matrix rotation, one bag, and a full-row clear. There are no real input/rotation, drop, hold restriction, timing, scoring, top-out/restart, or browser assertions.
 - Broad `any` casts, duplicate rendering paths, unused imports, and empty placeholder helpers lower code quality. The implementation remains small, but dead code weakens local reasoning. Presentation is basic and readable, with a small board and little accessibility support.
 
-### 13. Nemotron — 4.00
+### 14. Nemotron — 4.00
 
 Strengths:
 
@@ -418,6 +485,7 @@ The [October 23 record](.audit/oct23-review.md) additionally isolates Opus's Cla
 |---|---:|---:|---:|---:|---:|
 | Beam | 690 | 36 | 1,334,888 | 0:03:03.429 | — |
 | Cat-jam | 922 | 249 | 2,070,440 | 0:23:42.424 | — |
+| Claude Haiku 5.5 (high) | 876 | 129 | 4,999,379 | 0:09:54.526 | — |
 | DeepSeek OMP/PI | 791 | 240 | 18,118,592 | 0:44:11.418 | 127 |
 | Gemini-4 | 1,587 | 163 | 590,203 | 0:06:36.862 | — |
 | Luna Codex | 652 | 56 | 1,177,121 | 0:11:31.291 | 28 |
@@ -451,7 +519,7 @@ Correctness is clamped to 0–10. A confirmed defect is deducted once; it is not
 ### Audit procedure
 
 1. Copied each project to an isolated temporary directory so compilation could not alter committed `dist` files.
-2. Ran the declared `npm test` workflow, which includes each build. All 13 passed in their respective audit cohorts. Existing cohort scores remain from their earlier audits; additions received a new source, test, engine, and browser review.
+2. Ran the declared `npm test` workflow, which includes each build. All 14 passed in their respective audit cohorts. Existing cohort scores remain from their earlier audits; additions received a new source, test, engine, and browser review.
 3. Compared every implementation with one requirements matrix and reviewed shape data, SRS kicks, scoring, lock delay, top-out, queues/hold, gravity, state transitions, controls, and rendering.
 4. Ran implementation-specific engine adapters for equivalent probes. SRS probes compare all 28 piece/orientation coordinate sets, allowing only a fixed origin translation for pieces represented differently. October probes additionally cover movement/drop/hold, blocked spawn/reset, clock consistency, ghost geometry, soft-drop scoring, and advanced scoring integration.
 5. Served each isolated build with its intended server behavior. In Playwright/Chromium, exercised left/right, both rotation directions, soft drop, hard drop, and hold; inspected accessible state, screenshots, overflow, console output, and failed asset responses at desktop and mobile viewport sizes. Nemotron's controls could not function because the browser module graph fails to load; its engine was probed through a separate temporary CommonJS build.

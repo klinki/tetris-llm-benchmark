@@ -59,6 +59,23 @@ overlays remained hidden. Missing favicon requests were excluded; screenshots
 were inspected at both sizes. Details and exact session mappings are in
 [`oct23-review.md`](oct23-review.md).
 
+## Claude Haiku 5.5 (high)
+
+Audited 2026-10-24 in a temporary build using Playwright CLI and Chromium
+156.0.8078.4, at the same 1280×800 and 390×844 viewports. T3's collaborative
+browser independently reproduced the phone geometry.
+
+| Implementation | Desktop playfield | 390 px document width | Phone playfield | Application errors |
+|---|---|---:|---|---|
+| Claude Haiku 5.5 (high) | 300×600 content, 302×602 border box at x=489 | 758 | 302×602 border box at x=228, clipped; next x=554 | No application asset failures, console errors or page exceptions |
+
+All required movement, rotation, drop and hold keys responded; active overlays
+remained hidden. During a 120 ms Down hold, the observed piece moved 12 rows
+and earned 12 points, supporting the deterministic engine probe's soft-drop
+timer finding. The initial missing favicon was excluded as in earlier audits.
+Screenshots at both sizes were inspected and kept outside the repository.
+See [`haiku-review.md`](haiku-review.md) and [`haiku-browser.cjs`](haiku-browser.cjs).
+
 ## Reproducible DOM probes
 
 Horizontal overflow was measured after setting the viewport to 390×844:

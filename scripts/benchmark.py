@@ -922,9 +922,7 @@ def usage_from_t3(raw: dict[str, Any]) -> Usage:
 
 def validate_claude_effort(run: dict[str, Any], t3_home: Path) -> None:
     """Validate the effective SDK effort, which is absent from T3's model options."""
-    paths = sorted((t3_home / "userdata" / "logs" / "provider").glob(
-        f"events.{run['t3_thread_id']}.log*"
-    ))
+    paths = t3_runs.provider_logs(t3_home, run["t3_thread_id"])
     matched = 0
     for path in paths:
         for line in path.read_text().splitlines():

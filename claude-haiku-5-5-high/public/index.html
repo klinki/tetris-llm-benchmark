@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>TetrisJS</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <main class="layout">
+      <aside class="panel">
+        <h2>Hold</h2>
+        <canvas id="hold"></canvas>
+        <dl class="stats">
+          <dt>Score</dt>
+          <dd id="score">0</dd>
+          <dt>Level</dt>
+          <dd id="level">1</dd>
+          <dt>Lines</dt>
+          <dd id="lines">0</dd>
+        </dl>
+        <div class="controls">
+          <h2>Controls</h2>
+          <ul>
+            <li><kbd>←</kbd> <kbd>→</kbd> move</li>
+            <li><kbd>↑</kbd> / <kbd>X</kbd> rotate clockwise</li>
+            <li><kbd>Z</kbd> / <kbd>Left Ctrl</kbd> rotate anti-clockwise</li>
+            <li><kbd>↓</kbd> soft drop</li>
+            <li><kbd>Space</kbd> hard drop</li>
+            <li><kbd>C</kbd> hold</li>
+            <li><kbd>R</kbd> restart after game over</li>
+          </ul>
+        </div>
+      </aside>
+
+      <section class="field">
+        <canvas id="board"></canvas>
+        <p id="event" class="event"></p>
+        <div id="overlay" class="overlay" hidden>
+          <p>Game over</p>
+          <p class="hint">Press R to restart</p>
+        </div>
+      </section>
+
+      <aside class="panel">
+        <h2>Next</h2>
+        <canvas id="next"></canvas>
+      </aside>
+    </main>
+    <script type="module" src="main.js"></script>
+  </body>
+</html>

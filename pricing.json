@@ -33,6 +33,13 @@
       "source": "https://platform.claude.com/docs/en/about-claude/pricing",
       "note": "Cache writes priced at the 5-minute rate; at the 1-hour rate ($8) this run would cost about $0.22 more."
     },
+    "claude-haiku-5-5": {
+      "label": "Claude Haiku 5.5",
+      "prices": {"input": 0.10, "cache_read": 0.01, "cache_write": 0.125, "output": 0.50},
+      "evidence": "official",
+      "source": "https://platform.claude.com/docs/en/about-claude/pricing",
+      "note": "Priced at the rate for prompts up to 100,000 tokens, with cache writes at the 5-minute rate. Requests whose prompt exceeds 100,000 tokens are billed at five times these prices ($0.50 / $0.625 / $0.05 / $2.50); T3 records only whole-turn totals, so the estimate is a lower bound."
+    },
     "gemini-4-argon-contributor": {
       "label": "Gemini 4 Argon",
       "prices": {"input": 2.00, "cache_read": 0.10, "cache_write": null, "output": 10.00},

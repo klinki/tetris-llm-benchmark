@@ -9,6 +9,7 @@ from __future__ import annotations
 
 from contextlib import closing
 import datetime as dt
+import glob
 import hashlib
 import json
 import os
@@ -238,10 +239,16 @@ def run_status(t3_home: Path, record: dict[str, Any]) -> tuple[str, str]:
     return "completed", f"thread {thread['thread_id']}"
 
 
+def provider_logs(t3_home: Path, thread_id: str) -> list[Path]:
+    """A thread's provider event logs. T3 writes the `:` of IDs such as `mcp:<uuid>` as `-` in the file name."""
+    name = thread_id.replace(":", "-")
+    return sorted((t3_home / "userdata" / "logs" / "provider").glob(f"events.{glob.escape(name)}.log*"))
+
+
 def claude_query(t3_home: Path, thread_id: str, session_id: str) -> dict[str, Any]:
     """The Claude Agent SDK's effective options, which T3's model selection does not store."""
     found = []
-    for path in sorted((t3_home / "userdata" / "logs" / "provider").glob(f"events.{thread_id}.log*")):
+    for path in provider_logs(t3_home, thread_id):
         for line in path.read_text().splitlines():
             if '"query.open"' not in line:
                 continue
@@ -287,10 +294,11 @@ def inspect_run(t3_home: Path, record: dict[str, Any]) -> dict[str, Any]:
         options = claude_query(t3_home, thread["thread_id"], session_id)
         if options.get("model") != selection.get("model") or options.get("cwd") != record["workspace"]:
             raise RunError(f"Claude SDK model or working directory does not match T3's thread for {record['key']}")
-        identity.update(
-            provider="claudeAgent", model=selection["model"], effort=options.get("effort"),
-            fast_mode=bool(options.get("settings", {}).get("fastMode")),
-        )
+        identity.update(provider="claudeAgent", model=selection["model"], effort=options.get("effort"))
+        # Models without fast mode, such as Haiku, have no fastMode setting at all.
+        settings = options.get("settings", {})
+        if "fastMode" in settings:
+            identity["fast_mode"] = bool(settings["fastMode"])
     else:
         selection = native["nativeMetadata"]["modelSelection"]
         provider, _, model = selection["model"].partition("/")

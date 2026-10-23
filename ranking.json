@@ -254,6 +254,24 @@
         }
       ],
       "summary": "No perfect-clear bonus; board collapses to nothing on phones"
+    },
+    {
+      "run_id": "claude-haiku-5-5-high",
+      "audited": "2026-10-24",
+      "scores": {"correctness": 9.0, "tests": 7.5, "code": 9.0, "simplicity": 8.0, "browser_ux": 8.5},
+      "bugs": [
+        {
+          "severity": "minor",
+          "title": "Starting soft drop reuses accumulated normal-gravity time",
+          "detail": "After 50 normal 16 ms updates at level one, an O remains at y=18. Pressing Down through Input and updating 1 ms moves it to y=34 and awards 16 points. The same gravity accumulator is consumed at the new 50 ms soft-drop interval without resetting or rescaling it. Playwright also observed 12 rows and points during a 120 ms Down hold."
+        },
+        {
+          "severity": "minor",
+          "title": "Fixed-width layout clips the playfield on phones",
+          "detail": "At 390×844, document width is 758 px. The board's 302×602 px border box starts at x=228 and ends at x=530; the next queue starts at x=554, outside the viewport. The fixed flex layout has no narrow-screen reflow."
+        }
+      ],
+      "summary": "Broad rules support; soft-drop timing jump and clipped phone playfield"
     }
   ]
 }
