@@ -38,6 +38,10 @@ CRITERIA = [
     ("browser_ux", "Browser UX"),
 ]
 BUG_KINDS = ("critical", "major", "minor")
+TOKEN_KINDS = ("input", "cache_read", "cache_write", "output")
+PRICE_EVIDENCE = ("recorded", "official", "third-party")
+# Estimates must reproduce a harness-recorded cost this closely, or the price table is wrong.
+RECORDED_COST_TOLERANCE = 0.01
 
 
 class BenchmarkError(RuntimeError):
@@ -249,6 +253,63 @@ def load_ranking(root: Path, runs: list[dict[str, Any]]) -> dict[str, Any]:
         if not entry.get("summary") or "|" in entry["summary"] or not entry.get("audited"):
             raise BenchmarkError(f"ranking.json entry {run_id} needs an audit date and a summary without '|'")
     return ranking
+
+
+def load_pricing(root: Path, runs: list[dict[str, Any]]) -> dict[str, Any]:
+    path = root / "pricing.json"
+    try:
+        pricing = json.loads(path.read_text())
+    except (OSError, json.JSONDecodeError) as error:
+        raise BenchmarkError(f"Cannot read {path}: {error}") from error
+    if pricing.get("schema_version") != 1:
+        raise BenchmarkError("Unsupported pricing.json schema_version")
+    models = pricing.get("models")
+    if not isinstance(models, dict):
+        raise BenchmarkError("pricing.json must contain a models object")
+    for model, entry in models.items():
+        if not entry.get("label"):
+            raise BenchmarkError(f"pricing.json entry {model} needs a label")
+        if "unpriced" in entry:
+            if not entry["unpriced"] or "prices" in entry:
+                raise BenchmarkError(f"pricing.json entry {model} must either give prices or say why it is unpriced")
+            continue
+        prices = entry.get("prices")
+        if (
+            not isinstance(prices, dict)
+            or set(prices) != set(TOKEN_KINDS)
+            or any(prices[kind] is None for kind in ("input", "cache_read", "output"))
+            or any(
+                value is not None and (isinstance(value, bool) or not isinstance(value, (int, float)) or value < 0)
+                for value in prices.values()
+            )
+        ):
+            raise BenchmarkError(
+                f"pricing.json entry {model} needs non-negative {list(TOKEN_KINDS)} prices; only cache_write may be null"
+            )
+        if entry.get("evidence") not in PRICE_EVIDENCE or not entry.get("source"):
+            raise BenchmarkError(f"pricing.json entry {model} needs a source and evidence in {list(PRICE_EVIDENCE)}")
+    for run in runs:
+        if run["model"] not in models:
+            raise BenchmarkError(f"pricing.json has no entry for {run['model']} (run {run['id']})")
+    return pricing
+
+
+def estimate_cost(tokens: dict[str, int], entry: dict[str, Any]) -> dict[str, Any] | None:
+    if "unpriced" in entry:
+        return None
+    parts = {}
+    for kind in TOKEN_KINDS:
+        price = entry["prices"][kind]
+        if tokens[kind] and price is None:
+            raise BenchmarkError(f"{entry['label']} has {kind} tokens but pricing.json gives no {kind} price")
+        parts[kind] = tokens[kind] * (price or 0) / 1_000_000
+    return {"total": sum(parts.values()), "parts": parts}
+
+
+def format_cost(cost: dict[str, Any] | None) -> str:
+    if cost is None:
+        return "—"
+    return "<$0.01" if cost["total"] < 0.005 else f"${cost['total']:,.2f}"
 
 
 def bug_counts(entry: dict[str, Any]) -> dict[str, int]:
@@ -1277,6 +1338,8 @@ def extract_report_values(path: Path, content: str | None = None) -> dict[str, A
         if key == "tested":
             values["tested_usage"] = dict(zip(("input", "cache_read", "cache_write", "output"), map(int, cells[-5:-1])))
     values["elapsed_ms"] = parse_duration(values["elapsed"])
+    recorded_cost = re.search(r"^\s+Tested agent: \$(\d+(?:\.\d+)?)$", text, re.M)
+    values["recorded_cost"] = float(recorded_cost.group(1)) if recorded_cost else None
     for label, key in [("Tool calls", "tool_calls"), ("Model responses", "model_responses")]:
         match = re.search(rf"^- {label}: (\d+)$", text, re.M)
         values[key] = int(match.group(1)) if match else None
@@ -1285,10 +1348,11 @@ def extract_report_values(path: Path, content: str | None = None) -> dict[str, A
 
 def render_readme_block(
     runs: list[dict[str, Any]], reports: dict[str, str], root: Path, ranking: dict[str, Any],
+    pricing: dict[str, Any],
 ) -> str:
     lines = [README_START,
-        "| # | Run | Model | Effort | Harness | Quality | Tokens | Time | Main finding |",
-        "|---:|---|---|---|---|---:|---:|---:|---|",
+        "| # | Run | Model | Effort | Harness | Quality | Tokens | Est. cost | Time | Main finding |",
+        "|---:|---|---|---|---|---:|---:|---:|---:|---|",
     ]
     by_id = {run["id"]: run for run in runs}
     rows: list[tuple[str, dict[str, Any], dict[str, Any] | None, Decimal | None]] = [
@@ -1306,9 +1370,11 @@ def render_readme_block(
         effort = f"`{run['reasoning_variant']}`" if run.get("reasoning_variant") else "—"
         quality = f"**{score}**" if score is not None else "Pending"
         finding = entry["summary"] if entry else "Not ranked yet"
+        cost = format_cost(estimate_cost(values["tested_usage"], pricing["models"][run["model"]]))
         lines.append(
             f"| {rank} | [{run['label']}]({run['project_dir']}/STATISTICS.md){marker} | `{run['model']}` | "
-            f"{effort} | {run['harness_label']} | {quality} | {values['tested']:,} | {values['elapsed']} | {finding} |"
+            f"{effort} | {run['harness_label']} | {quality} | {values['tested']:,} | {cost} | {values['elapsed']} | "
+            f"{finding} |"
         )
         if marker:
             notes.append(f"**† {run['label']}:** {run['comparison_note']}")
@@ -1317,6 +1383,12 @@ def render_readme_block(
         "do not affect it. Tokens are the tested agent's total (input + cache read + cache write + output). "
         "Effort is the recorded reasoning setting; `—` means it was not recorded. Effort labels are "
         "provider-specific, not equivalent reasoning budgets."
+    )
+    notes.append(
+        "**Est. cost** prices the tested agent's tokens at the model's public API list price on the run date, "
+        "from [`pricing.json`](pricing.json); `—` means the model has no public price. It is an estimate of the "
+        "API cost, not what a subscription or free tier charged. Some prices come from third-party listings or "
+        "are upper bounds; `pricing.json` records the source and caveats for each model."
     )
     if unknown_overhead:
         notes.append(
@@ -1356,10 +1428,13 @@ def replace_marked_block(text: str, start: str, end: str, block: str, name: str)
 
 def render_documents(
     root: Path, runs: list[dict[str, Any]], reports: dict[str, str], ranking: dict[str, Any],
+    pricing: dict[str, Any],
 ) -> dict[Path, str]:
     readme_path = root / "README.md"
     ranking_path = root / "RANKING.md"
-    readme = replace_readme_block(readme_path.read_text(), render_readme_block(runs, reports, root, ranking))
+    readme = replace_readme_block(
+        readme_path.read_text(), render_readme_block(runs, reports, root, ranking, pricing),
+    )
     ranking_md = replace_marked_block(
         ranking_path.read_text(), RANKING_START, RANKING_END, render_ranking_table(runs, ranking), "RANKING.md",
     )
@@ -1451,6 +1526,7 @@ def refresh(
     root: Path,
     runs: list[dict[str, Any]],
     ranking: dict[str, Any],
+    pricing: dict[str, Any],
     selected: list[dict[str, Any]],
     codex_home: Path,
     omp_home: Path,
@@ -1469,7 +1545,7 @@ def refresh(
         check_report_arithmetic(report, path)
         results[run["id"]] = result
         reports[run["id"]] = report
-    documents = render_documents(root, runs, reports, ranking)
+    documents = render_documents(root, runs, reports, ranking, pricing)
     if dry_run:
         for run in selected:
             show_diff(root / run["project_dir"] / "STATISTICS.md", reports[run["id"]])
@@ -1482,7 +1558,9 @@ def refresh(
         atomic_write(path, content)
 
 
-def site_results(root: Path, runs: list[dict[str, Any]], ranking: dict[str, Any]) -> dict[str, Any]:
+def site_results(
+    root: Path, runs: list[dict[str, Any]], ranking: dict[str, Any], pricing: dict[str, Any],
+) -> dict[str, Any]:
     ranked = {entry["run_id"]: (rank, entry, score) for rank, entry, score in ranked_entries(ranking)}
     records = []
     for run in runs:
@@ -1503,6 +1581,8 @@ def site_results(root: Path, runs: list[dict[str, Any]], ranking: dict[str, Any]
             "comparison_note": run.get("comparison_note"),
             "known_browser_failure": run.get("known_browser_failure"),
             "static_aliases": run.get("static_aliases", {}),
+            "cost": estimate_cost(values["tested_usage"], pricing["models"][run["model"]]),
+            "price": pricing["models"][run["model"]],
             "rank": None,
         }
         if run["id"] in ranked:
@@ -1521,30 +1601,37 @@ def site_results(root: Path, runs: list[dict[str, Any]], ranking: dict[str, Any]
     records.sort(key=lambda record: (record["rank"] is None, record["rank"] or 0))
     return {
         "criteria": [{"key": key, "label": label, "weight": ranking["weights"][key]} for key, label in CRITERIA],
+        "pricing_basis": pricing["basis"],
         "runs": records,
     }
 
 
-def build_site(root: Path, runs: list[dict[str, Any]], ranking: dict[str, Any], out: Path, games: bool) -> None:
+def build_site(
+    root: Path, runs: list[dict[str, Any]], ranking: dict[str, Any], pricing: dict[str, Any], out: Path, games: bool,
+) -> None:
     try:
         from scripts import results_site
     except ImportError:
         import results_site
     try:
-        results_site.build(root, site_results(root, runs, ranking), out, games)
+        results_site.build(root, site_results(root, runs, ranking, pricing), out, games)
     except results_site.SiteError as error:
         raise BenchmarkError(str(error)) from error
 
 
-def render(root: Path, runs: list[dict[str, Any]], ranking: dict[str, Any], dry_run: bool) -> None:
-    for path, content in render_documents(root, runs, {}, ranking).items():
+def render(
+    root: Path, runs: list[dict[str, Any]], ranking: dict[str, Any], pricing: dict[str, Any], dry_run: bool,
+) -> None:
+    for path, content in render_documents(root, runs, {}, ranking, pricing).items():
         if dry_run:
             show_diff(path, content)
         else:
             atomic_write(path, content)
 
 
-def verify_documents(root: Path, runs: list[dict[str, Any]], ranking: dict[str, Any]) -> None:
+def verify_documents(
+    root: Path, runs: list[dict[str, Any]], ranking: dict[str, Any], pricing: dict[str, Any],
+) -> None:
     for run in runs:
         path = root / run["project_dir"] / "STATISTICS.md"
         content = path.read_text()
@@ -1554,7 +1641,16 @@ def verify_documents(root: Path, runs: list[dict[str, Any]], ranking: dict[str, 
         values = extract_report_values(path, content)
         if (values["overhead"] is None) != (run["overhead"]["kind"] == "unknown"):
             raise BenchmarkError(f"Report overhead does not match registry policy in {path}")
-    for path, content in render_documents(root, runs, {}, ranking).items():
+        estimate = estimate_cost(values["tested_usage"], pricing["models"][run["model"]])
+        if values["recorded_cost"] is not None and (
+            estimate is None
+            or abs(estimate["total"] - values["recorded_cost"]) > RECORDED_COST_TOLERANCE * values["recorded_cost"]
+        ):
+            raise BenchmarkError(
+                f"pricing.json gives {format_cost(estimate)} for {run['id']}, but its harness recorded "
+                f"${values['recorded_cost']:.4f}"
+            )
+    for path, content in render_documents(root, runs, {}, ranking, pricing).items():
         if path.read_text() != content:
             raise BenchmarkError(f"{path.name} generated block is stale; run render")
     ranking_md = root.joinpath("RANKING.md").read_text()
@@ -1607,6 +1703,7 @@ def main(argv: list[str] | None = None) -> int:
         root = args.manifest.resolve().parent
     _, runs = load_manifest(root)
     ranking = load_ranking(root, runs)
+    pricing = load_pricing(root, runs)
     by_id = {run["id"]: run for run in runs}
     codex_home = Path(os.environ.get("CODEX_HOME", Path.home() / ".codex")).expanduser()
     omp_home = Path(os.environ.get("OMP_HOME", Path.home() / ".omp")).expanduser()
@@ -1619,13 +1716,13 @@ def main(argv: list[str] | None = None) -> int:
             if args.run_id not in by_id:
                 raise BenchmarkError(f"Unknown run ID: {args.run_id}")
             selected = [by_id[args.run_id]]
-        refresh(root, runs, ranking, selected, codex_home, omp_home, pi_home, t3_home, args.dry_run)
+        refresh(root, runs, ranking, pricing, selected, codex_home, omp_home, pi_home, t3_home, args.dry_run)
     elif args.command == "render":
-        render(root, runs, ranking, args.dry_run)
+        render(root, runs, ranking, pricing, args.dry_run)
     elif args.command == "site":
-        build_site(root, runs, ranking, args.out.resolve(), not args.skip_games)
+        build_site(root, runs, ranking, pricing, args.out.resolve(), not args.skip_games)
     else:
-        verify_documents(root, runs, ranking)
+        verify_documents(root, runs, ranking, pricing)
         if args.run_id:
             if args.run_id not in by_id:
                 raise BenchmarkError(f"Unknown run ID: {args.run_id}")

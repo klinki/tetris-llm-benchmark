@@ -79,8 +79,9 @@ async function visit(path, { play = false } = {}) {
     });
     if (!drawn) problems.push("nothing was drawn");
   } else {
+    const slots = await page.locator("[data-chart]").count();
     const charts = await page.locator("[data-chart] svg").count();
-    if (path === "" && charts < 5) problems.push(`expected 5 charts, found ${charts}`);
+    if (charts < slots) problems.push(`only ${charts} of ${slots} charts rendered`);
   }
   await page.close();
   return problems;

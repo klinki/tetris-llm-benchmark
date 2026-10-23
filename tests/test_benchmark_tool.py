@@ -440,10 +440,11 @@ class T3CollectorTests(unittest.TestCase):
         self.assertIn("Model responses: Not verified", report)
         self.assertNotIn("$0.000000000", report)
         self.assertIn('"reasoningTokens": 12', report)
+        pricing = {"models": {"fixture-model": {"label": "Fixture", "unpriced": "No public price."}}}
         block = benchmark.render_readme_block(
-            [self.run], {self.run["id"]: report}, Path(self.temporary.name), empty_ranking(),
+            [self.run], {self.run["id"]: report}, Path(self.temporary.name), empty_ranking(), pricing,
         )
-        self.assertIn("| `xhigh` | T3 Code / OpenCode | Pending | 140 | 3.000s | Not ranked yet |", block)
+        self.assertIn("| `xhigh` | T3 Code / OpenCode | Pending | 140 | — | 3.000s | Not ranked yet |", block)
         self.assertIn("unknown does not mean zero", block)
 
     def test_rejects_numeric_combined_total_with_unknown_overhead(self) -> None:
@@ -650,6 +651,52 @@ class RankingTests(unittest.TestCase):
         self.assertEqual(replaced, f"Intro\n{block}\nRest\n")
         with self.assertRaisesRegex(benchmark.BenchmarkError, "markers are missing"):
             benchmark.replace_marked_block("No markers", benchmark.RANKING_START, benchmark.RANKING_END, block, "RANKING.md")
+
+
+class PricingTests(unittest.TestCase):
+    PRICED = {
+        "label": "GPT-5.6 Luna",
+        "prices": {"input": 0.20, "cache_read": 0.02, "cache_write": None, "output": 1.20},
+        "evidence": "recorded",
+        "source": "https://example.com/pricing",
+        "note": "Fixture.",
+    }
+
+    def load(self, models: dict, runs: list[dict]) -> dict:
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            (root / "pricing.json").write_text(json.dumps({"schema_version": 1, "models": models}))
+            return benchmark.load_pricing(root, runs)
+
+    def test_estimate_reproduces_a_harness_recorded_cost(self) -> None:
+        # Luna OMP's tokens; OMP recorded $0.171229440 for them.
+        tokens = {"input": 135_570, "cache_read": 4_998_912, "cache_write": 0, "output": 36_781}
+        cost = benchmark.estimate_cost(tokens, self.PRICED)
+        self.assertAlmostEqual(cost["total"], 0.17122944, places=8)
+        self.assertAlmostEqual(cost["parts"]["cache_read"], 0.09997824, places=8)
+        self.assertEqual(benchmark.format_cost(cost), "$0.17")
+        self.assertEqual(benchmark.format_cost(None), "—")
+        self.assertEqual(benchmark.format_cost({"total": 0.004}), "<$0.01")
+
+    def test_tokens_without_a_price_fail_instead_of_counting_as_free(self) -> None:
+        tokens = {"input": 1, "cache_read": 0, "cache_write": 5, "output": 1}
+        with self.assertRaisesRegex(benchmark.BenchmarkError, "no cache_write price"):
+            benchmark.estimate_cost(tokens, self.PRICED)
+        self.assertIsNone(benchmark.estimate_cost(tokens, {"label": "Stealth", "unpriced": "Free."}))
+
+    def test_rejects_missing_or_malformed_prices(self) -> None:
+        run = {"id": "luna", "model": "gpt-5.6-luna"}
+        cases = [
+            ("missing model", {}, "no entry for gpt-5.6-luna"),
+            ("null input", {"gpt-5.6-luna": {**self.PRICED, "prices": {**self.PRICED["prices"], "input": None}}},
+             "only cache_write may be null"),
+            ("evidence", {"gpt-5.6-luna": {**self.PRICED, "evidence": "guess"}}, "needs a source and evidence"),
+            ("both", {"gpt-5.6-luna": {**self.PRICED, "unpriced": "Free."}}, "either give prices"),
+        ]
+        for name, models, message in cases:
+            with self.subTest(name), self.assertRaisesRegex(benchmark.BenchmarkError, message):
+                self.load(models, [run])
+        self.assertIn("gpt-5.6-luna", self.load({"gpt-5.6-luna": self.PRICED}, [run])["models"])
 
 
 class SiteTests(unittest.TestCase):

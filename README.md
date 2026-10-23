@@ -16,27 +16,29 @@ The table is generated from [`benchmark-runs.json`](benchmark-runs.json),
 [`ranking.json`](ranking.json), and each run's `STATISTICS.md`.
 
 <!-- benchmark-results:start -->
-| # | Run | Model | Effort | Harness | Quality | Tokens | Time | Main finding |
-|---:|---|---|---|---|---:|---:|---:|---|
-| 1 | [Opus 5.5](opus-5.5/STATISTICS.md) | `claude-opus-5-5` | `medium` | T3 Code / Claude Agent SDK | **9.05** | 1,510,085 | 7m 17.232s | Strongest tests and rules coverage; board does not fit a phone screen |
-| 2 | [Luna OMP](luna-omp/STATISTICS.md) | `gpt-5.6-luna` | — | OMP | **8.60** | 5,171,263 | 14m 14.264s | No confirmed bugs; tests skip kicks, lock delay and advanced scoring |
-| 3 | [Gemini-4](gemini-4/STATISTICS.md) | `gemini-4-argon-contributor` | `medium` | T3 Code / OpenCode | **8.50** | 590,203 | 6m 36.862s | No perfect-clear bonus; side panels overflow on phones |
-| 4 | [Luna PI](luna-pi/STATISTICS.md) | `gpt-5.6-luna` | — | PI | **8.45** | 970,356 | 12m 26.483s | Combo bonus is multiplied by the level twice |
-| 5 | [Muse Spark 1.3 (medium)](muse-spark-1.3-medium/STATISTICS.md)† | `muse-spark-1.3-contributor` | `medium` | T3 Code / OpenCode | **8.40** | 923,864 | 2m 13.321s | No perfect-clear bonus; board collapses to nothing on phones |
-| 6 | [Sol OMP](sol-omp/STATISTICS.md) | `gpt-5.6-sol` | — | OMP | **8.30** | 999,455 | 8m 3.842s | No mini T-spins; sparse test suite |
-| 7 | [Sol Codex](sol-codex/STATISTICS.md) | `gpt-5.6-sol` | — | Codex Desktop | **8.20** | 909,035 | 6m 22.017s | Piece can lock in mid-air after a ledge move; no mini T-spins |
-| 8 | [Luna Codex](luna-codex/STATISTICS.md) | `gpt-5.6-luna` | — | Codex Desktop | **7.60** | 1,177,121 | 11m 31.291s | Four S/Z rotation states are not SRS; game-over overlay shows during play |
-| 9 | [Cat-jam](cat-jam/STATISTICS.md) | `longcat-2.5-preview-free` | `default` | T3 Code / OpenCode | **7.40** | 2,070,440 | 23m 42.424s | Malformed L rotation state; no T-spin, B2B or perfect-clear scoring |
-| 10 | [DeepSeek OMP/PI](deepseek-pi/STATISTICS.md)† | `deepseek-v4-flash` | — | OMP/PI | **7.30** | 18,118,592 | 44m 11.418s | Piece can lock in mid-air after a ledge move; basic scoring only |
-| 11 | [Space-bunny](space-bunny/STATISTICS.md) | `space-bunny` | `xhigh` | T3 Code / OpenCode | **6.75** | 21,547,591 | 13m 19.433s | Non-SRS shapes and kicks, flattened ghost piece, scoring errors |
-| 12 | [Beam](beam/STATISTICS.md) | `beam-free` | `xhigh` | T3 Code / OpenCode | **5.60** | 1,334,888 | 3m 3.429s | Lock timer mixes two clocks; classic scoring table |
-| 13 | [Nemotron](nemotron/STATISTICS.md) | `nvidia/nemotron-3.5-super-vl:free` | `thinking` | T3 Code / OpenCode | **4.00** | 1,851,716 | 9m 8.773s | Does not start in the browser: imports lack .js extensions |
+| # | Run | Model | Effort | Harness | Quality | Tokens | Est. cost | Time | Main finding |
+|---:|---|---|---|---|---:|---:|---:|---:|---|
+| 1 | [Opus 5.5](opus-5.5/STATISTICS.md) | `claude-opus-5-5` | `medium` | T3 Code / Claude Agent SDK | **9.05** | 1,510,085 | $1.50 | 7m 17.232s | Strongest tests and rules coverage; board does not fit a phone screen |
+| 2 | [Luna OMP](luna-omp/STATISTICS.md) | `gpt-5.6-luna` | — | OMP | **8.60** | 5,171,263 | $0.17 | 14m 14.264s | No confirmed bugs; tests skip kicks, lock delay and advanced scoring |
+| 3 | [Gemini-4](gemini-4/STATISTICS.md) | `gemini-4-argon-contributor` | `medium` | T3 Code / OpenCode | **8.50** | 590,203 | $0.45 | 6m 36.862s | No perfect-clear bonus; side panels overflow on phones |
+| 4 | [Luna PI](luna-pi/STATISTICS.md) | `gpt-5.6-luna` | — | PI | **8.45** | 970,356 | $0.08 | 12m 26.483s | Combo bonus is multiplied by the level twice |
+| 5 | [Muse Spark 1.3 (medium)](muse-spark-1.3-medium/STATISTICS.md)† | `muse-spark-1.3-contributor` | `medium` | T3 Code / OpenCode | **8.40** | 923,864 | $1.20 | 2m 13.321s | No perfect-clear bonus; board collapses to nothing on phones |
+| 6 | [Sol OMP](sol-omp/STATISTICS.md) | `gpt-5.6-sol` | — | OMP | **8.30** | 999,455 | $1.29 | 8m 3.842s | No mini T-spins; sparse test suite |
+| 7 | [Sol Codex](sol-codex/STATISTICS.md) | `gpt-5.6-sol` | — | Codex Desktop | **8.20** | 909,035 | $1.12 | 6m 22.017s | Piece can lock in mid-air after a ledge move; no mini T-spins |
+| 8 | [Luna Codex](luna-codex/STATISTICS.md) | `gpt-5.6-luna` | — | Codex Desktop | **7.60** | 1,177,121 | $0.07 | 11m 31.291s | Four S/Z rotation states are not SRS; game-over overlay shows during play |
+| 9 | [Cat-jam](cat-jam/STATISTICS.md) | `longcat-2.5-preview-free` | `default` | T3 Code / OpenCode | **7.40** | 2,070,440 | $0.12 | 23m 42.424s | Malformed L rotation state; no T-spin, B2B or perfect-clear scoring |
+| 10 | [DeepSeek OMP/PI](deepseek-pi/STATISTICS.md)† | `deepseek-v4-flash` | — | OMP/PI | **7.30** | 18,118,592 | $0.12 | 44m 11.418s | Piece can lock in mid-air after a ledge move; basic scoring only |
+| 11 | [Space-bunny](space-bunny/STATISTICS.md) | `space-bunny` | `xhigh` | T3 Code / OpenCode | **6.75** | 21,547,591 | — | 13m 19.433s | Non-SRS shapes and kicks, flattened ghost piece, scoring errors |
+| 12 | [Beam](beam/STATISTICS.md) | `beam-free` | `xhigh` | T3 Code / OpenCode | **5.60** | 1,334,888 | — | 3m 3.429s | Lock timer mixes two clocks; classic scoring table |
+| 13 | [Nemotron](nemotron/STATISTICS.md) | `nvidia/nemotron-3.5-super-vl:free` | `thinking` | T3 Code / OpenCode | **4.00** | 1,851,716 | $0.20 | 9m 8.773s | Does not start in the browser: imports lack .js extensions |
 
 **† Muse Spark 1.3 (medium):** Reference-assisted run: the medium-reasoning child read Gemini-4's engine, shape tables, tests, and build files before writing this implementation, so token/time efficiency is not an independent from-scratch comparison. Primary time covers the child task only. The xhigh parent prepared/delegated and verified/reported the result: 339,157 recorded parent tokens and 2m 54.475s end-to-end are documented separately.
 
 **† DeepSeek OMP/PI:** The implementation required two user messages, while the other runs used one benchmark prompt. Elapsed time includes both agent-work phases but excludes the wait for the second message. A later README-only message did not affect the audited implementation and is reported separately.
 
 **Columns:** Quality is the weighted [ranking](RANKING.md) score out of 10; token use and time do not affect it. Tokens are the tested agent's total (input + cache read + cache write + output). Effort is the recorded reasoning setting; `—` means it was not recorded. Effort labels are provider-specific, not equivalent reasoning budgets.
+
+**Est. cost** prices the tested agent's tokens at the model's public API list price on the run date, from [`pricing.json`](pricing.json); `—` means the model has no public price. It is an estimate of the API cost, not what a subscription or free tier charged. Some prices come from third-party listings or are upper bounds; `pricing.json` records the source and caveats for each model.
 
 **Harness overhead:** each run's statistics report separate harness requests. For T3 runs they are not verified; unknown does not mean zero.
 <!-- benchmark-results:end -->
@@ -62,7 +64,8 @@ fast mode off.
 ## Results site
 
 The same results are published as a static site with interactive charts
-(quality against tokens and time, token use, time, and score breakdown) and a
+(quality against estimated cost, tokens, and time; cost; token use; time; and
+score breakdown) and a
 page per run that shows its scores, confirmed bugs, usage, and a playable build
 of its game. [`pages.yml`](.github/workflows/pages.yml) builds and checks it on
 every pull request and deploys it to GitHub Pages from `main`.
@@ -123,6 +126,36 @@ because they are harness lifecycle events, not benchmark work boundaries.
 DeepSeek is the documented exception: its end is the completed implementation
 response to message two, and the wait between messages one and two is
 subtracted from elapsed time.
+
+## Cost estimates
+
+The **Est. cost** column prices each run's tested-agent tokens at the model's
+public pay-as-you-go API list price in effect on the run date:
+
+```text
+Cost = (Input × input price + Cache Read × cache-read price
+        + Cache Write × cache-write price + Output × output price) / 1,000,000
+```
+
+[`pricing.json`](pricing.json) holds the price per million tokens for every
+model in the registry, with its source, the date it was checked, and how
+strongly it is backed:
+
+- **`recorded`**: the price reproduces the cost the harness itself recorded.
+  OMP and PI record a dollar cost, so Luna, Sol, and DeepSeek prices are
+  checked against four real bills. `verify` fails if any estimate drifts more
+  than 1% from a recorded cost.
+- **`official`**: taken from the provider's own pricing page.
+- **`third-party`**: taken from a price listing because the provider's page
+  was not available. Treat these as approximate.
+
+The estimate is what the run would cost through the provider's API. It is not
+what a subscription such as OpenCode Go or a free tier actually charged. When a
+run used a free or contributor variant, the standard public price of the same
+model is used. Where a provider publishes no cached-input price, cached tokens
+are priced as regular input, which makes that estimate an upper bound. Models
+with no public price at all (Beam and Space Bunny, both free stealth models)
+have no estimate. Every assumption is recorded in the model's `note`.
 
 ## Session isolation
 
@@ -335,7 +368,8 @@ rankings, or create Git commits.
 2. Add one entry to [`benchmark-runs.json`](benchmark-runs.json), including the
    exact root session ID, provider/model, working-directory basename, cutoff,
    and overhead policy. For T3, also include its T3 thread ID, exact original
-   directory, and reasoning variant.
+   directory, and reasoning variant. If its model is new, add the model's
+   price to [`pricing.json`](pricing.json), or say why it has none.
 3. Point `CODEX_HOME`, `OMP_HOME`, `PI_HOME`, or `T3_HOME` at the machine that
    owns the session data.
 4. Refresh the run, review the generated Markdown, and commit it. Until the
@@ -387,7 +421,8 @@ python3 -m unittest discover -s tests -v
 Generated Markdown is the committed result record. `render` regenerates the
 README leaderboard and RANKING table from committed statistics and
 `ranking.json`, without session files. `verify` without a run ID checks report
-arithmetic, that both generated tables are current, and that every scored run
-has a matching RANKING.md audit heading. `verify RUN_ID` additionally
+arithmetic, that both generated tables are current, that every scored run
+has a matching RANKING.md audit heading, and that cost estimates reproduce
+every harness-recorded cost. `verify RUN_ID` additionally
 recollects that exact source and requires its generated statistics to match
 byte-for-byte. Quality scoring itself remains a separate audited workflow.

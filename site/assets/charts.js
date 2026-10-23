@@ -22,8 +22,8 @@ const state = {
   hidden: new Set(),
   harness: new Set(harnesses),
   effort: new Set(efforts),
-  scale: { "quality-tokens": "log", "quality-time": "log" },
-  pareto: { "quality-tokens": false, "quality-time": false },
+  scale: { "quality-cost": "log", "quality-tokens": "log", "quality-time": "log" },
+  pareto: { "quality-cost": false, "quality-tokens": false, "quality-time": false },
 };
 
 const isVisible = (run) =>
@@ -45,6 +45,12 @@ function formatMinutes(minutes) {
   return m ? (s ? `${m}m ${s}s` : `${m}m`) : `${s}s`;
 }
 const formatInt = (value) => value.toLocaleString("en-US");
+function formatCost(value) {
+  if (value < 0.005) return "<$0.01";
+  return `$${value.toFixed(2)}`;
+}
+// Axis ticks span cents to dollars, so keep the significant digits a tick needs.
+const formatCostTick = (value) => `$${trim(value >= 1 ? value.toFixed(0) : value.toPrecision(1))}`;
 
 // ---------- DOM helpers ----------
 function svgEl(tag, attrs = {}, parent) {
@@ -173,7 +179,7 @@ function paretoFrontier(points) {
   return frontier;
 }
 
-function renderScatter(key, { xValue, xLabel, formatX }) {
+function renderScatter(key, { xValue, xLabel, formatX, include = () => true }) {
   const container = document.querySelector(`[data-chart="${key}"]`);
   const narrow = container.clientWidth < 520;
   const { svg, width, height } = frame(container, narrow ? 340 : 420);
@@ -181,7 +187,7 @@ function renderScatter(key, { xValue, xLabel, formatX }) {
   const margin = { top: 12, right: narrow ? 16 : 24, bottom: 44, left: 44 };
   const plotW = width - margin.left - margin.right;
   const plotH = height - margin.top - margin.bottom;
-  const visible = runs.filter((run) => isVisible(run) && run.rank !== null);
+  const visible = runs.filter((run) => isVisible(run) && run.rank !== null && include(run));
   if (!visible.length) return emptyMessage(svg, width, height, "No ranked runs match the filters.");
 
   const xs = visible.map(xValue);
@@ -245,6 +251,7 @@ function renderScatter(key, { xValue, xLabel, formatX }) {
       subtitle: `${point.run.model} · ${point.run.effort ?? NO_EFFORT} · ${point.run.harness_label}`,
       rows: [
         { value: point.run.score_text, label: "quality score" },
+        { value: point.run.cost ? formatCost(point.run.cost.total) : "—", label: "estimated cost" },
         { value: formatTokens(point.run.tokens.total), label: "tokens" },
         { value: formatMinutes(point.run.elapsed_ms / 60000), label: "time" },
       ],
@@ -411,6 +418,12 @@ function renderSegmentLegend(key, segments) {
 // ---------- page ----------
 function renderAll() {
   hideTooltip();
+  renderScatter("quality-cost", {
+    xValue: (run) => run.cost.total,
+    xLabel: "Estimated API cost",
+    formatX: formatCostTick,
+    include: (run) => run.cost !== null,
+  });
   renderScatter("quality-tokens", { xValue: (run) => run.tokens.total, xLabel: "Tokens", formatX: formatTokens });
   renderScatter("quality-time", {
     xValue: (run) => run.elapsed_ms / 60000,
@@ -419,6 +432,20 @@ function renderAll() {
   });
 
   const visible = runs.filter(isVisible);
+  const costSegments = TOKEN_TYPES.filter((type) => visible.some((run) => run.cost?.parts[type.key] > 0)).map((type) => ({
+    ...type,
+    value: (run) => run.cost.parts[type.key],
+    format: (value) => `$${value.toFixed(4)}`,
+  }));
+  renderSegmentLegend("cost", costSegments);
+  renderBars("cost", {
+    rows: visible.filter((run) => run.cost).map((run) => ({ run, total: run.cost.total })).sort((a, b) => a.total - b.total),
+    segments: costSegments,
+    formatValue: formatCost,
+    formatAxis: (value) => `$${trim(value.toFixed(2))}`,
+    describe: (row) => `${row.run.label}: estimated ${formatCost(row.total)}`,
+  });
+
   const tokenSegments = TOKEN_TYPES.filter((type) => visible.some((run) => run.tokens[type.key] > 0)).map((type) => ({
     ...type,
     value: (run) => run.tokens[type.key],

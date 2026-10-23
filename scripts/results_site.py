@@ -29,8 +29,10 @@ SEVERITY_ICONS = {"critical": "✕", "major": "!", "minor": "–"}
 ROOT_RELATIVE_ATTRIBUTE = re.compile(r"""(\s(?:src|href)=)(["'])/(?!/)([^"']*)\2""")
 ROOT_RELATIVE_IMPORT = re.compile(r"""(?:\bfrom\s*|\bimport\s*\(?\s*)["']/(?!/)""")
 SECTIONS = [
+    ("quality-cost", "Quality vs cost"),
     ("quality-tokens", "Quality vs tokens"),
     ("quality-time", "Quality vs time"),
+    ("cost", "Cost"),
     ("token-use", "Token use"),
     ("time-taken", "Time"),
     ("score-breakdown", "Score breakdown"),
@@ -52,6 +54,14 @@ def compact_tokens(value: int) -> str:
     if value >= 1_000_000:
         return f"{value / 1_000_000:.2f}M"
     return f"{round(value / 1000)}K"
+
+
+def format_cost(cost: dict[str, Any] | None, precise: bool = False) -> str:
+    if cost is None:
+        return "—"
+    if precise:
+        return f"${cost['total']:,.4f}"
+    return "<$0.01" if cost["total"] < 0.005 else f"${cost['total']:,.2f}"
 
 
 def short_duration(milliseconds: int) -> str:
@@ -132,13 +142,14 @@ def leaderboard_table(runs: list[dict[str, Any]]) -> str:
             f'<th scope="row"><a href="runs/{esc(run["id"])}/">{esc(run["label"])}</a></th>'
             f'<td><code>{esc(run["model"])}</code></td><td>{effort}</td><td>{esc(run["harness_label"])}</td>'
             f'<td class="num">{quality}</td><td class="num">{run["tokens"]["total"]:,}</td>'
+            f'<td class="num">{esc(format_cost(run["cost"]))}</td>'
             f'<td class="num">{esc(short_duration(run["elapsed_ms"]))}</td>'
             f'<td>{esc(run.get("summary", "Not ranked yet"))}</td></tr>'
         )
     return f"""<div class="table-wrapper" tabindex="0" role="region" aria-labelledby="leaderboard-caption">
 <table class="leaderboard">
 <caption id="leaderboard-caption">All runs, ordered by quality score</caption>
-<thead><tr><th scope="col" class="num">#</th><th scope="col">Run</th><th scope="col">Model</th><th scope="col">Effort</th><th scope="col">Harness</th><th scope="col" class="num">Quality</th><th scope="col" class="num">Tokens</th><th scope="col" class="num">Time</th><th scope="col">Main finding</th></tr></thead>
+<thead><tr><th scope="col" class="num">#</th><th scope="col">Run</th><th scope="col">Model</th><th scope="col">Effort</th><th scope="col">Harness</th><th scope="col" class="num">Quality</th><th scope="col" class="num">Tokens</th><th scope="col" class="num">Est. cost</th><th scope="col" class="num">Time</th><th scope="col">Main finding</th></tr></thead>
 <tbody>{''.join(rows)}</tbody>
 </table>
 </div>"""
@@ -168,21 +179,35 @@ def index_page(results: dict[str, Any]) -> str:
     runs = results["runs"]
     scored = [run for run in runs if run["rank"] is not None]
     best = scored[0] if scored else None
-    lean = min(scored, key=lambda run: run["tokens"]["total"]) if scored else None
+    priced = [run for run in scored if run["cost"] is not None]
+    cheapest = min(priced, key=lambda run: run["cost"]["total"]) if priced else None
     intro = (
         f"<p class=\"lede\">{len(runs)} runs of models building the same browser Tetris game from one prompt. "
-        "Each run is scored for quality by an audited review and measured for the tokens and time it took."
+        "Each run is scored for quality by an audited review and measured for the tokens, estimated API cost, "
+        "and time it took."
         + (f" Highest quality: <a href=\"runs/{esc(best['id'])}/\">{esc(best['label'])}</a> ({esc(best['score_text'])}). "
-           f"Fewest tokens: <a href=\"runs/{esc(lean['id'])}/\">{esc(lean['label'])}</a> "
-           f"({esc(compact_tokens(lean['tokens']['total']))})." if best and lean else "")
+           f"Cheapest: <a href=\"runs/{esc(cheapest['id'])}/\">{esc(cheapest['label'])}</a> "
+           f"({esc(format_cost(cheapest['cost']))})." if best and cheapest else "")
         + "</p>"
+    )
+    unpriced = [run["label"] for run in runs if run["cost"] is None]
+    left_out = (
+        f" {' and '.join(unpriced) if len(unpriced) < 3 else ', '.join(unpriced)} "
+        f"{'has' if len(unpriced) == 1 else 'have'} no public price and {'is' if len(unpriced) == 1 else 'are'} left out."
+        if unpriced else ""
+    )
+    cost_subtitle = (
+        "Quality score against estimated API cost: recorded tokens at each model's public list price. "
+        f"Up and to the left is better.{left_out}"
     )
     body = f"""<div class="layout">
 <main id="main">
   <h1>Tetris LLM benchmark</h1>
   {intro}
+  {chart_card("quality-cost", "Quality vs cost", cost_subtitle, scatter_controls("quality-cost"))}
   {chart_card("quality-tokens", "Quality vs tokens", "Quality score against the tested agent's total tokens. Up and to the left is better.", scatter_controls("quality-tokens"))}
   {chart_card("quality-time", "Quality vs time", "Quality score against wall-clock time to finish. Up and to the left is better.", scatter_controls("quality-time"))}
+  {chart_card("cost", "Cost", f"Estimated API cost per run, split by token type.{left_out}")}
   {chart_card("token-use", "Token use", "Tested-agent tokens per run, split by type. Cached input dominates most runs.")}
   {chart_card("time-taken", "Time", "Wall-clock time from the benchmark prompt to the finished implementation.")}
   {chart_card("score-breakdown", "Score breakdown", "Each criterion's weighted contribution to the quality score out of 10.")}
@@ -218,6 +243,8 @@ def run_page(run: dict[str, Any], results: dict[str, Any], repo: str | None, gam
         stat_tile("Quality", f"{run['score_text']} / 10" if run["rank"] else "Pending",
                   f"Rank {run['rank']} of {total_runs}" if run["rank"] else "Not ranked yet"),
         stat_tile("Tokens", compact_tokens(run["tokens"]["total"]), f"{run['tokens']['total']:,} tested-agent"),
+        stat_tile("Est. cost", format_cost(run["cost"]),
+                  "At public API list price" if run["cost"] else "No public price for this model"),
         stat_tile("Time", short_duration(run["elapsed_ms"]), run["elapsed"]),
         stat_tile("Tool calls", f"{run['tool_calls']:,}" if run["tool_calls"] is not None else "—",
                   "Recorded by the harness" if run["tool_calls"] is not None else "Not recorded for this harness"),
@@ -295,11 +322,35 @@ def run_page(run: dict[str, Any], results: dict[str, Any], repo: str | None, gam
 </section>"""
 
     tokens = run["tokens"]
+    cost = run["cost"]
+    price = run["price"]
+
+    def price_cells(key: str) -> str:
+        if cost is None:
+            return ""
+        rate = price["prices"][key]
+        rate_text = "—" if rate is None else f"${rate:g}"
+        return f'<td class="num">{rate_text}</td><td class="num">${cost["parts"][key]:,.4f}</td>'
+
     usage_rows = "".join(
         f'<tr><th scope="row">{label}</th><td class="num">{tokens[key]:,}</td>'
-        f'<td class="num">{tokens[key] / tokens["total"]:.1%}</td></tr>'
+        f'<td class="num">{tokens[key] / tokens["total"]:.1%}</td>{price_cells(key)}</tr>'
         for key, label in [("input", "Input"), ("cache_read", "Cache read"), ("cache_write", "Cache write"), ("output", "Output")]
     )
+    price_heads = '<th scope="col" class="num">Price / 1M</th><th scope="col" class="num">Cost</th>' if cost else ""
+    price_total = f'<td></td><td class="num">{esc(format_cost(cost, precise=True))}</td>' if cost else ""
+    evidence = {
+        "recorded": "Reproduces the cost the harness itself recorded",
+        "official": "Provider's official price page",
+        "third-party": "Third-party price listing",
+    }
+    if cost:
+        pricing_note = (
+            f"<p class=\"small\">Priced as {esc(price['label'])}. {esc(price['note'])} "
+            f"Source: <a href=\"{esc(price['source'])}\">{esc(evidence[price['evidence']])} ↗</a>.</p>"
+        )
+    else:
+        pricing_note = f"<p class=\"small\">No cost estimate: {esc(price['unpriced'])}</p>"
     overhead = (
         "Harness requests such as title generation are recorded separately in the statistics."
         if run["overhead_verified"] else
@@ -311,12 +362,13 @@ def run_page(run: dict[str, Any], results: dict[str, Any], repo: str | None, gam
         links.append(f'<a href="{esc(repo)}/blob/main/{esc(run["project_dir"])}/STATISTICS.md">Session statistics ↗</a>')
     responses = f"{run['model_responses']:,}" if run["model_responses"] is not None else "not recorded"
     usage = f"""<section class="card" aria-labelledby="usage-title">
-  <h2 id="usage-title">Usage</h2>
-  <p class="subtitle">Tested-agent tokens only. {esc(overhead)}</p>
+  <h2 id="usage-title">Usage and cost</h2>
+  <p class="subtitle">Tested-agent tokens only. {esc(overhead)} Cost is an estimate at the model's public API list price.</p>
   <div class="table-wrapper" tabindex="0" role="region" aria-labelledby="usage-title">
-  <table><thead><tr><th scope="col">Type</th><th scope="col" class="num">Tokens</th><th scope="col" class="num">Share</th></tr></thead>
-  <tbody>{usage_rows}<tr class="total"><th scope="row">Total</th><td class="num">{tokens['total']:,}</td><td class="num">100%</td></tr></tbody></table>
+  <table><thead><tr><th scope="col">Type</th><th scope="col" class="num">Tokens</th><th scope="col" class="num">Share</th>{price_heads}</tr></thead>
+  <tbody>{usage_rows}<tr class="total"><th scope="row">Total</th><td class="num">{tokens['total']:,}</td><td class="num">100%</td>{price_total}</tr></tbody></table>
   </div>
+  {pricing_note}
   <p class="small">Elapsed {esc(run['elapsed'])} · model responses {esc(responses)}</p>
   <p class="links">{' · '.join(links)}</p>
 </section>"""

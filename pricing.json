@@ -1,0 +1,73 @@
+{
+  "schema_version": 1,
+  "currency": "USD",
+  "unit": "per 1M tokens",
+  "basis": "Public pay-as-you-go API list price for the model, in effect on the run date, applied to the tested agent's recorded tokens. It estimates what the run would cost through the provider's API, not what the harness subscription or a free tier actually charged.",
+  "checked": "2026-10-23",
+  "models": {
+    "gpt-5.6-luna": {
+      "label": "GPT-5.6 Luna",
+      "prices": {"input": 0.20, "cache_read": 0.02, "cache_write": null, "output": 1.20},
+      "evidence": "recorded",
+      "source": "https://developers.openai.com/api/docs/models/gpt-5.6-luna",
+      "note": "Price after OpenAI's July 30, 2026 cut; all Luna runs are from August. Reproduces the costs OMP and PI recorded for Luna OMP and Luna PI."
+    },
+    "gpt-5.6-sol": {
+      "label": "GPT-5.6 Sol",
+      "prices": {"input": 5.00, "cache_read": 0.50, "cache_write": null, "output": 30.00},
+      "evidence": "recorded",
+      "source": "https://developers.openai.com/api/docs/models/GPT-5.6",
+      "note": "Standard rate; reproduces the cost OMP recorded for Sol OMP. A later promotional rate of $4 / $20 is not applied."
+    },
+    "deepseek-v4-flash": {
+      "label": "DeepSeek V4 Flash",
+      "prices": {"input": 0.14, "cache_read": 0.0028, "cache_write": null, "output": 0.28},
+      "evidence": "recorded",
+      "source": "https://eesel.ai/blog/deepseek-v4-flash-pricing",
+      "note": "DeepSeek direct rates (cache hits 98% below input). Reproduces the cost OMP recorded for this run."
+    },
+    "claude-opus-5-5": {
+      "label": "Claude Opus 5.5",
+      "prices": {"input": 4.00, "cache_read": 0.20, "cache_write": 5.00, "output": 20.00},
+      "evidence": "official",
+      "source": "https://platform.claude.com/docs/en/about-claude/pricing",
+      "note": "Cache writes priced at the 5-minute rate; at the 1-hour rate ($8) this run would cost about $0.22 more."
+    },
+    "gemini-4-argon-contributor": {
+      "label": "Gemini 4 Argon",
+      "prices": {"input": 2.00, "cache_read": 0.10, "cache_write": null, "output": 10.00},
+      "evidence": "third-party",
+      "source": "https://www.eesel.ai/blog/gemini-4-argon-pricing",
+      "note": "Introductory rate in effect on the run date (through November 30, 2026; $4 / $20 after). The run used the contributor variant; the public Gemini 4 Argon price is used."
+    },
+    "muse-spark-1.3-contributor": {
+      "label": "Muse Spark 1.3",
+      "prices": {"input": 1.25, "cache_read": 1.25, "cache_write": null, "output": 4.25},
+      "evidence": "third-party",
+      "source": "https://anotherwrapper.com/llm-pricing/muse-spark-1.3",
+      "note": "No cached-input price is published, so cached tokens are priced as regular input: an upper bound. The run used the contributor variant, listed at $0.10 / $0.20; the standard Muse Spark 1.3 price is used."
+    },
+    "longcat-2.5-preview-free": {
+      "label": "LongCat 2.5 Preview",
+      "prices": {"input": 0.30, "cache_read": 0.006, "cache_write": null, "output": 1.20},
+      "evidence": "third-party",
+      "source": "https://zenmux.ai/meituan/longcat-2.5-preview",
+      "note": "The run used OpenCode's free variant; the paid API rate (a limited-time launch price) is used."
+    },
+    "nvidia/nemotron-3.5-super-vl:free": {
+      "label": "Nemotron 3.5 Super VL",
+      "prices": {"input": 0.10, "cache_read": 0.10, "cache_write": null, "output": 0.40},
+      "evidence": "third-party",
+      "source": "https://openrouter.ai/compare/nvidia/nemotron-3.5-super-vl",
+      "note": "The run used OpenRouter's free variant; the paid OpenRouter rate is used. No cached-input price is listed, so cached tokens are priced as regular input: an upper bound."
+    },
+    "beam-free": {
+      "label": "Beam",
+      "unpriced": "Free model on OpenCode with no public per-token price."
+    },
+    "space-bunny": {
+      "label": "Space Bunny",
+      "unpriced": "Anonymous stealth model offered free on OpenCode and OpenRouter; no public per-token price."
+    }
+  }
+}
