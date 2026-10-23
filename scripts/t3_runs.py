@@ -42,6 +42,9 @@ SYSTEM_PREFIXES = (
     "/private/var/folders/", "/opt/", "/System/", "/Library/", "/Applications/",
 )
 HOME_CACHES = (".npm", ".cache", ".nvm", ".bun", ".yarn", ".pnpm-store", ".node-gyp", "Library/Caches")
+# Web search queries and fetched URLs; looking up the rules is fine, looking up this benchmark is not.
+WEB_KEYS = {"url", "query", "patterns"}
+WEB_MODES = ("open", "blocked")
 PATH_TOKEN = re.compile(r"""(?:^|(?<=[\s='"(]))((?:~|\.\.|/)[^\s'"|;&<>()`]*)""")
 
 
@@ -123,6 +126,8 @@ def new_run(root: Path, model: str, effort: str, workspaces: Path, open_app: boo
         "slug": slug,
         "expected_model": model,
         "expected_effort": effort,
+        # Only open mode exists so far; an isolated mode with web tools blocked is planned.
+        "web": "open",
         "workspace": str(workspace),
         "t3_project_id": match.group(1),
         "prompt": PROMPT,
@@ -316,7 +321,7 @@ def _names_user_files(token: str) -> bool:
 
 
 def _references(value: Any, key: str = "") -> list[tuple[str, str]]:
-    """Every (kind, text) in a tool input that names a file system location."""
+    """Every (kind, text) in a tool input that names a file system location, a command, or a web lookup."""
     found: list[tuple[str, str]] = []
     if isinstance(value, dict):
         for child_key, child in value.items():
@@ -328,15 +333,46 @@ def _references(value: Any, key: str = "") -> list[tuple[str, str]]:
         if key in PATH_KEYS:
             found.append(("path", value))
         elif key in COMMAND_KEYS:
+            found.append(("text", value))
             found.extend(("command", token) for token in PATH_TOKEN.findall(value) if _names_user_files(token))
+        elif key in WEB_KEYS:
+            found.append(("text", value))
         elif key == "pattern" and (value.startswith(("/", "~")) or "../" in value or value == ".."):
             found.append(("path", value))
     return found
 
 
-def outside_access(t3_home: Path, thread_id: str, workspace: str) -> list[dict[str, str]]:
-    """Tool calls that read, listed, searched, or ran something outside the run's own workspace."""
+def benchmark_markers(root: Path) -> list[str]:
+    """Names that identify this benchmark: its folder name and its GitHub owner/repository."""
+    markers = {root.resolve().name}
+    try:
+        remote = subprocess.run(
+            ["git", "remote", "get-url", "origin"], cwd=root, text=True, capture_output=True, check=True,
+        ).stdout.strip()
+        match = re.search(r"github\.com[:/]([^/]+)/([^/]+?)(?:\.git)?$", remote)
+        if match:
+            markers.update({match.group(2), f"{match.group(1)}.github.io/{match.group(2)}"})
+    except (OSError, subprocess.CalledProcessError):
+        pass
+    return sorted(markers)
+
+
+def _normalized(text: str) -> str:
+    return re.sub(r"[\s_]+", "-", text.lower())
+
+
+def _mentions_benchmark(text: str, workspace: Path, markers: list[str]) -> bool:
+    # A workspace inside the repository (as in early runs) names the repository in every path.
+    text = _normalized(text.replace(str(workspace), ""))
+    return any(_normalized(marker) in text for marker in markers)
+
+
+def outside_access(
+    t3_home: Path, thread_id: str, workspace: str, markers: list[str] | None = None,
+) -> list[dict[str, str]]:
+    """Tool calls that left the run's workspace, read T3's own data, or looked up this benchmark."""
     root = Path(os.path.normpath(workspace))
+    t3_data = Path(os.path.normpath(t3_home))
     findings = []
     with closing(connect(t3_home)) as connection:
         items = connection.execute("""
@@ -348,12 +384,23 @@ def outside_access(t3_home: Path, thread_id: str, workspace: str) -> list[dict[s
         payload = json.loads(item["payload_json"])
         if payload.get("title") == "Workspace ready":
             continue
-        fields = {key: payload.get(key) for key in ("input", "pattern", "fileName", "results") if key in payload}
+        fields = {key: payload.get(key) for key in ("input", "pattern", "patterns", "fileName", "results") if key in payload}
         for kind, text in _references(fields):
-            if _path_outside(text, root):
+            finding = finding_kind(kind, text, root, t3_data, markers or [])
+            if finding:
                 tool = payload.get("toolName") or item["type"]
-                findings.append({"time": payload.get("startedAt", ""), "tool": tool, "kind": kind, "reference": text})
+                findings.append({"time": payload.get("startedAt", ""), "tool": tool, "kind": finding, "reference": text})
     return findings
+
+
+def finding_kind(kind: str, text: str, workspace: Path, t3_data: Path, markers: list[str]) -> str | None:
+    """Classify one reference: benchmark lookup, T3 data read, outside path or command, or nothing."""
+    if kind == "text":
+        return "benchmark" if _mentions_benchmark(text, workspace, markers) else None
+    if not _path_outside(text, workspace):
+        return None
+    resolved = Path(os.path.normpath(os.path.expanduser(text)))
+    return "t3-data" if resolved == t3_data or t3_data in resolved.parents else kind
 
 
 def copy_workspace(workspace: str, destination: Path) -> None:

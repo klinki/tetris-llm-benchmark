@@ -409,12 +409,26 @@ can still be entered and written to; to delete old runs, restore read
 permission first (`chmod -R u+r ~/tetris-bench`).
 
 Isolation is also checked after the fact. `import` scans every tool call in the
-T3 session for paths outside the workspace: file reads, directory listings,
-searches, and paths in shell commands, ignoring system folders and package
-manager caches. A run that left its workspace is refused unless imported with
-`--allow-outside`, in which case the findings are stored with its registry
-entry. `python3 scripts/benchmark.py isolation [RUN_ID]` runs the same check on
-registered T3 runs.
+T3 session and reports:
+
+- **paths outside the workspace**: file reads, directory listings, searches,
+  and paths in shell commands, ignoring system folders and package manager
+  caches;
+- **T3 data** (`t3-data`): anything under `~/.t3`, whose database holds the
+  transcripts of every earlier run;
+- **benchmark lookups** (`benchmark`): web searches, fetched URLs, or commands
+  that name this benchmark's folder, GitHub repository, or Pages site.
+
+Web access itself is allowed. Searching for the Tetris Guideline or SRS tables
+is fine; finding other runs' code or results is not. A run with findings is
+refused unless imported with `--allow-outside`, in which case the findings are
+stored with its registry entry. `python3 scripts/benchmark.py isolation
+[RUN_ID]` runs the same check on registered T3 runs.
+
+Every run records its web mode as `"web"` in
+[`benchmark-runs.json`](benchmark-runs.json) and on its site page. All runs so
+far are `open`, the default. A planned isolated mode will block web tools
+through each harness's workspace configuration and record `blocked`.
 
 ### Launching through T3's API
 

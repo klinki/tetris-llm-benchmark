@@ -64,6 +64,59 @@ class OutsideAccessTests(unittest.TestCase):
         self.assertEqual(found, [])
 
 
+class BenchmarkLookupTests(unittest.TestCase):
+    MARKERS = ["tetris-llm-benchmark", "owner.github.io/tetris-llm-benchmark"]
+
+    def setUp(self) -> None:
+        self.temporary = tempfile.TemporaryDirectory()
+        self.home = Path(self.temporary.name) / ".t3"
+        (self.home / "userdata").mkdir(parents=True)
+
+    def tearDown(self) -> None:
+        self.temporary.cleanup()
+
+    def findings(self, *items: tuple) -> list[tuple[str, str]]:
+        with closing(sqlite3.connect(self.home / "userdata" / "statev2.sqlite")) as connection:
+            connection.execute(
+                "CREATE TABLE orchestration_v2_projection_turn_items (thread_id, type, ordinal, payload_json)"
+            )
+            connection.executemany("INSERT INTO orchestration_v2_projection_turn_items VALUES (?, ?, ?, ?)", items)
+            connection.commit()
+        return [
+            (item["kind"], item["reference"])
+            for item in t3_runs.outside_access(self.home, "thread-1", WORKSPACE, self.MARKERS)
+        ]
+
+    def test_looking_up_the_rules_is_fine_but_looking_up_the_benchmark_is_not(self) -> None:
+        found = self.findings(
+            tool_item(1, "web_search", patterns=["tetris guideline SRS wall kick table"]),
+            tool_item(2, "dynamic_tool", toolName="WebFetch", input={"url": "https://tetris.wiki/Super_Rotation_System"}),
+            tool_item(3, "web_search", patterns=["Tetris LLM Benchmark results opus"]),
+            tool_item(4, "dynamic_tool", toolName="WebFetch", input={"url": "https://owner.github.io/tetris-llm-benchmark/"}),
+            tool_item(5, "command_execution", input="curl -s https://github.com/owner/tetris_llm_benchmark | head"),
+        )
+        self.assertEqual([kind for kind, _ in found], ["benchmark", "benchmark", "benchmark"])
+
+    def test_a_workspace_inside_the_repository_is_not_a_lookup(self) -> None:
+        workspace = Path("/Users/someone/projects/tetris-llm-benchmark/opus")
+        text = f"cd {workspace} && npm test"
+        self.assertIsNone(t3_runs.finding_kind("text", text, workspace, self.home, self.MARKERS))
+        self.assertEqual(
+            t3_runs.finding_kind("text", "cat /Users/someone/projects/tetris-llm-benchmark/RANKING.md", workspace,
+                                 self.home, self.MARKERS),
+            "benchmark",
+        )
+
+    def test_reading_t3_data_is_labelled(self) -> None:
+        t3_data = Path("/Users/someone/.t3")
+        workspace = Path(WORKSPACE)
+        self.assertEqual(
+            t3_runs.finding_kind("path", "/Users/someone/.t3/userdata/statev2.sqlite", workspace, t3_data, []),
+            "t3-data",
+        )
+        self.assertEqual(t3_runs.finding_kind("path", "/Users/someone/notes.txt", workspace, t3_data, []), "path")
+
+
 class NewRunTests(unittest.TestCase):
     def setUp(self) -> None:
         self.temporary = tempfile.TemporaryDirectory()
@@ -215,6 +268,7 @@ class ImportTests(unittest.TestCase):
         self.assertEqual(entry["expected_cwd"], str(self.workspace))
         self.assertIs(entry["fast_mode"], False)
         self.assertEqual(entry["order"], 20)
+        self.assertEqual(entry["web"], "open")
         self.assertTrue((self.root / entry["project_dir"] / "package.json").exists())
         self.assertFalse((self.root / entry["project_dir"] / "node_modules").exists())
         self.assertTrue((self.root / ".bench" / "imported" / f"{self.record['key']}.json").exists())

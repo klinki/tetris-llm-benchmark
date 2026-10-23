@@ -197,6 +197,8 @@ def load_manifest(root: Path) -> tuple[dict[str, Any], list[dict[str, Any]]]:
             for alias, source in aliases.items()
         ):
             raise BenchmarkError(f"static_aliases for {run['id']} must map file paths to file paths")
+        if run.get("web", "open") not in t3_runs.WEB_MODES:
+            raise BenchmarkError(f"web for {run['id']} must be one of {list(t3_runs.WEB_MODES)}")
         if not isinstance(run.get("known_browser_failure", ""), str):
             raise BenchmarkError(f"known_browser_failure for {run['id']} must be a description")
         ids.add(run["id"])
@@ -1577,6 +1579,7 @@ def site_results(
             "project_dir": run["project_dir"],
             "model": run["model"],
             "effort": run.get("reasoning_variant"),
+            "web": run.get("web", "open"),
             "harness_label": run["harness_label"],
             "tokens": {**values["tested_usage"], "total": values["tested"]},
             "elapsed": values["elapsed"],
@@ -1663,9 +1666,13 @@ def import_t3_run(
             f"The thread ran in {identity['runtime_mode']} mode, so elapsed time may include waiting for approvals. "
             "Use --allow-approvals to import it anyway."
         )
-    findings = t3_runs.outside_access(t3_home, identity["t3_thread_id"], record["workspace"])
+    findings = t3_runs.outside_access(
+        t3_home, identity["t3_thread_id"], record["workspace"], t3_runs.benchmark_markers(root),
+    )
     if findings and not allow_outside:
-        listed = "\n".join(f"  {item['time'][11:19]} {item['tool']}: {item['reference']}" for item in findings[:10])
+        listed = "\n".join(
+            f"  {item['time'][11:19]} {item['tool']} {item['kind']}: {item['reference'][:160]}" for item in findings[:10]
+        )
         raise BenchmarkError(
             f"The agent reached outside its workspace {len(findings)} time(s):\n{listed}\n"
             "Review the session; use --allow-outside to import it anyway (the findings are recorded with the run)."
@@ -1700,6 +1707,7 @@ def import_t3_run(
         "expected_cwd": record["workspace"],
         "expected_cwd_basename": Path(record["workspace"]).name,
         "reasoning_variant": identity["effort"],
+        "web": record.get("web", "open"),
         "cutoff": {"through_user_message": 1, "exclude_inter_message_wait": True},
         "overhead": {"kind": "unknown"},
         "spec": record["spec"],
@@ -1763,14 +1771,15 @@ def watch(root: Path, homes: tuple[Path, Path, Path, Path], interval: float, aut
 
 def isolation_report(root: Path, runs: list[dict[str, Any]], t3_home: Path) -> int:
     flagged = 0
+    markers = t3_runs.benchmark_markers(root)
     for run in runs:
         if not run["harness"].startswith("t3_"):
             continue
-        findings = t3_runs.outside_access(t3_home, run["t3_thread_id"], run["expected_cwd"])
+        findings = t3_runs.outside_access(t3_home, run["t3_thread_id"], run["expected_cwd"], markers)
         flagged += bool(findings)
         print(f"{run['id']}: {'no access outside the workspace' if not findings else f'{len(findings)} outside reference(s)'}")
         for item in findings:
-            print(f"  {item['time'][11:19]} {item['tool']} {item['kind']}: {item['reference']}")
+            print(f"  {item['time'][11:19]} {item['tool']} {item['kind']}: {item['reference'][:160]}")
     return flagged
 
 

@@ -236,7 +236,8 @@ def stat_tile(label: str, value: str, note: str = "") -> str:
 def run_page(run: dict[str, Any], results: dict[str, Any], repo: str | None, game: dict[str, Any] | None) -> str:
     total_runs = len(results["runs"])
     effort = f"effort <code>{esc(run['effort'])}</code>" if run["effort"] else "effort not recorded"
-    meta = f"<code>{esc(run['model'])}</code> · {effort} · {esc(run['harness_label'])}"
+    web = "web access open" if run["web"] == "open" else "web tools blocked"
+    meta = f"<code>{esc(run['model'])}</code> · {effort} · {esc(run['harness_label'])} · {web}"
     if run.get("audited"):
         meta += f" · audited {esc(run['audited'])}"
     tiles = [
