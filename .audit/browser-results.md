@@ -76,6 +76,40 @@ timer finding. The initial missing favicon was excluded as in earlier audits.
 Screenshots at both sizes were inspected and kept outside the repository.
 See [`haiku-review.md`](haiku-review.md) and [`haiku-browser.cjs`](haiku-browser.cjs).
 
+## Claude Haiku 5.5 (xhigh and max)
+
+Audited independently on 2026-10-24 with the same temporary-copy method,
+Chromium **156.0.8078.4**, 1280×800 desktop and 390×844 phone viewports.
+High's original engine/browser assertions were rerun and still pass.
+
+| Implementation | Desktop playfield | 390 px document width | Phone playfield and supporting state | Application errors |
+|---|---|---:|---|---|
+| Haiku 5.5 (xhigh) | 304×604 border box at x=488; clear board/ghost/panels/legend | 752 | Board at x=224, ending x=528; next x=552, clipped | None |
+| Haiku 5.5 (max) | 300×600 canvas at x=360; clear hierarchy, canvas labels and high-DPI sizing | 596 | Board visible at x=18; sidebar x=340; hold/next canvases x=424, off-screen | None |
+
+Each run passed the full required movement/rotation/drop/hold sequence.
+Temporary forwarding wrappers observe real delivered input handlers and assert
+left/right displacement, all four rotation bindings, drop points/spawning and
+hold restriction. Xhigh has no DOM overlay (game over is drawn into canvas);
+max's active-play overlay stays hidden with computed `display:none`.
+Restart is checked by engine probes and the R binding by source inspection,
+consistent with the earlier cohorts. Missing favicons remain excluded.
+
+T3's collaborative browser independently confirmed both phone document widths
+and canvas X coordinates. All six screenshots for high/xhigh/max were visually
+inspected outside the repository. Font-dependent Y positions vary slightly
+between browser surfaces and are not asserted. Only Chromium CSS viewports
+were tested; no physical touch device or alternate engine was exercised.
+
+The initial temporary servers used ports 41801–41803. The generalized runner
+builds/tests/probes all three and, with `--browser`, selects only free ports
+41000–49999, opens named Chromium sessions and cleans them and the servers on
+exit. Max's server hard-codes 8321; only that constant is substituted in its
+disposable copy, preserving its intended static-file behavior. Use
+`?audit=high`, `?audit=xhigh` or `?audit=max` when invoking the browser snippet
+manually. Exact engine findings, scores, isolation facts and one-command
+reproduction are in the extended [`haiku-review.md`](haiku-review.md).
+
 ## Reproducible DOM probes
 
 Horizontal overflow was measured after setting the viewport to 390×844:

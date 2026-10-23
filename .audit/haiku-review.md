@@ -1,6 +1,7 @@
-# Claude Haiku 5.5 (high) audit
+# Claude Haiku 5.5 audits (high, xhigh, max)
 
-Audit date: 2026-10-24 (Europe/Prague). Run: `claude-haiku-5-5-high`;
+Audit date: 2026-10-24 (Europe/Prague). The original high review follows;
+the xhigh and max reviews and shared runner are appended below. Original run: `claude-haiku-5-5-high`;
 model `claude-haiku-5-5`, effort `high`, T3 Code / Claude Agent SDK.
 Imported 2026-10-23. This record supports its entry in
 [`ranking.json`](../ranking.json) and [`RANKING.md`](../RANKING.md).
@@ -127,7 +128,8 @@ possible game states or scoring variants.
 
 ## Browser evidence and reproduction
 
-The isolated build was served with `PORT=18403 npm start`. Playwright CLI
+The original high isolated build was served with `PORT=18403 npm start`.
+The new shared runner uses only ports 41000–49999 for all three runs. Playwright CLI
 used Chromium **156.0.8078.4**, the same browser version as the October 23
 audit, at 1280×800 and 390×844. T3's collaborative browser also reproduced
 the layout values before the Playwright pass. Both sets of screenshots were
@@ -154,12 +156,12 @@ consistently with prior audits. The mobile pass checks CSS viewport/layout;
 no physical touch device or alternate browser engine was tested.
 
 To reproduce, copy the run to a temporary directory (excluding generated
-output/dependencies), install/test it there and start it on the port above.
+output/dependencies), install/test it there and start it with `PORT=41801 npm start` (choose a free port in 41000–49999).
 From a temporary artifact directory, using the Playwright CLI wrapper and a
 Chromium launch configuration appropriate for the installed browser:
 
 ```sh
-playwright-cli --session haiku-audit open http://localhost:18403/ --config=/tmp/playwright-cli.json
+playwright-cli --session haiku-audit open http://localhost:41801/?audit=high --config=/absolute/path/to/playwright.json
 playwright-cli --session haiku-audit run-code --filename=/absolute/path/to/.audit/haiku-browser.cjs
 playwright-cli --session haiku-audit eval 'window.__tetrisAudit'
 playwright-cli --session haiku-audit close
@@ -220,3 +222,260 @@ All required commands passed after recording the scores and regenerating:
 The new review's six local links/tables and both JavaScript probe syntaxes
 were also checked. The run directory contains neither `node_modules` nor
 `dist` after the audit. Earlier intentional checkout edits remain in place.
+
+## Xhigh and max addition — 2026-10-24
+
+These are separate `claude-haiku-5-5` runs in T3 Code / Claude Agent SDK,
+from the single prompt “Read the README.md file and implement it.” Both
+implementations and their entire own suites were read against `TETRIS.md`.
+Neither was presumed to inherit high's behavior. Rubric, half-point scale,
+severity deductions, scoring profile and viewports are unchanged. Timing,
+tokens, effort labels and cost do not affect quality. High remains **8.55**;
+its original engine and browser assertions still pass.
+
+| Run | Correctness (40%) | Tests (20%) | Code (20%) | Simplicity (10%) | Browser UX (10%) | Weighted |
+|---|---:|---:|---:|---:|---:|---:|
+| xhigh | 9.0 | 8.5 | 9.0 | 8.5 | 8.5 | **8.80** |
+| max | 8.0 | 8.0 | 9.0 | 8.0 | 8.5 | **8.25** |
+
+Xhigh: `9.0×0.40 + 8.5×0.20 + 9.0×0.20 + 8.5×0.10 + 8.5×0.10 = 8.80`.
+Max: `8.0×0.40 + 8.0×0.20 + 9.0×0.20 + 8.0×0.10 + 8.5×0.10 = 8.25`.
+
+### Claude Haiku 5.5 (xhigh)
+
+Summary: **Broad rules and strong tests; soft-drop timing jump and clipped
+phone playfield**.
+
+All **23 own tests pass** in fresh copies. Tests 8.5 reflects twenty seeded
+bags, colors, exact I/O/T spawns, all-shape four-turn cycles, exact T clockwise
+cells, an actual I wall kick, wall/stack blocking, exact soft/hard-drop points
+and locked cells, hold restrictions/post-lock swap, independent empty/blocked
+ghost landing rows, exact 499/500 ms lock boundary and fifteen-reset cap,
+normal single, Tetris/B2B/combo and perfect-clear totals, integrated full/mini
+T-spin singles, level progression, hidden lock-out, blocked-spawn/restart and
+a seeded 20,000-action invariant test. The latter asserts board dimensions
+and active-piece bounds/non-overlap after each step.
+
+Compared with Opus's 9.0 suite, xhigh omits direct assertions for B2B break,
+exact level-crossing score and hold orientation reset. It also omits B2B
+continuity through no-clear placement, level-two combo, full 28-state SRS
+geometry, explicit CCW kick/fifth-kick fixtures, ledge handling and browser
+checks. Audit probes supply evidence, not own-test credit.
+
+Code 9.0 and simplicity 8.5 reflect 750 source lines across six focused
+modules, strict types, direct small helpers and one millisecond clock. The
+329-line game module combines engine, board and scoring without unnecessary
+layers. Public mutable state supports fixtures but depends on caller
+discipline; the 310 test lines remain readable. UX 8.5 reflects the clear
+desktop board, controls, ghost, hold, queue and stats. Previews are enlarged
+by canvas stretching within the panels; no separate bug deduction was made
+for that stylistic presentation. No touch controls or canvas labels are
+supplied. Phone clipping is deducted only from correctness.
+
+Confirmed findings:
+
+1. **Minor: starting soft drop reuses normal-gravity time (−0.5).** An O-only
+   game starts at y=2. Fifty `update(16)` calls leave it there with 800 ms
+   accumulated. Invoke the real Controller ArrowDown handler, then
+   `update(1)`: the O reaches **y=18** and earns **16 points**. Each step is
+   below the browser's 100 ms cap. The `softDropping` flag changes the
+   interval without resetting/rescaling `gravityMs`. Movement and extra
+   points have one cause and one deduction. Correctness `10.0 → 9.5`.
+2. **Minor: fixed-width layout clips the phone playfield (−0.5).** At
+   390×844, document width is **752 px**. The board border box is **304×604**
+   at **x=224**, ending at x=528; next begins at x=552. Only part of the
+   board is initially visible. Correctness `9.5 → 9.0`.
+
+Independent probes pass all 28 canonical states with a fixed O-origin shift,
+every CW/CCW kick table, actual T/I kicks, colors, seeded bags, walls, five
+previews, hold restriction/orientation reset, all seven obstructed ghost/drop
+geometries, exact hard-drop points/cells, 499/500 ms lock, fifteen resets,
+safe ledge movement, normal single/double/triple/Tetris scoring, single
+perfect clear **900**, B2B continuity/break, level-two combo **300**, pre-clear
+level scoring, actual rotation-to-lock full/mini spins with/without a clear,
+fifth-kick classification, normal/soft gravity, levels, hidden lock-out,
+blocked spawn, inert game-over actions and restart.
+
+### Claude Haiku 5.5 (max)
+
+Summary: **No perfect-clear bonus or hidden lock-out; soft-drop timing jump
+and phone sidebar overflow**.
+
+All **19 own tests pass** in fresh copies. Tests 8.0 reflects three
+fixed-random bags, all T/partial I states, an actual I kick, level-one gravity
+and formula helper, exact soft/hard-drop points, floor ghost row, row shifting
+and integrated single, exact normal/full/mini scoring helper tables,
+combo/B2B/break and level assertions, spin/fifth-kick classification helpers,
+grounded movement reset/eventual lock, hold restriction/post-lock swap and
+blocked-spawn/restart. This is broader scoring coverage than high, but many
+checks target helpers rather than rotation-to-lock integration. The suite
+omits perfect clears, hidden lock-out, exact lock boundary/reset cap, ledge
+handling, level-two combo, full geometry, hold orientation reset and browser
+checks. Audit probes do not raise the test score.
+
+Code 9.0 and simplicity 8.0 reflect 955 source lines in focused board,
+constants, geometry, SRS, bag, scoring, spin, engine, input, rendering and
+bootstrap modules. Strict types, a seconds clock and small methods keep the
+machinery proportionate. The 239 test lines compile through the normal
+build. Read-only active/queue getters expose underlying objects, like high.
+UX 8.5 reflects clear desktop hierarchy, the complete legend, canvas labels
+and device-pixel-ratio rendering. There are no touch controls. Each finding
+below is deducted only from correctness.
+
+Confirmed findings:
+
+1. **Minor: absent benchmark perfect-clear bonus (−0.5).** Fill row 21 except
+   columns 3–6, place a horizontal I at x=3,y=20, and hard drop at zero
+   distance. One row clears and the whole board is empty, but score is
+   **100**, rather than the benchmark's **900**. Neither `Scorer.lock` nor
+   `Game.lockPiece` checks whether the board is empty. This uses the same
+   convention/severity as Gemini and Muse. Correctness `10.0 → 9.5`.
+2. **Minor: a wholly hidden lock does not end the game (−0.5).** Use a T,I
+   source and J blockers at **(2,2), (3,3), (4,3)**. The actual T spawn
+   x=3,y=1 fits. Public CW uses SRS test 3 (zero-based index 2), reaching
+   rotation 1,x=2,y=0. Public CCW returns to rotation 0,x=2,y=0. The ghost
+   is y=0. Hard drop travels zero rows and locks T at **(3,0), (2,1),
+   (3,1), (4,1)**, entirely above visible row 2. Nevertheless `status`
+   remains `playing` and the unblocked I spawns. The probe constructs only
+   the stack; it does not assign the active piece or rotation flags. Blocked
+   spawn still works, so this specific edge-case lock-out omission receives
+   a minor fidelity deduction. Correctness `9.5 → 9.0`.
+3. **Minor: starting soft drop reuses normal-gravity time (−0.5).** Fifty
+   `update(0.016)` calls leave O at y=1 with 0.8 seconds accumulated.
+   ArrowDown through the actual Controls handler, then `update(0.001)`,
+   moves it to **y=17**, awarding **16 points**. Every step is below the
+   browser's 0.1-second cap. One timing/control defect, one deduction.
+   Correctness `9.0 → 8.5`.
+4. **Minor: supporting state overflows the phone viewport (−0.5).** At
+   390×844, document width is **596 px**. The **300×600** board remains
+   visible at **x=18**, but the 240 px sidebar starts at **x=340** and both
+   hold and next canvases at **x=424**. Previews and right-aligned scores
+   are off-screen. This differs from xhigh's board clipping but receives
+   the same minor responsive-layout severity. Correctness `8.5 → 8.0`.
+
+Section 10 of the [2009 design guideline transcription](https://studylib.net/doc/27262492/2009-tetris-design-guideline)
+describes whole-piece lock-out separately from blocked spawn. The task's
+Fandom link could not be fetched (402); the cited primary-document
+transcription was readable. No broader scoring convention was changed.
+
+The same independent probes pass geometry/colors/kicks, seeded bags, walls,
+queue, hold restriction/orientation reset, seven ghost/drop geometries and
+exact points, grounded lock boundary/reset cap, safe ledge movement, normal
+clears, integrated full/mini spins, fifth-kick classification, B2B
+continuity/break, level-two combo **300**, pre-clear level scoring,
+gravity/levels, blocked spawn, inert game-over actions and restart. Missing
+PC and hidden lock-out are asserted as documented outcomes, not conformance
+passes.
+
+### Shared engine and browser reproduction
+
+```sh
+python3 .audit/run-haiku-audit.py --offline
+python3 .audit/run-haiku-audit.py --offline --browser --playwright-config /absolute/path/to/playwright.json
+```
+
+The first command installs/builds/tests and probes **all three Haiku runs**.
+The second adds their Chromium desktop/phone passes. Omit `--offline` if npm
+packages are not cached. `--playwright-cli` can select the CLI executable or
+wrapper; defaults are `playwright-cli` from PATH or the local Playwright
+skill wrapper. A launch config is optional when its default browser is
+installed. This audit selected Chromium **156.0.8078.4** with this config
+shape (substitute the installed executable path):
+
+```json
+{"browser":{"browserName":"chromium","launchOptions":{"channel":"chromium","headless":true,"executablePath":"/absolute/path/to/Google Chrome for Testing"}}}
+```
+
+Each project is copied excluding `node_modules`, `dist`, `dist-test` and
+`.git`; the runner executes locked `npm ci --ignore-scripts`, its declared
+`npm test`, and `haiku-audit.mjs` with that effort's adapter. Browser mode
+chooses a free port in **41000–49999** and uses `npm start`. Max hard-codes
+8321, so only its disposable copy's `const PORT` is replaced; routing, MIME
+types and application files remain unchanged. High/xhigh accept `PORT`.
+Named browser sessions, server process groups, copies and artifacts are
+cleaned even on failure. CLI error sections are checked because snippet
+errors may still return exit zero; success additionally requires the final
+`window.__tetrisAudit` result for the correct effort.
+
+Initial manual copies and the generalized fresh-copy runner both passed all
+**10/23/19 own tests**, engine assertions and browser snippets. High's
+original assertions are retained. Xhigh/max use equivalent legal fixtures
+and the shared shape/kick oracles. Emitted TypeScript private properties are
+used only for deterministic setup. The timer probes invoke real input
+handlers. The ledge probe waits 490 ms on an O's one-cell support, moves
+sideways, and crosses the old lock deadline while still airborne; its timer
+clears, and the O later lands/locks on the floor in both new runs.
+
+### Browser observations for the additions
+
+The initial copies used ports **41801** (high), **41802** (xhigh), **41803**
+(max). T3's browser independently reproduced xhigh/max phone widths and
+canvas X coordinates. Playwright CLI used Chromium **156.0.8078.4** at
+**1280×800** and **390×844**. All six screenshots were visually inspected
+outside the repository.
+
+| Run | Desktop document / board | Phone document / board | Phone hold / next X | Application errors |
+|---|---|---|---|---|
+| high (recheck) | 1280 / 302×602 at x=489 | 758 / 302×602 at x=228 | 24 / 554 | None |
+| xhigh | 1280 / 304×604 at x=488 | 752 / 304×604 at x=224 | 0 / 552 | None |
+| max | 1280 / 300×600 at x=360 | 596 / 300×600 at x=18 | 424 / 424 | None |
+
+High/xhigh measurements are board border boxes; max's canvas has no border
+(its enclosing playfield does). Font metrics differ slightly between T3 and
+CLI, so Y coordinates are not invariants; widths and X positions agree.
+Xhigh draws game over into its canvas and has no DOM overlay. High/max's
+active-play overlays remain hidden with `display:none`.
+
+The snippet selects effort through `?audit=high`, `?audit=xhigh` or
+`?audit=max`, imports that delivered Game module and installs temporary
+forwarding wrappers to observe real key outcomes. Sequence: Left, Right,
+Up, X, Z, Left Ctrl, a 120 ms Down hold, Space, C. Each move changes x by
+one; rotations use `[1,1,-1,-1]` and change state correctly; soft drop moves
+and scores; hard drop locks/spawns; hold stores the incoming piece and
+prevents a second hold. Initial new-run observations ended at scores 24
+(xhigh) and 26 (max); those random-piece totals are not invariants. Restart
+is probed in the engine and R confirmed by source, matching earlier audits.
+
+No application asset failures, page exceptions or console errors occurred
+in the exercised flows. Missing favicons are excluded as before. Phone
+coverage is Chromium CSS viewport behavior, not physical touch input.
+
+### Isolation context for the additions
+
+These facts come from the supplied import isolation review; this quality
+audit did not rerun its broader session scan or change accounting records.
+
+- **Xhigh:** its first `npm start` attempted **8321**, already occupied by an
+  unrelated orphaned Opus 5.5 server (since stopped). Start failed with
+  `EADDRINUSE`; follow-up `curl` probes received HTTP status codes from that
+  Opus server, with no page content printed. It then served its own build
+  on **8322**, checked `http://localhost:8322` through T3's
+  `mcp__t3-code__preview_*` tools and read the three screenshots saved under
+  `~/.t3/userdata/browser-artifacts`. No other run's code or content reached
+  it. Like high's 8321 contact, this has **no quality-score effect**.
+- **Max:** the import scan found **no outside access, T3 tool calls or
+  benchmark lookups**. Its `/tmp/tetris-check`, `/tmp/tetris-server.log`
+  and `/tmp/tetris-test.log` scratch files were removed after the run.
+  No score effect was found.
+
+Session metadata remains in each `STATISTICS.md`: xhigh thread
+`mcp:d2c7d9a9-3e32-42ba-bd78-99cf506166c3`, native session
+`2093d473-a4e2-4673-ba62-2e8b22941c40`; max thread
+`mcp:34a26c85-7fa7-462a-8dda-f1ad912f426f`, native session
+`d656282e-07fc-4709-aa42-21b9e6e9710b`. Usage/time/cost were not re-collected.
+
+### Addition validation and limits
+
+All five required commands pass after regeneration: `benchmark.py render`,
+`benchmark.py verify`, `node .audit/verify-ranking.mjs`, all 49 repository
+unit tests and `git diff --check`. New audit links/tables and both JavaScript
+probe syntaxes were checked separately. The generalized runner passes all
+three efforts with `--offline --browser`. No implementation files,
+benchmark registry, pricing, scripts or repository tests were edited.
+All audit-owned servers/browsers and disposable directories were cleaned.
+Xhigh's pre-existing `dist-test` remains untouched; no `node_modules` or new
+build output was placed in any original run directory.
+
+Limits remain targeted conformance evidence, not exhaustive state-space
+proof, long-duration browser play, cross-browser or mobile-hardware testing.
+No suspected defect was scored without a reproducible assertion.

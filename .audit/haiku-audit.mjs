@@ -2,17 +2,10 @@ import assert from 'node:assert/strict';
 import { resolve } from 'node:path';
 import { pathToFileURL } from 'node:url';
 
-// Run only against an isolated build: node .audit/haiku-audit.mjs /tmp/copy/run
+// Run only against an isolated build: node .audit/haiku-audit.mjs /path/to/copy/run [effort]
 if (!process.argv[2]) throw new Error('Pass the path to an isolated, built run directory');
 const root = resolve(process.argv[2]);
 const load = file => import(pathToFileURL(resolve(root, 'dist', file)));
-const { Game, gravityInterval } = await load('game/game.js');
-const { Board } = await load('game/board.js');
-const { PieceSource } = await load('game/bag.js');
-const { pieceCells, kickTests, PIECE_TYPES, PIECE_COLORS } = await load('game/pieces.js');
-const { detectTSpin } = await load('game/scoring.js');
-const { Input } = await load('input.js');
-
 // Identical canonical coordinate oracle to the October 23 audit.
 const reference = {
   I: [
@@ -42,16 +35,6 @@ const reference = {
   ],
 };
 
-const key = cells => cells.map(([x, y]) => `${x},${y}`).sort().join(' ');
-for (const type of PIECE_TYPES) {
-  for (let rotation = 0; rotation < 4; rotation++) {
-    const cells = pieceCells(type, rotation).map(([x, y]) => [x + (type === 'O' ? 1 : 0), y]);
-    assert.equal(key(cells), key(reference[type][rotation]), `${type}${rotation}`);
-  }
-}
-assert.equal(new Set(Object.values(PIECE_COLORS)).size, 7);
-console.log('PASS: all 28 canonical SRS states (one fixed O-origin translation); seven colors');
-
 // Published SRS offsets: positive Y points up, as does kickTests().
 const normalKicks = {
   '0>1': [[0, 0], [-1, 0], [-1, 1], [0, -2], [-1, -2]],
@@ -73,6 +56,30 @@ const iKicks = {
   '3>0': [[0, 0], [1, 0], [-2, 0], [1, -2], [-2, 1]],
   '0>3': [[0, 0], [-1, 0], [2, 0], [-1, 2], [2, -1]],
 };
+
+const mode = process.argv[3] ?? root.split('/').at(-1).split('-').at(-1);
+if (mode === 'high') await auditHigh();
+else if (['xhigh', 'max'].includes(mode)) await auditVariant(mode);
+else throw new Error(`Unknown Haiku effort: ${mode}`);
+
+async function auditHigh() {
+const { Game, gravityInterval } = await load('game/game.js');
+const { Board } = await load('game/board.js');
+const { PieceSource } = await load('game/bag.js');
+const { pieceCells, kickTests, PIECE_TYPES, PIECE_COLORS } = await load('game/pieces.js');
+const { detectTSpin } = await load('game/scoring.js');
+const { Input } = await load('input.js');
+
+const key = cells => cells.map(([x, y]) => `${x},${y}`).sort().join(' ');
+for (const type of PIECE_TYPES) {
+  for (let rotation = 0; rotation < 4; rotation++) {
+    const cells = pieceCells(type, rotation).map(([x, y]) => [x + (type === 'O' ? 1 : 0), y]);
+    assert.equal(key(cells), key(reference[type][rotation]), `${type}${rotation}`);
+  }
+}
+assert.equal(new Set(Object.values(PIECE_COLORS)).size, 7);
+console.log('PASS: all 28 canonical SRS states (one fixed O-origin translation); seven colors');
+
 for (const type of PIECE_TYPES) {
   for (const transition of Object.keys(normalKicks)) {
     const [from, to] = transition.split('>').map(Number);
@@ -336,3 +343,263 @@ console.log('PASS: normal/soft gravity, level progression, blocked spawn, hidden
 }
 console.log('CONFIRMED MINOR: 0.8 seconds normal-gravity time becomes 16 soft-drop rows/points after 1 ms');
 console.log('Haiku engine audit passed; documented finding reproduced.');
+
+}
+
+async function auditVariant(mode) {
+  const xhigh = mode === 'xhigh';
+  const engine = await load('game.js');
+  const pieces = await load('pieces.js');
+  const { Game } = engine;
+  const types = pieces.PIECE_TYPES;
+  const cells = (type, rotation) => xhigh
+    ? pieces.pieceCells(type, rotation).map(({ x, y }) => [x, y])
+    : pieces.offsetsOf(type, rotation);
+  const kicks = xhigh ? pieces.kickTests : (await load('srs.js')).kickOffsets;
+  const bag = xhigh ? (await load('bag.js')).createBag : (await load('random.js')).createSevenBag;
+  const key = points => points.map(String).sort().join(' ');
+  const make = (sequence = ['T', 'I', 'O', 'S', 'Z', 'J', 'L']) => {
+    let i = 0;
+    const source = () => sequence[i++ % sequence.length];
+    return xhigh ? new Game(source) : new Game({ source });
+  };
+  const active = g => xhigh ? g.current : g.active;
+  const put = (g, x, y, type = 'J') => xhigh ? (g.board[y][x] = type) : g.board.setCell(x, y, type);
+  const get = (g, x, y) => xhigh ? g.board[y][x] : g.board.cell(x, y);
+  const clear = g => { if (xhigh) g.board.forEach(row => row.fill(null)); else g.board.clear(); };
+  const empty = g => Array.from({ length: 22 }, (_, y) =>
+    Array.from({ length: 10 }, (_, x) => get(g, x, y))).flat().every(c => c === null);
+  const fits = (g, p) => cells(p.type, p.rotation).every(([dx, dy]) => {
+    const x = p.x + dx, y = p.y + dy;
+    return x >= 0 && x < 10 && y >= 0 && y < 22 && get(g, x, y) === null;
+  });
+  const place = (g, type, rotation, x, y) => {
+    const p = { type, rotation, x, y };
+    assert(fits(g, p), 'fixture must be legal');
+    Object.assign(g, xhigh ? { current: p, gravityMs: 0, lockMs: 0, lowestY: y,
+      lockResets: 0, lastMoveWasRotation: false, lastKick: 0 }
+      : { piece: p, gravityTimer: 0, lockTimer: 0, lowestRow: y,
+        lockResets: 0, lastActionWasRotation: false, lastKickIndex: 0 });
+  };
+  const update = (g, seconds) => g.update(seconds * (xhigh ? 1000 : 1));
+  const hold = g => xhigh ? g.holdPiece() : g.hold();
+  const held = g => xhigh ? g.hold : g.held;
+  const ghost = g => xhigh ? g.ghost().y : g.landingRow();
+  const over = g => xhigh ? g.gameOver : g.status === 'over';
+  const combo = (g, value) => { (xhigh ? g : g.scorer).combo = value; };
+  const level = (g, lines) => {
+    if (xhigh) { g.lines = lines; g.level = Math.floor(lines / 10) + 1; }
+    else g.scorer.cleared = lines;
+  };
+  const b2b = g => (xhigh ? g : g.scorer).backToBack;
+
+  for (const type of types) for (let rotation = 0; rotation < 4; rotation++) {
+    assert.equal(key(cells(type, rotation).map(([x, y]) => [x + (type === 'O' ? 1 : 0), y])),
+      key(reference[type][rotation]), `${mode} ${type}${rotation}`);
+  }
+  const colors = xhigh ? Object.values(pieces.PIECE_COLORS) : Object.values(pieces.PIECES).map(p => p.color);
+  assert.equal(new Set(colors).size, 7);
+  for (const type of types) for (const transition of Object.keys(normalKicks)) {
+    const [from, to] = transition.split('>').map(Number);
+    assert.deepEqual(kicks(type, from, to), type === 'O' ? [[0, 0]]
+      : (type === 'I' ? iKicks : normalKicks)[transition], `${type} ${transition}`);
+  }
+  for (const [type, x] of [['T', -1], ['I', -2]]) {
+    const g = make();
+    place(g, type, 1, x, 12);
+    g.rotate(-1);
+    assert.deepEqual(active(g), { type, rotation: 0, x: 0, y: 12 });
+  }
+  console.log(`${mode} PASS: 28 canonical states, seven colors, all CW/CCW kicks and actual T/I kicks`);
+
+  let seed = 42;
+  const source = bag(() => ((seed = (Math.imul(seed, 1664525) + 1013904223) >>> 0) / 2 ** 32));
+  for (let i = 0; i < 10; i++) {
+    assert.deepEqual(Array.from({ length: 7 }, source).sort(), [...types].sort());
+  }
+  {
+    const g = make();
+    assert.deepEqual(xhigh ? g.queue : g.nextPieces, ['I', 'O', 'S', 'Z', 'J']);
+    g.rotate(1); hold(g);
+    assert.equal(held(g), 'T');
+    assert.equal(active(g).type, 'I');
+    assert.equal(active(g).rotation, 0);
+    hold(g); assert.equal(active(g).type, 'I');
+    g.hardDrop(); hold(g);
+    assert.equal(active(g).type, 'T');
+    assert.equal(active(g).rotation, 0);
+    assert.equal(g.canHold, false);
+    const walls = make(['O']);
+    for (let i = 0; i < 12; i++) walls.move(-1);
+    assert.equal(active(walls).x, 0);
+    for (let i = 0; i < 12; i++) walls.move(1);
+    assert.equal(active(walls).x, 8);
+  }
+  for (const type of types) {
+    const g = make([type]);
+    put(g, 4, 20, 'Z');
+    const p = { ...active(g) }, y = ghost(g);
+    assert(fits(g, { ...p, y }));
+    assert.equal(fits(g, { ...p, y: y + 1 }), false);
+    const expected = cells(type, p.rotation).map(([dx, dy]) => [p.x + dx, y + dy]);
+    assert.equal(new Set(expected.map(String)).size, 4);
+    g.hardDrop();
+    assert.equal(g.score, 2 * (y - p.y));
+    for (const [x, row] of expected) assert.equal(get(g, x, row), type);
+  }
+  console.log(`${mode} PASS: ten seeded bags, walls, queue, hold reset/restriction and seven ghost/drop outcomes`);
+
+  {
+    const g = make(['O']); place(g, 'O', 0, 4, 20);
+    update(g, 0.499); assert(empty(g));
+    update(g, 0.0011); assert.equal(get(g, 4, 21), 'O');
+  }
+  {
+    const g = make(['O']); place(g, 'O', 0, 4, 20);
+    for (let i = 0; i < 15; i++) {
+      update(g, 0.49); assert(empty(g)); g.move(i % 2 ? -1 : 1);
+    }
+    assert.equal(g.lockResets, 15);
+    update(g, 0.49); g.move(-1); update(g, 0.011);
+    assert.equal(get(g, 4, 21), 'O');
+  }
+  {
+    const g = make(['O']); place(g, 'O', 0, 0, 19); put(g, 0, 21);
+    update(g, 0.49); g.move(1);
+    assert(fits(g, { ...active(g), y: 20 }));
+    update(g, 0.02); // cross stale 500 ms deadline while still airborne
+    assert.equal(active(g).y, 19);
+    assert.equal(get(g, 1, 19), null);
+    assert.equal(xhigh ? g.lockMs : g.lockTimer, 0);
+    for (let i = 0; i < 20 && get(g, 1, 21) === null; i++) update(g, 0.1);
+    assert.equal(get(g, 1, 21), 'O');
+    assert.equal(get(g, 1, 19), null);
+  }
+  console.log(`${mode} PASS: 499/500 ms lock boundary, 15-reset cap and ledge-move mid-air lock probe`);
+
+  const single = (g, perfect = false) => {
+    clear(g);
+    for (const x of [0, 1, 2, 7, 8, 9]) put(g, x, 21);
+    if (!perfect) put(g, 0, 12);
+    place(g, 'I', 0, 3, 20);
+  };
+  const tetris = g => {
+    clear(g);
+    for (let y = 18; y < 22; y++) for (let x = 0; x < 10; x++) if (x !== 4) put(g, x, y);
+    put(g, 0, 12); place(g, 'I', 1, 2, 18);
+  };
+  {
+    const g = make(); single(g, true); g.hardDrop();
+    assert.equal(g.score, xhigh ? 900 : 100); assert.equal(g.lines, 1); assert(empty(g));
+    console.log(`${mode} ${xhigh ? 'PASS' : 'CONFIRMED MINOR'}: single perfect clear = ${g.score} (benchmark expectation 900)`);
+  }
+  for (const [lines, expected] of [[2, 300], [3, 500]]) {
+    const g = make();
+    for (let y = 22 - lines; y < 22; y++) for (let x = 0; x < 10; x++) if (x !== 4) put(g, x, y);
+    place(g, 'I', 1, 2, 18); g.hardDrop();
+    assert.equal(g.score, expected); assert.equal(g.lines, lines);
+  }
+  {
+    const g = make(); tetris(g); g.hardDrop();
+    assert.equal(g.score, 800); assert.equal(b2b(g), true);
+    clear(g); place(g, 'O', 0, 0, 20); g.hardDrop();
+    assert.equal(b2b(g), true);
+    tetris(g); g.hardDrop(); assert.equal(g.score, 2000);
+    single(g); g.hardDrop(); assert.equal(g.score, 2150); assert.equal(b2b(g), false);
+  }
+  {
+    const g = make(); level(g, 10); combo(g, 0); single(g); g.hardDrop();
+    assert.equal(g.score, 300); assert.equal(g.lines, 11); assert.equal(g.level, 2);
+    const crossing = make(); level(crossing, 9); single(crossing); crossing.hardDrop();
+    assert.equal(crossing.score, 100); assert.equal(crossing.level, 2);
+  }
+  for (const full of [false, true]) for (const line of [false, true]) {
+    const g = make();
+    put(g, 5, 19); put(g, 3, 21); put(g, full ? 3 : 5, full ? 19 : 21);
+    if (line) for (const x of [0, 1, 2, 6, 7, 8, 9]) put(g, x, 20);
+    place(g, 'T', 3, 3, 19); g.rotate(1);
+    assert.equal(active(g).rotation, 0); assert.equal(ghost(g), 19); g.hardDrop();
+    assert.equal(g.score, full ? (line ? 800 : 400) : (line ? 200 : 100));
+    assert.equal(g.lines, Number(line));
+  }
+  {
+    const g = make(); put(g, 3, 21); put(g, 5, 21); put(g, 5, 19);
+    place(g, 'T', 0, 3, 19);
+    if (xhigh) {
+      g.lastMoveWasRotation = true;
+      assert.equal(g.detectTSpin(g.current), 'mini');
+      g.lastKick = 4; assert.equal(g.detectTSpin(g.current), 'full');
+    } else {
+      const { detectTSpin } = await load('tspin.js');
+      assert.equal(detectTSpin(g.board, active(g), 0), 'mini');
+      assert.equal(detectTSpin(g.board, active(g), 4), 'full');
+    }
+  }
+  console.log(`${mode} PASS: normal clears, B2B continuity/break, level-two combo 300, level crossing, integrated full/mini spins and fifth-kick classification`);
+
+  {
+    const g = make(['O']), start = active(g).y;
+    update(g, 0.999); assert.equal(active(g).y, start);
+    update(g, 0.0011); assert.equal(active(g).y, start + 1);
+    const fast = make(['O']); level(fast, 10);
+    const interval = xhigh ? engine.gravityIntervalMs(2) / 1000 : engine.gravityInterval(2);
+    assert.equal(interval, 0.793); update(fast, interval + 0.0001);
+    assert.equal(active(fast).y, start + 1);
+    const soft = make(['O']);
+    if (xhigh) soft.softDropping = true; else soft.setSoftDrop(true);
+    update(soft, 0.151); assert.equal(active(soft).y, start + 3); assert.equal(soft.score, 3);
+  }
+  {
+    const g = make(['O']); g.move(1);
+    const spawn = active(make(['O'])); put(g, spawn.x, spawn.y);
+    g.hardDrop(); assert.equal(over(g), true);
+    const before = JSON.stringify({ p: active(g), score: g.score, held: held(g) });
+    update(g, 1); g.move(-1); g.rotate(1); hold(g); g.hardDrop();
+    assert.equal(JSON.stringify({ p: active(g), score: g.score, held: held(g) }), before);
+    g.restart(); assert.equal(over(g), false); assert(empty(g));
+    assert.equal(g.score, 0); assert.equal(g.lines, 0); assert.equal(g.level, 1);
+    assert.equal(held(g), null); assert.equal(g.canHold, true);
+    assert.equal((xhigh ? g.queue : g.nextPieces).length, 5);
+  }
+  if (xhigh) {
+    const g = make(['T']); place(g, 'T', 0, 3, 0); put(g, 3, 2);
+    g.hardDrop(); assert.equal(over(g), true);
+  } else {
+    // Public actions from the actual spawn reach a wholly hidden legal T.
+    // Test 3 kicks CW upward, then CCW fits without a kick. Incoming I is open.
+    const g = make(['T', 'I']);
+    put(g, 2, 2); put(g, 3, 3); put(g, 4, 3);
+    assert(fits(g, active(g)));
+    g.rotate(1); assert.deepEqual(active(g), { type: 'T', rotation: 1, x: 2, y: 0 });
+    g.rotate(-1); assert.deepEqual(active(g), { type: 'T', rotation: 0, x: 2, y: 0 });
+    assert.equal(ghost(g), 0); g.hardDrop();
+    assert.equal(get(g, 3, 0), 'T'); assert.equal(get(g, 2, 1), 'T');
+    assert.equal(over(g), false); assert.equal(active(g).type, 'I');
+    console.log('max CONFIRMED MINOR: wholly hidden T locks after two legal rotations; game continues with I');
+  }
+  console.log(`${mode} PASS: normal/soft gravity, levels, blocked spawn, inert game-over actions and restart`);
+
+  {
+    const g = make(['O']);
+    const { Controller, Controls } = await load('input.js');
+    const listeners = {};
+    const target = { addEventListener(name, callback) { listeners[name] = callback; } };
+    const previousWindow = globalThis.window;
+    let input;
+    try {
+      if (xhigh) { globalThis.window = target; input = new Controller(g); }
+      else { input = new Controls(g); input.attach(target); }
+      for (let i = 0; i < 50; i++) update(g, 0.016);
+      const before = active(g).y;
+      listeners.keydown({ code: 'ArrowDown', key: 'ArrowDown', repeat: false, preventDefault() {} });
+      update(g, 0.001);
+      assert.equal(active(g).y - before, 16); assert.equal(g.score, 16);
+      listeners.keyup({ code: 'ArrowDown', key: 'ArrowDown' });
+    } finally {
+      if (previousWindow === undefined) delete globalThis.window;
+      else globalThis.window = previousWindow;
+    }
+  }
+  console.log(`${mode} CONFIRMED MINOR: 800 ms normal time becomes 16 soft-drop rows/points after 1 ms through real input handler`);
+  console.log(`${mode} engine audit passed; documented findings reproduced.`);
+}

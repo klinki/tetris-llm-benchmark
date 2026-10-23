@@ -272,6 +272,52 @@
         }
       ],
       "summary": "Broad rules support; soft-drop timing jump and clipped phone playfield"
+    },
+    {
+      "run_id": "claude-haiku-5-5-xhigh",
+      "audited": "2026-10-24",
+      "scores": {"correctness": 9.0, "tests": 8.5, "code": 9.0, "simplicity": 8.5, "browser_ux": 8.5},
+      "bugs": [
+        {
+          "severity": "minor",
+          "title": "Starting soft drop reuses accumulated normal-gravity time",
+          "detail": "After fifty 16 ms updates at level one, send ArrowDown through the delivered input handler and advance 1 ms. The active O jumps sixteen rows and earns sixteen points, consuming the preceding 800 ms at the new 50 ms interval. Each normal step is below the browser frame cap. Movement and extra points are one timer-transition defect."
+        },
+        {
+          "severity": "minor",
+          "title": "Fixed-width layout clips the playfield on phones",
+          "detail": "At 390×844 in Chromium, document width is 752 px. The board border box is 304×604 at x=224, ending at x=528; next begins at x=552. Its fixed flex layout has no narrow-screen reflow, leaving much of the playfield outside the initial viewport."
+        }
+      ],
+      "summary": "Broad rules and strong tests; soft-drop timing jump and clipped phone playfield"
+    },
+    {
+      "run_id": "claude-haiku-5-5-max",
+      "audited": "2026-10-24",
+      "scores": {"correctness": 8.0, "tests": 8.0, "code": 9.0, "simplicity": 8.0, "browser_ux": 8.5},
+      "bugs": [
+        {
+          "severity": "minor",
+          "title": "Perfect-clear bonus is absent under the benchmark scoring profile",
+          "detail": "A horizontal I at x=3,y=20 completes row 21 at zero drop distance. One row clears and the 22-row board is empty, but score is 100 rather than the benchmark profile’s 900. Neither Scorer.lock nor Game.lockPiece checks for an empty board."
+        },
+        {
+          "severity": "minor",
+          "title": "Locking a whole piece above the skyline does not end the game",
+          "detail": "Use a T,I source and blockers at (2,2),(3,3),(4,3). From the actual T spawn (3,1), rotate CW via SRS test 3 to (2,0), then CCW to spawn orientation at (2,0). The ghost is y=0. A zero-distance hard drop locks all four T cells in hidden rows 0–1, but status remains playing and the unblocked I spawns. Blocked-spawn top-out works; this specific lock-out path is absent."
+        },
+        {
+          "severity": "minor",
+          "title": "Starting soft drop reuses accumulated normal-gravity time",
+          "detail": "After fifty 16 ms updates at level one, send ArrowDown through the delivered input handler and advance 1 ms. The active O jumps sixteen rows and earns sixteen points, consuming the preceding 800 ms at the new 50 ms interval. Each normal step is below the browser frame cap. Movement and extra points are one timer-transition defect."
+        },
+        {
+          "severity": "minor",
+          "title": "Supporting state overflows the phone viewport",
+          "detail": "At 390×844 in Chromium, document width is 596 px. The 300×600 board remains visible at x=18, but the 240 px sidebar begins at x=340 and both hold and next canvases start at x=424. Their contents and right-aligned scores are outside the initial viewport."
+        }
+      ],
+      "summary": "No perfect-clear bonus or hidden lock-out; soft-drop timing jump and phone sidebar overflow"
     }
   ]
 }

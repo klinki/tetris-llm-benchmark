@@ -103,20 +103,27 @@ ArrowLeft, ArrowRight, ArrowUp, X, Z, Control, ArrowDown, Space, C
 
 Desktop checks used 1280×800; narrow-layout checks used 390×844. Screenshots were reviewed during the audit but are not committed because they contain nondeterministic falling-piece positions and add binary churn without improving reproducibility.
 
-## Claude Haiku 5.5 (high)
+## Claude Haiku 5.5 (high, xhigh and max)
 
 [`haiku-review.md`](haiku-review.md) records the 2026-10-24 audit of
-`claude-haiku-5-5-high`, using the same rubric and scoring profile. It includes
-the soft-drop timer reproduction, phone clipping measurements, coverage gaps,
-and the existing isolation scan's finding of no benchmark lookups.
+all three efforts, using the same rubric and scoring profile. It includes
+independent soft-drop reproductions, distinct phone layout measurements,
+max's missing perfect-clear bonus and hidden lock-out, test-coverage rationale
+and the supplied isolation findings (including high/xhigh's 8321 contacts).
 
 ```sh
 python3 .audit/run-haiku-audit.py --offline
+python3 .audit/run-haiku-audit.py --offline --browser --playwright-config /absolute/path/to/playwright.json
 ```
 
-The runner installs/builds/tests only in a disposable copy and executes
-[`haiku-audit.mjs`](haiku-audit.mjs). Omit `--offline` if packages are not cached.
+One command installs/builds/tests all three in disposable copies and executes
+[`haiku-audit.mjs`](haiku-audit.mjs), preserving high's original assertions.
+Omit `--offline` if packages are not cached. `--browser` adds each desktop/phone
+Chromium pass; the config is optional when the CLI's default browser is installed.
 [`haiku-browser.cjs`](haiku-browser.cjs) is the Playwright CLI snippet for the
-desktop/phone keyboard, layout, console and asset checks; the review gives
-the temporary-copy server and browser invocation. No generated artifacts or
-implementation changes are included.
+keyboard, layout, console and asset checks; the review gives its effort query
+parameters and launch configuration. Servers use only free ports 41000–49999.
+Max's hard-coded port is changed only in its temporary server copy; routing and
+application code are preserved. Named browsers, servers and copies are cleaned
+on completion or failure. No generated artifacts or implementation changes
+are included.
