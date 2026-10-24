@@ -914,6 +914,35 @@
       },
       "missing_lockfile": true,
       "known_build_failure": "`npm run build` (tsc) fails with 113 type errors in src/game.ts, so `npm test` fails and nothing runs. The agent declared TypeScript as a devDependency but never installed it, and delivered no package-lock.json."
+    },
+    {
+      "id": "gpt-6-luna-high",
+      "label": "GPT-6 Luna (high)",
+      "order": 340,
+      "project_dir": "gpt-6-luna-high",
+      "harness": "t3_codex",
+      "harness_label": "T3 Code / Codex",
+      "provider": "codex",
+      "provider_label": "Codex",
+      "model": "gpt-6-luna",
+      "session_id": "01a16ed1-50b2-7810-aa4a-a361ee93b15a",
+      "t3_thread_id": "mcp:5d497f06-e89f-44bb-9f03-b5bae8f79e3d",
+      "expected_cwd": "/Users/david/tetris-bench/runs/e28005a5fedc/tetris",
+      "expected_cwd_basename": "tetris",
+      "reasoning_variant": "high",
+      "web": "open",
+      "cutoff": {
+        "through_user_message": 1,
+        "exclude_inter_message_wait": true
+      },
+      "overhead": {
+        "kind": "unknown"
+      },
+      "spec": {
+        "sha256": "36e2097a78fe8b5646e6216338640831cff0a284cc823c4b1f658991c8d40294",
+        "commit": "718ff3077061ec64506a8edd9985368cf9155109",
+        "modified": false
+      }
     }
   ]
 }

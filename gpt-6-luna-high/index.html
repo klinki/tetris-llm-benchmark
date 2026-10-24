@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#10131d" />
+    <title>Tetris — Stack with style</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main class="shell">
+      <header class="topbar">
+        <a class="brand" href="#" aria-label="Tetris home"><span class="brand-mark">T</span><span>TETRIS<span class="brand-dot">.</span></span></a>
+        <div class="top-note"><span class="live-dot"></span> THE CLASSIC, REIMAGINED</div>
+        <button class="sound-button" id="sound-toggle" aria-label="Toggle sound" title="Sound is off">♪ <span>OFF</span></button>
+      </header>
+      <section class="game-layout" aria-label="Tetris game">
+        <aside class="side-column left-column">
+          <section class="info-card hold-card">
+            <div class="card-heading"><span>HOLD</span><span class="key-hint">C</span></div>
+            <canvas id="hold-canvas" width="136" height="94" aria-label="Held piece"></canvas>
+          </section>
+          <section class="score-card">
+            <span class="eyebrow">SCORE</span>
+            <strong id="score">000000</strong>
+            <div class="score-rule"></div>
+            <div class="stat-row"><span>LINES</span><b id="lines">0</b></div>
+            <div class="stat-row"><span>LEVEL</span><b id="level">1</b></div>
+          </section>
+          <div class="tip-card"><span class="tip-icon">✦</span><p>Clear lines to level up. Keep your stack low and your head clear.</p></div>
+        </aside>
+        <div class="board-wrap">
+          <div class="board-top"><span class="round-label"><span class="live-dot"></span> ENDLESS MODE</span><span class="best-score">BEST <b id="best-score">000000</b></span></div>
+          <div class="board-frame">
+            <canvas id="board" width="300" height="600" aria-label="Tetris playfield" role="img"></canvas>
+            <div class="board-overlay" id="overlay">
+              <div class="overlay-content"><span class="overlay-kicker">READY WHEN YOU ARE</span><h1>Make your<br /><em>move.</em></h1><p>Stack blocks. Clear lines.<br />Find your rhythm.</p><button class="primary-button" id="start-button">START GAME <span>↗</span></button></div>
+            </div>
+          </div>
+          <div class="board-footer"><span><kbd>SPACE</kbd> HARD DROP</span><span><kbd>↓</kbd> SOFT DROP</span><span><kbd>P</kbd> PAUSE</span></div>
+        </div>
+        <aside class="side-column right-column">
+          <section class="info-card next-card"><div class="card-heading"><span>NEXT</span><span class="queue-count">UP NEXT</span></div><div id="next-pieces" class="next-pieces"></div></section>
+          <section class="controls-card"><div class="card-heading"><span>HOW TO PLAY</span><span class="controls-icon">⌘</span></div><div class="control-row"><span>Move</span><div><kbd>←</kbd><kbd>→</kbd></div></div><div class="control-row"><span>Rotate</span><div><kbd>↑</kbd><kbd>X</kbd></div></div><div class="control-row"><span>Rotate back</span><div><kbd>Z</kbd><kbd>CTRL</kbd></div></div><div class="control-row"><span>Hold piece</span><div><kbd>C</kbd></div></div><div class="control-row"><span>Pause</span><div><kbd>P</kbd></div></div></section>
+          <button class="restart-button" id="restart-button">↻ <span>RESTART GAME</span></button>
+        </aside>
+      </section>
+      <footer class="page-footer"><span>ONE MORE GAME?</span><span>BUILT FOR THE LOVE OF THE STACK <b>✳</b></span><span>01 — ∞</span></footer>
+    </main>
+    <script type="module" src="dist/game.js"></script>
+  </body>
+</html>
