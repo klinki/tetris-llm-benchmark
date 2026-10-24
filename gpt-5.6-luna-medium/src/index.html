@@ -1,0 +1,7 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>TetrisJS</title><link rel="stylesheet" href="/style.css"></head>
+<body><main class="shell"><header><div><p class="eyebrow">TETRISJS</p><h1>Classic blocks</h1></div><button id="restart" aria-label="Restart game">↻ Restart</button></header>
+<section class="game-layout"><div class="board-wrap"><canvas id="board" width="300" height="660" aria-label="Tetris board"></canvas><div id="overlay" class="overlay hidden"><strong id="overlay-title">Game over</strong><span id="overlay-copy">Press R to play again</span></div></div>
+<aside><div class="stat-grid"><div><span>Score</span><strong id="score">0</strong></div><div><span>Lines</span><strong id="lines">0</strong></div><div><span>Level</span><strong id="level">1</strong></div></div><div class="preview-card"><span class="label">Hold <small>(C)</small></span><canvas id="hold" width="120" height="90"></canvas></div><div class="preview-card"><span class="label">Next</span><canvas id="next" width="120" height="260"></canvas></div><div class="help"><span>← →</span> Move <span>↑ / X</span> Rotate <span>Z / Ctrl</span> Reverse rotate <span>↓</span> Soft drop <span>Space</span> Hard drop</div></aside></section></main><script type="module" src="/main.js"></script></body>
+</html>
