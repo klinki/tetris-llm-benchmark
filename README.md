@@ -38,6 +38,7 @@ The table is generated from [`benchmark-runs.json`](benchmark-runs.json),
 | 18 | [Space-bunny](space-bunny/STATISTICS.md) | `space-bunny` | `xhigh` | T3 Code / OpenCode | **6.75** | 21,547,591 | — | 13m 19.433s | Non-SRS shapes and kicks, flattened ghost piece, scoring errors |
 | 19 | [Beam](beam/STATISTICS.md) | `beam-free` | `xhigh` | T3 Code / OpenCode | **5.60** | 1,334,888 | — | 3m 3.429s | Lock timer mixes two clocks; classic scoring table |
 | 20 | [Nemotron](nemotron/STATISTICS.md) | `nvidia/nemotron-3.5-super-vl:free` | `thinking` | T3 Code / OpenCode | **4.00** | 1,851,716 | $0.20 | 9m 8.773s | Does not start in the browser: imports lack .js extensions |
+| — | [Gemini 4 Argon (high)](gemini-4-argon-contributor-high/STATISTICS.md) | `gemini-4-argon-contributor` | `high` | T3 Code / OpenCode | Pending | 1,125,477 | $0.82 | 13m 9.707s | Not ranked yet |
 
 **† Muse Spark 1.3 (medium):** Reference-assisted run: the medium-reasoning child read Gemini-4's engine, shape tables, tests, and build files before writing this implementation, so token/time efficiency is not an independent from-scratch comparison. Primary time covers the child task only. The xhigh parent prepared/delegated and verified/reported the result: 339,157 recorded parent tokens and 2m 54.475s end-to-end are documented separately.
 

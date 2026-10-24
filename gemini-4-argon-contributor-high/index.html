@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>TetrisJS</title>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <main class="app-shell">
+      <header class="app-header">
+        <h1 class="app-title">TETRIS<span>JS</span></h1>
+        <p class="app-subtitle">Tetris Guideline Edition</p>
+      </header>
+
+      <section class="game-layout" aria-label="Tetris Game">
+        <!-- Main board panel placed first in DOM so document.querySelector('canvas') always returns the 10x20 playfield -->
+        <div class="board-panel">
+          <div class="board-frame">
+            <canvas
+              id="game-canvas"
+              width="300"
+              height="600"
+              tabindex="0"
+              aria-label="Tetris Playfield"
+            ></canvas>
+
+            <div
+              id="game-over"
+              data-testid="game-over"
+              class="game-over-overlay hidden"
+              aria-hidden="true"
+            >
+              <div class="game-over-card">
+                <h2>GAME OVER</h2>
+                <p>Blocked Spawn (Top-Out)</p>
+                <p class="restart-hint">Press <kbd>R</kbd> to Restart</p>
+                <button id="restart-btn" type="button">Restart Game (R)</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Left sidebar: Hold & Scoreboard -->
+        <aside class="side-panel left-panel">
+          <div id="hold" data-testid="hold" data-piece="" class="panel-card">
+            <h2 class="panel-heading">HOLD <kbd>C</kbd></h2>
+            <div class="canvas-box">
+              <canvas id="hold-canvas" width="120" height="90"></canvas>
+            </div>
+          </div>
+
+          <div class="panel-card stats-card">
+            <div class="stat-row">
+              <span class="stat-label">SCORE</span>
+              <span id="score" data-testid="score" class="stat-value">0</span>
+            </div>
+            <div class="stat-row">
+              <span class="stat-label">LEVEL</span>
+              <span id="level" data-testid="level" class="stat-value">1</span>
+            </div>
+            <div class="stat-row">
+              <span class="stat-label">LINES</span>
+              <span id="lines" data-testid="lines" class="stat-value">0</span>
+            </div>
+            <div class="action-banner">
+              <div id="action-text" class="action-text"></div>
+              <div id="combo" class="combo-text"></div>
+            </div>
+          </div>
+        </aside>
+
+        <!-- Right sidebar: Next Queue & Controls -->
+        <aside class="side-panel right-panel">
+          <div id="next" data-testid="next" data-pieces="" class="panel-card">
+            <h2 class="panel-heading">NEXT</h2>
+            <div class="canvas-box">
+              <canvas id="next-canvas" width="120" height="340"></canvas>
+            </div>
+          </div>
+
+          <div class="panel-card controls-card">
+            <h2 class="panel-heading">CONTROLS</h2>
+            <ul class="controls-list">
+              <li><span>Move</span> <kbd>←</kbd> <kbd>→</kbd></li>
+              <li><span>Rotate CW</span> <kbd>↑</kbd> / <kbd>X</kbd></li>
+              <li><span>Rotate CCW</span> <kbd>Z</kbd> / <kbd>Ctrl</kbd></li>
+              <li><span>Soft Drop</span> <kbd>↓</kbd></li>
+              <li><span>Hard Drop</span> <kbd>Space</kbd></li>
+              <li><span>Hold Piece</span> <kbd>C</kbd></li>
+              <li><span>Restart</span> <kbd>R</kbd></li>
+            </ul>
+          </div>
+        </aside>
+      </section>
+    </main>
+
+    <script type="module" src="/dist/main.js"></script>
+  </body>
+</html>

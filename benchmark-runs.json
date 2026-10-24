@@ -500,6 +500,35 @@
         "modified": false
       },
       "t3_provider_instance": "claudeAgent_claude_home"
+    },
+    {
+      "id": "gemini-4-argon-contributor-high",
+      "label": "Gemini 4 Argon (high)",
+      "order": 200,
+      "project_dir": "gemini-4-argon-contributor-high",
+      "harness": "t3_opencode",
+      "harness_label": "T3 Code / OpenCode",
+      "provider": "opencode-go",
+      "provider_label": "opencode-go",
+      "model": "gemini-4-argon-contributor",
+      "session_id": "ses_e94aafba5ffeXDNHhPc2N5pa6K",
+      "t3_thread_id": "mcp:d72913c3-6f3d-480b-9dd5-0eadd0f387a3",
+      "expected_cwd": "/Users/david/tetris-bench/runs/581246898fc4/tetris",
+      "expected_cwd_basename": "tetris",
+      "reasoning_variant": "high",
+      "web": "open",
+      "cutoff": {
+        "through_user_message": 1,
+        "exclude_inter_message_wait": true
+      },
+      "overhead": {
+        "kind": "unknown"
+      },
+      "spec": {
+        "sha256": "36e2097a78fe8b5646e6216338640831cff0a284cc823c4b1f658991c8d40294",
+        "commit": "e62f84798186c1666551931a98c45befbb6cd24c",
+        "modified": false
+      }
     }
   ]
 }
