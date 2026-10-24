@@ -160,3 +160,33 @@ asserts measured phone widths/sidebar clipping or xhigh's fitting layout.
 Servers use only free ports 41000–49999. Medium's hard-coded port is changed
 only in its temporary server copy. Named browsers, server groups and copies
 are cleaned on completion/failure; no run implementation is changed.
+
+## Gemini 4 Argon (high)
+
+[`gemini-high-review.md`](gemini-high-review.md) records the independent
+2026-10-24 audit of `gemini-4-argon-contributor-high`, using the same rubric,
+severity deductions, scoring profile and desktop/phone viewports. It includes
+the missing perfect-clear bonus, clipped supporting panels, own-test rationale,
+and supplied second-attempt/failed-launch/isolation context without score effects.
+
+```sh
+python3 .audit/run-gemini-high-audit.py --offline
+```
+
+The runner installs/builds/tests in a disposable copy and runs
+[`gemini-high-audit.mjs`](gemini-high-audit.mjs) plus the default desktop and
+390×844 Chromium pass in [`gemini-high-browser.cjs`](gemini-high-browser.cjs).
+Omit `--offline` if dependencies are not cached. `--engine-only` explicitly
+skips browsers; `--playwright-cli`, `--playwright-config` and an outside-checkout
+`--artifacts-dir` work as in the Sonnet runner. The unchanged supplied server
+uses `PORT` on a free port in 41000–49999. Named browser sessions, server groups
+and copies are cleaned on success/failure.
+
+Assertions cover all 28 SRS states, both kick directions, bags, hold/ghost,
+lock timing/reset cap/ledge safety, normal/full/mini/B2B/combo/perfect-clear
+scoring, gravity/levels, public-action hidden lock-out, blocked spawn and
+restart. Browser assertions exercise every required binding, repeated soft
+keydowns, active/game-over overlays, real R and exact phone sidebar clipping.
+The 800 ms/Down/1 ms probe confirms one row/point without the recent cohorts'
+soft-drop timer jump. Passing asserts documented findings, including defects;
+it is not a claim of exhaustive correctness.

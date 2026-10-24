@@ -161,6 +161,46 @@ CLI pass against a built temporary copy. Full fixtures, score rationale,
 test gaps and supplied isolation evidence are in
 [`sonnet-review.md`](sonnet-review.md).
 
+## Gemini 4 Argon (high) — October 24
+
+Chromium **156.0.8078.4**, Playwright CLI, using the unmodified supplied
+`npm start` server in a disposable build with `PORT` in 41000–49999.
+Both screenshots were visually inspected outside the checkout and discarded.
+
+| Viewport | Document width | Board content / frame | Hold / next panel X | Hold / next canvas X | Application errors |
+|---|---:|---|---|---|---|
+| 1280×800 | 1280 | 300×600 at x=480 / 304×604 at x=478 | 292 / 798 | 317 / 833 | None |
+| 390×844 | 543 | 300×600 at x=35 / 304×604 at x=33 | −153 / 353 | −128 / 388 | None |
+
+The full board fits on the phone, but hold/stats and next/controls are clipped
+by the fixed side columns. Desktop presentation has readable state, distinct
+colors, ghost, dimmed used hold, five previews, full legend, a labeled focusable
+canvas and a restart button. There are no touch controls or high-DPI scaling.
+Active overlay is `display:none; aria-hidden=true`; a blocked spawn displays
+it as `flex; aria-hidden=false`; real R resets state and hides it again.
+
+Real **Left, Right, Up, X, Z, Left Control, Down (120 ms), Space, C** all
+responded with asserted before/after displacement, `[1,1,-1,-1]` rotation
+directions, soft-drop points, four locked cells and hold restriction. For
+determinism, animation-driven engine time was frozen while DOM input/rendering
+remained live. A single Down moves/scores once; three explicit repeated
+keydowns move/score three more times. Input relies on native keyboard repeat;
+Playwright holding Down does not synthesize OS repeats. After 800 ms of
+normal time, Down plus 1 ms moves O **0→1** and awards **1**, confirming no
+normal-to-soft accumulator jump. Actual OS repeat cadence was not measured.
+No page exception, application console error or failed application asset
+occurred; favicon 404s are excluded consistently with earlier audits.
+
+```sh
+python3 .audit/run-gemini-high-audit.py --offline
+```
+
+The runner executes the own build/tests, engine probes and browser assertions
+by default, including exact phone dimensions, transition and real R results.
+It closes named browsers and server groups and removes temporary copies on
+completion/failure. Full fixtures, scores, limitations and supplied generation
+facts are in [`gemini-high-review.md`](gemini-high-review.md).
+
 ## Reproducible DOM probes
 
 Horizontal overflow was measured after setting the viewport to 390×844:
@@ -191,4 +231,4 @@ Observed result:
 
 ## Interaction coverage
 
-The audit exercised the required keyboard inputs: horizontal movement, clockwise rotation through both Up and X, counter-clockwise rotation through Z and Left Control, soft drop, hard drop, and hold. Earlier cohorts additionally confirmed the game-over restart binding by source review because reaching top-out through UI play would make the comparison timing-dependent. The Sonnet pass uses deterministic blocked-spawn fixtures to exercise real R restart in all four games.
+The audit exercised the required keyboard inputs: horizontal movement, clockwise rotation through both Up and X, counter-clockwise rotation through Z and Left Control, soft drop, hard drop, and hold. Earlier cohorts additionally confirmed the game-over restart binding by source review because reaching top-out through UI play would make the comparison timing-dependent. The Sonnet and Gemini high passes use deterministic blocked-spawn fixtures to exercise real R restart.

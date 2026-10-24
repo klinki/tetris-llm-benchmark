@@ -400,6 +400,30 @@
         }
       ],
       "summary": "Broad rules, strong integration/input tests and a fitting phone layout; soft-drop jump"
+    },
+    {
+      "run_id": "gemini-4-argon-contributor-high",
+      "audited": "2026-10-24",
+      "scores": {
+        "correctness": 9.0,
+        "tests": 8.0,
+        "code": 8.5,
+        "simplicity": 7.0,
+        "browser_ux": 8.5
+      },
+      "bugs": [
+        {
+          "severity": "minor",
+          "title": "No perfect-clear bonus under the benchmark scoring profile",
+          "detail": "A horizontal I at x=3,y=18 completes row 19 at zero drop distance and leaves the board empty, but awards 100 rather than 900 (single 100 plus benchmark bonus 800). TetrisGame.lockPiece has no empty-board bonus branch."
+        },
+        {
+          "severity": "minor",
+          "title": "Supporting state is clipped on phones",
+          "detail": "At 390×844, document width is 543 px. The 300×600 board fits at x=35, but hold/stats start at x=−153 and next/controls at x=353; hold and next canvases start at x=−128 and x=388. The fixed side columns have no narrow-screen reflow."
+        }
+      ],
+      "summary": "Broad rules support; missing perfect-clear bonus and clipped phone sidebars"
     }
   ]
 }
