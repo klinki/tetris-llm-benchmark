@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>TetrisJS</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main class="wrap">
+      <h1>TetrisJS</h1>
+      <p class="sub">Guideline rules: 7-bag, SRS kicks, ghost, hold, next queue, lock delay &amp; scoring.</p>
+      <canvas id="game"></canvas>
+      <div class="touch">
+        <button data-action="left">◀</button>
+        <button data-action="right">▶</button>
+        <button data-action="rotCCW">⟲</button>
+        <button data-action="rotCW">⟳</button>
+        <button data-action="down">▼</button>
+        <button data-action="hard">HARD</button>
+        <button data-action="hold">HOLD</button>
+      </div>
+      <p class="help">←/→ move · ↑/X rotate CW · Z/Ctrl rotate CCW · ↓ soft drop · Space hard drop · C hold · R restart</p>
+    </main>
+    <script type="module" src="dist/main.js"></script>
+  </body>
+</html>
