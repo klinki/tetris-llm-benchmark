@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#11131f" />
+    <title>TetrisJS</title>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <main class="game-shell">
+      <header class="brand">
+        <div>
+          <p class="eyebrow">TetrisJS</p>
+          <h1>Stack with style.</h1>
+        </div>
+        <div class="badge">GUIDELINE PLAY</div>
+      </header>
+
+      <section class="game-layout" aria-label="Tetris game">
+        <aside class="side-panel left-panel">
+          <section class="panel-card hold-card">
+            <h2>Hold <span>C</span></h2>
+            <canvas id="hold-canvas" width="144" height="112" aria-label="Held piece"></canvas>
+          </section>
+          <section class="panel-card stats-card">
+            <div class="stat"><span>Score</span><strong id="score">0</strong></div>
+            <div class="stat"><span>Lines</span><strong id="lines">0</strong></div>
+            <div class="stat"><span>Level</span><strong id="level">1</strong></div>
+          </section>
+        </aside>
+
+        <section class="board-wrap">
+          <canvas id="game-canvas" width="300" height="600" aria-label="Tetris board"></canvas>
+          <div id="game-status" class="game-status" hidden>
+            <p id="status-title">Game over</p>
+            <small>Press R to restart</small>
+          </div>
+        </section>
+
+        <aside class="side-panel right-panel">
+          <section class="panel-card next-card">
+            <h2>Next</h2>
+            <canvas id="next-canvas" width="144" height="272" aria-label="Upcoming pieces"></canvas>
+          </section>
+          <section class="panel-card controls-card">
+            <h2>Controls</h2>
+            <p><kbd>←</kbd><kbd>→</kbd> Move</p>
+            <p><kbd>↑</kbd> / <kbd>X</kbd> Rotate</p>
+            <p><kbd>Z</kbd> / <kbd>Ctrl</kbd> Reverse</p>
+            <p><kbd>↓</kbd> Soft drop</p>
+            <p><kbd>Space</kbd> Hard drop</p>
+          </section>
+        </aside>
+      </section>
+
+      <footer>7-bag randomizer · SRS wall kicks · ghost piece · lock delay</footer>
+    </main>
+    <script type="module" src="/dist/main.js"></script>
+  </body>
+</html>
