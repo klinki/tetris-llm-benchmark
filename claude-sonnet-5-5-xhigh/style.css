@@ -1,0 +1,54 @@
+:root {
+  color-scheme: dark;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  background: #06080e;
+  color: #e8ecf6;
+}
+
+main {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 24px;
+  padding: 16px;
+}
+
+canvas {
+  width: 660px;
+  max-width: 100%;
+  height: auto;
+  border-radius: 8px;
+}
+
+.controls h2 {
+  margin: 0 0 12px;
+  font-size: 14px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #7d88a8;
+}
+
+.controls dl {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 8px 16px;
+  margin: 0;
+  font-size: 14px;
+}
+
+.controls dt {
+  font-weight: bold;
+}
+
+.controls dd {
+  margin: 0;
+  color: #aab3cf;
+}

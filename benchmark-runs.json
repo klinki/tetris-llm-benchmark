@@ -470,6 +470,36 @@
         "modified": false
       },
       "t3_provider_instance": "claudeAgent_claude_home"
+    },
+    {
+      "id": "claude-sonnet-5-5-xhigh",
+      "label": "Claude Sonnet 5.5 (xhigh)",
+      "order": 190,
+      "project_dir": "claude-sonnet-5-5-xhigh",
+      "harness": "t3_claude",
+      "harness_label": "T3 Code / Claude Agent SDK",
+      "provider": "claudeAgent",
+      "provider_label": "Claude Agent SDK",
+      "model": "claude-sonnet-5-5",
+      "session_id": "195842b4-66e8-4734-9179-2621d2ac0e70",
+      "t3_thread_id": "mcp:878d20d7-db3d-4a8a-a862-47d52df2e8c7",
+      "expected_cwd": "/Users/david/tetris-bench/runs/57148619c009/tetris",
+      "expected_cwd_basename": "tetris",
+      "reasoning_variant": "xhigh",
+      "web": "open",
+      "cutoff": {
+        "through_user_message": 1,
+        "exclude_inter_message_wait": true
+      },
+      "overhead": {
+        "kind": "unknown"
+      },
+      "spec": {
+        "sha256": "36e2097a78fe8b5646e6216338640831cff0a284cc823c4b1f658991c8d40294",
+        "commit": "dfc0056870aa6d2c38fe83c885b1f0feb0c0c7bc",
+        "modified": false
+      },
+      "t3_provider_instance": "claudeAgent_claude_home"
     }
   ]
 }

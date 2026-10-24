@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>TetrisJS</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <main>
+      <canvas id="game" aria-label="Tetris playfield"></canvas>
+      <section class="controls" aria-label="Controls">
+        <h2>Controls</h2>
+        <dl>
+          <dt>← →</dt>
+          <dd>Move</dd>
+          <dt>↑ / X</dt>
+          <dd>Rotate clockwise</dd>
+          <dt>Z / Left Ctrl</dt>
+          <dd>Rotate anti-clockwise</dd>
+          <dt>↓</dt>
+          <dd>Soft drop</dd>
+          <dt>Space</dt>
+          <dd>Hard drop</dd>
+          <dt>C</dt>
+          <dd>Hold piece</dd>
+          <dt>P / Esc</dt>
+          <dd>Pause</dd>
+          <dt>R</dt>
+          <dd>Restart after game over</dd>
+        </dl>
+      </section>
+    </main>
+    <script type="module" src="dist/main.js"></script>
+  </body>
+</html>
