@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#05070d" />
+    <meta name="color-scheme" content="dark" />
+    <title>Tetris — Guideline Edition</title>
+    <meta
+      name="description"
+      content="A dependency-free browser Tetris with guideline rules: 7-bag randomizer, SRS, hold, ghost piece, lock delay and guideline scoring."
+    />
+    <link
+      rel="icon"
+      href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23070b14'/%3E%3Crect x='7' y='7' width='8' height='8' rx='2' fill='%2367e8f9'/%3E%3Crect x='17' y='7' width='8' height='8' rx='2' fill='%2367e8f9'/%3E%3Crect x='7' y='17' width='8' height='8' rx='2' fill='%23a78bfa'/%3E%3Crect x='17' y='17' width='8' height='8' rx='2' fill='%23a78bfa'/%3E%3C/svg%3E"
+    />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <div class="ambient" aria-hidden="true"></div>
+
+    <main class="app">
+      <header class="hero">
+        <div class="hero-copy">
+          <p class="eyebrow">Guideline edition</p>
+          <h1 class="logo">Tetris</h1>
+        </div>
+        <ul class="feature-list" aria-label="Features">
+          <li>7-bag</li>
+          <li>SRS</li>
+          <li>Hold</li>
+          <li>Ghost</li>
+        </ul>
+      </header>
+
+      <section class="game" aria-label="Tetris game">
+        <aside class="side side--left">
+          <section class="panel hold-panel">
+            <h2 class="label">Hold</h2>
+            <canvas id="hold" width="120" height="88" aria-label="Held tetromino"></canvas>
+          </section>
+
+          <section class="panel stats" aria-label="Statistics">
+            <div class="stat stat--hero">
+              <span class="label">Score</span>
+              <strong id="score">0</strong>
+            </div>
+            <div class="stat">
+              <span class="label">Best</span>
+              <strong id="best">0</strong>
+            </div>
+            <div class="stat-grid">
+              <div class="stat">
+                <span class="label">Level</span>
+                <strong id="level">1</strong>
+              </div>
+              <div class="stat">
+                <span class="label">Lines</span>
+                <strong id="lines">0</strong>
+              </div>
+            </div>
+            <div
+              class="progress"
+              id="level-progress-bar"
+              role="progressbar"
+              aria-label="Progress to next level"
+              aria-valuemin="0"
+              aria-valuemax="10"
+              aria-valuenow="0"
+            >
+              <span id="level-progress"></span>
+            </div>
+          </section>
+        </aside>
+
+        <div class="board-area">
+          <div class="board-frame">
+            <canvas id="board" width="300" height="600" aria-label="Tetris playfield"></canvas>
+
+            <div
+              class="overlay hidden"
+              id="gameover-overlay"
+              role="dialog"
+              aria-modal="true"
+              aria-labelledby="gameover-title"
+            >
+              <p class="overlay-eyebrow">The stack wins</p>
+              <h2 id="gameover-title">Game over</h2>
+              <p class="overlay-score" id="final-score">0</p>
+              <button type="button" class="button" id="restart-button">Play again</button>
+              <p class="overlay-hint">or press <kbd>R</kbd></p>
+            </div>
+
+            <div class="overlay overlay--pause hidden" id="pause-overlay" role="status">
+              <p class="overlay-eyebrow">Take a breath</p>
+              <h2>Paused</h2>
+              <p class="overlay-hint">Press <kbd>P</kbd> to resume</p>
+            </div>
+          </div>
+
+          <div class="controls" aria-label="Keyboard controls">
+            <span><kbd>←</kbd><kbd>→</kbd> move</span>
+            <span><kbd>↑</kbd><kbd>X</kbd> rotate</span>
+            <span><kbd>Z</kbd> rotate ccw</span>
+            <span><kbd>↓</kbd> soft drop</span>
+            <span><kbd>Space</kbd> hard drop</span>
+            <span><kbd>C</kbd> hold</span>
+            <span><kbd>P</kbd> pause</span>
+            <span><kbd>R</kbd> restart</span>
+          </div>
+        </div>
+
+        <aside class="side side--right">
+          <section class="panel next-panel">
+            <h2 class="label">Next</h2>
+            <canvas id="next" width="120" height="300" aria-label="Next tetrominoes"></canvas>
+          </section>
+
+          <section class="panel badges" aria-label="Streak status">
+            <div class="badge-row">
+              <span class="badge badge--b2b" id="b2b-badge">B2B</span>
+              <span class="badge badge--combo" id="combo-badge">Combo <b id="combo">0</b></span>
+            </div>
+            <p class="badges-hint">Chain difficult clears<br />for back-to-back bonus.</p>
+          </section>
+        </aside>
+      </section>
+
+      <footer class="footer">
+        <span>TypeScript</span>
+        <span aria-hidden="true">/</span>
+        <span>Zero dependencies</span>
+        <span aria-hidden="true">/</span>
+        <span>10 × 20</span>
+      </footer>
+    </main>
+
+    <script type="module" src="./main.js"></script>
+  </body>
+</html>

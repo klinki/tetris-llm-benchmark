@@ -49,6 +49,7 @@ The table is generated from [`benchmark-runs.json`](benchmark-runs.json),
 | 29 | [Nemotron](nemotron/STATISTICS.md) | `nvidia/nemotron-3.5-super-vl:free` | `thinking` | T3 Code / OpenCode | **4.00** | 1,851,716 | $0.20 | 9m 8.773s | Does not start in the browser: imports lack .js extensions |
 | — | [DeepSeek V4.1 Flash (low)](deepseek-v4.1-flash-low/STATISTICS.md) | `deepseek-v4.1-flash` | `low` | T3 Code / OpenCode | Pending | 2,309,531 | $0.05 | 6m 54.369s | Not ranked yet |
 | — | [DeepSeek V4.1 Flash (high)](deepseek-v4.1-flash-high/STATISTICS.md) | `deepseek-v4.1-flash` | `high` | T3 Code / OpenCode | Pending | 5,255,770 | $0.09 | 19m 30.263s | Not ranked yet |
+| — | [DeepSeek V4.1 Flash (max)](deepseek-v4.1-flash-max/STATISTICS.md) | `deepseek-v4.1-flash` | `max` | T3 Code / OpenCode | Pending | 9,118,921 | $0.14 | 24m 21.634s | Not ranked yet |
 
 **† Muse Spark 1.3 (medium):** Reference-assisted run: the medium-reasoning child read Gemini-4's engine, shape tables, tests, and build files before writing this implementation, so token/time efficiency is not an independent from-scratch comparison. Primary time covers the child task only. The xhigh parent prepared/delegated and verified/reported the result: 339,157 recorded parent tokens and 2m 54.475s end-to-end are documented separately.
 
@@ -540,7 +541,9 @@ transcripts without touching a file. The isolation check therefore reports any
 call to a T3 tool as `t3-tool`, except the preview browser (`preview_*`), which
 shows the agent its own pages. The screenshots the preview browser saves under
 `~/.t3/userdata/browser-artifacts` are not `t3-data` findings when the same
-thread saved them; the Haiku xhigh run checked its game this way.
+thread saved them; the Haiku xhigh run checked its game this way. Likewise, a
+background command's log under `~/.local/share/opencode/shell` is not a finding
+when OpenCode told the same thread it streams there.
 
 ### Running several benchmarks
 

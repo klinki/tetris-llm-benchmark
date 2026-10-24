@@ -132,6 +132,17 @@ class BenchmarkLookupTests(unittest.TestCase):
             found = self._screenshot_findings(own, other)
         self.assertEqual(found, [("t3-data", other), ("t3-tool", '{"threadId": "old-run"}')])
 
+    def test_reading_the_background_log_opencode_announced_is_not_a_finding(self) -> None:
+        own = "/Users/someone/.local/share/opencode/shell/abc/sh_1.out"
+        other = "/Users/someone/.local/share/opencode/shell/abc/sh_2.out"
+        found = self.findings(
+            tool_item(1, "command_execution", input="npm start",
+                      output=f"Command moved to the background.\nOutput is streaming to: {own}\nYou will be notified."),
+            tool_item(2, "command_execution", input=f"sleep 2; cat {own}"),
+            tool_item(3, "command_execution", input=f"cat {other}"),
+        )
+        self.assertEqual(found, [("command", other)])
+
     def _screenshot_findings(self, own: str, other: str) -> list[tuple[str, str]]:
         return self.findings(
             tool_item(1, "dynamic_tool", toolName="mcp__t3-code__preview_snapshot", input={"save": True},

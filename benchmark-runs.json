@@ -825,6 +825,35 @@
         "commit": "e0febc6eb899bcb4a49eaa7ed7e6b0499bbc4904",
         "modified": false
       }
+    },
+    {
+      "id": "deepseek-v4.1-flash-max",
+      "label": "DeepSeek V4.1 Flash (max)",
+      "order": 310,
+      "project_dir": "deepseek-v4.1-flash-max",
+      "harness": "t3_opencode",
+      "harness_label": "T3 Code / OpenCode",
+      "provider": "opencode-go",
+      "provider_label": "opencode-go",
+      "model": "deepseek-v4.1-flash",
+      "session_id": "ses_e9158ee5cffekhzYg5FC67z3HY",
+      "t3_thread_id": "mcp:399ef760-7a90-46f2-9bc6-bdf27672d0f8",
+      "expected_cwd": "/Users/david/tetris-bench/runs/09d5f9ab75b6/tetris",
+      "expected_cwd_basename": "tetris",
+      "reasoning_variant": "max",
+      "web": "open",
+      "cutoff": {
+        "through_user_message": 1,
+        "exclude_inter_message_wait": true
+      },
+      "overhead": {
+        "kind": "unknown"
+      },
+      "spec": {
+        "sha256": "36e2097a78fe8b5646e6216338640831cff0a284cc823c4b1f658991c8d40294",
+        "commit": "700ed463fb8c560f4484115128d5eaffd6acdf5e",
+        "modified": false
+      }
     }
   ]
 }
