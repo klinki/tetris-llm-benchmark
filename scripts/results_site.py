@@ -185,8 +185,7 @@ def index_page(results: dict[str, Any]) -> str:
     left_off = (
         f" {len(excluded)} more {'run is' if len(excluded) == 1 else 'runs are'} recorded in the "
         + (f"<a href=\"{esc(results['repository'])}#results\">repository</a>" if results.get("repository") else "repository")
-        + " but not shown here, because "
-        f"{'it is' if len(excluded) == 1 else 'they are'} not a fair comparison: "
+        + " but not shown here: "
         + "; ".join(f"{esc(run['label'])}: {esc(run['reason'])}" for run in excluded) + "."
         if excluded else ""
     )
