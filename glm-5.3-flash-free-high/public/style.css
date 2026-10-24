@@ -1,0 +1,99 @@
+:root {
+  color-scheme: dark;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: #0b0b12;
+  color: #e8e8f2;
+  font-family: system-ui, sans-serif;
+}
+
+h1 {
+  font-size: 20px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: #9a9ab8;
+  margin: 16px 0 12px;
+}
+
+#game {
+  display: flex;
+  gap: 14px;
+  align-items: flex-start;
+}
+
+#left, #right {
+  display: flex;
+  flex-direction: column;
+  width: 104px;
+}
+
+h2 {
+  margin: 0 0 6px;
+  font-size: 11px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: #7c7c9a;
+}
+
+canvas {
+  background: #0d0d16;
+  border: 1px solid #29293a;
+  border-radius: 4px;
+  display: block;
+}
+
+#boardwrap {
+  position: relative;
+}
+
+#overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: center;
+  justify-content: center;
+  background: rgba(6, 6, 12, 0.75);
+  font-size: 24px;
+  font-weight: 700;
+}
+
+#overlay[hidden] {
+  display: none;
+}
+
+#overlay small {
+  font-size: 13px;
+  font-weight: 400;
+  color: #9a9ab8;
+}
+
+.stats {
+  margin-top: 14px;
+  font-size: 13px;
+}
+
+.stats div {
+  display: flex;
+  justify-content: space-between;
+  padding: 4px 2px;
+  border-bottom: 1px solid #1c1c28;
+}
+
+.stats div span:last-child {
+  font-variant-numeric: tabular-nums;
+}
+
+.controls {
+  margin-top: 14px;
+  font-size: 11px;
+  line-height: 1.9;
+  color: #7c7c9a;
+}

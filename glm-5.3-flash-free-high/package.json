@@ -1,0 +1,15 @@
+{
+  "name": "tetrisjs",
+  "version": "1.0.0",
+  "description": "TetrisJS - browser based Tetris following the Tetris Guideline. Dependency-free TypeScript.",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "build": "tsc",
+    "start": "npm run build && node server.mjs",
+    "test": "npm run build && node --test \"test/**/*.test.mjs\""
+  },
+  "devDependencies": {
+    "typescript": "^5.5.0"
+  }
+}

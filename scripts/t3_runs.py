@@ -243,16 +243,38 @@ def thread_for(connection: sqlite3.Connection, record: dict[str, Any]) -> sqlite
     return rows[0] if rows else None
 
 
+def is_notification(message_json: str) -> bool:
+    """A user message T3 posts for the harness, e.g. "Background task completed.", not one a person sent."""
+    payload = json.loads(message_json)
+    return "notification" in payload and payload.get("creationSource") == "provider"
+
+
+def notification_turns(t3_home: Path, thread_id: str) -> list[dict[str, Any]]:
+    """Provider turns after the first, each started by a harness notification rather than a person."""
+    with closing(connect(t3_home)) as connection:
+        notices = [row["payload_json"] for row in connection.execute(
+            "SELECT payload_json FROM orchestration_v2_projection_messages WHERE thread_id=? AND role='user' ORDER BY created_at",
+            (thread_id,),
+        ) if is_notification(row["payload_json"])]
+        ordinals = [row["ordinal"] for row in connection.execute(
+            "SELECT ordinal FROM orchestration_v2_projection_provider_turns WHERE thread_id=? ORDER BY ordinal",
+            (thread_id,),
+        )][1:]
+    if len(notices) != len(ordinals):
+        raise RunError(f"Thread {thread_id} has {len(ordinals)} later turns but {len(notices)} harness notifications")
+    return [{"ordinal": ordinal, "message": json.loads(notice).get("text")} for ordinal, notice in zip(ordinals, notices)]
+
+
 def run_status(t3_home: Path, record: dict[str, Any]) -> tuple[str, str]:
     """Return (state, detail) where state is waiting, running, completed, or failed."""
     with closing(connect(t3_home)) as connection:
         thread = thread_for(connection, record)
         if thread is None:
             return "waiting", "no thread yet: start one in T3 and paste the prompt"
-        users = connection.execute(
-            "SELECT count(*) FROM orchestration_v2_projection_messages WHERE thread_id=? AND role='user'",
+        users = sum(not is_notification(row["payload_json"]) for row in connection.execute(
+            "SELECT payload_json FROM orchestration_v2_projection_messages WHERE thread_id=? AND role='user'",
             (thread["thread_id"],),
-        ).fetchone()[0]
+        ))
         turns = [row["status"] for row in connection.execute(
             "SELECT status FROM orchestration_v2_projection_provider_turns WHERE thread_id=? ORDER BY ordinal",
             (thread["thread_id"],),
@@ -261,8 +283,9 @@ def run_status(t3_home: Path, record: dict[str, Any]) -> tuple[str, str]:
         return "failed", f"{users} user messages; a benchmark run allows exactly one"
     if not turns or any(status not in FINISHED_TURN_STATUSES for status in turns):
         return "running", f"thread {thread['thread_id']}"
-    if turns[-1] != "completed":
-        return "failed", f"the provider turn ended as {turns[-1]}"
+    # Later turns can only come from harness notifications; the benchmark work is the first.
+    if turns[0] != "completed":
+        return "failed", f"the provider turn ended as {turns[0]}"
     return "completed", f"thread {thread['thread_id']}"
 
 

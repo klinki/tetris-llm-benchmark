@@ -1016,7 +1016,7 @@ def collect_t3_opencode(run: dict[str, Any], t3_home: Path, codex_home: Path | N
                 SELECT p.workspace_root, t.default_provider, pt.provider,
                        pt.payload_json AS provider_thread_json,
                        u.payload_json AS turn_json, u.status, u.completed_at,
-                       u.provider_turn_id
+                       u.provider_turn_id, u.ordinal
                 FROM orchestration_v2_projection_threads t
                 JOIN projection_projects p ON p.project_id=t.project_id
                 JOIN orchestration_v2_projection_provider_threads pt ON pt.thread_id=t.thread_id
@@ -1043,13 +1043,24 @@ def collect_t3_opencode(run: dict[str, Any], t3_home: Path, codex_home: Path | N
             raise BenchmarkError(f"Unsupported T3 database schema: {error}") from error
     # This adapter supports the audited single-prompt, single-provider-turn
     # schema. Fail explicitly rather than guessing at future multi-turn data.
-    users = [message for message in messages if message["role"] == "user"]
-    if len(records) != 1 or len(users) != 1 or run["cutoff"]["through_user_message"] != 1:
+    # The only exception is a later turn the harness started with a notification
+    # (e.g. "Background task completed."), which must be declared in the registry.
+    users = [message for message in messages
+             if message["role"] == "user" and not t3_runs.is_notification(message["payload_json"])]
+    notices = [message for message in messages
+               if message["role"] == "user" and t3_runs.is_notification(message["payload_json"])]
+    declared = [turn["ordinal"] for turn in run.get("t3_notification_turns", [])]
+    if (
+        not records or len(users) != 1 or run["cutoff"]["through_user_message"] != 1
+        or [row["ordinal"] for row in records[1:]] != declared or len(notices) != len(declared)
+    ):
         raise BenchmarkError(
             f"Expected one T3 user message and provider turn for {run['id']}; "
-            f"found {len(users)} messages and {len(records)} turns"
+            f"found {len(users)} messages, {len(notices)} harness notifications and {len(records)} turns"
         )
     record = records[0]
+    if any(parse_iso_ms(notice["created_at"]) < parse_iso_ms(record["completed_at"] or "") for notice in notices):
+        raise BenchmarkError(f"A harness notification arrived before the benchmark turn ended for {run['id']}")
     if record["workspace_root"] != run["expected_cwd"] or Path(record["workspace_root"]).name != run["expected_cwd_basename"]:
         raise BenchmarkError(f"T3 cwd mismatch for {run['id']}: {record['workspace_root']}")
     if record["default_provider"] != provider_instance or record["provider"] != provider_instance:
@@ -1092,7 +1103,9 @@ def collect_t3_opencode(run: dict[str, Any], t3_home: Path, codex_home: Path | N
     tested = usage_from_t3(raw_usage)
     phase = Phase(
         number=1, start_ms=start_ms, end_ms=end_ms, usage=tested,
-        responses=0, assistant_messages=sum(message["role"] == "assistant" for message in messages),
+        responses=0, assistant_messages=sum(
+            message["role"] == "assistant" and parse_iso_ms(message["created_at"]) <= end_ms for message in messages
+        ),
         tool_calls=0, tool_results=0, model_errors=0, tool_errors=0, tool_types={},
     )
     parent_events = collect_t3_parent(run, t3_home, app_thread, users[0]) if run.get("t3_parent") else []
@@ -1163,6 +1176,11 @@ def render_statistics(result: RunResult) -> str:
             lines.append(f"- Fast mode: {'on' if run['fast_mode'] else 'off'}")
         if run.get("expected_task_cwd"):
             lines.append(f"- Delegated implementation directory: `{run['expected_task_cwd']}`")
+        for turn in run.get("t3_notification_turns", []):
+            lines.append(
+                f"- Excluded turn {turn['ordinal']}: started by the harness notification "
+                f"\"{turn['message']}\", not counted in usage or time"
+            )
     elif run["harness"] == "codex":
         lines.append(f"- Assistant messages: {sum(phase.assistant_messages for phase in included)}")
     else:
@@ -1735,6 +1753,9 @@ def import_t3_run(
         entry["fast_mode"] = identity["fast_mode"]
     if findings:
         entry["isolation"] = {"outside_access": findings}
+    later_turns = t3_runs.notification_turns(t3_home, identity["t3_thread_id"])
+    if later_turns:
+        entry["t3_notification_turns"] = later_turns
 
     destination = root / run_id
     original_manifest = append_manifest_entry(root, entry)

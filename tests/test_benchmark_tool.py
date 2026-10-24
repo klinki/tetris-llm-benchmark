@@ -486,8 +486,36 @@ class T3CollectorTests(unittest.TestCase):
                 SELECT 'duplicate', thread_id, provider_thread_id, payload_json, status, completed_at, 2
                 FROM orchestration_v2_projection_provider_turns WHERE provider_turn_id='turn'
             """)
-        with self.assertRaisesRegex(benchmark.BenchmarkError, "found 1 messages and 2 turns"):
+        with self.assertRaisesRegex(benchmark.BenchmarkError, "found 1 messages, 0 harness notifications and 2 turns"):
             benchmark.collect_t3_opencode(self.run, self.home)
+
+    def test_a_declared_notification_turn_is_excluded_from_usage_and_time(self) -> None:
+        notice = {"notification": {"source": {"kind": "background_task"}}, "creationSource": "provider",
+                  "text": "Background task completed."}
+        later = {**self.turn, "turnTokenUsage": {**self.turn["turnTokenUsage"], "inputTokens": 9000}}
+        with closing(sqlite3.connect(self.database)) as connection, connection:
+            connection.execute(
+                "INSERT INTO orchestration_v2_projection_messages VALUES (?,?,?,?,?)",
+                ("notice", "app-thread", "user", "2026-01-01T00:00:05.000Z", json.dumps(notice)),
+            )
+            connection.execute(
+                "INSERT INTO orchestration_v2_projection_messages VALUES (?,?,?,?,?)",
+                ("assistant-2", "app-thread", "assistant", "2026-01-01T00:00:09.000Z", "{}"),
+            )
+            connection.execute(
+                "INSERT INTO orchestration_v2_projection_provider_turns VALUES (?,?,?,?,?,?,?)",
+                ("later", "app-thread", "provider-thread", json.dumps(later),
+                 "completed", "2026-01-01T00:00:10.000Z", 2),
+            )
+        with self.assertRaisesRegex(benchmark.BenchmarkError, "1 harness notifications and 2 turns"):
+            benchmark.collect_t3_opencode(self.run, self.home)
+        declared = {**self.run, "t3_notification_turns": [{"ordinal": 2, "message": "Background task completed."}]}
+        result = benchmark.collect_t3_opencode(declared, self.home)
+        self.assertEqual(result.tested.total, 140)
+        self.assertEqual(result.end_ms - result.start_ms, 3000)
+        self.assertEqual(result.phases[0].assistant_messages, 1)
+        self.assertIn('Excluded turn 2: started by the harness notification "Background task completed."',
+                      benchmark.render_statistics(result))
 
     def test_claude_sdk_effective_effort_is_validated_from_matching_log(self) -> None:
         self.run.update({

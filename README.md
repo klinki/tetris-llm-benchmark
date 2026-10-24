@@ -45,6 +45,7 @@ The table is generated from [`benchmark-runs.json`](benchmark-runs.json),
 | 25 | [Beam](beam/STATISTICS.md) | `beam-free` | `xhigh` | T3 Code / OpenCode | **5.60** | 1,334,888 | — | 3m 3.429s | Lock timer mixes two clocks; classic scoring table |
 | 26 | [Nemotron](nemotron/STATISTICS.md) | `nvidia/nemotron-3.5-super-vl:free` | `thinking` | T3 Code / OpenCode | **4.00** | 1,851,716 | $0.20 | 9m 8.773s | Does not start in the browser: imports lack .js extensions |
 | — | [GLM-5.3-Flash (low)](glm-5.3-flash-free-low/STATISTICS.md) | `glm-5.3-flash-free` | `low` | T3 Code / OpenCode | Pending | 4,356,489 | $0.16 | 10m 15.035s | Not ranked yet |
+| — | [GLM-5.3-Flash (high)](glm-5.3-flash-free-high/STATISTICS.md) | `glm-5.3-flash-free` | `high` | T3 Code / OpenCode | Pending | 2,363,761 | $0.11 | 14m 37.371s | Not ranked yet |
 
 **† Muse Spark 1.3 (medium):** Reference-assisted run: the medium-reasoning child read Gemini-4's engine, shape tables, tests, and build files before writing this implementation, so token/time efficiency is not an independent from-scratch comparison. Primary time covers the child task only. The xhigh parent prepared/delegated and verified/reported the result: 339,157 recorded parent tokens and 2m 54.475s end-to-end are documented separately.
 
@@ -379,7 +380,13 @@ whose `turn_context` records must agree. A run on the faster `priority`
 service tier is refused.
 
 This adapter supports the audited single-user-message, single-provider-turn
-schema. Partial usage, subagents, extra turns, identity/configuration
+schema. The one exception is a later turn the harness itself starts with a
+notification, such as OpenCode's "Background task completed." when a server the
+agent left running in the background is stopped after the run. Such turns must
+come after the benchmark turn ended and be declared as `t3_notification_turns`
+in the registry (`import` records them); they are excluded from usage and time
+and listed in `STATISTICS.md`. Cleanup now stops the harness process before its
+leftover children, so the notification cannot start a turn. Partial usage, subagents, extra turns, identity/configuration
 mismatches, or unsupported schemas fail explicitly. T3 activity counts and
 cost are not yet verified. The registry declares overhead as `unknown`, so
 both overhead and combined totals remain `Not verified` rather than zero.

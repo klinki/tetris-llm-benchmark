@@ -329,6 +329,7 @@ class ImportTests(unittest.TestCase):
         with mock.patch.object(benchmark.t3_runs, "run_status", return_value=("completed", "")), \
                 mock.patch.object(benchmark.t3_runs, "inspect_run", return_value=identity or self.identity), \
                 mock.patch.object(benchmark.t3_runs, "outside_access", return_value=findings or []), \
+                mock.patch.object(benchmark.t3_runs, "notification_turns", return_value=[]), \
                 mock.patch.object(benchmark, "refresh", side_effect=refresh):
             return benchmark.import_t3_run(self.root, self.record, homes, allow_outside=False, allow_approvals=False)
 

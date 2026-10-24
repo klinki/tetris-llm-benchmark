@@ -703,6 +703,41 @@
         "commit": "99892877ee058ebe253a807d89189a4a52de6d9f",
         "modified": false
       }
+    },
+    {
+      "id": "glm-5.3-flash-free-high",
+      "label": "GLM-5.3-Flash (high)",
+      "order": 270,
+      "project_dir": "glm-5.3-flash-free-high",
+      "harness": "t3_opencode",
+      "harness_label": "T3 Code / OpenCode",
+      "provider": "opencode",
+      "provider_label": "opencode",
+      "model": "glm-5.3-flash-free",
+      "session_id": "ses_e91a89012ffe6dt74Fh0dlMHWV",
+      "t3_thread_id": "mcp:f45e7f7b-d5bb-4879-ab37-553e6ac91c7d",
+      "expected_cwd": "/Users/david/tetris-bench/runs/ebe3d0925f0d/tetris",
+      "expected_cwd_basename": "tetris",
+      "reasoning_variant": "high",
+      "web": "open",
+      "cutoff": {
+        "through_user_message": 1,
+        "exclude_inter_message_wait": true
+      },
+      "overhead": {
+        "kind": "unknown"
+      },
+      "spec": {
+        "sha256": "36e2097a78fe8b5646e6216338640831cff0a284cc823c4b1f658991c8d40294",
+        "commit": "8feffbf01543b10aa358df1b3e8cba50b5274d83",
+        "modified": false
+      },
+      "t3_notification_turns": [
+        {
+          "ordinal": 2,
+          "message": "Background task completed."
+        }
+      ]
     }
   ]
 }
