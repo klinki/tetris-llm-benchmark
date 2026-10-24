@@ -642,6 +642,7 @@ class RenderingAndValidationTests(unittest.TestCase):
                 benchmark.validate_project(root, failing)
             write(1)
             benchmark.validate_project(root, failing)
+            benchmark.validate_project(root, {**run, "missing_lockfile": True, "known_test_failure": "bag test"})
             with self.assertRaisesRegex(benchmark.BenchmarkError, "failed npm test"):
                 benchmark.validate_project(root, {**run, "missing_lockfile": True})
 

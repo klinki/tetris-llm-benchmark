@@ -53,6 +53,7 @@ The table is generated from [`benchmark-runs.json`](benchmark-runs.json),
 | — | [GPT-6 Luna (low)](gpt-6-luna-low/STATISTICS.md) | `gpt-6-luna` | `low` | T3 Code / Codex | Pending | 131,696 | $0.01 | 1m 8.749s | Not ranked yet |
 | — | [GPT-6 Luna (medium)](gpt-6-luna-medium/STATISTICS.md) | `gpt-6-luna` | `medium` | T3 Code / Codex | Pending | 160,641 | $0.01 | 1m 35.743s | Not ranked yet |
 | — | [GPT-6 Luna (high)](gpt-6-luna-high/STATISTICS.md) | `gpt-6-luna` | `high` | T3 Code / Codex | Pending | 481,494 | $0.01 | 2m 4.148s | Not ranked yet |
+| — | [GPT-6 Luna (xhigh)](gpt-6-luna-xhigh/STATISTICS.md) | `gpt-6-luna` | `xhigh` | T3 Code / Codex | Pending | 973,306 | $0.03 | 4m 51.291s | Not ranked yet |
 
 **† Muse Spark 1.3 (medium):** Reference-assisted run: the medium-reasoning child read Gemini-4's engine, shape tables, tests, and build files before writing this implementation, so token/time efficiency is not an independent from-scratch comparison. Primary time covers the child task only. The xhigh parent prepared/delegated and verified/reported the result: 339,157 recorded parent tokens and 2m 54.475s end-to-end are documented separately.
 
@@ -119,7 +120,9 @@ page names any such change. Nemotron is published unfixed: it is declared as a
 delivered without `package-lock.json` is declared `missing_lockfile` and
 installed with `npm install` instead of `npm ci`. A run whose own build fails is
 declared `known_build_failure` (`import --build-failure "<why>"`): `npm test`
-must keep failing, and its page has no playable game.
+must keep failing, and its page has no playable game. A run that builds but
+whose own tests fail is declared `known_test_failure` (`--test-failure`): the
+tests must keep failing, and the game is still published.
 
 The page generator is [`scripts/results_site.py`](scripts/results_site.py); the
 charts and styles are in [`site/assets`](site/assets).

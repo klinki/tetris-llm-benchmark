@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#10131b" />
+    <meta name="description" content="A focused, browser-based Tetris game." />
+    <title>Tetris — Stack smart</title>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <main class="shell">
+      <header class="topbar">
+        <a class="brand" href="/" aria-label="Tetris home">
+          <span class="brand-mark" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
+          <span>TETRIS</span>
+        </a>
+        <div class="topbar-note"><span class="live-dot"></span> SOLO MODE <span class="note-divider">/</span> GUIDELINE RULES</div>
+        <button id="restart" class="restart-button" type="button" title="Start a new game">New game <span>↻</span></button>
+      </header>
+
+      <section class="game-layout" aria-label="Tetris game">
+        <aside class="side-column left-column">
+          <section class="panel hold-panel" aria-labelledby="hold-label">
+            <div class="panel-heading"><h2 id="hold-label">Hold</h2><span class="keycap">C</span></div>
+            <div class="preview-frame hold-frame"><canvas id="hold-piece" width="104" height="72" aria-label="Held piece"></canvas></div>
+          </section>
+
+          <section class="panel stats-panel" aria-label="Game statistics">
+            <div class="stat-row"><span>Score</span><strong id="score">0</strong></div>
+            <div class="stat-row"><span>Lines</span><strong id="lines">00</strong></div>
+            <div class="stat-row"><span>Level</span><strong id="level">01</strong></div>
+            <div class="stat-row"><span>Combo</span><strong id="combo">—</strong></div>
+          </section>
+
+          <section class="tip-card">
+            <span class="tip-icon" aria-hidden="true">✦</span>
+            <p>Clear four lines at once for a <strong>Tetris</strong> bonus.</p>
+          </section>
+        </aside>
+
+        <div class="board-column">
+          <div class="board-heading"><span>PLAYFIELD</span><span class="board-size">10 × 20</span></div>
+          <div class="board-wrap">
+            <canvas id="board" width="300" height="600" aria-label="Tetris playfield"></canvas>
+            <div id="notice" class="notice" aria-live="polite"></div>
+            <div id="game-over" class="game-over" aria-live="polite">
+              <div class="game-over-card">
+                <span class="over-kicker">RUN COMPLETE</span>
+                <h2>Game over</h2>
+                <p>Final score <strong id="final-score">—</strong></p>
+                <span class="restart-hint">Press <kbd>R</kbd> or choose New game</span>
+              </div>
+            </div>
+          </div>
+          <div class="mobile-controls" aria-label="Touch controls">
+            <button id="move-left" aria-label="Move left">←</button>
+            <button id="rotate-ccw" aria-label="Rotate counterclockwise">↶</button>
+            <button id="soft-drop" aria-label="Soft drop">↓</button>
+            <button id="rotate-cw" aria-label="Rotate clockwise">↷</button>
+            <button id="move-right" aria-label="Move right">→</button>
+            <button id="hold" aria-label="Hold piece">HOLD</button>
+            <button id="hard-drop" aria-label="Hard drop">DROP</button>
+          </div>
+        </div>
+
+        <aside class="side-column right-column">
+          <section class="panel next-panel" aria-labelledby="next-label">
+            <div class="panel-heading"><h2 id="next-label">Next</h2><span class="queue-count">5 PIECES</span></div>
+            <div class="next-list">
+              <div class="next-slot featured"><canvas class="next-piece" width="104" height="66" aria-label="Next piece"></canvas></div>
+              <div class="next-slot"><canvas class="next-piece" width="104" height="58" aria-label="Piece after next"></canvas></div>
+              <div class="next-slot"><canvas class="next-piece" width="104" height="58" aria-label="Piece in three turns"></canvas></div>
+              <div class="next-slot"><canvas class="next-piece" width="104" height="58" aria-label="Piece in four turns"></canvas></div>
+              <div class="next-slot"><canvas class="next-piece" width="104" height="58" aria-label="Piece in five turns"></canvas></div>
+            </div>
+          </section>
+
+          <section class="panel controls-panel" aria-labelledby="controls-label">
+            <div class="panel-heading"><h2 id="controls-label">Controls</h2></div>
+            <dl class="control-list">
+              <div><dt><kbd>←</kbd><kbd>→</kbd></dt><dd>Move</dd></div>
+              <div><dt><kbd>↑</kbd> <kbd>X</kbd></dt><dd>Rotate</dd></div>
+              <div><dt><kbd>Z</kbd> <kbd>Ctrl</kbd></dt><dd>Rotate back</dd></div>
+              <div><dt><kbd>↓</kbd></dt><dd>Soft drop</dd></div>
+              <div><dt><kbd>Space</kbd></dt><dd>Hard drop</dd></div>
+              <div><dt><kbd>C</kbd></dt><dd>Hold piece</dd></div>
+            </dl>
+          </section>
+        </aside>
+      </section>
+
+      <footer class="footer"><span>Stack clean. Stay sharp.</span><span>BUILT FOR THE NEXT PIECE <b>↗</b></span></footer>
+    </main>
+    <script type="module" src="/main.js"></script>
+  </body>
+</html>

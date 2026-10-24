@@ -263,6 +263,11 @@ def run_page(run: dict[str, Any], results: dict[str, Any], repo: str | None, gam
             '<div class="callout callout-critical"><strong>This build does not compile.</strong> '
             f"{esc(run['known_build_failure'])} There is no playable game to show.</div>"
         )
+    if run.get("known_test_failure"):
+        notes.append(
+            '<div class="callout"><strong>Its own tests fail.</strong> '
+            f"{esc(run['known_test_failure'])} The game builds and is shown as delivered.</div>"
+        )
     if run.get("missing_lockfile"):
         notes.append(
             '<div class="callout"><strong>No lockfile.</strong> This run was delivered without '

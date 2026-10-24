@@ -1180,6 +1180,8 @@ def render_statistics(result: RunResult) -> str:
             lines.append("- Delivered without `package-lock.json`; isolated checks install with `npm install`")
         if run.get("known_build_failure"):
             lines.append(f"- Known build failure: {run['known_build_failure']}")
+        if run.get("known_test_failure"):
+            lines.append(f"- Known test failure: {run['known_test_failure']}")
         for turn in run.get("t3_notification_turns", []):
             lines.append(
                 f"- Excluded turn {turn['ordinal']}: started by the harness notification "
@@ -1532,9 +1534,11 @@ def validate_project(root: Path, run: dict[str, Any]) -> None:
                 stderr=subprocess.STDOUT,
             )
             # A run registered as failing must keep failing, like a known browser failure.
-            if run.get("known_build_failure") and command[1] == "test":
+            known = "known_build_failure" if run.get("known_build_failure") else (
+                "known_test_failure" if run.get("known_test_failure") else None)
+            if known and command[1] == "test":
                 if not process.returncode:
-                    raise BenchmarkError(f"{run['id']} is registered as known_build_failure but npm test passed")
+                    raise BenchmarkError(f"{run['id']} is registered as {known} but npm test passed")
                 continue
             if process.returncode:
                 raise BenchmarkError(
@@ -1644,6 +1648,7 @@ def site_results(
             "comparison_note": run.get("comparison_note"),
             "known_browser_failure": run.get("known_browser_failure"),
             "known_build_failure": run.get("known_build_failure"),
+            "known_test_failure": run.get("known_test_failure"),
             "missing_lockfile": bool(run.get("missing_lockfile")),
             "static_aliases": run.get("static_aliases", {}),
             "cost": estimate_cost(values["tested_usage"], pricing["models"][run["model"]]),
@@ -1705,6 +1710,7 @@ def import_t3_run(
     allow_outside: bool,
     allow_approvals: bool,
     build_failure: str | None = None,
+    test_failure: str | None = None,
 ) -> dict[str, Any]:
     t3_home = homes[3]
     state, detail = t3_runs.run_status(t3_home, record)
@@ -1779,6 +1785,8 @@ def import_t3_run(
         entry["missing_lockfile"] = True
     if build_failure:
         entry["known_build_failure"] = build_failure
+    if test_failure:
+        entry["known_test_failure"] = test_failure
     later_turns = t3_runs.notification_turns(t3_home, identity["t3_thread_id"])
     if later_turns:
         entry["t3_notification_turns"] = later_turns
@@ -1972,7 +1980,11 @@ def parse_args(argv: list[str]) -> argparse.Namespace:
     import_parser.add_argument("--allow-approvals", action="store_true", help="Import a run not made in full-access mode")
     import_parser.add_argument(
         "--build-failure", metavar="DESCRIPTION",
-        help="Import a run whose own `npm test` fails, recording why; checks then require that it still fails",
+        help="Import a run that does not build, recording why; checks then require that `npm test` still fails",
+    )
+    import_parser.add_argument(
+        "--test-failure", metavar="DESCRIPTION",
+        help="Import a run that builds but whose own tests fail, recording why; checks require that they still fail",
     )
     isolation_parser = subparsers.add_parser("isolation", help="Report T3 runs that reached outside their workspace")
     isolation_parser.add_argument("run_id", nargs="?")
@@ -2031,7 +2043,8 @@ def main(argv: list[str] | None = None) -> int:
         watch(root, homes, args.interval, args.auto_import, args.once)
     elif args.command == "import":
         entry = import_t3_run(
-            root, t3_runs.find_pending(root, args.key), homes, args.allow_outside, args.allow_approvals, args.build_failure,
+            root, t3_runs.find_pending(root, args.key), homes, args.allow_outside, args.allow_approvals,
+            args.build_failure, args.test_failure,
         )
         print(f"Imported {args.key} as {entry['id']} ({entry['label']}); it appears as Pending until it is scored.")
     elif args.command == "isolation":
