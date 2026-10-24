@@ -587,6 +587,35 @@
         "commit": "cd2e21b893d935985109ca95d27244a3744f691e",
         "modified": false
       }
+    },
+    {
+      "id": "muse-spark-1.3-contributor-medium",
+      "label": "Muse Spark 1.3 (medium)",
+      "order": 230,
+      "project_dir": "muse-spark-1.3-contributor-medium",
+      "harness": "t3_opencode",
+      "harness_label": "T3 Code / OpenCode",
+      "provider": "opencode-go",
+      "provider_label": "opencode-go",
+      "model": "muse-spark-1.3-contributor",
+      "session_id": "ses_e91c8b017ffe1T6ty9YY3OKu1p",
+      "t3_thread_id": "mcp:3c8d9ffc-09a1-46fe-acf4-f9b9f2614a0a",
+      "expected_cwd": "/Users/david/tetris-bench/runs/fdeb23d9b590/tetris",
+      "expected_cwd_basename": "tetris",
+      "reasoning_variant": "medium",
+      "web": "open",
+      "cutoff": {
+        "through_user_message": 1,
+        "exclude_inter_message_wait": true
+      },
+      "overhead": {
+        "kind": "unknown"
+      },
+      "spec": {
+        "sha256": "36e2097a78fe8b5646e6216338640831cff0a284cc823c4b1f658991c8d40294",
+        "commit": "6b3b227ec44feac315d60cd0f0a226d11417c1c0",
+        "modified": false
+      }
     }
   ]
 }
