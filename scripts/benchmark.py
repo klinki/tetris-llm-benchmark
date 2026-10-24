@@ -1176,6 +1176,10 @@ def render_statistics(result: RunResult) -> str:
             lines.append(f"- Fast mode: {'on' if run['fast_mode'] else 'off'}")
         if run.get("expected_task_cwd"):
             lines.append(f"- Delegated implementation directory: `{run['expected_task_cwd']}`")
+        if run.get("missing_lockfile"):
+            lines.append("- Delivered without `package-lock.json`; isolated checks install with `npm install`")
+        if run.get("known_build_failure"):
+            lines.append(f"- Known build failure: {run['known_build_failure']}")
         for turn in run.get("t3_notification_turns", []):
             lines.append(
                 f"- Excluded turn {turn['ordinal']}: started by the harness notification "
@@ -1497,11 +1501,21 @@ def replace_readme_block(readme: str, block: str) -> str:
     return readme[:table_start] + block + "\n" + readme[next_heading:]
 
 
+def install_command(run: dict[str, Any]) -> list[str]:
+    """`npm ci` from the delivered lockfile; `npm install` only for runs registered as delivered without one."""
+    if run.get("missing_lockfile"):
+        return ["npm", "install", "--ignore-scripts", "--no-audit", "--no-fund"]
+    return ["npm", "ci", "--ignore-scripts"]
+
+
 def validate_project(root: Path, run: dict[str, Any]) -> None:
     project = root / run["project_dir"]
-    for required in ("package.json", "package-lock.json"):
-        if not (project / required).is_file():
-            raise BenchmarkError(f"{run['id']} is missing {required}")
+    required = ("package.json",) if run.get("missing_lockfile") else ("package.json", "package-lock.json")
+    for name in required:
+        if not (project / name).is_file():
+            raise BenchmarkError(f"{run['id']} is missing {name}")
+    if run.get("missing_lockfile") and (project / "package-lock.json").exists():
+        raise BenchmarkError(f"{run['id']} is registered as missing_lockfile but has package-lock.json")
     with tempfile.TemporaryDirectory(prefix=f"benchmark-{run['id']}-") as temporary:
         destination = Path(temporary) / run["project_dir"]
         shutil.copytree(
@@ -1509,7 +1523,7 @@ def validate_project(root: Path, run: dict[str, Any]) -> None:
             destination,
             ignore=shutil.ignore_patterns(".git", "node_modules", "dist"),
         )
-        for command in (["npm", "ci", "--ignore-scripts"], ["npm", "test"]):
+        for command in (install_command(run), ["npm", "test"]):
             process = subprocess.run(
                 command,
                 cwd=destination,
@@ -1517,6 +1531,11 @@ def validate_project(root: Path, run: dict[str, Any]) -> None:
                 stdout=subprocess.PIPE,
                 stderr=subprocess.STDOUT,
             )
+            # A run registered as failing must keep failing, like a known browser failure.
+            if run.get("known_build_failure") and command[1] == "test":
+                if not process.returncode:
+                    raise BenchmarkError(f"{run['id']} is registered as known_build_failure but npm test passed")
+                continue
             if process.returncode:
                 raise BenchmarkError(
                     f"{run['id']} failed {' '.join(command)} in isolated validation:\n{process.stdout}"
@@ -1624,6 +1643,8 @@ def site_results(
             "overhead_verified": values["overhead"] is not None,
             "comparison_note": run.get("comparison_note"),
             "known_browser_failure": run.get("known_browser_failure"),
+            "known_build_failure": run.get("known_build_failure"),
+            "missing_lockfile": bool(run.get("missing_lockfile")),
             "static_aliases": run.get("static_aliases", {}),
             "cost": estimate_cost(values["tested_usage"], pricing["models"][run["model"]]),
             "price": pricing["models"][run["model"]],
@@ -1683,6 +1704,7 @@ def import_t3_run(
     homes: tuple[Path, Path, Path, Path],
     allow_outside: bool,
     allow_approvals: bool,
+    build_failure: str | None = None,
 ) -> dict[str, Any]:
     t3_home = homes[3]
     state, detail = t3_runs.run_status(t3_home, record)
@@ -1753,6 +1775,10 @@ def import_t3_run(
         entry["fast_mode"] = identity["fast_mode"]
     if findings:
         entry["isolation"] = {"outside_access": findings}
+    if not (Path(record["workspace"]) / "package-lock.json").exists():
+        entry["missing_lockfile"] = True
+    if build_failure:
+        entry["known_build_failure"] = build_failure
     later_turns = t3_runs.notification_turns(t3_home, identity["t3_thread_id"])
     if later_turns:
         entry["t3_notification_turns"] = later_turns
@@ -1944,6 +1970,10 @@ def parse_args(argv: list[str]) -> argparse.Namespace:
     import_parser.add_argument("key", help="Pending run key printed by `new`, or its workspace path")
     import_parser.add_argument("--allow-outside", action="store_true", help="Import even if the agent left its workspace")
     import_parser.add_argument("--allow-approvals", action="store_true", help="Import a run not made in full-access mode")
+    import_parser.add_argument(
+        "--build-failure", metavar="DESCRIPTION",
+        help="Import a run whose own `npm test` fails, recording why; checks then require that it still fails",
+    )
     isolation_parser = subparsers.add_parser("isolation", help="Report T3 runs that reached outside their workspace")
     isolation_parser.add_argument("run_id", nargs="?")
     overlaps_parser = subparsers.add_parser(
@@ -2000,7 +2030,9 @@ def main(argv: list[str] | None = None) -> int:
     elif args.command == "watch":
         watch(root, homes, args.interval, args.auto_import, args.once)
     elif args.command == "import":
-        entry = import_t3_run(root, t3_runs.find_pending(root, args.key), homes, args.allow_outside, args.allow_approvals)
+        entry = import_t3_run(
+            root, t3_runs.find_pending(root, args.key), homes, args.allow_outside, args.allow_approvals, args.build_failure,
+        )
         print(f"Imported {args.key} as {entry['id']} ({entry['label']}); it appears as Pending until it is scored.")
     elif args.command == "isolation":
         selected = [by_id[args.run_id]] if args.run_id in by_id else runs

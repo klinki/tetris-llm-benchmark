@@ -883,6 +883,37 @@
         "commit": "ad537eb0669339975402846c8f912014ad72c430",
         "modified": false
       }
+    },
+    {
+      "id": "gpt-6-luna-medium",
+      "label": "GPT-6 Luna (medium)",
+      "order": 330,
+      "project_dir": "gpt-6-luna-medium",
+      "harness": "t3_codex",
+      "harness_label": "T3 Code / Codex",
+      "provider": "codex",
+      "provider_label": "Codex",
+      "model": "gpt-6-luna",
+      "session_id": "01a16ecd-79e5-72e0-82bc-6f7e32bac633",
+      "t3_thread_id": "mcp:e8430e83-b4ec-49ef-ad95-fcb427ff55e8",
+      "expected_cwd": "/Users/david/tetris-bench/runs/1fa6283efb82/tetris",
+      "expected_cwd_basename": "tetris",
+      "reasoning_variant": "medium",
+      "web": "open",
+      "cutoff": {
+        "through_user_message": 1,
+        "exclude_inter_message_wait": true
+      },
+      "overhead": {
+        "kind": "unknown"
+      },
+      "spec": {
+        "sha256": "36e2097a78fe8b5646e6216338640831cff0a284cc823c4b1f658991c8d40294",
+        "commit": "db25ee06d7dbbb33fb1d98f59593b94fb7d374bf",
+        "modified": false
+      },
+      "missing_lockfile": true,
+      "known_build_failure": "`npm run build` (tsc) fails with 113 type errors in src/game.ts, so `npm test` fails and nothing runs. The agent declared TypeScript as a devDependency but never installed it, and delivered no package-lock.json."
     }
   ]
 }

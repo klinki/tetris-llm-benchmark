@@ -620,6 +620,31 @@ class RenderingAndValidationTests(unittest.TestCase):
             self.assertFalse((project / "node_modules").exists())
             self.assertFalse((project / "dist").exists())
 
+    def test_registered_missing_lockfile_and_build_failure_are_checked_both_ways(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            project = root / "fixture"
+            project.mkdir()
+
+            def write(exit_code: int) -> None:
+                (project / "package.json").write_text(json.dumps({
+                    "name": "fixture", "version": "1.0.0",
+                    "scripts": {"test": f"node -e \"process.exit({exit_code})\""},
+                }))
+
+            run = {"id": "fixture", "project_dir": "fixture"}
+            write(0)
+            with self.assertRaisesRegex(benchmark.BenchmarkError, "missing package-lock.json"):
+                benchmark.validate_project(root, run)
+            benchmark.validate_project(root, {**run, "missing_lockfile": True})
+            failing = {**run, "missing_lockfile": True, "known_build_failure": "tsc type errors"}
+            with self.assertRaisesRegex(benchmark.BenchmarkError, "npm test passed"):
+                benchmark.validate_project(root, failing)
+            write(1)
+            benchmark.validate_project(root, failing)
+            with self.assertRaisesRegex(benchmark.BenchmarkError, "failed npm test"):
+                benchmark.validate_project(root, {**run, "missing_lockfile": True})
+
 
 class RankingTests(unittest.TestCase):
     def setUp(self) -> None:

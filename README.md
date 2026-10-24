@@ -51,6 +51,7 @@ The table is generated from [`benchmark-runs.json`](benchmark-runs.json),
 | 31 | [GLM-5.3-Flash (low)](glm-5.3-flash-free-low/STATISTICS.md) | `glm-5.3-flash-free` | `low` | T3 Code / OpenCode | **4.85** | 4,356,489 | $0.16 | 10m 15.035s | Canonical SRS, but hold, gravity/frame timing, scoring and blocked spawn fail; previews overlap and clip |
 | 32 | [Nemotron](nemotron/STATISTICS.md) | `nvidia/nemotron-3.5-super-vl:free` | `thinking` | T3 Code / OpenCode | **4.00** | 1,851,716 | $0.20 | 9m 8.773s | Does not start in the browser: imports lack .js extensions |
 | — | [GPT-6 Luna (low)](gpt-6-luna-low/STATISTICS.md) | `gpt-6-luna` | `low` | T3 Code / Codex | Pending | 131,696 | $0.01 | 1m 8.749s | Not ranked yet |
+| — | [GPT-6 Luna (medium)](gpt-6-luna-medium/STATISTICS.md) | `gpt-6-luna` | `medium` | T3 Code / Codex | Pending | 160,641 | $0.01 | 1m 35.743s | Not ranked yet |
 
 **† Muse Spark 1.3 (medium):** Reference-assisted run: the medium-reasoning child read Gemini-4's engine, shape tables, tests, and build files before writing this implementation, so token/time efficiency is not an independent from-scratch comparison. Primary time covers the child task only. The xhigh parent prepared/delegated and verified/reported the result: 339,157 recorded parent tokens and 2m 54.475s end-to-end are documented separately.
 
@@ -113,7 +114,11 @@ relative, because the site is served under a project path. A path the run's
 own server maps to another file is declared as `static_aliases` in
 [`benchmark-runs.json`](benchmark-runs.json) and copied into place. Each run
 page names any such change. Nemotron is published unfixed: it is declared as a
-`known_browser_failure`, and the browser check confirms it still fails.
+`known_browser_failure`, and the browser check confirms it still fails. A run
+delivered without `package-lock.json` is declared `missing_lockfile` and
+installed with `npm install` instead of `npm ci`. A run whose own build fails is
+declared `known_build_failure` (`import --build-failure "<why>"`): `npm test`
+must keep failing, and its page has no playable game.
 
 The page generator is [`scripts/results_site.py`](scripts/results_site.py); the
 charts and styles are in [`site/assets`](site/assets).
@@ -593,7 +598,8 @@ implementations, update quality rankings, or create Git commits.
    `python3 scripts/benchmark.py render`.
 6. Build the site and run the browser check. If the game needs its own server
    to load, declare the mapping as `static_aliases`, or record a
-   `known_browser_failure` if it cannot run in a browser at all.
+   `known_browser_failure` if it cannot run in a browser at all, or a
+   `known_build_failure` if it does not build.
 
 ```sh
 # Codex defaults to CODEX_HOME=~/.codex

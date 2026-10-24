@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#10131f">
+  <title>TetrisJS</title>
+  <link rel="stylesheet" href="/styles.css">
+  <script type="module" src="/dist/main.js"></script>
+</head>
+<body>
+  <main class="shell">
+    <header class="topbar"><a class="brand" href="/" aria-label="TetrisJS home"><span class="brand-mark">T</span> TETRIS<span class="brand-js">JS</span></a><div class="top-note">THE CLASSIC, REBUILT</div></header>
+    <section class="game-layout" aria-label="Tetris game">
+      <aside class="rail left-rail">
+        <section class="panel hold-panel"><h2>HOLD <span>⌁</span></h2><canvas id="hold" width="120" height="100" aria-label="Held piece"></canvas><p class="hint">PRESS <kbd>C</kbd></p></section>
+        <section class="panel stats-panel"><h2>STATISTICS</h2><div class="stat"><span>SCORE</span><strong id="score">0</strong></div><div class="stat"><span>BEST</span><strong id="best">0</strong></div><div class="stat"><span>LINES</span><strong id="lines">0</strong></div><div class="stat"><span>LEVEL</span><strong id="level">1</strong></div></section>
+      </aside>
+      <section class="board-wrap">
+        <div class="board-heading"><span>STACK THE BLOCKS</span><span class="live"><i></i> LIVE</span></div>
+        <div class="board-frame"><canvas id="board" width="300" height="600" aria-label="Tetris playfield"></canvas><div id="overlay" class="overlay"><div class="overlay-card"><div class="overlay-kicker">READY WHEN YOU ARE</div><h1>TETRIS</h1><p>Stack smart. Clear lines. Keep going.</p><button id="start">START GAME <span>→</span></button></div></div></div>
+        <div class="board-footer"><span>7-BAG RANDOMIZER</span><span>•</span><span>SUPER ROTATION SYSTEM</span></div>
+      </section>
+      <aside class="rail right-rail">
+        <section class="panel next-panel"><h2>NEXT <span>UP</span></h2><canvas id="next" width="120" height="300" aria-label="Next pieces"></canvas><p class="hint">UP NEXT</p></section>
+        <section class="panel controls-panel"><h2>CONTROLS</h2><div class="control"><span>Move</span><kbd>←</kbd><kbd>→</kbd></div><div class="control"><span>Rotate</span><kbd>↑</kbd><kbd>X</kbd></div><div class="control"><span>Rotate back</span><kbd>Z</kbd><kbd>⌃</kbd></div><div class="control"><span>Soft drop</span><kbd>↓</kbd></div><div class="control"><span>Hard drop</span><kbd>SPACE</kbd></div></section>
+      </aside>
+    </section>
+    <footer>BUILT FOR THE LOVE OF THE GAME <span>✦</span> <span id="status">PRESS START TO PLAY</span></footer>
+  </main>
+</body>
+</html>

@@ -258,10 +258,23 @@ def run_page(run: dict[str, Any], results: dict[str, Any], repo: str | None, gam
             f"{esc(run['known_browser_failure'])} It is shown exactly as delivered, so the game area stays empty. "
             "That failure is why it ranks last.</div>"
         )
+    if run.get("known_build_failure"):
+        notes.append(
+            '<div class="callout callout-critical"><strong>This build does not compile.</strong> '
+            f"{esc(run['known_build_failure'])} There is no playable game to show.</div>"
+        )
+    if run.get("missing_lockfile"):
+        notes.append(
+            '<div class="callout"><strong>No lockfile.</strong> This run was delivered without '
+            "<code>package-lock.json</code>, so its dependencies were installed with <code>npm install</code> "
+            "at build time rather than from pinned versions.</div>"
+        )
     if run.get("comparison_note"):
         notes.append(f'<div class="callout"><strong>Comparison note.</strong> {esc(run["comparison_note"])}</div>')
 
-    if game is None:
+    if run.get("known_build_failure"):
+        play = '<p class="muted">The delivered code does not build, so there is no playable game.</p>'
+    elif game is None:
         play = '<p class="muted">The playable build was not generated for this preview.</p>'
     else:
         rewrite = ""
@@ -411,7 +424,8 @@ def build_game(root: Path, run: dict[str, Any], destination: Path) -> dict[str, 
             root / run["project_dir"], work,
             ignore=shutil.ignore_patterns(".git", "node_modules", "dist", "STATISTICS.md"),
         )
-        for command in (["npm", "ci", "--ignore-scripts", "--no-audit", "--no-fund"], ["npm", "run", "build"]):
+        install = ["npm", "install" if run.get("missing_lockfile") else "ci", "--ignore-scripts", "--no-audit", "--no-fund"]
+        for command in (install, ["npm", "run", "build"]):
             process = subprocess.run(command, cwd=work, text=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
             if process.returncode:
                 raise SiteError(f"{run['id']} failed {' '.join(command)}:\n{process.stdout}")
@@ -450,7 +464,9 @@ def build(root: Path, results: dict[str, Any], out: Path, games: bool) -> None:
     repo = repository_url(root)
     game_info: dict[str, dict[str, Any]] = {}
     if games:
-        def build_one(run: dict[str, Any]) -> tuple[str, dict[str, Any]]:
+        def build_one(run: dict[str, Any]) -> tuple[str, dict[str, Any] | None]:
+            if run.get("known_build_failure"):
+                return run["id"], None  # nothing playable to publish
             return run["id"], build_game(root, run, out / "runs" / run["id"] / "play")
 
         with ThreadPoolExecutor(max_workers=4) as pool:
