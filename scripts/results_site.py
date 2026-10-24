@@ -181,6 +181,15 @@ def index_page(results: dict[str, Any]) -> str:
     best = scored[0] if scored else None
     priced = [run for run in scored if run["cost"] is not None]
     cheapest = min(priced, key=lambda run: run["cost"]["total"]) if priced else None
+    excluded = results.get("excluded", [])
+    left_off = (
+        f" {len(excluded)} more {'run is' if len(excluded) == 1 else 'runs are'} recorded in the "
+        + (f"<a href=\"{esc(results['repository'])}#results\">repository</a>" if results.get("repository") else "repository")
+        + " but not shown here, because "
+        f"{'it is' if len(excluded) == 1 else 'they are'} not a fair comparison: "
+        + "; ".join(f"{esc(run['label'])}: {esc(run['reason'])}" for run in excluded) + "."
+        if excluded else ""
+    )
     intro = (
         f"<p class=\"lede\">{len(runs)} runs of models building the same browser Tetris game from one prompt. "
         "Each run is scored for quality by an audited review and measured for the tokens, estimated API cost, "
@@ -189,6 +198,7 @@ def index_page(results: dict[str, Any]) -> str:
            f"Cheapest: <a href=\"runs/{esc(cheapest['id'])}/\">{esc(cheapest['label'])}</a> "
            f"({esc(format_cost(cheapest['cost']))})." if best and cheapest else "")
         + "</p>"
+        + (f'<p class="muted small">{left_off.strip()}</p>' if left_off else "")
     )
     unpriced = [run["label"] for run in runs if run["cost"] is None]
     left_out = (
@@ -477,6 +487,7 @@ def build(root: Path, results: dict[str, Any], out: Path, games: bool) -> None:
     prepare_output(out)
     shutil.copytree(root / "site" / "assets", out / "assets")
     repo = repository_url(root)
+    results["repository"] = repo
     game_info: dict[str, dict[str, Any]] = {}
     if games:
         def build_one(run: dict[str, Any]) -> tuple[str, dict[str, Any] | None]:

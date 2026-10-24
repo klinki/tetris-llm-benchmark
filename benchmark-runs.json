@@ -111,6 +111,7 @@
     },
     {
       "id": "deepseek-pi",
+      "site_excluded": "needed two user messages instead of the single benchmark prompt",
       "label": "DeepSeek OMP/PI",
       "order": 50,
       "project_dir": "deepseek-pi",
@@ -256,6 +257,7 @@
     },
     {
       "id": "muse-spark-1.3-medium",
+      "site_excluded": "read Gemini-4's implementation before writing its own",
       "label": "Muse Spark 1.3 (medium, reference-assisted)",
       "order": 120,
       "project_dir": "muse-spark-1.3-medium",

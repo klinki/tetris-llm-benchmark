@@ -131,6 +131,13 @@ the site serves that folder as the game; `static_aliases` are now applied
 before the site looks for `index.html`, so a server that maps `/` to
 `public/index.html` can be aliased too.
 
+Runs that are not a fair comparison are declared with `site_excluded` and the
+reason. They stay recorded here, in this README's leaderboard, `RANKING.md`, and
+the audits, but the site leaves them out of its charts, leaderboard, and run
+pages, renumbers its ranking without them, and names them with their reasons:
+currently the reference-assisted Muse Spark 1.3 (medium) run and DeepSeek
+OMP/PI, which needed two user messages.
+
 The page generator is [`scripts/results_site.py`](scripts/results_site.py); the
 charts and styles are in [`site/assets`](site/assets).
 

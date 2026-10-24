@@ -201,6 +201,8 @@ def load_manifest(root: Path) -> tuple[dict[str, Any], list[dict[str, Any]]]:
             raise BenchmarkError(f"static_aliases for {run['id']} must map file paths to file paths")
         if run.get("web", "open") not in t3_runs.WEB_MODES:
             raise BenchmarkError(f"web for {run['id']} must be one of {list(t3_runs.WEB_MODES)}")
+        if "site_excluded" in run and not (isinstance(run["site_excluded"], str) and run["site_excluded"]):
+            raise BenchmarkError(f"site_excluded for {run['id']} must give the reason")
         if not isinstance(run.get("web_root", ""), str) or ".." in Path(run.get("web_root", "")).parts:
             raise BenchmarkError(f"web_root for {run['id']} must be a folder inside the project")
         if not isinstance(run.get("known_browser_failure", ""), str):
@@ -1632,7 +1634,12 @@ def site_results(
 ) -> dict[str, Any]:
     ranked = {entry["run_id"]: (rank, entry, score) for rank, entry, score in ranked_entries(ranking)}
     records = []
+    # Runs that are not a fair comparison stay recorded in the repository (README, RANKING.md) only.
+    excluded = [{"id": run["id"], "label": run["label"], "reason": run["site_excluded"]}
+                for run in runs if run.get("site_excluded")]
     for run in runs:
+        if run.get("site_excluded"):
+            continue
         values = extract_report_values(root / run["project_dir"] / "STATISTICS.md")
         record: dict[str, Any] = {
             "id": run["id"],
@@ -1673,7 +1680,11 @@ def site_results(
             })
         records.append(record)
     records.sort(key=lambda record: (record["rank"] is None, record["rank"] or 0))
+    # Renumber so the published ranking has no gaps where excluded runs were.
+    for position, record in enumerate((record for record in records if record["rank"] is not None), start=1):
+        record["rank"] = position
     return {
+        "excluded": excluded,
         "criteria": [{"key": key, "label": label, "weight": ranking["weights"][key]} for key, label in CRITERIA],
         "pricing_basis": pricing["basis"],
         "runs": records,
