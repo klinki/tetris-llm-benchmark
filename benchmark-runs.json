@@ -973,6 +973,35 @@
         "modified": false
       },
       "known_test_failure": "Its own test \"the 7-bag queue gives every piece once per bag\" (test/game.test.mjs) fails deterministically; the other 2 of 3 tests pass."
+    },
+    {
+      "id": "gpt-6-luna-max",
+      "label": "GPT-6 Luna (max)",
+      "order": 360,
+      "project_dir": "gpt-6-luna-max",
+      "harness": "t3_codex",
+      "harness_label": "T3 Code / Codex",
+      "provider": "codex",
+      "provider_label": "Codex",
+      "model": "gpt-6-luna",
+      "session_id": "01a16ed8-ba6b-70e2-8afa-19c6b6cd6521",
+      "t3_thread_id": "mcp:9615d149-f3b3-4098-b7d2-0454159dc482",
+      "expected_cwd": "/Users/david/tetris-bench/runs/41390498fd19/tetris",
+      "expected_cwd_basename": "tetris",
+      "reasoning_variant": "max",
+      "web": "open",
+      "cutoff": {
+        "through_user_message": 1,
+        "exclude_inter_message_wait": true
+      },
+      "overhead": {
+        "kind": "unknown"
+      },
+      "spec": {
+        "sha256": "36e2097a78fe8b5646e6216338640831cff0a284cc823c4b1f658991c8d40294",
+        "commit": "ca5621dae2bb2fc21dc2bbf0ba4f58fda97758da",
+        "modified": false
+      }
     }
   ]
 }

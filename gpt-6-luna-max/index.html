@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#10131d" />
+    <meta name="description" content="A browser-based Tetris game." />
+    <title>TetrisJS</title>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <main class="page-shell">
+      <header class="topbar">
+        <a class="brand" href="/" aria-label="TetrisJS home">
+          <span class="brand-mark" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
+          <span>TETRIS<span class="brand-accent">JS</span></span>
+        </a>
+        <p class="topbar-note">A little focus goes a long way.</p>
+      </header>
+
+      <section class="game-layout" aria-label="Tetris game">
+        <aside class="side-column left-column">
+          <section class="panel hold-panel" aria-labelledby="hold-title">
+            <div class="panel-heading"><h2 id="hold-title">Hold</h2><span class="panel-key">C</span></div>
+            <canvas id="hold-preview" class="preview-canvas" width="160" height="110" aria-label="Held piece"></canvas>
+          </section>
+          <section class="panel score-panel" aria-label="Score and level">
+            <div class="stat-block"><span class="stat-label">Score</span><strong id="score-value">0</strong></div>
+            <div class="stat-row">
+              <div class="stat-block"><span class="stat-label">Level</span><strong id="level-value">1</strong></div>
+              <div class="stat-block"><span class="stat-label">Lines</span><strong id="lines-value">0</strong></div>
+            </div>
+            <div class="progress-track" aria-label="Progress to next level"><span id="level-progress"></span></div>
+            <p class="progress-caption"><span id="lines-to-level">10</span> lines to next level</p>
+          </section>
+          <section class="panel combo-panel">
+            <span class="stat-label">Combo</span>
+            <strong id="combo-value">—</strong>
+            <span id="b2b-value" class="b2b-badge" hidden>BACK-TO-BACK</span>
+          </section>
+        </aside>
+
+        <div class="board-column">
+          <div class="board-frame">
+            <canvas id="game-board" width="300" height="600" aria-label="Tetris playfield" role="img"></canvas>
+            <div id="board-overlay" class="board-overlay" hidden>
+              <div class="overlay-card">
+                <span class="overlay-kicker">Stack complete</span>
+                <h1>Game over</h1>
+                <p>Final score <strong id="final-score">0</strong></p>
+                <p class="restart-hint">Press <kbd>R</kbd> to play again</p>
+                <button id="restart-button" type="button">Play again</button>
+              </div>
+            </div>
+          </div>
+          <p id="game-status" class="game-status" aria-live="polite">Ready when you are</p>
+        </div>
+
+        <aside class="side-column right-column">
+          <section class="panel next-panel" aria-labelledby="next-title">
+            <div class="panel-heading"><h2 id="next-title">Next</h2><span class="queue-count">5 pieces</span></div>
+            <div id="next-queue" class="next-queue" aria-label="Next pieces"></div>
+          </section>
+          <section class="panel controls-panel" aria-labelledby="controls-title">
+            <div class="panel-heading"><h2 id="controls-title">Controls</h2></div>
+            <dl class="controls-list">
+              <div><dt><kbd>←</kbd><kbd>→</kbd></dt><dd>Move</dd></div>
+              <div><dt><kbd>↑</kbd><kbd>X</kbd></dt><dd>Rotate</dd></div>
+              <div><dt><kbd>Z</kbd><kbd>Ctrl</kbd></dt><dd>Rotate back</dd></div>
+              <div><dt><kbd>↓</kbd></dt><dd>Soft drop</dd></div>
+              <div><dt><kbd>Space</kbd></dt><dd>Hard drop</dd></div>
+              <div><dt><kbd>C</kbd></dt><dd>Hold piece</dd></div>
+            </dl>
+          </section>
+        </aside>
+      </section>
+
+      <footer class="footer-note">
+        <span>7-bag randomizer</span><span class="footer-dot">·</span><span>Super Rotation System</span><span class="footer-dot">·</span><span>Guideline scoring</span>
+      </footer>
+    </main>
+    <script type="module" src="/dist/main.js"></script>
+  </body>
+</html>
