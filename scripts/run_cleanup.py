@@ -95,7 +95,9 @@ def remove_scratch(places: Iterable[str], started: float) -> list[str]:
         path = Path(place)
         if not os.path.lexists(path):
             continue
-        if path.lstat().st_birthtime < started - 5:
+        status = path.lstat()
+        # Creation time where the platform records it (macOS); otherwise the last status change (Linux).
+        if getattr(status, "st_birthtime", status.st_ctime) < started - 5:
             lines.append(f"kept {place}: it existed before the run started")
             continue
         if path.is_dir() and not path.is_symlink():
