@@ -1751,6 +1751,9 @@ def import_t3_run(
     imported = root / ".bench" / "imported"
     imported.mkdir(parents=True, exist_ok=True)
     pending_file.rename(imported / pending_file.name)
+    container = Path(record["workspace"]).parent
+    if record.get("archive") and container.exists():
+        t3_runs.archive_container(container, Path(record["archive"]))
     return entry
 
 

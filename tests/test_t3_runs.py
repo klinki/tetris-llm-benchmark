@@ -159,10 +159,24 @@ class NewRunTests(unittest.TestCase):
         self.assertEqual((workspace / "README.md").read_text(), "# Tetris\n")
         self.assertEqual(record["t3_project_id"], "1234-abcd")
         self.assertEqual(record["slug"], "gemini-4-argon-medium")
-        for folder in (workspace.parent, workspaces):
-            self.assertEqual(stat.S_IMODE(folder.stat().st_mode), 0o300)
+        self.assertEqual([path.name for path in workspaces.iterdir()], [workspace.parent.name])
         pending = json.loads((t3_runs.pending_dir(self.root) / f"{record['key']}.json").read_text())
         self.assertEqual(pending["expected_model"], "opencode-go/gemini-4-argon")
+
+    def test_one_run_at_a_time_and_earlier_folders_are_archived_unlistably(self) -> None:
+        workspaces = self.base / "runs"
+        with mock.patch.dict(os.environ, {"T3_BIN": str(self.fake_t3)}):
+            first = t3_runs.new_run(self.root, "claude-haiku-5-5", "high", workspaces, open_app=False)
+            with self.assertRaisesRegex(t3_runs.RunError, "still pending"):
+                t3_runs.new_run(self.root, "claude-haiku-5-5", "max", workspaces, open_app=False)
+            (t3_runs.pending_dir(self.root) / f"{first['key']}.json").unlink()
+            second = t3_runs.new_run(self.root, "claude-haiku-5-5", "max", workspaces, open_app=False)
+        archive = self.base / t3_runs.ARCHIVE_NAME
+        self.assertEqual([path.name for path in workspaces.iterdir()], [Path(second["workspace"]).parent.name])
+        self.assertEqual(stat.S_IMODE(archive.stat().st_mode), 0o300)
+        with self.assertRaises(PermissionError):
+            list(archive.iterdir())
+        self.assertTrue((archive / Path(first["workspace"]).parent.name / "tetris" / "README.md").is_file())
 
     def test_refuses_workspaces_inside_the_repository(self) -> None:
         # The fake t3 keeps a missed refusal from registering a real T3 project.

@@ -26,6 +26,7 @@ from typing import Any
 PROMPT = "Read the README.md file and implement it"
 WORKSPACE_NAME = "tetris"
 UNLISTABLE = 0o300
+ARCHIVE_NAME = "archive"
 FINISHED_TURN_STATUSES = {"completed", "failed", "interrupted"}
 HARNESSES = {
     "claudeAgent": {"harness": "t3_claude", "harness_label": "T3 Code / Claude Agent SDK", "provider_label": "Claude Agent SDK"},
@@ -101,16 +102,21 @@ def new_run(root: Path, model: str, effort: str, workspaces: Path, open_app: boo
     workspaces = workspaces.expanduser().resolve()
     if workspaces == root or root in workspaces.parents:
         raise RunError("Workspaces must live outside the benchmark repository, where other implementations are")
+    # Only one run may be active: runs share /tmp and local ports, and OpenCode needs to read
+    # every folder above its workspace, so the active run's folder must be the only one there.
+    active = [record["key"] for record in load_pending(root) if Path(record["workspace"]).parent.parent == workspaces]
+    if active:
+        raise RunError(f"{', '.join(active)} is still pending; import or discard it before starting another run")
     workspaces.mkdir(parents=True, exist_ok=True)
+    workspaces.chmod(0o700)
+    archive = workspaces.parent / ARCHIVE_NAME
+    for leftover in workspaces.iterdir():
+        archive_container(leftover, archive)
     token = secrets.token_hex(6)
     container = workspaces / token
     container.mkdir()
     workspace = container / WORKSPACE_NAME
     workspace.mkdir()
-    # The agent runs as this user, so the owner's own read bit is removed: folders above
-    # the workspace can be passed through and written to, but not listed, even by the owner.
-    for folder in (container, workspaces):
-        folder.chmod(UNLISTABLE)
     shutil.copyfile(root / "TETRIS.md", workspace / "README.md")
 
     slug = slugify(f"{model.split('/')[-1]}-{effort}")
@@ -131,6 +137,7 @@ def new_run(root: Path, model: str, effort: str, workspaces: Path, open_app: boo
         # Only open mode exists so far; an isolated mode with web tools blocked is planned.
         "web": "open",
         "workspace": str(workspace),
+        "archive": str(archive),
         "t3_project_id": match.group(1),
         "prompt": PROMPT,
         "spec": spec_provenance(root),
@@ -140,6 +147,19 @@ def new_run(root: Path, model: str, effort: str, workspaces: Path, open_app: boo
     if open_app:
         t3_command("app", str(workspace))
     return record
+
+
+def archive_container(container: Path, archive: Path) -> Path:
+    """Move a finished or abandoned run's folder where no later agent can list it.
+
+    The archive's own read bit is removed: the agent runs as this user, so the folder can
+    still be entered and written to, but not listed, even by the owner."""
+    archive.mkdir(exist_ok=True)
+    archive.chmod(UNLISTABLE)
+    destination = archive / container.name
+    container.chmod(0o700)
+    container.rename(destination)
+    return destination
 
 
 def save_pending(root: Path, record: dict[str, Any]) -> None:

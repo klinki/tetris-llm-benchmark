@@ -417,12 +417,19 @@ entry first.
 ### Isolation
 
 Earlier runs shared a parent folder with other implementations, and several
-agents looked there. Each new workspace sits in its own randomly named folder,
-and both folders above it have the owner's read permission removed, so the
-agent, which runs as you, can enter its workspace but cannot list any other
-run. `ls ..` inside a workspace fails with "Permission denied". The folders
-can still be entered and written to; to delete old runs, restore read
-permission first (`chmod -R u+r ~/tetris-bench`).
+agents looked there. Each new workspace sits in its own randomly named folder
+under `~/tetris-bench/runs`, which holds only the active run: `new` refuses to
+start while another run is pending, and moves every other folder there into
+`~/tetris-bench/archive`. `import` moves the run's folder there once it is
+imported. The archive has the owner's read permission removed, so the agent,
+which runs as you, cannot list it; listing the folders above its workspace
+shows only its own. To delete old runs, restore read permission first
+(`chmod -R u+r ~/tetris-bench/archive`).
+
+The first layout also removed read permission from `runs` and the run's own
+folder. OpenCode cannot start in such a workspace: it resolves the real path of
+every folder above it and fails with `PermissionDenied`, so its turn ends
+before the model is called.
 
 Isolation is also checked after the fact. `import` scans every tool call in the
 T3 session and reports:
