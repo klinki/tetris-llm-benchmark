@@ -561,7 +561,8 @@ def finding_kind(kind: str, text: str, workspace: Path, t3_data: Path, markers: 
         return "benchmark" if _mentions_benchmark(text, workspace, markers) else None
     if not _path_outside(text, workspace):
         return None
-    resolved = Path(os.path.normpath(os.path.expanduser(text)))
+    path = Path(os.path.expanduser(text))
+    resolved = Path(os.path.normpath(path if path.is_absolute() else workspace / path))
     # The run's own folder holds nothing but the workspace; see `new_run`.
     if resolved == workspace.parent and workspace.name == WORKSPACE_NAME:
         return None

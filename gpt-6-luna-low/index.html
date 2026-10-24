@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#10151c" />
+    <title>TetrisJS</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <main class="game-shell">
+      <header class="topbar"><a class="brand" href="/" aria-label="Tetris home"><span class="brand-mark">T</span><span>TETRIS<span class="brand-js">JS</span></span></a><div class="top-note"><span class="live-dot"></span> CLASSIC MODE</div></header>
+      <section class="game-layout" aria-label="Tetris game">
+        <aside class="side-panel left-panel">
+          <div class="panel-label">HOLD <span>⟲</span></div>
+          <canvas id="hold" class="mini-canvas" width="140" height="108" aria-label="Held piece"></canvas>
+          <div class="stat-card"><div class="panel-label">SCORE</div><div id="score" class="stat-value">0</div><div class="stat-rule"></div><div class="panel-label">HIGH SCORE</div><div id="high-score" class="stat-small">0</div></div>
+          <div class="stat-card compact"><div class="panel-label">LEVEL <span id="level">1</span></div><div class="level-track"><i id="level-progress"></i></div><div class="stat-foot"><span>LINES</span><strong id="lines">0</strong></div></div>
+        </aside>
+        <div class="board-wrap">
+          <div class="board-top"><span><i class="live-dot"></i> <span id="status">READY</span></span><span class="board-caption">10 × 20</span></div>
+          <div class="board-frame"><canvas id="board" width="300" height="600" aria-label="Tetris board"></canvas><div id="overlay" class="overlay"><div class="overlay-card"><div class="overlay-kicker">THE CLASSIC</div><h1 id="overlay-title">TETRIS</h1><p id="overlay-copy">Stack the blocks. Clear the lines.</p><button id="start-button">PLAY GAME <span>→</span></button><div class="overlay-hint">PRESS ENTER TO START</div></div></div></div>
+          <div class="board-bottom"><span>GHOST PIECE <b>ON</b></span><span id="piece-count">PIECES 0</span></div>
+        </div>
+        <aside class="side-panel right-panel"><div class="panel-label">NEXT <span>COMING UP</span></div><canvas id="next" class="mini-canvas next-canvas" width="140" height="300" aria-label="Next pieces"></canvas><div class="tip-card"><div class="tip-icon">✦</div><div><div class="panel-label">QUICK TIP</div><p>Keep your stack low and clear multiple lines at once.</p></div></div></aside>
+      </section>
+      <footer class="footer"><div class="controls"><span><kbd>←</kbd><kbd>→</kbd> MOVE</span><span><kbd>↑</kbd> ROTATE</span><span><kbd>SPACE</kbd> HARD DROP</span><span><kbd>C</kbd> HOLD</span><span><kbd>↓</kbd> SOFT DROP</span></div><span class="footer-credit">MADE FOR THE LOVE OF BLOCKS <b>◆</b></span></footer>
+    </main>
+    <script type="module" src="/dist/main.js"></script>
+  </body>
+</html>

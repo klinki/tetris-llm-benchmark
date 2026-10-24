@@ -42,6 +42,7 @@ class OutsideAccessTests(unittest.TestCase):
         found = self.findings(
             tool_item(1, "command_execution", title="Workspace ready", input="Preparing workspace /Users/x"),
             tool_item(2, "dynamic_tool", toolName="read", input={"path": "README.md"}),
+            # The run's own folder holds only the workspace, so reading `..` is not a finding.
             tool_item(3, "dynamic_tool", toolName="read", input={"path": ".."}),
             tool_item(4, "dynamic_tool", toolName="read", input={"path": "../beam/README.md"}),
             tool_item(5, "file_search", pattern="**/README.md", results=[{"fileName": "..", "preview": "x"}]),
@@ -50,7 +51,7 @@ class OutsideAccessTests(unittest.TestCase):
             tool_item(8, "dynamic_tool", toolName="Bash", input={"command": "ls ~/Documents"}),
         )
         self.assertEqual(found, [
-            "..", "../beam/README.md", "..", "/Users/someone/projects/tetris-llm-benchmark", "~/Documents",
+            "../beam/README.md", "/Users/someone/projects/tetris-llm-benchmark", "~/Documents",
         ])
 
     def test_ignores_urls_regexes_caches_and_system_paths(self) -> None:
@@ -120,6 +121,8 @@ class BenchmarkLookupTests(unittest.TestCase):
         workspace = Path("/Users/someone/tetris-bench/runs/abc123/tetris")
         t3_data = Path("/Users/someone/.t3")
         self.assertIsNone(t3_runs.finding_kind("path", "/Users/someone/tetris-bench/runs/abc123", workspace, t3_data, []))
+        self.assertIsNone(t3_runs.finding_kind("command", "..", workspace, t3_data, []))
+        self.assertEqual(t3_runs.finding_kind("command", "../..", workspace, t3_data, []), "command")
         self.assertEqual(
             t3_runs.finding_kind("path", "/Users/someone/tetris-bench/runs", workspace, t3_data, []), "path",
         )

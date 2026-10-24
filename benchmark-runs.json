@@ -854,6 +854,35 @@
         "commit": "700ed463fb8c560f4484115128d5eaffd6acdf5e",
         "modified": false
       }
+    },
+    {
+      "id": "gpt-6-luna-low",
+      "label": "GPT-6 Luna (low)",
+      "order": 320,
+      "project_dir": "gpt-6-luna-low",
+      "harness": "t3_codex",
+      "harness_label": "T3 Code / Codex",
+      "provider": "codex",
+      "provider_label": "Codex",
+      "model": "gpt-6-luna",
+      "session_id": "01a16ecb-958d-7321-a472-853b35414457",
+      "t3_thread_id": "mcp:f24ef27a-328d-480a-9ff0-5cd2a0201f2d",
+      "expected_cwd": "/Users/david/tetris-bench/runs/f063b908a100/tetris",
+      "expected_cwd_basename": "tetris",
+      "reasoning_variant": "low",
+      "web": "open",
+      "cutoff": {
+        "through_user_message": 1,
+        "exclude_inter_message_wait": true
+      },
+      "overhead": {
+        "kind": "unknown"
+      },
+      "spec": {
+        "sha256": "36e2097a78fe8b5646e6216338640831cff0a284cc823c4b1f658991c8d40294",
+        "commit": "ad537eb0669339975402846c8f912014ad72c430",
+        "modified": false
+      }
     }
   ]
 }
