@@ -2082,6 +2082,10 @@ def parse_args(argv: list[str]) -> argparse.Namespace:
     )
     new_parser.add_argument("--no-open", action="store_true", help="Do not open the workspace in T3 Code")
     new_parser.add_argument(
+        "--no-register", action="store_true",
+        help="Create the workspace only; register it as a T3 project another way (e.g. T3's own tools)",
+    )
+    new_parser.add_argument(
         "--launch", action="store_true",
         help="Start the thread through T3's internal API instead of pasting the prompt (falls back to manual)",
     )
@@ -2158,8 +2162,13 @@ def main(argv: list[str] | None = None) -> int:
     elif args.command == "site":
         build_site(root, runs, ranking, pricing, args.out.resolve(), not args.skip_games)
     elif args.command == "new":
-        record = t3_runs.new_run(root, args.model, args.effort, args.workspaces, open_app=not args.no_open)
+        record = t3_runs.new_run(
+            root, args.model, args.effort, args.workspaces, open_app=not args.no_open, register=not args.no_register,
+        )
         print(f"Prepared {record['key']}\n  workspace: {record['workspace']}")
+        if args.no_register:
+            print("Register the workspace as a T3 project, start the run there, then `cleanup` and `import` it.")
+            return 0
         if args.launch:
             try:
                 selection = t3_runs.model_selection(t3_home, args.model, args.effort, args.instance)

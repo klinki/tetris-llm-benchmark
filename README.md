@@ -55,6 +55,7 @@ The table is generated from [`benchmark-runs.json`](benchmark-runs.json),
 | 35 | [GLM-5.3-Flash (low)](glm-5.3-flash-free-low/STATISTICS.md) | `glm-5.3-flash-free` | `low` | T3 Code / OpenCode | **4.85** | 4,356,489 | $0.16 | 10m 15.035s | Canonical SRS, but hold, gravity/frame timing, scoring and blocked spawn fail; previews overlap and clip |
 | 36 | [Nemotron](nemotron/STATISTICS.md) | `nvidia/nemotron-3.5-super-vl:free` | `thinking` | T3 Code / OpenCode | **4.00** | 1,851,716 | $0.20 | 9m 8.773s | Does not start in the browser: imports lack .js extensions |
 | 37 | [GPT-6 Luna (medium)](gpt-6-luna-medium/STATISTICS.md) | `gpt-6-luna` | `medium` | T3 Code / Codex | **3.80** | 160,641 | $0.01 | 1m 35.743s | Does not build or start; diagnostic source has wrong SRS, scoring and gravity |
+| — | [Claude Haiku 5.5 (low)](claude-haiku-5-5-low/STATISTICS.md) | `claude-haiku-5-5` | `low` | T3 Code / Claude Agent SDK | Pending | 508,602 | $0.04 | 3m 36.967s | Not ranked yet |
 
 **† Muse Spark 1.3 (medium, reference-assisted):** Reference-assisted run: the medium-reasoning child read Gemini-4's engine, shape tables, tests, and build files before writing this implementation, so token/time efficiency is not an independent from-scratch comparison. Primary time covers the child task only. The xhigh parent prepared/delegated and verified/reported the result: 339,157 recorded parent tokens and 2m 54.475s end-to-end are documented separately.
 
@@ -530,7 +531,12 @@ until the thread reaches a final state. The orchestrating thread runs:
 
 1. `python3 scripts/benchmark.py new <model> <effort> --no-open` in its shell,
    to create the isolated workspace and register the T3 project. The project
-   ID is stored as `t3_project_id` in `.bench/pending/<key>.json`.
+   ID is stored as `t3_project_id` in `.bench/pending/<key>.json`. If `t3`
+   cannot reach the running app (it then reports `ServerAlreadyRunningError`
+   because `~/.t3/userdata/server-runtime.json` is missing), use
+   `new <model> <effort> --no-register` and register the printed workspace with
+   `t3_project_create`; `import` finds the thread by its workspace path.
+   `batch` and `new --launch` need that file too, until T3 is restarted.
 2. `t3_thread_launch` with that project ID, the model and effort, full-access
    mode, the fixed prompt `Read the README.md file and implement it` as the
    message, and the same prompt as the title, as `--launch` does.

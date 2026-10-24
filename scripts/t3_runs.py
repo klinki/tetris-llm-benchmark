@@ -55,6 +55,7 @@ class RunError(RuntimeError):
     pass
 
 
+
 def slugify(text: str) -> str:
     return re.sub(r"[^a-z0-9.]+", "-", text.lower()).strip("-")
 
@@ -96,8 +97,13 @@ def spec_provenance(root: Path) -> dict[str, Any]:
     return {"sha256": hashlib.sha256(spec.read_bytes()).hexdigest(), "commit": commit, "modified": dirty}
 
 
-def new_run(root: Path, model: str, effort: str, workspaces: Path, open_app: bool = True) -> dict[str, Any]:
-    """Create an isolated workspace holding only the task, and register it as a T3 project."""
+def new_run(
+    root: Path, model: str, effort: str, workspaces: Path, open_app: bool = True, register: bool = True,
+) -> dict[str, Any]:
+    """Create an isolated workspace holding only the task, and register it as a T3 project.
+
+    With register=False the workspace is registered some other way, e.g. by an agent through
+    T3's own tools; import finds the thread by the workspace path either way."""
     root = root.resolve()
     workspaces = workspaces.expanduser().resolve()
     if workspaces == root or root in workspaces.parents:
@@ -120,15 +126,18 @@ def new_run(root: Path, model: str, effort: str, workspaces: Path, open_app: boo
     shutil.copyfile(root / "TETRIS.md", workspace / "README.md")
 
     slug = slugify(f"{model.split('/')[-1]}-{effort}")
-    try:
-        output = t3_command("project", "add", str(workspace), "--title", f"bench {slug} {token[:4]}")
-        match = re.search(r"Added project (\S+)", output)
-        if not match:
-            raise RunError(f"Unexpected `t3 project add` output: {output}")
-    except RunError:
-        container.chmod(0o700)
-        shutil.rmtree(container)
-        raise
+    project_id = None
+    if register:
+        try:
+            output = t3_command("project", "add", str(workspace), "--title", f"bench {slug} {token[:4]}")
+            match = re.search(r"Added project (\S+)", output)
+            if not match:
+                raise RunError(f"Unexpected `t3 project add` output: {output}")
+            project_id = match.group(1)
+        except RunError:
+            container.chmod(0o700)
+            shutil.rmtree(container)
+            raise
     record = {
         "key": f"{slug}-{token}",
         "slug": slug,
@@ -138,13 +147,13 @@ def new_run(root: Path, model: str, effort: str, workspaces: Path, open_app: boo
         "web": "open",
         "workspace": str(workspace),
         "archive": str(archive),
-        "t3_project_id": match.group(1),
+        "t3_project_id": project_id,
         "prompt": PROMPT,
         "spec": spec_provenance(root),
         "created_at": dt.datetime.now(dt.timezone.utc).isoformat(timespec="seconds"),
     }
     save_pending(root, record)
-    if open_app:
+    if open_app and register:
         t3_command("app", str(workspace))
     return record
 
