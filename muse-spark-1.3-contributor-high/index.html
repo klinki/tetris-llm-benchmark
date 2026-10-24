@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>TetrisJS</title>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0; min-height: 100vh; background: #0b0d12; color: #e8eaf0;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+      display: flex; align-items: flex-start; justify-content: center; padding: 24px;
+    }
+    .wrap { display: flex; gap: 16px; align-items: flex-start; }
+    .panel {
+      width: 140px; background: #151924; border: 1px solid #242b3d;
+      border-radius: 10px; padding: 12px;
+    }
+    .panel h3 { margin: 0 0 8px; font-size: 12px; letter-spacing: .08em; color: #9aa3b8; text-transform: uppercase; }
+    #hold { width: 100%; height: 70px; background: #0b0d12; border-radius: 6px; }
+    #next { width: 100%; height: 380px; background: #0b0d12; border-radius: 6px; }
+    #board {
+      background: #11131a; border: 1px solid #242b3d; border-radius: 10px;
+      display: block;
+    }
+    .stats { display: grid; gap: 8px; }
+    .stat { background: #0b0d12; border-radius: 6px; padding: 8px 10px; }
+    .stat .k { font-size: 11px; color: #9aa3b8; text-transform: uppercase; letter-spacing: .08em; }
+    .stat .v { font-size: 20px; font-weight: 700; font-variant-numeric: tabular-nums; }
+    .help { margin-top: 12px; font-size: 12px; line-height: 1.7; color: #9aa3b8; }
+    .help b { color: #e8eaf0; font-weight: 600; }
+    h1 { font-size: 18px; margin: 0 0 12px; }
+  </style>
+</head>
+<body>
+  <div>
+    <h1>TetrisJS</h1>
+    <div class="wrap">
+      <div class="panel">
+        <h3>Hold (C)</h3>
+        <canvas id="hold" width="116" height="70"></canvas>
+        <div class="help">
+          <b>&larr;/&rarr;</b> move<br />
+          <b>&uarr;/X</b> rotate cw<br />
+          <b>Z/Ctrl</b> rotate ccw<br />
+          <b>&darr;</b> soft drop<br />
+          <b>Space</b> hard drop<br />
+          <b>C</b> hold<br />
+          <b>R</b> restart
+        </div>
+      </div>
+      <canvas id="board"></canvas>
+      <div class="panel">
+        <h3>Next</h3>
+        <canvas id="next" width="116" height="380"></canvas>
+        <div class="stats" style="margin-top:12px">
+          <div class="stat"><div class="k">Score</div><div class="v" id="score">0</div></div>
+          <div class="stat"><div class="k">Lines</div><div class="v" id="lines">0</div></div>
+          <div class="stat"><div class="k">Level</div><div class="v" id="level">1</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script type="module" src="./dist/main.js"></script>
+</body>
+</html>
