@@ -1012,6 +1012,36 @@
         "commit": "ca5621dae2bb2fc21dc2bbf0ba4f58fda97758da",
         "modified": false
       }
+    },
+    {
+      "id": "claude-haiku-5-5-low",
+      "label": "Claude Haiku 5.5 (low)",
+      "order": 370,
+      "project_dir": "claude-haiku-5-5-low",
+      "harness": "t3_claude",
+      "harness_label": "T3 Code / Claude Agent SDK",
+      "provider": "claudeAgent",
+      "provider_label": "Claude Agent SDK",
+      "model": "claude-haiku-5-5",
+      "session_id": "7b02eec4-38b6-427d-b30a-8fc7e61e17a5",
+      "t3_thread_id": "mcp:d40b6dc9-693d-46bf-bce7-a15fb580a865",
+      "expected_cwd": "/Users/david/tetris-bench/runs/78c55ba415f3/tetris",
+      "expected_cwd_basename": "tetris",
+      "reasoning_variant": "low",
+      "web": "open",
+      "cutoff": {
+        "through_user_message": 1,
+        "exclude_inter_message_wait": true
+      },
+      "overhead": {
+        "kind": "unknown"
+      },
+      "spec": {
+        "sha256": "36e2097a78fe8b5646e6216338640831cff0a284cc823c4b1f658991c8d40294",
+        "commit": "2f4aea358eb3e4a366c1a5ffaaac2ff1b9b8abb2",
+        "modified": false
+      },
+      "t3_provider_instance": "claudeAgent_claude_home"
     }
   ]
 }
