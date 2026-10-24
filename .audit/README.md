@@ -2,6 +2,43 @@
 
 This directory contains the reproducible, repository-safe parts of the audit behind [`RANKING.md`](../RANKING.md). Generated builds, copied `node_modules` trees, temporary web servers, browser profiles, and timestamped Playwright artifacts are intentionally excluded.
 
+## DeepSeek V4.1 Flash (low, high, max)
+
+[`deepseek-v41-review.md`](deepseek-v41-review.md) records the independent
+2026-10-24 audits of `deepseek-v4.1-flash-{low,high,max}`: exact findings,
+score rationale, own-test gaps, desktop/phone measurements and the supplied
+same-thread background-log exemption (commit 715a85e). The predecessor
+`deepseek-pi` remains 7.30 under its historical audit.
+
+```sh
+python3 .audit/run-deepseek-v41-audit.py --offline
+```
+
+The default command installs/builds/tests all three in random disposable
+copies, runs [`deepseek-v41-audit.mjs`](deepseek-v41-audit.mjs), then executes
+the 1280×800 and 390×844 Chromium assertions in
+[`deepseek-v41-browser.cjs`](deepseek-v41-browser.cjs). Omit `--offline`
+when locked npm dependencies are not cached. All supplied servers accept
+`PORT`; no application/server code is changed. Only free ports 41000–49999
+are used. Named browsers, server groups and copies are cleaned on exit.
+Max's browser build runs explicitly in addition to its test-graph compile.
+
+The probes assert 28 canonical states, every CW/CCW kick table and actual
+kicks (including high's eight I-table mismatches), ten seeded engine bags,
+hold/queue, seven obstructed ghosts/drops, exact grounded timing/reset cap,
+ledge mid-air safety, normal/full/mini/B2B/combo/PC variants, gravity curve/
+levels, soft transitions, blocked spawn and restart. Low/high have legal
+public-action hidden lock-outs; max rejects above-top cells, so a legal
+ceiling-kick fixture reproduces that buffer limitation instead. Browser
+checks exercise every required key at both sizes, real R, exact fitting
+geometry, high's reachable below-fold panels and actual 60/144 Hz callbacks.
+Passing asserts recorded defects as well as conformance, not bug freedom.
+
+`--engine-only` explicitly skips browsers; `--effort` selects one run.
+CLI/config and outside-checkout `--artifacts-dir` overrides match the recent
+audits. Own suites pass 16/24/19 deterministic cases; no own-test flakiness
+was found. Physical touch and other browser engines remain unverified.
+
 ## GLM-5.3-Flash (low, high, max)
 
 [`glm-review.md`](glm-review.md) records the independent 2026-10-24 audits,

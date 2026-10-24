@@ -339,3 +339,49 @@ Observed result:
 ## Interaction coverage
 
 The audit exercised the required keyboard inputs: horizontal movement, clockwise rotation through both Up and X, counter-clockwise rotation through Z and Left Control, soft drop, hard drop, and hold. Earlier cohorts additionally confirmed the game-over restart binding by source review because reaching top-out through UI play would make the comparison timing-dependent. The Sonnet, Gemini high and Muse contributor passes use deterministic blocked-spawn fixtures to exercise real R restart.
+
+## DeepSeek V4.1 Flash (low, high, max)
+
+Audited **2026-10-24**, Playwright skill/CLI with installed
+**Chromium 156.0.8078.4**, **1280×800** and **390×844**. All builds, own
+suites and supplied `npm start` servers ran in random disposable copies.
+Every server honored `PORT` on a free port in **41000–49999**; no server or
+application code changed. Named browsers/server groups/copies were cleaned.
+T3 preview status was inspected; the CLI follows the requested prior audit
+workflow without using a saved user login profile.
+
+| Run ID | Desktop board | Phone document width | Phone board | Supporting state | Application errors |
+|---|---|---:|---|---|---|
+| `deepseek-v4.1-flash-low` | 291.56×583.13 at x=358.16 | 390 | 159.38×318.75 at x=40.94 | Full 340 px combined cabinet fits; complete legend below it | None |
+| `deepseek-v4.1-flash-high` | 300×660 canvas at x=490 | 390 | 265.19×581 canvas at x=62.41 | Hold y=708; next y=865, fully reachable by scrolling | None |
+| `deepseek-v4.1-flash-max` | 286×572 at x=487 | 390 | 174×348 at x=103 | Hold x=21 and next x=301; complete rails/legend fit | None |
+
+Low draws the board within a proportional 640×700 combined canvas. High
+renders 22 rows including two shaded buffer rows; measurements include its
+border. Max scales its 300×600 board. All canvases fit horizontally; the
+browser snippet asserts board X/width/height with 0.02 px tolerance. High's
+phone document is 1186 px tall and its next queue scrolls completely into
+view. Low's desktop legend is below the initial 800 px viewport and remains
+scrollable. Vertical reflow is not recorded as horizontal clipping.
+
+Both viewports exercise real **Left, Right, Up, X, Z, Left Ctrl, Down,
+Space, C**. Forwarding wrappers assert side displacement, rotation arguments
+`[1,1,−1,−1]`, soft movement/points, four hard-locked cells and restricted hold.
+Animation-only simulation is frozen while real handlers/drawing remain live;
+100 ms of soft simulation is driven explicitly. Independently, fifty 16 ms
+normal updates / real Down / 1 ms move an O **sixteen rows and score sixteen
+points in every run**, reproducing each recorded timing defect. The
+unchanged actual frame callback advances equally at **60/144 Hz** over
+1100 ms. Real Space causes blocked-spawn game over and **real R** resets
+score/hold/board/availability. High/max overlays change **none → flex → none**;
+low renders game-over in canvas.
+
+All six viewport screenshots and high's scrolled phone next panel were
+visually inspected outside the checkout, then removed. No page exceptions,
+application console errors or failed assets occurred. Low's missing favicon
+404 is excluded consistently with prior cohorts. There are no touch
+controls; physical-device input, native repeat cadence and other browser
+engines were not tested. Findings and exact engine fixtures are in
+[`deepseek-v41-review.md`](deepseek-v41-review.md); reproduction is
+`python3 .audit/run-deepseek-v41-audit.py --offline` using
+[`deepseek-v41-browser.cjs`](deepseek-v41-browser.cjs).

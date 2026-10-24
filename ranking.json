@@ -708,6 +708,98 @@
         }
       ],
       "summary": "Broad rules and responsive UI; wrong gravity curve and no perfect-clear bonus"
+    },
+    {
+      "run_id": "deepseek-v4.1-flash-low",
+      "audited": "2026-10-24",
+      "scores": {
+        "correctness": 8.0,
+        "tests": 7.5,
+        "code": 9.0,
+        "simplicity": 8.0,
+        "browser_ux": 8.5
+      },
+      "bugs": [
+        {
+          "severity": "major",
+          "title": "Hard drop loses T-spin credit; mini, combo and perfect-clear scoring are incomplete",
+          "detail": "After a real final rotation into a grounded full-spin slot, zero-distance hard drop scores 0/100 for zero/single clears instead of 400/800. Timed locking preserves full spins but scores minis as full (400/800 instead of 100/200). A level-two combo single awards 400 instead of 300 because the combo level multiplier is applied twice; a single perfect clear awards 100 instead of 900. These related scoring defects receive one grouped major deduction, matching the earlier DeepSeek/Muse scoring audits."
+        },
+        {
+          "severity": "minor",
+          "title": "Starting soft drop consumes accumulated normal-gravity time",
+          "detail": "Fifty update(16) calls leave O at y=0 with 800 ms accumulated. Enable soft drop and update(1): it jumps to y=16 and earns 16 points. The Chromium real-ArrowDown fixture independently reproduces the transition; ordinary 100 ms soft movement correctly awards two points."
+        }
+      ],
+      "summary": "Canonical core and responsive UI; hard-drop spin loss, incomplete scoring and soft-drop timing jump"
+    },
+    {
+      "run_id": "deepseek-v4.1-flash-high",
+      "audited": "2026-10-24",
+      "scores": {
+        "correctness": 7.0,
+        "tests": 8.0,
+        "code": 9.0,
+        "simplicity": 8.0,
+        "browser_ux": 8.5
+      },
+      "bugs": [
+        {
+          "severity": "major",
+          "title": "All eight I-kick transitions use the wrong vertical signs",
+          "detail": "Every I transition retains y-up offsets while the engine adds them as screen-space y-down values; JLSTZ offsets are correct. I rotation 0 at x=3,y=19, on the 22-row field, rotates CW to x=1,y=18 rather than canonical x=4,y=17. Independent table and real-rotation probes reproduce both the eight mismatches and changed floor-kick result."
+        },
+        {
+          "severity": "minor",
+          "title": "Mini line clears break back-to-back instead of receiving its bonus",
+          "detail": "After a Tetris with combo reset, a legal rotation-to-lock mini single awards 200 instead of 300 and changes backToBack to false. The total is 1000 instead of 1100. scoreClear treats only full spins and Tetrises as difficult; ordinary mini scores themselves are correct."
+        },
+        {
+          "severity": "minor",
+          "title": "A single perfect clear incorrectly receives the prior B2B bonus table",
+          "detail": "Tetris, a no-clear lock to reset combo, then a zero-distance single perfect clear yields 2100 total instead of 1700: the final single awards 1300 rather than 900. The previous backToBack flag selects a fabricated 1200 single-PC bonus even though a normal single ends B2B. Ordinary single PC and B2B Tetris PC fixtures award the expected 900/4400."
+        },
+        {
+          "severity": "minor",
+          "title": "Starting soft drop consumes accumulated normal-gravity time",
+          "detail": "Fifty update(16) calls leave O at y=1 with 800 ms accumulated. Enable soft drop and update(1): it reaches y=17 and earns 16 points. Chromium real ArrowDown independently reproduces the same sixteen-row/point transition from a controlled O at y=0."
+        }
+      ],
+      "summary": "Broad rules and responsive reflow; inverted I kicks, B2B scoring errors and soft-drop timing jump"
+    },
+    {
+      "run_id": "deepseek-v4.1-flash-max",
+      "audited": "2026-10-24",
+      "scores": {
+        "correctness": 8.0,
+        "tests": 8.0,
+        "code": 9.0,
+        "simplicity": 7.5,
+        "browser_ux": 9.0
+      },
+      "bugs": [
+        {
+          "severity": "minor",
+          "title": "Grounded actions reset lock timing after the fifteen-reset cap",
+          "detail": "An O on the floor survives thirty alternating moves after 490 ms waits and a further 490 ms/move/10 ms (15.2 seconds total), with no locked cells. lockResets stops at 15, but touchLockDelay resets lockTimer unconditionally. The ordinary 499/500 ms boundary and ledge mid-air safety work."
+        },
+        {
+          "severity": "minor",
+          "title": "The missing above-top buffer rejects legal ceiling SRS kicks",
+          "detail": "From the actual T spawn at rotation 0,x=3,y=0, add blockers (4,2),(3,2). Canonical CW test 3 fits at rotation 1,x=2,y=-1, but rotate(1) returns false and leaves the T unchanged because canPlace rejects every negative cell. The 20-row field has no hidden-buffer/whole-hidden-lock path; this is one ceiling/buffer fidelity finding, with no separate hidden-lock-out deduction."
+        },
+        {
+          "severity": "minor",
+          "title": "B2B Tetris perfect clears omit the larger benchmark bonus",
+          "detail": "Tetris, a no-clear lock to reset combo, then a zero-distance Tetris perfect clear yields 4000 total instead of 5200. The final placement awards 3200 (1200 B2B clear + 2000 ordinary PC), instead of 4400 (1200 + 3200 B2B PC). Ordinary 900-point single perfect clear and normal B2B/combo scoring pass."
+        },
+        {
+          "severity": "minor",
+          "title": "Starting soft drop consumes accumulated normal-gravity time",
+          "detail": "Fifty update(0.016) calls leave O at y=0 with 0.8 seconds accumulated. Enable soft drop and update(0.001): it moves to y=16 and earns 16 points. Chromium real ArrowDown independently reproduces the same transition; ordinary 100 ms soft movement awards two points."
+        }
+      ],
+      "summary": "Broad scoring and fitting UI; unlimited lock resets, ceiling-buffer and B2B-PC gaps, soft-drop jump"
     }
   ]
 }
