@@ -110,6 +110,57 @@ disposable copy, preserving its intended static-file behavior. Use
 manually. Exact engine findings, scores, isolation facts and one-command
 reproduction are in the extended [`haiku-review.md`](haiku-review.md).
 
+## Claude Sonnet 5.5 (low, medium, high and xhigh)
+
+Audited **2026-10-24**, Playwright CLI with Chromium **156.0.8078.4**,
+1280×800 desktop and 390×844 phone CSS viewports. All four builds and declared
+test workflows ran in disposable copies. The supplied `npm start` servers
+used only free ports 41000–49999; medium's hard-coded port was substituted
+only in its temporary server copy, preserving its static-file behavior.
+
+| Implementation | Desktop canvas / playfield | Phone document width | Phone playfield and supporting state | Application errors |
+|---|---|---:|---|---|
+| Sonnet 5.5 (low) | 664×604 border box / 300×600 at x=490 | 527 | Board fits at x=45; canvas x=−137, hold/stats label x=−120, next x=360; sidebars clipped | None |
+| Sonnet 5.5 (medium) | 580×600 / 300×600 at x=490 | 485 | Board fits at x=45; canvas x=−95, hold label x=−75, next/stats x=365; sidebars clipped | None |
+| Sonnet 5.5 (high) | 602×602 border box / 300×600 at x=490 | 496 | Board fits at x=45; canvas x=−106, hold/stats label x=−85, next x=365; sidebars clipped | None |
+| Sonnet 5.5 (xhigh) | 660×628.19 / 298.19×596.39 at x≈319.17 | 390 | Canvas fits at x=16, width 358; board 161.75×323.49 at x≈114.13; supporting state and reflowed legend fit | None |
+
+These games combine board and panels in one canvas. Board measurements use
+the renderer's reviewed drawing offsets, canvas CSS content scale and border
+widths. All eight screenshots were visually inspected outside the repository.
+Low/medium have no visible keyboard legend; high has a complete inline legend;
+xhigh has a separate reflowing legend and labeled canvas. None has touch
+controls. The central playfield remains fully visible in all four phone views;
+the first three findings concern supporting state rather than board clipping.
+
+Real keys **Left, Right, Up, X, Z, Left Control, Down (120 ms), Space, C**
+all responded. Temporary forwarding wrappers observed horizontal displacement,
+rotation directions `[1,1,-1,-1]`, soft movement/points, four hard-locked cells
+and hold restriction without changing command behavior. A deterministic
+blocked-spawn fixture followed by **real R** successfully restarted each game.
+Canvas overlays matched active/game-over state. No application asset failure,
+page exception or application console error occurred; missing favicon requests
+were excluded consistently with earlier audits.
+
+The same browser pass independently reproduces the engine timer finding:
+freeze only animation-driven engine updates, run fifty 16 ms normal updates,
+send real ArrowDown, then advance 1 ms. O moves **16 rows**, score becomes
+**16**, with Y transitions **2→18**, **1→17**, **1→17**, **19→35** for
+low/medium/high/xhigh. Each step is below the delivered 100 ms frame cap.
+This has one timing cause and one minor deduction per run.
+
+```sh
+python3 .audit/run-sonnet-audit.py --offline
+```
+
+Browser assertions run by default, including the exact measured layouts and
+timer/restart outcomes. Named browser sessions and server process groups are
+closed and copies removed on success/failure. Use `?audit=low`, `medium`,
+`high` or `xhigh` with [`sonnet-browser.cjs`](sonnet-browser.cjs) for a manual
+CLI pass against a built temporary copy. Full fixtures, score rationale,
+test gaps and supplied isolation evidence are in
+[`sonnet-review.md`](sonnet-review.md).
+
 ## Reproducible DOM probes
 
 Horizontal overflow was measured after setting the viewport to 390×844:
@@ -140,4 +191,4 @@ Observed result:
 
 ## Interaction coverage
 
-The audit exercised the required keyboard inputs: horizontal movement, clockwise rotation through both Up and X, counter-clockwise rotation through Z and Left Control, soft drop, hard drop, and hold. Source review additionally confirmed the game-over restart binding because reliably reaching top-out through UI play would make the browser comparison unnecessarily timing-dependent.
+The audit exercised the required keyboard inputs: horizontal movement, clockwise rotation through both Up and X, counter-clockwise rotation through Z and Left Control, soft drop, hard drop, and hold. Earlier cohorts additionally confirmed the game-over restart binding by source review because reaching top-out through UI play would make the comparison timing-dependent. The Sonnet pass uses deterministic blocked-spawn fixtures to exercise real R restart in all four games.

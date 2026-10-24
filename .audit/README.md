@@ -127,3 +127,36 @@ Max's hard-coded port is changed only in its temporary server copy; routing and
 application code are preserved. Named browsers, servers and copies are cleaned
 on completion or failure. No generated artifacts or implementation changes
 are included.
+
+## Claude Sonnet 5.5 (low, medium, high and xhigh)
+
+[`sonnet-review.md`](sonnet-review.md) records the independent 2026-10-24
+audits using the same rubric, fixed deductions, scoring profile and viewports.
+It includes every confirmed scoring/timing/hidden-lock-out/layout finding,
+own-test coverage and score rationale, and the supplied isolation facts:
+low's `../dist/game.js` scan hit is an internal test import false positive;
+the other three have no outside access, T3 calls or benchmark lookups.
+
+```sh
+python3 .audit/run-sonnet-audit.py --offline
+```
+
+This command installs/builds/tests **all four** in fresh disposable copies
+and runs [`sonnet-audit.mjs`](sonnet-audit.mjs) plus the desktop/390×844
+Chromium pass in [`sonnet-browser.cjs`](sonnet-browser.cjs). Omit `--offline`
+if npm dependencies are not cached. Unlike the earlier runners, browser
+checks run by default; `--engine-only` explicitly skips them. The CLI defaults
+to an installed `playwright-cli` or the local Playwright skill wrapper, and
+reuses a locally installed Chromium. `--playwright-cli` and
+`--playwright-config` override these choices. `--artifacts-dir` can retain
+JSON/screenshots outside the checkout for visual review.
+
+The probes assert all 28 canonical states, both kick directions, bags, hold,
+ghost, lock delay/reset cap/ledge safety, gravity/levels, advanced scoring,
+hidden lock-out and restart, including the exact recorded defective outcomes.
+The browser forwards real commands to observe all required keys, repeats the
+soft-drop timer probe through ArrowDown, exercises R after blocked spawn and
+asserts measured phone widths/sidebar clipping or xhigh's fitting layout.
+Servers use only free ports 41000–49999. Medium's hard-coded port is changed
+only in its temporary server copy. Named browsers, server groups and copies
+are cleaned on completion/failure; no run implementation is changed.

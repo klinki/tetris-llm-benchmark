@@ -318,6 +318,88 @@
         }
       ],
       "summary": "No perfect-clear bonus or hidden lock-out; soft-drop timing jump and phone sidebar overflow"
+    },
+    {
+      "run_id": "claude-sonnet-5-5-low",
+      "audited": "2026-10-24",
+      "scores": {"correctness": 7.0, "tests": 6.0, "code": 8.5, "simplicity": 9.0, "browser_ux": 8.0},
+      "bugs": [
+        {
+          "severity": "major",
+          "title": "Advanced scoring is missing",
+          "detail": "Legal full/mini rotation-to-lock fixtures award 0 with no clear and 100 for a single, versus full 400/800 and mini 100/200. Two Tetrises separated by a no-clear lock total 1600 instead of 2000 with B2B; a level-two single with a prior clear awards 200 instead of 300 with combo; a perfect-clear single awards 100 instead of 900. These absent scoring features receive one grouped major deduction."
+        },
+        {
+          "severity": "minor",
+          "title": "A wholly hidden lock does not end the game",
+          "detail": "With O,T,I and J stack cells (2,2),(3,3),(4,3), move O four columns left, hold T, rotate CW/CCW and move left twice. T legally reaches rotation 0,x=0,y=0, supported at ghost y=0. Hard drop locks all four cells above visible row 2, yet gameOver stays false and an unblocked I spawns. Only the stack is injected; public actions reach the hidden pose."
+        },
+        {
+          "severity": "minor",
+          "title": "Starting soft drop reuses accumulated normal-gravity time",
+          "detail": "Fifty 16 ms level-one updates leave O at y=2 with 800 ms accumulated. Enable soft drop and advance 1 ms: it jumps to y=18 and earns 16 points. The browser independently reproduces this through the real ArrowDown handler. Movement and extra points share one timing cause and deduction."
+        },
+        {
+          "severity": "minor",
+          "title": "Supporting state is clipped on a phone-sized viewport",
+          "detail": "At 390×844, document width is 527 px and the 664 px canvas begins at x=-137. The 300×600 board fits at x=45, but the hold/score label origin is x=-120 and next begins at x=360, clipping supporting state on both sides."
+        }
+      ],
+      "summary": "Basic scoring only; hidden lock-out missing, soft-drop jump and clipped phone sidebars"
+    },
+    {
+      "run_id": "claude-sonnet-5-5-medium",
+      "audited": "2026-10-24",
+      "scores": {"correctness": 8.5, "tests": 7.5, "code": 9.0, "simplicity": 8.5, "browser_ux": 8.0},
+      "bugs": [
+        {
+          "severity": "minor",
+          "title": "No perfect-clear bonus under the benchmark scoring profile",
+          "detail": "Fill row 21 except columns 3–6 and hard drop a horizontal I at x=3,y=20 with zero travel. One row clears and the entire field becomes empty, but score is 100 rather than the benchmark expectation of 900. Full/mini spins, B2B and combo scoring pass their independent fixtures."
+        },
+        {
+          "severity": "minor",
+          "title": "Starting soft drop reuses accumulated normal-gravity time",
+          "detail": "Fifty 16 ms level-one updates leave O at y=1 with 800 ms accumulated. Set softDrop true and advance 1 ms: it jumps to y=17 and earns 16 points. The browser independently reproduces this through the real ArrowDown handler. Movement and extra points are one timing defect."
+        },
+        {
+          "severity": "minor",
+          "title": "Supporting state is clipped on a phone-sized viewport",
+          "detail": "At 390×844, document width is 485 px and the 580 px canvas begins at x=-95. The 300×600 board fits at x=45, but hold begins at x=-75 and next/stats at x=365, leaving supporting state clipped."
+        }
+      ],
+      "summary": "Full/mini spins, B2B and combos work; no perfect-clear bonus, soft-drop jump and clipped sidebars"
+    },
+    {
+      "run_id": "claude-sonnet-5-5-high",
+      "audited": "2026-10-24",
+      "scores": {"correctness": 9.0, "tests": 8.0, "code": 9.0, "simplicity": 8.0, "browser_ux": 8.5},
+      "bugs": [
+        {
+          "severity": "minor",
+          "title": "Starting soft drop reuses accumulated normal-gravity time",
+          "detail": "Fifty 16 ms level-one updates leave O at y=1 with 800 ms accumulated. Enable soft drop and advance 1 ms: it jumps to y=17 and earns 16 points. The browser independently reproduces this through the real ArrowDown handler. Movement and extra points receive one deduction."
+        },
+        {
+          "severity": "minor",
+          "title": "Supporting state is clipped on a phone-sized viewport",
+          "detail": "At 390×844, document width is 496 px and the 602 px canvas border box begins at x=-106. The 300×600 board fits at x=45, but hold/stats begin at x=-85 and next at x=365, clipping supporting state."
+        }
+      ],
+      "summary": "Broad rules and timing tests; soft-drop jump and clipped phone sidebars"
+    },
+    {
+      "run_id": "claude-sonnet-5-5-xhigh",
+      "audited": "2026-10-24",
+      "scores": {"correctness": 9.5, "tests": 8.5, "code": 9.0, "simplicity": 8.0, "browser_ux": 9.0},
+      "bugs": [
+        {
+          "severity": "minor",
+          "title": "Starting soft drop reuses accumulated normal-gravity time",
+          "detail": "Fifty 16 ms level-one updates leave O at y=19 with 800 ms accumulated. Enable soft drop and advance 1 ms: it jumps to y=35 and earns 16 points. The browser independently reproduces this through the real ArrowDown handler. Movement and extra points share one timing cause and deduction."
+        }
+      ],
+      "summary": "Broad rules, strong integration/input tests and a fitting phone layout; soft-drop jump"
     }
   ]
 }
