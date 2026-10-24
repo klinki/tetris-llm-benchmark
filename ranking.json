@@ -800,6 +800,196 @@
         }
       ],
       "summary": "Broad scoring and fitting UI; unlimited lock resets, ceiling-buffer and B2B-PC gaps, soft-drop jump"
+    },
+    {
+      "run_id": "gpt-6-luna-low",
+      "audited": "2026-10-24",
+      "scores": {
+        "correctness": 4.5,
+        "tests": 4.0,
+        "code": 7.0,
+        "simplicity": 8.5,
+        "browser_ux": 8.0
+      },
+      "bugs": [
+        {
+          "severity": "major",
+          "title": "Fifteen non-I/O rotation states use a 4×4 pivot instead of SRS",
+          "detail": "The independent 28-state oracle fails J/L/S/T/Z rotations 1, 2 and 3. Every non-O piece rotates with [3-y,x], although these five pieces require [2-y,x]. The kick offsets are canonical but cannot repair the incorrect basic orientations."
+        },
+        {
+          "severity": "major",
+          "title": "T-spins, back-to-back, combos and perfect-clear bonuses are absent",
+          "detail": "Legal final-rotation full/mini zero/single fixtures score 0/100 instead of 400/800 or 100/200 through hard and timed locks. Two Tetrises separated by a no-clear score 1600 instead of 2000; a level-two combo single scores 200 instead of 300; a zero-travel single perfect clear scores 100 instead of 900."
+        },
+        {
+          "severity": "major",
+          "title": "Gravity uses the wrong exponential curve",
+          "detail": "Actual one-row boundaries at levels 1/2/10 are 1000/800/135 ms, versus 1000/793/about 64.152 ms. The engine uses max(50,1000*0.8^(level-1)), with a much slower high-level progression than the benchmark profile."
+        },
+        {
+          "severity": "minor",
+          "title": "Each next preview erases the earlier previews",
+          "detail": "A real render makes six full-canvas clears in #next: the outer clear and one per queued piece. Only twelve fillRect calls (four cells with shading) remain after the final clear, so only the fifth queued piece is visible instead of the upcoming queue, at both viewport sizes."
+        },
+        {
+          "severity": "minor",
+          "title": "The phone layout hides the hold display",
+          "detail": "At 390×844 the board fits at x=77 with size 300×600 and document width 390, but #hold has display:none and zero bounds. This is one responsive supporting-state defect."
+        }
+      ],
+      "summary": "Wrong SRS pivots, basic-only scoring and gravity; erased next previews and hidden phone hold"
+    },
+    {
+      "run_id": "gpt-6-luna-medium",
+      "audited": "2026-10-24",
+      "scores": {
+        "correctness": 0.0,
+        "tests": 3.5,
+        "code": 8.0,
+        "simplicity": 8.5,
+        "browser_ux": 6.5
+      },
+      "bugs": [
+        {
+          "severity": "critical",
+          "title": "The delivered build and start workflow cannot produce a playable game",
+          "detail": "No package-lock.json was delivered. After npm install in a fresh copy, npm run build and npm test each fail with exactly 113 TypeScript errors in src/game.ts; noEmitOnError prevents dist output. Independently, node server.js exits because require is undefined in the package ESM scope. These are one critical delivery finding, with correctness capped at 4; the static browser diagnostic gets a 404 for /dist/main.js."
+        },
+        {
+          "severity": "major",
+          "title": "Fifteen non-I/O rotation states use a 4×4 pivot instead of SRS",
+          "detail": "The independent 28-state oracle fails J/L/S/T/Z rotations 1, 2 and 3. Every non-O piece rotates with [3-y,x], although these five pieces require [2-y,x]. The kick offsets are canonical but cannot repair the incorrect basic orientations."
+        },
+        {
+          "severity": "major",
+          "title": "Advanced scoring is absent and ordinary gravity awards drop points",
+          "detail": "Legal final-rotation full/mini zero/single fixtures score 0/100 instead of 400/800 or 100/200 through hard and timed locks. Two Tetrises separated by a no-clear score 1600 instead of 2000; a level-two combo single scores 200 instead of 300; a zero-travel single perfect clear scores 100 instead of 900. Diagnostic transpilation also confirms that one ordinary automatic gravity row awards one point: tick calls move(0,1), which scores every downward step. These are source/diagnostic findings, not a successful delivery."
+        },
+        {
+          "severity": "major",
+          "title": "Gravity uses a different hard-coded progression",
+          "detail": "Diagnostic one-row boundaries at levels 1/2/10/15 are 1000/850/80/80 ms, versus 1000/793/about 64.152/7.059 ms (or the accepted 16 ms fast floor). No delivered game runs; the unchanged functions were inspected through isolated in-memory transpilation."
+        },
+        {
+          "severity": "minor",
+          "title": "The static phone layout removes the next queue",
+          "detail": "At 390×844 the unchanged HTML/CSS has document width 390 and a 300×600 board at x=79, but .right-rail is display:none and #next has zero bounds. The static diagnostic is not a gameplay pass."
+        }
+      ],
+      "summary": "Does not build or start; diagnostic source has wrong SRS, scoring and gravity"
+    },
+    {
+      "run_id": "gpt-6-luna-high",
+      "audited": "2026-10-24",
+      "scores": {
+        "correctness": 6.0,
+        "tests": 1.5,
+        "code": 7.5,
+        "simplicity": 8.5,
+        "browser_ux": 8.5
+      },
+      "bugs": [
+        {
+          "severity": "major",
+          "title": "T-spins, back-to-back, combos and perfect-clear bonuses are absent",
+          "detail": "Legal final-rotation full/mini zero/single fixtures score 0/100 instead of 400/800 or 100/200 through hard and timed locks. Two Tetrises separated by a no-clear score 1600 instead of 2000; a level-two combo single scores 200 instead of 300; a zero-travel single perfect clear scores 100 instead of 900."
+        },
+        {
+          "severity": "major",
+          "title": "Gravity follows the wrong curve",
+          "detail": "The real frame method first moves an O at 800/656 ms at levels 1/2, rather than 1000/793 ms, and uses max(45,800*0.82^(level-1)). Levels still increase every ten cleared lines."
+        },
+        {
+          "severity": "minor",
+          "title": "Discarded gravity remainder makes falling depend on refresh rate",
+          "detail": "At level 15, the unchanged requestAnimationFrame callback advances a free O 12 rows at 60 Hz but 10 at 144 Hz over the same 600 ms. frame resets dropAccumulator to zero after each step instead of preserving its remainder. This is separate from the incorrect gravity equation."
+        },
+        {
+          "severity": "minor",
+          "title": "Airborne actions consume the grounded lock-reset allowance",
+          "detail": "Fifteen alternating successful moves near spawn set lockResets=15 before contact. After the same piece reaches the floor and waits 490 ms, a move cannot reset the timer; 20 ms later it locks. Ordinary 499/500 ms locking, the grounded fifteen-reset cap and ledge mid-air safety pass."
+        }
+      ],
+      "summary": "Basic-only scoring, wrong and refresh-dependent gravity; airborne moves exhaust lock resets"
+    },
+    {
+      "run_id": "gpt-6-luna-xhigh",
+      "audited": "2026-10-24",
+      "scores": {
+        "correctness": 5.5,
+        "tests": 4.5,
+        "code": 9.0,
+        "simplicity": 8.5,
+        "browser_ux": 9.0
+      },
+      "bugs": [
+        {
+          "severity": "major",
+          "title": "The I 0-to-L kick transition is incorrect",
+          "detail": "All 28 basic states are canonical, but the I 0>3 table copies 0>1. With I at rotation 0,(3,10) and a stack cell (4,10), real CCW reaches rotation 3,(1,10); canonical SRS chooses (2,10). The other seven I transitions and all non-I tables pass."
+        },
+        {
+          "severity": "major",
+          "title": "Gravity follows a different progression",
+          "detail": "The engine uses 1000/level through level 9, followed by 9*1.32^(level-9) cells/second. Actual first-row boundaries at levels 1/2/5/10 are 1000/500/200/85 ms, versus 1000/793/about 355.197/64.152 ms. Equal-time frame-rate checks otherwise agree."
+        },
+        {
+          "severity": "minor",
+          "title": "A wholly hidden lock does not end the game",
+          "detail": "From the real T spawn (3,0), stack (2,2),(3,3),(4,3); CW, CCW, three left moves reach a grounded T wholly in hidden rows 0–1. The incoming I spawn is independently open. Zero-travel hard drop leaves gameOver=false; lockPiece only tests y<0, not the hidden-row boundary at 2."
+        },
+        {
+          "severity": "minor",
+          "title": "Back-to-back Tetris perfect clear uses the ordinary bonus",
+          "detail": "A Tetris, no-clear lock and zero-travel Tetris perfect clear total 4000, versus 5200: the last clear earns 1200+2000 instead of 1200+3200. Ordinary single PC, full/mini spins, B2B, combo and pre-clear-level scoring pass."
+        },
+        {
+          "severity": "minor",
+          "title": "The phone stylesheet hides the entire next queue",
+          "detail": "At 390×844, the board fits at x=13 with size 249×498 and hold remains visible, but .right-column has display:none and all five next canvases have zero bounds. Desktop previews work."
+        }
+      ],
+      "summary": "Wrong I kick and gravity; hidden lock-out, B2B perfect-clear and phone next gaps"
+    },
+    {
+      "run_id": "gpt-6-luna-max",
+      "audited": "2026-10-24",
+      "scores": {
+        "correctness": 6.5,
+        "tests": 5.5,
+        "code": 9.0,
+        "simplicity": 8.5,
+        "browser_ux": 9.0
+      },
+      "bugs": [
+        {
+          "severity": "major",
+          "title": "Two I kick transitions use the opposite direction data",
+          "detail": "The I 0>3 and 3>0 tables are wrong; all 28 orientations and other tables pass. I r0 at (3,10) with stack (4,10) rotates CCW to x=4 instead of x=2. I r3 at (3,10) with stack (3,11) rotates CW to x=5 instead of x=4; a right-wall r3-to-0 rotation also fails when canonical SRS succeeds."
+        },
+        {
+          "severity": "minor",
+          "title": "Back-to-back Tetris perfect clear uses the ordinary bonus",
+          "detail": "A Tetris, no-clear lock and zero-travel Tetris perfect clear total 4000 instead of 5200. The final placement receives the ordinary 2000 PC bonus instead of 3200; ordinary single PC, full/mini/B2B/combo and level crossing pass."
+        },
+        {
+          "severity": "minor",
+          "title": "Manual soft drop preserves stale T-spin credit",
+          "detail": "Rotate a T clockwise in open space, then manually soft-drop it into a grounded mini-corner pose and hard-drop zero rows. The engine adds 100 spin points on top of the soft-drop rows, even though the last successful manual action was downward movement. softDropStep and held-soft tick descent never clear lastAction=rotate; xhigh correctly awards zero spin points for the same fixture."
+        },
+        {
+          "severity": "minor",
+          "title": "Starting held soft drop consumes earlier normal-gravity time",
+          "detail": "After fifty 16 ms normal ticks, an O has not moved. Real ArrowDown moves one row immediately; one further millisecond with soft held takes it all the way to the floor: 18 rows and 18 points in total. The 800 ms accumulator is reused at the new 30 ms interval. Engine and real Chromium input reproduce it."
+        },
+        {
+          "severity": "minor",
+          "title": "Phone next previews are painted at obsolete widths and squashed",
+          "detail": "At 390×844, adding the five flex queue items one at a time paints backing widths 310/155/103/77/61 px, but every final canvas is about 61.2 px wide. Five identical I previews paint CSS widths about 13.03/26.46/39.81/40.54/35.12 px, with inconsistent block aspect ratios. paintQueue caches these drawings after sibling insertion shrinks the earlier canvases; desktop widths are stable."
+        }
+      ],
+      "summary": "Wrong I kicks; B2B perfect-clear, stale soft-drop spin, timing and phone preview defects"
     }
   ]
 }

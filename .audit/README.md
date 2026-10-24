@@ -294,3 +294,38 @@ high's unscored immediate Down row, low's overpainted legend, medium-from-
 scratch's clipped I previews and xhigh's overlay lifecycle. A passing run
 confirms the recorded outcomes, including defects, rather than certifying
 bug-free implementations. No run implementation or registry data is changed.
+
+## GPT-6 Luna (low, medium, high, xhigh, max)
+
+[`gpt6-luna-review.md`](gpt6-luna-review.md) records the independent
+2026-10-24 audits of five `gpt-6-luna-*` runs in T3 Code / Codex, standard
+tier, with exact findings/scores, test limits, phone/desktop measurements
+and supplied isolation context. GPT-5.6 Luna's historical scores are unchanged.
+
+```sh
+python3 .audit/run-gpt6-luna-audit.py --offline
+```
+
+The default runner installs/builds/tests all five in random disposable copies,
+then executes [`gpt6-luna-audit.mjs`](gpt6-luna-audit.mjs) and desktop/390×844
+Chromium assertions in [`gpt6-luna-browser.cjs`](gpt6-luna-browser.cjs).
+Omit `--offline` when packages are not cached. Medium has no lockfile, so uses
+`npm install`; **113 build errors, no emitted game, failing npm test and its
+ESM server error are required findings**. Its in-memory diagnostic source
+probes and unchanged static page are explicitly not a working delivery.
+Xhigh's unchanged bag test must fail **2 pass / 1 fail**; an independent
+100-bag probe establishes a broken stack-to-top-out test fixture, not a
+randomizer bug. Passing asserts recorded failures as well as conformance.
+
+Coverage includes all 28 states, ordered SRS candidates and actual kicks,
+100 actual seeded bags, hold/queue, all seven obstructed drops, precise lock
+boundary/cap/ledge safety, full/mini/B2B/combo/PC variants, levels/gravity
+curve, soft transitions, public-action hidden lock-out, blocked spawn/reset,
+real required keys and the unchanged 60/144 Hz callbacks. Browser checks
+assert erased/removed/squashed previews, and high's reachable scrolled queue.
+
+`--engine-only`, `--effort`, CLI/config and outside-checkout `--artifacts-dir`
+options match recent runners. Only low's temporary server port is changed;
+medium's static server serves HTML/CSS with the missing game module still
+404. Free ports 41000–49999, named Chromium sessions, process groups and
+copies are cleaned on exit. No implementation source is repaired or edited.

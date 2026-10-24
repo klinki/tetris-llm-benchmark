@@ -385,3 +385,43 @@ engines were not tested. Findings and exact engine fixtures are in
 [`deepseek-v41-review.md`](deepseek-v41-review.md); reproduction is
 `python3 .audit/run-deepseek-v41-audit.py --offline` using
 [`deepseek-v41-browser.cjs`](deepseek-v41-browser.cjs).
+
+## GPT-6 Luna (five efforts)
+
+Audited **2026-10-24**, Playwright CLI / installed **Chromium 156.0.8078.4**,
+**1280×800** and **390×844**, in random temporary copies. Four usable builds
+use their supplied `npm start` behavior (only low's temporary port literal
+changes). Medium fails compilation and its own server; a separately labeled
+static diagnostic serves only the unchanged HTML/CSS, leaving the required
+`/dist/main.js` missing. It is not a browser gameplay pass.
+
+| Run | Desktop board | Phone document width | Phone board | Supporting state / finding | Application errors |
+|---|---|---:|---|---|---|
+| low | 300×600 at x=491 | 390 | 300×600 at x=77 | Hold display removed; first four next previews erased at both sizes | None |
+| medium | Static 300×600 at x=491 | 390 | Static 300×600 at x=79 | Right/next rail removed; no working start button or keys | Required game module 404; no playable build |
+| high | 300×600 at x=490 | 390 | 300×600 at x=45 | Next begins near y=1078; scrolling reaches it fully | None |
+| xhigh | 300×600 at x=491 | 390 | 249×498 at x=13 | Hold fits; next ancestor display:none removes all five previews; touch buttons visible | None |
+| max | 300×600 at x=491 | 390 | 298×598 at x=46 | All panels fit vertically; queue backings shrink after drawing, squashing earlier previews | None |
+
+Every required key and **real R** after blocked spawn pass in the four
+playable runs at both sizes. Active overlays are correctly transparent or
+hidden. Medium's static score remains zero through clicking Start and the
+same key sequence. Max independently reproduces **800 ms normal / real
+Down / 1 ms → 18 rows/18 points**. High's unchanged callback advances O
+**12 rows at 60 Hz / 10 at 144 Hz**, over equal 600 ms at level 15.
+
+Low's forwarded canvas calls make **six full next clears** and leave only
+four cells/twelve shaded fills after the last, displaying the fifth queued
+piece. Max's five identical phone I previews have native widths
+**310/155/103/77/61** but final CSS widths ≈**61.2** each; actual painted
+pixel widths become **13.03/26.46/39.81/40.54/35.12 px**, confirming distortion.
+All ten screenshots were visually inspected outside the checkout. Missing
+favicons are excluded; there are no other application exceptions, console
+errors or failed required assets in the playable runs. No physical touch or
+other browser engine was verified.
+
+Exact fixtures, limitations, supplied isolation facts and score rationale:
+[`gpt6-luna-review.md`](gpt6-luna-review.md). Reproduce all build/test/engine
+and browser assertions with `python3 .audit/run-gpt6-luna-audit.py --offline`;
+the [runner](run-gpt6-luna-audit.py) asserts medium's failure and xhigh's
+broken own bag test without fixing either delivery.
