@@ -990,6 +990,52 @@
         }
       ],
       "summary": "Wrong I kicks; B2B perfect-clear, stale soft-drop spin, timing and phone preview defects"
+    },
+    {
+      "run_id": "claude-haiku-5-5-low",
+      "audited": "2026-10-24",
+      "scores": {"correctness": 9.0, "tests": 6.0, "code": 9.0, "simplicity": 8.5, "browser_ux": 8.0},
+      "bugs": [
+        {
+          "severity": "minor",
+          "title": "Starting soft drop reuses accumulated normal-gravity time",
+          "detail": "Fifty 16 ms normal updates leave O unmoved with 800 ms accumulated. Enable Down through the delivered browser handler and advance 1 ms: O moves sixteen rows and earns sixteen points. The faster 50 ms interval consumes earlier normal time; engine and real Chromium keyboard probes reproduce it."
+        },
+        {
+          "severity": "minor",
+          "title": "Back-to-back Tetris perfect clear uses the ordinary bonus",
+          "detail": "A Tetris, no-clear lock to reset combo, then a zero-distance Tetris perfect clear total 4000 instead of 5200. The final placement scores 3200 (1200 B2B clear + 2000 ordinary PC), rather than 4400 (1200 + 3200 B2B PC). Ordinary single perfect clear, full/mini spins, B2B continuity/break, combos and level-crossing scores pass."
+        }
+      ],
+      "summary": "Broad core rules; B2B perfect-clear under-award and soft-drop timing jump"
+    },
+    {
+      "run_id": "claude-haiku-5-5-medium",
+      "audited": "2026-10-24",
+      "scores": {"correctness": 8.0, "tests": 5.5, "code": 9.0, "simplicity": 8.5, "browser_ux": 8.5},
+      "bugs": [
+        {
+          "severity": "minor",
+          "title": "Back-to-back Tetris perfect clear uses the ordinary bonus",
+          "detail": "A Tetris, no-clear lock to reset combo, then a zero-distance Tetris perfect clear total 4000 instead of 5200. The final placement scores 3200 (1200 B2B clear + 2000 ordinary PC), rather than 4400 (1200 + 3200 B2B PC). Ordinary single perfect clear, full/mini spins, B2B continuity/break, combos and level-crossing scores pass."
+        },
+        {
+          "severity": "minor",
+          "title": "Wholly hidden locks continue play or throw above the allocated board",
+          "detail": "From actual T spawn with next I and blockers (2,2),(3,3),(4,3), public CW/CCW reaches rotation 0,x=2,y=0. Zero-distance hard drop locks entirely in hidden rows 0–1 but gameOver stays false and I spawns. A second fixture with only blockers (0,2),(2,3), then Left,Left,CW,CW,CCW,Left reaches legal T rotation 1,x=-1,y=-1. Space throws TypeError: Cannot set properties of undefined (setting '0'), because lockPiece writes board[-1]; R remains inert. Engine and real Chromium keys confirm this second manifestation of the same unsafe hidden-lock handling, charged once."
+        },
+        {
+          "severity": "minor",
+          "title": "Starting soft drop reuses accumulated normal-gravity time",
+          "detail": "Fifty 16 ms normal updates leave O unmoved with 800 ms accumulated. Enable Down through the delivered browser handler and advance 1 ms: O moves sixteen rows and earns sixteen points. The faster 50 ms interval consumes earlier normal time; engine and real Chromium keyboard probes reproduce it."
+        },
+        {
+          "severity": "minor",
+          "title": "Supporting panels are clipped on phones",
+          "detail": "At 390×844, document width is 521 px. The 304×604 board border box fits at x=43, but hold is at x=-131 with width 124, and next starts at x=371 with width 124. The hold/legend rail is off the left edge and most previews/scores overflow right. The fixed 652 px centered layout has no narrow-screen reflow; desktop is usable."
+        }
+      ],
+      "summary": "Hidden locks continue or crash; B2B perfect-clear under-award, soft-drop jump and phone sidebar clipping"
     }
   ]
 }

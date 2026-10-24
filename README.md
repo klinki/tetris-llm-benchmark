@@ -30,33 +30,33 @@ The table is generated from [`benchmark-runs.json`](benchmark-runs.json),
 | 10 | [Muse Spark 1.3 (medium, reference-assisted)](muse-spark-1.3-medium/STATISTICS.md)† | `muse-spark-1.3-contributor` | `medium` | T3 Code / OpenCode | **8.40** | 923,864 | $1.20 | 2m 13.321s | No perfect-clear bonus; board collapses to nothing on phones |
 | 11 | [Claude Sonnet 5.5 (medium)](claude-sonnet-5-5-medium/STATISTICS.md) | `claude-sonnet-5-5` | `medium` | T3 Code / Claude Agent SDK | **8.35** | 494,455 | $0.38 | 2m 30.629s | Full/mini spins, B2B and combos work; no perfect-clear bonus, soft-drop jump and clipped sidebars |
 | 12 | [Sol OMP](sol-omp/STATISTICS.md) | `gpt-5.6-sol` | — | OMP | **8.30** | 999,455 | $1.29 | 8m 3.842s | No mini T-spins; sparse test suite |
-| 13 | [Claude Haiku 5.5 (max)](claude-haiku-5-5-max/STATISTICS.md) | `claude-haiku-5-5` | `max` | T3 Code / Claude Agent SDK | **8.25** | 7,447,694 | $0.25 | 23m 8.921s | No perfect-clear bonus or hidden lock-out; soft-drop timing jump and phone sidebar overflow |
-| 14 | [DeepSeek V4.1 Flash (max)](deepseek-v4.1-flash-max/STATISTICS.md) | `deepseek-v4.1-flash` | `max` | T3 Code / OpenCode | **8.25** | 9,118,921 | $0.14 | 24m 21.634s | Broad scoring and fitting UI; unlimited lock resets, ceiling-buffer and B2B-PC gaps, soft-drop jump |
-| 15 | [GLM-5.3-Flash (max)](glm-5.3-flash-free-max/STATISTICS.md) | `glm-5.3-flash-free` | `max` | T3 Code / OpenCode | **8.20** | 4,253,523 | $0.19 | 19m 50.224s | Broad rules and responsive UI; wrong gravity curve and no perfect-clear bonus |
-| 16 | [Sol Codex](sol-codex/STATISTICS.md) | `gpt-5.6-sol` | — | Codex Desktop | **8.20** | 909,035 | $1.12 | 6m 22.017s | Piece can lock in mid-air after a ledge move; no mini T-spins |
-| 17 | [DeepSeek V4.1 Flash (low)](deepseek-v4.1-flash-low/STATISTICS.md) | `deepseek-v4.1-flash` | `low` | T3 Code / OpenCode | **8.15** | 2,309,531 | $0.05 | 6m 54.369s | Canonical core and responsive UI; hard-drop spin loss, incomplete scoring and soft-drop timing jump |
-| 18 | [GLM-5.3-Flash (high)](glm-5.3-flash-free-high/STATISTICS.md) | `glm-5.3-flash-free` | `high` | T3 Code / OpenCode | **7.90** | 2,363,761 | $0.11 | 14m 37.371s | Working core with mini/PC scoring gaps, hidden lock-out, soft-drop jump and phone sidebar clipping |
-| 19 | [DeepSeek V4.1 Flash (high)](deepseek-v4.1-flash-high/STATISTICS.md) | `deepseek-v4.1-flash` | `high` | T3 Code / OpenCode | **7.85** | 5,255,770 | $0.09 | 19m 30.263s | Broad rules and responsive reflow; inverted I kicks, B2B scoring errors and soft-drop timing jump |
-| 20 | [Luna Codex](luna-codex/STATISTICS.md) | `gpt-5.6-luna` | — | Codex Desktop | **7.60** | 1,177,121 | $0.07 | 11m 31.291s | Four S/Z rotation states are not SRS; game-over overlay shows during play |
-| 21 | [Muse Spark 1.3 (high)](muse-spark-1.3-contributor-high/STATISTICS.md) | `muse-spark-1.3-contributor` | `high` | T3 Code / OpenCode | **7.50** | 338,304 | $0.48 | 2m 30.906s | Full spins, B2B and combos work; mini/PC gaps, hidden lock-out, two soft-drop defects and phone clipping |
-| 22 | [Claude Sonnet 5.5 (low)](claude-sonnet-5-5-low/STATISTICS.md) | `claude-sonnet-5-5` | `low` | T3 Code / Claude Agent SDK | **7.40** | 124,165 | $0.19 | 1m 3.761s | Basic scoring only; hidden lock-out missing, soft-drop jump and clipped phone sidebars |
-| 23 | [Cat-jam](cat-jam/STATISTICS.md) | `longcat-2.5-preview-free` | `default` | T3 Code / OpenCode | **7.40** | 2,070,440 | $0.12 | 23m 42.424s | Malformed L rotation state; no T-spin, B2B or perfect-clear scoring |
-| 24 | [Muse Spark 1.3 (xhigh)](muse-spark-1.3-contributor-xhigh/STATISTICS.md) | `muse-spark-1.3-contributor` | `xhigh` | T3 Code / OpenCode | **7.35** | 610,821 | $0.86 | 4m 44.107s | Hard drop erases spin credit; mini/PC gaps, hidden lock-out, soft-drop jump and phone clipping |
-| 25 | [DeepSeek OMP/PI](deepseek-pi/STATISTICS.md)† | `deepseek-v4-flash` | — | OMP/PI | **7.30** | 18,118,592 | $0.12 | 44m 11.418s | Piece can lock in mid-air after a ledge move; basic scoring only |
-| 26 | [GPT-6 Luna (max)](gpt-6-luna-max/STATISTICS.md) | `gpt-6-luna` | `max` | T3 Code / Codex | **7.25** | 1,535,665 | $0.05 | 8m 51.327s | Wrong I kicks; B2B perfect-clear, stale soft-drop spin, timing and phone preview defects |
-| 27 | [Muse Spark 1.3 (medium)](muse-spark-1.3-contributor-medium/STATISTICS.md) | `muse-spark-1.3-contributor` | `medium` | T3 Code / OpenCode | **7.05** | 262,101 | $0.37 | 43.277s | From scratch: no T-spins, B2B or perfect-clear bonus; hidden lock-out, soft jump and preview/phone clipping |
-| 28 | [Space-bunny](space-bunny/STATISTICS.md) | `space-bunny` | `xhigh` | T3 Code / OpenCode | **6.75** | 21,547,591 | — | 13m 19.433s | Non-SRS shapes and kicks, flattened ghost piece, scoring errors |
-| 29 | [Muse Spark 1.3 (low)](muse-spark-1.3-contributor-low/STATISTICS.md) | `muse-spark-1.3-contributor` | `low` | T3 Code / OpenCode | **6.75** | 289,934 | $0.41 | 2m 1.225s | Incorrect kicks and incomplete advanced scoring; soft-drop jump, clipped phone board and overlaid legend |
-| 30 | [Muse Spark 1.3 (minimal)](muse-spark-1.3-contributor-minimal/STATISTICS.md) | `muse-spark-1.3-contributor` | `minimal` | T3 Code / OpenCode | **6.65** | 561,377 | $0.73 | 45.005s | Canonical core geometry; incomplete scoring, lock resets and soft timing, hidden lock-out and phone clipping |
-| 31 | [GPT-6 Luna (xhigh)](gpt-6-luna-xhigh/STATISTICS.md) | `gpt-6-luna` | `xhigh` | T3 Code / Codex | **6.65** | 973,306 | $0.03 | 4m 51.291s | Wrong I kick and gravity; hidden lock-out, B2B perfect-clear and phone next gaps |
-| 32 | [GPT-6 Luna (high)](gpt-6-luna-high/STATISTICS.md) | `gpt-6-luna` | `high` | T3 Code / Codex | **5.90** | 481,494 | $0.01 | 2m 4.148s | Basic-only scoring, wrong and refresh-dependent gravity; airborne moves exhaust lock resets |
-| 33 | [GPT-6 Luna (low)](gpt-6-luna-low/STATISTICS.md) | `gpt-6-luna` | `low` | T3 Code / Codex | **5.65** | 131,696 | $0.01 | 1m 8.749s | Wrong SRS pivots, basic-only scoring and gravity; erased next previews and hidden phone hold |
-| 34 | [Beam](beam/STATISTICS.md) | `beam-free` | `xhigh` | T3 Code / OpenCode | **5.60** | 1,334,888 | — | 3m 3.429s | Lock timer mixes two clocks; classic scoring table |
-| 35 | [GLM-5.3-Flash (low)](glm-5.3-flash-free-low/STATISTICS.md) | `glm-5.3-flash-free` | `low` | T3 Code / OpenCode | **4.85** | 4,356,489 | $0.16 | 10m 15.035s | Canonical SRS, but hold, gravity/frame timing, scoring and blocked spawn fail; previews overlap and clip |
-| 36 | [Nemotron](nemotron/STATISTICS.md) | `nvidia/nemotron-3.5-super-vl:free` | `thinking` | T3 Code / OpenCode | **4.00** | 1,851,716 | $0.20 | 9m 8.773s | Does not start in the browser: imports lack .js extensions |
-| 37 | [GPT-6 Luna (medium)](gpt-6-luna-medium/STATISTICS.md) | `gpt-6-luna` | `medium` | T3 Code / Codex | **3.80** | 160,641 | $0.01 | 1m 35.743s | Does not build or start; diagnostic source has wrong SRS, scoring and gravity |
-| — | [Claude Haiku 5.5 (low)](claude-haiku-5-5-low/STATISTICS.md) | `claude-haiku-5-5` | `low` | T3 Code / Claude Agent SDK | Pending | 508,602 | $0.04 | 3m 36.967s | Not ranked yet |
-| — | [Claude Haiku 5.5 (medium)](claude-haiku-5-5-medium/STATISTICS.md) | `claude-haiku-5-5` | `medium` | T3 Code / Claude Agent SDK | Pending | 783,362 | $0.05 | 4m 16.792s | Not ranked yet |
+| 13 | [Claude Haiku 5.5 (low)](claude-haiku-5-5-low/STATISTICS.md) | `claude-haiku-5-5` | `low` | T3 Code / Claude Agent SDK | **8.25** | 508,602 | $0.04 | 3m 36.967s | Broad core rules; B2B perfect-clear under-award and soft-drop timing jump |
+| 14 | [Claude Haiku 5.5 (max)](claude-haiku-5-5-max/STATISTICS.md) | `claude-haiku-5-5` | `max` | T3 Code / Claude Agent SDK | **8.25** | 7,447,694 | $0.25 | 23m 8.921s | No perfect-clear bonus or hidden lock-out; soft-drop timing jump and phone sidebar overflow |
+| 15 | [DeepSeek V4.1 Flash (max)](deepseek-v4.1-flash-max/STATISTICS.md) | `deepseek-v4.1-flash` | `max` | T3 Code / OpenCode | **8.25** | 9,118,921 | $0.14 | 24m 21.634s | Broad scoring and fitting UI; unlimited lock resets, ceiling-buffer and B2B-PC gaps, soft-drop jump |
+| 16 | [GLM-5.3-Flash (max)](glm-5.3-flash-free-max/STATISTICS.md) | `glm-5.3-flash-free` | `max` | T3 Code / OpenCode | **8.20** | 4,253,523 | $0.19 | 19m 50.224s | Broad rules and responsive UI; wrong gravity curve and no perfect-clear bonus |
+| 17 | [Sol Codex](sol-codex/STATISTICS.md) | `gpt-5.6-sol` | — | Codex Desktop | **8.20** | 909,035 | $1.12 | 6m 22.017s | Piece can lock in mid-air after a ledge move; no mini T-spins |
+| 18 | [DeepSeek V4.1 Flash (low)](deepseek-v4.1-flash-low/STATISTICS.md) | `deepseek-v4.1-flash` | `low` | T3 Code / OpenCode | **8.15** | 2,309,531 | $0.05 | 6m 54.369s | Canonical core and responsive UI; hard-drop spin loss, incomplete scoring and soft-drop timing jump |
+| 19 | [GLM-5.3-Flash (high)](glm-5.3-flash-free-high/STATISTICS.md) | `glm-5.3-flash-free` | `high` | T3 Code / OpenCode | **7.90** | 2,363,761 | $0.11 | 14m 37.371s | Working core with mini/PC scoring gaps, hidden lock-out, soft-drop jump and phone sidebar clipping |
+| 20 | [DeepSeek V4.1 Flash (high)](deepseek-v4.1-flash-high/STATISTICS.md) | `deepseek-v4.1-flash` | `high` | T3 Code / OpenCode | **7.85** | 5,255,770 | $0.09 | 19m 30.263s | Broad rules and responsive reflow; inverted I kicks, B2B scoring errors and soft-drop timing jump |
+| 21 | [Claude Haiku 5.5 (medium)](claude-haiku-5-5-medium/STATISTICS.md) | `claude-haiku-5-5` | `medium` | T3 Code / Claude Agent SDK | **7.80** | 783,362 | $0.05 | 4m 16.792s | Hidden locks continue or crash; B2B perfect-clear under-award, soft-drop jump and phone sidebar clipping |
+| 22 | [Luna Codex](luna-codex/STATISTICS.md) | `gpt-5.6-luna` | — | Codex Desktop | **7.60** | 1,177,121 | $0.07 | 11m 31.291s | Four S/Z rotation states are not SRS; game-over overlay shows during play |
+| 23 | [Muse Spark 1.3 (high)](muse-spark-1.3-contributor-high/STATISTICS.md) | `muse-spark-1.3-contributor` | `high` | T3 Code / OpenCode | **7.50** | 338,304 | $0.48 | 2m 30.906s | Full spins, B2B and combos work; mini/PC gaps, hidden lock-out, two soft-drop defects and phone clipping |
+| 24 | [Claude Sonnet 5.5 (low)](claude-sonnet-5-5-low/STATISTICS.md) | `claude-sonnet-5-5` | `low` | T3 Code / Claude Agent SDK | **7.40** | 124,165 | $0.19 | 1m 3.761s | Basic scoring only; hidden lock-out missing, soft-drop jump and clipped phone sidebars |
+| 25 | [Cat-jam](cat-jam/STATISTICS.md) | `longcat-2.5-preview-free` | `default` | T3 Code / OpenCode | **7.40** | 2,070,440 | $0.12 | 23m 42.424s | Malformed L rotation state; no T-spin, B2B or perfect-clear scoring |
+| 26 | [Muse Spark 1.3 (xhigh)](muse-spark-1.3-contributor-xhigh/STATISTICS.md) | `muse-spark-1.3-contributor` | `xhigh` | T3 Code / OpenCode | **7.35** | 610,821 | $0.86 | 4m 44.107s | Hard drop erases spin credit; mini/PC gaps, hidden lock-out, soft-drop jump and phone clipping |
+| 27 | [DeepSeek OMP/PI](deepseek-pi/STATISTICS.md)† | `deepseek-v4-flash` | — | OMP/PI | **7.30** | 18,118,592 | $0.12 | 44m 11.418s | Piece can lock in mid-air after a ledge move; basic scoring only |
+| 28 | [GPT-6 Luna (max)](gpt-6-luna-max/STATISTICS.md) | `gpt-6-luna` | `max` | T3 Code / Codex | **7.25** | 1,535,665 | $0.05 | 8m 51.327s | Wrong I kicks; B2B perfect-clear, stale soft-drop spin, timing and phone preview defects |
+| 29 | [Muse Spark 1.3 (medium)](muse-spark-1.3-contributor-medium/STATISTICS.md) | `muse-spark-1.3-contributor` | `medium` | T3 Code / OpenCode | **7.05** | 262,101 | $0.37 | 43.277s | From scratch: no T-spins, B2B or perfect-clear bonus; hidden lock-out, soft jump and preview/phone clipping |
+| 30 | [Space-bunny](space-bunny/STATISTICS.md) | `space-bunny` | `xhigh` | T3 Code / OpenCode | **6.75** | 21,547,591 | — | 13m 19.433s | Non-SRS shapes and kicks, flattened ghost piece, scoring errors |
+| 31 | [Muse Spark 1.3 (low)](muse-spark-1.3-contributor-low/STATISTICS.md) | `muse-spark-1.3-contributor` | `low` | T3 Code / OpenCode | **6.75** | 289,934 | $0.41 | 2m 1.225s | Incorrect kicks and incomplete advanced scoring; soft-drop jump, clipped phone board and overlaid legend |
+| 32 | [Muse Spark 1.3 (minimal)](muse-spark-1.3-contributor-minimal/STATISTICS.md) | `muse-spark-1.3-contributor` | `minimal` | T3 Code / OpenCode | **6.65** | 561,377 | $0.73 | 45.005s | Canonical core geometry; incomplete scoring, lock resets and soft timing, hidden lock-out and phone clipping |
+| 33 | [GPT-6 Luna (xhigh)](gpt-6-luna-xhigh/STATISTICS.md) | `gpt-6-luna` | `xhigh` | T3 Code / Codex | **6.65** | 973,306 | $0.03 | 4m 51.291s | Wrong I kick and gravity; hidden lock-out, B2B perfect-clear and phone next gaps |
+| 34 | [GPT-6 Luna (high)](gpt-6-luna-high/STATISTICS.md) | `gpt-6-luna` | `high` | T3 Code / Codex | **5.90** | 481,494 | $0.01 | 2m 4.148s | Basic-only scoring, wrong and refresh-dependent gravity; airborne moves exhaust lock resets |
+| 35 | [GPT-6 Luna (low)](gpt-6-luna-low/STATISTICS.md) | `gpt-6-luna` | `low` | T3 Code / Codex | **5.65** | 131,696 | $0.01 | 1m 8.749s | Wrong SRS pivots, basic-only scoring and gravity; erased next previews and hidden phone hold |
+| 36 | [Beam](beam/STATISTICS.md) | `beam-free` | `xhigh` | T3 Code / OpenCode | **5.60** | 1,334,888 | — | 3m 3.429s | Lock timer mixes two clocks; classic scoring table |
+| 37 | [GLM-5.3-Flash (low)](glm-5.3-flash-free-low/STATISTICS.md) | `glm-5.3-flash-free` | `low` | T3 Code / OpenCode | **4.85** | 4,356,489 | $0.16 | 10m 15.035s | Canonical SRS, but hold, gravity/frame timing, scoring and blocked spawn fail; previews overlap and clip |
+| 38 | [Nemotron](nemotron/STATISTICS.md) | `nvidia/nemotron-3.5-super-vl:free` | `thinking` | T3 Code / OpenCode | **4.00** | 1,851,716 | $0.20 | 9m 8.773s | Does not start in the browser: imports lack .js extensions |
+| 39 | [GPT-6 Luna (medium)](gpt-6-luna-medium/STATISTICS.md) | `gpt-6-luna` | `medium` | T3 Code / Codex | **3.80** | 160,641 | $0.01 | 1m 35.743s | Does not build or start; diagnostic source has wrong SRS, scoring and gravity |
 
 **† Muse Spark 1.3 (medium, reference-assisted):** Reference-assisted run: the medium-reasoning child read Gemini-4's engine, shape tables, tests, and build files before writing this implementation, so token/time efficiency is not an independent from-scratch comparison. Primary time covers the child task only. The xhigh parent prepared/delegated and verified/reported the result: 339,157 recorded parent tokens and 2m 54.475s end-to-end are documented separately.
 
@@ -133,12 +133,19 @@ the site serves that folder as the game; `static_aliases` are now applied
 before the site looks for `index.html`, so a server that maps `/` to
 `public/index.html` can be aliased too.
 
-Runs that are not a fair comparison are declared with `site_excluded` and the
-reason. They stay recorded here, in this README's leaderboard, `RANKING.md`, and
+Runs that are not a fair comparison, or that newer runs of the same model
+supersede, are declared with `site_excluded` and the reason. They stay recorded here, in this README's leaderboard, `RANKING.md`, and
 the audits, but the site leaves them out of its charts, leaderboard, and run
 pages, renumbers its ranking without them, and names them with their reasons:
 currently the reference-assisted Muse Spark 1.3 (medium) run and DeepSeek
 OMP/PI, which needed two user messages.
+
+The site's model filter lists models by family, then tier (strongest first),
+then version (newest first). [`pricing.json`](pricing.json) gives the order: its
+`families` list puts OpenAI, Anthropic and Meta first, then the rest
+alphabetically and unattributed stealth models last, each family with its
+tiers strongest first; every model entry names its `family`, `tier`, and
+`version`, and `verify` rejects one whose family or tier is not listed.
 
 The page generator is [`scripts/results_site.py`](scripts/results_site.py); the
 charts and styles are in [`site/assets`](site/assets).
@@ -542,7 +549,11 @@ until the thread reaches a final state. The orchestrating thread runs:
    mode, the fixed prompt `Read the README.md file and implement it` as the
    message, and the same prompt as the title, as `--launch` does.
 3. `t3_thread_wait` on the returned thread ID.
-4. `python3 scripts/benchmark.py import <key>` in its shell.
+4. `python3 scripts/benchmark.py cleanup <key>`, then
+   `python3 scripts/benchmark.py import <key>` in its shell.
+5. `t3_thread_organize` with `action: "settle"` on the run's thread, so
+   finished benchmark threads leave T3's active list. Settle each audit's
+   thread too once its results are committed.
 
 This removes the undocumented `orchestration.launchThread` RPC, the
 `t3 auth session issue` token, the WebSocket client, and the 20-second polling

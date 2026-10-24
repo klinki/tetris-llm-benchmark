@@ -173,30 +173,43 @@ ArrowLeft, ArrowRight, ArrowUp, X, Z, Control, ArrowDown, Space, C
 
 Desktop checks used 1280×800; narrow-layout checks used 390×844. Screenshots were reviewed during the audit but are not committed because they contain nondeterministic falling-piece positions and add binary churn without improving reproducibility.
 
-## Claude Haiku 5.5 (high, xhigh and max)
+## Claude Haiku 5.5 (low, medium, high, xhigh and max)
 
-[`haiku-review.md`](haiku-review.md) records the 2026-10-24 audit of
-all three efforts, using the same rubric and scoring profile. It includes
-independent soft-drop reproductions, distinct phone layout measurements,
-max's missing perfect-clear bonus and hidden lock-out, test-coverage rationale
-and the supplied isolation findings (including high/xhigh's 8321 contacts).
+[`haiku-review.md`](haiku-review.md) records the 2026-10-24 audits of all five
+independent efforts using the same rubric, scoring profile and viewports.
+The low/medium addition records both B2B perfect-clear under-awards, both soft
+transitions, medium's unsafe hidden locks (including the real-key TypeError),
+phone sidebar clipping, own-test rationale and supplied clean isolation facts.
+The existing high/xhigh/max findings, scores and assertions are preserved.
 
 ```sh
 python3 .audit/run-haiku-audit.py --offline
-python3 .audit/run-haiku-audit.py --offline --browser --playwright-config /absolute/path/to/playwright.json
 ```
 
-One command installs/builds/tests all three in disposable copies and executes
-[`haiku-audit.mjs`](haiku-audit.mjs), preserving high's original assertions.
-Omit `--offline` if packages are not cached. `--browser` adds each desktop/phone
-Chromium pass; the config is optional when the CLI's default browser is installed.
-[`haiku-browser.cjs`](haiku-browser.cjs) is the Playwright CLI snippet for the
-keyboard, layout, console and asset checks; the review gives its effort query
-parameters and launch configuration. Servers use only free ports 41000–49999.
-Max's hard-coded port is changed only in its temporary server copy; routing and
-application code are preserved. Named browsers, servers and copies are cleaned
-on completion or failure. No generated artifacts or implementation changes
-are included.
+The default command installs/builds/tests **all five** in random disposable
+copies, runs [`haiku-audit.mjs`](haiku-audit.mjs) and the desktop/390×844
+Chromium pass in [`haiku-browser.cjs`](haiku-browser.cjs). Omit `--offline`
+if npm packages are not cached. Browsers now run by default; `--browser`
+remains compatible, while `--engine-only` explicitly skips them. `--effort`
+selects one run. CLI/config and outside-checkout `--artifacts-dir` overrides
+match recent audit runners. The runner discovers installed Chromium when
+no explicit launch config is supplied.
+
+The low/medium probes cover 28 canonical states, every CW/CCW kick table,
+actual T/I kicks, 100 seeded bags, hold/queue, seven obstructed ghosts/drops,
+exact lock boundary/reset cap/ledge safety, normal/full/mini/B2B/combo/PC
+scores, gravity curve/levels, soft timing, hidden locks, blocked spawn and
+restart. Real required keys/R work at both sizes; the unchanged 60/144 Hz
+callbacks agree at levels 1/10/15. Medium's known hidden-lock TypeError is
+explicitly required in a separate fixture, not ignored as browser noise.
+Passing asserts the documented outcomes, including defects, not bug freedom.
+
+Servers use only free ports **41000–49999**. Low, medium and max's hard-coded
+port literals change only in disposable server copies; routing, MIME and
+application code stay unchanged. Named browsers, process groups and copies
+are cleaned on success/failure. Outside-checkout artifacts can be retained
+for visual inspection and then deleted. No implementation files or generated
+build output are changed in the original run folders.
 
 ## Claude Sonnet 5.5 (low, medium, high and xhigh)
 

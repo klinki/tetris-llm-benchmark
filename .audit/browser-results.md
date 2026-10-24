@@ -101,14 +101,63 @@ inspected outside the repository. Font-dependent Y positions vary slightly
 between browser surfaces and are not asserted. Only Chromium CSS viewports
 were tested; no physical touch device or alternate engine was exercised.
 
-The initial temporary servers used ports 41801–41803. The generalized runner
-builds/tests/probes all three and, with `--browser`, selects only free ports
-41000–49999, opens named Chromium sessions and cleans them and the servers on
-exit. Max's server hard-codes 8321; only that constant is substituted in its
-disposable copy, preserving its intended static-file behavior. Use
-`?audit=high`, `?audit=xhigh` or `?audit=max` when invoking the browser snippet
-manually. Exact engine findings, scores, isolation facts and one-command
-reproduction are in the extended [`haiku-review.md`](haiku-review.md).
+The initial temporary servers used ports 41801–41803. The current shared
+runner audits all five Haiku efforts with browsers enabled by default and
+selects only free ports 41000–49999. Low/medium/max's port literals change
+only in disposable server copies. The original high/xhigh/max engine and
+browser assertions still pass. Manual snippet effort queries accept
+`?audit=low`, `medium`, `high`, `xhigh` and `max`.
+
+## Claude Haiku 5.5 (low and medium)
+
+Audited **2026-10-24 (Europe/Rome)** using Playwright CLI / installed
+**Chromium 156.0.8078.4**, **1280×800** and **390×844**. Builds, own tests and
+supplied `npm start` behavior ran in random disposable copies. T3 preview
+status was inspected; this pass follows the requested prior Haiku CLI
+workflow. Only each temporary server's port literal was changed. Named
+browsers, process groups and copies were cleaned; screenshots/JSON stayed
+outside the checkout and were removed after visual inspection.
+
+| Run | Desktop playfield | Phone document width | Phone playfield | Supporting state | Application errors |
+|---|---|---:|---|---|---|
+| low | 300×600 at (490,100), inside a 640×640 cabinet | 390 | 182.81×365.63 at (103.59,239.19), inside a 390×390 cabinet | Full hold, five previews and stats fit | None |
+| medium | 304×604 border box at (488,98) | 521 | 304×604 border box at (43,120) | Hold x=−131,width=124; next x=371,width=124; legend/scores clipped | None in ordinary flow; expected hidden-lock TypeError in a separate real-key fixture |
+
+All four screenshots were visually inspected. Low's proportional combined
+canvas has no visible keyboard legend. Medium has a complete legend and
+centered previews but no narrow reflow; its board fits while both rails clip.
+Both have ghosts, distinct piece colors, five next pieces, dimmed unavailable
+hold and readable stats. Neither has touch controls, canvas labels or
+high-DPI rendering. Medium's active overlay is `none`; blocked-spawn game
+over shows `flex`, and real R restores `none`. Low draws game over in canvas.
+
+At **both sizes**, real **Left, Right, Up, X, Z, Left Ctrl, Down, Space, C**
+assert horizontal displacement, all four rotation bindings, two soft rows /
+two points in 100 ms explicit simulation, four hard-locked cells and hold
+restriction. Animation scheduling is driven explicitly while retaining the
+unchanged frame callback, handlers and renderer. Real Space triggers a
+blocked next spawn and **real R** restores the empty board, hold, score and
+hold availability. Low's R creates a new Game; the probe observes that new
+instance through forwarded updates. The callback moves O by **1/9/14 rows**
+at levels **1/10/15**, over **1100/600/100 ms** respectively, equally at
+**60 and 144 Hz**. This is synthetic scheduling, not a physical-monitor test.
+
+Both real Down handlers reproduce **800 ms normal + 1 ms soft → 16 rows /
+16 points**. Medium's separate ceiling fixture uses blockers **(0,2),(2,3)**
+with its actual T spawn, then real **Left, Left, Up, Up, Z, Left, Space**.
+The legal T reaches **rotation 1,x=−1,y=−1**; Space emits exactly
+`Cannot set properties of undefined (setting '0')` from the `board[-1]`
+write. **R is inert**, because gameOver remains false. This expected error
+is saved separately and asserted; the ordinary-flow error arrays stay empty.
+It shares the hidden-lock-out finding's one minor deduction.
+
+No failed required application assets, other page exceptions or application
+console errors occurred. Missing favicons remain excluded. No physical touch,
+native OS repeat cadence, other browser engine or exhaustive state-space
+coverage was verified. Exact findings, scores and supplied isolation facts
+are in [`haiku-review.md`](haiku-review.md). Reproduce all five with
+`python3 .audit/run-haiku-audit.py --offline`; the
+[runner](run-haiku-audit.py) cleans disposable resources on success/failure.
 
 ## Claude Sonnet 5.5 (low, medium, high and xhigh)
 
