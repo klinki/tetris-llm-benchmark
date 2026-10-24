@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Tetris</title>
+<link rel="stylesheet" href="./src/style.css"/>
+</head>
+<body>
+<div id="app">
+  <div class="side">
+    <h1>TETRIS</h1>
+    <div class="panel"><h2>Hold (C)</h2><canvas id="hold" width="120" height="80"></canvas></div>
+    <div class="panel"><h2>Score</h2><div id="score">0</div><div id="level">Level 1</div><div id="lines">Lines 0</div></div>
+  </div>
+  <canvas id="board" width="300" height="600"></canvas>
+  <div class="side">
+    <div class="panel"><h2>Next</h2><canvas id="next" width="120" height="400"></canvas></div>
+    <div class="panel help">←/→ move · ↑/X rot CW · Z/Ctrl rot CCW<br/>↓ soft · Space hard · C hold · R restart</div>
+    <div id="status"></div>
+  </div>
+</div>
+<script type="module" src="./dist/main.js"></script>
+</body>
+</html>

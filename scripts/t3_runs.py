@@ -536,6 +536,9 @@ def finding_kind(kind: str, text: str, workspace: Path, t3_data: Path, markers: 
     if not _path_outside(text, workspace):
         return None
     resolved = Path(os.path.normpath(os.path.expanduser(text)))
+    # The run's own folder holds nothing but the workspace; see `new_run`.
+    if resolved == workspace.parent and workspace.name == WORKSPACE_NAME:
+        return None
     return "t3-data" if resolved == t3_data or t3_data in resolved.parents else kind
 
 

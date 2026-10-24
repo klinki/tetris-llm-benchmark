@@ -116,6 +116,14 @@ class BenchmarkLookupTests(unittest.TestCase):
         )
         self.assertEqual(t3_runs.finding_kind("path", "/Users/someone/notes.txt", workspace, t3_data, []), "path")
 
+    def test_listing_the_runs_own_folder_is_not_a_finding(self) -> None:
+        workspace = Path("/Users/someone/tetris-bench/runs/abc123/tetris")
+        t3_data = Path("/Users/someone/.t3")
+        self.assertIsNone(t3_runs.finding_kind("path", "/Users/someone/tetris-bench/runs/abc123", workspace, t3_data, []))
+        self.assertEqual(
+            t3_runs.finding_kind("path", "/Users/someone/tetris-bench/runs", workspace, t3_data, []), "path",
+        )
+
     def test_t3_tools_are_flagged_except_the_preview_browser_and_its_own_screenshots(self) -> None:
         own = f"{self.home}/userdata/browser-artifacts/own.png"
         other = f"{self.home}/userdata/browser-artifacts/other.png"
