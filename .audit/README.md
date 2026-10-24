@@ -190,3 +190,37 @@ keydowns, active/game-over overlays, real R and exact phone sidebar clipping.
 The 800 ms/Down/1 ms probe confirms one row/point without the recent cohorts'
 soft-drop timer jump. Passing asserts documented findings, including defects;
 it is not a claim of exhaustive correctness.
+
+## Muse Spark 1.3 contributor (minimal, low, medium, high, xhigh)
+
+[`muse-review.md`](muse-review.md) records the independent 2026-10-24 audits
+of `muse-spark-1.3-contributor-{minimal,low,medium,high,xhigh}`. Contributor
+medium is **from scratch**; the distinct reference-assisted
+`muse-spark-1.3-medium` remains 8.40 under its October 23 audit. Both registry
+labels are preserved. The record includes every confirmed engine/input/layout
+finding, own-test rationale, exact session mappings and supplied isolation
+facts without score effects.
+
+```sh
+python3 .audit/run-muse-audit.py --offline
+```
+
+The default command installs/builds/tests all five in fresh random temporary
+copies, runs [`muse-audit.mjs`](muse-audit.mjs), then the desktop/390×844
+Chromium assertions in [`muse-browser.cjs`](muse-browser.cjs). Omit `--offline`
+when npm packages are not cached. `--engine-only` explicitly skips browser
+findings; `--effort` selects one effort for diagnostics. Browser CLI/config
+and outside-checkout `--artifacts-dir` overrides match the Sonnet/Gemini
+runners. Supplied servers use only free ports 41000–49999; hard-coded port
+constants change only in disposable server copies. Named browsers, server
+process groups and copies are cleaned on success/failure.
+
+Assertions cover 28 canonical states, both kick directions and low's actual
+wrong-kick outcome, ten seeded actual bags, hold/queue/ghost/drop geometry,
+lock boundary/reset behavior/ledge safety, normal/full/mini/B2B/combo/PC
+scoring, gravity/levels, soft timing, hidden lock-out, blocked spawn and R.
+Browser assertions exercise the actual required keys, exact phone geometry,
+high's unscored immediate Down row, low's overpainted legend, medium-from-
+scratch's clipped I previews and xhigh's overlay lifecycle. A passing run
+confirms the recorded outcomes, including defects, rather than certifying
+bug-free implementations. No run implementation or registry data is changed.

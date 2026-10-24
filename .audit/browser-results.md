@@ -201,6 +201,60 @@ It closes named browsers and server groups and removes temporary copies on
 completion/failure. Full fixtures, scores, limitations and supplied generation
 facts are in [`gemini-high-review.md`](gemini-high-review.md).
 
+## Muse Spark 1.3 contributor — October 24
+
+Audited all five `muse-spark-1.3-contributor-{minimal,low,medium,high,xhigh}`
+runs with Playwright CLI / Chromium **156.0.8078.4** at **1280×800** and
+**390×844**. Contributor medium is **from scratch**, distinct from the
+reference-assisted `muse-spark-1.3-medium` in the October 23 table.
+Fresh temporary builds used each supplied server; only hard-coded port
+constants were changed in copies to use free ports 41000–49999.
+
+| Run ID | Desktop board content | Phone document width | Phone board content / canvas frame | Phone hold / next canvas X | Application errors |
+|---|---|---:|---|---|---|
+| `muse-spark-1.3-contributor-minimal` | 300×600 at x=490 | 501 | 300×600 at x=45 / 304×604 at x=43 | −102 / 372 | None |
+| `muse-spark-1.3-contributor-low` | 280×560 at x=350 | 505 | 280×560 at x=−95 / combined 620×600 canvas at x=−115 | Combined sidebar x=209 | None |
+| `muse-spark-1.3-contributor-medium` | 300×600 at x≈481.02 | 537 | 300×600 at x=45 | −115 / ≈372.69 | None |
+| `muse-spark-1.3-contributor-high` | 300×600 at x=490 | 502 | 300×600 at x=45 / 302×602 at x=44 | −99 / 375 | None |
+| `muse-spark-1.3-contributor-xhigh` | 300×600 at x=490 | 515 | 300×600 at x=45 / 304×604 at x=43 | −113 / 363 | None |
+
+Low clips 95 px of the playfield's left side while preserving its sidebar;
+all four others preserve the board and clip supporting state. In low, the
+canvas legend begins at local x=184, baselines y=544/560/576, inside its
+280×560 board rectangle (20,20)–(300,580), and crosses the LINES statistic.
+Medium-from-scratch draws the last I preview cell at x=74,width=20 on an
+88 px canvas, clipping 6 px in both hold and next; a cyan right-edge pixel
+and unchanged forwarded draw calls confirm it. Desktop and phone screenshots
+and two focused drawing screenshots were visually inspected and discarded.
+
+Actual keys **Left, Right, Up, X, Z, Left Control, Down, Space, C** have
+asserted state changes, rotation directions `[1,1,−1,−1]`, soft points, four
+locked cells and hold restriction. Real Space triggers a blocked next spawn;
+**real R** restores empty board/hold/score and available hold. Xhigh's DOM
+overlay correctly changes `none → flex → none`; the other game-over views
+are drawn in canvas or status. No page exceptions, application console errors
+or failed application assets occurred. Missing favicons remain excluded.
+
+Simulation is frozen for deterministic browser fixtures while actual input
+listeners/rendering stay installed; the held-Down flow drives 120 ms engine
+time explicitly. After fifty normal 16 ms steps, real Down plus 1 ms yields:
+minimal **1 row/point**, low **20**, medium-from-scratch **16**, high **17
+rows/16 points**, xhigh **20**. Minimal instead has the engine's per-frame
+soft-drop defect: equal 16 ms totals with one versus sixteen updates produce
+one versus sixteen rows/points. High's extra initial row is also isolated:
+from O y=5 with zero accumulated time, Down makes y=6 with score still 0.
+
+```sh
+python3 .audit/run-muse-audit.py --offline
+```
+
+The default runner executes all own builds/tests, engine probes and browsers,
+asserting exact recorded defects and conforming outcomes. It closes named
+browsers/server groups and removes temporary copies. The [full Muse record](muse-review.md)
+has scores, all fixtures, own-test limits and supplied isolation context.
+These are Chromium viewport/keyboard checks; physical touch, native OS repeat
+cadence, other browsers and exhaustive state-space behavior are unverified.
+
 ## Reproducible DOM probes
 
 Horizontal overflow was measured after setting the viewport to 390×844:
@@ -231,4 +285,4 @@ Observed result:
 
 ## Interaction coverage
 
-The audit exercised the required keyboard inputs: horizontal movement, clockwise rotation through both Up and X, counter-clockwise rotation through Z and Left Control, soft drop, hard drop, and hold. Earlier cohorts additionally confirmed the game-over restart binding by source review because reaching top-out through UI play would make the comparison timing-dependent. The Sonnet and Gemini high passes use deterministic blocked-spawn fixtures to exercise real R restart.
+The audit exercised the required keyboard inputs: horizontal movement, clockwise rotation through both Up and X, counter-clockwise rotation through Z and Left Control, soft drop, hard drop, and hold. Earlier cohorts additionally confirmed the game-over restart binding by source review because reaching top-out through UI play would make the comparison timing-dependent. The Sonnet, Gemini high and Muse contributor passes use deterministic blocked-spawn fixtures to exercise real R restart.

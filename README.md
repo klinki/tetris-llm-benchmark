@@ -33,17 +33,17 @@ The table is generated from [`benchmark-runs.json`](benchmark-runs.json),
 | 13 | [Claude Haiku 5.5 (max)](claude-haiku-5-5-max/STATISTICS.md) | `claude-haiku-5-5` | `max` | T3 Code / Claude Agent SDK | **8.25** | 7,447,694 | $0.25 | 23m 8.921s | No perfect-clear bonus or hidden lock-out; soft-drop timing jump and phone sidebar overflow |
 | 14 | [Sol Codex](sol-codex/STATISTICS.md) | `gpt-5.6-sol` | — | Codex Desktop | **8.20** | 909,035 | $1.12 | 6m 22.017s | Piece can lock in mid-air after a ledge move; no mini T-spins |
 | 15 | [Luna Codex](luna-codex/STATISTICS.md) | `gpt-5.6-luna` | — | Codex Desktop | **7.60** | 1,177,121 | $0.07 | 11m 31.291s | Four S/Z rotation states are not SRS; game-over overlay shows during play |
-| 16 | [Claude Sonnet 5.5 (low)](claude-sonnet-5-5-low/STATISTICS.md) | `claude-sonnet-5-5` | `low` | T3 Code / Claude Agent SDK | **7.40** | 124,165 | $0.19 | 1m 3.761s | Basic scoring only; hidden lock-out missing, soft-drop jump and clipped phone sidebars |
-| 17 | [Cat-jam](cat-jam/STATISTICS.md) | `longcat-2.5-preview-free` | `default` | T3 Code / OpenCode | **7.40** | 2,070,440 | $0.12 | 23m 42.424s | Malformed L rotation state; no T-spin, B2B or perfect-clear scoring |
-| 18 | [DeepSeek OMP/PI](deepseek-pi/STATISTICS.md)† | `deepseek-v4-flash` | — | OMP/PI | **7.30** | 18,118,592 | $0.12 | 44m 11.418s | Piece can lock in mid-air after a ledge move; basic scoring only |
-| 19 | [Space-bunny](space-bunny/STATISTICS.md) | `space-bunny` | `xhigh` | T3 Code / OpenCode | **6.75** | 21,547,591 | — | 13m 19.433s | Non-SRS shapes and kicks, flattened ghost piece, scoring errors |
-| 20 | [Beam](beam/STATISTICS.md) | `beam-free` | `xhigh` | T3 Code / OpenCode | **5.60** | 1,334,888 | — | 3m 3.429s | Lock timer mixes two clocks; classic scoring table |
-| 21 | [Nemotron](nemotron/STATISTICS.md) | `nvidia/nemotron-3.5-super-vl:free` | `thinking` | T3 Code / OpenCode | **4.00** | 1,851,716 | $0.20 | 9m 8.773s | Does not start in the browser: imports lack .js extensions |
-| — | [Muse Spark 1.3 (minimal)](muse-spark-1.3-contributor-minimal/STATISTICS.md) | `muse-spark-1.3-contributor` | `minimal` | T3 Code / OpenCode | Pending | 561,377 | $0.73 | 45.005s | Not ranked yet |
-| — | [Muse Spark 1.3 (low)](muse-spark-1.3-contributor-low/STATISTICS.md) | `muse-spark-1.3-contributor` | `low` | T3 Code / OpenCode | Pending | 289,934 | $0.41 | 2m 1.225s | Not ranked yet |
-| — | [Muse Spark 1.3 (medium)](muse-spark-1.3-contributor-medium/STATISTICS.md) | `muse-spark-1.3-contributor` | `medium` | T3 Code / OpenCode | Pending | 262,101 | $0.37 | 43.277s | Not ranked yet |
-| — | [Muse Spark 1.3 (high)](muse-spark-1.3-contributor-high/STATISTICS.md) | `muse-spark-1.3-contributor` | `high` | T3 Code / OpenCode | Pending | 338,304 | $0.48 | 2m 30.906s | Not ranked yet |
-| — | [Muse Spark 1.3 (xhigh)](muse-spark-1.3-contributor-xhigh/STATISTICS.md) | `muse-spark-1.3-contributor` | `xhigh` | T3 Code / OpenCode | Pending | 610,821 | $0.86 | 4m 44.107s | Not ranked yet |
+| 16 | [Muse Spark 1.3 (high)](muse-spark-1.3-contributor-high/STATISTICS.md) | `muse-spark-1.3-contributor` | `high` | T3 Code / OpenCode | **7.50** | 338,304 | $0.48 | 2m 30.906s | Full spins, B2B and combos work; mini/PC gaps, hidden lock-out, two soft-drop defects and phone clipping |
+| 17 | [Claude Sonnet 5.5 (low)](claude-sonnet-5-5-low/STATISTICS.md) | `claude-sonnet-5-5` | `low` | T3 Code / Claude Agent SDK | **7.40** | 124,165 | $0.19 | 1m 3.761s | Basic scoring only; hidden lock-out missing, soft-drop jump and clipped phone sidebars |
+| 18 | [Cat-jam](cat-jam/STATISTICS.md) | `longcat-2.5-preview-free` | `default` | T3 Code / OpenCode | **7.40** | 2,070,440 | $0.12 | 23m 42.424s | Malformed L rotation state; no T-spin, B2B or perfect-clear scoring |
+| 19 | [Muse Spark 1.3 (xhigh)](muse-spark-1.3-contributor-xhigh/STATISTICS.md) | `muse-spark-1.3-contributor` | `xhigh` | T3 Code / OpenCode | **7.35** | 610,821 | $0.86 | 4m 44.107s | Hard drop erases spin credit; mini/PC gaps, hidden lock-out, soft-drop jump and phone clipping |
+| 20 | [DeepSeek OMP/PI](deepseek-pi/STATISTICS.md)† | `deepseek-v4-flash` | — | OMP/PI | **7.30** | 18,118,592 | $0.12 | 44m 11.418s | Piece can lock in mid-air after a ledge move; basic scoring only |
+| 21 | [Muse Spark 1.3 (medium)](muse-spark-1.3-contributor-medium/STATISTICS.md) | `muse-spark-1.3-contributor` | `medium` | T3 Code / OpenCode | **7.05** | 262,101 | $0.37 | 43.277s | From scratch: no T-spins, B2B or perfect-clear bonus; hidden lock-out, soft jump and preview/phone clipping |
+| 22 | [Space-bunny](space-bunny/STATISTICS.md) | `space-bunny` | `xhigh` | T3 Code / OpenCode | **6.75** | 21,547,591 | — | 13m 19.433s | Non-SRS shapes and kicks, flattened ghost piece, scoring errors |
+| 23 | [Muse Spark 1.3 (low)](muse-spark-1.3-contributor-low/STATISTICS.md) | `muse-spark-1.3-contributor` | `low` | T3 Code / OpenCode | **6.75** | 289,934 | $0.41 | 2m 1.225s | Incorrect kicks and incomplete advanced scoring; soft-drop jump, clipped phone board and overlaid legend |
+| 24 | [Muse Spark 1.3 (minimal)](muse-spark-1.3-contributor-minimal/STATISTICS.md) | `muse-spark-1.3-contributor` | `minimal` | T3 Code / OpenCode | **6.65** | 561,377 | $0.73 | 45.005s | Canonical core geometry; incomplete scoring, lock resets and soft timing, hidden lock-out and phone clipping |
+| 25 | [Beam](beam/STATISTICS.md) | `beam-free` | `xhigh` | T3 Code / OpenCode | **5.60** | 1,334,888 | — | 3m 3.429s | Lock timer mixes two clocks; classic scoring table |
+| 26 | [Nemotron](nemotron/STATISTICS.md) | `nvidia/nemotron-3.5-super-vl:free` | `thinking` | T3 Code / OpenCode | **4.00** | 1,851,716 | $0.20 | 9m 8.773s | Does not start in the browser: imports lack .js extensions |
 
 **† Muse Spark 1.3 (medium):** Reference-assisted run: the medium-reasoning child read Gemini-4's engine, shape tables, tests, and build files before writing this implementation, so token/time efficiency is not an independent from-scratch comparison. Primary time covers the child task only. The xhigh parent prepared/delegated and verified/reported the result: 339,157 recorded parent tokens and 2m 54.475s end-to-end are documented separately.
 
@@ -69,7 +69,10 @@ for the five T3 Code/OpenCode imports, the [October 23 audit](.audit/oct23-revie
 for Opus 5.5 and Muse Spark, the [Haiku audit](.audit/haiku-review.md)
 for Claude Haiku 5.5 (high, xhigh and max), the [Sonnet audit](.audit/sonnet-review.md)
 for Claude Sonnet 5.5 (low, medium, high and xhigh), the
-[Gemini high audit](.audit/gemini-high-review.md) for Gemini 4 Argon (high), and the
+[Gemini high audit](.audit/gemini-high-review.md) for Gemini 4 Argon (high),
+the [Muse contributor audit](.audit/muse-review.md) for the five independent
+`muse-spark-1.3-contributor-*` efforts (including medium from scratch, distinct
+from reference-assisted `muse-spark-1.3-medium`), and the
 [audit index](.audit/README.md) for the rest. They hold exact session mappings,
 reproducible probes, browser evidence, isolation context and test-coverage limitations.
 
