@@ -22,8 +22,9 @@ import time
 from typing import Any, Iterable
 
 try:
-    from scripts import t3_runs
+    from scripts import run_cleanup, t3_runs
 except ImportError:
+    import run_cleanup
     import t3_runs
 
 
@@ -1835,6 +1836,8 @@ def watch(root: Path, homes: tuple[Path, Path, Path, Path], interval: float, aut
                 reported[record["key"]] = line
             if state == "completed" and auto_import:
                 try:
+                    for cleaned in cleanup_run(homes[3], record):
+                        print(f"  cleanup: {cleaned}", flush=True)
                     entry = import_t3_run(root, record, homes, allow_outside=False, allow_approvals=False)
                     print(f"{record['key']}: imported as {entry['id']}", flush=True)
                 except (BenchmarkError, t3_runs.RunError) as error:
@@ -1845,6 +1848,105 @@ def watch(root: Path, homes: tuple[Path, Path, Path, Path], interval: float, aut
         if once:
             return
         time.sleep(interval)
+
+
+def cleanup_run(t3_home: Path, record: dict[str, Any]) -> list[str]:
+    """After a run: remove the /tmp entries it created and stop what it left running in its workspace."""
+    with closing(t3_runs.connect(t3_home)) as connection:
+        thread = t3_runs.thread_for(connection, record)
+        if thread is None:
+            return []
+        started = connection.execute(
+            "SELECT min(created_at) FROM orchestration_v2_projection_messages WHERE thread_id=?", (thread["thread_id"],),
+        ).fetchone()[0]
+    lines = run_cleanup.remove_scratch(
+        t3_runs.shared_places(t3_home, thread["thread_id"]), parse_iso_ms(started) / 1000,
+    )
+    processes = run_cleanup.list_processes()
+    targets = run_cleanup.leftovers(processes, [Path(record["workspace"])])
+    return lines + run_cleanup.stop(run_cleanup.stop_order(processes, targets))
+
+
+def benchmark_folders(root: Path, runs: list[dict[str, Any]], workspaces: Path) -> list[Path]:
+    """Where benchmark code runs: every workspace, active or archived, and every run folder in the repository."""
+    workspaces = workspaces.expanduser().resolve()
+    return [workspaces, workspaces.parent / t3_runs.ARCHIVE_NAME, *(root / run["project_dir"] for run in runs)]
+
+
+def preflight(root: Path, runs: list[dict[str, Any]], workspaces: Path) -> list[str]:
+    """Before a run: stop servers left by earlier runs or audits and report anything else on common game ports."""
+    processes = run_cleanup.list_processes()
+    targets = run_cleanup.leftovers(processes, benchmark_folders(root, runs, workspaces))
+    lines = run_cleanup.stop(run_cleanup.stop_order(processes, targets))
+    stopped = {target.pid for target in targets}
+    for process in run_cleanup.foreign_listeners(run_cleanup.list_processes()):
+        if process.pid not in stopped and not run_cleanup.is_agent(process):
+            lines.append(
+                f"warning: port {', '.join(map(str, process.ports))} is held by {process.pid} "
+                f"({process.command[:80]}) in {process.cwd}; it is not the benchmark's, so it was left running"
+            )
+    return lines
+
+
+def discard_run(root: Path, record: dict[str, Any], reason: str) -> Path:
+    """Set a failed attempt aside with its reason, and archive its workspace so no later run can see it."""
+    record = {**record, "abandoned": {"reason": reason, "at": dt.datetime.now(dt.timezone.utc).isoformat(timespec="seconds")}}
+    abandoned = root / ".bench" / "abandoned"
+    abandoned.mkdir(parents=True, exist_ok=True)
+    destination = abandoned / f"{record['key']}.json"
+    destination.write_text(json.dumps(record, indent=2) + "\n")
+    (t3_runs.pending_dir(root) / f"{record['key']}.json").unlink()
+    container = Path(record["workspace"]).parent
+    if record.get("archive") and container.exists():
+        t3_runs.archive_container(container, Path(record["archive"]))
+    return destination
+
+
+def commit_run(root: Path, entry: dict[str, Any]) -> str:
+    """Commit one imported run and the files its import regenerated."""
+    paths = [entry["project_dir"], "benchmark-runs.json", "README.md", "RANKING.md"]
+    subprocess.run(["git", "add", "--", *paths], cwd=root, check=True)
+    subprocess.run(["git", "commit", "-q", "-m", f"feat: import {entry['label']}", "--", *paths], cwd=root, check=True)
+    return subprocess.run(["git", "log", "--oneline", "-1"], cwd=root, text=True, capture_output=True).stdout.strip()
+
+
+def run_batch(
+    root: Path, homes: tuple[Path, Path, Path, Path], model: str, efforts: list[str], workspaces: Path,
+    instance: str | None, commit: bool, interval: float,
+) -> list[str]:
+    """Run one model at several efforts, one at a time, cleaning up around each run.
+
+    Stops at the first run that needs a person: a failed turn, an import refusal such as an
+    isolation finding, or failing tests. That run stays pending to inspect, import, or discard."""
+    t3_home = homes[3]
+    imported: list[str] = []
+    for effort in efforts:
+        _, runs = load_manifest(root)
+        for line in preflight(root, runs, workspaces):
+            print(f"  preflight: {line}", flush=True)
+        record = t3_runs.new_run(root, model, effort, workspaces, open_app=False)
+        selection = t3_runs.model_selection(t3_home, model, effort, instance)
+        record["launched_thread_id"] = t3_runs.launch_thread(root, t3_home, record["t3_project_id"], selection)
+        t3_runs.save_pending(root, record)
+        print(f"{record['key']}: launched thread {record['launched_thread_id']}", flush=True)
+        while True:
+            state, detail = t3_runs.run_status(t3_home, record)
+            if state in ("completed", "failed"):
+                break
+            time.sleep(interval)
+        if state == "failed":
+            raise BenchmarkError(
+                f"{record['key']} failed ({detail}); inspect it, then `discard {record['key']} --reason ...` "
+                "or import it by hand"
+            )
+        for line in cleanup_run(t3_home, record):
+            print(f"  cleanup: {line}", flush=True)
+        entry = import_t3_run(root, record, homes, allow_outside=False, allow_approvals=False)
+        imported.append(entry["id"])
+        print(f"{record['key']}: imported as {entry['id']}", flush=True)
+        if commit:
+            print(f"  committed {commit_run(root, entry)}", flush=True)
+    return imported
 
 
 def isolation_report(root: Path, runs: list[dict[str, Any]], t3_home: Path) -> int:
@@ -1973,6 +2075,26 @@ def parse_args(argv: list[str]) -> argparse.Namespace:
         help="Start the thread through T3's internal API instead of pasting the prompt (falls back to manual)",
     )
     new_parser.add_argument("--instance", help="T3 provider instance to launch with, when more than one is enabled")
+    batch_parser = subparsers.add_parser(
+        "batch", help="Run one model at several efforts in T3, one at a time, importing each run",
+    )
+    batch_parser.add_argument("model", help="Model ID as T3 reports it")
+    batch_parser.add_argument("efforts", nargs="+", help="Efforts to run, in order")
+    batch_parser.add_argument("--instance", help="T3 provider instance, when more than one is enabled")
+    batch_parser.add_argument("--commit", action="store_true", help="Commit each run as soon as it is imported")
+    batch_parser.add_argument("--interval", type=float, default=20, help="Seconds between status checks (default: 20)")
+    batch_parser.add_argument("--workspaces", type=Path, default=Path("~/tetris-bench/runs"), help=argparse.SUPPRESS)
+    cleanup_parser = subparsers.add_parser(
+        "cleanup", help="After a run: remove its /tmp files and stop what it left running",
+    )
+    cleanup_parser.add_argument("key", help="Pending run key, or its workspace path")
+    preflight_parser = subparsers.add_parser(
+        "preflight", help="Before a run: stop servers left by earlier runs and report busy game ports",
+    )
+    preflight_parser.add_argument("--workspaces", type=Path, default=Path("~/tetris-bench/runs"), help=argparse.SUPPRESS)
+    discard_parser = subparsers.add_parser("discard", help="Set a failed pending run aside, with the reason")
+    discard_parser.add_argument("key", help="Pending run key, or its workspace path")
+    discard_parser.add_argument("--reason", required=True, help="Why the attempt was discarded")
     watch_parser = subparsers.add_parser("watch", help="Follow pending T3 runs until they finish")
     watch_parser.add_argument("--import", dest="auto_import", action="store_true", help="Import each run when it finishes")
     watch_parser.add_argument("--interval", type=float, default=20, help="Seconds between checks (default: 20)")
@@ -2044,6 +2166,22 @@ def main(argv: list[str] | None = None) -> int:
         print("Then run `python3 scripts/benchmark.py watch --import`.")
     elif args.command == "watch":
         watch(root, homes, args.interval, args.auto_import, args.once)
+    elif args.command == "batch":
+        imported = run_batch(
+            root, homes, args.model, args.efforts, args.workspaces, args.instance, args.commit, args.interval,
+        )
+        print(f"Imported {len(imported)} run(s): {', '.join(imported)}")
+        if imported:
+            # Sequential runs may reuse /tmp names; cleanup removed each run's copy, so this is a record, not a failure.
+            overlap_report(root, {run["id"]: run for run in load_manifest(root)[1]}, t3_home, imported)
+    elif args.command == "cleanup":
+        for line in cleanup_run(t3_home, t3_runs.find_pending(root, args.key)) or ["nothing to clean up"]:
+            print(line)
+    elif args.command == "preflight":
+        for line in preflight(root, runs, args.workspaces) or ["nothing left running; common game ports are free"]:
+            print(line)
+    elif args.command == "discard":
+        print(f"Discarded to {discard_run(root, t3_runs.find_pending(root, args.key), args.reason)}")
     elif args.command == "import":
         entry = import_t3_run(
             root, t3_runs.find_pending(root, args.key), homes, args.allow_outside, args.allow_approvals,

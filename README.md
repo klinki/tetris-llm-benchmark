@@ -575,8 +575,17 @@ game. Concurrent runs, or later runs finding those leftovers, could therefore
 read each other's files or test each other's game. Runs are executed one at a
 time, which also keeps elapsed time free of CPU contention, and after each run:
 
-- the `/tmp` entries it named are removed and any server still running from
-  its workspace is stopped, before the next run starts;
+- `cleanup KEY` removes the `/tmp` entries it named (unless they existed before
+  it started) and stops anything still running from its workspace. The
+  harness's own processes are left alone, except that OpenCode's server or
+  Claude's agent process is stopped before a leftover child, since stopping
+  the child alone makes the harness start a new turn;
+- `preflight`, before the next run, stops any process listening on a port or
+  running from a benchmark folder (an active or archived workspace, or a run
+  folder in the repository; an old Opus 5.5 server held port 8321 this way)
+  and reports, without stopping, anything else on a common game port;
+- `discard KEY --reason "..."` sets a failed attempt aside in
+  `.bench/abandoned` and archives its workspace;
 - `python3 scripts/benchmark.py overlaps KEY...` lists every `/tmp` entry named
   by more than one of the given runs (pending keys or run IDs), and every
   localhost port they used during overlapping intervals. It exits non-zero
@@ -590,6 +599,22 @@ no port was shared by overlapping runs.
 
 GPT models run through T3's Codex provider: `new` selects it for `gpt-` model
 IDs, with the `reasoningEffort` option and the standard service tier.
+
+`batch` does all of this for one model at several efforts, one run at a time:
+
+```sh
+python3 scripts/benchmark.py batch claude-sonnet-5-5 low medium high xhigh --commit
+python3 scripts/benchmark.py batch gpt-6-luna low medium high xhigh max --commit
+```
+
+For each effort it runs `preflight`, creates the workspace, launches the thread
+through T3's API (as `new --launch`), waits for it, runs `cleanup`, imports it,
+and with `--commit` commits the run. It finishes with `overlaps` across the
+batch. It stops at the first run that needs a person: a failed turn, or an
+import refusal such as an isolation finding or failing tests. That run stays
+pending to inspect, then import (with `--allow-outside`, `--build-failure`, or
+`--test-failure` as appropriate) or `discard`. Quality audits are a separate
+step.
 
 ## Adding a benchmark run
 
