@@ -43,6 +43,7 @@ The table is generated from [`benchmark-runs.json`](benchmark-runs.json),
 | — | [Muse Spark 1.3 (low)](muse-spark-1.3-contributor-low/STATISTICS.md) | `muse-spark-1.3-contributor` | `low` | T3 Code / OpenCode | Pending | 289,934 | $0.41 | 2m 1.225s | Not ranked yet |
 | — | [Muse Spark 1.3 (medium)](muse-spark-1.3-contributor-medium/STATISTICS.md) | `muse-spark-1.3-contributor` | `medium` | T3 Code / OpenCode | Pending | 262,101 | $0.37 | 43.277s | Not ranked yet |
 | — | [Muse Spark 1.3 (high)](muse-spark-1.3-contributor-high/STATISTICS.md) | `muse-spark-1.3-contributor` | `high` | T3 Code / OpenCode | Pending | 338,304 | $0.48 | 2m 30.906s | Not ranked yet |
+| — | [Muse Spark 1.3 (xhigh)](muse-spark-1.3-contributor-xhigh/STATISTICS.md) | `muse-spark-1.3-contributor` | `xhigh` | T3 Code / OpenCode | Pending | 610,821 | $0.86 | 4m 44.107s | Not ranked yet |
 
 **† Muse Spark 1.3 (medium):** Reference-assisted run: the medium-reasoning child read Gemini-4's engine, shape tables, tests, and build files before writing this implementation, so token/time efficiency is not an independent from-scratch comparison. Primary time covers the child task only. The xhigh parent prepared/delegated and verified/reported the result: 339,157 recorded parent tokens and 2m 54.475s end-to-end are documented separately.
 
