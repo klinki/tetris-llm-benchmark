@@ -26,6 +26,13 @@
       "source": "https://developers.openai.com/api/docs/models/gpt-6-luna",
       "note": "Standard tier. Requests with more than 272K input tokens are billed at 2x input and cache rates and 1.5x output; T3 records only whole-turn totals, so the estimate is a lower bound."
     },
+    "gpt-6.1-sol": {
+      "label": "GPT-6.1 Sol",
+      "prices": {"input": 2.00, "cache_read": 0.10, "cache_write": 2.50, "output": 10.00},
+      "evidence": "official",
+      "source": "https://developers.openai.com/api/docs/models/gpt-6.1-sol",
+      "note": "Standard tier. Requests with more than 272K input tokens are billed at 2x input and cache rates and 1.5x output; T3 records only whole-turn totals, so the estimate is a lower bound."
+    },
     "deepseek-v4-flash": {
       "label": "DeepSeek V4 Flash",
       "prices": {"input": 0.14, "cache_read": 0.0028, "cache_write": null, "output": 0.28},
