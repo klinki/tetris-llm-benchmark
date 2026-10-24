@@ -200,6 +200,8 @@ def load_manifest(root: Path) -> tuple[dict[str, Any], list[dict[str, Any]]]:
             raise BenchmarkError(f"static_aliases for {run['id']} must map file paths to file paths")
         if run.get("web", "open") not in t3_runs.WEB_MODES:
             raise BenchmarkError(f"web for {run['id']} must be one of {list(t3_runs.WEB_MODES)}")
+        if not isinstance(run.get("web_root", ""), str) or ".." in Path(run.get("web_root", "")).parts:
+            raise BenchmarkError(f"web_root for {run['id']} must be a folder inside the project")
         if not isinstance(run.get("known_browser_failure", ""), str):
             raise BenchmarkError(f"known_browser_failure for {run['id']} must be a description")
         ids.add(run["id"])
@@ -1651,6 +1653,7 @@ def site_results(
             "known_test_failure": run.get("known_test_failure"),
             "missing_lockfile": bool(run.get("missing_lockfile")),
             "static_aliases": run.get("static_aliases", {}),
+            "web_root": run.get("web_root"),
             "cost": estimate_cost(values["tested_usage"], pricing["models"][run["model"]]),
             "price": pricing["models"][run["model"]],
             "rank": None,

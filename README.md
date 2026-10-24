@@ -125,7 +125,11 @@ installed with `npm install` instead of `npm ci`. A run whose own build fails is
 declared `known_build_failure` (`import --build-failure "<why>"`): `npm test`
 must keep failing, and its page has no playable game. A run that builds but
 whose own tests fail is declared `known_test_failure` (`--test-failure`): the
-tests must keep failing, and the game is still published.
+tests must keep failing, and the game is still published. A run whose own server
+publishes only its build folder is declared with `web_root` (e.g. `dist`), and
+the site serves that folder as the game; `static_aliases` are now applied
+before the site looks for `index.html`, so a server that maps `/` to
+`public/index.html` can be aliased too.
 
 The page generator is [`scripts/results_site.py`](scripts/results_site.py); the
 charts and styles are in [`site/assets`](site/assets).

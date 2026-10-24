@@ -290,6 +290,11 @@ def run_page(run: dict[str, Any], results: dict[str, Any], repo: str | None, gam
                 f'<p class="muted small">Deployment change: {urls} in <code>index.html</code> {verb} made relative '
                 "so the game loads under this site's path. The game code is unchanged.</p>"
             )
+        if game.get("web_root"):
+            rewrite += (
+                f'<p class="muted small">Deployment change: the run\'s own server publishes only '
+                f"<code>{esc(game['web_root'])}/</code>, so the site serves that folder as the game.</p>"
+            )
         for alias, source in game["aliases"].items():
             rewrite += (
                 f'<p class="muted small">Deployment change: the run\'s own server maps <code>/{esc(alias)}</code> '
@@ -434,7 +439,19 @@ def build_game(root: Path, run: dict[str, Any], destination: Path) -> dict[str, 
             process = subprocess.run(command, cwd=work, text=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
             if process.returncode:
                 raise SiteError(f"{run['id']} failed {' '.join(command)}:\n{process.stdout}")
-        shutil.copytree(work, destination, ignore=shutil.ignore_patterns("node_modules", ".git"))
+        # A run whose own server publishes one folder (e.g. its build output) is served from that folder.
+        web_root = run.get("web_root")
+        published = work / web_root if web_root else work
+        if not published.is_dir():
+            raise SiteError(f"{run['id']} web_root {web_root} does not exist after the build")
+        shutil.copytree(published, destination, ignore=shutil.ignore_patterns("node_modules", ".git"))
+    # Paths the run's own server maps to other files; a static host needs a copy at the requested path.
+    aliases = run.get("static_aliases", {})
+    for alias, source in aliases.items():
+        target = destination / alias
+        if target.exists() or not (destination / source).is_file():
+            raise SiteError(f"{run['id']} static alias {alias} -> {source} is invalid")
+        shutil.copyfile(destination / source, target)
     index = destination / "index.html"
     if not index.is_file():
         raise SiteError(f"{run['id']} has no index.html to play")
@@ -443,14 +460,7 @@ def build_game(root: Path, run: dict[str, Any], destination: Path) -> dict[str, 
     for script in destination.rglob("*.js"):
         if ROOT_RELATIVE_IMPORT.search(script.read_text(errors="replace")):
             raise SiteError(f"{run['id']} imports a root-relative module in {script.relative_to(destination)}")
-    # Paths the run's own server maps to other files; a static host needs a copy at the requested path.
-    aliases = run.get("static_aliases", {})
-    for alias, source in aliases.items():
-        target = destination / alias
-        if target.exists() or not (destination / source).is_file():
-            raise SiteError(f"{run['id']} static alias {alias} -> {source} is invalid")
-        shutil.copyfile(destination / source, target)
-    return {"rewritten": rewritten, "aliases": aliases}
+    return {"rewritten": rewritten, "aliases": aliases, "web_root": web_root}
 
 
 def prepare_output(out: Path) -> None:

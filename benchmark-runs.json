@@ -283,6 +283,7 @@
     },
     {
       "id": "claude-haiku-5-5-high",
+      "web_root": "dist",
       "label": "Claude Haiku 5.5 (high)",
       "order": 130,
       "project_dir": "claude-haiku-5-5-high",
@@ -313,6 +314,7 @@
     },
     {
       "id": "claude-haiku-5-5-xhigh",
+      "static_aliases": {"index.html": "public/index.html", "style.css": "public/style.css"},
       "label": "Claude Haiku 5.5 (xhigh)",
       "order": 140,
       "project_dir": "claude-haiku-5-5-xhigh",
@@ -343,6 +345,7 @@
     },
     {
       "id": "claude-haiku-5-5-max",
+      "static_aliases": {"index.html": "public/index.html", "style.css": "public/style.css"},
       "label": "Claude Haiku 5.5 (max)",
       "order": 150,
       "project_dir": "claude-haiku-5-5-max",
@@ -677,6 +680,7 @@
     },
     {
       "id": "glm-5.3-flash-free-low",
+      "web_root": "dist",
       "label": "GLM-5.3-Flash (low)",
       "order": 260,
       "project_dir": "glm-5.3-flash-free-low",
@@ -706,6 +710,7 @@
     },
     {
       "id": "glm-5.3-flash-free-high",
+      "static_aliases": {"index.html": "public/index.html", "style.css": "public/style.css"},
       "label": "GLM-5.3-Flash (high)",
       "order": 270,
       "project_dir": "glm-5.3-flash-free-high",
@@ -799,6 +804,7 @@
     },
     {
       "id": "deepseek-v4.1-flash-high",
+      "web_root": "dist",
       "label": "DeepSeek V4.1 Flash (high)",
       "order": 300,
       "project_dir": "deepseek-v4.1-flash-high",
@@ -828,6 +834,7 @@
     },
     {
       "id": "deepseek-v4.1-flash-max",
+      "web_root": "dist",
       "label": "DeepSeek V4.1 Flash (max)",
       "order": 310,
       "project_dir": "deepseek-v4.1-flash-max",
@@ -946,6 +953,7 @@
     },
     {
       "id": "gpt-6-luna-xhigh",
+      "web_root": "dist",
       "label": "GPT-6 Luna (xhigh)",
       "order": 350,
       "project_dir": "gpt-6-luna-xhigh",
