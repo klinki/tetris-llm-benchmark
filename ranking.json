@@ -619,6 +619,95 @@
         }
       ],
       "summary": "Hard drop erases spin credit; mini/PC gaps, hidden lock-out, soft-drop jump and phone clipping"
+    },
+    {
+      "run_id": "glm-5.3-flash-free-low",
+      "audited": "2026-10-24",
+      "scores": {"correctness": 2.0, "tests": 3.5, "code": 8.5, "simplicity": 8.5, "browser_ux": 8.0},
+      "bugs": [
+        {
+          "severity": "major",
+          "title": "Hold stays disabled after the first use",
+          "detail": "With scripted T,I,O spawns, rotate T, hold it, then hard-drop I. holdUsed remains true; C on the incoming O does nothing. lockPiece/spawn never re-enable hold. This breaks once-per-piece hold for the rest of the game, not just the initial swap."
+        },
+        {
+          "severity": "major",
+          "title": "Normal gravity is at least one row per 60 Hz tick",
+          "detail": "From O at y=-1, one tick moves it to y=0 at level one, and another tick at level two moves it to y=1. Math.max(gravityCellsPerFrame(level),1) floors normal gravity at 60 rows/second instead of one row per 1000/793 ms. Soft drop travels 19 rows in a single tick on the empty board. The wrong normal and soft speeds are one gravity finding."
+        },
+        {
+          "severity": "major",
+          "title": "The animation loop discards time and stops simulation at high refresh rates",
+          "detail": "Driving the unchanged delivered requestAnimationFrame callback through 120 evenly spaced frames over 1000 ms produces zero Game.tick calls; O stays at y=0 and the board is empty. Sixty subsequent 17 ms frames produce 60 tick calls. floor(delta/16.67) loses every sub-step remainder, so gravity and timed locking do not advance at 120 Hz. This browser clock defect is independent of the engine gravity-rate floor."
+        },
+        {
+          "severity": "major",
+          "title": "Advanced scoring and soft-drop points are absent",
+          "detail": "Real final-rotation full/mini zero/single fixtures score 0/100 rather than full 400/800 and mini 100/200; two Tetrises with a no-clear lock between total 1600 instead of 2000; a level-two combo single scores 200 instead of 300; a perfect-clear single scores 100 instead of 900. Soft-dropping O by 19 rows earns zero points. These scoring omissions are one grouped major finding; normal clears and hard-drop distance points pass."
+        },
+        {
+          "severity": "major",
+          "title": "Blocked spawns are moved above the stack instead of ending the game",
+          "detail": "Fill visible row 0, then spawn T. The engine moves its origin to y=-2, its ghost is also -2, and status stays playing. Only a later hidden hard drop ends the game. A real-browser Space fixture with occupied spawn columns likewise continues after the incoming blocked spawn. The upward search avoids the required immediate blocked-spawn top-out."
+        },
+        {
+          "severity": "minor",
+          "title": "Hold and next previews overlap and clip I pieces",
+          "detail": "On the 360 px combined canvas, the last I next cell is drawn at local x=358 with width=17, clipping 15 px. With I held and I next, held cell x=310..327 overlaps next cell x=301..318 at y=50. Forwarded unchanged fillRect calls and the desktop/phone detail screenshot reproduce both effects of the cramped shared preview panel."
+        }
+      ],
+      "summary": "Canonical SRS, but hold, gravity/frame timing, scoring and blocked spawn fail; previews overlap and clip"
+    },
+    {
+      "run_id": "glm-5.3-flash-free-high",
+      "audited": "2026-10-24",
+      "scores": {"correctness": 7.5, "tests": 7.0, "code": 9.0, "simplicity": 8.5, "browser_ux": 8.5},
+      "bugs": [
+        {
+          "severity": "minor",
+          "title": "Mini T-spins receive full-spin scores",
+          "detail": "Legal final-rotation mini fixtures award 400 without a clear and 800 for a single, via both hard drop and timed locking, instead of 100/200. The three-corner classifier returns a boolean; full-spin zero/single fixtures correctly award 400/800."
+        },
+        {
+          "severity": "minor",
+          "title": "Perfect-clear bonus is absent under the benchmark profile",
+          "detail": "Fill row 19 except x=3..6 and hard-drop a horizontal I from x=3,y=18 with zero travel. One line clears and the whole board becomes empty, but score is 100 instead of the benchmark expectation 900."
+        },
+        {
+          "severity": "minor",
+          "title": "A wholly hidden legal lock does not end the game",
+          "detail": "From the real T spawn x=3,y=-1 with next I, add blockers (2,0),(3,1),(4,1), then CW, CCW and two left moves. T legally reaches rotation 0,x=0,y=-2, entirely above visible row 0 and grounded. Zero-distance hard drop leaves over=false and spawns an independently verified open I; blocked-spawn top-out works."
+        },
+        {
+          "severity": "minor",
+          "title": "Starting soft drop consumes accumulated normal-gravity time",
+          "detail": "Fifty update(16) calls leave O at its starting row with 800 ms accumulated. Real ArrowDown then update(1) moves it 16 rows and awards 16 points. Changing softHeld applies the faster interval to earlier normal time; frame-sized engine and Chromium probes agree."
+        },
+        {
+          "severity": "minor",
+          "title": "Phone layout clips supporting state",
+          "detail": "At 390x844 Chromium reports document width 464 px. The complete 300x600 playfield stays visible at x=45, but the hold canvas starts at x=-74 and the next canvas at x=360 with width 104. Hold/stats and next/legend are clipped; desktop and overlay behavior work."
+        }
+      ],
+      "summary": "Working core with mini/PC scoring gaps, hidden lock-out, soft-drop jump and phone sidebar clipping"
+    },
+    {
+      "run_id": "glm-5.3-flash-free-max",
+      "audited": "2026-10-24",
+      "scores": {"correctness": 8.0, "tests": 7.5, "code": 9.0, "simplicity": 8.0, "browser_ux": 9.0},
+      "bugs": [
+        {
+          "severity": "major",
+          "title": "Gravity uses an unrelated fast table instead of the Guideline curve",
+          "detail": "In frame-sized updates, level-one O stays at its starting row for 266 ms and falls on the next millisecond; level two falls at 217 ms. The established Guideline profile requires 1000/793 ms. GRAVITY_MS_BY_LEVEL starts 267,217,167 rather than deriving the Guideline curve, making ordinary play substantially too fast throughout these levels. Levels still advance every ten lines."
+        },
+        {
+          "severity": "minor",
+          "title": "Perfect-clear bonus is absent under the benchmark profile",
+          "detail": "Fill row 21 except x=3..6, place horizontal I at x=3,y=20 and hard drop at zero distance. The board becomes empty and lines becomes one, but score is 100 instead of 900. Normal/full/mini/B2B/combo scoring passes the targeted fixtures."
+        }
+      ],
+      "summary": "Broad rules and responsive UI; wrong gravity curve and no perfect-clear bonus"
     }
   ]
 }

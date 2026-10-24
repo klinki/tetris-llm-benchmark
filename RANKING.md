@@ -1,8 +1,8 @@
 # Tetris Implementation Quality Ranking
 
-This ranking evaluates 26 implementations against [`TETRIS.md`](TETRIS.md). Quality is scored independently of generation time and token use; efficiency data appears only as non-scoring context.
+This ranking evaluates 29 implementations against [`TETRIS.md`](TETRIS.md). Quality is scored independently of generation time and token use; efficiency data appears only as non-scoring context.
 
-The original audit was performed on 2026-08-10, Luna PI was added on 2026-08-29, and five T3 Code/OpenCode implementations were added on 2026-10-20. Every project passed its declared build/test workflow in an isolated temporary copy. Nemotron nevertheless fails to start in the browser because its emitted imports do not resolve. Browser checks used each project's intended server behavior and Chromium at 1280×800 and 390×844. Reproducible probes and evidence are in [`.audit`](.audit/README.md).
+The original audit was performed on 2026-08-10, Luna PI was added on 2026-08-29, and five T3 Code/OpenCode implementations were added on 2026-10-20. Every project initially passed its declared build/test workflow in an isolated temporary copy. GLM max also has a reproducible random-dependent own-test failure, recorded in its audit and test score. Nemotron nevertheless fails to start in the browser because its emitted imports do not resolve. Browser checks used each project's intended server behavior and Chromium at 1280×800 and 390×844. Reproducible probes and evidence are in [`.audit`](.audit/README.md).
 
 Opus 5.5 and Muse Spark 1.3 (medium, reference-assisted; `muse-spark-1.3-medium`) were added on 2026-10-23 with the same scoring profile. Muse's implementation agent read Gemini-4's engine, shape data, tests, and build files before writing its version; its quality can be scored, but its efficiency is not an independent from-scratch comparison. See the [October 23 audit](.audit/oct23-review.md).
 
@@ -26,6 +26,11 @@ builds/tests, engine/browser probes, scoring rationale and isolation facts.
 `muse-spark-1.3-medium` is **medium, reference-assisted** and remains 8.40.
 The duplicate display labels are preserved from the unchanged registry.
 
+GLM-5.3-Flash (low, high and max) were independently audited on 2026-10-24.
+The [GLM audit](.audit/glm-review.md) records their isolated builds/tests,
+engine/browser probes, max's flaky own assertion, scores and generation context.
+High's excluded notification turn changed no files; turn-1 code is audited.
+
 ## Ranking
 
 Scores and confirmed bugs are recorded in [`ranking.json`](ranking.json); this table and the README leaderboard are generated from it by `python3 scripts/benchmark.py render`.
@@ -46,19 +51,22 @@ Scores and confirmed bugs are recorded in [`ranking.json`](ranking.json); this t
 | 11 | Claude Sonnet 5.5 (medium) | 8.5 | 7.5 | 9.0 | 8.5 | 8.0 | **8.35** | 3 minor |
 | 12 | Sol OMP | 9.5 | 5.5 | 8.5 | 8.0 | 9.0 | **8.30** | 1 minor |
 | 13 | Claude Haiku 5.5 (max) | 8.0 | 8.0 | 9.0 | 8.0 | 8.5 | **8.25** | 4 minor |
-| 14 | Sol Codex | 8.0 | 6.5 | 9.0 | 9.5 | 9.5 | **8.20** | 1 major, 1 minor |
-| 15 | Luna Codex | 7.5 | 7.0 | 8.0 | 7.5 | 8.5 | **7.60** | 1 major, 2 minor |
-| 16 | Muse Spark 1.3 (high) | 7.0 | 6.5 | 8.5 | 8.5 | 8.5 | **7.50** | 6 minor |
-| 17 | Claude Sonnet 5.5 (low) | 7.0 | 6.0 | 8.5 | 9.0 | 8.0 | **7.40** | 1 major, 3 minor |
-| 18 | Cat-jam | 6.5 | 7.5 | 8.5 | 8.0 | 8.0 | **7.40** | 2 major, 1 minor |
-| 19 | Muse Spark 1.3 (xhigh) | 7.0 | 6.0 | 8.5 | 8.0 | 8.5 | **7.35** | 1 major, 3 minor |
-| 20 | DeepSeek OMP/PI | 6.5 | 8.5 | 8.0 | 7.0 | 7.0 | **7.30** | 2 major, 1 minor |
-| 21 | Muse Spark 1.3 (medium) | 6.5 | 5.5 | 8.5 | 8.5 | 8.0 | **7.05** | 1 major, 4 minor |
-| 22 | Space-bunny | 5.5 | 7.5 | 8.0 | 6.5 | 8.0 | **6.75** | 3 major |
-| 23 | Muse Spark 1.3 (low) | 5.5 | 6.0 | 8.5 | 8.0 | 8.5 | **6.75** | 2 major, 3 minor |
-| 24 | Muse Spark 1.3 (minimal) | 6.5 | 4.5 | 7.5 | 8.5 | 8.0 | **6.65** | 1 major, 4 minor |
-| 25 | Beam | 6.0 | 4.5 | 5.0 | 6.5 | 6.5 | **5.60** | 2 major, 2 minor |
-| 26 | Nemotron | 0.0 | 6.0 | 6.5 | 8.5 | 6.5 | **4.00** | 1 critical, 2 major, 2 minor |
+| 14 | GLM-5.3-Flash (max) | 8.0 | 7.5 | 9.0 | 8.0 | 9.0 | **8.20** | 1 major, 1 minor |
+| 15 | Sol Codex | 8.0 | 6.5 | 9.0 | 9.5 | 9.5 | **8.20** | 1 major, 1 minor |
+| 16 | GLM-5.3-Flash (high) | 7.5 | 7.0 | 9.0 | 8.5 | 8.5 | **7.90** | 5 minor |
+| 17 | Luna Codex | 7.5 | 7.0 | 8.0 | 7.5 | 8.5 | **7.60** | 1 major, 2 minor |
+| 18 | Muse Spark 1.3 (high) | 7.0 | 6.5 | 8.5 | 8.5 | 8.5 | **7.50** | 6 minor |
+| 19 | Claude Sonnet 5.5 (low) | 7.0 | 6.0 | 8.5 | 9.0 | 8.0 | **7.40** | 1 major, 3 minor |
+| 20 | Cat-jam | 6.5 | 7.5 | 8.5 | 8.0 | 8.0 | **7.40** | 2 major, 1 minor |
+| 21 | Muse Spark 1.3 (xhigh) | 7.0 | 6.0 | 8.5 | 8.0 | 8.5 | **7.35** | 1 major, 3 minor |
+| 22 | DeepSeek OMP/PI | 6.5 | 8.5 | 8.0 | 7.0 | 7.0 | **7.30** | 2 major, 1 minor |
+| 23 | Muse Spark 1.3 (medium) | 6.5 | 5.5 | 8.5 | 8.5 | 8.0 | **7.05** | 1 major, 4 minor |
+| 24 | Space-bunny | 5.5 | 7.5 | 8.0 | 6.5 | 8.0 | **6.75** | 3 major |
+| 25 | Muse Spark 1.3 (low) | 5.5 | 6.0 | 8.5 | 8.0 | 8.5 | **6.75** | 2 major, 3 minor |
+| 26 | Muse Spark 1.3 (minimal) | 6.5 | 4.5 | 7.5 | 8.5 | 8.0 | **6.65** | 1 major, 4 minor |
+| 27 | Beam | 6.0 | 4.5 | 5.0 | 6.5 | 6.5 | **5.60** | 2 major, 2 minor |
+| 28 | GLM-5.3-Flash (low) | 2.0 | 3.5 | 8.5 | 8.5 | 8.0 | **4.85** | 5 major, 1 minor |
+| 29 | Nemotron | 0.0 | 6.0 | 6.5 | 8.5 | 6.5 | **4.00** | 1 critical, 2 major, 2 minor |
 <!-- ranking-table:end -->
 
 The generated “Muse Spark 1.3 (medium)” row at **8.40** is reference-assisted
@@ -260,6 +268,39 @@ per-frame soft movement; the other four reuse normal time when soft drop
 starts. High's initial Down row additionally awards no point. Scoring and
 hidden lock-out are reproduced independently in the [audit](.audit/muse-review.md).
 
+### GLM-5.3-Flash additions — October 24
+
+Columns identify `glm-5.3-flash-free-{low,high,max}`.
+
+| Requirement | low | high | max |
+|---|:---:|:---:|:---:|
+| Browser starts; TypeScript; dependency-free browser runtime | ✅ | ✅ | ✅ |
+| Seven canonical shapes and distinct colors | ✅ | ✅ | ✅ |
+| Left/right; Up/X CW; Z/Left Ctrl CCW | ✅ | ✅ | ✅ |
+| Soft and hard drop | ◐ | ◐ | ✅ |
+| C hold once per piece and R restart after game over | ◐ | ✅ | ✅ |
+| Seven-bag randomizer | ✅ | ✅ | ✅ |
+| Canonical SRS states and wall kicks | ✅ | ✅ | ✅ |
+| Ghost; hold; next queue | ◐ | ✅ | ✅ |
+| Engine lock delay, capped resets and ledge handling | ✅ | ✅ | ✅ |
+| Browser clock advances at high refresh rates | ◐ | ✅ | ✅ |
+| Benchmark scoring profile | ◐ | ◐ | ◐ |
+| Guideline gravity and levels | ◐ | ✅ | ◐ |
+| Blocked-spawn top-out | ◐ | ✅ | ✅ |
+| Entirely hidden lock-out | ✅ | ◐ | ✅ |
+| Narrow layout preserves a visible playfield | ✅ | ✅ | ✅ |
+| Narrow layout preserves supporting state | ✅ | ◐ | ✅ |
+| Desktop preview drawing stays complete and separate | ◐ | ✅ | ✅ |
+
+Low disables hold after its first use, runs at least one normal row per fixed
+tick, loses frame time (zero ticks at 120 Hz), relocates blocked spawns and
+omits advanced scoring/soft points. Its I previews overlap and clip. High
+reproduces mini/PC omissions, hidden lock-out, a soft-timer jump and phone
+sidebar clipping. Max's full/mini/B2B/combo and hidden lock-out work, but its
+gravity table is 267/217 ms at levels one/two and PC bonuses are absent.
+Low/max render four previews; high renders five. The task sets no count.
+The [GLM record](.audit/glm-review.md) provides exact reproducible fixtures.
+
 ## Test-coverage comparison
 
 This compares tested behavior and assertion quality, not merely test-file size or printed test count. `Strong` means the suite makes deterministic, behavior-specific assertions; `Some` means coverage is indirect or incomplete; `—` means no meaningful existing test was found.
@@ -402,6 +443,32 @@ gravity assertion and xhigh's gravity/lock assertions can pass with no time
 progression. No suite has a complete SRS coordinate oracle, spin-scoring
 integration, B2B/combo/perfect-clear integration, reset-cap/ledge, hidden
 lock-out or browser assertions. Added audit probes do not earn own-test credit.
+
+### GLM-5.3-Flash test suites — October 24
+
+| Behavior | low: 10 unconditional assertions | high: 14 cases | max: 23 cases |
+|---|---|---|---|
+| Seven-bag distribution | — | Strong: one unseeded complete bag | Strong: four bag invariants and twenty-bag distribution |
+| Movement and drops | —: movement/drop block skips after game over; hard assertion is true | Some: collision helpers and exact hard points; no soft assertion | Strong: wall, exact hard/soft points and welded cells |
+| Real SRS kicks | —: selected four-cell counts only | —: selected tables and T/I/O coordinates, no real rotation | Strong: exact I fifth/T third floor kick and blocked rotation; exact T states |
+| Ghost | — | Some: hard drop shares projection path | Strong: exact floor row; obstruction untested |
+| Hold/queue | Some: initial queue and flags only; second hold does not check piece | Strong: restriction and post-lock availability; no retrieved swap | Strong: restriction and post-lock retrieval; orientation reset unasserted |
+| Lock delay/reset cap | — | Some: grounded delay and bounded repeated-move locking; no exact cap/ledge | Some: 300/600 ms lock; no reset/cap/ledge |
+| Scoring | Some: clears an already-full row; no point assertions | Some: exact single/drop; manually flagged spin-zero fixture | Strong: integrated double/combo and full/mini spin-zero after real rotation; B2B/PC untested |
+| Gravity/levels | —: over-or-piece assertion is vacuous | Strong: 1000 ms falling and formula helpers; no level crossing | Some: table timing and exact ten-line level crossing |
+| Top-out/restart | — | Strong blocked spawn and restart; hidden lock-out untested | Strong blocked spawn and restart; hidden lock-out untested |
+| Browser/runtime/layout/input | — | — | — |
+
+Low's 79 lines earn **3.5**: movement checks are skipped in the observed
+workflows and several assertions cannot establish the named behavior.
+High's 167 lines earn **7.0** for meaningful exact drops, gravity, hold,
+timing and top-out checks, but no real kicks, ghost or legal spin integration.
+Max's 352 lines earn **7.5** for actual kicks and scoring integration; its
+hard-drop test incorrectly assumes the next random piece cannot be I.
+Seed 16 gives 22 passes / one failure; declared seed 1 gives all 23 passes.
+That test-quality limitation is separate from correctness deductions. None
+tests the full canonical oracle, ledge behavior, hidden lock-out or browser.
+Audit-added probes do not earn own-test credit. See the [GLM audit](.audit/glm-review.md).
 
 ## Per-implementation audit
 
@@ -654,7 +721,28 @@ Test gaps and rationale:
 
 Exact probes, browser measurements and isolation context are in the [Haiku audit record](.audit/haiku-review.md).
 
-### 14. Sol Codex — 8.20
+### 14. GLM-5.3-Flash (max) — 8.20
+
+Run ID: `glm-5.3-flash-free-max`. Summary: **Broad rules and responsive UI; wrong gravity curve and no perfect-clear bonus**.
+
+Strengths:
+
+All 28 canonical states, kick tables and actual kicks, ten actual seeded bags, hold, queue, seven obstructed ghosts/drops, exact lock boundary/reset cap/ledge safety, full/mini/B2B/combo scoring, hidden lock-out and blocked-spawn/restart pass in [`src/game.ts`](glm-5.3-flash-free-max/src/game.ts). A labeled high-DPI canvas scales the complete board, state and legend to fit desktop and phone, and all required keys/real R work without application errors.
+
+Confirmed bugs:
+
+- **Major (−1.5 correctness): Gravity uses an unrelated fast table instead of the Guideline curve.** In frame-sized updates, level-one O stays at its starting row for 266 ms and falls on the next millisecond; level two falls at 217 ms. The established Guideline profile requires 1000/793 ms. GRAVITY_MS_BY_LEVEL starts 267,217,167 rather than deriving the Guideline curve, making ordinary play substantially too fast throughout these levels. Levels still advance every ten lines. Scoring effect: `10.0 → 8.5`.
+- **Minor (−0.5 correctness): Perfect-clear bonus is absent under the benchmark profile.** Fill row 21 except x=3..6, place horizontal I at x=3,y=20 and hard drop at zero distance. The board becomes empty and lines becomes one, but score is 100 instead of 900. Normal/full/mini/B2B/combo scoring passes the targeted fixtures. Scoring effect: `8.5 → 8.0`.
+
+Test gaps and rationale:
+
+Tests **7.5**: 23 cases / 352 lines cover bag invariants/distribution, board shifting, exact T states, real I/T floor kicks and blocked rotation, exact drops, floor ghost, hold restriction/post-lock retrieval, eventual grounded lock, blocked spawn/restart, integrated double/combo, level crossing and legal full/mini zero-spin integration plus fifth-kick helper. They omit B2B/PC, precise boundary/reset cap/ledge, obstructed ghost, hidden lock-out, hold orientation and browser/input checks. A random-dependent hard-drop assertion rejects a legitimate next I: seed 16 yields 22 passes / one failure; the runner declares passing seed 1 and separately asserts that failure. This affects tests, not correctness.
+
+Code **9.0**, simplicity **8.0**: 1,121 source TS lines in focused typed modules, DOM-free rules, small direct helpers and separate normal/soft accumulators. Mutable state, repeated setup and reset/restart aliases add modest weight. UX **9.0** reflects responsive high-DPI rendering, canvas label, complete legend, ghost/grid, dimmed hold and scoring messages. Four previews satisfy the unspecified queue count. Phone text shrinks with the canvas; no touch controls are supplied.
+
+Exact reproducible fixtures, browser measurements and generation/isolation context are in the [GLM audit](.audit/glm-review.md).
+
+### 15. Sol Codex — 8.20
 
 Strengths:
 
@@ -672,7 +760,31 @@ Test gaps and rationale:
 - Tests cover bag behavior, hard drop, line clear, hold, a wall kick, and blocked-spawn top-out. They do not cover gravity, next/ghost output, lock delay, scoring beyond a normal clear, restart, or browser behavior.
 - The serious ledge defect holds correctness below the two OMP implementations; otherwise this is the clearest and most maintainable codebase in the set.
 
-### 15. Luna Codex — 7.60
+### 16. GLM-5.3-Flash (high) — 7.90
+
+Run ID: `glm-5.3-flash-free-high`. Summary: **Working core with mini/PC scoring gaps, hidden lock-out, soft-drop jump and phone sidebar clipping**.
+
+Strengths:
+
+All 28 canonical SRS states/tables, ten actual seeded bags, hold/queue, seven obstructed ghosts/drops, 499/500 ms lock boundary, fifteen-reset cap and safe ledge behavior pass in [`src/game.ts`](glm-5.3-flash-free-high/src/game.ts). Normal/full-spin/B2B/combo scoring, 1000/793 ms gravity, levels, blocked spawn and restart work. Desktop keys and the overlay lifecycle respond without application errors.
+
+Confirmed bugs:
+
+- **Minor (−0.5 correctness): Mini T-spins receive full-spin scores.** Legal final-rotation mini fixtures award 400 without a clear and 800 for a single, via both hard drop and timed locking, instead of 100/200. The three-corner classifier returns a boolean; full-spin zero/single fixtures correctly award 400/800. Scoring effect: `10.0 → 9.5`.
+- **Minor (−0.5 correctness): Perfect-clear bonus is absent under the benchmark profile.** Fill row 19 except x=3..6 and hard-drop a horizontal I from x=3,y=18 with zero travel. One line clears and the whole board becomes empty, but score is 100 instead of the benchmark expectation 900. Scoring effect: `9.5 → 9.0`.
+- **Minor (−0.5 correctness): A wholly hidden legal lock does not end the game.** From the real T spawn x=3,y=-1 with next I, add blockers (2,0),(3,1),(4,1), then CW, CCW and two left moves. T legally reaches rotation 0,x=0,y=-2, entirely above visible row 0 and grounded. Zero-distance hard drop leaves over=false and spawns an independently verified open I; blocked-spawn top-out works. Scoring effect: `9.0 → 8.5`.
+- **Minor (−0.5 correctness): Starting soft drop consumes accumulated normal-gravity time.** Fifty update(16) calls leave O at its starting row with 800 ms accumulated. Real ArrowDown then update(1) moves it 16 rows and awards 16 points. Changing softHeld applies the faster interval to earlier normal time; frame-sized engine and Chromium probes agree. Scoring effect: `8.5 → 8.0`.
+- **Minor (−0.5 correctness): Phone layout clips supporting state.** At 390x844 Chromium reports document width 464 px. The complete 300x600 playfield stays visible at x=45, but the hold canvas starts at x=-74 and the next canvas at x=360 with width 104. Hold/stats and next/legend are clipped; desktop and overlay behavior work. Scoring effect: `8.0 → 7.5`.
+
+Test gaps and rationale:
+
+Tests **7.0**: all 14 cases / 167 lines pass. They meaningfully cover one whole bag, partial exact geometry/tables, board collisions/clear, exact hard/single points, gravity cadence/helper, manually flagged spin-zero scoring, hold restriction/post-lock availability, grounded delay/bounded repeated-move locking, blocked spawn and restart. There is no real engine kick, independent ghost, soft drop, level crossing, legal spin integration, mini/B2B/combo/PC, retrieved hold/orientation reset, exact cap/ledge, hidden lock-out or browser assertion.
+
+Code **9.0**, simplicity **8.5**: 704 source TS lines in seven focused typed modules, a DOM-free engine and one millisecond clock, with modest public-state/reset duplication. UX **8.5** reflects a clear desktop grid/ghost, five complete centered previews, DOM scores, full legend, custom DAS/ARR and correct overlay. There is no canvas label, high-DPI sizing or touch control. Phone clipping is charged only to correctness.
+
+Exact reproducible fixtures, browser measurements and generation/isolation context are in the [GLM audit](.audit/glm-review.md).
+
+### 17. Luna Codex — 7.60
 
 Strengths:
 
@@ -691,7 +803,7 @@ Test gaps and rationale:
 - Tests cover bag generation, spawn/next, hold, a gravity helper, scoring helpers, line clearing, and top-out, but do not exercise real rotation coordinates/kicks, ghost output, lock-delay behavior, combo/perfect-clear integration, restart, or browser rendering.
 - The abstractions are generally sensible, but the large single engine module and duplicated shape data make the SRS-table defect harder to notice locally.
 
-### 16. Muse Spark 1.3 (high) — 7.50
+### 18. Muse Spark 1.3 (high) — 7.50
 
 Run ID: `muse-spark-1.3-contributor-high`. Summary: **Full spins, B2B and combos work; mini/PC gaps, hidden lock-out, two soft-drop defects and phone clipping**.
 
@@ -717,7 +829,7 @@ Code **8.5**, simplicity **8.5**: **688 source TS lines**, a typed DOM-free core
 
 Exact engine/browser fixtures and isolation context are in the [Muse contributor audit](.audit/muse-review.md). Each finding is charged only to correctness.
 
-### 17. Claude Sonnet 5.5 (low) — 7.40
+### 19. Claude Sonnet 5.5 (low) — 7.40
 
 Strengths:
 
@@ -739,7 +851,7 @@ Test gaps and rationale:
 
 Full reproductions and the false-positive isolation import are in the [Sonnet record](.audit/sonnet-review.md).
 
-### 18. Cat-jam — 7.40
+### 20. Cat-jam — 7.40
 
 Strengths:
 
@@ -758,7 +870,7 @@ Test gaps and rationale:
 - Strong coverage of core state transitions does not extend to canonical coordinates, actual kick displacements, lock-delay timing/reset caps, advanced scoring, or browser loading/layout. The suite checks that rotations have four cells, which cannot detect a malformed L state.
 - Code quality and simplicity score well for proportionate modules and readable state transitions. The static desktop layout is attractive and legible, with no touch controls or accessible canvas labels.
 
-### 19. Muse Spark 1.3 (xhigh) — 7.35
+### 21. Muse Spark 1.3 (xhigh) — 7.35
 
 Run ID: `muse-spark-1.3-contributor-xhigh`. Summary: **Hard drop erases spin credit; mini/PC gaps, hidden lock-out, soft-drop jump and phone clipping**.
 
@@ -782,7 +894,7 @@ Code **8.5**, simplicity **8.0**: **868 source TS lines**, focused typed board/g
 
 Exact engine/browser fixtures and isolation context are in the [Muse contributor audit](.audit/muse-review.md). Each finding is charged only to correctness.
 
-### 20. DeepSeek OMP/PI — 7.30
+### 22. DeepSeek OMP/PI — 7.30
 
 Strengths:
 
@@ -801,7 +913,7 @@ Test gaps and rationale:
 - Despite being the best suite overall, it has no lock-delay/ledge test, advanced scoring tests, reset-limit test, or browser assertions. The current hard-drop test exercises the same projection used by the ghost but does not validate rendering.
 - The multi-file split is readable but more verbose than Sol Codex. Browser UX is good on desktop and materially weaker on a phone-sized viewport.
 
-### 21. Muse Spark 1.3 (medium) — 7.05 — `muse-spark-1.3-contributor-medium` (from scratch)
+### 23. Muse Spark 1.3 (medium) — 7.05 — `muse-spark-1.3-contributor-medium` (from scratch)
 
 Run ID: `muse-spark-1.3-contributor-medium` (**medium, from scratch**). Summary: **From scratch: no T-spins, B2B or perfect-clear bonus; hidden lock-out, soft jump and preview/phone clipping**.
 
@@ -826,7 +938,7 @@ Code **8.5**, simplicity **8.5**: **643 source TS lines**, focused typed modules
 
 Exact engine/browser fixtures and isolation context are in the [Muse contributor audit](.audit/muse-review.md). Each finding is charged only to correctness.
 
-### 22. Space-bunny — 6.75
+### 24. Space-bunny — 6.75
 
 Strengths:
 
@@ -845,7 +957,7 @@ Test gaps and rationale:
 - Several tests assert the implementation's mistakes: reverse/mirrored CCW tables, a full-spin position labeled mini, and breaking B2B on a no-clear placement. Ghost tests check count/noncollision but not the expected four distinct coordinates. Exact canonical data and independent expected outcomes would substantially improve the suite.
 - Its 1,687 source lines and 731 test lines contain considerable rule and rendering machinery. The structure is readable, but size lowers simplicity. The adaptive presentation is polished; its small-screen text is tiny and no touch controls are provided.
 
-### 23. Muse Spark 1.3 (low) — 6.75
+### 25. Muse Spark 1.3 (low) — 6.75
 
 Run ID: `muse-spark-1.3-contributor-low`. Summary: **Incorrect kicks and incomplete advanced scoring; soft-drop jump, clipped phone board and overlaid legend**.
 
@@ -870,7 +982,7 @@ Code **8.5**, simplicity **8.0**: **839 source TS lines** with focused board, ba
 
 Exact engine/browser fixtures and isolation context are in the [Muse contributor audit](.audit/muse-review.md). Each finding is charged only to correctness.
 
-### 24. Muse Spark 1.3 (minimal) — 6.65
+### 26. Muse Spark 1.3 (minimal) — 6.65
 
 Run ID: `muse-spark-1.3-contributor-minimal`. Summary: **Canonical core geometry; incomplete scoring, lock resets and soft timing, hidden lock-out and phone clipping**.
 
@@ -895,7 +1007,7 @@ Code **7.5**, simplicity **8.5**: **358 source TS lines**, strict types, a small
 
 Exact engine/browser fixtures and isolation context are in the [Muse contributor audit](.audit/muse-review.md). Each finding is charged only to correctness.
 
-### 25. Beam — 5.60
+### 27. Beam — 5.60
 
 Strengths:
 
@@ -914,7 +1026,32 @@ Test gaps and rationale:
 - Only five small tests cover board dimensions, initial spawn/queue, generic matrix rotation, one bag, and a full-row clear. There are no real input/rotation, drop, hold restriction, timing, scoring, top-out/restart, or browser assertions.
 - Broad `any` casts, duplicate rendering paths, unused imports, and empty placeholder helpers lower code quality. The implementation remains small, but dead code weakens local reasoning. Presentation is basic and readable, with a small board and little accessibility support.
 
-### 26. Nemotron — 4.00
+### 28. GLM-5.3-Flash (low) — 4.85
+
+Run ID: `glm-5.3-flash-free-low`. Summary: **Canonical SRS, but hold, gravity/frame timing, scoring and blocked spawn fail; previews overlap and clip**.
+
+Strengths:
+
+Canonical SRS/kicks, seven-bag, ghost and exact hard-drop landing points pass all seven obstructed geometry probes in [`src/game/game.ts`](glm-5.3-flash-free-low/src/game/game.ts). The engine has a thirty-tick lock delay, fifteen action resets, safe ledge handling, hidden lock-out and reset. Its desktop/phone browser starts and responds to all required keys, with the confirmed limitations below.
+
+Confirmed bugs:
+
+- **Major (−1.5 correctness): Hold stays disabled after the first use.** With scripted T,I,O spawns, rotate T, hold it, then hard-drop I. holdUsed remains true; C on the incoming O does nothing. lockPiece/spawn never re-enable hold. This breaks once-per-piece hold for the rest of the game, not just the initial swap. Scoring effect: `10.0 → 8.5`.
+- **Major (−1.5 correctness): Normal gravity is at least one row per 60 Hz tick.** From O at y=-1, one tick moves it to y=0 at level one, and another tick at level two moves it to y=1. Math.max(gravityCellsPerFrame(level),1) floors normal gravity at 60 rows/second instead of one row per 1000/793 ms. Soft drop travels 19 rows in a single tick on the empty board. The wrong normal and soft speeds are one gravity finding. Scoring effect: `8.5 → 7.0`.
+- **Major (−1.5 correctness): The animation loop discards time and stops simulation at high refresh rates.** Driving the unchanged delivered requestAnimationFrame callback through 120 evenly spaced frames over 1000 ms produces zero Game.tick calls; O stays at y=0 and the board is empty. Sixty subsequent 17 ms frames produce 60 tick calls. floor(delta/16.67) loses every sub-step remainder, so gravity and timed locking do not advance at 120 Hz. This browser clock defect is independent of the engine gravity-rate floor. Scoring effect: `7.0 → 5.5`.
+- **Major (−1.5 correctness): Advanced scoring and soft-drop points are absent.** Real final-rotation full/mini zero/single fixtures score 0/100 rather than full 400/800 and mini 100/200; two Tetrises with a no-clear lock between total 1600 instead of 2000; a level-two combo single scores 200 instead of 300; a perfect-clear single scores 100 instead of 900. Soft-dropping O by 19 rows earns zero points. These scoring omissions are one grouped major finding; normal clears and hard-drop distance points pass. Scoring effect: `5.5 → 4.0`.
+- **Major (−1.5 correctness): Blocked spawns are moved above the stack instead of ending the game.** Fill visible row 0, then spawn T. The engine moves its origin to y=-2, its ghost is also -2, and status stays playing. Only a later hidden hard drop ends the game. A real-browser Space fixture with occupied spawn columns likewise continues after the incoming blocked spawn. The upward search avoids the required immediate blocked-spawn top-out. Scoring effect: `4.0 → 2.5`.
+- **Minor (−0.5 correctness): Hold and next previews overlap and clip I pieces.** On the 360 px combined canvas, the last I next cell is drawn at local x=358 with width=17, clipping 15 px. With I held and I next, held cell x=310..327 overlaps next cell x=301..318 at y=50. Forwarded unchanged fillRect calls and the desktop/phone detail screenshot reproduce both effects of the cramped shared preview panel. Scoring effect: `2.5 → 2.0`.
+
+Test gaps and rationale:
+
+Tests **3.5**: 79 lines provide ten unconditional smoke assertions for dimensions/cell counts, initial queue/hold flags and clearing an already-full row. After 2,000 ticks the observed run is over, so movement/rotation/hard-drop checks skip; the hard-drop assertion is literally true. The gravity assertion accepts over-or-piece, and no bag, real kick, ghost, exact timing/scoring, post-lock hold, top-out/restart or browser case is established.
+
+Code **8.5**, simplicity **8.5**: 737 source TS lines, strict unused checks, four focused geometry/game/DOM/bootstrap files and no runtime dependencies. Mutable aliased snapshots, unrestricted coordinate arrays and an unused held-key set are modest structural costs. UX **8.0** reflects readable colors/ghost/stats, four previews, high-DPI drawing and a complete board that fits phones; no visible legend, canvas label, grid, custom DAS/ARR or touch controls. Defects are charged only to correctness.
+
+Exact reproducible fixtures, browser measurements and generation/isolation context are in the [GLM audit](.audit/glm-review.md).
+
+### 29. Nemotron — 4.00
 
 Strengths:
 
@@ -953,6 +1090,9 @@ The [October 23 record](.audit/oct23-review.md) additionally isolates Opus's Cla
 | Claude Sonnet 5.5 (medium) | 622 | 147 | 494,455 | 0:02:30.629 | — |
 | Claude Sonnet 5.5 (high) | 873 | 280 | 978,719 | 0:04:44.511 | — |
 | Claude Sonnet 5.5 (xhigh) | 896 | 342 | 2,531,771 | 0:09:23.043 | — |
+| GLM-5.3-Flash (low) | 737 | 79 | 4,356,489 | 10m 15.035s | — |
+| GLM-5.3-Flash (high) | 704 | 167 | 2,363,761 | 14m 37.371s | — |
+| GLM-5.3-Flash (max) | 1,121 | 352 | 4,253,523 | 19m 50.224s | — |
 | DeepSeek OMP/PI | 791 | 240 | 18,118,592 | 0:44:11.418 | 127 |
 | Gemini-4 | 1,587 | 163 | 590,203 | 0:06:36.862 | — |
 | Gemini 4 Argon (high) | 1,892 | 298 | 1,125,477 | 0:13:09.707 | — |
@@ -992,7 +1132,7 @@ Correctness is clamped to 0–10. A confirmed defect is deducted once; it is not
 ### Audit procedure
 
 1. Copied each project to an isolated temporary directory so compilation could not alter committed `dist` files.
-2. Ran the declared `npm test` workflow, which includes each build. All 26 passed in their respective audit cohorts. Existing cohort scores remain from their earlier audits; additions received a new source, test, engine, and browser review.
+2. Ran the declared `npm test` workflow, which includes each build. All 29 initially passed in their respective audit cohorts; GLM max's reproducible random-dependent own-test failure is documented separately, and its runner declares a passing seed plus asserts the failing seed. Existing cohort scores remain from their earlier audits; additions received a new source, test, engine, and browser review.
 3. Compared every implementation with one requirements matrix and reviewed shape data, SRS kicks, scoring, lock delay, top-out, queues/hold, gravity, state transitions, controls, and rendering.
 4. Ran implementation-specific engine adapters for equivalent probes. SRS probes compare all 28 piece/orientation coordinate sets, allowing only a fixed origin translation for pieces represented differently. October probes additionally cover movement/drop/hold, blocked spawn/reset, clock consistency, ghost geometry, soft-drop scoring, and advanced scoring integration.
 5. Served each isolated build with its intended server behavior. In Playwright/Chromium, exercised left/right, both rotation directions, soft drop, hard drop, and hold; inspected accessible state, screenshots, overflow, console output, and failed asset responses at desktop and mobile viewport sizes. Nemotron's controls could not function because the browser module graph fails to load; its engine was probed through a separate temporary CommonJS build.

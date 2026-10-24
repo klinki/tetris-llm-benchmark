@@ -255,6 +255,59 @@ has scores, all fixtures, own-test limits and supplied isolation context.
 These are Chromium viewport/keyboard checks; physical touch, native OS repeat
 cadence, other browsers and exhaustive state-space behavior are unverified.
 
+## GLM-5.3-Flash additions — October 24
+
+Independent `glm-5.3-flash-free-{low,high,max}` audits used Playwright skill /
+CLI, Chromium **156.0.8078.4**, supplied servers in disposable builds and
+**1280×800** / **390×844** viewports. All application module graphs start.
+T3 status/open were checked, and an independent incognito T3 tab confirmed
+high's phone geometry and hidden active overlay. All audit browsers and
+servers were stopped. Six viewport screenshots plus low's detail screenshot
+were visually inspected outside the repository and discarded.
+
+| Run | Desktop board content | Phone document width | Phone board content | Supporting state | Application errors |
+|---|---|---:|---|---|---|
+| low | 240×480 at x=460 | 390 | 240×480 at x=15 | Fits; hold/next drawing overlaps and I clips | None |
+| high | 300×600 at x=490 | 464 | 300×600 at x=45 | Hold canvas x=−74; next x=360,width=104 | None |
+| max | 320×640 at x=353 | 390 | ≈202.43×404.87 at x≈13.45 | Complete canvas fits | None |
+
+Low's combined canvas is 360×480; high's board frame is 302×602; max's
+598×664 canvas becomes ≈378.30×420.05 at x≈5.86 on the phone. Measurements
+distinguish board content from border/combined canvas. Font/Y differences
+are not invariants. High clips supporting state while keeping the full board.
+Low draws held I cell x=310–327 over next I cell x=301–318 at y=50, and its
+final next-I cell x=358,width=17 loses 15 px at the canvas edge. Forwarded
+unchanged draw calls and a detail screenshot confirm both.
+
+Real keys **Left, Right, Up, X, Z, Left Control, Down, Space, C** assert exact
+horizontal changes, all rotation bindings, soft behavior, four locked cells
+and hold restriction. The delivered frame callback is retained and scheduling
+driven explicitly so real handlers/drawing stay installed. Down is held for
+120 ms; explicit engine observation advances 100 ms in high/max and one fixed
+tick in low. Low moves without soft points; high/max move and score two/seven
+rows. Fresh normal-to-soft probes reproduce high's **16 rows / 16 points**
+after 800 ms normal + 1 ms soft; max moves/scores **zero** after 250+1 ms.
+
+Low's actual frame callback receives 120 evenly spaced frames across 1000 ms:
+**zero engine ticks**, no fall and no lock. Sixty 17 ms frames then cause
+**60 ticks**. This independently reproduces its discarded frame remainder.
+Real Space exercises blocked next spawn; low relocates it above the stack
+and requires one extra Space for game over. **Real R** restores all three
+to empty board/hold/score and available hold. High's overlay follows
+`none → flex → none`. No page exceptions, application console errors or
+failed application assets occurred; missing favicons remain excluded.
+
+```sh
+python3 .audit/run-glm-audit.py --offline
+```
+
+The [GLM record](glm-review.md) and [browser snippet](glm-browser.cjs) give
+exact reproducible fixtures. The runner rebuilds all three, tests/probes,
+asserts browser findings, then cleans copies/processes. It also declares
+max's passing own-test seed and separately asserts its failing seed, without
+changing tests. Physical touch, OS repeat, a physical high-refresh monitor,
+other browsers and exhaustive gameplay were not verified.
+
 ## Reproducible DOM probes
 
 Horizontal overflow was measured after setting the viewport to 390×844:

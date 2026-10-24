@@ -2,6 +2,39 @@
 
 This directory contains the reproducible, repository-safe parts of the audit behind [`RANKING.md`](../RANKING.md). Generated builds, copied `node_modules` trees, temporary web servers, browser profiles, and timestamped Playwright artifacts are intentionally excluded.
 
+## GLM-5.3-Flash (low, high, max)
+
+[`glm-review.md`](glm-review.md) records the independent 2026-10-24 audits,
+scores, exact defects, own-test limits and supplied generation/isolation facts
+for `glm-5.3-flash-free-{low,high,max}`. High's excluded notification turn
+changed no files; the audited implementation is turn 1.
+
+```sh
+python3 .audit/run-glm-audit.py --offline
+```
+
+The default command installs/builds/tests all three in random disposable
+copies, runs [`glm-audit.mjs`](glm-audit.mjs), then the desktop/390×844
+Chromium assertions in [`glm-browser.cjs`](glm-browser.cjs). Omit `--offline`
+when npm dependencies are not cached. Max's unchanged own suite uses declared
+LCG seed 1; the probe independently asserts the reproducible seed-16 failure
+of its assumption that the next random piece cannot be I. Initial unseeded
+workflows passed. That own-test limitation affects tests, not correctness.
+
+The probes cover all 28 canonical states, kick tables and actual kicks, ten
+actual seeded bags, hold/ghost/drop geometry, lock boundary/reset cap/ledge,
+normal/full/mini/B2B/combo/PC scoring, gravity/levels/soft timing, hidden lock-out,
+blocked spawn and restart. Browser checks use every required key and real R,
+exact phone geometry, low's actual 120 Hz callback and overlapping/clipped
+previews. Passing asserts recorded defects as well as conformance.
+
+`--engine-only` explicitly skips browsers; `--effort` selects one run.
+CLI/config and outside-checkout `--artifacts-dir` overrides match the recent
+audits. Only ports 41000–49999 are used; low/high port constants change only
+in temporary server copies, preserving routes/MIME. Named browsers, server
+groups and copies are cleaned on success/failure. No run source is changed;
+low's tracked pre-existing `build/tests` remains untouched.
+
 [`deepseek-session-analysis.md`](deepseek-session-analysis.md) documents the
 two-message implementation cutoff, the excluded user-wait interval, and the
 README-only third phase with exact read-only SQLite reproduction queries.
