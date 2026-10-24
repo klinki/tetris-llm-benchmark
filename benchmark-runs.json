@@ -738,6 +738,35 @@
           "message": "Background task completed."
         }
       ]
+    },
+    {
+      "id": "glm-5.3-flash-free-max",
+      "label": "GLM-5.3-Flash (max)",
+      "order": 280,
+      "project_dir": "glm-5.3-flash-free-max",
+      "harness": "t3_opencode",
+      "harness_label": "T3 Code / OpenCode",
+      "provider": "opencode",
+      "provider_label": "opencode",
+      "model": "glm-5.3-flash-free",
+      "session_id": "ses_e91985c62ffeAUPZ5eXqUksQ0d",
+      "t3_thread_id": "mcp:46192be9-d6b1-4129-928d-ddd6ce57b912",
+      "expected_cwd": "/Users/david/tetris-bench/runs/87eb9fdcf9bb/tetris",
+      "expected_cwd_basename": "tetris",
+      "reasoning_variant": "max",
+      "web": "open",
+      "cutoff": {
+        "through_user_message": 1,
+        "exclude_inter_message_wait": true
+      },
+      "overhead": {
+        "kind": "unknown"
+      },
+      "spec": {
+        "sha256": "36e2097a78fe8b5646e6216338640831cff0a284cc823c4b1f658991c8d40294",
+        "commit": "2b7fcff6b6aa4b576cadd176df3b57e95b1f3cd8",
+        "modified": false
+      }
     }
   ]
 }
