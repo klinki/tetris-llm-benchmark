@@ -156,6 +156,8 @@ main { min-width: 0; display: grid; gap: 20px; align-content: start; }
 .run-list .only:hover { color: var(--ink); }
 .run-list input:not(:checked) ~ .run-name { color: var(--muted); }
 .link-button { border: 0; background: none; color: var(--accent); cursor: pointer; padding: 0; font-size: 0.8rem; }
+.run-list .run-count { margin-left: auto; color: var(--muted); font-size: 0.75rem; font-variant-numeric: tabular-nums; }
+.filter-actions { display: flex; gap: 12px; margin: -4px 0 6px; }
 
 /* Cards and charts */
 .card {

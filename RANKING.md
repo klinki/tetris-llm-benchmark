@@ -60,7 +60,7 @@ Scores and confirmed bugs are recorded in [`ranking.json`](ranking.json); this t
 | 7 | Gemini-4 | 9.0 | 8.0 | 8.5 | 7.0 | 9.0 | **8.50** | 2 minor |
 | 8 | Luna PI | 9.5 | 6.5 | 9.0 | 7.0 | 8.5 | **8.45** | 1 minor |
 | 9 | Gemini 4 Argon (high) | 9.0 | 8.0 | 8.5 | 7.0 | 8.5 | **8.45** | 2 minor |
-| 10 | Muse Spark 1.3 (medium) | 9.0 | 7.5 | 8.0 | 8.0 | 9.0 | **8.40** | 2 minor |
+| 10 | Muse Spark 1.3 (medium, reference-assisted) | 9.0 | 7.5 | 8.0 | 8.0 | 9.0 | **8.40** | 2 minor |
 | 11 | Claude Sonnet 5.5 (medium) | 8.5 | 7.5 | 9.0 | 8.5 | 8.0 | **8.35** | 3 minor |
 | 12 | Sol OMP | 9.5 | 5.5 | 8.5 | 8.0 | 9.0 | **8.30** | 1 minor |
 | 13 | Claude Haiku 5.5 (max) | 8.0 | 8.0 | 9.0 | 8.0 | 8.5 | **8.25** | 4 minor |
@@ -90,10 +90,10 @@ Scores and confirmed bugs are recorded in [`ranking.json`](ranking.json); this t
 | 37 | GPT-6 Luna (medium) | 0.0 | 3.5 | 8.0 | 8.5 | 6.5 | **3.80** | 1 critical, 3 major, 1 minor |
 <!-- ranking-table:end -->
 
-The generated “Muse Spark 1.3 (medium)” row at **8.40** is reference-assisted
-[`muse-spark-1.3-medium`](muse-spark-1.3-medium); the row at **7.05** is the
-independent from-scratch [`muse-spark-1.3-contributor-medium`](muse-spark-1.3-contributor-medium).
-These are separate runs with unchanged registry labels.
+Muse Spark 1.3 has two medium runs: the reference-assisted
+[`muse-spark-1.3-medium`](muse-spark-1.3-medium) at **8.40**, which read
+Gemini-4's code before writing its own, and the independent from-scratch
+[`muse-spark-1.3-contributor-medium`](muse-spark-1.3-contributor-medium) at **7.05**.
 
 The ordering is deterministic. Equal weighted scores are ordered by correctness, tests, then code quality.
 
@@ -779,7 +779,7 @@ Test gaps and rationale:
 
 The [Gemini high audit](.audit/gemini-high-review.md) records exact reproductions and the supplied failed-launch/first-attempt/isolation context. Those generation facts have no quality-score effect.
 
-### 10. Muse Spark 1.3 (medium) — 8.40 — `muse-spark-1.3-medium` (reference-assisted)
+### 10. Muse Spark 1.3 (medium, reference-assisted) — 8.40 — `muse-spark-1.3-medium`
 
 Strengths:
 

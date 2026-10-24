@@ -1,4 +1,4 @@
-// Charts for the results page: two scatter plots, three horizontal bar charts, filters, and tooltips.
+// Charts for the results page: scatter plots, horizontal bar charts, model/harness/effort filters, and tooltips.
 const data = JSON.parse(document.getElementById("results").textContent);
 const SVG = "http://www.w3.org/2000/svg";
 const EFFORT_ORDER = ["none", "minimal", "low", "medium", "high", "xhigh", "max"];
@@ -13,13 +13,18 @@ const TOKEN_TYPES = [
 const CRITERIA = data.criteria.map((criterion, index) => ({ ...criterion, color: `var(--s${index + 1})` }));
 
 const runs = data.runs;
+// A model is what the price list names (e.g. "Claude Haiku 5.5"); a model has a run per effort and harness.
+const modelOf = (run) => run.price?.label ?? run.model;
+// Runs arrive in quality order, so models are listed by their best run.
+const models = [...new Set(runs.map(modelOf))];
+const slug = (text) => text.toLowerCase().replace(/[^a-z0-9.]+/g, "-").replace(/^-|-$/g, "");
 const harnesses = [...new Set(runs.map((run) => run.harness_label))];
 const efforts = [...new Set(runs.map((run) => run.effort ?? NO_EFFORT))];
 // Shape follows the harness, fixed by first appearance so filtering never reassigns it.
 const shapeOf = new Map(harnesses.map((harness, index) => [harness, SHAPES[index % SHAPES.length]]));
 
 const state = {
-  hidden: new Set(),
+  models: selectedModels(),
   harness: new Set(harnesses),
   effort: new Set(efforts),
   scale: { "quality-cost": "log", "quality-tokens": "log", "quality-time": "log" },
@@ -27,7 +32,21 @@ const state = {
 };
 
 const isVisible = (run) =>
-  !state.hidden.has(run.id) && state.harness.has(run.harness_label) && state.effort.has(run.effort ?? NO_EFFORT);
+  state.models.has(modelOf(run)) && state.harness.has(run.harness_label) && state.effort.has(run.effort ?? NO_EFFORT);
+
+// The model selection lives in the URL (#models=claude-haiku-5.5,gpt-6-luna) so a view can be shared.
+function selectedModels() {
+  const wanted = new URLSearchParams(location.hash.slice(1)).get("models");
+  if (!wanted) return new Set(models);
+  const slugs = new Set(wanted.split(","));
+  const chosen = models.filter((model) => slugs.has(slug(model)));
+  return new Set(chosen.length ? chosen : models);
+}
+function saveModels() {
+  const all = state.models.size === models.length;
+  const hash = all ? "" : `#models=${models.filter((model) => state.models.has(model)).map(slug).join(",")}`;
+  history.replaceState(null, "", hash || location.pathname + location.search);
+}
 
 // ---------- formatting ----------
 function formatTokens(value) {
@@ -221,9 +240,10 @@ function renderScatter(key, { xValue, xLabel, formatX, include = () => true }) {
 
   const points = visible.map((run) => ({ run, xValue: xValue(run), yValue: run.score, x: x(xValue(run)), y: y(run.score) }));
 
-  // One line per model in one harness, through its effort levels.
+  // One line per model in one harness, through its effort levels. A run with a comparison note
+  // (e.g. reference-assisted) is not comparable, so it stays a standalone point.
   const groups = new Map();
-  for (const point of points) {
+  for (const point of points.filter((p) => !p.run.comparison_note)) {
     const groupKey = `${point.run.model}|${point.run.harness_label}`;
     groups.set(groupKey, [...(groups.get(groupKey) ?? []), point]);
   }
@@ -516,41 +536,45 @@ function buildFilters() {
   body.append(chipGroup("Effort", efforts, state.effort));
 
   const group = htmlEl("div", "filter-group");
-  const heading = htmlEl("h3", "", "Runs");
-  const showAll = htmlEl("button", "link-button", "Show all");
-  showAll.type = "button";
-  group.append(heading);
+  const heading = htmlEl("h3", "", "Models");
+  const actions = htmlEl("div", "filter-actions");
+  const showAll = htmlEl("button", "link-button", "All");
+  const showNone = htmlEl("button", "link-button", "None");
+  showAll.type = showNone.type = "button";
+  actions.append(showAll, showNone);
+  group.append(heading, actions);
   const list = htmlEl("ul", "run-list");
   const inputs = new Map();
-  for (const run of runs) {
+  const select = (chosen) => {
+    state.models = new Set(chosen);
+    for (const [model, box] of inputs) box.checked = state.models.has(model);
+    saveModels();
+    renderAll();
+  };
+  for (const model of models) {
+    const count = runs.filter((run) => modelOf(run) === model).length;
     const item = htmlEl("li");
     const label = htmlEl("label");
-    const input = Object.assign(document.createElement("input"), { type: "checkbox", checked: true });
-    inputs.set(run.id, input);
+    const input = Object.assign(document.createElement("input"), { type: "checkbox", checked: state.models.has(model) });
+    inputs.set(model, input);
     input.addEventListener("change", () => {
-      if (input.checked) state.hidden.delete(run.id);
-      else state.hidden.add(run.id);
+      if (input.checked) state.models.add(model);
+      else state.models.delete(model);
+      saveModels();
       renderAll();
     });
-    label.append(input, htmlEl("span", "run-name", run.label));
+    label.append(input, htmlEl("span", "run-name", model), htmlEl("span", "run-count", String(count)));
     const only = htmlEl("button", "only", "only");
     only.type = "button";
-    only.setAttribute("aria-label", `Show only ${run.label}`);
-    only.addEventListener("click", () => {
-      state.hidden = new Set(runs.filter((other) => other.id !== run.id).map((other) => other.id));
-      for (const [id, box] of inputs) box.checked = id === run.id;
-      renderAll();
-    });
+    only.setAttribute("aria-label", `Show only ${model}`);
+    only.addEventListener("click", () => select([model]));
     item.append(label, only);
     list.append(item);
   }
-  showAll.addEventListener("click", () => {
-    state.hidden.clear();
-    for (const box of inputs.values()) box.checked = true;
-    renderAll();
-  });
-  group.append(list, showAll);
-  body.append(group);
+  showAll.addEventListener("click", () => select(models));
+  showNone.addEventListener("click", () => select([]));
+  group.append(list);
+  body.prepend(group);
 
   const panel = document.querySelector(".filter-panel");
   if (matchMedia("(max-width: 900px)").matches) panel.open = false;
@@ -578,6 +602,15 @@ function bindScatterControls() {
 buildFilters();
 bindScatterControls();
 renderAll();
+
+// Following a link to another model selection on this page changes only the hash.
+addEventListener("hashchange", () => {
+  state.models = selectedModels();
+  for (const item of document.querySelectorAll(".run-list li")) {
+    item.querySelector("input").checked = state.models.has(item.querySelector(".run-name").textContent);
+  }
+  renderAll();
+});
 
 let lastWidth = 0;
 new ResizeObserver(([entry]) => {

@@ -212,7 +212,7 @@ def index_page(results: dict[str, Any]) -> str:
   {chart_card("time-taken", "Time", "Wall-clock time from the benchmark prompt to the finished implementation.")}
   {chart_card("score-breakdown", "Score breakdown", "Each criterion's weighted contribution to the quality score out of 10.")}
   <section class="card" id="leaderboard" aria-labelledby="leaderboard-title">
-    <div class="card-head"><div><h2 id="leaderboard-title">Leaderboard</h2><p class="subtitle">The same data as a table. Select a run for its details and a playable build.</p></div></div>
+    <div class="card-head"><div><h2 id="leaderboard-title">Leaderboard</h2><p class="subtitle">The same data as a table, following the model, harness and effort filters. Select a run for its details and a playable build.</p></div></div>
     {leaderboard_table(runs)}
   </section>
 </main>

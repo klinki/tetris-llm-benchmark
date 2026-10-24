@@ -256,7 +256,7 @@
     },
     {
       "id": "muse-spark-1.3-medium",
-      "label": "Muse Spark 1.3 (medium)",
+      "label": "Muse Spark 1.3 (medium, reference-assisted)",
       "order": 120,
       "project_dir": "muse-spark-1.3-medium",
       "harness": "t3_opencode",
