@@ -708,8 +708,10 @@ class RankingTests(unittest.TestCase):
 
 
 class PricingTests(unittest.TestCase):
+    FAMILIES = [{"name": "OpenAI", "tiers": ["Sol", "Luna"]}]
     PRICED = {
         "label": "GPT-5.6 Luna",
+        "family": "OpenAI", "tier": "Luna", "version": "5.6",
         "prices": {"input": 0.20, "cache_read": 0.02, "cache_write": None, "output": 1.20},
         "evidence": "recorded",
         "source": "https://example.com/pricing",
@@ -719,8 +721,19 @@ class PricingTests(unittest.TestCase):
     def load(self, models: dict, runs: list[dict]) -> dict:
         with tempfile.TemporaryDirectory() as temporary:
             root = Path(temporary)
-            (root / "pricing.json").write_text(json.dumps({"schema_version": 1, "models": models}))
+            (root / "pricing.json").write_text(json.dumps({"schema_version": 1, "families": self.FAMILIES, "models": models}))
             return benchmark.load_pricing(root, runs)
+
+    def test_every_model_needs_a_listed_family_tier_and_numeric_version(self) -> None:
+        run = [{"id": "a", "model": "m"}]
+        self.load({"m": self.PRICED}, run)
+        for change, message in [
+            ({"family": "Unknown"}, "family and tier"),
+            ({"tier": "Terra"}, "family and tier"),
+            ({"version": "five"}, "numeric version"),
+        ]:
+            with self.subTest(change=change), self.assertRaisesRegex(benchmark.BenchmarkError, message):
+                self.load({"m": {**self.PRICED, **change}}, run)
 
     def test_estimate_reproduces_a_harness_recorded_cost(self) -> None:
         # Luna OMP's tokens; OMP recorded $0.171229440 for them.

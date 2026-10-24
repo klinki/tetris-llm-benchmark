@@ -15,8 +15,28 @@ const CRITERIA = data.criteria.map((criterion, index) => ({ ...criterion, color:
 const runs = data.runs;
 // A model is what the price list names (e.g. "Claude Haiku 5.5"); a model has a run per effort and harness.
 const modelOf = (run) => run.price?.label ?? run.model;
-// Runs arrive in quality order, so models are listed by their best run.
-const models = [...new Set(runs.map(modelOf))];
+// Models are listed by family (in the order pricing.json gives), then tier strongest first, then newest version.
+const familyRank = new Map(data.families.map((family, index) => [family.name, index]));
+const tierRank = new Map(data.families.flatMap((family) => family.tiers.map((tier, index) => [`${family.name}|${tier}`, index])));
+const priceOf = new Map(runs.map((run) => [modelOf(run), run.price ?? {}]));
+function compareVersions(a = "", b = "") {
+  const left = a.split(".").map(Number);
+  const right = b.split(".").map(Number);
+  for (let i = 0; i < Math.max(left.length, right.length); i++) {
+    const difference = (right[i] ?? 0) - (left[i] ?? 0);
+    if (difference) return difference;
+  }
+  return 0;
+}
+function compareModels(a, b) {
+  const x = priceOf.get(a);
+  const y = priceOf.get(b);
+  return (familyRank.get(x.family) ?? Infinity) - (familyRank.get(y.family) ?? Infinity)
+    || (tierRank.get(`${x.family}|${x.tier}`) ?? Infinity) - (tierRank.get(`${y.family}|${y.tier}`) ?? Infinity)
+    || compareVersions(x.version, y.version)
+    || a.localeCompare(b);
+}
+const models = [...new Set(runs.map(modelOf))].sort(compareModels);
 const slug = (text) => text.toLowerCase().replace(/[^a-z0-9.]+/g, "-").replace(/^-|-$/g, "");
 const harnesses = [...new Set(runs.map((run) => run.harness_label))];
 const efforts = [...new Set(runs.map((run) => run.effort ?? NO_EFFORT))];

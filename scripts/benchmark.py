@@ -280,9 +280,15 @@ def load_pricing(root: Path, runs: list[dict[str, Any]]) -> dict[str, Any]:
     models = pricing.get("models")
     if not isinstance(models, dict):
         raise BenchmarkError("pricing.json must contain a models object")
+    # Families in display order, each with its tiers strongest first; the site lists models in this order.
+    tiers = {family.get("name"): family.get("tiers", []) for family in pricing.get("families", [])}
     for model, entry in models.items():
         if not entry.get("label"):
             raise BenchmarkError(f"pricing.json entry {model} needs a label")
+        if entry.get("family") not in tiers or entry.get("tier") not in tiers[entry.get("family")]:
+            raise BenchmarkError(f"pricing.json entry {model} needs a family and tier listed under families")
+        if not re.fullmatch(r"(\d+(\.\d+)*)?", str(entry.get("version", "-"))):
+            raise BenchmarkError(f"pricing.json entry {model} needs a numeric version, e.g. 5.6 (empty if unknown)")
         if "unpriced" in entry:
             if not entry["unpriced"] or "prices" in entry:
                 raise BenchmarkError(f"pricing.json entry {model} must either give prices or say why it is unpriced")
@@ -1684,6 +1690,7 @@ def site_results(
     for position, record in enumerate((record for record in records if record["rank"] is not None), start=1):
         record["rank"] = position
     return {
+        "families": pricing.get("families", []),
         "excluded": excluded,
         "criteria": [{"key": key, "label": label, "weight": ranking["weights"][key]} for key, label in CRITERIA],
         "pricing_basis": pricing["basis"],

@@ -314,10 +314,16 @@ class ImportTests(unittest.TestCase):
             "schema_version": 1, "entries": [],
             "weights": {"correctness": 40, "tests": 20, "code": 20, "simplicity": 10, "browser_ux": 10},
         }))
-        (self.root / "pricing.json").write_text(json.dumps({"schema_version": 1, "models": {
-            "gemini-4": {"label": "Gemini 4", "unpriced": "Test."},
-            "claude-opus-5-5": {"label": "Claude Opus 5.5", "unpriced": "Test."},
-        }}))
+        (self.root / "pricing.json").write_text(json.dumps({
+            "schema_version": 1,
+            "families": [{"name": "Google", "tiers": ["Gemini"]}, {"name": "Anthropic", "tiers": ["Opus"]}],
+            "models": {
+                "gemini-4": {"label": "Gemini 4", "family": "Google", "tier": "Gemini", "version": "4", "unpriced": "Test."},
+                "claude-opus-5-5": {
+                    "label": "Claude Opus 5.5", "family": "Anthropic", "tier": "Opus", "version": "5.5", "unpriced": "Test.",
+                },
+            },
+        }))
         self.workspace = Path(self.temporary.name) / "ws" / "tetris"
         self.workspace.mkdir(parents=True)
         (self.workspace / "package.json").write_text("{}")
