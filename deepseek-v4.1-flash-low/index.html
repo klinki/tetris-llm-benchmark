@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="description"
+      content="TetrisJS — a browser Tetris built with TypeScript."
+    />
+    <title>TetrisJS</title>
+    <link rel="stylesheet" href="./style.css" />
+  </head>
+  <body>
+    <main class="shell">
+      <header class="site-header">
+        <h1 class="logo" aria-label="Tetris">
+          <span>T</span><span>E</span><span>T</span><span>R</span><span>I</span><span>S</span>
+        </h1>
+        <p class="tagline">Guideline rules · 7-bag · SRS wall kicks</p>
+      </header>
+
+      <div class="game-frame">
+        <canvas
+          id="game"
+          width="640"
+          height="700"
+          aria-label="Tetris playfield, hold piece, next queue and score"
+        >
+          Your browser does not support the canvas element.
+        </canvas>
+      </div>
+
+      <section class="controls" aria-label="Controls">
+        <div class="control"><kbd>←</kbd><kbd>→</kbd><span>Move</span></div>
+        <div class="control"><kbd>↑</kbd><kbd>X</kbd><span>Rotate clockwise</span></div>
+        <div class="control"><kbd>Z</kbd><kbd>Ctrl</kbd><span>Rotate counter-clockwise</span></div>
+        <div class="control"><kbd>↓</kbd><span>Soft drop</span></div>
+        <div class="control"><kbd>Space</kbd><span>Hard drop</span></div>
+        <div class="control"><kbd>C</kbd><span>Hold</span></div>
+        <div class="control"><kbd>R</kbd><span>Restart</span></div>
+      </section>
+    </main>
+
+    <script type="module" src="./dist/main.js"></script>
+  </body>
+</html>
