@@ -57,6 +57,7 @@ The table is generated from [`benchmark-runs.json`](benchmark-runs.json),
 | 37 | [GLM-5.3-Flash (low)](glm-5.3-flash-free-low/STATISTICS.md) | `glm-5.3-flash-free` | `low` | T3 Code / OpenCode | **4.85** | 4,356,489 | $0.16 | 10m 15.035s | Canonical SRS, but hold, gravity/frame timing, scoring and blocked spawn fail; previews overlap and clip |
 | 38 | [Nemotron](nemotron/STATISTICS.md) | `nvidia/nemotron-3.5-super-vl:free` | `thinking` | T3 Code / OpenCode | **4.00** | 1,851,716 | $0.20 | 9m 8.773s | Does not start in the browser: imports lack .js extensions |
 | 39 | [GPT-6 Luna (medium)](gpt-6-luna-medium/STATISTICS.md) | `gpt-6-luna` | `medium` | T3 Code / Codex | **3.80** | 160,641 | $0.01 | 1m 35.743s | Does not build or start; diagnostic source has wrong SRS, scoring and gravity |
+| — | [GPT-5.6 Luna (low)](gpt-5.6-luna-low/STATISTICS.md) | `gpt-5.6-luna` | `low` | T3 Code / Codex | Pending | 195,984 | $0.02 | 41.388s | Not ranked yet |
 
 **† Muse Spark 1.3 (medium, reference-assisted):** Reference-assisted run: the medium-reasoning child read Gemini-4's engine, shape tables, tests, and build files before writing this implementation, so token/time efficiency is not an independent from-scratch comparison. Primary time covers the child task only. The xhigh parent prepared/delegated and verified/reported the result: 339,157 recorded parent tokens and 2m 54.475s end-to-end are documented separately.
 
