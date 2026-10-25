@@ -586,7 +586,8 @@ What the Haiku run established:
 Tested agents in T3 are given `allowedTools: ["mcp__t3-code__*"]`, which
 includes `t3_thread_search` and `t3_thread_read`; they can read earlier runs'
 transcripts without touching a file. The isolation check therefore reports any
-call to a T3 tool as `t3-tool`, except the preview browser (`preview_*`), which
+call to a T3 tool as `t3-tool`, except the preview browser (`preview_*` and
+`t3_preview_*`), which
 shows the agent its own pages. The screenshots the preview browser saves under
 `~/.t3/userdata/browser-artifacts` are not `t3-data` findings when the same
 thread saved them; the Haiku xhigh run checked its game this way. Likewise, a

@@ -492,7 +492,8 @@ def outside_access(
             continue
         tool = payload.get("toolName") or item["type"]
         t3_tool = T3_TOOL.search(tool)
-        if t3_tool and not t3_tool.group(1).startswith("preview_"):
+        # T3 names its preview-browser tools preview_* and t3_preview_* (e.g. t3_preview_close).
+        if t3_tool and not t3_tool.group(1).startswith(("preview_", "t3_preview_")):
             findings.append({
                 "time": payload.get("startedAt", ""), "tool": tool, "kind": "t3-tool",
                 "reference": json.dumps(payload.get("input"))[:500],

@@ -153,6 +153,7 @@ class BenchmarkLookupTests(unittest.TestCase):
             tool_item(2, "dynamic_tool", toolName="Read", input={"file_path": own}),
             tool_item(3, "dynamic_tool", toolName="Read", input={"file_path": other}),
             tool_item(4, "dynamic_tool", toolName="mcp__t3-code__t3_thread_read", input={"threadId": "old-run"}),
+            tool_item(5, "dynamic_tool", toolName="t3-code.t3_preview_close", input={"tabId": "own-tab"}),
         )
 
 
