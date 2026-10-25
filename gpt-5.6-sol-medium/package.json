@@ -1,0 +1,15 @@
+{
+  "name": "tetrisjs",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "A dependency-free, Guideline-inspired browser Tetris game",
+  "scripts": {
+    "build": "tsc && cp src/index.html src/styles.css dist/",
+    "start": "node server.mjs",
+    "test": "npm run build && node --test tests/*.test.mjs"
+  },
+  "devDependencies": {
+    "typescript": "^5.9.3"
+  }
+}

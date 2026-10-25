@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <meta name="theme-color" content="#090b14" />
+    <meta name="description" content="A crisp, modern take on classic Guideline Tetris." />
+    <title>TetrisJS — Stack the signal</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main class="shell">
+      <header class="masthead">
+        <div class="brand"><span class="brand-mark">T</span><span>TETRIS<small>JS</small></span></div>
+        <div class="header-actions"><button id="sound-button" class="icon-button" aria-label="Toggle sound">SOUND ON</button><button id="pause-button" class="icon-button">PAUSE</button></div>
+      </header>
+
+      <section class="game-layout" aria-label="Tetris game">
+        <aside class="side-panel left-panel">
+          <div class="panel-card hold-card">
+            <span class="eyebrow">Hold</span>
+            <canvas id="hold-canvas" width="128" height="96" aria-label="Held piece"></canvas>
+            <span class="key-hint">C</span>
+          </div>
+          <div class="panel-card score-card">
+            <span class="eyebrow">Score</span><strong id="score">000000</strong>
+            <div class="stat-row"><span>Level</span><b id="level">01</b></div>
+            <div class="stat-row"><span>Lines</span><b id="lines">00</b></div>
+          </div>
+        </aside>
+
+        <div class="board-wrap">
+          <div class="board-glow"></div>
+          <canvas id="game-canvas" width="400" height="800" aria-label="Tetris board"></canvas>
+          <div id="overlay" class="overlay hidden">
+            <span id="overlay-kicker">Signal lost</span>
+            <h1 id="overlay-title">Game over</h1>
+            <p id="overlay-copy">Final score: 000000</p>
+            <button id="restart-button" class="primary-button">Run it back <kbd>R</kbd></button>
+          </div>
+          <div id="callout" class="callout">READY</div>
+        </div>
+
+        <aside class="side-panel right-panel">
+          <div class="panel-card next-card">
+            <span class="eyebrow">Up next</span>
+            <div id="next-list" class="next-list"></div>
+          </div>
+          <div class="panel-card controls-card">
+            <span class="eyebrow">Controls</span>
+            <div><span>Move</span><kbd>←</kbd><kbd>→</kbd></div>
+            <div><span>Soft drop</span><kbd>↓</kbd></div>
+            <div><span>Rotate</span><kbd>↑</kbd><kbd>Z</kbd></div>
+            <div><span>Hard drop</span><kbd>SPACE</kbd></div>
+            <div><span>Hold</span><kbd>C</kbd></div>
+          </div>
+        </aside>
+      </section>
+
+      <div class="mobile-controls" aria-label="Touch controls">
+        <button data-action="left" aria-label="Move left">←</button>
+        <button data-action="down" aria-label="Soft drop">↓</button>
+        <button data-action="right" aria-label="Move right">→</button>
+        <button data-action="ccw" aria-label="Rotate counter-clockwise">↶</button>
+        <button data-action="cw" aria-label="Rotate clockwise">↷</button>
+        <button data-action="drop" class="drop-button" aria-label="Hard drop">DROP</button>
+        <button data-action="hold" aria-label="Hold piece">HOLD</button>
+      </div>
+      <footer><span>STACK THE SIGNAL</span><span>GUIDELINE MODE · 7-BAG · SRS</span></footer>
+    </main>
+    <script type="module" src="main.js"></script>
+  </body>
+</html>
