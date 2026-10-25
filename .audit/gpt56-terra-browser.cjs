@@ -7,7 +7,7 @@ const assert = require('node:assert/strict');
 const check = (ok,message) => { if(!ok)throw Error(message); };
 
 async function runBrowser(base,mode,artifacts,family='terra') {
-  const qwen=family==='qwen',low=mode==='low',medium=mode==='medium';
+  const qwen=family==='qwen',low=mode==='low',medium=mode==='medium',max=!qwen&&mode==='max';
   const browser=await chromium.launch({headless:true});
   const result={family,mode,browser:browser.version(),views:{}};
   try {
@@ -29,17 +29,17 @@ async function runBrowser(base,mode,artifacts,family='terra') {
           };
         }
       });
-      const entry=qwen&&low?'dist/src/main.js':qwen?'dist/main.js':mode==='high'?'main.js':mode==='xhigh'?'dist/index.js':'dist/main.js';
+      const entry=qwen&&low?'dist/src/main.js':qwen?'dist/main.js':mode==='high'||max?'main.js':mode==='xhigh'?'dist/index.js':'dist/main.js';
       await page.route(new URL(entry,base).href,async route=>{
         const response=await route.fetch();
-        const clocks=qwen?'last=0;':mode==='high'?'last=0;gravityElapsed=0;lockElapsed=0;lockResets=0;':mode==='xhigh'?'previousTime=0;gravityElapsed=0;groundedElapsed=0;lockResets=0;':'last=0;elapsed=0;';
+        const clocks=max?'previousFrame=0;game.gravityElapsed=0;game.lockElapsed=0;game.lockResets=0;':qwen?'last=0;':mode==='high'?'last=0;gravityElapsed=0;lockElapsed=0;lockResets=0;':mode==='xhigh'?'previousTime=0;gravityElapsed=0;groundedElapsed=0;lockResets=0;':'last=0;elapsed=0;';
         const paint=qwen?'renderer.draw(game)':mode==='medium'?'draw()':mode==='xhigh'?'redraw()':'render()';
         await route.fulfill({response,body:await response.text()+`\nwindow.__app={get game(){return game},paint(){${paint}},resetClock(){${clocks}}};`});
       });
       await page.goto(base,{waitUntil:'networkidle'});
       await page.evaluate(({family,mode})=>{
-        const qwen=family==='qwen',low=mode==='low',medium=mode==='medium';
-        const offset=qwen?(low?4:2):mode==='high'?2:0;
+        const qwen=family==='qwen',low=mode==='low',medium=mode==='medium',max=!qwen&&mode==='max';
+        const offset=qwen?(low?4:2):mode==='high'||max?2:0;
         const g=()=>window.__app.game;
         const native=()=>qwen?(low?g().piece:g().current):low||medium?g().current:g().active;
         let clock=0;
@@ -52,7 +52,7 @@ async function runBrowser(base,mode,artifacts,family='terra') {
         const cells=p=>local(p.type,p.rotation).map(([x,y])=>[p.x+x,p.y+y]);
         const fits=p=>cells(p).every(([x,y])=>x>=0&&x<10&&y<20&&!get(x,y));
         const count=()=>qwen?(low?g().board.grid.flat():Array.from(g().board.cells)).filter(Boolean).length:g().board.flat().filter(Boolean).length;
-        const state=()=>({active:active(),score:g().score,lines:g().lines,level:g().level,held:qwen?(low?g().holdType:g().hold):mode==='high'?g().held:g().hold,canHold:g().canHold,over:qwen?(low?g().state==='over':g().gameOver):low||medium?g().over:g().gameOver,count:count()});
+        const state=()=>({active:active(),score:g().score,lines:g().lines,level:g().level,held:qwen?(low?g().holdType:g().hold):mode==='high'?g().held:g().hold,canHold:max?!g().holdUsed:g().canHold,over:max?g().phase==='gameover':qwen?(low?g().state==='over':g().gameOver):low||medium?g().over:g().gameOver,count:count()});
         const clear=()=>{if(qwen)g().board.reset();else g().board.forEach(r=>r.fill(null));};
         const put=(x,y)=>{if(qwen){if(low)g().board.grid[y+offset][x]=1;else g().board.cells[(y+offset)*10+x]=2;}else g().board[y+offset][x]='J';};
         const frame=ms=>{clock+=ms;window.__draws=[];window.__frame(clock);};
@@ -68,6 +68,7 @@ async function runBrowser(base,mode,artifacts,family='terra') {
       },{family,mode});
       const v=(fn,arg)=>page.evaluate(fn,arg);
       check(!(await v(()=>__v.state().over)),`${family} ${mode} starts`);
+      if(max&&artifacts){fs.mkdirSync(artifacts,{recursive:true});await page.screenshot({path:path.join(artifacts,`terra-max-${name}-initial.png`),fullPage:true});}
       await v(()=>{__v.clear();__v.place('T',0,3,5);__v.paint();});
       const controls=[];
       for(const k of ['ArrowLeft','ArrowRight','ArrowUp','x','z','ControlLeft','ArrowDown','Space','c']){
@@ -81,6 +82,29 @@ async function runBrowser(base,mode,artifacts,family='terra') {
       check(controls[6].after.active.y===controls[6].before.active.y+1&&controls[6].after.score===controls[6].before.score+1,'soft points');
       check(controls[7].after.count===4,'hard locks four cells');
       check(controls[8].after.held===controls[8].before.active.type&&!controls[8].after.canHold,'hold');
+      let clicks=null,landingFramePartition=null;
+      if(max){
+        await v(()=>{__v.clear();__v.place('T',0,3,5);__v.paint();});
+        clicks=[];
+        for(const command of ['left','right','rotateClockwise','rotateCounterClockwise','softDrop','hardDrop','hold']){
+          const before=await v(()=>__v.state());
+          await page.locator(`[data-command="${command}"]`).click();
+          const after=await v(()=>__v.state());clicks.push({command,before,after});
+        }
+        check(clicks[0].after.active.x===clicks[0].before.active.x-1,'button left');
+        check(clicks[1].after.active.x===clicks[1].before.active.x+1,'button right');
+        check(clicks[2].after.active.rotation===(clicks[2].before.active.rotation+1)%4,'button CW');
+        check(clicks[3].after.active.rotation===(clicks[3].before.active.rotation+3)%4,'button CCW');
+        check(clicks[4].after.active.y===clicks[4].before.active.y+1&&clicks[4].after.score===clicks[4].before.score+1,'button soft');
+        check(clicks[5].after.count===4,'button hard');
+        check(clicks[6].after.held===clicks[6].before.active.type&&!clicks[6].after.canHold,'button hold');
+        await page.locator('#newGame').click();
+        const fresh=await v(()=>__v.state());check(!fresh.over&&fresh.count===0&&fresh.score===0&&fresh.held===null&&fresh.canHold,'New game button');
+        landingFramePartition=await v(()=>{
+          const out=[];for(const parts of [[1000],Array(10).fill(100)]){__v.clear();__v.place('O',0,3,17);for(const ms of parts)__v.frame(ms);out.push(__v.state().count);}return out;
+        });
+        assert.deepEqual(landingFramePartition,[4,0]);
+      }
       // Actual drawing for all seven independent obstructed ghosts.
       const ghosts=[];
       for(const type of ['I','J','L','O','S','T','Z']){
@@ -90,8 +114,8 @@ async function runBrowser(base,mode,artifacts,family='terra') {
           let actual;
           if(!qwen&&mode==='high')actual=[...document.querySelectorAll('#board .cell')].flatMap((e,i)=>e.classList.contains('ghost')?[[i%10,Math.floor(i/10)]]:[]);
           else {
-            const size=!qwen&&mode==='xhigh'?36:30;
-            const calls=__draws.filter(c=>c.id==='board'&&(qwen&&mode==='low'?c.op==='strokeRect'&&c.w===26:c.op==='fillRect'&&c.alpha<0.3&&c.alpha>0.1&&c.w===(mode==='xhigh'&&!qwen?36:28)&&c.h===(mode==='xhigh'&&!qwen?36:28)));
+            const max=!qwen&&mode==='max',size=max?32:!qwen&&mode==='xhigh'?36:30;
+            const calls=__draws.filter(c=>c.id===(max?'boardCanvas':'board')&&(qwen&&mode==='low'?c.op==='strokeRect'&&c.w===26:c.op==='fillRect'&&c.alpha<0.3&&c.alpha>0.1&&Math.abs(c.w-(max?27.2:mode==='xhigh'&&!qwen?36:28))<1e-8&&Math.abs(c.h-(max?27.2:mode==='xhigh'&&!qwen?36:28))<1e-8));
             actual=calls.map(c=>[Math.floor(c.x/size),Math.floor(c.y/size)]);
           }
           return {type,expected,actual:actual.sort()};
@@ -136,23 +160,23 @@ async function runBrowser(base,mode,artifacts,family='terra') {
         const g=__v.g();if(family==='qwen'){if(mode==='low')g.holdType='I';else g.hold='I';}else if(mode==='high')g.held='I';else g.hold='I';
         __v.queue().fill('I');__v.paint();
         return ['hold','next'].map(id=>{
-          const el=document.getElementById(id),rect=el.getBoundingClientRect();
+          const el=document.getElementById(mode==='max'&&family==='terra'?id+'Canvas':id),rect=el.getBoundingClientRect();
           if(!(el instanceof HTMLCanvasElement))return {id,text:el.innerText,display:getComputedStyle(el).display,width:rect.width,height:rect.height};
           const data=el.getContext('2d').getImageData(0,0,el.width,el.height).data;let pixels=0;for(let i=3;i<data.length;i+=4)if(data[i])pixels++;
-          const calls=__draws.filter(c=>c.id===id&&c.op==='fillRect');
+          const calls=__draws.filter(c=>c.id===el.id&&c.op==='fillRect');
           const outside=calls.filter(c=>c.x<0||c.y<0||c.x+c.w>el.width||c.y+c.h>el.height);
           const visible=calls.filter(c=>c.x<el.width&&c.y<el.height&&c.x+c.w>0&&c.y+c.h>0);
-          return {id,backing:[el.width,el.height],pixels,calls:calls.length,visible:visible.length,outside:outside.map(c=>({x:c.x,y:c.y,w:c.w,h:c.h})),display:getComputedStyle(el).display};
+          return {id,backing:[el.width,el.height],...(mode==='max'&&family==='terra'?{css:[rect.width,rect.height],cellAspect:(rect.width/el.width)/(rect.height/el.height)}:{}),pixels,calls:calls.length,visible:visible.length,outside:outside.map(c=>({x:c.x,y:c.y,w:c.w,h:c.h})),display:getComputedStyle(el).display};
         });
       },{family,mode});
       const layout=await v(()=>{
         const box=e=>{const r=e.getBoundingClientRect();return {x:+r.x.toFixed(2),y:+r.y.toFixed(2),width:+r.width.toFixed(2),height:+r.height.toFixed(2)};};
-        const overlay=document.querySelector('#game-over,#overlay,#message');
-        return {documentWidth:document.documentElement.scrollWidth,documentHeight:document.documentElement.scrollHeight,board:box(document.getElementById('board')),support:['hold','next'].map(id=>({id,...box(document.getElementById(id))})),activeOverlay:overlay?{hidden:overlay.hidden,display:getComputedStyle(overlay).display,text:overlay.innerText}:null};
+        const overlay=document.querySelector('#game-over,#overlay,#message,#gameOver');
+        return {documentWidth:document.documentElement.scrollWidth,documentHeight:document.documentElement.scrollHeight,board:box(document.getElementById(__v.g().phase!==undefined?'boardCanvas':'board')),support:['hold','next'].map(id=>({id,...box(document.getElementById(__v.g().phase!==undefined?id+'Canvas':id))})),activeOverlay:overlay?{hidden:overlay.hidden,display:getComputedStyle(overlay).display,opacity:getComputedStyle(overlay).opacity,text:overlay.innerText}:null};
       });
       check(errors.filter(e=>!e.includes('favicon.ico')).length===0,'application errors '+JSON.stringify(errors));check(badResponses.length===0&&failedRequests.length===0,'required assets');
       if(artifacts){fs.mkdirSync(artifacts,{recursive:true});await page.screenshot({path:path.join(artifacts,`${family}-${mode}-${name}.png`),fullPage:true});}
-      result.views[name]={controls:controls.map(c=>c.key),ghosts,transition,refresh,refreshVariants,over,restarted,restartBag,previews,layout,errors,badResponses,failedRequests};
+      result.views[name]={controls:controls.map(c=>c.key),...(max?{clicks:clicks.map(c=>c.command),landingFramePartition}:{}),ghosts,transition,refresh,refreshVariants,over,restarted,restartBag,previews,layout,errors,badResponses,failedRequests};
       await context.close();
     }
   } finally {await browser.close();}
@@ -167,6 +191,7 @@ function assertBrowser(result){
     'terra-medium':{desktop:[1280,488,304,604,336,100,821,120],mobile:[513,130.44,237.12,471.12,11.88,78,390.18,93.6]},
     'terra-high':{desktop:[1280,515,250,500,333,145,802,145],mobile:[390,18,260,520,0,0,303,72]},
     'terra-xhigh':{desktop:[1280,465,350,700,293,148,839,148],mobile:[390,20,350,700,7,183,200,183]},
+    'terra-max':{desktop:[1280,481,318,636,153,295,832,295],mobile:[390,11,268,536,19,144,303,77.22]},
     'qwen-low':{desktop:[1280,488,304,604,341,120,817,120],mobile:[503,43,304,604,-104,120,372,120]},
     'qwen-medium':{desktop:[1280,489,302,602,339,130,811,130],mobile:[516,44,302,602,-106,130,366,130]},
   };
@@ -175,6 +200,7 @@ function assertBrowser(result){
     'terra-medium':{'2:1480.001':[1,1],'2:1564':[2,1],'10:600':[2,2],'15:600':[7,7]},
     'terra-high':{'2:1480.001':[1,1],'2:1564':[1,1],'10:600':[9,8],'15:600':[10,10]},
     'terra-xhigh':{'2:1480.001':[1,1],'2:1564':[1,1],'10:600':[9,8],'15:600':[10,10]},
+    'terra-max':{'2:1480.001':[1,1],'2:1564':[1,1],'10:600':[9,9],'15:600':[18,18]},
     'qwen-low':{'2:1480.001':[1,1],'2:1564':[1,1],'10:600':[9,9],'15:600':[18,18]},
     'qwen-medium':{'2:1480.001':[1,1],'2:1564':[1,1],'10:600':[9,9],'15:600':[18,18]},
   };
@@ -197,6 +223,15 @@ function assertBrowser(result){
     }else if(id==='terra-high'){
       check(view.previews[1].text.replace(/\s/g,'')==='IIIII','five textual next entries');
       check(name==='desktop'?h.width>0:h.width===0,'phone hold removal');
+    }else if(id==='terra-max'){
+      check(view.previews.every(p=>p.pixels>0&&p.outside.length===0),'complete max previews');
+      assert.deepEqual(view.previews.map(p=>p.calls),[5,21],'four hold/five complete next shapes plus backgrounds');
+      check(view.layout.activeOverlay.opacity==='0','active max overlay transparent');
+      check(view.layout.documentWidth===(name==='desktop'?1280:390),'max fits horizontally');
+      check(Math.abs(view.previews[0].cellAspect-1)<0.001,'max hold scales uniformly');
+      const aspect=view.previews[1].cellAspect;
+      check(name==='desktop'?Math.abs(aspect-1)<0.001:aspect>0.70&&aspect<0.71,'max phone next preview distortion');
+      if(name==='mobile')assert.equal(view.previews[1].css[1],260,'phone next forced minimum height');
     }else{
       check(view.previews.every(p=>p.pixels>0&&p.outside.length===0),'complete preview backing pixels');
       if(id==='terra-medium'||id==='qwen-low')check(view.layout.activeOverlay.display==='none','active overlay hidden');

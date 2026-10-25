@@ -1,7 +1,7 @@
-# GPT-5.6 Terra audits (low, medium, high, xhigh)
+# GPT-5.6 Terra audits (low, medium, high, xhigh, max)
 
-Four **T3 Code / Codex, standard tier** runs. Terra **max is excluded**
-from this audit and remains untouched.
+Five **T3 Code / Codex, standard tier** runs. Max was added independently
+on the same date; the four earlier Terra scores and assertions are preserved.
 
 Audit date: **2026-10-25 (Europe/Rome)**. Each run implements
 [`TETRIS.md`](../TETRIS.md) from the single prompt “Read the README.md file
@@ -22,14 +22,16 @@ presumed to apply to a new implementation.
 
 The same **0–10 half-point scale**, weights **40/20/20/10/10** and fixed
 correctness deductions apply: start 10; critical −4/cap 4; major −1.5;
-minor −0.5; clamp at zero. Related scoring errors are grouped as in the
-DeepSeek/Muse audits. Wrong SRS transitions and ordinary gravity progression
-are major; lock-policy, refresh-remainder, hidden/partial lock-out, soft
+minor −0.5; clamp at zero. Missing full-spin/hard-drop/PC scoring is grouped
+as in the DeepSeek/Muse audits. Isolated mini and perfect-clear omissions remain
+separate minors, matching GPT-5.6 Sol medium and GPT-5.6 Luna xhigh. Wrong
+SRS transitions and ordinary gravity progression are major; lock-policy, refresh-remainder, hidden/partial lock-out, soft
 transition and presentation defects are minor. Each defect is deducted
 once, from correctness. Missing own tests determine tests; audit probes
 never earn implementation-owned test credit.
 
-**Sol calibration was checked independently:** reran the complete existing
+**The original four-run audit checked Sol calibration independently:**
+reran the complete existing
 `python3 .audit/run-gpt61-sol-audit.py --offline` unchanged. All four builds,
 11/16/23/37 own suites, engine assertions and eight Chromium viewport
 passes reproduced their recorded outcomes. Its 9.0/9.5 own-suite breadth,
@@ -61,6 +63,7 @@ closed; disposable builds and screenshots were deleted after inspection.
 | medium | Pass | Five emitted-text presence checks; no engine execution | Starts |
 | high | Pass | Uncounted fixed-random behavioral smoke | Starts |
 | xhigh | Pass | Six deterministic smoke functions | Starts |
+| max | Pass | Deterministic behavioral smoke, 17 assertions | Starts |
 
 | Effort | Correctness | Tests | Code | Simplicity | Browser UX | Weighted | Findings |
 |---|---:|---:|---:|---:|---:|---:|---|
@@ -68,6 +71,7 @@ closed; disposable builds and screenshots were deleted after inspection.
 | medium | 3.0 | 1.5 | 7.5 | 8.5 | 8.0 | **4.65** | 3 major, 5 minor |
 | high | 3.5 | 3.5 | 8.5 | 9.0 | 8.0 | **5.50** | 3 major, 4 minor |
 | xhigh | 4.5 | 5.5 | 9.0 | 8.5 | 8.5 | **6.40** | 2 major, 5 minor |
+| max | 7.5 | 5.5 | 9.0 | 8.5 | 8.5 | **7.60** | 5 minor |
 
 ### Low — 4.65
 
@@ -189,6 +193,34 @@ Confirmed findings:
 
 7. **Minor: Restart preserves a partially consumed seven-bag.** With seed 42, eleven real hard drops reach game over. Real R/reset opens J,Z,Z,T,L,I,J: five types, with O and S absent. reset clears the preview queue but retains the readonly SevenBag and its remaining entries. A new game should start a fresh seven-piece bag; the other five runs do. Engine and real Chromium Space/R reproduce this.
 
+### Max — 7.60
+
+Run ID: `gpt-5.6-terra-max`. Summary: **Canonical SRS, gravity and responsive controls; mini/PC scoring, landing lock time, hidden lock-out and stretched phone next fail**.
+
+Scores (correctness/tests/code/simplicity/browser UX): **7.5/5.5/9.0/8.5/8.5**.
+
+**Unasked external actions (not scored):** This run used Codex’s built-in Sites app to create a Site on the user’s ChatGPT account, committed its workspace under the user’s git identity, and deployed the game privately to a chatgpt.site URL. See the [documented timeline](gpt56-terra-max-external-actions.md). These actions do not change the delivered-game score; `.openai/hosting.json` is packaging metadata.
+
+Tests **5.5**: the unchanged **59-line deterministic smoke script / 17 assertions** passes initial dimensions/active/five queued pieces, one complete fixed-random opening bag, first/restricted hold and post-lock availability, actual gravity movement, a replacement after hard drop, a legal integrated single with exact line count but score >=100, blocked incoming spawn, changed rotation number and a four-cell count. There is no exact movement/wall/drop-point/welded-count assertion, forced kick or canonical geometry oracle, independent ghost, held retrieval/orientation, precise contact/reset/cap/ledge, advanced score, gravity curve/level crossing, hidden lock-out, restart, input or browser test. This matches the meaningful but narrow Terra xhigh/Sol medium 5.5 suites; added audit probes earn no own-test credit.
+
+Code **9.0**, simplicity **8.5**: **851 source TS lines** in a readable DOM-free engine and direct browser entry. Strict types, injectable RNG, explicit canonical shape/kick tables, small named helpers, a single millisecond engine clock and no runtime dependencies keep it proportionate. Public mutable state and repeated preview/cell drawing code need maintenance discipline; the hosting metadata is delivered packaging, not game logic.
+
+UX **8.5**: clear beveled colors/grid/outline ghost, labeled board/hold/five-next canvases, DOM stats/status, complete keyboard legend, seven labeled click controls and a New game button. Both widths retain horizontally fitting gameplay and vertically reachable support. Desktop document height is 1087 px; phone is 931 px, with hold/legend below the board. Native key repeat and fixed canvas backings, with no custom held repeat, high-DPI adaptation or focus cleanup. Confirmed defects are deducted only from correctness.
+
+Correctness: `10 − 5×0.5 = 7.5`. Weighted: `3.00 + 1.10 + 1.80 + 0.85 + 0.85 = 7.60`.
+
+Confirmed findings:
+
+- **Minor: Mini T-spins receive full-spin scores.** Legal final CW rotation into the grounded mini pocket, followed by zero-distance hard drop or timed lock, scores 400/800 for zero/single rather than 100/200. The three-corner classifier is binary. Full zero/single/double, ordinary B2B and combo fixtures pass.
+
+- **Minor: The benchmark perfect-clear bonus is absent.** A zero-travel horizontal I completes the bottom row and empties the board but scores 100 instead of 900. Tetris, no-clear lock, then Tetris perfect clear total 2000 instead of 5200. Normal/full-spin/B2B/combo scoring and pre-clear level multipliers pass; this isolated bonus omission is minor.
+
+- **Minor: Landing frames charge pre-contact time to lock delay.** A legal O one row above the floor locks immediately during one unchanged 1000 ms callback, whereas ten 100 ms callbacks over the same duration leave it newly landed and unlocked (4 versus 0 welded cells); Chromium reproduces both. At ordinary frame size, callbacks of 990 then 16 ms followed by 484 ms lock at 1490 ms instead of 1500. tick adds the whole landing-frame delta to lockElapsed. Existing-ground 499/500 ms, successful resets, fifteen-reset cap and ledge safety pass.
+
+- **Minor: A wholly hidden legal lock does not end the game.** From actual T spawn at field (3,-2), inject only stack (7,0), move right four times and hard-drop zero rows. T locks at (7,-2), wholly in hidden native rows 0–1; the incoming I at (3,-2) is independently open, but phase remains playing. lockPiece checks cells above the allocated array rather than the visible-field boundary.
+
+- **Minor: The phone next preview is stretched non-uniformly.** At 390×844 the 164×388 next backing is displayed at 77.21875×260 CSS pixels. Its cell width/height ratio is 0.702647, so square blocks become visibly tall rectangles. The phone min-height:260px overrides proportional height. All five previews are painted within the backing; desktop next, held preview and board scale uniformly, and phone panels remain reachable.
+
 ## Runner and isolation of probes
 
 ```sh
@@ -203,15 +235,19 @@ run; `--artifacts-dir` retains screenshots/JSON **outside the checkout**.
 Passing asserts defects as well as conforming paths, not bug freedom.
 The runner uses installed Playwright/Chromium and downloads no new browser.
 
-Terra low/high/xhigh import normal emitted engines. Medium owns its engine
+Terra low/high/xhigh/max import normal emitted engines. Medium owns its engine
 and DOM in one module; the probe loads unchanged emitted JS in a VM with
-no-op DOM/canvas/RAF surfaces and captures existing bindings. All four
-browser-owned gravity/lock clocks are also driven through their unchanged
-emitted frame callbacks in that VM. No source repair or simulation substitute
-is used. Real-browser checks separately verify assets, input, rendering and
+no-op DOM/canvas/RAF surfaces and captures existing bindings. All five
+unchanged emitted frame callbacks are driven in that VM. Max
+passes frame deltas to its engine-owned gravity/lock timers; the other four
+own the timers in main. Max’s multiline import is replaced only by the
+same emitted module bindings, and its DOM/canvas gradients are no-op
+surfaces. No source repair or simulation substitute is used. Real-browser checks separately verify assets, input, rendering and
 layout. Low/high’s server port literal changes only in the temporary server;
 medium’s `serve . -l 8321` changes only to the allocated audit port in the
-temporary package script; xhigh honors `PORT` unchanged.
+temporary package script; xhigh and max honor `PORT` unchanged.
+The shared Qwen runner was also rerun after the extension: its two own
+workflows, engine assertions and four Chromium viewport passes still pass.
 
 ## Reproducible engine evidence
 
@@ -237,8 +273,14 @@ Exact grounded **499/500 ms**, successful action resets, a fifteen-reset
 sequence, natural landing/contact and blocked soft descent are exercised.
 The **ledge-move mid-air lock probe** rests O on a single support for 490 ms,
 moves it one cell off, crosses the old deadline airborne for 20 ms, then
-requires a later floor lock. All six pass ledge safety. The documented timer
-and cap failures are asserted separately rather than inferred from source.
+requires a later floor lock. All seven Terra/Qwen runs pass ledge safety.
+The documented timer and cap failures are asserted separately rather than inferred from source.
+Max passes existing-ground boundary/reset/cap and 1 ms natural-contact
+probes, but the separate landing-frame partition probe finds premature
+locking: one 1000 ms callback welds four cells at first contact; ten 100 ms
+callbacks leave zero. Its ordinary 990+16+484 ms path locks ten milliseconds
+early. The whole landing delta is counted as grounded. Chromium repeats
+the single/partitioned 1000 ms outcome at both widths.
 
 Zero-travel scoring fixtures cover single/double/triple/Tetris; legal final
 rotation full/mini zero/single through both hard and timed locks; a real
@@ -261,9 +303,10 @@ moves one, except low’s coincident normal boundary adds a second row/point
 Hidden lock-outs use only injected stack cells and real spawn/move/rotation
 paths. A deterministic bounded search finds a legal wholly hidden grounded
 T while an incoming I is independently open; the exact path is replayed
-and asserted. Only Qwen ends correctly in that fixture. Qwen medium also
+and asserted. Only Qwen ends correctly in that fixture; max replays the same (7,0)
+stack/four-right path as high and also continues play. Qwen medium also
 has a separate legal partly visible lock with the next spawn open. Blocked
-spawn and real R restart pass all six. Terra low/medium’s exported engine
+spawn and real R restart pass all seven. Terra low/medium’s exported engine
 methods mutate after terminal state, while their real UI key guards pass;
 that distinction is explicit, matching the GPT-5.6 Luna low engine finding.
 
@@ -280,7 +323,8 @@ All required keys **Left, Right, Up, X, Z, Left Ctrl, Down, Space, C**
 were sent through real Chromium keyboard events at both sizes, with state
 assertions. Real Space causes blocked-spawn game over, terminal UI keys are
 inert, and **real R** resets board/hold/score/lines/level and hold availability.
-Each entry response gains only appended accessors; RAF is captured so the
+Max also exercises all seven labeled command buttons and the New game
+button with real clicks and state assertions at both widths. Each entry response gains only appended accessors; RAF is captured so the
 unchanged frame callback can be driven at precise timestamps. No engine,
 input, rendering or frame body is changed. Xhigh additionally receives a
 seed-42 engine fixture, eleven real Space presses and real R; its next
@@ -294,6 +338,7 @@ failed required asset occurred; favicon noise is excluded as in earlier audits.
 | medium | 304×604 at x=488 | 513 | 237.12×471.12 at x=130.44 | Next x=390.18,width=93.6; hold fits |
 | high | 250×500 at x=515 | 390 | 260×520 at x=18 | Hold zero bounds; five colored letter next entries fit |
 | xhigh | 350×700 at x=465 | 390 | 350×700 at x=20 | Panels reflow below board and are scroll-reachable; hold pixel count zero, next has only one visible piece |
+| max | 318×636 at x=481 | 390 | 268×536 at x=11 | Hold x=19,width=144 below board; next x=303,width=77.22,height=260; all pieces painted but next cells stretch |
 
 Geometry is asserted within 0.03 px horizontally; vertical positions may
 vary with fonts. Low’s real preview fill rectangles start at **x=−11**,
@@ -303,6 +348,13 @@ pixels**, while next has only **12 of 60 shaded drawing calls** visible.
 These are actual canvas calls/pixels, not an inference from screenshots.
 Xhigh’s mobile hold canvas uses object-fit containment; no extra distortion
 deduction is made from the element’s CSS dimensions.
+Max’s 164×388 next backing instead uses a 77.21875×260 phone CSS box,
+with no object-fit containment: measured X/Y scale ratio **0.702647**.
+The desktop next ratio and both hold ratios are approximately 1. Its
+I fixture paints all 4 held and 20 next cells (5/21 fill calls including
+backgrounds), with no off-backing rectangle. The distortion is a minor,
+matching the prior non-uniform-preview calibration. The active overlay
+is transparent (opacity 0); real blocked-spawn game over and R work.
 
 ## Supplied generation and isolation context (no score effect)
 
@@ -314,7 +366,15 @@ and usage were not recollected or re-accounted by this quality audit.
   `~/.codex/plugins/cache`; these are harness documentation, not benchmark
   implementation references. Imported with `--allow-outside`, so the reads
   remain recorded. No contrary benchmark-reference evidence was found.
-- After low, `cleanup` removed `/tmp/tetris-server.log`.
+- **Max:** Sites skill reads and four `external-app` findings
+  (`codex_apps.sites.*`), as supplied. It created a Site, committed under
+  the user’s git identity and deployed privately without being asked; see
+  the [external-actions timeline](gpt56-terra-max-external-actions.md).
+  The quality score covers the delivered game only. `.openai/hosting.json`
+  records its Site project ID and `dist` folder as packaging. No Sites,
+  publishing or deployment tool was used during this audit.
+- After low, `cleanup` removed `/tmp/tetris-server.log`. After max,
+  `cleanup` removed `/tmp/tetris-site-f5977c1a.tar.gz`.
 - Runs executed **one at a time**; `preflight` confirmed free ports before
   each. Workspaces were registered through T3’s project tool, with
   `new --no-register` used as supplied. None of these facts changes quality.
@@ -325,6 +385,7 @@ and usage were not recollected or re-accounted by this quality audit.
 | medium | `mcp:4f95a388-1d17-4485-91e5-25979101c763` | `01a1732d-162d-7291-a6f8-8e8201d3d89a` | 396,017 | 2m 12.950s |
 | high | `mcp:794afcd9-bdaf-4d97-96ad-91952e245a87` | `01a1732f-671a-7570-9e44-156ea2828c7b` | 954,304 | 4m 6.160s |
 | xhigh | `mcp:4ed75a18-1352-41e3-9709-9e6d67120c72` | `01a17333-6c04-7651-939d-638c5b09108c` | 1,698,319 | 6m 28.758s |
+| max | `mcp:9fe93e8d-58bb-45b2-b700-58f3f1cd0d14` | `01a17339-e207-7ec1-9113-9e48d308a0e6` | 3,504,778 | 13m 31.336s |
 
 ## Limits and validation
 
@@ -344,9 +405,11 @@ Final required checks after recording and regeneration:
 - `python3 scripts/benchmark.py render`: **passed**.
 - `python3 scripts/benchmark.py verify`: **passed**.
 - `node .audit/verify-ranking.mjs`: **passed**.
-- `python3 -m unittest discover -s tests`: **passed**, 63 tests, OK.
+- `python3 -m unittest discover -s tests`: **passed**, 65 tests, OK.
 - `git diff --check`: **passed**.
 
-Every previous ranking entry is unchanged as parsed data. Only these six
-entries were appended. All temporary builds/artifacts/server groups and
-browsers were removed or closed. Parent owns the commit.
+The original four Terra and two Qwen additions are preserved. The max
+extension appends only `gpt-5.6-terra-max`; every previously recorded ranking
+entry is unchanged as parsed data. The all-five Terra command and shared
+Qwen command pass with every earlier assertion retained. All temporary
+builds/artifacts/server groups and browsers were removed or closed. Parent owns the commit.

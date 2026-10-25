@@ -30,12 +30,12 @@ const iKicks = {
 
 export async function runAudit(root, mode, family = 'terra') {
   root = resolve(root);
-  const qwen = family === 'qwen', low = mode === 'low', medium = mode === 'medium';
-  assert((qwen ? ['low','medium'] : ['low','medium','high','xhigh']).includes(mode));
+  const qwen = family === 'qwen', low = mode === 'low', medium = mode === 'medium', max = !qwen && mode === 'max';
+  assert((qwen ? ['low','medium'] : ['low','medium','high','xhigh','max']).includes(mode));
   const load = file => import(pathToFileURL(resolve(root, 'dist', qwen && low ? 'src' : '', file)));
   const core = !qwen && medium ? null : await load(!qwen && mode === 'xhigh' ? 'engine.js' : 'game.js');
   const pieces = qwen ? await load('pieces.js') : null;
-  const offset = qwen ? (low ? 4 : 2) : mode === 'high' ? 2 : 0;
+  const offset = qwen ? (low ? 4 : 2) : mode === 'high' || max ? 2 : 0;
   const types = Object.keys(reference), bottom = 19;
   const seeded = seed => () => ((seed = (Math.imul(seed,1664525)+1013904223)>>>0)/2**32);
   const apps = new WeakMap();
@@ -47,20 +47,20 @@ export async function runAudit(root, mode, family = 'terra') {
     // input, rendering and frame function bodies remain byte-for-byte emitted JS.
     const elements = new Map(), handlers = {};
     const noop = () => {};
-    const context = new Proxy({canvas:{width:360,height:720}}, {get:(t,p)=>p in t?t[p]:noop,set:(t,p,v)=>(t[p]=v,true)});
+    const context = new Proxy({canvas:{width:360,height:720},createLinearGradient:()=>({addColorStop:noop})}, {get:(t,p)=>p in t?t[p]:noop,set:(t,p,v)=>(t[p]=v,true)});
     const element = id => {
-      if(!elements.has(id)) elements.set(id,{width:360,height:720,style:{setProperty:noop},classList:{toggle:noop},append:noop,getContext:()=>context});
+      if(!elements.has(id)) elements.set(id,{width:360,height:720,style:{setProperty:noop},classList:{toggle:noop},append:noop,addEventListener:noop,getContext:()=>context});
       return elements.get(id);
     };
-    const document = {querySelector:element,getElementById:element,createElement:element,addEventListener:(n,fn)=>handlers[n]=fn};
+    const document = {querySelector:element,querySelectorAll:()=>[],getElementById:element,createElement:element,addEventListener:(n,fn)=>handlers[n]=fn};
     const sandbox = {...core,document,performance:{now:()=>0},requestAnimationFrame:noop,console,
       addEventListener:(n,fn)=>handlers[n]=fn,HTMLCanvasElement:Object,HTMLElement:Object};
     sandbox.window=sandbox;sandbox.Math=Object.create(Math);sandbox.Math.random=random;
     const ctx=vm.createContext(sandbox);
     const file=mode==='xhigh'?'index.js':'main.js';
-    let source=readFileSync(resolve(root,'dist',file),'utf8').replace(/^import[^\n]*\n/gm,'').replace(/export class /g,'class ');
-    const frame=mode==='high'?'tick':mode==='xhigh'?'update':'loop';
-    const clocks=mode==='high'?'last=0;gravityElapsed=0;lockElapsed=0;lockResets=0;':mode==='xhigh'?'previousTime=0;gravityElapsed=0;groundedElapsed=0;lockResets=0;':'last=0;elapsed=0;';
+    let source=readFileSync(resolve(root,'dist',file),'utf8').replace(/^import[\s\S]*?from\s+["'][^"']+["'];\s*/gm,'').replace(/export class /g,'class ');
+    const frame=max?'animationFrame':mode==='high'?'tick':mode==='xhigh'?'update':'loop';
+    const clocks=max?'previousFrame=0;game.gravityElapsed=0;game.lockElapsed=0;game.lockResets=0;':mode==='high'?'last=0;gravityElapsed=0;lockElapsed=0;lockResets=0;':mode==='xhigh'?'previousTime=0;gravityElapsed=0;groundedElapsed=0;lockResets=0;':'last=0;elapsed=0;';
     source+=`\nglobalThis.__app={get game(){return game},frame:${frame},resetClock(){${clocks}},key(e){globalThis.__keydown(e)}};`;
     withRandom(random,()=>vm.runInContext(source,ctx));
     ctx.__keydown=handlers.keydown;
@@ -79,6 +79,7 @@ export async function runAudit(root, mode, family = 'terra') {
   const local = (type,r) => {
     if(qwen && !low){const a=[];pieces.STATES[type][r].forEach((row,y)=>row.forEach((v,x)=>{if(v)a.push([x,y]);}));return a;}
     if(qwen)return pieces.shapeCells(type,r);
+    if(max)return core.getPieceCells({type,rotation:r,x:0,y:0}).map(c=>[c.x,c.y]);
     if(mode==='xhigh')return core.cellsFor({type,rotation:r,x:0,y:0});
     const g=make();return JSON.parse(JSON.stringify(g.cells({...native(g),type,kind:type,rotation:r,x:0,y:0})));
   };
@@ -86,15 +87,16 @@ export async function runAudit(root, mode, family = 'terra') {
   const geometry=Object.fromEntries(types.map(t=>[t,Array.from({length:4},(_,r)=>local(t,r))]));
   const cells = p => geometry[p.type][p.rotation].map(([x,y])=>[x+p.x,y+p.y]);
   const fits = (g,p) => cells(p).every(([x,y])=>x>=0&&x<10&&y<=bottom&&!get(g,x,y));
-  const over = g => qwen ? (low?g.state==='over':g.gameOver) : (low||medium?g.over:g.gameOver);
+  const over = g => max ? g.phase==='gameover' : qwen ? (low?g.state==='over':g.gameOver) : (low||medium?g.over:g.gameOver);
+  const canHold = g => max ? !g.holdUsed : g.canHold;
   const queue = g => qwen?g.nextQueue:g.queue;
   const held = g => qwen?(low?g.holdType:g.hold):mode==='high'?g.held:g.hold;
   const keyEvent = key => ({key,code:({' ':'Space',c:'KeyC',r:'KeyR',x:'KeyX',z:'KeyZ',Control:'ControlLeft'})[key]??key,preventDefault(){},repeat:false});
   const key = (g,k) => apps.get(g).app.key(keyEvent(k));
-  const move = (g,d) => g.move(d,...(!qwen?[0]:[]));
-  const rotate = (g,d) => g.rotate(d);
-  const hard = g => qwen?g.hardDrop():withRandom(apps.get(g).random,()=>g.hardDrop());
-  const hold = g => qwen?(low?g.hold():g.holdPiece()):mode==='high'?g.hold():g.holdPiece();
+  const move = (g,d) => max ? g.handle(d<0?'left':'right') : g.move(d,...(!qwen?[0]:[]));
+  const rotate = (g,d) => max ? g.handle(d===1?'rotateClockwise':'rotateCounterClockwise') : g.rotate(d);
+  const hard = g => max ? g.handle('hardDrop') : qwen?g.hardDrop():withRandom(apps.get(g).random,()=>g.hardDrop());
+  const hold = g => max ? g.handle('hold') : qwen?(low?g.hold():g.holdPiece()):mode==='high'?g.hold():g.holdPiece();
   const step = (g,ms,soft=false) => {
     if(qwen){if(low)g.softDropping=soft;else g.softDropHeld=soft;g.update(low?ms/1000:ms);}
     else {const a=apps.get(g);a.time+=ms;withRandom(a.random,()=>a.app.frame(a.time));}
@@ -107,7 +109,7 @@ export async function runAudit(root, mode, family = 'terra') {
     else {const a=apps.get(g);a.app.resetClock();a.time=0;g.lastAction='move';}
     assert(fits(g,active(g)),'fixture starts collision-free');
   };
-  const ghost = g => qwen?(low?g.ghostY():g.dropPosition())-offset:low?g.ghost().y:medium||mode==='high'?g.ghostY()-offset: (()=>{let p=active(g);while(fits(g,{...p,y:p.y+1}))p={...p,y:p.y+1};return p.y;})();
+  const ghost = g => max ? g.getGhostPiece().y-offset : qwen?(low?g.ghostY():g.dropPosition())-offset:low?g.ghost().y:medium||mode==='high'?g.ghostY()-offset: (()=>{let p=active(g);while(fits(g,{...p,y:p.y+1}))p={...p,y:p.y+1};return p.y;})();
   const soft = g => {const p=active(g);if(qwen){step(g,50,true);}else key(g,'ArrowDown');return active(g)?.y!==p.y;};
   const colorFile=qwen?'pieces.ts':mode==='xhigh'?'index.ts':mode==='medium'?'main.ts':'game.ts';
   const colorText=readFileSync(resolve(root,'src',colorFile),'utf8');
@@ -124,7 +126,8 @@ export async function runAudit(root, mode, family = 'terra') {
   for(const t of types.filter(t=>t!=='O'))for(const trans of Object.keys(normalKicks)){
     const [from,to]=trans.split('>').map(Number),g=make();place(g,t,from,3,8);const seen=[];
     const capture=p=>{if((p.rotation??p.rot)===to)seen.push([(p.x??p.col)-3,(p.y??p.row)-offset-8]);return false;};
-    if(qwen&&low)g.canPlace=capture;
+    if(max)g.isValid=capture;
+    else if(qwen&&low)g.canPlace=capture;
     else if(qwen)g.board.collides=(m,row,col)=>!capture({rot:to,row,col});
     else if(low||medium)g.valid=capture;
     else if(mode==='high')g.fits=capture;
@@ -148,7 +151,7 @@ export async function runAudit(root, mode, family = 'terra') {
   for(const t of types){const g=make();place(g,t,0,3,8);for(const d of [-1,1]){for(let i=0;i<20;i++)move(g,d);const xs=cells(active(g)).map(p=>p[0]);assert.equal(d<0?Math.min(...xs):Math.max(...xs),d<0?0:9);}}
   for(let seed=1;seed<=10;seed++){const g=make(seed);for(let bag=0;bag<10;bag++){const dealt=[];for(let i=0;i<7;i++){dealt.push(active(g).type);clear(g);hard(g);assert(!over(g));}assert.deepEqual(dealt.sort(),[...types].sort());}}
   record('bags',100);
-  {const g=make(),first=active(g).type,next=queue(g)[0];rotate(g,1);hold(g);assert.equal(active(g).type,next);assert.equal(held(g),first);assert(!g.canHold);const kept=active(g);hold(g);assert.deepEqual(active(g),kept);clear(g);hard(g);assert(g.canHold);const outgoing=active(g).type;hold(g);assert.equal(active(g).type,first);assert.equal(active(g).rotation,0);assert.equal(held(g),outgoing);record('hold','restriction, queue, post-lock retrieval and orientation pass');}
+  {const g=make(),first=active(g).type,next=queue(g)[0];rotate(g,1);hold(g);assert.equal(active(g).type,next);assert.equal(held(g),first);assert(!canHold(g));const kept=active(g);hold(g);assert.deepEqual(active(g),kept);clear(g);hard(g);assert(canHold(g));const outgoing=active(g).type;hold(g);assert.equal(active(g).type,first);assert.equal(active(g).rotation,0);assert.equal(held(g),outgoing);record('hold','restriction, queue, post-lock retrieval and orientation pass');}
   for(const t of types){const g=make();place(g,t,0,3,0);put(g,4,16);const p=active(g),y=ghost(g);assert(fits(g,{...p,y}));assert(!fits(g,{...p,y:y+1}));hard(g);assert.equal(g.score,2*(y-p.y));for(const[x,yy]of cells({...p,y}))assert(get(g,x,yy));}
   record('ghost','seven obstructed landing poses, points and welded cells pass');
   const ox=qwen?0:-1;
@@ -158,6 +161,15 @@ export async function runAudit(root, mode, family = 'terra') {
    const l=make();place(l,'O',0,ox,12);put(l,0,14);advance(l,490);assert.equal(count(l),1);if(qwen)move(l,1);else key(l,'ArrowRight');assert(fits(l,{...active(l),y:active(l).y+1}));advance(l,20);record('ledge',{occupied:count(l),active:active(l)});assert.equal(count(l),1);for(let i=0;i<500&&!get(l,1,19);i++)step(l,16);assert(get(l,1,19),'eventual floor lock');
    const s=make();place(s,'O',0,3,18);soft(s);record('groundedSoftLock',count(s));
    const n=make();place(n,'O',0,3,17);let landedAt=0;while(active(n).y===17&&landedAt<2000){step(n,1);landedAt++;}let lockedAfter=0;while(!count(n)&&lockedAfter<2000){step(n,1);lockedAfter++;}record('naturalLanding',{landedAt,lockedAfter});}
+  if(max){
+    // The unchanged callback must not count time before contact as grounded.
+    const counts=[];
+    for(const parts of [[1000],Array(10).fill(100)]){
+      const g=make();place(g,'O',0,3,17);for(const ms of parts)step(g,ms);counts.push(count(g));
+    }
+    record('landingFramePartition',{single1000:counts[0],ten100:counts[1]});
+    const g=make();place(g,'O',0,3,17);step(g,990);step(g,16);advance(g,483);const at1489=count(g);step(g,1);record('landingFrame16',{at1489,at1490:count(g)});
+  }
   const well=(g,n,pc=false)=>{clear(g);for(let y=20-n;y<=19;y++)for(let x=0;x<10;x++)if(x!==4)put(g,x,y);if(!pc)put(g,0,10);place(g,'I',1,2,16);};
   const pcSingle=g=>{clear(g);for(let x=0;x<10;x++)if(x<3||x>6)put(g,x,19);place(g,'I',0,3,18);};
   const filler=g=>{clear(g);place(g,'O',0,7,18);hard(g);};
@@ -214,7 +226,7 @@ export async function runAudit(root, mode, family = 'terra') {
   assert(found,'bounded public hidden-lock fixture exists');
   {const g=make();clear(g);for(const[x,y]of found.stack)put(g,x,y);spawn(g,'T');queue(g)[0]='I';for(const a of found.path)a==='L'||a==='R'?move(g,a==='L'?-1:1):rotate(g,a==='C'?1:-1);assert.deepEqual(active(g),found.pose);assert.equal(ghost(g),found.pose.y);hard(g);record('hiddenLockOut',{...found,over:over(g)});}
   if(qwen){const g=make();put(g,8,1);spawn(g,'T');queue(g)[0]='I';for(let i=0;i<4;i++)assert(move(g,1));advance(g,1000);const pose=active(g);assert(pose&&cells(pose).some(([,y])=>y<0)&&cells(pose).some(([,y])=>y>=0));assert.equal(ghost(g),pose.y);assert(fits(g,{type:'I',rotation:0,x:3,y:-2}),'incoming I open');hard(g);record('partialLockOut',{pose,over:over(g)});}
-  {const g=make();place(g,'O',0,0,18);queue(g)[0]='T';put(g,4,(!qwen&&(low||medium))?0:!qwen&&mode==='xhigh'?1:-2);hard(g);assert(over(g),'blocked spawn ends game');const snapshot=()=>JSON.stringify([active(g),qwen?g.board:g.board,g.score,held(g)]),before=snapshot();move(g,-1);rotate(g,1);hold(g);hard(g);record('engineGameOverInert',snapshot()===before);const fresh=reset(g);record('reset',{over:over(fresh),count:count(fresh),score:fresh.score,lines:fresh.lines,level:fresh.level,held:held(fresh),canHold:fresh.canHold});}
+  {const g=make();place(g,'O',0,0,18);queue(g)[0]='T';put(g,4,(!qwen&&(low||medium))?0:!qwen&&mode==='xhigh'?1:-2);hard(g);assert(over(g),'blocked spawn ends game');const snapshot=()=>JSON.stringify([active(g),qwen?g.board:g.board,g.score,held(g)]),before=snapshot();move(g,-1);rotate(g,1);hold(g);hard(g);record('engineGameOverInert',snapshot()===before);const fresh=reset(g);record('reset',{over:over(fresh),count:count(fresh),score:fresh.score,lines:fresh.lines,level:fresh.level,held:held(fresh),canHold:canHold(fresh)});}
   {let g=make(42),drops=0;while(!over(g)&&drops<100){hard(g);drops++;}assert(over(g),'real hard drops reach game over');g=reset(g);const opening=[];for(let i=0;i<7;i++){opening.push(active(g).type);clear(g);hard(g);assert(!over(g));}record('restartBag',{drops,opening,types:new Set(opening).size});}
   console.log(JSON.stringify(evidence,null,1));
   assertRecorded(evidence);
@@ -226,7 +238,7 @@ function assertRecorded(e) {
   assert.deepEqual(e.wrongStates,[]);assert.equal(e.bags,100);
   assert.equal(e.restartBag.types,e.family==='terra'&&e.mode==='xhigh'?5:7,'fresh opening after actual game over/restart');
   if(e.family==='terra'&&e.mode==='xhigh')assert.deepEqual(e.restartBag,{drops:11,opening:['J','Z','Z','T','L','I','J'],types:5});
-  const expectedKicks=e.family==='terra'&&e.mode!=='xhigh'?Object.keys(reference).filter(t=>t!=='O').flatMap(t=>Object.keys(normalKicks).map(k=>t+':'+k)):[];
+  const expectedKicks=e.family==='terra'&&!['xhigh','max'].includes(e.mode)?Object.keys(reference).filter(t=>t!=='O').flatMap(t=>Object.keys(normalKicks).map(k=>t+':'+k)):[];
   assert.deepEqual(e.wrongKicks,expectedKicks);
   const expected = {
     "qwen-low": {
@@ -489,6 +501,20 @@ function assertRecorded(e) {
       "reset": {"over":false,"count":0,"score":0,"lines":0,"level":1,"held":null,"canHold":true},
     },
   };
+  expected['terra-max']={
+    ...expected['terra-high'],
+    firstRowAfterHold:1000,
+    concreteKicks:expected['terra-xhigh'].concreteKicks,
+    gravity:expected['terra-high'].gravity.map(g=>({...g,elapsed:g.level>=14?16:g.elapsed})),
+    refresh:[9,9],
+    refreshVariants:{'2:1480.001':[1,1],'2:1564':[1,1],'10:600':[9,9],'15:600':[18,18]},
+    'hard-mini-zero':400,'hard-mini-single':800,'hard-full-zero':400,'hard-full-single':800,
+    'timed-mini-zero':400,'timed-mini-single':800,'timed-full-zero':400,'timed-full-single':800,
+    miniAfterB2B:2000,hardFullDouble:{score:1200,lines:2},timedFullDouble:{score:1200,lines:2},
+    landingFramePartition:{single1000:4,ten100:0},landingFrame16:{at1489:0,at1490:4},
+  };
+  delete expected['terra-max'].holdInheritedResetCount;
+  delete expected['terra-max'].holdGravityCarry;
   const actual={...e};for(const key of ['family','mode','wrongStates','wrongKicks','bags','hold','ghost','restartBag'])delete actual[key];
   assert.deepEqual(actual,expected[e.family+'-'+e.mode],'recorded conforming and defective outcomes');
 }

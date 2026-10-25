@@ -101,7 +101,7 @@ def browser_audit(copy, effort, temporary, args, family):
 
 
 def main(family='terra'):
-    efforts = ('low', 'medium', 'high', 'xhigh') if family == 'terra' else ('low', 'medium')
+    efforts = ('low', 'medium', 'high', 'xhigh', 'max') if family == 'terra' else ('low', 'medium')
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--offline', action='store_true', help='Use only cached npm dependencies')
     parser.add_argument('--engine-only', action='store_true', help='Explicitly skip browser findings')
@@ -113,7 +113,8 @@ def main(family='terra'):
     prefix = 'gpt56-terra' if family == 'terra' else 'qwen38-max'
     project = 'gpt-5.6-terra' if family == 'terra' else 'qwen3.8-max'
     markers = {'low': 'Smoke tests passed', 'medium': 'Smoke tests passed: build contains core Tetris game logic.',
-               'high': 'Tetris logic smoke tests passed', 'xhigh': 'All Tetris logic smoke tests passed.'}
+               'high': 'Tetris logic smoke tests passed', 'xhigh': 'All Tetris logic smoke tests passed.',
+               'max': 'Tetris smoke tests passed.'}
     with tempfile.TemporaryDirectory(prefix=f'tetris-{prefix}-audit-') as directory:
         temporary = Path(directory)
         for effort in ((args.effort,) if args.effort else efforts):

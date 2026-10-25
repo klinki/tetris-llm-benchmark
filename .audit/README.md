@@ -4,12 +4,14 @@ This directory contains the reproducible, repository-safe parts of the audit beh
 
 ## GPT-5.6 Terra and Qwen3.8 Max — October 25
 
-The [Terra review](gpt56-terra-review.md) covers low/medium/high/xhigh;
+The [Terra review](gpt56-terra-review.md) covers low/medium/high/xhigh/max;
 the [Qwen Max review](qwen38-max-review.md) covers low/medium. Both use the
 existing rubric and calibration, recording every confirmed finding, own-test
 coverage, exact desktop/phone measurements and supplied isolation facts.
-Terra max and Qwen's unfinished xhigh are excluded. Historical records stay
-unchanged; the complete existing Sol runner was rerun as a calibration check.
+Qwen's unfinished xhigh is excluded. Terra max’s [unasked external
+actions](gpt56-terra-max-external-actions.md) are documented without a score
+penalty. Historical scores stay unchanged; the original four-run audit
+reran the complete existing Sol runner as a calibration check.
 
 ```sh
 python3 .audit/run-gpt56-terra-audit.py --offline
@@ -24,7 +26,10 @@ workflows in random disposable copies, then run
 [Terra Chromium assertions](gpt56-terra-browser.cjs) and
 [Qwen Chromium assertions](qwen38-max-browser.cjs). The canonical oracle,
 fixtures and browser utility are shared; each adapter calls its own run.
-All six build/test/start, although Terra medium's smoke never executes logic.
+All seven build/test/start, although Terra medium's smoke never executes logic.
+The one Terra command audits all five efforts; the shared Qwen runner also
+still passes after the extension. Max has 17 own smoke assertions and five
+confirmed minor findings, scoring 7.60.
 
 Coverage includes all 28 states/48 ordered transitions, actual wall/floor
 kicks, 100 engine bags, hold, seven independently obstructed ghosts/drop
@@ -32,7 +37,10 @@ points/cells, exact lock/reset/cap/ledge probes, normal/full/mini/B2B/combo/PC
 variants, gravity curve/levels, soft timing, legal hidden/partial lock-out,
 blocked spawn/reset, every real required key and unchanged 60/144 Hz frame
 callbacks. Browser assertions reproduce overlay, clipped/blank preview and
-phone-state findings. Passing asserts defects as well as conforming paths.
+phone-state findings. Max adds landing-frame partition assertions, all seven
+command-button/New game clicks, complete preview painting and exact phone
+next-canvas scaling (cell aspect 0.702647). Passing asserts defects as well
+as conforming paths.
 
 Omit `--offline` when dependencies are not cached. `--engine-only`,
 `--effort` and outside-checkout `--artifacts-dir` options are supported.

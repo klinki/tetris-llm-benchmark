@@ -1766,6 +1766,45 @@
         }
       ],
       "summary": "Canonical core and responsive UI; mini/B2B-PC scoring, stale soft-drop spin credit and partial lock-out fail"
+    },
+    {
+      "run_id": "gpt-5.6-terra-max",
+      "audited": "2026-10-25",
+      "scores": {
+        "correctness": 7.5,
+        "tests": 5.5,
+        "code": 9.0,
+        "simplicity": 8.5,
+        "browser_ux": 8.5
+      },
+      "bugs": [
+        {
+          "severity": "minor",
+          "title": "Mini T-spins receive full-spin scores",
+          "detail": "Legal final CW rotation into the grounded mini pocket, followed by zero-distance hard drop or timed lock, scores 400/800 for zero/single rather than 100/200. The three-corner classifier is binary. Full zero/single/double, ordinary B2B and combo fixtures pass."
+        },
+        {
+          "severity": "minor",
+          "title": "The benchmark perfect-clear bonus is absent",
+          "detail": "A zero-travel horizontal I completes the bottom row and empties the board but scores 100 instead of 900. Tetris, no-clear lock, then Tetris perfect clear total 2000 instead of 5200. Normal/full-spin/B2B/combo scoring and pre-clear level multipliers pass; this isolated bonus omission is minor."
+        },
+        {
+          "severity": "minor",
+          "title": "Landing frames charge pre-contact time to lock delay",
+          "detail": "A legal O one row above the floor locks immediately during one unchanged 1000 ms callback, whereas ten 100 ms callbacks over the same duration leave it newly landed and unlocked (4 versus 0 welded cells); Chromium reproduces both. At ordinary frame size, callbacks of 990 then 16 ms followed by 484 ms lock at 1490 ms instead of 1500. tick adds the whole landing-frame delta to lockElapsed. Existing-ground 499/500 ms, successful resets, fifteen-reset cap and ledge safety pass."
+        },
+        {
+          "severity": "minor",
+          "title": "A wholly hidden legal lock does not end the game",
+          "detail": "From actual T spawn at field (3,-2), inject only stack (7,0), move right four times and hard-drop zero rows. T locks at (7,-2), wholly in hidden native rows 0–1; the incoming I at (3,-2) is independently open, but phase remains playing. lockPiece checks cells above the allocated array rather than the visible-field boundary."
+        },
+        {
+          "severity": "minor",
+          "title": "The phone next preview is stretched non-uniformly",
+          "detail": "At 390×844 the 164×388 next backing is displayed at 77.21875×260 CSS pixels. Its cell width/height ratio is 0.702647, so square blocks become visibly tall rectangles. The phone min-height:260px overrides proportional height. All five previews are painted within the backing; desktop next, held preview and board scale uniformly, and phone panels remain reachable."
+        }
+      ],
+      "summary": "Canonical SRS, gravity and responsive controls; mini/PC scoring, landing lock time, hidden lock-out and stretched phone next fail"
     }
   ]
 }
