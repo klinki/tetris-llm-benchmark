@@ -4,6 +4,7 @@
   "runs": [
     {
       "id": "luna-codex",
+      "site_excluded": "superseded by the October 2026 GPT-5.6 Luna runs at every effort level",
       "label": "Luna Codex",
       "order": 10,
       "project_dir": "luna-codex",
@@ -25,6 +26,7 @@
     },
     {
       "id": "luna-omp",
+      "site_excluded": "superseded by the October 2026 GPT-5.6 Luna runs at every effort level",
       "static_aliases": {"style.css": "src/style.css"},
       "label": "Luna OMP",
       "order": 20,
@@ -48,6 +50,7 @@
     },
     {
       "id": "luna-pi",
+      "site_excluded": "superseded by the October 2026 GPT-5.6 Luna runs at every effort level",
       "label": "Luna PI",
       "order": 25,
       "project_dir": "luna-pi",
@@ -1015,6 +1018,7 @@
     },
     {
       "id": "claude-haiku-5-5-low",
+      "static_aliases": {"index.html": "public/index.html", "style.css": "public/style.css"},
       "label": "Claude Haiku 5.5 (low)",
       "order": 370,
       "project_dir": "claude-haiku-5-5-low",
@@ -1104,6 +1108,8 @@
     },
     {
       "id": "gpt-5.6-luna-medium",
+      "web_root": "dist",
+      "known_browser_failure": "The emitted main.js keeps `import \"./style.css\"` without a bundler or CSS import attribute, so the browser rejects the module (MIME type text/css) and the game never starts.",
       "label": "GPT-5.6 Luna (medium)",
       "order": 400,
       "project_dir": "gpt-5.6-luna-medium",
@@ -1191,6 +1197,7 @@
     },
     {
       "id": "gpt-5.6-luna-max",
+      "web_root": "dist",
       "label": "GPT-5.6 Luna (max)",
       "order": 430,
       "project_dir": "gpt-5.6-luna-max",
