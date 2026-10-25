@@ -273,6 +273,11 @@ def run_page(run: dict[str, Any], results: dict[str, Any], repo: str | None, gam
             '<div class="callout callout-critical"><strong>This build does not compile.</strong> '
             f"{esc(run['known_build_failure'])} There is no playable game to show.</div>"
         )
+    if run.get("external_actions"):
+        notes.append(
+            '<div class="callout callout-critical"><strong>This run acted outside the benchmark.</strong> '
+            f"{esc(run['external_actions'])}</div>"
+        )
     if run.get("known_test_failure"):
         notes.append(
             '<div class="callout"><strong>Its own tests fail.</strong> '
