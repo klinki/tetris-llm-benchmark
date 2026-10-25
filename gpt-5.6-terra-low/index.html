@@ -1,0 +1,20 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Tetris</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <main class="game-shell">
+      <header><h1>TETRIS</h1><p>Guideline-inspired browser edition</p></header>
+      <section class="game-layout" aria-label="Tetris game">
+        <aside class="panel"><h2>HOLD</h2><canvas id="hold" width="120" height="96"></canvas><p class="hint">C to hold</p><h2>STATS</h2><dl><dt>Score</dt><dd id="score">0</dd><dt>Level</dt><dd id="level">1</dd><dt>Lines</dt><dd id="lines">0</dd></dl></aside>
+        <div class="board-wrap"><canvas id="board" width="300" height="600" aria-label="Tetris board"></canvas><div id="game-over" class="game-over" hidden><strong>GAME OVER</strong><span>Press R to restart</span></div></div>
+        <aside class="panel"><h2>NEXT</h2><canvas id="next" width="120" height="360"></canvas><p class="controls">← → Move<br>↑ / X Rotate<br>Z / Ctrl Reverse<br>↓ Soft drop<br>Space Hard drop<br>C Hold</p></aside>
+      </section>
+    </main>
+    <script type="module" src="./dist/main.js"></script>
+  </body>
+</html>

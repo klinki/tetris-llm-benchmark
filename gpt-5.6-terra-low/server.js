@@ -1,0 +1,3 @@
+const http = require('http'); const fs = require('fs'); const path = require('path');
+const types = { '.html':'text/html', '.js':'text/javascript', '.css':'text/css' };
+http.createServer((req,res) => { const file = path.join(__dirname, req.url === '/' ? 'index.html' : req.url); if (!file.startsWith(__dirname)) return res.writeHead(403).end(); fs.readFile(file, (e,d) => { if(e) return res.writeHead(404).end('Not found'); res.writeHead(200, {'Content-Type': types[path.extname(file)] || 'application/octet-stream'}); res.end(d); }); }).listen(8321, () => console.log('Tetris: http://localhost:8321'));

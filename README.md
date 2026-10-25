@@ -68,6 +68,7 @@ The table is generated from [`benchmark-runs.json`](benchmark-runs.json),
 | 48 | [GPT-6 Luna (medium)](gpt-6-luna-medium/STATISTICS.md) | `gpt-6-luna` | `medium` | T3 Code / Codex | **3.80** | 160,641 | $0.01 | 1m 35.743s | Does not build or start; diagnostic source has wrong SRS, scoring and gravity |
 | — | [Qwen3.8 Max (low)](qwen3.8-max-low/STATISTICS.md) | `qwen3.8-max` | `low` | T3 Code / OpenCode | Pending | 935,844 | $2.05 | 16m 33.165s | Not ranked yet |
 | — | [Qwen3.8 Max (medium)](qwen3.8-max-medium/STATISTICS.md) | `qwen3.8-max` | `medium` | T3 Code / OpenCode | Pending | 1,115,669 | $2.45 | 19m 19.898s | Not ranked yet |
+| — | [GPT-5.6 Terra (low)](gpt-5.6-terra-low/STATISTICS.md) | `gpt-5.6-terra` | `low` | T3 Code / Codex | Pending | 178,320 | $0.16 | 45.685s | Not ranked yet |
 
 **† Muse Spark 1.3 (medium, reference-assisted):** Reference-assisted run: the medium-reasoning child read Gemini-4's engine, shape tables, tests, and build files before writing this implementation, so token/time efficiency is not an independent from-scratch comparison. Primary time covers the child task only. The xhigh parent prepared/delegated and verified/reported the result: 339,157 recorded parent tokens and 2m 54.475s end-to-end are documented separately.
 
