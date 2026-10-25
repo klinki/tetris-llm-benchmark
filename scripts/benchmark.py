@@ -1754,7 +1754,7 @@ def import_t3_run(
     if state != "completed":
         raise BenchmarkError(f"{record['key']} is not finished: {state} ({detail})")
     identity = t3_runs.inspect_run(t3_home, record)
-    pending_file = t3_runs.pending_dir(root) / f"{record['key']}.json"
+    pending_file = t3_runs.record_file(root, record)
     if not t3_runs.model_matches(record["expected_model"], identity) or identity["effort"] != record["expected_effort"]:
         raise BenchmarkError(
             f"T3 ran {identity['provider']}/{identity['model']} at effort {identity['effort']}, but the run was "
@@ -1831,7 +1831,7 @@ def import_t3_run(
     destination = root / run_id
     original_manifest = append_manifest_entry(root, entry)
     try:
-        t3_runs.copy_workspace(record["workspace"], destination)
+        t3_runs.copy_workspace(record.get("archived_workspace") or record["workspace"], destination)
         _, runs = load_manifest(root)
         pricing = load_pricing(root, runs)
         refresh(root, runs, ranking, pricing, [entry], *homes, dry_run=False)
@@ -1928,7 +1928,7 @@ def discard_run(root: Path, record: dict[str, Any], reason: str) -> Path:
     abandoned.mkdir(parents=True, exist_ok=True)
     destination = abandoned / f"{record['key']}.json"
     destination.write_text(json.dumps(record, indent=2) + "\n")
-    (t3_runs.pending_dir(root) / f"{record['key']}.json").unlink()
+    t3_runs.record_file(root, record).unlink()
     container = Path(record["workspace"]).parent
     if record.get("archive") and container.exists():
         t3_runs.archive_container(container, Path(record["archive"]))
@@ -2129,6 +2129,11 @@ def parse_args(argv: list[str]) -> argparse.Namespace:
         "preflight", help="Before a run: stop servers left by earlier runs and report busy game ports",
     )
     preflight_parser.add_argument("--workspaces", type=Path, default=Path("~/tetris-bench/runs"), help=argparse.SUPPRESS)
+    hold_parser = subparsers.add_parser(
+        "hold", help="Park a finished run that needs a person's decision, so the next run can start",
+    )
+    hold_parser.add_argument("key", help="Pending run key, or its workspace path")
+    hold_parser.add_argument("--reason", required=True, help="What needs deciding")
     discard_parser = subparsers.add_parser("discard", help="Set a failed pending run aside, with the reason")
     discard_parser.add_argument("key", help="Pending run key, or its workspace path")
     discard_parser.add_argument("--reason", required=True, help="Why the attempt was discarded")
@@ -2222,6 +2227,8 @@ def main(argv: list[str] | None = None) -> int:
     elif args.command == "preflight":
         for line in preflight(root, runs, args.workspaces) or ["nothing left running; common game ports are free"]:
             print(line)
+    elif args.command == "hold":
+        print(f"Held in {t3_runs.hold_run(root, t3_runs.find_pending(root, args.key), args.reason)}")
     elif args.command == "discard":
         print(f"Discarded to {discard_run(root, t3_runs.find_pending(root, args.key), args.reason)}")
     elif args.command == "import":

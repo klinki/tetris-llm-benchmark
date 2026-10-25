@@ -211,6 +211,18 @@ class NewRunTests(unittest.TestCase):
             list(archive.iterdir())
         self.assertTrue((archive / Path(first["workspace"]).parent.name / "tetris" / "README.md").is_file())
 
+    def test_a_held_run_frees_the_next_run_and_stays_importable(self) -> None:
+        workspaces = self.base / "runs"
+        with mock.patch.dict(os.environ, {"T3_BIN": str(self.fake_t3)}):
+            first = t3_runs.new_run(self.root, "gpt-5.6-terra", "max", workspaces, open_app=False)
+            t3_runs.hold_run(self.root, first, "used an external app")
+            second = t3_runs.new_run(self.root, "gpt-5.6-sol", "low", workspaces, open_app=False)
+        held = t3_runs.find_pending(self.root, first["key"])
+        self.assertEqual(held["held"]["reason"], "used an external app")
+        self.assertTrue((Path(held["archived_workspace"]) / "README.md").is_file())
+        self.assertEqual([path.name for path in workspaces.iterdir()], [Path(second["workspace"]).parent.name])
+        self.assertEqual([record["key"] for record in t3_runs.load_pending(self.root)], [second["key"]])
+
     def test_refuses_workspaces_inside_the_repository(self) -> None:
         # The fake t3 keeps a missed refusal from registering a real T3 project.
         with mock.patch.dict(os.environ, {"T3_BIN": str(self.fake_t3)}):

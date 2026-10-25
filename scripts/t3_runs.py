@@ -234,12 +234,46 @@ def load_pending(root: Path) -> list[dict[str, Any]]:
     return [json.loads(path.read_text()) for path in sorted(pending_dir(root).glob("*.json"))]
 
 
+def held_dir(root: Path) -> Path:
+    return root / ".bench" / "held"
+
+
+def load_held(root: Path) -> list[dict[str, Any]]:
+    return [json.loads(path.read_text()) for path in sorted(held_dir(root).glob("*.json"))]
+
+
+def record_file(root: Path, record: dict[str, Any]) -> Path:
+    """Where a pending or held run's record is stored."""
+    for folder in (pending_dir(root), held_dir(root)):
+        if (folder / f"{record['key']}.json").exists():
+            return folder / f"{record['key']}.json"
+    raise RunError(f"{record['key']} is neither pending nor held")
+
+
 def find_pending(root: Path, key: str) -> dict[str, Any]:
-    matches = [record for record in load_pending(root) if key in (record["key"], record["workspace"])]
+    """A pending run, or a held one waiting for a person to decide."""
+    records = load_pending(root) + load_held(root)
+    matches = [record for record in records if key in (record["key"], record["workspace"])]
     if len(matches) != 1:
-        known = ", ".join(record["key"] for record in load_pending(root)) or "none"
-        raise RunError(f"No single pending run matches {key}; pending runs: {known}")
+        known = ", ".join(record["key"] for record in records) or "none"
+        raise RunError(f"No single pending or held run matches {key}; runs: {known}")
     return matches[0]
+
+
+def hold_run(root: Path, record: dict[str, Any], reason: str) -> Path:
+    """Park a finished run that needs a person's decision, so the next run can start.
+
+    Its folder moves into the unlistable archive, where no later agent can find it; T3 keeps the
+    original workspace path, so import still finds the thread and copies from the archived folder."""
+    record = {**record, "held": {"reason": reason, "at": dt.datetime.now(dt.timezone.utc).isoformat(timespec="seconds")}}
+    container = Path(record["workspace"]).parent
+    if record.get("archive") and container.exists():
+        record["archived_workspace"] = str(archive_container(container, Path(record["archive"])) / WORKSPACE_NAME)
+    held_dir(root).mkdir(parents=True, exist_ok=True)
+    destination = held_dir(root) / f"{record['key']}.json"
+    destination.write_text(json.dumps(record, indent=2) + "\n")
+    (pending_dir(root) / f"{record['key']}.json").unlink()
+    return destination
 
 
 def thread_for(connection: sqlite3.Connection, record: dict[str, Any]) -> sqlite3.Row | None:
