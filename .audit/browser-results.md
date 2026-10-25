@@ -1,5 +1,57 @@
 # Browser audit results
 
+## GPT-5.6 Terra and Qwen3.8 Max — 2026-10-25
+
+Independent fresh-copy builds and intended start servers, installed Chromium
+**156.0.8078.4**, **1280×800** and **390×844**. Exact findings, score
+rationale and supplied generation/isolation context are in the
+[Terra review](gpt56-terra-review.md) and [Qwen Max review](qwen38-max-review.md).
+Terra max and unfinished Qwen xhigh are excluded.
+
+| Run | Desktop board (CSS px) | Phone document width | Phone board | Confirmed presentation evidence |
+|---|---|---:|---|---|
+| Terra low | 300×600 at x=490 | 413 | 202.8×405.59 at x=105 | Live game-over overlay; I previews clip at backing x=−11; phone next x=320.8,width=80 |
+| Terra medium | 304×604 at x=488 | 513 | 237.12×471.12 at x=130.44 | Phone next x=390.18,width=93.6, outside viewport |
+| Terra high | 250×500 at x=515 | 390 | 260×520 at x=18 | Phone hold has zero bounds; five next piece letters remain visible |
+| Terra xhigh | 350×700 at x=465 | 390 | 350×700 at x=20 | Hold has zero painted pixels; only first of five next previews is on-canvas; panels vertically reachable |
+| Qwen Max low | 304×604 at x=488 | 503 | 304×604 at x=43 | Phone hold x=−104,width=120; next x=372,width=120 |
+| Qwen Max medium | 302×602 at x=489 | 516 | 302×602 at x=44 | Phone hold x=−106,width=130; next x=366,width=130 |
+
+All six start. Real **Left, Right, Up, X, Z, Left Ctrl, Down, Space, C**
+work at both sizes with engine assertions. Real Space triggers blocked-spawn
+game over, terminal UI keys are inert, and **real R** resets all gameplay
+state. Terra xhigh also repeats eleven seed-42 real Space drops to game over, then
+real R: its opening J,Z,Z,T,L,I,J contains only five types.
+There are **no application exceptions, console errors or failed
+required assets**. Missing favicons are excluded. Every full-page screenshot
+was visually inspected outside the checkout; none is committed.
+
+Entry responses gain appended accessors only. Captured RAF runs the unchanged
+callback at precise timestamps. Level-two 1480.001 ms gives Terra low
+**1/2 rows at 60/144 Hz**; 1564 ms gives medium **2/1**. Level-ten 600 ms
+gives high/xhigh **9/8**; Qwen gives **9/9**. Engine and browser agree.
+After 800 ms normal time, real Down plus 1 ms gives both Qwen runs
+**16 rows/points**, Terra medium/high/xhigh **1**, and Terra low **2**
+(a coincident normal boundary plus its discrete Down). The bounded Terra
+low transition receives no separate soft-jump deduction.
+
+Actual drawing independently matches **all seven obstructed ghost poses**
+in every run. Deterministic I hold/five-I queues distinguish clipping from
+missing content: Terra low's first fill starts at **x=−11,width=22**;
+xhigh's hold draws at **y=152** below its 112 px backing, and next draws
+at **152/1634/3116/4598/6080** inside a 420 px backing. Only **12/60** shaded
+next calls are visible. Qwen previews paint complete backing contents;
+their phone defect is cabinet clipping. Geometry assertions allow 0.03 px;
+font-dependent vertical positions are not treated as defects.
+
+Reproduce with the [Terra runner](run-gpt56-terra-audit.py) and
+[Qwen runner](run-qwen38-max-audit.py), both with `--offline` supported and
+browsers enabled by default. The shared [Chromium utility](gpt56-terra-browser.cjs)
+and [Qwen entry](qwen38-max-browser.cjs) assert every recorded presentation
+finding. All server ports are free 41000–49999 ports; temporary port literals
+only are adapted, and browser/server groups/copies are cleaned. The existing
+Sol full runner was also rerun unchanged for calibration and passed.
+
 Original audit date: 2026-08-10; Luna PI added 2026-08-29;
 five T3 Code/OpenCode imports added 2026-10-20.
 

@@ -1336,6 +1336,290 @@
         }
       ],
       "summary": "Every engine probe passes with the broadest own suite; focused header buttons swallow Space"
+    },
+    {
+      "run_id": "gpt-5.6-terra-low",
+      "audited": "2026-10-25",
+      "scores": {
+        "correctness": 2,
+        "tests": 4,
+        "code": 7,
+        "simplicity": 8.5,
+        "browser_ux": 8
+      },
+      "bugs": [
+        {
+          "severity": "major",
+          "title": "Rotation uses generic kick lists instead of SRS transitions",
+          "detail": "All 28 basic states pass, but all 48 ordered non-O kick sequences differ. A vertical I at field x=-2,y=8,r1 cannot rotate CCW off the left wall; canonical SRS reaches r0,x=0. Its floor I rotates to r1,(3,16) instead of canonical (4,16)."
+        },
+        {
+          "severity": "major",
+          "title": "Advanced scoring is incomplete and automatic gravity awards drop points",
+          "detail": "Legal final-rotation full/mini zero/single locks score 0/100 instead of 400/800 or 100/200, through hard and timed locks. Two Tetrises separated by a no-clear score 1600 instead of 2000; single perfect clear is 100 instead of 900. Combo scoring works, but each automatic gravity row also earns one soft-drop point."
+        },
+        {
+          "severity": "major",
+          "title": "Gravity follows a different linear progression",
+          "detail": "The unchanged loop first moves an O at levels 1/2/5/10 after 801/736/541/216 ms rather than 1000/793/356/65 ms. It uses elapsed>max(100,800-(level-1)*65)."
+        },
+        {
+          "severity": "minor",
+          "title": "Locking follows gravity failures rather than a grounded lock delay",
+          "detail": "A floor O is still unlocked at 500 ms, then locks on the 801 ms gravity failure; natural landing is followed by another 801 ms wait. A grounded Down locks immediately. Successful actions have no separate lock reset or finite reset counter. Ledge mid-air safety passes."
+        },
+        {
+          "severity": "minor",
+          "title": "Discarded gravity remainder makes falling refresh-dependent",
+          "detail": "At level two, unchanged callbacks over the same 1480.001 ms move O one row at 60 Hz and two at 144 Hz. elapsed is reset to zero on every fall."
+        },
+        {
+          "severity": "minor",
+          "title": "A wholly hidden legal lock does not end the game",
+          "detail": "The bounded deterministic stack/action search is replayed from the actual T spawn, ending entirely above visible row zero with a zero-distance landing and an independently open incoming I. Hard drop continues instead of ending the game; exact stack, path and pose are asserted in the engine probe. Stack (8,1),(2,1),(8,0),(6,1),(7,1),(5,1); right,right,CW,right,right,CCW ends T r0 at (6,-2)."
+        },
+        {
+          "severity": "minor",
+          "title": "Public drop methods mutate the engine after game over",
+          "detail": "After a blocked incoming T makes over=true, direct hardDrop still locks and spawns, changing the board/state snapshot. The real browser key handler guards this path; its game-over keys are inert and R works. This is the same engine-method severity as GPT-5.6 Luna low."
+        },
+        {
+          "severity": "minor",
+          "title": "I hold and next previews clip half of the first cell",
+          "detail": "With I held and five I next pieces, actual fillRect calls start at x=-11 with width 22 in the 120 px backings. The left cell loses 11 px in hold and every next slot, at both viewport sizes."
+        },
+        {
+          "severity": "minor",
+          "title": "The phone layout clips the next panel",
+          "detail": "At 390×844, document width is 413 px. The board fits at x=105 with size 202.8×405.59, but next starts at x=320.8 and ends at 400.8; its panel extends further."
+        },
+        {
+          "severity": "minor",
+          "title": "The game-over overlay is visible during active play",
+          "detail": "At both sizes after initial load and real R restart, over=false and #game-over.hidden=true, but computed display is grid and GAME OVER covers the live board. The class display rule overrides the hidden presentation."
+        }
+      ],
+      "summary": "Canonical shapes, but generic kicks, basic scoring, wrong clocks, hidden lock-out and presentation defects"
+    },
+    {
+      "run_id": "gpt-5.6-terra-medium",
+      "audited": "2026-10-25",
+      "scores": {
+        "correctness": 3,
+        "tests": 1.5,
+        "code": 7.5,
+        "simplicity": 8.5,
+        "browser_ux": 8
+      },
+      "bugs": [
+        {
+          "severity": "major",
+          "title": "Rotation uses generic kick lists instead of SRS transitions",
+          "detail": "All 28 basic states pass but all 48 ordered non-O kick sequences differ. Floor I r0 at (3,18) cannot rotate CW although SRS reaches r1,(4,16); floor T reaches (3,17) instead of (2,17)."
+        },
+        {
+          "severity": "major",
+          "title": "Advanced scoring is absent and automatic gravity awards drop points",
+          "detail": "Legal final-rotation full/mini zero/single locks score 0/100 instead of 400/800 or 100/200, through hard and timed locks. Two Tetrises separated by a no-clear score 1600 instead of 2000; single perfect clear is 100 instead of 900. Level-two combo single is 200 instead of 300. Each automatic gravity row also awards one point because the frame calls softDrop."
+        },
+        {
+          "severity": "major",
+          "title": "Gravity follows a different linear progression",
+          "detail": "The unchanged loop first moves O at levels 1/2/5/10 after 850/780/570/220 ms instead of 1000/793/356/65 ms. It uses max(80,850-(level-1)*70)."
+        },
+        {
+          "severity": "minor",
+          "title": "Locking follows gravity failures rather than a grounded lock delay",
+          "detail": "A floor O stays unlocked at 500 ms and locks on the 850 ms gravity failure; natural landing is followed by another 850 ms wait. Grounded Down locks immediately, and successful actions have no separate lock reset/cap. Ledge safety passes."
+        },
+        {
+          "severity": "minor",
+          "title": "Discarded gravity remainder makes falling refresh-dependent",
+          "detail": "At level two, unchanged callbacks over 1564 ms move O two rows at 60 Hz and one at 144 Hz. The loop discards elapsed remainder after each fall."
+        },
+        {
+          "severity": "minor",
+          "title": "A wholly hidden legal lock does not end the game",
+          "detail": "The bounded deterministic stack/action search is replayed from the actual T spawn, ending entirely above visible row zero with a zero-distance landing and an independently open incoming I. Hard drop continues instead of ending the game; exact stack, path and pose are asserted in the engine probe. Stack (8,1),(2,1),(8,0),(6,1),(7,1),(5,1); right,right,CW,right,CCW ends T r0 at (6,-2)."
+        },
+        {
+          "severity": "minor",
+          "title": "Public engine actions mutate state after game over",
+          "detail": "Once over=true after a blocked T spawn, direct move/rotate/hold/hardDrop calls change the engine snapshot because the methods do not guard terminal state. The browser key handler does guard it; real keys are inert and R creates a clean new game."
+        },
+        {
+          "severity": "minor",
+          "title": "The phone layout clips the next panel",
+          "detail": "At 390×844, the transformed fixed cabinet creates a 513 px document. Board x=130.44,width=237.12 fits, but next begins at x=390.18,width=93.6 and is outside the viewport."
+        }
+      ],
+      "summary": "Text-only smoke test; generic kicks, basic scoring, gravity and lock timing fail; phone next clips"
+    },
+    {
+      "run_id": "gpt-5.6-terra-high",
+      "audited": "2026-10-25",
+      "scores": {
+        "correctness": 3.5,
+        "tests": 3.5,
+        "code": 8.5,
+        "simplicity": 9,
+        "browser_ux": 8
+      },
+      "bugs": [
+        {
+          "severity": "major",
+          "title": "All vertical SRS kick offsets are applied in the opposite direction",
+          "detail": "All 28 basic states pass, but all 48 ordered non-O kick lists fail the Y-down oracle. The tables already store downward-positive offsets, while rotate subtracts them. Floor I r0 at field (3,18) cannot rotate CW; canonical SRS reaches r1,(4,16). Floor T reaches (3,16) instead of (2,17)."
+        },
+        {
+          "severity": "major",
+          "title": "T-spin scoring and perfect-clear bonuses are absent",
+          "detail": "Legal final-rotation full/mini zero/single fixtures score 0/100 rather than full 400/800 and mini 100/200 through hard and timed locks. A full T-spin double is 300 rather than 1200; single perfect clear is 100 rather than 900. Normal scores, B2B Tetrises and combos pass."
+        },
+        {
+          "severity": "major",
+          "title": "High-level gravity stops accelerating at 50 ms per row",
+          "detail": "Levels 1/2/5/9/10 match the curve, but levels 14/15/20 all first fall at 50 ms rather than 12/8/1 ms at integer resolution. gravityMs clamps to 50 ms, much slower than both the curve and the previously accepted 16 ms fast floor."
+        },
+        {
+          "severity": "minor",
+          "title": "Discarded gravity remainder makes falling refresh-dependent",
+          "detail": "At level ten over 600 ms, unchanged engine/browser frame callbacks move O nine rows at 60 Hz but eight at 144 Hz. gravityElapsed is zeroed after each step rather than spending the interval."
+        },
+        {
+          "severity": "minor",
+          "title": "A wholly hidden legal lock does not end the game",
+          "detail": "The bounded deterministic stack/action search is replayed from the actual T spawn, ending entirely above visible row zero with a zero-distance landing and an independently open incoming I. Hard drop continues instead of ending the game; exact stack, path and pose are asserted in the engine probe. From T at field (3,-2), stack (7,0) and four right moves end r0 at (7,-2); the incoming I at (3,-2) is open."
+        },
+        {
+          "severity": "minor",
+          "title": "Hold retains the outgoing piece’s gravity and lock counters",
+          "detail": "After 800 ms of normal time, C replaces the active piece but its first row falls only 200 ms later. Separately, fifteen old-piece grounded moves at 10 ms intervals, C, manual descent, 490 ms grounded wait, Right and 20 ms lock the replacement because the exhausted reset allowance is inherited."
+        },
+        {
+          "severity": "minor",
+          "title": "The phone stylesheet removes the hold display",
+          "detail": "At 390×844 the 260×520 board and five textual next entries fit, but .side.left is display:none and #hold has zero bounds. The complete held-piece state is unavailable on the phone."
+        }
+      ],
+      "summary": "Inverted vertical kicks and incomplete scoring; slow high-level gravity, refresh, hold-clock and phone gaps"
+    },
+    {
+      "run_id": "gpt-5.6-terra-xhigh",
+      "audited": "2026-10-25",
+      "scores": {
+        "correctness": 4.5,
+        "tests": 5.5,
+        "code": 9,
+        "simplicity": 8.5,
+        "browser_ux": 8.5
+      },
+      "bugs": [
+        {
+          "severity": "major",
+          "title": "Hard drop loses T-spins; mini, B2B continuity and perfect clears are incomplete",
+          "detail": "Legal final-rotation full/mini zero/single hard drops score 0/100. Timed full spins score 400/800 but minis also score 400/800 instead of 100/200; full double is 300 through hard drop versus 1200 timed. A no-clear lock breaks B2B, so separated Tetrises total 1600 rather than 2000; single PC is 100 rather than 900. These related scoring errors form one major deduction."
+        },
+        {
+          "severity": "major",
+          "title": "High-level gravity stops accelerating at 50 ms per row",
+          "detail": "The curve matches through level ten; levels 14/15/20 all first fall at 50 ms instead of 12/8/1 ms at integer resolution. The 50 ms floor is slower than the curve and the accepted 16 ms fast floor."
+        },
+        {
+          "severity": "minor",
+          "title": "A gravity tick bypasses the reset grounded lock delay",
+          "detail": "A floor O waits 490 ms, moves right, waits 490 ms, moves left, then locks only 20 ms later at absolute 1000 ms. tickGravity locks immediately on a blocked gravity step despite the newly reset groundedElapsed. Ordinary 499/500 ms locking and ledge safety pass; rapid fifteenth-reset locking shares this policy finding."
+        },
+        {
+          "severity": "minor",
+          "title": "Discarded gravity remainder makes falling refresh-dependent",
+          "detail": "At level ten over 600 ms, unchanged frame callbacks move O nine rows at 60 Hz and eight at 144 Hz; the browser independently agrees. gravityElapsed is zeroed after a fall."
+        },
+        {
+          "severity": "minor",
+          "title": "A wholly hidden legal lock does not end the game",
+          "detail": "The bounded deterministic stack/action search is replayed from the actual T spawn, ending entirely above visible row zero with a zero-distance landing and an independently open incoming I. Hard drop continues instead of ending the game; exact stack, path and pose are asserted in the engine probe. Stack (0,1),(0,0),(8,0),(2,2),(8,1),(9,2); left,left,CW,CW,CW,CW from the real (3,0) spawn ends r0 at (0,-2)."
+        },
+        {
+          "severity": "minor",
+          "title": "Preview offsets are multiplied by cell size twice",
+          "detail": "For an I hold, all draws begin at backing y=152, below the 112 px canvas, leaving zero painted pixels. Next slots start at y=152/1634/3116/4598/6080 in a 420 px canvas: only the first of five is visible. Actual draws and pixel reads reproduce this at desktop and phone sizes."
+        },
+        {
+          "severity": "minor",
+          "title": "Restart preserves a partially consumed seven-bag",
+          "detail": "With seed 42, eleven real hard drops reach game over. Real R/reset opens J,Z,Z,T,L,I,J: five types, with O and S absent. reset clears the preview queue but retains the readonly SevenBag and its remaining entries. A new game should start a fresh seven-piece bag; the other five runs do. Engine and real Chromium Space/R reproduce this."
+        }
+      ],
+      "summary": "Canonical SRS; scoring, gravity/lock clocks, restart bag and preview rendering fail"
+    },
+    {
+      "run_id": "qwen3.8-max-low",
+      "audited": "2026-10-25",
+      "scores": {
+        "correctness": 7,
+        "tests": 7.5,
+        "code": 9,
+        "simplicity": 8.5,
+        "browser_ux": 8.5
+      },
+      "bugs": [
+        {
+          "severity": "major",
+          "title": "T-spins, back-to-back and perfect-clear bonuses are absent",
+          "detail": "Legal final-rotation full/mini zero/single locks score 0/100 instead of 400/800 or 100/200, through hard and timed locks. Two Tetrises separated by a no-clear score 1600 instead of 2000; single perfect clear is 100 instead of 900. Full T-spin double is 300 instead of 1200; normal clears, drop points and level-two combo scoring pass."
+        },
+        {
+          "severity": "minor",
+          "title": "Starting soft drop consumes earlier normal-gravity time",
+          "detail": "Fifty update(0.016) calls leave O unmoved with 0.8 seconds accumulated. Real ArrowDown and a further 1 ms update move it sixteen rows and award sixteen points, consuming normal time at the new 50 ms soft interval. Both engine and Chromium reproduce it."
+        },
+        {
+          "severity": "minor",
+          "title": "The fifteenth reset forces an immediate lock",
+          "detail": "On a floor O, fifteen alternating successful moves at 10 ms intervals leave no locked cells at 150 ms. The next 1 ms update locks four cells because lockResets>=15 is itself a lock condition, instead of allowing the last reset timer to elapse. Ordinary 499/500 ms locking and ledge safety pass."
+        },
+        {
+          "severity": "minor",
+          "title": "The fixed phone cabinet clips hold, stats and next",
+          "detail": "At 390×844 document width is 503 px. The 304×604 board fits at x=43, but hold begins at x=-104 and next at x=372, each 120 px wide. The supporting panels are clipped; desktop previews are complete."
+        }
+      ],
+      "summary": "Canonical core and broad smoke coverage; advanced scoring, soft timing, reset-cap and phone layout gaps"
+    },
+    {
+      "run_id": "qwen3.8-max-medium",
+      "audited": "2026-10-25",
+      "scores": {
+        "correctness": 7,
+        "tests": 7,
+        "code": 9,
+        "simplicity": 8,
+        "browser_ux": 8.5
+      },
+      "bugs": [
+        {
+          "severity": "major",
+          "title": "Hard drop cancels T-spins and perfect-clear bonuses are absent",
+          "detail": "Legal final-rotation full/mini zero/single hard drops score 0/100 instead of full 400/800 and mini 100/200. A full T-spin double scores 300 through hard drop versus 1200 timed. Timed full/mini, B2B and combos pass, but single perfect clear is 100 rather than 900. These related scoring errors form one grouped major deduction."
+        },
+        {
+          "severity": "minor",
+          "title": "Starting soft drop consumes earlier normal-gravity time",
+          "detail": "Fifty update(16) calls accumulate 800 ms without motion. Real ArrowDown and update(1) move O sixteen rows for sixteen points because gravityAccum is spent at the new 50 ms interval. Engine and Chromium agree."
+        },
+        {
+          "severity": "minor",
+          "title": "A partially hidden piece incorrectly triggers lock-out",
+          "detail": "From the real T spawn at field (3,-2), stack only (8,1), move right four times and advance 1000 ms in <=16 ms steps. T is grounded at (7,-1), with one hidden and three visible cells. Incoming I is independently open, but zero-travel hard drop ends the game. Board.lock tests minRow<HIDDEN_ROWS rather than every cell being hidden."
+        },
+        {
+          "severity": "minor",
+          "title": "The fixed phone cabinet clips hold, stats and next",
+          "detail": "At 390×844 document width is 516 px. The 302×602 board fits at x=44, but hold begins at x=-106 and next at x=366, both 130 px wide. Supporting state and part of the legend are outside the initial viewport."
+        }
+      ],
+      "summary": "Canonical SRS and timed full/mini spins; hard-drop/PC scoring, soft timing, partial lock-out and phone gaps"
     }
   ]
 }

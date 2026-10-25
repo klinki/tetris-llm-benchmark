@@ -2,6 +2,45 @@
 
 This directory contains the reproducible, repository-safe parts of the audit behind [`RANKING.md`](../RANKING.md). Generated builds, copied `node_modules` trees, temporary web servers, browser profiles, and timestamped Playwright artifacts are intentionally excluded.
 
+## GPT-5.6 Terra and Qwen3.8 Max — October 25
+
+The [Terra review](gpt56-terra-review.md) covers low/medium/high/xhigh;
+the [Qwen Max review](qwen38-max-review.md) covers low/medium. Both use the
+existing rubric and calibration, recording every confirmed finding, own-test
+coverage, exact desktop/phone measurements and supplied isolation facts.
+Terra max and Qwen's unfinished xhigh are excluded. Historical records stay
+unchanged; the complete existing Sol runner was rerun as a calibration check.
+
+```sh
+python3 .audit/run-gpt56-terra-audit.py --offline
+python3 .audit/run-qwen38-max-audit.py --offline
+```
+
+The [Terra runner](run-gpt56-terra-audit.py) and
+[Qwen runner](run-qwen38-max-audit.py) rebuild and execute unchanged own
+workflows in random disposable copies, then run
+[Terra engine probes](gpt56-terra-audit.mjs),
+[Qwen engine probes](qwen38-max-audit.mjs),
+[Terra Chromium assertions](gpt56-terra-browser.cjs) and
+[Qwen Chromium assertions](qwen38-max-browser.cjs). The canonical oracle,
+fixtures and browser utility are shared; each adapter calls its own run.
+All six build/test/start, although Terra medium's smoke never executes logic.
+
+Coverage includes all 28 states/48 ordered transitions, actual wall/floor
+kicks, 100 engine bags, hold, seven independently obstructed ghosts/drop
+points/cells, exact lock/reset/cap/ledge probes, normal/full/mini/B2B/combo/PC
+variants, gravity curve/levels, soft timing, legal hidden/partial lock-out,
+blocked spawn/reset, every real required key and unchanged 60/144 Hz frame
+callbacks. Browser assertions reproduce overlay, clipped/blank preview and
+phone-state findings. Passing asserts defects as well as conforming paths.
+
+Omit `--offline` when dependencies are not cached. `--engine-only`,
+`--effort` and outside-checkout `--artifacts-dir` options are supported.
+Installed Playwright/Chromium is reused, without another browser download.
+Only temporary hard-coded port literals change; routes/MIME/app logic stay
+unchanged. Servers use free 41000–49999 ports; processes, browsers and
+copies are cleaned on exit. Physical touch and other browsers remain unverified.
+
 ## DeepSeek V4.1 Flash (low, high, max)
 
 [`deepseek-v41-review.md`](deepseek-v41-review.md) records the independent
