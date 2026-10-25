@@ -451,3 +451,33 @@ recent runners. Only low's temporary server port literal changes. Servers
 use free 41000–49999 ports; browsers, server groups and copies are cleaned.
 Physical touch hardware, high-DPI devices, native key repeat and other
 browsers were not certified.
+
+## GPT-5.6 Sol (low, medium, high, xhigh)
+
+[`gpt56-sol-review.md`](gpt56-sol-review.md) records the **2026-10-25**
+audits of four `gpt-5.6-sol-*` runs in T3 Code / Codex, standard tier.
+It includes comparable scores, every confirmed engine/browser finding,
+own-suite gaps, supplied Sites documentation/isolation/pricing facts and
+exact session mappings. Historical Sol Codex/OMP retain 8.20/8.30.
+
+```sh
+python3 .audit/run-gpt56-sol-audit.py --offline
+```
+
+The [runner](run-gpt56-sol-audit.py) installs/builds/tests all four in fresh
+random temporary copies, executes [engine probes](gpt56-sol-audit.mjs), then
+[desktop/390×844 Chromium assertions](gpt56-sol-browser.cjs). All four build,
+pass their own workflows and start. Passing asserts documented defects as
+well as conformance. Omit `--offline` if packages are not cached;
+`--engine-only`, `--effort` and outside-checkout `--artifacts-dir` are supported.
+It uses installed Playwright/Chromium and downloads no new browser.
+
+Coverage: all 28 states, all 48 ordered non-O kicks, wall/floor outcomes,
+100 actual bags, hold/retrieval, seven obstructed ghosts, exact drop points,
+499/500 ms lock/cap/failed-action/ledge paths, normal/full/mini/B2B/combo/PC,
+gravity curve/levels, soft timing, replacement clocks, refresh independence,
+public-action hidden/partial locks, blocked spawn/inert keys and real R.
+Browser assertions reproduce low's distorted phone hold and old hold-clock
+phase; all phone panels fit in width. Only low/high temporary port literals
+change; servers use free 41000–49999 ports. Browsers, process groups and
+copies are closed/deleted. No authored implementation is repaired or edited.

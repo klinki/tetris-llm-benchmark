@@ -602,3 +602,35 @@ xhigh it toggles Sound back or reopens How to play. No overflow, application
 exceptions, console errors or failed assets (low's external Google Fonts
 stylesheet excluded). All eight screenshots were visually inspected outside
 the checkout and deleted.
+
+## GPT-5.6 Sol — October 25
+
+[Audit](gpt56-sol-review.md), [engine probes](gpt56-sol-audit.mjs),
+[browser assertions](gpt56-sol-browser.cjs) and
+[temporary-copy runner](run-gpt56-sol-audit.py). Chromium **156.0.8078.4**,
+**1280×800** and **390×844**; all four delivered builds start.
+
+| Effort | Desktop board | Phone document width | Phone board | Supporting state / finding | Application errors |
+|---|---|---:|---|---|---|
+| low | 310×620 at x=403.5 | 390 | 210×420 at x=90 | Four next previews fit; hold backing 112×80 → CSS 70×65 (aspect 0.769) | None |
+| medium | 296×592 at x=492 | 390 | 258×516 at x=16 | Hold and five separate previews fit | None |
+| high | 328.5×657 at x=475.75 | 390 | 228×456 at x=81 | Square high-DPI hold/five previews fit | None |
+| xhigh | 324×648 at x=473 | 390 | 299×598 at x=45.5 | Hold/five previews below board, scroll-reachable at y=877 | None |
+
+Real **Left, Right, Up, X, Z, Left Ctrl, Down, Space, C** work at both
+sizes, asserting movement, rotation, soft points, four hard-locked cells
+and hold. Real Space blocks the incoming spawn, game-over keys are inert,
+and **real R** resets. The 800 ms normal / Down / 1 ms transition moves
+one row/point in every run. Ledge-move safety passes each actual callback.
+Low's actual loop moves **9/8 rows at 60/144 Hz** over 600 ms at level ten,
+and an incoming held piece falls after only **200 ms** following 800 ms of
+normal time; other runs reproduce **9/9** and no replacement fall at 200 ms.
+Custom 600 ms held Down agrees at both rates (high 11, xhigh 14 rows/points).
+
+All canvases fit within viewport width and all previews paint pixels. No
+application exceptions, console errors or failed required assets occurred;
+external Google Fonts/favicon noise is excluded. All eight screenshots
+were visually inspected outside the checkout and deleted after review.
+Servers use only free 41000–49999 ports, supplied routing/MIME unchanged;
+only low/high temporary port literals change. All browsers, process groups
+and temporary builds are cleaned. No physical touch or other-browser claim.
