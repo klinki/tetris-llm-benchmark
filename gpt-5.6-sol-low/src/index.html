@@ -1,0 +1,18 @@
+<!doctype html>
+<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1"><meta name="theme-color" content="#080b14"><title>TetrisJS — Neon Stack</title><meta name="description" content="A fast, polished Guideline Tetris game built in TypeScript."><link rel="stylesheet" href="styles.css"></head>
+<body>
+  <main class="shell">
+    <header><div><p class="eyebrow">NEON STACK // 01</p><h1>TETRIS<span>JS</span></h1></div><div class="live"><i></i><span id="status">READY</span></div></header>
+    <section class="game-layout">
+      <aside class="panel hold-panel"><h2>HOLD</h2><canvas id="hold" width="112" height="80" aria-label="Held piece"></canvas><p class="key-hint"><kbd>C</kbd> SWAP</p></aside>
+      <div class="board-wrap"><canvas id="board" width="320" height="640" aria-label="Tetris game board"></canvas><div id="overlay" class="overlay" hidden><h2>GAME OVER</h2><p>Press R or tap Restart</p></div></div>
+      <aside class="panel next-panel"><h2>NEXT</h2><canvas id="next" width="112" height="298" aria-label="Next pieces"></canvas></aside>
+      <section class="stats" aria-label="Game statistics"><div><span>SCORE</span><strong id="score">0</strong></div><div><span>LINES</span><strong id="lines">0</strong></div><div><span>LEVEL</span><strong id="level">1</strong></div></section>
+    </section>
+    <section class="controls" aria-label="Game controls">
+      <div class="control-row"><button data-action="left" aria-label="Move left">←</button><button data-action="down" aria-label="Soft drop">↓</button><button data-action="right" aria-label="Move right">→</button><button class="accent" data-action="cw">ROTATE</button><button class="wide" data-action="drop">HARD DROP</button></div>
+      <div class="utility"><button data-action="hold">Hold</button><button id="pause" data-action="pause">Pause</button><button data-action="restart">Restart</button></div>
+    </section>
+    <footer><span>ARROWS MOVE · ↑ / X ROTATE · Z / CTRL REVERSE</span><span>SPACE HARD DROP · C HOLD · P PAUSE · R RESTART</span></footer>
+  </main><script type="module" src="main.js"></script>
+</body></html>
