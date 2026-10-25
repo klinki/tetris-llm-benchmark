@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#0c1120" />
+    <meta name="description" content="A clean, browser-based Guideline Tetris implementation." />
+    <title>Tetris</title>
+    <link rel="stylesheet" href="./style.css" />
+  </head>
+  <body>
+    <main class="app" aria-label="Tetris game">
+      <header class="masthead">
+        <p class="eyebrow">GUIDELINE TETRIS</p>
+        <h1>TETRIS</h1>
+      </header>
+
+      <section class="game-layout">
+        <aside class="panel left-panel" aria-label="Held piece and controls">
+          <div class="card">
+            <h2>Hold</h2>
+            <canvas id="hold" class="piece-canvas" width="128" height="112" aria-label="Held tetromino"></canvas>
+          </div>
+          <div class="card controls">
+            <h2>Controls</h2>
+            <dl>
+              <div><dt>Move</dt><dd>← →</dd></div>
+              <div><dt>Soft drop</dt><dd>↓</dd></div>
+              <div><dt>Hard drop</dt><dd>Space</dd></div>
+              <div><dt>Rotate</dt><dd>↑ / X · Z / Ctrl</dd></div>
+              <div><dt>Hold</dt><dd>C</dd></div>
+              <div><dt>Restart</dt><dd>R</dd></div>
+            </dl>
+          </div>
+        </aside>
+
+        <section class="board-wrap" aria-label="Playfield">
+          <canvas id="board" width="360" height="720" aria-label="Tetris playfield"></canvas>
+          <div id="game-over" class="game-over" hidden>
+            <p>GAME OVER</p>
+            <span>Press R to play again</span>
+          </div>
+        </section>
+
+        <aside class="panel right-panel" aria-label="Game status and next pieces">
+          <div class="stats card">
+            <div><span>Score</span><strong id="score">0</strong></div>
+            <div><span>Level</span><strong id="level">1</strong></div>
+            <div><span>Lines</span><strong id="lines">0</strong></div>
+          </div>
+          <div class="card">
+            <h2>Next</h2>
+            <canvas id="next" class="next-canvas" width="128" height="420" aria-label="Next tetrominoes"></canvas>
+          </div>
+        </aside>
+      </section>
+      <p id="status" class="status" aria-live="polite">Ready</p>
+    </main>
+    <script type="module" src="./dist/index.js"></script>
+  </body>
+</html>
