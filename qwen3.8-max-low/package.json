@@ -1,0 +1,14 @@
+{
+  "name": "tetrisjs",
+  "version": "1.0.0",
+  "description": "Browser based Tetris implementation following the Tetris Guideline",
+  "type": "module",
+  "scripts": {
+    "build": "tsc",
+    "start": "npm run build && node server.js",
+    "test": "npm run build && node dist/test/smoke.js"
+  },
+  "devDependencies": {
+    "typescript": "^5.6.0"
+  }
+}
