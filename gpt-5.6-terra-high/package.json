@@ -1,0 +1,14 @@
+{
+  "name": "tetris-js",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "tsc && cp src/index.html dist/index.html && cp src/styles.css dist/styles.css",
+    "start": "npm run build && node tools/serve.mjs",
+    "test": "npm run build && node tests/smoke.mjs"
+  },
+  "devDependencies": {
+    "typescript": "^5.7.2"
+  }
+}
