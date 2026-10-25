@@ -1403,6 +1403,111 @@
           "message": "Background command completed (exit 143): /bin/zsh -lc 'npm start'\n\nOutput tail:\n\n> tetrisjs@1.0.0 start\n> node scripts/serve.mjs\n\nTetris is running at http://localhost:8321"
         }
       ]
+    },
+    {
+      "id": "gpt-6.1-sol-xhigh",
+      "label": "GPT-6.1 Sol (xhigh)",
+      "order": 470,
+      "project_dir": "gpt-6.1-sol-xhigh",
+      "harness": "t3_codex",
+      "harness_label": "T3 Code / Codex",
+      "provider": "codex",
+      "provider_label": "Codex",
+      "model": "gpt-6.1-sol",
+      "session_id": "01a171eb-3f32-7491-ad8e-b2f97ed217ac",
+      "t3_thread_id": "mcp:0f1b8a97-2076-4774-99bd-1fed917f24c1",
+      "expected_cwd": "/Users/david/tetris-bench/runs/0cf0f18ee7ec/tetris",
+      "expected_cwd_basename": "tetris",
+      "reasoning_variant": "xhigh",
+      "web": "open",
+      "cutoff": {
+        "through_user_message": 1,
+        "exclude_inter_message_wait": true
+      },
+      "overhead": {
+        "kind": "unknown"
+      },
+      "spec": {
+        "sha256": "36e2097a78fe8b5646e6216338640831cff0a284cc823c4b1f658991c8d40294",
+        "commit": "6af3440c124d15fb8b0dadcc87fa9abae64d6097",
+        "modified": false
+      },
+      "isolation": {
+        "outside_access": [
+          {
+            "time": "2026-10-25T07:16:59.154Z",
+            "tool": "command_execution",
+            "kind": "command",
+            "reference": "/Users/AGENTS.md"
+          },
+          {
+            "time": "2026-10-25T07:16:59.154Z",
+            "tool": "command_execution",
+            "kind": "command",
+            "reference": "/Users/david/AGENTS.md"
+          },
+          {
+            "time": "2026-10-25T07:16:59.154Z",
+            "tool": "command_execution",
+            "kind": "command",
+            "reference": "/Users/david/tetris-bench/AGENTS.md"
+          },
+          {
+            "time": "2026-10-25T07:16:59.154Z",
+            "tool": "command_execution",
+            "kind": "command",
+            "reference": "/Users/david/tetris-bench/runs/AGENTS.md"
+          },
+          {
+            "time": "2026-10-25T07:16:59.154Z",
+            "tool": "command_execution",
+            "kind": "command",
+            "reference": "/Users/david/tetris-bench/runs/0cf0f18ee7ec/AGENTS.md"
+          },
+          {
+            "time": "2026-10-25T07:17:07.938Z",
+            "tool": "command_execution",
+            "kind": "command",
+            "reference": "/Users/AGENTS.md"
+          },
+          {
+            "time": "2026-10-25T07:17:07.938Z",
+            "tool": "command_execution",
+            "kind": "command",
+            "reference": "/Users/david/AGENTS.md"
+          },
+          {
+            "time": "2026-10-25T07:17:07.938Z",
+            "tool": "command_execution",
+            "kind": "command",
+            "reference": "/Users/david/tetris-bench/AGENTS.md"
+          },
+          {
+            "time": "2026-10-25T07:17:07.938Z",
+            "tool": "command_execution",
+            "kind": "command",
+            "reference": "/Users/david/tetris-bench/runs/AGENTS.md"
+          },
+          {
+            "time": "2026-10-25T07:17:07.938Z",
+            "tool": "command_execution",
+            "kind": "command",
+            "reference": "/Users/david/tetris-bench/runs/0cf0f18ee7ec/AGENTS.md"
+          },
+          {
+            "time": "2026-10-25T07:17:07.938Z",
+            "tool": "command_execution",
+            "kind": "command",
+            "reference": "/Users/david/.codex/plugins/cache/openai-curated-remote/sites/1.1.2/skills/sites/SKILL.md"
+          },
+          {
+            "time": "2026-10-25T07:17:24.245Z",
+            "tool": "command_execution",
+            "kind": "command",
+            "reference": "/Users/david/.codex/plugins/cache/openai-curated-remote/sites/1.1.2/skills/sites/references/preview/local.md"
+          }
+        ]
+      }
     }
   ]
 }

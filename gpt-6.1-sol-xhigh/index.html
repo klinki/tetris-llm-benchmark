@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#141716">
+  <meta name="description" content="Find your flow. A modern, distraction-free Tetris game with classic controls, hold, and ghost pieces.">
+  <title>Tetris — Find your flow</title>
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <link rel="stylesheet" href="styles.css">
+  <script type="module" src="dist/main.js"></script>
+</head>
+<body>
+  <div class="app">
+    <header class="header">
+      <a class="brand" href="./" aria-label="Tetris home">
+        <span class="brand-mark" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
+        <span>TETRIS<span class="brand-dot">.</span></span>
+      </a>
+      <span class="header-note">A LITTLE ORDER IN THE CHAOS.</span>
+      <div class="header-actions">
+        <button class="icon-button" id="sound-button" aria-label="Enable sound" aria-pressed="false" title="Toggle sound">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M11 5 6 9H3v6h3l5 4V5Z"/><path id="sound-waves" d="m16 9 6 6m0-6-6 6"/></svg>
+        </button>
+        <button class="help-button" id="help-button"><span class="question-mark">?</span><span>How to play</span></button>
+      </div>
+    </header>
+
+    <main>
+      <div class="game-heading">
+        <div><p class="eyebrow"><span class="little-line"></span> THE ORIGINAL MIND RESET</p><h1>Find your flow<span>.</span></h1></div>
+        <p class="intro">Stack. Clear. Repeat.<br>A classic for a reason.</p>
+      </div>
+      <section class="game-layout" aria-label="Tetris game">
+        <aside class="left-sidebar">
+          <section class="panel hold-panel" aria-labelledby="hold-heading">
+            <div class="panel-heading"><h2 id="hold-heading">HOLD</h2><kbd>C</kbd></div>
+            <div class="hold-well"><canvas id="hold" width="140" height="86" aria-label="Held piece: empty"></canvas><span id="hold-empty">SAVE IT FOR LATER</span></div>
+          </section>
+          <section class="best-panel" aria-label="Best score"><span class="trophy" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M7 4h10v5a5 5 0 0 1-10 0V4Z"/><path d="M7 6H4v2a4 4 0 0 0 4 4m9-6h3v2a4 4 0 0 1-4 4m-4 2v5m-4 1h8"/></svg></span><div><p class="eyebrow">PERSONAL BEST</p><p id="best-score">0</p></div></section>
+          <section class="controls-guide" aria-labelledby="controls-heading">
+            <h2 id="controls-heading">MAKE YOUR MOVE</h2>
+            <div><span class="key-pair"><kbd>←</kbd><kbd>→</kbd></span><span>Move</span></div>
+            <div><span class="key-pair"><kbd>↑</kbd><span class="or">/</span><kbd>X</kbd></span><span>Rotate right</span></div>
+            <div><span class="key-pair"><kbd>Z</kbd><span class="or">/</span><kbd>Ctrl</kbd></span><span>Rotate left</span></div>
+            <div><kbd>↓</kbd><span>Soft drop</span></div>
+            <div><kbd class="space-key">SPACE</kbd><span>Hard drop</span></div>
+            <div><kbd>C</kbd><span>Hold piece</span></div>
+            <div><kbd>P</kbd><span>Pause</span></div>
+          </section>
+          <div class="sidebar-note"><span aria-hidden="true">✦</span><p>One piece at a time.</p></div>
+        </aside>
+
+        <div class="board-column">
+          <div class="board-topbar"><span><i class="status-dot" id="status-dot"></i><span id="status">READY WHEN YOU ARE</span></span><span>MARATHON <span class="mode-number">01</span></span></div>
+          <div class="board-frame" id="board-frame">
+            <canvas id="board" width="300" height="600" tabindex="0" aria-label="Tetris playfield, 10 columns by 20 rows. Use arrow keys to move, up to rotate, space to drop, and C to hold."></canvas>
+            <div class="board-overlay" id="overlay">
+              <div class="overlay-content">
+                <span class="overlay-kicker" id="overlay-kicker">10 COLUMNS. ENDLESS POSSIBILITIES.</span>
+                <div class="hero-piece" id="hero-piece" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+                <h2 id="overlay-title">Hello, Tetris.</h2>
+                <p id="overlay-description">A clear mind starts<br>with a full line.</p>
+                <button class="primary-button" id="play-button"><span id="play-label">Let’s play</span><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M4 10h12m-5-5 5 5-5 5"/></svg></button>
+                <span class="enter-hint" id="enter-hint">or press <kbd>ENTER</kbd></span>
+              </div>
+            </div>
+            <div class="clear-toast" id="clear-toast" aria-live="polite"></div>
+          </div>
+          <div class="board-bottom"><span><span class="tiny-square"></span> BUILT FOR THE FLOW</span><button id="pause-button" class="pause-button" disabled><span id="pause-symbol">Ⅱ</span><span id="pause-label">Pause</span><kbd>P</kbd></button></div>
+        </div>
+
+        <aside class="right-sidebar">
+          <section class="panel score-panel" aria-label="Game statistics">
+            <p class="eyebrow">YOUR SCORE</p><p id="score" class="score-number">000000</p>
+            <div class="stat-row"><span>LEVEL</span><strong id="level">01</strong></div>
+            <div class="stat-row"><span>LINES</span><strong id="lines">00</strong></div>
+            <div class="level-progress" role="progressbar" aria-label="Lines toward next level" aria-valuemin="0" aria-valuemax="10" aria-valuenow="0"><i id="level-progress"></i></div>
+            <p class="level-hint"><span id="lines-remaining">10</span> lines to next level</p>
+          </section>
+          <section class="panel next-panel" aria-labelledby="next-heading"><div class="panel-heading"><h2 id="next-heading">UP NEXT</h2><span class="next-count">05</span></div><canvas id="next" width="140" height="300" aria-label="Next five pieces"></canvas></section>
+          <div class="session-time"><span>TIME IN THE ZONE</span><span id="time">00:00</span></div>
+        </aside>
+      </section>
+      <div class="touch-controls" aria-label="Touch game controls">
+        <button data-action="hold" aria-label="Hold piece">HOLD</button>
+        <button data-action="ccw" aria-label="Rotate counterclockwise">↶</button>
+        <button data-action="cw" aria-label="Rotate clockwise">↷</button>
+        <button data-action="hard" class="drop-button" aria-label="Hard drop">DROP ↓</button>
+        <button data-action="left" aria-label="Move left">←</button>
+        <button data-action="soft" aria-label="Soft drop">↓</button>
+        <button data-action="right" aria-label="Move right">→</button>
+      </div>
+      <p class="game-tip"><span aria-hidden="true">↳</span><span>The outline shows where your piece will land. <strong>Make it count.</strong></span></p>
+    </main>
+    <footer><span>LESS SCROLLING. MORE STACKING.</span><span>Made for a little play<span class="footer-star">✳</span></span></footer>
+  </div>
+  <dialog id="help-dialog" aria-labelledby="help-title">
+    <button class="dialog-close icon-button" id="close-help" aria-label="Close instructions">×</button>
+    <p class="eyebrow">A CLASSIC, REINTRODUCED</p><h2 id="help-title">A little room to play.</h2>
+    <p>Fit the falling pieces together. Fill a horizontal line to clear it and make space. Clear ten lines to reach the next level. The stack gets faster as you go.</p>
+    <div class="help-tip"><strong>Plan your next move.</strong><p>The outline is your landing spot. Press <kbd>C</kbd> to save a piece, and check the next five pieces on the right.</p></div>
+    <dl class="help-controls"><div><dt>Move</dt><dd>← / →</dd></div><div><dt>Rotate clockwise</dt><dd>↑ / X</dd></div><div><dt>Rotate counterclockwise</dt><dd>Z / Left Ctrl</dd></div><div><dt>Soft drop</dt><dd>↓</dd></div><div><dt>Hard drop</dt><dd>Space</dd></div><div><dt>Hold</dt><dd>C</dd></div><div><dt>Pause / resume</dt><dd>P / Esc</dd></div><div><dt>Restart after game over</dt><dd>R / Enter</dd></div></dl>
+    <p class="help-footnote">Four lines at once? That’s a Tetris. T-spins, combos, back-to-back clears, and perfect clears earn extra points.</p>
+    <button class="primary-button" id="got-it">Got it. Let’s stack. <span aria-hidden="true">↗</span></button>
+  </dialog>
+</body>
+</html>
