@@ -131,7 +131,8 @@ fast mode off.
 ## Results site
 
 The same results are published as a static site with interactive charts
-(quality against estimated cost, tokens, and time; cost; token use; time; and
+(quality against estimated cost, tokens, and time, each with a "Pareto line"
+overlay and a "Pareto only" view of just the frontier runs; cost; token use; time; and
 score breakdown) and a
 page per run that shows its scores, confirmed bugs, usage, and a playable build
 of its game. [`pages.yml`](.github/workflows/pages.yml) builds and checks it on
@@ -230,7 +231,10 @@ Cost = (Input × input price + Cache Read × cache-read price
 
 [`pricing.json`](pricing.json) holds the price per million tokens for every
 model in the registry, with its source, the date it was checked, and how
-strongly it is backed:
+strongly it is backed: When a price changed, an entry lists dated `periods`; each run is priced at
+the period in effect when it started (its `STATISTICS.md` start time). GPT-5.6
+Sol keeps its recorded $5 / $30 for the August runs and uses OpenAI's
+promotional $4 / $20 from August 21, 2026.
 
 - **`recorded`**: the price reproduces the cost the harness itself recorded.
   OMP and PI record a dollar cost, so Luna, Sol, and DeepSeek prices are
@@ -642,6 +646,12 @@ time, which also keeps elapsed time free of CPU contention, and after each run:
   running from a benchmark folder (an active or archived workspace, or a run
   folder in the repository; an old Opus 5.5 server held port 8321 this way)
   and reports, without stopping, anything else on a common game port;
+- `hold KEY --reason "..."` parks a finished run that needs a person's
+  decision in `.bench/held`, moving its folder into the archive so the next
+  run can start without seeing it; `import` and `discard` still find it. A
+  run that acted on the user's accounts (GPT-5.6 Terra max deployed a private
+  Site through Codex's Sites app) is recorded with `external_actions`, shown
+  in its `STATISTICS.md` and on its site page;
 - `discard KEY --reason "..."` sets a failed attempt aside in
   `.bench/abandoned` and archives its workspace;
 - `python3 scripts/benchmark.py overlaps KEY...` lists every `/tmp` entry named
