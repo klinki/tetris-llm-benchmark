@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Tetris</title>
+  <style>
+    :root { color-scheme: dark; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #0b0e14;
+      color: #e6e6e6;
+      font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
+    }
+    #layout { display: flex; gap: 20px; align-items: flex-start; padding: 20px; }
+    .panel { width: 130px; display: flex; flex-direction: column; gap: 6px; }
+    .panel h2 {
+      font-size: 12px; text-transform: uppercase; letter-spacing: 2px;
+      color: #8a93a6; margin: 10px 0 2px; font-weight: 600;
+    }
+    canvas {
+      background: #10131a;
+      border: 1px solid #2a3040;
+      border-radius: 6px;
+      display: block;
+    }
+    #board { box-shadow: 0 0 40px rgba(0, 0, 0, 0.6); }
+    .stats div {
+      display: flex; justify-content: space-between;
+      font-size: 14px; padding: 2px 0; color: #aab2c5;
+    }
+    .stats span { font-variant-numeric: tabular-nums; font-weight: 700; color: #e6e6e6; }
+    #message {
+      min-height: 20px; margin-top: 6px; text-align: center;
+      font-size: 13px; font-weight: 700; color: #ffd166;
+    }
+    #help { font-size: 12px; color: #8a93a6; line-height: 1.8; }
+  </style>
+</head>
+<body>
+  <div id="layout">
+    <div class="panel">
+      <h2>Hold</h2>
+      <canvas id="hold" width="110" height="110"></canvas>
+      <h2>Stats</h2>
+      <div class="stats">
+        <div>Score <span id="score">0</span></div>
+        <div>Level <span id="level">1</span></div>
+        <div>Lines <span id="lines">0</span></div>
+      </div>
+      <div id="message"></div>
+    </div>
+    <canvas id="board" width="300" height="600"></canvas>
+    <div class="panel">
+      <h2>Next</h2>
+      <canvas id="next" width="110" height="440"></canvas>
+      <h2>Controls</h2>
+      <div id="help">
+        &larr; / &rarr; &nbsp;move<br />
+        &uarr; / X &nbsp;rotate clockwise<br />
+        Z / Ctrl &nbsp;rotate anti-clockwise<br />
+        &darr; &nbsp;soft drop<br />
+        Space &nbsp;hard drop<br />
+        C &nbsp;hold piece<br />
+        P &nbsp;pause<br />
+        R &nbsp;restart after game over
+      </div>
+    </div>
+  </div>
+  <script type="module" src="dist/main.js"></script>
+</body>
+</html>

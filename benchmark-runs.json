@@ -1537,6 +1537,35 @@
         "commit": "316996f699918591cc45637c7b4731de5d2d541e",
         "modified": false
       }
+    },
+    {
+      "id": "qwen3.8-max-medium",
+      "label": "Qwen3.8 Max (medium)",
+      "order": 490,
+      "project_dir": "qwen3.8-max-medium",
+      "harness": "t3_opencode",
+      "harness_label": "T3 Code / OpenCode",
+      "provider": "opencode-go",
+      "provider_label": "opencode-go",
+      "model": "qwen3.8-max",
+      "session_id": "ses_e8d2f23f2ffeATJ0U3oGVZmNwY",
+      "t3_thread_id": "mcp:7c8be2a1-fbc9-48f4-8262-148ac05ec6f9",
+      "expected_cwd": "/Users/david/tetris-bench/runs/a7d2c684f622/tetris",
+      "expected_cwd_basename": "tetris",
+      "reasoning_variant": "medium",
+      "web": "open",
+      "cutoff": {
+        "through_user_message": 1,
+        "exclude_inter_message_wait": true
+      },
+      "overhead": {
+        "kind": "unknown"
+      },
+      "spec": {
+        "sha256": "36e2097a78fe8b5646e6216338640831cff0a284cc823c4b1f658991c8d40294",
+        "commit": "a4c17a95013381ef3d983fa4d524e9a440d89000",
+        "modified": false
+      }
     }
   ]
 }
