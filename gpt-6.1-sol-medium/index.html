@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#101217">
+  <meta name="description" content="Find your flow. A modern, keyboard-first Tetris game.">
+  <title>TetrisJS — Find your flow</title>
+  <link rel="stylesheet" href="style.css">
+  <script type="module" src="dist/main.js"></script>
+</head>
+<body>
+  <div class="app">
+    <header>
+      <a class="brand" href="./" aria-label="TetrisJS home"><span class="brand-icon" aria-hidden="true"><i></i><i></i><i></i><i></i></span>TETRIS<span class="brand-js">JS</span></a>
+      <span class="header-note">A classic. A little more colorful.</span>
+      <button id="sound" class="icon-button" aria-label="Enable sound" aria-pressed="false" title="Toggle sound">♪<span id="sound-state">OFF</span></button>
+    </header>
+    <main>
+      <section class="intro"><div class="eyebrow"><span></span> THE ORIGINAL BLOCK PARTY</div><h1>Find your <em>flow.</em></h1><p>Clear your mind. Clear some lines.</p></section>
+      <section class="game-layout" aria-label="Tetris game">
+        <aside class="left-panel">
+          <section class="panel hold-panel"><div class="panel-heading">HOLD <kbd>C</kbd></div><canvas id="hold" width="144" height="90" aria-label="Held piece"></canvas><p id="hold-note">Save it for later</p></section>
+          <section class="stats panel"><div class="stat"><span>SCORE</span><strong id="score">000000</strong></div><div class="stat"><span>BEST <small>↗</small></span><strong id="best">000000</strong></div><div class="stat-pair"><div><span>LEVEL</span><strong id="level">01</strong></div><div><span>LINES</span><strong id="lines">00</strong></div></div><div class="progress-track"><div id="progress"></div></div><p id="level-note">10 lines to next level</p></section>
+          <div class="mode-note"><span class="mode-dot"></span><div>MARATHON<span>No limits. Just keep going.</span></div></div>
+        </aside>
+        <div class="board-column">
+          <div class="board-top"><span><i></i><span id="status">READY WHEN YOU ARE</span></span><span>10 × 20</span></div>
+          <div class="board-shell">
+            <canvas id="board" width="600" height="1200" aria-label="Tetris playfield, 10 columns by 20 rows"></canvas>
+            <div id="overlay" class="overlay"><div class="overlay-symbol">✦</div><span id="overlay-eyebrow">LET’S PLAY</span><h2 id="overlay-title">One more line.</h2><p id="overlay-text">A little focus goes a long way.</p><button id="play" class="primary-button">Start playing <span>↵</span></button><small id="overlay-hint">or press Enter</small></div>
+          </div>
+          <div class="board-bottom"><span id="message" role="status">Your next high score starts here.</span><button id="pause" class="text-button" disabled>Ⅱ <span>Pause</span><kbd>P</kbd></button></div>
+        </div>
+        <aside class="right-panel">
+          <section class="panel next-panel"><div class="panel-heading">UP NEXT <span>5</span></div><canvas id="next" width="144" height="310" aria-label="Next five pieces"></canvas></section>
+          <section class="controls"><h2>THE CONTROLS</h2><dl><div><dt><kbd>←</kbd><kbd>→</kbd></dt><dd>Move</dd></div><div><dt><kbd>↑</kbd><kbd>X</kbd></dt><dd>Rotate right</dd></div><div><dt><kbd>Z</kbd><kbd>Ctrl</kbd></dt><dd>Rotate left</dd></div><div><dt><kbd>↓</kbd></dt><dd>Soft drop</dd></div><div><dt><kbd class="space-key">space</kbd></dt><dd>Hard drop</dd></div><div><dt><kbd>C</kbd></dt><dd>Hold piece</dd></div><div><dt><kbd>P</kbd><kbd>Esc</kbd></dt><dd>Pause</dd></div></dl></section>
+        </aside>
+      </section>
+      <div class="touch-controls" aria-label="Touch controls"><button data-action="hold" aria-label="Hold">C</button><button data-action="left" aria-label="Move left">←</button><button data-action="rotate" aria-label="Rotate clockwise">↻</button><button data-action="right" aria-label="Move right">→</button><button data-action="down" aria-label="Soft drop">↓</button><button data-action="drop" aria-label="Hard drop">⤓</button></div>
+      <footer><span>SEVEN SHAPES. ENDLESS POSSIBILITIES.</span><span>Built for the love of the game <i>✦</i></span></footer>
+    </main>
+  </div>
+</body>
+</html>
