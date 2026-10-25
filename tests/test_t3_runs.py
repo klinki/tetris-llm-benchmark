@@ -140,7 +140,9 @@ class BenchmarkLookupTests(unittest.TestCase):
         # The temporary T3 home lives under a system temp folder, which the scan otherwise ignores.
         with mock.patch.object(t3_runs, "SYSTEM_PREFIXES", ("/dev/",)):
             found = self._screenshot_findings(own, other)
-        self.assertEqual(found, [("t3-data", other), ("t3-tool", '{"threadId": "old-run"}')])
+        self.assertEqual(found, [
+            ("t3-data", other), ("t3-tool", '{"threadId": "old-run"}'), ("external-app", '{"slug": "tetris"}'),
+        ])
 
     def test_reading_the_background_log_opencode_announced_is_not_a_finding(self) -> None:
         own = "/Users/someone/.local/share/opencode/shell/abc/sh_1.out"
@@ -161,6 +163,7 @@ class BenchmarkLookupTests(unittest.TestCase):
             tool_item(3, "dynamic_tool", toolName="Read", input={"file_path": other}),
             tool_item(4, "dynamic_tool", toolName="mcp__t3-code__t3_thread_read", input={"threadId": "old-run"}),
             tool_item(5, "dynamic_tool", toolName="t3-code.t3_preview_close", input={"tabId": "own-tab"}),
+            tool_item(6, "dynamic_tool", toolName="codex_apps.sites.create_site", input={"slug": "tetris"}),
         )
 
 

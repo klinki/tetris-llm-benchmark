@@ -478,6 +478,8 @@ def _mentions_benchmark(text: str, workspace: Path, markers: list[str]) -> bool:
 
 # T3's own tools reach every thread's transcript; only its preview browser, which shows the agent's own pages, is allowed.
 T3_TOOL = re.compile(r"t3[-_]code(?:__|\W+)(\w+)$")
+# Harness apps that act on the user's own accounts, e.g. Codex's Sites app creating and deploying a site.
+EXTERNAL_APP_TOOL = re.compile(r"^(?:mcp__)?codex_apps\b")
 SCREENSHOT_PATH = re.compile(r'"screenshotPath\\?"\s*:\s*\\?"([^"\\]+)')
 # OpenCode moves long commands to the background and tells the agent where their output streams.
 SHELL_OUTPUT_PATH = re.compile(r"Output is streaming to: (\S+\.out)")
@@ -504,6 +506,11 @@ def outside_access(
             continue
         tool = payload.get("toolName") or item["type"]
         t3_tool = T3_TOOL.search(tool)
+        if EXTERNAL_APP_TOOL.search(tool):
+            findings.append({
+                "time": payload.get("startedAt", ""), "tool": tool, "kind": "external-app",
+                "reference": json.dumps(payload.get("input"))[:500],
+            })
         # T3 names its preview-browser tools preview_* and t3_preview_* (e.g. t3_preview_close).
         if t3_tool and not t3_tool.group(1).startswith(("preview_", "t3_preview_")):
             findings.append({
