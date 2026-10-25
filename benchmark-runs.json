@@ -1595,6 +1595,35 @@
         "commit": "bef24bf3708d7e0ba7a03400d515b9252871a9ee",
         "modified": false
       }
+    },
+    {
+      "id": "gpt-5.6-terra-medium",
+      "label": "GPT-5.6 Terra (medium)",
+      "order": 510,
+      "project_dir": "gpt-5.6-terra-medium",
+      "harness": "t3_codex",
+      "harness_label": "T3 Code / Codex",
+      "provider": "codex",
+      "provider_label": "Codex",
+      "model": "gpt-5.6-terra",
+      "session_id": "01a1732d-162d-7291-a6f8-8e8201d3d89a",
+      "t3_thread_id": "mcp:4f95a388-1d17-4485-91e5-25979101c763",
+      "expected_cwd": "/Users/david/tetris-bench/runs/efccd4ebed7c/tetris",
+      "expected_cwd_basename": "tetris",
+      "reasoning_variant": "medium",
+      "web": "open",
+      "cutoff": {
+        "through_user_message": 1,
+        "exclude_inter_message_wait": true
+      },
+      "overhead": {
+        "kind": "unknown"
+      },
+      "spec": {
+        "sha256": "36e2097a78fe8b5646e6216338640831cff0a284cc823c4b1f658991c8d40294",
+        "commit": "884de813bf41dac5b47e016578fe2716f0992302",
+        "modified": false
+      }
     }
   ]
 }
