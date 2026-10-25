@@ -33,6 +33,14 @@
       "source": "https://developers.openai.com/api/docs/models/GPT-5.6",
       "note": "Standard rate; reproduces the cost OMP recorded for Sol OMP. A later promotional rate of $4 / $20 is not applied."
     },
+    "gpt-5.6-terra": {
+      "label": "GPT-5.6 Terra",
+      "family": "OpenAI", "tier": "Terra", "version": "5.6",
+      "prices": {"input": 2.00, "cache_read": 0.20, "cache_write": 2.50, "output": 12.00},
+      "evidence": "official",
+      "source": "https://developers.openai.com/api/docs/models/gpt-5.6-terra",
+      "note": "Cache writes are billed at 1.25x uncached input. Requests with more than 272K input tokens are billed at 2x input and 1.5x output; T3 records only whole-turn totals, so the estimate is a lower bound."
+    },
     "gpt-6-luna": {
       "label": "GPT-6 Luna",
       "family": "OpenAI", "tier": "Luna", "version": "6",
