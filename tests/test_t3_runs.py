@@ -54,6 +54,13 @@ class OutsideAccessTests(unittest.TestCase):
             "../beam/README.md", "/Users/someone/projects/tetris-llm-benchmark", "~/Documents",
         ])
 
+    def test_module_specifiers_in_written_code_are_not_paths(self) -> None:
+        found = self.findings(
+            tool_item(1, "command_execution", input="cat > test/game.test.mjs <<'EOF'\nimport { Game } from '../dist/game.js';\nconst m = await import(\"../src/x.js\");\nEOF"),
+            tool_item(2, "command_execution", input="cat ../dist/game.js"),
+        )
+        self.assertEqual(found, ["../dist/game.js"])
+
     def test_ignores_urls_regexes_caches_and_system_paths(self) -> None:
         found = self.findings(
             tool_item(1, "command_execution", input="curl -s http://localhost:8321/dist/main.js | head"),

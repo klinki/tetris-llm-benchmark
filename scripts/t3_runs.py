@@ -48,6 +48,8 @@ HOME_CACHES = (".npm", ".cache", ".nvm", ".bun", ".yarn", ".pnpm-store", ".node-
 # Web search queries and fetched URLs; looking up the rules is fine, looking up this benchmark is not.
 WEB_KEYS = {"url", "query", "patterns"}
 WEB_MODES = ("open", "blocked")
+# Module specifiers in code an agent writes resolve relative to that file, not the shell's directory.
+MODULE_SPECIFIER = re.compile(r"""(?:\bfrom\s+|\bimport\s*\(\s*|\brequire\s*\(\s*)(['"])\.\.?/[^'"\n]*\1""")
 PATH_TOKEN = re.compile(r"""(?:^|(?<=[\s='"(]))((?:~|\.\.|/)[^\s'"|;&<>()`]*)""")
 
 
@@ -440,7 +442,8 @@ def _references(value: Any, key: str = "") -> list[tuple[str, str]]:
             found.append(("path", value))
         elif key in COMMAND_KEYS:
             found.append(("text", value))
-            found.extend(("command", token) for token in PATH_TOKEN.findall(value) if _names_user_files(token))
+            code_free = MODULE_SPECIFIER.sub("", value)
+            found.extend(("command", token) for token in PATH_TOKEN.findall(code_free) if _names_user_files(token))
         elif key in WEB_KEYS:
             found.append(("text", value))
         elif key == "pattern" and (value.startswith(("/", "~")) or "../" in value or value == ".."):
