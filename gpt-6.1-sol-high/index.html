@@ -1,0 +1,267 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#101513" />
+    <meta
+      name="description"
+      content="A little focus. A little flow. Play a clean, keyboard-first game of Tetris."
+    />
+    <title>Tetris — Find your flow</title>
+    <link
+      rel="icon"
+      href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpath fill='%239debb3' d='M11 1h10v10H11zM0 12h10v10H0zM11 12h10v10H11zM22 12h10v10H22z'/%3E%3C/svg%3E"
+    />
+    <link rel="stylesheet" href="style.css" />
+    <script type="module" src="dist/main.js"></script>
+  </head>
+  <body>
+    <div class="app">
+      <header class="header">
+        <a class="wordmark" href="./" aria-label="Tetris home"
+          ><span class="brand-piece" aria-hidden="true"
+            ><i></i><i></i><i></i><i></i></span
+          >TETRIS<span class="edition">JS</span></a
+        >
+        <div class="header-right">
+          <span class="session-label"
+            ><span class="dot"></span> A LITTLE FOCUS. A LITTLE FLOW.</span
+          ><button
+            class="icon-button"
+            id="sound"
+            aria-label="Enable sound"
+            aria-pressed="false"
+            title="Toggle sound"
+          >
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.6"
+              aria-hidden="true"
+            >
+              <path d="M11 5 6 9H3v6h3l5 4V5Z" />
+              <path id="sound-waves" d="m16 9 6 6m0-6-6 6" />
+            </svg>
+          </button>
+        </div>
+      </header>
+
+      <main>
+        <div class="intro">
+          <div>
+            <p class="eyebrow">THE CLASSICS NEVER GET OLD</p>
+            <h1>Find your flow<span>.</span></h1>
+          </div>
+          <span class="mode-tag">MARATHON <span>∞</span></span>
+        </div>
+        <section class="game-layout" aria-label="Tetris game">
+          <aside class="left-column">
+            <section class="score-card">
+              <p class="panel-label">SCORE</p>
+              <p id="score" class="score">0</p>
+              <div class="best">
+                <span
+                  ><svg
+                    viewBox="0 0 20 20"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.4"
+                    aria-hidden="true"
+                  >
+                    <path
+                      d="M6 3h8v5a4 4 0 0 1-8 0V3Zm0 2H3v2a4 4 0 0 0 4 4m7-6h3v2a4 4 0 0 1-4 4M10 12v4m-4 1h8"
+                    />
+                  </svg>
+                  BEST</span
+                ><b id="best">0</b>
+              </div>
+            </section>
+            <section class="stats-card">
+              <div class="stat">
+                <span class="panel-label">LEVEL</span
+                ><strong id="level">01</strong>
+              </div>
+              <div class="level-track"><span id="progress"></span></div>
+              <p class="level-hint">
+                <span id="remaining">10</span> lines to next level
+              </p>
+              <div class="stat lines-stat">
+                <span class="panel-label">LINES</span
+                ><strong id="lines">0</strong>
+              </div>
+              <div class="stat time-stat">
+                <span class="panel-label">TIME</span
+                ><strong id="time">00:00</strong>
+              </div>
+            </section>
+            <section class="hold-card">
+              <div class="panel-heading">
+                <h2 class="panel-label">HOLD</h2>
+                <kbd>C</kbd>
+              </div>
+              <canvas
+                id="hold"
+                width="144"
+                height="80"
+                aria-label="No held piece"
+              ></canvas>
+              <p id="hold-hint">Save a piece for later</p>
+            </section>
+            <p class="quiet-note"><span>↳</span> One piece at a time.</p>
+          </aside>
+
+          <div class="board-column">
+            <div class="board-top">
+              <span
+                ><span class="dot" id="status-dot"></span
+                ><span id="status-label">READY WHEN YOU ARE</span></span
+              ><button
+                id="pause"
+                class="pause-button"
+                aria-label="Pause game"
+                disabled
+              >
+                <svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
+                  <path d="M4 3h3v10H4zm5 0h3v10H9z" /></svg
+                ><span>PAUSE</span><kbd>P</kbd>
+              </button>
+            </div>
+            <div class="board-shell" id="board-shell">
+              <canvas
+                id="board"
+                width="300"
+                height="600"
+                role="img"
+                aria-label="Tetris playfield, 10 columns and 20 rows"
+              ></canvas>
+              <div id="overlay" class="overlay">
+                <div class="overlay-content">
+                  <div class="overlay-symbol" aria-hidden="true">
+                    <span></span><span></span><span></span><span></span>
+                  </div>
+                  <p class="eyebrow" id="overlay-eyebrow">
+                    MAKE A LITTLE SPACE
+                  </p>
+                  <h2 id="overlay-title">Ready to stack?</h2>
+                  <p id="overlay-description">
+                    Clear your mind. Clear some lines.
+                  </p>
+                  <button id="play" class="primary-button">
+                    Let’s play <span aria-hidden="true">↗</span>
+                  </button>
+                  <p class="start-hint" id="start-hint">
+                    or press <kbd>Enter</kbd>
+                  </p>
+                </div>
+              </div>
+              <div
+                class="clear-message"
+                id="clear-message"
+                role="status"
+                aria-live="polite"
+              ></div>
+            </div>
+            <div class="board-bottom">
+              <span
+                ><span class="ghost-square"></span> GHOST SHOWS YOUR
+                LANDING</span
+              ><span>10 × 20</span>
+            </div>
+          </div>
+
+          <aside class="right-column">
+            <section class="next-card">
+              <div class="panel-heading">
+                <h2 class="panel-label">UP NEXT</h2>
+                <span class="queue-count">05</span>
+              </div>
+              <div class="next-pieces">
+                <canvas
+                  id="next-0"
+                  width="128"
+                  height="80"
+                  aria-label="Next piece 1"
+                ></canvas
+                ><canvas
+                  id="next-1"
+                  width="128"
+                  height="80"
+                  aria-label="Next piece 2"
+                ></canvas
+                ><canvas
+                  id="next-2"
+                  width="128"
+                  height="80"
+                  aria-label="Next piece 3"
+                ></canvas
+                ><canvas
+                  id="next-3"
+                  width="128"
+                  height="80"
+                  aria-label="Next piece 4"
+                ></canvas
+                ><canvas
+                  id="next-4"
+                  width="128"
+                  height="80"
+                  aria-label="Next piece 5"
+                ></canvas>
+              </div>
+            </section>
+            <div class="tip">
+              <span class="tip-icon" aria-hidden="true">✳</span>
+              <p>Leave room for<br />the long one.</p>
+              <span class="tip-line"></span>
+            </div>
+          </aside>
+        </section>
+
+        <section class="controls" aria-label="Keyboard controls">
+          <div class="controls-title">
+            <span class="keyboard-icon" aria-hidden="true">⌨</span
+            ><span>MAKE YOUR MOVE</span>
+          </div>
+          <div class="control">
+            <span><kbd>←</kbd><kbd>→</kbd></span
+            ><span>Move</span>
+          </div>
+          <div class="control">
+            <span><kbd>↑</kbd><kbd>X</kbd></span
+            ><span>Rotate ↻</span>
+          </div>
+          <div class="control">
+            <span><kbd>Z</kbd><kbd>Ctrl</kbd></span
+            ><span>Rotate ↺</span>
+          </div>
+          <div class="control"><kbd>↓</kbd><span>Soft drop</span></div>
+          <div class="control">
+            <kbd class="space-key">Space</kbd><span>Hard drop</span>
+          </div>
+          <div class="control"><kbd>C</kbd><span>Hold</span></div>
+        </section>
+        <div class="touch-controls" aria-label="Touch controls">
+          <button data-action="hold" aria-label="Hold piece">HOLD</button
+          ><button data-action="ccw" aria-label="Rotate counterclockwise">
+            ↶</button
+          ><button data-action="cw" aria-label="Rotate clockwise">↷</button
+          ><button data-action="left" aria-label="Move left">←</button
+          ><button data-action="soft" aria-label="Soft drop">↓</button
+          ><button data-action="right" aria-label="Move right">→</button
+          ><button data-action="drop" class="touch-drop" aria-label="Hard drop">
+            DROP ↓
+          </button>
+        </div>
+        <footer>
+          <span>BUILT FOR THE IN-BETWEEN MOMENTS.</span
+          ><span
+            >7-BAG RANDOMIZER <i>·</i> SRS ROTATION <i>·</i> ENDLESS
+            POSSIBILITIES</span
+          >
+        </footer>
+      </main>
+    </div>
+    <noscript>This game needs JavaScript enabled to play.</noscript>
+  </body>
+</html>

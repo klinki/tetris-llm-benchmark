@@ -1304,6 +1304,105 @@
           "message": "Background command completed (exit 143): /bin/zsh -lc 'npm start'\n\nOutput tail:\n\n> tetrisjs@1.0.0 start\n> npm run build && node server.mjs\n\n\n> tetrisjs@1.0.0 build\n> tsc\n\nTetrisJS → http://localhost:8321"
         }
       ]
+    },
+    {
+      "id": "gpt-6.1-sol-high",
+      "label": "GPT-6.1 Sol (high)",
+      "order": 460,
+      "project_dir": "gpt-6.1-sol-high",
+      "harness": "t3_codex",
+      "harness_label": "T3 Code / Codex",
+      "provider": "codex",
+      "provider_label": "Codex",
+      "model": "gpt-6.1-sol",
+      "session_id": "01a171df-d877-7363-a55a-1828af3c3ef7",
+      "t3_thread_id": "mcp:c9e291d8-6a21-4adb-a0fb-03d16814d175",
+      "expected_cwd": "/Users/david/tetris-bench/runs/a1ac474c6857/tetris",
+      "expected_cwd_basename": "tetris",
+      "reasoning_variant": "high",
+      "web": "open",
+      "cutoff": {
+        "through_user_message": 1,
+        "exclude_inter_message_wait": true
+      },
+      "overhead": {
+        "kind": "unknown"
+      },
+      "spec": {
+        "sha256": "36e2097a78fe8b5646e6216338640831cff0a284cc823c4b1f658991c8d40294",
+        "commit": "9fca93265c6af0fcfeafa58da6545603532dfc75",
+        "modified": false
+      },
+      "isolation": {
+        "outside_access": [
+          {
+            "time": "2026-10-25T07:04:29.022Z",
+            "tool": "command_execution",
+            "kind": "command",
+            "reference": "/Users/AGENTS.md"
+          },
+          {
+            "time": "2026-10-25T07:04:29.022Z",
+            "tool": "command_execution",
+            "kind": "command",
+            "reference": "/Users/david/AGENTS.md"
+          },
+          {
+            "time": "2026-10-25T07:04:29.022Z",
+            "tool": "command_execution",
+            "kind": "command",
+            "reference": "/Users/david/tetris-bench/AGENTS.md"
+          },
+          {
+            "time": "2026-10-25T07:04:29.022Z",
+            "tool": "command_execution",
+            "kind": "command",
+            "reference": "/Users/david/tetris-bench/runs/AGENTS.md"
+          },
+          {
+            "time": "2026-10-25T07:04:29.022Z",
+            "tool": "command_execution",
+            "kind": "command",
+            "reference": "/Users/david/tetris-bench/runs/a1ac474c6857/AGENTS.md"
+          },
+          {
+            "time": "2026-10-25T07:04:36.898Z",
+            "tool": "command_execution",
+            "kind": "command",
+            "reference": "/Users/AGENTS.md"
+          },
+          {
+            "time": "2026-10-25T07:04:36.898Z",
+            "tool": "command_execution",
+            "kind": "command",
+            "reference": "/Users/david/AGENTS.md"
+          },
+          {
+            "time": "2026-10-25T07:04:36.898Z",
+            "tool": "command_execution",
+            "kind": "command",
+            "reference": "/Users/david/tetris-bench/AGENTS.md"
+          },
+          {
+            "time": "2026-10-25T07:04:36.898Z",
+            "tool": "command_execution",
+            "kind": "command",
+            "reference": "/Users/david/tetris-bench/runs/AGENTS.md"
+          },
+          {
+            "time": "2026-10-25T07:04:36.898Z",
+            "tool": "command_execution",
+            "kind": "command",
+            "reference": "/Users/david/tetris-bench/runs/a1ac474c6857/AGENTS.md"
+          }
+        ]
+      },
+      "t3_notification_turns": [
+        {
+          "ordinal": 2,
+          "message": "Background command completed (exit 143): /bin/zsh -lc 'npm start'\n\nOutput tail:\n\n> tetrisjs@1.0.0 start\n> node scripts/serve.mjs\n\nTetris is running at http://localhost:8321"
+        }
+      ]
     }
   ]
 }
