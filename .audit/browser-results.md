@@ -474,3 +474,53 @@ Exact fixtures, limitations, supplied isolation facts and score rationale:
 and browser assertions with `python3 .audit/run-gpt6-luna-audit.py --offline`;
 the [runner](run-gpt6-luna-audit.py) asserts medium's failure and xhigh's
 broken own bag test without fixing either delivery.
+
+## GPT-5.6 Luna (five efforts)
+
+Audited **2026-10-25**, Playwright skill/CLI, installed
+**Chromium 156.0.8078.4**, **1280×800** and **390×844**, using supplied
+`npm start` behavior in disposable builds. Only low/medium’s temporary
+port literals change; routing/MIME and application logic stay unchanged.
+Free ports **41000–49999**, named browsers and process groups are cleaned.
+T3 status/open were checked; CLI follows the requested prior-audit workflow.
+
+| Effort | Desktop board | Phone document width | Phone board | Supporting state / finding | Application errors |
+|---|---|---:|---|---|---|
+| low | 300×600 at x=410 | 466 | 300×600 at x=0 | Hold/next x=332..452 clip | None |
+| medium | Static 282×620.39 at x=199 | 390 | Static 282×620.39 at x=54 | Blank game, previews and inert controls | CSS import rejected as text/css module |
+| high | 340×660 at x=470 | 390 | 336.25×652.5 at x=26.875 | Next previews overlap at both sizes; queue scroll-reachable | None |
+| xhigh | 326×652 at x=477 | 390 | 326×652 at x=32 | Four complete previews below fold, fully reachable | None |
+| max | 284×568 at x=498 | 390 | 284×568 at x=53 | Complete scrolling panels; visible active Game over overlay | None |
+
+All five build and pass own tests, but medium’s unchanged emitted entry
+`import "./style.css"` prevents browser module evaluation. Its delivered
+server responds with text/css; Chromium requires JavaScript/Wasm. Board/
+previews stay blank and score stays zero through all required keys, R and
+Restart click at both sizes. No source/MIME workaround or substitute static
+server is used. Its headless engine results are diagnostic only.
+
+The four usable games receive real **Left, Right, Up, X, Z, Left Ctrl,
+Down, Space, C**, asserting movement, rotation, soft points, four hard-locked
+cells and low’s broken hold availability. Real Space blocks the incoming
+spawn and **real R** resets board/hold/score/lines/level/availability at both
+sizes. Max has `gameOver=false`, `hidden=true` and computed `display:grid`
+after reload and restart: its false Game over overlay covers the live board,
+matching the historical Luna Codex finding. High/xhigh hide overlays correctly.
+
+Actual canvas calls/DOM cells assert all seven obstructed ghost projections.
+High’s three identical I previews have intersecting filled-cell rectangles
+because 70 px rows occupy origins 25 px apart. Scroll checks fully reach
+high/xhigh’s phone queue cards; vertical reflow is not clipping. Xhigh’s
+800 ms normal / real Down / 1 ms fixture moves/scores **18 rows/points**.
+Low’s unchanged browser callback moves **one row at 60 Hz / two at 144 Hz**
+over equal 1480.001 ms at logical level two. High/xhigh/max agree across
+refresh rates. Missing favicons are excluded; no other application exception,
+console error or failed required asset occurs in the four playable games.
+
+All ten screenshots were visually inspected outside the checkout and removed
+after review. Physical touch/mobile hardware, native OS key-repeat timing,
+other browsers and every focus edge were not certified. Exact fixtures,
+limits and supplied isolation context: [GPT-5.6 Luna audit](gpt56-luna-review.md).
+Reproduce with `python3 .audit/run-gpt56-luna-audit.py --offline` using the
+[runner](run-gpt56-luna-audit.py), [engine](gpt56-luna-audit.mjs) and
+[browser snippet](gpt56-luna-browser.cjs).

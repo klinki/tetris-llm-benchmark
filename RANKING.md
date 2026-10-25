@@ -1,6 +1,6 @@
 # Tetris Implementation Quality Ranking
 
-This ranking evaluates 39 implementations against [`TETRIS.md`](TETRIS.md). Quality is scored independently of generation time and token use; efficiency data appears only as non-scoring context.
+This ranking evaluates 44 implementations against [`TETRIS.md`](TETRIS.md). Quality is scored independently of generation time and token use; efficiency data appears only as non-scoring context.
 
 The original audit was performed on 2026-08-10, Luna PI was added on 2026-08-29, and five T3 Code/OpenCode implementations were added on 2026-10-20. The first 32 implementations initially passed their declared build/test workflows in isolated temporary copies. GPT-6 Luna medium fails to build; GPT-6 Luna xhigh builds but has a deterministically failing own bag test, recorded separately below. GLM max also has a reproducible random-dependent own-test failure, recorded in its audit and test score. Nemotron nevertheless fails to start in the browser because its emitted imports do not resolve. Browser checks used each project's intended server behavior and Chromium at 1280×800 and 390×844. Reproducible probes and evidence are in [`.audit`](.audit/README.md).
 
@@ -44,6 +44,13 @@ critical-failure method as Nemotron; its diagnostic source probes and static
 page are explicitly separate. Xhigh's failing bag test is a broken fixture,
 not a randomizer defect. Predecessor Luna scores remain unchanged.
 
+Five GPT-5.6 Luna efforts were independently audited on 2026-10-25 in
+T3 Code / Codex, standard tier. The [GPT-5.6 Luna audit](.audit/gpt56-luna-review.md)
+records fresh-copy builds/tests, canonical engine probes, desktop/phone
+Chromium assertions, scores and supplied generation/isolation context.
+All five build and pass their own tests; medium’s browser module graph
+cannot start. Historical Luna scores remain unchanged.
+
 ## Ranking
 
 Scores and confirmed bugs are recorded in [`ranking.json`](ranking.json); this table and the README leaderboard are generated from it by `python3 scripts/benchmark.py render`.
@@ -74,22 +81,27 @@ Scores and confirmed bugs are recorded in [`ranking.json`](ranking.json); this t
 | 21 | Claude Haiku 5.5 (medium) | 8.0 | 5.5 | 9.0 | 8.5 | 8.5 | **7.80** | 4 minor |
 | 22 | Luna Codex | 7.5 | 7.0 | 8.0 | 7.5 | 8.5 | **7.60** | 1 major, 2 minor |
 | 23 | Muse Spark 1.3 (high) | 7.0 | 6.5 | 8.5 | 8.5 | 8.5 | **7.50** | 6 minor |
-| 24 | Claude Sonnet 5.5 (low) | 7.0 | 6.0 | 8.5 | 9.0 | 8.0 | **7.40** | 1 major, 3 minor |
-| 25 | Cat-jam | 6.5 | 7.5 | 8.5 | 8.0 | 8.0 | **7.40** | 2 major, 1 minor |
-| 26 | Muse Spark 1.3 (xhigh) | 7.0 | 6.0 | 8.5 | 8.0 | 8.5 | **7.35** | 1 major, 3 minor |
-| 27 | DeepSeek OMP/PI | 6.5 | 8.5 | 8.0 | 7.0 | 7.0 | **7.30** | 2 major, 1 minor |
-| 28 | GPT-6 Luna (max) | 6.5 | 5.5 | 9.0 | 8.5 | 9.0 | **7.25** | 1 major, 4 minor |
-| 29 | Muse Spark 1.3 (medium) | 6.5 | 5.5 | 8.5 | 8.5 | 8.0 | **7.05** | 1 major, 4 minor |
-| 30 | Space-bunny | 5.5 | 7.5 | 8.0 | 6.5 | 8.0 | **6.75** | 3 major |
-| 31 | Muse Spark 1.3 (low) | 5.5 | 6.0 | 8.5 | 8.0 | 8.5 | **6.75** | 2 major, 3 minor |
-| 32 | Muse Spark 1.3 (minimal) | 6.5 | 4.5 | 7.5 | 8.5 | 8.0 | **6.65** | 1 major, 4 minor |
-| 33 | GPT-6 Luna (xhigh) | 5.5 | 4.5 | 9.0 | 8.5 | 9.0 | **6.65** | 2 major, 3 minor |
-| 34 | GPT-6 Luna (high) | 6.0 | 1.5 | 7.5 | 8.5 | 8.5 | **5.90** | 2 major, 2 minor |
-| 35 | GPT-6 Luna (low) | 4.5 | 4.0 | 7.0 | 8.5 | 8.0 | **5.65** | 3 major, 2 minor |
-| 36 | Beam | 6.0 | 4.5 | 5.0 | 6.5 | 6.5 | **5.60** | 2 major, 2 minor |
-| 37 | GLM-5.3-Flash (low) | 2.0 | 3.5 | 8.5 | 8.5 | 8.0 | **4.85** | 5 major, 1 minor |
-| 38 | Nemotron | 0.0 | 6.0 | 6.5 | 8.5 | 6.5 | **4.00** | 1 critical, 2 major, 2 minor |
-| 39 | GPT-6 Luna (medium) | 0.0 | 3.5 | 8.0 | 8.5 | 6.5 | **3.80** | 1 critical, 3 major, 1 minor |
+| 24 | GPT-5.6 Luna (xhigh) | 7.5 | 4.5 | 9.0 | 8.5 | 8.5 | **7.40** | 5 minor |
+| 25 | Claude Sonnet 5.5 (low) | 7.0 | 6.0 | 8.5 | 9.0 | 8.0 | **7.40** | 1 major, 3 minor |
+| 26 | Cat-jam | 6.5 | 7.5 | 8.5 | 8.0 | 8.0 | **7.40** | 2 major, 1 minor |
+| 27 | Muse Spark 1.3 (xhigh) | 7.0 | 6.0 | 8.5 | 8.0 | 8.5 | **7.35** | 1 major, 3 minor |
+| 28 | DeepSeek OMP/PI | 6.5 | 8.5 | 8.0 | 7.0 | 7.0 | **7.30** | 2 major, 1 minor |
+| 29 | GPT-6 Luna (max) | 6.5 | 5.5 | 9.0 | 8.5 | 9.0 | **7.25** | 1 major, 4 minor |
+| 30 | Muse Spark 1.3 (medium) | 6.5 | 5.5 | 8.5 | 8.5 | 8.0 | **7.05** | 1 major, 4 minor |
+| 31 | Space-bunny | 5.5 | 7.5 | 8.0 | 6.5 | 8.0 | **6.75** | 3 major |
+| 32 | Muse Spark 1.3 (low) | 5.5 | 6.0 | 8.5 | 8.0 | 8.5 | **6.75** | 2 major, 3 minor |
+| 33 | GPT-5.6 Luna (high) | 5.5 | 5.0 | 9.0 | 8.5 | 8.5 | **6.70** | 2 major, 3 minor |
+| 34 | Muse Spark 1.3 (minimal) | 6.5 | 4.5 | 7.5 | 8.5 | 8.0 | **6.65** | 1 major, 4 minor |
+| 35 | GPT-5.6 Luna (max) | 5.5 | 5.0 | 9.0 | 8.0 | 8.5 | **6.65** | 2 major, 3 minor |
+| 36 | GPT-6 Luna (xhigh) | 5.5 | 4.5 | 9.0 | 8.5 | 9.0 | **6.65** | 2 major, 3 minor |
+| 37 | GPT-6 Luna (high) | 6.0 | 1.5 | 7.5 | 8.5 | 8.5 | **5.90** | 2 major, 2 minor |
+| 38 | GPT-6 Luna (low) | 4.5 | 4.0 | 7.0 | 8.5 | 8.0 | **5.65** | 3 major, 2 minor |
+| 39 | Beam | 6.0 | 4.5 | 5.0 | 6.5 | 6.5 | **5.60** | 2 major, 2 minor |
+| 40 | GLM-5.3-Flash (low) | 2.0 | 3.5 | 8.5 | 8.5 | 8.0 | **4.85** | 5 major, 1 minor |
+| 41 | GPT-5.6 Luna (low) | 1.5 | 3.0 | 7.0 | 8.5 | 8.0 | **4.25** | 4 major, 5 minor |
+| 42 | GPT-5.6 Luna (medium) | 0.0 | 5.0 | 8.5 | 8.5 | 6.5 | **4.20** | 1 critical, 2 major, 2 minor |
+| 43 | Nemotron | 0.0 | 6.0 | 6.5 | 8.5 | 6.5 | **4.00** | 1 critical, 2 major, 2 minor |
+| 44 | GPT-6 Luna (medium) | 0.0 | 3.5 | 8.0 | 8.5 | 6.5 | **3.80** | 1 critical, 3 major, 1 minor |
 <!-- ranking-table:end -->
 
 Muse Spark 1.3 has two medium runs: the reference-assisted
@@ -400,6 +412,48 @@ or replace its delivery. Max's 16 ms fast-gravity floor is accepted as in
 prior audits. High's queue is below the fold but fully reachable by scrolling.
 Exact findings and limits are in the [audit](.audit/gpt6-luna-review.md).
 
+### GPT-5.6 Luna additions — October 25
+
+Columns identify `gpt-5.6-luna-{low,medium,high,xhigh,max}`. Medium’s `E`
+means emitted-headless-engine evidence only; `S` means static HTML/CSS.
+Its delivered browser never starts; neither is a gameplay pass.
+
+| Requirement | low | medium | high | xhigh | max |
+|---|:---:|:---:|:---:|:---:|:---:|
+| Browser starts after build | ✅ | ✗ | ✅ | ✅ | ✅ |
+| TypeScript; dependency-free JS runtime design | ✅ | E | ✅ | ✅ | ✅ |
+| Seven standard shapes and distinct colors | ✅ | E | ✅ | ✅ | ✅ |
+| Left/right; Up/X CW; Z/Left Ctrl CCW bindings | ✅ | E | ✅ | ✅ | ✅ |
+| Soft and hard drop | ◐ | E: ◐ | ✅ | ◐ | ✅ |
+| C hold once per piece and real post-lock swap | ◐ | E | ✅ | ✅ | ✅ |
+| Seven-bag and next queue | ✅ | E | ✅ | ✅ | ✅ |
+| All 28 canonical SRS states and ordered kicks | ◐ | E | ✅ | ✅ | ◐ |
+| Independent obstructed ghost geometry | ✅ | E | ✅ | ✅ | ✅ |
+| Ordinary 499/500 ms marked-grounded lock | ✅ | E | ✅ | ✅ | ✅ |
+| Natural contact timing and capped action resets | ◐ | E: ◐ | ◐ | ✅ | ✅ |
+| Ledge-move mid-air lock safety | ✅ | E | ✅ | ✅ | ✅ |
+| Benchmark scoring, including mini/B2B/combo/PC | ◐ | E: ◐ | ◐ | ◐ | ◐ |
+| Guideline gravity curve and ten-line levels | ◐ | E: ◐ | ◐ | ✅ | ◐ |
+| Public-action wholly hidden lock-out | ◐ | E: ◐ | ◐ | ◐ | ◐ |
+| Blocked-spawn game over | ✅ | E | ✅ | ✅ | ✅ |
+| Inert game-over drop controls | ◐ | E | ✅ | ✅ | ✅ |
+| R restart after game over | ✅ | E | ✅ | ✅ | ✅ |
+| Actual browser falling agrees at 60/144 Hz | ◐ | — | ✅ | ✅ | ✅ |
+| Phone board fits horizontally | ✅ | S | ✅ | ✅ | ✅ |
+| Phone supporting state fits or is scroll-reachable | ◐ | S | ✅ | ✅ | ✅ |
+| Next previews remain complete and separate | ✅ | — | ◐ | ✅ | ✅ |
+| Active game-over overlay is hidden | ✅ | — | ✅ | ✅ | ◐ |
+
+All builds and own suites pass; medium’s retained CSS import still prevents
+browser module evaluation. Low has non-SRS data, broken hold, basic scoring,
+a wrong curve and remainder loss. High has false/mini spin and B2B-combo/PC
+errors, a NES curve, delayed natural contact and overlapping next rows.
+Xhigh’s geometry/gravity/capped locks pass; mini/PC/manual-down spin, soft
+transition and hidden locks fail. Max has inverted kick Y, later gravity
+divergence, B2B-PC/hidden-lock and overlay defects. All pass ledge safety;
+all omit whole-piece lock-out. Exact evidence:
+[GPT-5.6 Luna audit](.audit/gpt56-luna-review.md).
+
 ## Test-coverage comparison
 
 This compares tested behavior and assertion quality, not merely test-file size or printed test count. `Strong` means the suite makes deterministic, behavior-specific assertions; `Some` means coverage is indirect or incomplete; `—` means no meaningful existing test was found.
@@ -621,6 +675,32 @@ failure and real randomizer correctness are independently asserted. No own
 suite covers precise delay/reset/ledge, gravity/levels, spin/B2B/combo/PC,
 hidden lock-out, full SRS, soft timing or browser behavior. Added audit
 probes earn no own-test credit. See the [audit](.audit/gpt6-luna-review.md).
+
+### GPT-5.6 Luna test suites — October 25
+
+Only medium has named cases (5). Others are uncounted assertion scripts;
+strength of assertions, not printed counts, determines these scores.
+
+| Behavior | low | medium | high | xhigh | max |
+|---|---|---|---|---|---|
+| Bag/spawn/queue | Initial active/queue only | Strong: one fixed-random bag | Some: bag helper, initial spawn/queue | Some: one real bag invariant, next-spawn order | Some: one real-drop bag, dimensions/queue |
+| Movement/drops | Vacuous nonnegative score | Some: move, 4 hard-locked cells, left bound; no points | Some: positive hard score, next active | Some: next type; distance >=0 is vacuous | Some: loose origin bounds both walls |
+| SRS/kicks | — | Weak: rotation number only | Weak: 4-cell counts r0/r1 | — | — |
+| Independent ghost | — | — | — | — | — |
+| Hold | Weak: truthy held type | Some: first/restricted/post-lock availability | Some: first/restricted | Some: first/restricted | Some: first/restricted/post-lock availability |
+| Lock timing/cap/ledge | — | — | — | — | — |
+| Line/advanced scoring | — | Clear helper only; no score | Clear helper only; no score | Clear helper only; no score | — |
+| Gravity/levels | — | — | Weak: helper monotonicity | — | Vacuous: y >= startingY permits no fall |
+| Top-out/restart | — | — | — | — | — |
+| Real input/browser/layout | — | — | — | — | — |
+
+Tests **3.0/5.0/5.0/4.5/5.0** reflect implementation-owned assertions.
+None checks exact SRS/kicks, ghost, integrated scoring, precise clocks/caps/
+ledge, levels, hidden lock-out, blocked-spawn/restart, soft timing or the
+browser. Medium’s passing tests never load its failing entry graph. Fixed
+callbacks/sequences and xhigh’s order-independent bag invariant showed no
+seed-dependent own-test failure. Added audit probes earn no own-test credit.
+See the [audit](.audit/gpt56-luna-review.md).
 
 ## Per-implementation audit
 
@@ -1181,7 +1261,31 @@ Code **8.5**, simplicity **8.5**: **688 source TS lines**, a typed DOM-free core
 
 Exact engine/browser fixtures and isolation context are in the [Muse contributor audit](.audit/muse-review.md). Each finding is charged only to correctness.
 
-### 24. Claude Sonnet 5.5 (low) — 7.40
+### 24. GPT-5.6 Luna (xhigh) — 7.40
+
+Run ID: `gpt-5.6-luna-xhigh`. Summary: **Canonical core, gravity and responsive UI; mini/PC, stale spin, soft timing and hidden-lock gaps**.
+
+Scores (correctness/tests/code/simplicity/browser UX): **7.5/4.5/9.0/8.5/8.5**.
+
+Tests **4.5**: the uncounted smoke script passes board spawn acceptance, row clearing, one real seven-bag invariant, five-item queue, next-piece order after hard drop and first/restricted hold. The hardDrop() >= 0 assertion is vacuous; no points or four welded cells are checked. No rotation/kick, walls, independent ghost, post-lock retrieval/reset, line/advanced score, precise gravity/levels, timing/cap/ledge, top-out/restart, input or browser assertions exist.
+
+Code **9.0**, simplicity **8.5**: **629 source TS lines** across pieces, randomizer, board, game, types and browser entry. DOM-free rules, injectable randomizer, copied snapshots and one millisecond clock remain readable; public state and per-frame full snapshots add modest machinery. UX **8.5**: labeled grid/ghost, hold/stats, four complete previews, legend, held Down with blur cleanup and fitting scrollable phone panels. Native lateral repeat, no high-DPI sizing, touch or restart button.
+
+Confirmed findings:
+
+- **Minor: Mini T-spins receive full-spin scores.** Legal final CW rotation into the grounded mini fixture followed by zero-distance hard drop or timed lock awards 400/800 for zero/single clears, rather than 100/200. isTSpin is binary. Full-spin scoring and ordinary B2B/combo paths pass.
+
+- **Minor: Perfect-clear bonus is absent under the benchmark profile.** Zero-distance horizontal I completing the bottom row empties the board but awards 100 instead of 900. B2B Tetris PC likewise adds no PC bonus. Normal/full-spin/B2B/combo scores otherwise pass; this is the same isolated PC omission scored minor in GLM/Muse/Haiku.
+
+- **Minor: Manual soft drop preserves stale T-spin credit.** Rotate T clockwise in open space, manually soft-drop fourteen rows into a three-corner pocket, then hard-drop zero rows. It awards 400 spin points in addition to fourteen soft points even though the last successful manual action was downward movement. tryMove clears lastActionWasRotation only for horizontal movement.
+
+- **Minor: Starting held soft drop consumes accumulated normal-gravity time.** After fifty update(16) calls at level one, O remains at y=0 with 800 ms accumulated. Real Down moves one row; update(1,true) consumes the old time at the 45 ms interval and reaches y=18 with eighteen points in total. Both headless and real Chromium input reproduce the jump.
+
+- **Minor: A wholly above-field legal lock does not end the game.** From actual T spawn (3,0), stack (6,0),(1,1),(3,2),(2,2); left,CW,CCW,left,CW,CW,right five times reaches T r2 at (5,-3), entirely above row zero and grounded. Incoming I is independently open. Zero-travel hard drop silently discards the negative cells and continues with gameOver=false.
+
+Exact fixtures, browser evidence, limits and supplied generation/isolation context: [GPT-5.6 Luna audit](.audit/gpt56-luna-review.md).
+
+### 25. Claude Sonnet 5.5 (low) — 7.40
 
 Strengths:
 
@@ -1203,7 +1307,7 @@ Test gaps and rationale:
 
 Full reproductions and the false-positive isolation import are in the [Sonnet record](.audit/sonnet-review.md).
 
-### 25. Cat-jam — 7.40
+### 26. Cat-jam — 7.40
 
 Strengths:
 
@@ -1222,7 +1326,7 @@ Test gaps and rationale:
 - Strong coverage of core state transitions does not extend to canonical coordinates, actual kick displacements, lock-delay timing/reset caps, advanced scoring, or browser loading/layout. The suite checks that rotations have four cells, which cannot detect a malformed L state.
 - Code quality and simplicity score well for proportionate modules and readable state transitions. The static desktop layout is attractive and legible, with no touch controls or accessible canvas labels.
 
-### 26. Muse Spark 1.3 (xhigh) — 7.35
+### 27. Muse Spark 1.3 (xhigh) — 7.35
 
 Run ID: `muse-spark-1.3-contributor-xhigh`. Summary: **Hard drop erases spin credit; mini/PC gaps, hidden lock-out, soft-drop jump and phone clipping**.
 
@@ -1246,7 +1350,7 @@ Code **8.5**, simplicity **8.0**: **868 source TS lines**, focused typed board/g
 
 Exact engine/browser fixtures and isolation context are in the [Muse contributor audit](.audit/muse-review.md). Each finding is charged only to correctness.
 
-### 27. DeepSeek OMP/PI — 7.30
+### 28. DeepSeek OMP/PI — 7.30
 
 Strengths:
 
@@ -1265,7 +1369,7 @@ Test gaps and rationale:
 - Despite being the best suite overall, it has no lock-delay/ledge test, advanced scoring tests, reset-limit test, or browser assertions. The current hard-drop test exercises the same projection used by the ghost but does not validate rendering.
 - The multi-file split is readable but more verbose than Sol Codex. Browser UX is good on desktop and materially weaker on a phone-sized viewport.
 
-### 28. GPT-6 Luna (max) — 7.25
+### 29. GPT-6 Luna (max) — 7.25
 
 Summary: **Wrong I kicks; B2B perfect-clear, stale soft-drop spin, timing and phone preview defects**.
 
@@ -1283,7 +1387,7 @@ Confirmed findings:
 
 Exact fixtures, coverage and scoring rationale are in the [GPT-6 Luna audit](.audit/gpt6-luna-review.md).
 
-### 29. Muse Spark 1.3 (medium) — 7.05 — `muse-spark-1.3-contributor-medium` (from scratch)
+### 30. Muse Spark 1.3 (medium) — 7.05 — `muse-spark-1.3-contributor-medium` (from scratch)
 
 Run ID: `muse-spark-1.3-contributor-medium` (**medium, from scratch**). Summary: **From scratch: no T-spins, B2B or perfect-clear bonus; hidden lock-out, soft jump and preview/phone clipping**.
 
@@ -1308,7 +1412,7 @@ Code **8.5**, simplicity **8.5**: **643 source TS lines**, focused typed modules
 
 Exact engine/browser fixtures and isolation context are in the [Muse contributor audit](.audit/muse-review.md). Each finding is charged only to correctness.
 
-### 30. Space-bunny — 6.75
+### 31. Space-bunny — 6.75
 
 Strengths:
 
@@ -1327,7 +1431,7 @@ Test gaps and rationale:
 - Several tests assert the implementation's mistakes: reverse/mirrored CCW tables, a full-spin position labeled mini, and breaking B2B on a no-clear placement. Ghost tests check count/noncollision but not the expected four distinct coordinates. Exact canonical data and independent expected outcomes would substantially improve the suite.
 - Its 1,687 source lines and 731 test lines contain considerable rule and rendering machinery. The structure is readable, but size lowers simplicity. The adaptive presentation is polished; its small-screen text is tiny and no touch controls are provided.
 
-### 31. Muse Spark 1.3 (low) — 6.75
+### 32. Muse Spark 1.3 (low) — 6.75
 
 Run ID: `muse-spark-1.3-contributor-low`. Summary: **Incorrect kicks and incomplete advanced scoring; soft-drop jump, clipped phone board and overlaid legend**.
 
@@ -1352,7 +1456,31 @@ Code **8.5**, simplicity **8.0**: **839 source TS lines** with focused board, ba
 
 Exact engine/browser fixtures and isolation context are in the [Muse contributor audit](.audit/muse-review.md). Each finding is charged only to correctness.
 
-### 32. Muse Spark 1.3 (minimal) — 6.65
+### 33. GPT-5.6 Luna (high) — 6.70
+
+Run ID: `gpt-5.6-luna-high`. Summary: **Canonical SRS and working controls; scoring, gravity, contact timing and overlapping previews fail**.
+
+Scores (correctness/tests/code/simplicity/browser UX): **5.5/5.0/9.0/8.5/8.5**.
+
+Tests **5.0**: the uncounted engine assertion script passes one fixed-random bag helper, a clear helper, four-cell counts at r0/r1, gravity-helper monotonicity, initial spawn/queue, first/restricted hold, positive hard-drop score and a non-null next piece. These are real engine assertions, unlike GPT-6 Luna high’s text checks. There are no exact coordinates/kicks, walls/drop points/cells, post-lock held retrieval/reset, ghost, line/advanced score, precise timing/cap/ledge, levels, top-out/restart or browser assertions.
+
+Code **9.0**, simplicity **8.5**: **473 source TS lines**, strict types, DOM-free board/engine, copied snapshots, injected RNG and separate DOM entry. Every render recreates board/preview nodes; public state remains mutable. UX **8.5**: distinct beveled cells, labeled board/hold/next, ghost/stats, full legend, pause/restart and fitting phone reflow. Native repeat and no touch UI. The next panel is scroll-reachable; its overlap is charged only to correctness.
+
+Confirmed findings:
+
+- **Major: Spin history, mini, B2B-combo and perfect-clear scoring are incomplete.** The engine recognizes any three-corner T lock as a full spin without requiring a final rotation: a non-rotated corner lock awards 400 instead of zero, and mini zero/single score 400/800 instead of 100/200. Two consecutive non-PC Tetrises total 2075 instead of 2050 because B2B multiplies the combo bonus too. A single perfect clear scores 100 instead of 900. Full spins, ordinary B2B/no-clear continuity and level-two combo otherwise pass. These related scoring errors are one grouped major finding.
+
+- **Major: Gravity uses the NES frame table instead of the Guideline curve.** Actual level 1/2/5/10 first rows occur at 800/717/467/100 ms rather than 1000/793/about 355.197/64.152 ms. getGravityInterval uses frames [48,43,38,...] at 60 Hz. Level progression and equal-duration 60/144 Hz falling otherwise work.
+
+- **Minor: Natural floor contact starts the lock clock one gravity step late.** With O one row above the floor, it lands at 800 ms but does not lock until another 1299 ms, about 800 ms later than the 500 ms contact delay. A successful gravity step sets grounded=false; only the next blocked fall marks contact. An already marked-grounded O passes 499/500 ms, capped resets and ledge safety.
+
+- **Minor: A wholly hidden legal lock does not end the game.** T spawn (3,0), stack (2,2),(3,3),(4,3); real CW, CCW, three left moves and zero-distance hard drop lock T entirely in hidden rows 0–1 at x=0..2. The next I spawn is independently open; gameOver remains false.
+
+- **Minor: Next-piece previews overlap at desktop and phone widths.** renderNext inserts three 70 px-wide four-column .next-row grids into a .mini-board whose columns are only 22 px wide with 3 px gaps. Three identical I previews have real intersecting filled-cell rectangles; adjacent preview origins are 25 px apart. Screenshots and deterministic DOM geometry confirm overlap at both sizes. The phone queue is reachable by scrolling, not clipped off-screen.
+
+Exact fixtures, browser evidence, limits and supplied generation/isolation context: [GPT-5.6 Luna audit](.audit/gpt56-luna-review.md).
+
+### 34. Muse Spark 1.3 (minimal) — 6.65
 
 Run ID: `muse-spark-1.3-contributor-minimal`. Summary: **Canonical core geometry; incomplete scoring, lock resets and soft timing, hidden lock-out and phone clipping**.
 
@@ -1377,7 +1505,31 @@ Code **7.5**, simplicity **8.5**: **358 source TS lines**, strict types, a small
 
 Exact engine/browser fixtures and isolation context are in the [Muse contributor audit](.audit/muse-review.md). Each finding is charged only to correctness.
 
-### 33. GPT-6 Luna (xhigh) — 6.65
+### 35. GPT-5.6 Luna (max) — 6.65
+
+Run ID: `gpt-5.6-luna-max`. Summary: **Broad scoring and responsive panels; inverted kick Y, later gravity, B2B-PC, hidden lock and overlay defects**.
+
+Scores (correctness/tests/code/simplicity/browser UX): **5.5/5.0/9.0/8.0/8.5**.
+
+Tests **5.0**: the uncounted deterministic smoke script passes board dimensions, one complete bag through real hard drops, five previews, first/restricted/post-lock hold availability, changed active type and loose left/right origin bounds. Gravity accepts y >= startingY, including no fall. No rotation/kick, exact drops/soft points/cells, independent ghost, held retrieval/orientation reset, line/advanced score, precise gravity/levels, timing/cap/ledge, top-out/restart or browser assertions exist.
+
+Code **9.0**, simplicity **8.0**: **1,017 source TS lines**, strict DOM-free engine, separate renderer/input, defensive RNG normalization, copied snapshots and an event-ordered remaining-time clock. Matrix copies, repeated state access and the drawing module add proportionate machinery. UX **8.5**: rounded shaded blocks, outline ghost, labeled board/hold/five previews, full legend, pause/restart/status and fitting scrolling phone panels. Native repeat, no high-DPI scaling, focus cleanup or touch UI. The overlay defect is charged only to correctness.
+
+Confirmed findings:
+
+- **Major: Every SRS kick transition applies vertical offsets in the wrong direction.** All 28 basic states are canonical, but all 48 non-O ordered transition lists fail the Y-down oracle. Tables store positive Y upward while rotate adds kickY to board Y. A floor I r0 at (3,20) fails CW entirely; canonical SRS reaches r1 at (4,18). A floor T r0 at (3,20) reaches (3,18) instead of canonical (2,19). Wall kicks with zero vertical displacement can still pass.
+
+- **Major: The gravity table diverges from the Guideline curve at later levels.** Levels one/two/five match 1000/793/355 ms, but actual first rows at levels 9/10/14 are 99/72/21 ms, instead of about 93.882/64.152/11.439 ms (or the accepted 16 ms fast floor). The later table values are a different progression; the 16 ms terminal floor itself is not penalized. Levels and 60/144 Hz independence pass.
+
+- **Minor: B2B Tetris perfect clear uses the ordinary bonus.** Tetris, a no-clear lock, then zero-distance Tetris perfect clear total 4000 instead of 5200. The last placement awards 1200 B2B clear plus 2000 ordinary PC, instead of 1200 plus 3200 B2B PC. Ordinary single PC 900 and full/mini/B2B/combo scoring pass.
+
+- **Minor: A wholly hidden legal lock does not end the game.** T spawn (3,0), stack (2,2),(3,3),(4,3), CW,CCW,left three times ends T wholly in hidden rows 0–1 at x=0..2. Incoming I is independently open. Zero-travel hard drop leaves gameOver=false; lockPiece writes the cells and only checks the next spawn.
+
+- **Minor: The game-over overlay is visible during active play.** At desktop and phone widths, after reload and after real R restart, gameOver=false and #game-overlay.hidden=true, but computed display is grid and Game over covers the live board. The .game-overlay display:grid rule overrides the native hidden presentation. This matches the predecessor Luna Codex overlay finding.
+
+Exact fixtures, browser evidence, limits and supplied generation/isolation context: [GPT-5.6 Luna audit](.audit/gpt56-luna-review.md).
+
+### 36. GPT-6 Luna (xhigh) — 6.65
 
 Summary: **Wrong I kick and gravity; hidden lock-out, B2B perfect-clear and phone next gaps**.
 
@@ -1395,7 +1547,7 @@ Confirmed findings:
 
 Exact fixtures, coverage and scoring rationale are in the [GPT-6 Luna audit](.audit/gpt6-luna-review.md).
 
-### 34. GPT-6 Luna (high) — 5.90
+### 37. GPT-6 Luna (high) — 5.90
 
 Summary: **Basic-only scoring, wrong and refresh-dependent gravity; airborne moves exhaust lock resets**.
 
@@ -1412,7 +1564,7 @@ Confirmed findings:
 
 Exact fixtures, coverage and scoring rationale are in the [GPT-6 Luna audit](.audit/gpt6-luna-review.md).
 
-### 35. GPT-6 Luna (low) — 5.65
+### 38. GPT-6 Luna (low) — 5.65
 
 Summary: **Wrong SRS pivots, basic-only scoring and gravity; erased next previews and hidden phone hold**.
 
@@ -1430,7 +1582,7 @@ Confirmed findings:
 
 Exact fixtures, coverage and scoring rationale are in the [GPT-6 Luna audit](.audit/gpt6-luna-review.md).
 
-### 36. Beam — 5.60
+### 39. Beam — 5.60
 
 Strengths:
 
@@ -1449,7 +1601,7 @@ Test gaps and rationale:
 - Only five small tests cover board dimensions, initial spawn/queue, generic matrix rotation, one bag, and a full-row clear. There are no real input/rotation, drop, hold restriction, timing, scoring, top-out/restart, or browser assertions.
 - Broad `any` casts, duplicate rendering paths, unused imports, and empty placeholder helpers lower code quality. The implementation remains small, but dead code weakens local reasoning. Presentation is basic and readable, with a small board and little accessibility support.
 
-### 37. GLM-5.3-Flash (low) — 4.85
+### 40. GLM-5.3-Flash (low) — 4.85
 
 Run ID: `glm-5.3-flash-free-low`. Summary: **Canonical SRS, but hold, gravity/frame timing, scoring and blocked spawn fail; previews overlap and clip**.
 
@@ -1474,7 +1626,63 @@ Code **8.5**, simplicity **8.5**: 737 source TS lines, strict unused checks, fou
 
 Exact reproducible fixtures, browser measurements and generation/isolation context are in the [GLM audit](.audit/glm-review.md).
 
-### 38. Nemotron — 4.00
+### 41. GPT-5.6 Luna (low) — 4.25
+
+Run ID: `gpt-5.6-luna-low`. Summary: **Non-SRS rotations, broken hold, basic scoring and wrong timing; phone state clips**.
+
+Scores (correctness/tests/code/simplicity/browser UX): **1.5/3.0/7.0/8.5/8.0**.
+
+Tests **3.0**: its two-line smoke script checks initial active/queue and a truthy held piece. The only score assertion rejects a negative score and never establishes an award. There are no complete bag, wall, rotation/kick, exact drop points/cells, restricted/post-lock hold, ghost, line/advanced score, timing/cap/ledge, gravity/levels, top-out/restart or browser assertions. This is narrower than the 3.5–5.5 smoke suites; audit probes earn no own-test credit.
+
+Code **7.0**, simplicity **8.5**: **37 source TS lines**, strict types, a DOM-free engine, injected RNG, direct methods and no runtime dependencies. Extremely long compressed methods, shape literals and the draw/input module impede maintenance. UX **8.0**: readable colored board/grid/ghost, hold/stats, three previews and a complete keyboard legend; native repeat, no high-DPI adaptation, focus cleanup or touch UI. Confirmed defects are charged only to correctness.
+
+Confirmed findings:
+
+- **Major: Rotation states and kicks do not implement SRS.** The full oracle fails I0/I1/I2/I3/J1/L1/S1/S2/T1/Z1/Z2, after allowing a fixed O-origin translation. I spawns vertically and I/S/Z have only two reused states. All 48 non-O ordered kick transitions differ from SRS: rotate uses the same six generic offsets in both directions instead of the JLSTZ/I tables. These related geometry/kick defects are one major finding.
+
+- **Major: Hold duplicates the active or previously held piece instead of swapping.** Seed 42 deals active Z and next S. C stores Z but respawns Z, leaves S queued and immediately restores canHold=true. A second C again respawns Z; after locking, C replaces the next active piece with Z without storing the outgoing type. The public hold probe and real browser keys reproduce it.
+
+- **Major: Advanced scoring is absent and gravity/level-crossing points are wrong.** Legal final-rotation full/mini zero/single fixtures score 0/100 instead of 400/800 or 100/200, through hard and timed locks. Two Tetrises with a no-clear lock between total 1600 instead of 2000; level-two combo single is 200 instead of 300; single perfect clear is 100 instead of 900. Automatic gravity awards one point per row; crossing nine to ten lines scores the single at the new level, 200 instead of 100. These related scoring errors are grouped once.
+
+- **Major: Gravity uses a different linear progression.** Actual first-row boundaries at levels 1/2/5/10 are 800/735/540/215 ms instead of 1000/793/about 355.197/64.152 ms. tick uses max(80,800-level*65), with internal levels starting at zero, rather than the benchmark Guideline curve.
+
+- **Minor: Gravity remainder loss makes falling depend on refresh rate.** At logical level two, unchanged engine updates and the actual browser frame callback move O one row at 60 Hz but two at 144 Hz over the same 1480.001 ms. tick resets dropTimer to zero on every fall instead of retaining the remainder. This timing defect is separate from the wrong gravity curve.
+
+- **Minor: Lock timing bypasses the delay and has no action-reset cap.** Grounded softDrop locks immediately. An O waits 490 ms on the floor, moves, then locks after only another 310 ms when automatic softDrop fails. Thirty successful alternating moves at 10 ms intervals still postpone locking beyond 799 ms, whereas the fifteen-reset cap locks by then. Ordinary 499/500 ms and ledge mid-air safety pass; these related lock-policy failures form one minor finding.
+
+- **Minor: A wholly hidden legal lock does not end the game.** From the real T spawn, add only stack (6,2), move right once, and hard-drop zero rows. All T cells are in hidden rows 0–1 at x=5..7; the incoming vertical I at x=3 is independently open and does not overlap the locked T. gameOver remains false.
+
+- **Minor: Drop controls mutate the board after game over.** Block the next T spawn with (5,0), then hard-drop a floor O. gameOver becomes true, but a further hardDrop writes the blocked active T into the board and spawns again. The before/after game-over snapshot changes; movement/rotation are guarded but hardDrop/softDrop/lock are not.
+
+- **Minor: The fixed-width phone page clips supporting state.** At 390×844, document width is 466 px. The 300×600 board starts at x=0 and fits, but hold/next canvases start at x=332 and extend to 452; scores and previews are partly off-screen. The page has a fixed 460 px main and no phone reflow.
+
+Exact fixtures, browser evidence, limits and supplied generation/isolation context: [GPT-5.6 Luna audit](.audit/gpt56-luna-review.md).
+
+### 42. GPT-5.6 Luna (medium) — 4.20
+
+Run ID: `gpt-5.6-luna-medium`. Summary: **Build/tests pass, but a CSS module import prevents browser startup; source scoring and gravity fail**.
+
+Scores (correctness/tests/code/simplicity/browser UX): **0.0/5.0/8.5/8.5/6.5**.
+
+Tests **5.0**: all **5 own cases pass**, covering one fixed-random seven-bag, real movement/rotation number and four hard-locked cells, a full-row helper, first/restricted/post-lock hold availability and left-wall bounds. The test named score lines advance asserts neither score nor lines. No exact geometry/kick, drop score, independent ghost, integrated line/advanced scoring, timing/cap/ledge, precise gravity/levels, top-out/restart or browser assertion exists. The headless tests never load its failing browser entry.
+
+Code **8.5**, simplicity **8.5**: **100 source TS lines**, strict/noUncheckedIndexedAccess, separated geometry/bag/headless rules and browser entry, direct helpers and no JS runtime dependencies. Long compressed methods and public mutable state need caller discipline. UX **6.5** assesses only the readable static HTML/CSS, consistently with Nemotron and GPT-6 Luna medium; there is no delivered playable browser experience.
+
+Confirmed findings:
+
+- **Critical: The browser module graph cannot start the game.** Fresh npm ci, npm run build and all five own tests pass, and npm start serves the page. Emitted main.js retains import "./style.css" without a CSS import attribute or bundler. Chromium rejects it: Expected a JavaScript-or-Wasm module script but the server responded with a MIME type of "text/css". Module evaluation never constructs the game; the board stays blank and every key/restart button is inert at both widths. No browser delivery repair was made; headless probes are diagnostic only.
+
+- **Major: Advanced scoring is absent, hard drop is underpaid and gravity awards points.** Diagnostic headless full/mini zero/single fixtures score 0/100, B2B Tetrises total 1600, level-two combo single 200 and single PC 100. Hard drop calls softDrop per row and awards one point per cell instead of two; automatic tick also calls softDrop and awards one point for each gravity row. These related scoring defects are one grouped major finding, not a browser pass.
+
+- **Major: Gravity uses a different linear progression.** Diagnostic first-row boundaries at levels 1/2/5/10 are 800/735/540/215 ms, rather than 1000/793/about 355.197/64.152 ms. The engine uses max(70,800-(level-1)*65). Levels still advance every ten lines; the delivered browser never runs.
+
+- **Minor: Lock accounting locks early after movement and omits capped resets.** A grounded O waits 490 ms, moves successfully, then locks after another 310 ms because tick adds the whole 800 ms gravity interval to lockAccumulator on a blocked fall. Thirty alternating moves at 10 ms intervals still keep it unlocked at 799 ms; there is no reset counter. Ordinary 499/500 ms and ledge safety pass. This is one grouped diagnostic lock-policy finding.
+
+- **Minor: A wholly hidden legal lock does not end the game.** Diagnostic public-action fixture: T spawn at (3,0), stack (2,2),(3,3),(4,3), CW, CCW, left three times, then zero-travel hard drop. T locks wholly in hidden rows 0–1; incoming I is independently open, but over remains false. This is headless source behavior, not working browser gameplay.
+
+Exact fixtures, browser evidence, limits and supplied generation/isolation context: [GPT-5.6 Luna audit](.audit/gpt56-luna-review.md).
+
+### 43. Nemotron — 4.00
 
 Strengths:
 
@@ -1496,7 +1704,7 @@ Test gaps and rationale:
 
 Detailed reproductions for all five imports are in the [October audit record](.audit/october-review.md).
 
-### 39. GPT-6 Luna (medium) — 3.80
+### 44. GPT-6 Luna (medium) — 3.80
 
 Summary: **Does not build or start; diagnostic source has wrong SRS, scoring and gravity**.
 

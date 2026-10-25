@@ -342,3 +342,38 @@ options match recent runners. Only low's temporary server port is changed;
 medium's static server serves HTML/CSS with the missing game module still
 404. Free ports 41000–49999, named Chromium sessions, process groups and
 copies are cleaned on exit. No implementation source is repaired or edited.
+
+## GPT-5.6 Luna (low, medium, high, xhigh, max)
+
+[`gpt56-luna-review.md`](gpt56-luna-review.md) records independent
+**2026-10-25** audits of five `gpt-5.6-luna-*` runs in T3 Code / Codex,
+standard tier. It includes exact findings, comparable scores, own-test gaps,
+desktop/phone evidence and supplied generation/isolation facts. Historical
+Luna records and scores remain unchanged.
+
+```sh
+python3 .audit/run-gpt56-luna-audit.py --offline
+```
+
+The [runner](run-gpt56-luna-audit.py) installs/builds/tests all five in
+random temporary copies, then runs [engine probes](gpt56-luna-audit.mjs)
+and [desktop/390×844 Chromium assertions](gpt56-luna-browser.cjs).
+All builds/own suites pass. **Medium’s actual browser must fail to start**
+because its entry imports CSS as JavaScript; headless engine results are
+explicitly diagnostic, never a playable delivery. Passing reproduces
+documented defects as well as conforming paths.
+
+Coverage includes all 28 canonical states, 48 ordered kick transitions,
+actual wall/floor kicks, 100 seeded engine bags, hold/queue, seven obstructed
+ghosts/drop coordinates/points, 499/500 ms locking, natural contact, reset
+cap and ledge safety, full/mini/B2B/combo/PC scoring, gravity curve/levels,
+soft timing, public-action hidden locks, blocked spawn/reset, real keys
+and unchanged 60/144 Hz callbacks. Browser assertions cover low’s clipped
+phone support, high’s overlapping next previews, max’s false overlay and
+medium’s module-MIME failure.
+
+Omit `--offline` if npm packages are not cached. `--engine-only`,
+`--effort`, CLI/config and outside-checkout `--artifacts-dir` options match
+recent runners. Only low/medium’s temporary server port literals change;
+application and routing/MIME logic remain unchanged. Servers use free
+41000–49999 ports; named Chromium sessions/server groups/copies are cleaned.
