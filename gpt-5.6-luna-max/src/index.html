@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#101323" />
+    <title>TetrisJS</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <main class="app-shell">
+      <header class="masthead">
+        <div>
+          <p class="eyebrow">TetrisJS</p>
+          <h1>Stack. Clear. Repeat.</h1>
+        </div>
+        <button class="button button-secondary" id="restart-button" type="button">Restart</button>
+      </header>
+
+      <section class="game-layout" aria-label="Tetris game">
+        <aside class="side-panel left-panel">
+          <section class="panel-card" aria-labelledby="hold-heading">
+            <h2 id="hold-heading">Hold</h2>
+            <canvas id="hold-canvas" class="preview-canvas" width="144" height="96" aria-label="Held piece"></canvas>
+            <p class="hint">C to hold</p>
+          </section>
+
+          <section class="panel-card stats-card" aria-label="Score">
+            <div class="stat">
+              <span class="stat-label">Score</span>
+              <strong id="score-value">000000</strong>
+            </div>
+            <div class="stat">
+              <span class="stat-label">Lines</span>
+              <strong id="lines-value">0</strong>
+            </div>
+            <div class="stat">
+              <span class="stat-label">Level</span>
+              <strong id="level-value">1</strong>
+            </div>
+          </section>
+        </aside>
+
+        <section class="board-column">
+          <div class="board-frame">
+            <canvas id="game-canvas" width="300" height="600" aria-label="Tetris board"></canvas>
+            <div id="game-overlay" class="game-overlay" hidden>
+              <strong id="overlay-title">Game over</strong>
+              <span id="overlay-message">Press R or Restart to play again.</span>
+            </div>
+          </div>
+          <p id="status-message" class="status-message" aria-live="polite"></p>
+        </section>
+
+        <aside class="side-panel right-panel">
+          <section class="panel-card next-card" aria-labelledby="next-heading">
+            <h2 id="next-heading">Next</h2>
+            <div class="next-list">
+              <canvas class="preview-canvas next-preview" width="144" height="72" aria-label="Next piece"></canvas>
+              <canvas class="preview-canvas next-preview" width="144" height="72" aria-label="Next piece"></canvas>
+              <canvas class="preview-canvas next-preview" width="144" height="72" aria-label="Next piece"></canvas>
+              <canvas class="preview-canvas next-preview" width="144" height="72" aria-label="Next piece"></canvas>
+              <canvas class="preview-canvas next-preview" width="144" height="72" aria-label="Next piece"></canvas>
+            </div>
+          </section>
+
+          <section class="panel-card controls-card" aria-labelledby="controls-heading">
+            <h2 id="controls-heading">Controls</h2>
+            <dl>
+              <div><dt>← →</dt><dd>Move</dd></div>
+              <div><dt>↑ / X</dt><dd>Rotate</dd></div>
+              <div><dt>Z / Ctrl</dt><dd>Rotate back</dd></div>
+              <div><dt>↓</dt><dd>Soft drop</dd></div>
+              <div><dt>Space</dt><dd>Hard drop</dd></div>
+              <div><dt>P</dt><dd>Pause</dd></div>
+              <div><dt>R</dt><dd>Restart</dd></div>
+            </dl>
+          </section>
+        </aside>
+      </section>
+    </main>
+
+    <script type="module" src="./main.js"></script>
+  </body>
+</html>
