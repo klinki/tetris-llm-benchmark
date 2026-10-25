@@ -49,6 +49,8 @@ const state = {
   effort: new Set(efforts),
   scale: { "quality-cost": "log", "quality-tokens": "log", "quality-time": "log" },
   pareto: { "quality-cost": false, "quality-tokens": false, "quality-time": false },
+  // Show only the runs on the frontier: none is beaten on both quality and the x-axis value.
+  paretoOnly: { "quality-cost": false, "quality-tokens": false, "quality-time": false },
 };
 
 const isVisible = (run) =>
@@ -258,7 +260,10 @@ function renderScatter(key, { xValue, xLabel, formatX, include = () => true }) {
   svgEl("text", { x: -plotH / 2, y: -32, transform: "rotate(-90)", "text-anchor": "middle", class: "axis-title" }, plot)
     .textContent = "Quality score";
 
-  const points = visible.map((run) => ({ run, xValue: xValue(run), yValue: run.score, x: x(xValue(run)), y: y(run.score) }));
+  const allPoints = visible.map((run) => ({ run, xValue: xValue(run), yValue: run.score, x: x(xValue(run)), y: y(run.score) }));
+  // The axes stay fitted to every visible run, so points keep their place when the frontier is isolated.
+  const frontierOnly = state.paretoOnly[key];
+  const points = frontierOnly ? paretoFrontier(allPoints) : allPoints;
 
   // One line per model in one harness, through its effort levels. A run with a comparison note
   // (e.g. reference-assisted) is not comparable, so it stays a standalone point.
@@ -268,12 +273,12 @@ function renderScatter(key, { xValue, xLabel, formatX, include = () => true }) {
     groups.set(groupKey, [...(groups.get(groupKey) ?? []), point]);
   }
   for (const group of groups.values()) {
-    if (group.length < 2) continue;
+    if (group.length < 2 || frontierOnly) continue;
     group.sort((a, b) => EFFORT_ORDER.indexOf(a.run.effort) - EFFORT_ORDER.indexOf(b.run.effort));
     svgEl("polyline", { class: "pt-line", points: group.map((p) => `${p.x},${p.y}`).join(" ") }, plot);
   }
 
-  if (state.pareto[key]) {
+  if (state.pareto[key] || frontierOnly) {
     const frontier = paretoFrontier(points);
     svgEl("polyline", { class: "pareto", points: frontier.map((p) => `${p.x},${p.y}`).join(" ") }, plot);
   }
@@ -604,6 +609,12 @@ function bindScatterControls() {
   for (const box of document.querySelectorAll("[data-pareto]")) {
     box.addEventListener("change", () => {
       state.pareto[box.dataset.pareto] = box.checked;
+      renderAll();
+    });
+  }
+  for (const box of document.querySelectorAll("[data-pareto-only]")) {
+    box.addEventListener("change", () => {
+      state.paretoOnly[box.dataset.paretoOnly] = box.checked;
       renderAll();
     });
   }

@@ -169,6 +169,7 @@ def chart_card(key: str, title: str, subtitle: str, controls: str = "") -> str:
 def scatter_controls(key: str) -> str:
     return (
         f'<label class="check"><input type="checkbox" data-pareto="{key}"> Pareto line</label>'
+        f'<label class="check"><input type="checkbox" data-pareto-only="{key}"> Pareto only</label>'
         f'<div class="segmented" role="group" aria-label="X axis scale">'
         f'<button type="button" data-scale="{key}" data-value="linear" aria-pressed="false">Linear</button>'
         f'<button type="button" data-scale="{key}" data-value="log" aria-pressed="true">Log</button></div>'
