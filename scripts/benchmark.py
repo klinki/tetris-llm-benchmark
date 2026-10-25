@@ -293,6 +293,10 @@ def load_pricing(root: Path, runs: list[dict[str, Any]]) -> dict[str, Any]:
             if not entry["unpriced"] or "prices" in entry:
                 raise BenchmarkError(f"pricing.json entry {model} must either give prices or say why it is unpriced")
             continue
+        for period in entry.get("periods", []):
+            if not re.fullmatch(r"\d{4}-\d{2}-\d{2}", str(period.get("from", ""))) or not period.get("note") \
+                    or set(period.get("prices", {})) != set(TOKEN_KINDS):
+                raise BenchmarkError(f"pricing.json entry {model} has a malformed period: from date, prices, and note")
         prices = entry.get("prices")
         if (
             not isinstance(prices, dict)
@@ -312,6 +316,15 @@ def load_pricing(root: Path, runs: list[dict[str, Any]]) -> dict[str, Any]:
         if run["model"] not in models:
             raise BenchmarkError(f"pricing.json has no entry for {run['model']} (run {run['id']})")
     return pricing
+
+
+def price_on(entry: dict[str, Any], started: str | None) -> dict[str, Any]:
+    """The price entry in effect when a run started: a dated period's prices replace the base prices."""
+    periods = [period for period in entry.get("periods", []) if started and period["from"] <= started[:10]]
+    if not periods:
+        return entry
+    period = max(periods, key=lambda period: period["from"])
+    return {**entry, "prices": period["prices"], "note": f"{entry.get('note', '')} {period['note']}".strip()}
 
 
 def estimate_cost(tokens: dict[str, int], entry: dict[str, Any]) -> dict[str, Any] | None:
@@ -1376,6 +1389,8 @@ def extract_report_values(path: Path, content: str | None = None) -> dict[str, A
     if not elapsed_match:
         raise BenchmarkError(f"Cannot find elapsed time in {path}")
     values: dict[str, Any] = {"elapsed": elapsed_match.group(1)}
+    start_match = re.search(r"^- Start: `([^`]+)`$", text, re.M)
+    values["start"] = start_match.group(1) if start_match else None
     for heading, key in [
         ("Tested-agent usage", "tested"),
         ("Harness overhead", "overhead"),
@@ -1430,7 +1445,7 @@ def render_readme_block(
         effort = f"`{run['reasoning_variant']}`" if run.get("reasoning_variant") else "—"
         quality = f"**{score}**" if score is not None else "Pending"
         finding = entry["summary"] if entry else "Not ranked yet"
-        cost = format_cost(estimate_cost(values["tested_usage"], pricing["models"][run["model"]]))
+        cost = format_cost(estimate_cost(values["tested_usage"], price_on(pricing["models"][run["model"]], values["start"])))
         lines.append(
             f"| {rank} | [{run['label']}]({run['project_dir']}/STATISTICS.md){marker} | `{run['model']}` | "
             f"{effort} | {run['harness_label']} | {quality} | {values['tested']:,} | {cost} | {values['elapsed']} | "
@@ -1668,8 +1683,8 @@ def site_results(
             "missing_lockfile": bool(run.get("missing_lockfile")),
             "static_aliases": run.get("static_aliases", {}),
             "web_root": run.get("web_root"),
-            "cost": estimate_cost(values["tested_usage"], pricing["models"][run["model"]]),
-            "price": pricing["models"][run["model"]],
+            "cost": estimate_cost(values["tested_usage"], price_on(pricing["models"][run["model"]], values["start"])),
+            "price": price_on(pricing["models"][run["model"]], values["start"]),
             "rank": None,
         }
         if run["id"] in ranked:
@@ -2028,7 +2043,7 @@ def verify_documents(
         values = extract_report_values(path, content)
         if (values["overhead"] is None) != (run["overhead"]["kind"] == "unknown"):
             raise BenchmarkError(f"Report overhead does not match registry policy in {path}")
-        estimate = estimate_cost(values["tested_usage"], pricing["models"][run["model"]])
+        estimate = estimate_cost(values["tested_usage"], price_on(pricing["models"][run["model"]], values["start"]))
         if values["recorded_cost"] is not None and (
             estimate is None
             or abs(estimate["total"] - values["recorded_cost"]) > RECORDED_COST_TOLERANCE * values["recorded_cost"]

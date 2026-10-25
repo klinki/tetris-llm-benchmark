@@ -724,6 +724,15 @@ class PricingTests(unittest.TestCase):
             (root / "pricing.json").write_text(json.dumps({"schema_version": 1, "families": self.FAMILIES, "models": models}))
             return benchmark.load_pricing(root, runs)
 
+    def test_a_dated_period_prices_runs_that_started_on_or_after_it(self) -> None:
+        promo = {"input": 0.10, "cache_read": 0.01, "cache_write": 0.125, "output": 0.60}
+        entry = {**self.PRICED, "periods": [{"from": "2026-08-21", "prices": promo, "note": "Promotion."}]}
+        self.assertEqual(benchmark.price_on(entry, "2026-08-20T23:59:59Z")["prices"], self.PRICED["prices"])
+        self.assertEqual(benchmark.price_on(entry, "2026-08-21T00:00:00Z")["prices"], promo)
+        self.assertEqual(benchmark.price_on(entry, None)["prices"], self.PRICED["prices"])
+        with self.assertRaisesRegex(benchmark.BenchmarkError, "malformed period"):
+            self.load({"m": {**entry, "periods": [{"from": "August", "prices": promo, "note": "x"}]}}, [{"id": "a", "model": "m"}])
+
     def test_every_model_needs_a_listed_family_tier_and_numeric_version(self) -> None:
         run = [{"id": "a", "model": "m"}]
         self.load({"m": self.PRICED}, run)
