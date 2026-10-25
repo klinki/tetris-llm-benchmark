@@ -1224,6 +1224,51 @@
         "commit": "58affe47bece9017a8f77942eadc6091216a15b1",
         "modified": false
       }
+    },
+    {
+      "id": "gpt-6.1-sol-low",
+      "label": "GPT-6.1 Sol (low)",
+      "order": 440,
+      "project_dir": "gpt-6.1-sol-low",
+      "harness": "t3_codex",
+      "harness_label": "T3 Code / Codex",
+      "provider": "codex",
+      "provider_label": "Codex",
+      "model": "gpt-6.1-sol",
+      "session_id": "01a171d5-0924-7b70-9b08-6ec2bf0c95e1",
+      "t3_thread_id": "mcp:2254a1c1-5658-461f-8243-1279f45c74bc",
+      "expected_cwd": "/Users/david/tetris-bench/runs/73f87cfd9146/tetris",
+      "expected_cwd_basename": "tetris",
+      "reasoning_variant": "low",
+      "web": "open",
+      "cutoff": {
+        "through_user_message": 1,
+        "exclude_inter_message_wait": true
+      },
+      "overhead": {
+        "kind": "unknown"
+      },
+      "spec": {
+        "sha256": "36e2097a78fe8b5646e6216338640831cff0a284cc823c4b1f658991c8d40294",
+        "commit": "ccbd6463eae7443266fe309a24f947bbe34ef8b9",
+        "modified": false
+      },
+      "isolation": {
+        "outside_access": [
+          {
+            "time": "2026-10-25T06:54:53.865Z",
+            "tool": "command_execution",
+            "kind": "command",
+            "reference": "../dist/game.js"
+          }
+        ]
+      },
+      "t3_notification_turns": [
+        {
+          "ordinal": 2,
+          "message": "Background command completed (exit 143): /bin/zsh -lc 'npm start'\n\nOutput tail:\n\n> tetris-js@1.0.0 start\n> node server.mjs\n\nTetris: http://localhost:8321"
+        }
+      ]
     }
   ]
 }
