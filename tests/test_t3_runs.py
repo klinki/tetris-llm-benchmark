@@ -391,3 +391,39 @@ class ImportTests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class NotificationTurnTests(unittest.TestCase):
+    def setUp(self) -> None:
+        self.temporary = tempfile.TemporaryDirectory()
+        self.home = Path(self.temporary.name)
+        (self.home / "userdata").mkdir()
+        self.database = self.home / "userdata" / "statev2.sqlite"
+        notice = {"notification": {"source": {"kind": "background_command"}}, "creationSource": "provider",
+                  "text": "Background command completed (exit 143)"}
+        with closing(sqlite3.connect(self.database)) as connection, connection:
+            connection.executescript("""
+                CREATE TABLE orchestration_v2_projection_messages (thread_id, role, created_at, payload_json);
+                CREATE TABLE orchestration_v2_projection_provider_turns (thread_id, ordinal, payload_json);
+                CREATE TABLE orchestration_v2_projection_turn_items (thread_id, type, ordinal, payload_json);
+            """)
+            connection.executemany("INSERT INTO orchestration_v2_projection_messages VALUES (?,?,?,?)", [
+                ("t", "user", "2026-01-01T00:00:00Z", json.dumps({"text": "Read the README.md file and implement it"})),
+                ("t", "user", "2026-01-01T00:05:00Z", json.dumps(notice)),
+            ])
+            connection.executemany("INSERT INTO orchestration_v2_projection_provider_turns VALUES (?,?,?)",
+                                   [("t", 1, "{}"), ("t", 2, "{}")])
+            connection.execute("INSERT INTO orchestration_v2_projection_turn_items VALUES (?,?,?,?)",
+                               ("t", "assistant_message", 1, json.dumps({"runId": "run:t:ordinal:2"})))
+
+    def tearDown(self) -> None:
+        self.temporary.cleanup()
+
+    def test_a_notification_turn_is_listed_unless_it_changed_files(self) -> None:
+        self.assertEqual(t3_runs.notification_turns(self.home, "t"),
+                         [{"ordinal": 2, "message": "Background command completed (exit 143)"}])
+        with closing(sqlite3.connect(self.database)) as connection, connection:
+            connection.execute("INSERT INTO orchestration_v2_projection_turn_items VALUES (?,?,?,?)",
+                               ("t", "file_change", 2, json.dumps({"runId": "run:t:ordinal:2"})))
+        with self.assertRaisesRegex(t3_runs.RunError, "changed files"):
+            t3_runs.notification_turns(self.home, "t")

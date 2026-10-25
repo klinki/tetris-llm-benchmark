@@ -271,6 +271,15 @@ def notification_turns(t3_home: Path, thread_id: str) -> list[dict[str, Any]]:
         )][1:]
     if len(notices) != len(ordinals):
         raise RunError(f"Thread {thread_id} has {len(ordinals)} later turns but {len(notices)} harness notifications")
+    # A later turn must not change the delivered code; that needs a person to decide what was benchmarked.
+    with closing(connect(t3_home)) as connection:
+        for ordinal in ordinals:
+            edits = connection.execute("""
+                SELECT count(*) FROM orchestration_v2_projection_turn_items
+                WHERE thread_id=? AND type='file_change' AND json_extract(payload_json, '$.runId') LIKE ?
+            """, (thread_id, f"%:ordinal:{ordinal}")).fetchone()[0]
+            if edits:
+                raise RunError(f"Harness-notification turn {ordinal} of thread {thread_id} changed files; review it by hand")
     return [{"ordinal": ordinal, "message": json.loads(notice).get("text")} for ordinal, notice in zip(ordinals, notices)]
 
 
