@@ -1251,6 +1251,91 @@
         }
       ],
       "summary": "Broad scoring and responsive panels; inverted kick Y, later gravity, B2B-PC, hidden lock and overlay defects"
+    },
+    {
+      "run_id": "gpt-6.1-sol-low",
+      "audited": "2026-10-25",
+      "scores": {
+        "correctness": 8.0,
+        "tests": 7.0,
+        "code": 7.0,
+        "simplicity": 8.5,
+        "browser_ux": 8.0
+      },
+      "bugs": [
+        {
+          "severity": "minor",
+          "title": "B2B Tetris perfect clear uses the ordinary bonus",
+          "detail": "Tetris, a no-clear lock, then a zero-distance Tetris perfect clear total 4000 instead of 5200: the last placement awards 1200 B2B clear plus the ordinary 2000 Tetris PC instead of 3200. lock() reads [0,800,1200,1800,2000] with no B2B variant. Single PC 900, single PC after B2B 1700, B2B/combo, full/mini spins and level crossing pass."
+        },
+        {
+          "severity": "minor",
+          "title": "A wholly hidden legal lock does not end the game",
+          "detail": "The actual T spawn is field (3,-2), wholly in the two hidden rows. With stack (8,0) only, four right moves ground it at x=7; zero-distance hard drop locks all four cells above the visible field, the independently open I spawns and over stays false. lock() ends the game only for cells above its 22-row array (y<0). Blocked-spawn top-out works."
+        },
+        {
+          "severity": "minor",
+          "title": "Starting soft drop consumes accumulated normal-gravity time",
+          "detail": "Fifty 16 ms updates leave O at y=0 with 800 ms accumulated. Real ArrowDown moves one row; the next 1 ms frame spends the old time at the 50 ms soft interval, reaching y=17 with 17 points. Engine and Chromium reproduce it at both sizes."
+        },
+        {
+          "severity": "minor",
+          "title": "Hold and next previews are stretched non-uniformly",
+          "detail": "Low draws fixed 144x88 hold and 144x350 next backings into differently shaped CSS boxes. At 390x844 they are 55x70 and 50x250 px, so cell width/height is 0.48 and 0.486: a held O renders as a tall 1x2 rectangle. Desktop next (148x250 CSS) is 1.44 wide. Measured from bounding boxes and confirmed in screenshots; the board itself scales uniformly."
+        }
+      ],
+      "summary": "Compact canonical SRS engine with full scoring; B2B-PC, hidden lock-out, soft timing and preview distortion; compressed code"
+    },
+    {
+      "run_id": "gpt-6.1-sol-medium",
+      "audited": "2026-10-25",
+      "scores": {
+        "correctness": 9.5,
+        "tests": 8.5,
+        "code": 8.5,
+        "simplicity": 9.0,
+        "browser_ux": 9.0
+      },
+      "bugs": [
+        {
+          "severity": "minor",
+          "title": "Hold and next previews are stretched non-uniformly",
+          "detail": "Fixed 144x90 hold and 144x310 next backings are drawn into CSS boxes of other proportions. Desktop next is 124x225 px (cell width/height 1.186; hold 1.107), so queued pieces render visibly wide; the phone hold is 77x60 (0.802), so a held O is taller than wide. Measured from bounding boxes and confirmed in screenshots. The 600x1200 board scales uniformly."
+        }
+      ],
+      "summary": "Every engine probe passes; strong deterministic suite, compact readable engine, touch UI; stretched previews"
+    },
+    {
+      "run_id": "gpt-6.1-sol-high",
+      "audited": "2026-10-25",
+      "scores": {
+        "correctness": 10.0,
+        "tests": 9.0,
+        "code": 9.0,
+        "simplicity": 8.5,
+        "browser_ux": 9.0
+      },
+      "bugs": [],
+      "summary": "Every engine and browser probe passes; Opus-level suite, event-ordered clock and polished responsive UI"
+    },
+    {
+      "run_id": "gpt-6.1-sol-xhigh",
+      "audited": "2026-10-25",
+      "scores": {
+        "correctness": 9.5,
+        "tests": 9.5,
+        "code": 9.0,
+        "simplicity": 8.5,
+        "browser_ux": 9.0
+      },
+      "bugs": [
+        {
+          "severity": "minor",
+          "title": "A clicked header button captures Space instead of hard drop",
+          "detail": "Mid-game, mouse-click Sound, or How to play then Got it. Focus stays on that button and Input deliberately ignores Space/Enter on focused buttons, so real Space toggles sound back or reopens the help dialog (pausing play); the T does not drop at either size. Play/Pause refocus the board; Sound and the dialog's restored focus do not. Low, medium and high hard-drop in the equivalent check."
+        }
+      ],
+      "summary": "Every engine probe passes with the broadest own suite; focused header buttons swallow Space"
     }
   ]
 }

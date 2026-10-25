@@ -377,3 +377,38 @@ Omit `--offline` if npm packages are not cached. `--engine-only`,
 recent runners. Only low/medium’s temporary server port literals change;
 application and routing/MIME logic remain unchanged. Servers use free
 41000–49999 ports; named Chromium sessions/server groups/copies are cleaned.
+
+## GPT-6.1 Sol (low, medium, high, xhigh)
+
+[`gpt61-sol-review.md`](gpt61-sol-review.md) records the **2026-10-25**
+audits of four `gpt-6.1-sol-*` runs in T3 Code / Codex, standard tier.
+Because GPT-6.1 Sol audited every other run, these were audited by
+**Claude Opus 5.5 (high effort)** with the same rubric and calibration; a
+first attempt stopped at a rate limit and was re-verified. The record has
+exact findings, comparable scores, own-test gaps, desktop/phone evidence
+and supplied generation/isolation facts. Historical Sol scores are unchanged.
+
+```sh
+python3 .audit/run-gpt61-sol-audit.py --offline
+```
+
+The [runner](run-gpt61-sol-audit.py) installs/builds/tests all four in
+random temporary copies (asserting 11/16/23/37 own passes), then runs
+[engine probes](gpt61-sol-audit.mjs) and
+[desktop/390×844 Chromium assertions](gpt61-sol-browser.cjs). Passing
+reproduces the documented defects as well as conforming paths.
+
+Coverage includes all 28 canonical states, 48 ordered kick sequences,
+actual wall/floor kicks, 100 engine bags, hold, seven obstructed ghosts,
+499/500 ms locking, natural contact, reset cap and ledge safety,
+full/mini/B2B/combo/PC scoring, gravity curve/levels, soft-drop transition,
+public-action hidden lock-out, blocked spawn/reset, real keys, R restart,
+unchanged 60/144 Hz callbacks, preview cell aspect and Space after a
+clicked header button. Browser assertions reproduce low/medium's stretched
+previews and xhigh's focused-button Space capture.
+
+`--engine-only`, `--effort` and outside-checkout `--artifacts-dir` match
+recent runners. Only low's temporary server port literal changes. Servers
+use free 41000–49999 ports; browsers, server groups and copies are cleaned.
+Physical touch hardware, high-DPI devices, native key repeat and other
+browsers were not certified.

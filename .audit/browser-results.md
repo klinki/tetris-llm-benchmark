@@ -524,3 +524,29 @@ limits and supplied isolation context: [GPT-5.6 Luna audit](gpt56-luna-review.md
 Reproduce with `python3 .audit/run-gpt56-luna-audit.py --offline` using the
 [runner](run-gpt56-luna-audit.py), [engine](gpt56-luna-audit.mjs) and
 [browser snippet](gpt56-luna-browser.cjs).
+
+## GPT-6.1 Sol (four efforts)
+
+Audited **2026-10-25** by Claude Opus 5.5 with the Playwright library and
+installed **Chromium 156.0.8078.4**, **1280×800** and **390×844**, using each
+run's `npm start` in disposable builds. Only low's temporary port literal
+changes. Free ports **41000–49999**; browsers and process groups are cleaned.
+
+| Effort | Desktop board | Phone document width | Phone board | Supporting state / finding | Application errors |
+|---|---|---:|---|---|---|
+| low | 243×486 at x=518.5 | 390 | 223×446 at x=86 | Fits; hold/next stretched (phone cell aspect 0.48/0.486, desktop next 1.44) | None |
+| medium | 240×480 at x=520 | 390 | 237×474 at x=132 | Fits; desktop next 1.186 / hold 1.107, phone hold 0.802 | None |
+| high | 236×472 at x=537 | 390 | 236×472 at x=24 | Five separate square previews; touch controls fit | None |
+| xhigh | 238×476 at x=521 | 390 | 241×482 at x=24 | Fits; clicked Sound/How to play keep Space | None |
+
+Real **Left, Right, Up, X, Z, Left Ctrl, Down, Space, C** run at both sizes,
+asserting movement, rotations, soft points, four hard-locked cells and hold.
+Real Space blocks the incoming spawn and shows the overlay; drop/move/hold
+keys are then inert and **real R** resets and hides it. Unchanged frame
+callbacks agree at 60/144 Hz; the 800 ms normal / real Down / 1 ms transition
+moves 17/1/2/1 rows (low's jump is the charged defect). After a mouse click on
+a header button, Space hard-drops in low/medium/high with sound unchanged; in
+xhigh it toggles Sound back or reopens How to play. No overflow, application
+exceptions, console errors or failed assets (low's external Google Fonts
+stylesheet excluded). All eight screenshots were visually inspected outside
+the checkout and deleted.
