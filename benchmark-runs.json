@@ -71,6 +71,7 @@
     },
     {
       "id": "sol-codex",
+      "site_excluded": "superseded by the October 2026 GPT-5.6 Sol runs at each effort level",
       "label": "Sol Codex",
       "order": 30,
       "project_dir": "sol-codex",
@@ -92,6 +93,7 @@
     },
     {
       "id": "sol-omp",
+      "site_excluded": "superseded by the October 2026 GPT-5.6 Sol runs at each effort level",
       "label": "Sol OMP",
       "order": 40,
       "project_dir": "sol-omp",
