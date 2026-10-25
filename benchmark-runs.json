@@ -1794,6 +1794,51 @@
           }
         ]
       }
+    },
+    {
+      "id": "gpt-5.6-sol-high",
+      "label": "GPT-5.6 Sol (high)",
+      "order": 560,
+      "project_dir": "gpt-5.6-sol-high",
+      "harness": "t3_codex",
+      "harness_label": "T3 Code / Codex",
+      "provider": "codex",
+      "provider_label": "Codex",
+      "model": "gpt-5.6-sol",
+      "session_id": "01a1747a-0c0d-7013-a339-c27d1c05aa06",
+      "t3_thread_id": "mcp:9570b177-231a-4bc0-a06f-32fb7df1f448",
+      "expected_cwd": "/Users/david/tetris-bench/runs/9b96dccaa3c2/tetris",
+      "expected_cwd_basename": "tetris",
+      "reasoning_variant": "high",
+      "web": "open",
+      "cutoff": {
+        "through_user_message": 1,
+        "exclude_inter_message_wait": true
+      },
+      "overhead": {
+        "kind": "unknown"
+      },
+      "spec": {
+        "sha256": "36e2097a78fe8b5646e6216338640831cff0a284cc823c4b1f658991c8d40294",
+        "commit": "d9f4a2ad14cd100c90fd03eb3ce0f9e48d544f64",
+        "modified": false
+      },
+      "isolation": {
+        "outside_access": [
+          {
+            "time": "2026-10-25T19:12:07.737Z",
+            "tool": "command_execution",
+            "kind": "command",
+            "reference": "/Users/david/.codex/plugins/cache/openai-curated-remote/sites/1.1.2/skills/sites/SKILL.md"
+          },
+          {
+            "time": "2026-10-25T19:14:56.389Z",
+            "tool": "command_execution",
+            "kind": "command",
+            "reference": "/Users/david/.codex/plugins/cache/openai-curated-remote/sites/1.1.2/skills/sites/references/preview/local.md"
+          }
+        ]
+      }
     }
   ]
 }

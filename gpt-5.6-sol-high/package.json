@@ -1,0 +1,14 @@
+{
+  "name": "tetrisjs",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "tsc -p tsconfig.json && node scripts/copy-static.mjs",
+    "start": "node scripts/serve.mjs",
+    "test": "npm run build && tsc -p tsconfig.test.json && node dist-test/tests/game.test.js"
+  },
+  "devDependencies": {
+    "typescript": "^5.9.3"
+  }
+}

@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="theme-color" content="#080d1d" />
+    <meta name="description" content="A fast, polished, Guideline-inspired game of Tetris." />
+    <title>TetrisJS — Find your flow</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <div class="ambient ambient-one" aria-hidden="true"></div>
+    <div class="ambient ambient-two" aria-hidden="true"></div>
+    <main class="app-shell">
+      <header class="masthead">
+        <a class="brand" href="#" aria-label="TetrisJS home">
+          <span class="brand-mark" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
+          <span>TETRIS<span>JS</span></span>
+        </a>
+        <div class="header-actions">
+          <span class="eyebrow">Endless mode</span>
+          <button id="pause-button" class="text-button" type="button" aria-pressed="false">Pause</button>
+        </div>
+      </header>
+
+      <section class="game-layout" aria-label="Tetris game">
+        <aside class="rail rail-left" aria-label="Held piece and game statistics">
+          <section class="panel piece-panel">
+            <div class="panel-heading"><span>Hold</span><kbd>C</kbd></div>
+            <canvas id="hold-piece" aria-label="Held piece"></canvas>
+          </section>
+
+          <section class="stats" aria-label="Score">
+            <div class="stat stat-primary">
+              <span>Score</span>
+              <strong id="score">0</strong>
+            </div>
+            <div class="stat-row">
+              <div class="stat"><span>Level</span><strong id="level">01</strong></div>
+              <div class="stat"><span>Lines</span><strong id="lines">00</strong></div>
+            </div>
+          </section>
+
+          <p id="status-message" class="status-message" aria-live="polite">Find your flow.</p>
+        </aside>
+
+        <section class="board-wrap">
+          <div class="board-frame">
+            <canvas id="board" width="360" height="720" aria-label="Tetris board"></canvas>
+            <div id="overlay" class="overlay" hidden>
+              <p class="eyebrow">TetrisJS</p>
+              <h1 id="overlay-title">Paused</h1>
+              <p id="overlay-copy">Press P or tap resume when you're ready.</p>
+              <button id="overlay-resume" class="primary-button" type="button">Resume</button>
+              <button id="restart-button" class="primary-button" type="button" hidden>Play again</button>
+            </div>
+          </div>
+          <div class="mobile-score" aria-hidden="true">
+            <span>Score <b class="score-mirror">Keep stacking</b></span>
+            <span>Level <b>↑ every 10 lines</b></span>
+          </div>
+        </section>
+
+        <aside class="rail rail-right" aria-label="Next pieces and controls">
+          <section class="panel next-panel">
+            <div class="panel-heading"><span>Next</span><span class="queue-count">05</span></div>
+            <canvas id="next-pieces" aria-label="Next five pieces"></canvas>
+          </section>
+
+          <section class="keyboard-help" aria-label="Keyboard controls">
+            <h2>Controls</h2>
+            <dl>
+              <div><dt><kbd>←</kbd><kbd>→</kbd></dt><dd>Move</dd></div>
+              <div><dt><kbd>↑</kbd><kbd>X</kbd></dt><dd>Rotate</dd></div>
+              <div><dt><kbd>Z</kbd><kbd>Ctrl</kbd></dt><dd>Rotate back</dd></div>
+              <div><dt><kbd>↓</kbd></dt><dd>Soft drop</dd></div>
+              <div><dt><kbd class="key-wide">Space</kbd></dt><dd>Hard drop</dd></div>
+            </dl>
+          </section>
+        </aside>
+      </section>
+
+      <nav class="touch-controls" aria-label="Touch controls">
+        <button data-action="hold" type="button" aria-label="Hold piece"><span>C</span><small>Hold</small></button>
+        <button data-action="left" type="button" aria-label="Move left"><span>←</span><small>Left</small></button>
+        <button data-action="down" type="button" aria-label="Soft drop"><span>↓</span><small>Down</small></button>
+        <button data-action="right" type="button" aria-label="Move right"><span>→</span><small>Right</small></button>
+        <button data-action="rotate-ccw" type="button" aria-label="Rotate counterclockwise"><span>↶</span><small>Rotate</small></button>
+        <button data-action="rotate-cw" type="button" aria-label="Rotate clockwise"><span>↷</span><small>Rotate</small></button>
+        <button data-action="drop" class="drop-control" type="button" aria-label="Hard drop"><span>⇊</span><small>Drop</small></button>
+      </nav>
+    </main>
+    <script type="module" src="./main.js"></script>
+  </body>
+</html>
