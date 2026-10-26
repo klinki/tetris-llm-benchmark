@@ -526,18 +526,22 @@ shows only its own. To delete old runs, restore read permission first
 The workspace layout does not hide copies kept elsewhere on the same disk, and
 Beam searches the whole disk for "hidden tests". On October 26, 2026, Beam
 (xhigh) found the October runs in an old project folder and copied
-Space-bunny's implementation into its workspace (discarded), and Beam (high)
-read a stale temporary copy of this repository (discarded). So `new` now also
+Space-bunny's implementation into its workspace, and Beam (high) read a stale
+temporary copy of this repository; both were discarded (see
+[`.audit/beam-attempts.md`](.audit/beam-attempts.md)). So `new` now also
 removes every permission from what a run could copy while it is active: every
 top-level entry of this repository except `scripts/`, `.bench/`, `TETRIS.md`
 and the manifest, ranking and pricing files (so `.git` and all implementations
-are locked), `.bench/abandoned` and `.bench/held` (which name archived
-workspaces), the archive, and any folder listed one per line in the untracked
+are locked), `.bench/abandoned`, `.bench/held` and `.bench/imported` (which name
+earlier workspaces), the archive, and any folder listed one per line in the untracked
 `.bench/lock-extra`. The original permissions are stored in
 `.bench/locked.json`; the next `benchmark.py` command of any kind restores
 them first, so `cleanup` and `import` find the repository as it was. The agent
 runs as you and could restore the permissions itself, but that is a deliberate
-act the isolation check below would report. Audits and site builds must delete
+act the isolation check below would report. The lock keeps an agent that is
+merely looking around from finding other runs; it does not stop one that sets
+out to break it. Beam (high) did exactly that when it was rerun under the lock,
+so Beam's remaining efforts were not run. Audits and site builds must delete
 their temporary copies too, since a copy in `/tmp` is not locked.
 
 The first layout also removed read permission from `runs` and the run's own

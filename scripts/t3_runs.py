@@ -167,10 +167,10 @@ def new_run(
 
 def lock_paths(root: Path, archive: Path | None = None) -> list[Path]:
     """Everything a tested agent could copy from: earlier implementations, audits, git history,
-    the records that name archived workspaces, the archive itself, and any folders listed in
+    the records that name earlier workspaces, the archive itself, and any folders listed in
     `.bench/lock-extra` (one path per line, for copies kept elsewhere on this machine)."""
     paths = [path for path in sorted(root.iterdir()) if path.name not in LOCK_KEEP]
-    paths += [root / ".bench" / "abandoned", root / ".bench" / "held"]
+    paths += [root / ".bench" / name for name in ("abandoned", "held", "imported")]
     if archive:
         paths.append(archive)
     extra = root / ".bench" / LOCK_EXTRA

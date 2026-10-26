@@ -229,6 +229,7 @@ class NewRunTests(unittest.TestCase):
         (self.root / "scripts").mkdir()
         (self.root / "benchmark-runs.json").write_text("{}\n")
         (self.root / ".bench" / "abandoned").mkdir(parents=True)
+        (self.root / ".bench" / "imported").mkdir()
         elsewhere = self.base / "old-runs"
         elsewhere.mkdir(mode=0o755)
         (self.root / ".bench" / t3_runs.LOCK_EXTRA).write_text(f"# copies outside the repo\n{elsewhere}\n")
@@ -241,7 +242,8 @@ class NewRunTests(unittest.TestCase):
         locked = t3_runs.lock_sources(self.root, archive)
         self.assertEqual(
             sorted(locked),
-            sorted(str(path) for path in (self.root / "space-bunny", self.root / ".bench" / "abandoned", archive, elsewhere)),
+            sorted(str(path) for path in (self.root / "space-bunny", self.root / ".bench" / "abandoned",
+                                             self.root / ".bench" / "imported", archive, elsewhere)),
         )
         for path in locked:
             self.assertEqual(stat.S_IMODE(os.stat(path).st_mode), 0)
