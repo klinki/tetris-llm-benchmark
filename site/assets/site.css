@@ -17,6 +17,19 @@
   --s3: #1baf7a;
   --s4: #eda100;
   --s5: #e87ba4;
+  /* Model families, after each maker's brand color (as on Artificial Analysis), stepped apart so no two
+     read alike; identity also shows in names, tooltips, shapes and the table, never in color alone. */
+  --f-openai: #0b8a5f;
+  --f-anthropic: #a9532f;
+  --f-meta: #22b8e8;
+  --f-alibaba: #a15cf0;
+  --f-deepseek: #3446c4;
+  --f-google: #2f7cf6;
+  --f-meituan: #e0b000;
+  --f-nvidia: #7cc400;
+  --f-z-ai: #e8447f;
+  --f-xiaomi: #ff7a00;
+  --f-unattributed: #b0afa9;
   --good: #0ca30c;
   --warning: #fab219;
   --serious: #ec835a;
@@ -44,6 +57,17 @@
     --s3: #199e70;
     --s4: #c98500;
     --s5: #d55181;
+    --f-openai: #1fae7a;
+    --f-anthropic: #c46a45;
+    --f-meta: #4fd0f5;
+    --f-alibaba: #d590f2;
+    --f-deepseek: #6a5cf0;
+    --f-google: #3392f6;
+    --f-meituan: #ecc81c;
+    --f-nvidia: #8ccf10;
+    --f-z-ai: #f2629c;
+    --f-xiaomi: #ff9d33;
+    --f-unattributed: #8f8e88;
   }
 }
 
@@ -65,6 +89,17 @@
   --s3: #199e70;
   --s4: #c98500;
   --s5: #d55181;
+  --f-openai: #1fae7a;
+  --f-anthropic: #c46a45;
+  --f-meta: #4fd0f5;
+  --f-alibaba: #d590f2;
+  --f-deepseek: #6a5cf0;
+  --f-google: #3392f6;
+  --f-meituan: #ecc81c;
+  --f-nvidia: #8ccf10;
+  --f-z-ai: #f2629c;
+  --f-xiaomi: #ff9d33;
+  --f-unattributed: #8f8e88;
 }
 
 * { box-sizing: border-box; }
@@ -178,6 +213,7 @@ main { min-width: 0; display: grid; gap: 20px; align-content: start; }
 .legend { display: flex; flex-wrap: wrap; gap: 4px 16px; margin: 12px 0 4px; font-size: 0.8rem; color: var(--ink-2); }
 .legend:empty { display: none; }
 .legend-item { display: inline-flex; align-items: center; gap: 6px; }
+.legend-break { width: 1px; align-self: stretch; background: var(--axis); }
 .legend svg { overflow: visible; }
 .chart { position: relative; min-height: 120px; }
 .chart svg { display: block; width: 100%; overflow: visible; }
@@ -188,8 +224,8 @@ main { min-width: 0; display: grid; gap: 20px; align-content: start; }
 .chart .baseline { stroke: var(--axis); stroke-width: 1; shape-rendering: crispEdges; }
 .chart .empty { fill: var(--muted); }
 
-.pt-mark { fill: var(--s1); stroke: var(--surface); stroke-width: 2; }
-.pt-line { fill: none; stroke: var(--s1); stroke-width: 2; stroke-linejoin: round; stroke-linecap: round; }
+.pt-mark { fill: var(--c, var(--f-unattributed)); stroke: var(--surface); stroke-width: 2; }
+.pt-line { fill: none; stroke: var(--c, var(--f-unattributed)); stroke-width: 2; stroke-linejoin: round; stroke-linecap: round; }
 .pareto { fill: none; stroke: var(--axis-ink); stroke-width: 1.5; stroke-linejoin: round; }
 .pt-label { pointer-events: none; }
 .pt-hit { fill: transparent; cursor: pointer; }
@@ -198,6 +234,17 @@ main { min-width: 0; display: grid; gap: 20px; align-content: start; }
 .pt-focus-ring { fill: none; stroke: transparent; stroke-width: 1.5; }
 .chart svg.has-focus .pt:not(.is-focus) { opacity: 0.3; }
 .chart svg.has-focus .pt-label:not(.is-focus) { opacity: 0.3; }
+
+/* Hovering a model in the filter list highlights its runs everywhere and fades the rest. */
+[data-model] { transition: opacity 120ms ease; }
+body.model-hl [data-model]:not(.is-hl) { opacity: 0.15; }
+body.model-hl .leaderboard tr[data-model]:not(.is-hl) { opacity: 0.35; }
+body.model-hl .pt-line.is-hl { stroke-width: 3; }
+.pt-label-extra { display: none; }
+body.model-hl .pt-label-extra.is-hl { display: inline; }
+body.model-hl .pt-label.is-hl { fill: var(--ink); }
+.run-list li.is-hl .run-name { color: var(--ink); font-weight: 600; }
+.swatch { display: inline-block; width: 10px; height: 10px; border-radius: 50%; flex: none; }
 
 .bar-row-hit { fill: transparent; }
 .bar-row:hover .bar-row-hit, .bar-row.is-focus .bar-row-hit { fill: var(--wash); }

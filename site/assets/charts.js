@@ -1,7 +1,7 @@
 // Charts for the results page: scatter plots, horizontal bar charts, model/harness/effort filters, and tooltips.
 const data = JSON.parse(document.getElementById("results").textContent);
 const SVG = "http://www.w3.org/2000/svg";
-const EFFORT_ORDER = ["none", "minimal", "low", "medium", "high", "xhigh", "max"];
+const EFFORT_ORDER = ["none", "minimal", "low", "medium", "high", "xhigh", "max", "ultra"];
 const NO_EFFORT = "not recorded";
 const SHAPES = ["circle", "square", "diamond", "triangle", "triangle-down", "cross"];
 const TOKEN_TYPES = [
@@ -39,6 +39,14 @@ function compareModels(a, b) {
 const models = [...new Set(runs.map(modelOf))].sort(compareModels);
 const slug = (text) => text.toLowerCase().replace(/[^a-z0-9.]+/g, "-").replace(/^-|-$/g, "");
 const harnesses = [...new Set(runs.map((run) => run.harness_label))];
+// Each model family has its own color (see --f-* in site.css); a family without one reads as unattributed.
+const FAMILY_COLORS = new Set(["openai", "anthropic", "meta", "alibaba", "deepseek", "google", "meituan", "nvidia", "z-ai", "xiaomi"]);
+const familyOf = (run) => run.price?.family ?? "Unattributed";
+const familyKey = (family) => family.toLowerCase().replace(/[^a-z0-9]+/g, "-");
+const familyColor = (family) => `var(--f-${FAMILY_COLORS.has(familyKey(family)) ? familyKey(family) : "unattributed"})`;
+const runColor = (run) => familyColor(familyOf(run));
+const modelKey = (run) => slug(modelOf(run));
+const families = data.families.map((family) => family.name).filter((name) => runs.some((run) => familyOf(run) === name));
 const efforts = [...new Set(runs.map((run) => run.effort ?? NO_EFFORT))];
 // Shape follows the harness, fixed by first appearance so filtering never reassigns it.
 const shapeOf = new Map(harnesses.map((harness, index) => [harness, SHAPES[index % SHAPES.length]]));
@@ -275,7 +283,10 @@ function renderScatter(key, { xValue, xLabel, formatX, include = () => true }) {
   for (const group of groups.values()) {
     if (group.length < 2 || frontierOnly) continue;
     group.sort((a, b) => EFFORT_ORDER.indexOf(a.run.effort) - EFFORT_ORDER.indexOf(b.run.effort));
-    svgEl("polyline", { class: "pt-line", points: group.map((p) => `${p.x},${p.y}`).join(" ") }, plot);
+    const line = svgEl("polyline", {
+      class: "pt-line", points: group.map((p) => `${p.x},${p.y}`).join(" "), "data-model": modelKey(group[0].run),
+    }, plot);
+    line.style.setProperty("--c", runColor(group[0].run));
   }
 
   if (state.pareto[key] || frontierOnly) {
@@ -286,7 +297,10 @@ function renderScatter(key, { xValue, xLabel, formatX, include = () => true }) {
   const labels = svgEl("g", {}, plot);
   const marks = svgEl("g", {}, plot);
   for (const point of points) {
-    const group = svgEl("g", { class: "pt", transform: `translate(${point.x},${point.y})`, "data-run": point.run.id }, marks);
+    const group = svgEl("g", {
+      class: "pt", transform: `translate(${point.x},${point.y})`, "data-run": point.run.id, "data-model": modelKey(point.run),
+    }, marks);
+    group.style.setProperty("--c", runColor(point.run));
     symbol(shapeOf.get(point.run.harness_label), 5, group, "pt-mark");
     svgEl("circle", { r: 10, class: "pt-focus-ring" }, group);
     const link = svgEl("a", { href: runHref(point.run), "aria-label": describeRun(point.run) }, group);
@@ -315,7 +329,7 @@ function renderScatter(key, { xValue, xLabel, formatX, include = () => true }) {
   const placed = [];
   const pointBoxes = points.map((p) => ({ x: p.x - 7, y: p.y - 7, w: 14, h: 14 }));
   for (const point of [...points].sort((a, b) => b.yValue - a.yValue)) {
-    const text = svgEl("text", { class: "pt-label", "data-run": point.run.id }, labels);
+    const text = svgEl("text", { class: "pt-label", "data-run": point.run.id, "data-model": modelKey(point.run) }, labels);
     text.textContent = point.run.label;
     const { width: w, height: h } = text.getBBox();
     const candidates = [
@@ -332,13 +346,12 @@ function renderScatter(key, { xValue, xLabel, formatX, include = () => true }) {
       placed.push(box);
       return true;
     });
-    if (!fit) {
-      text.remove();
-      continue;
-    }
-    text.setAttribute("x", fit[0]);
-    text.setAttribute("y", fit[1]);
-    text.setAttribute("text-anchor", fit[2]);
+    // A label that does not fit stays hidden until its model is highlighted from the filter list.
+    const [lx, ly, anchor] = fit ?? candidates[0];
+    if (!fit) text.classList.add("pt-label-extra");
+    text.setAttribute("x", lx);
+    text.setAttribute("y", ly);
+    text.setAttribute("text-anchor", anchor);
   }
   renderShapeLegend(key, visible);
 }
@@ -361,8 +374,16 @@ function blurRun(svg) {
 function renderShapeLegend(key, visible) {
   const legend = document.querySelector(`[data-legend="${key}"]`);
   legend.replaceChildren();
+  for (const family of families.filter((name) => visible.some((run) => familyOf(run) === name))) {
+    const item = htmlEl("span", "legend-item");
+    const swatch = htmlEl("span", "swatch");
+    swatch.style.background = familyColor(family);
+    item.append(swatch, document.createTextNode(family));
+    legend.append(item);
+  }
   const present = harnesses.filter((harness) => visible.some((run) => run.harness_label === harness));
   if (present.length < 2) return;
+  legend.append(htmlEl("span", "legend-break"));
   for (const harness of present) {
     const item = htmlEl("span", "legend-item");
     const icon = svgEl("svg", { width: 14, height: 14, viewBox: "-7 -7 14 14", "aria-hidden": "true" });
@@ -399,7 +420,7 @@ function renderBars(key, { rows, segments, formatValue, formatAxis, axisMax, des
 
   rows.forEach((row, index) => {
     const top = index * rowHeight;
-    const group = svgEl("g", { class: "bar-row", transform: `translate(0,${top})` }, plot);
+    const group = svgEl("g", { class: "bar-row", transform: `translate(0,${top})`, "data-model": modelKey(row.run) }, plot);
     svgEl("rect", { class: "bar-row-hit", x: -margin.left, y: 0, width: width, height: rowHeight }, group);
     const barY = (rowHeight - barHeight) / 2;
     const parts = segments
@@ -414,7 +435,7 @@ function renderBars(key, { rows, segments, formatValue, formatAxis, axisMax, des
       const w = Math.max(0, x1 - x0 - (last ? 0 : 2));
       if (w <= 0) return;
       const node = last ? svgEl("path", { d: roundedEnd(x0, barY, w, barHeight, 4) }, group) : svgEl("rect", { x: x0, y: barY, width: w, height: barHeight }, group);
-      node.style.fill = part.segment.color;
+      node.style.fill = typeof part.segment.color === "function" ? part.segment.color(row.run) : part.segment.color;
     });
     const link = svgEl("a", { href: runHref(row.run), "aria-label": describe(row) }, group);
     const label = svgEl("text", { x: -10, y: rowHeight / 2 + 4, "text-anchor": "end", class: "bar-label" }, link);
@@ -507,7 +528,7 @@ function renderAll() {
 
   renderBars("time-taken", {
     rows: visible.map((run) => ({ run, total: run.elapsed_ms / 60000 })).sort((a, b) => a.total - b.total),
-    segments: [{ label: "Time", color: "var(--s1)", value: (run) => run.elapsed_ms / 60000, format: formatMinutes }],
+    segments: [{ label: "Time", color: runColor, value: (run) => run.elapsed_ms / 60000, format: formatMinutes }],
     formatValue: formatMinutes,
     formatAxis: (value) => `${value}m`,
     describe: (row) => `${row.run.label}: ${formatMinutes(row.total)}`,
@@ -530,8 +551,20 @@ function renderAll() {
   });
 
   for (const row of document.querySelectorAll(".leaderboard tbody tr")) {
-    row.hidden = !isVisible(runs.find((run) => run.id === row.dataset.run));
+    const run = runs.find((candidate) => candidate.id === row.dataset.run);
+    row.hidden = !isVisible(run);
+    row.dataset.model = modelKey(run);
   }
+  if (highlighted) highlightModel(highlighted);
+}
+
+// ---------- model highlight ----------
+let highlighted = null;
+function highlightModel(key) {
+  highlighted = key;
+  document.body.classList.toggle("model-hl", key !== null);
+  for (const node of document.querySelectorAll("[data-model]")) node.classList.toggle("is-hl", node.dataset.model === key);
+  for (const item of document.querySelectorAll(".run-list li")) item.classList.toggle("is-hl", item.dataset.modelKey === key);
 }
 
 // ---------- filters ----------
@@ -588,7 +621,16 @@ function buildFilters() {
       saveModels();
       renderAll();
     });
-    label.append(input, htmlEl("span", "run-name", model), htmlEl("span", "run-count", String(count)));
+    const run = runs.find((candidate) => modelOf(candidate) === model);
+    const swatch = htmlEl("span", "swatch");
+    swatch.style.background = runColor(run);
+    swatch.title = familyOf(run);
+    label.append(input, swatch, htmlEl("span", "run-name", model), htmlEl("span", "run-count", String(count)));
+    item.dataset.modelKey = slug(model);
+    item.addEventListener("pointerenter", () => highlightModel(slug(model)));
+    item.addEventListener("pointerleave", () => highlightModel(null));
+    item.addEventListener("focusin", () => highlightModel(slug(model)));
+    item.addEventListener("focusout", () => highlightModel(null));
     const only = htmlEl("button", "only", "only");
     only.type = "button";
     only.setAttribute("aria-label", `Show only ${model}`);
