@@ -193,6 +193,13 @@ def load_manifest(root: Path) -> tuple[dict[str, Any], list[dict[str, Any]]]:
                 raise BenchmarkError(f"Missing T3 thread, exact cwd, or reasoning variant for {run['id']}")
             if run["overhead"].get("kind") != "unknown":
                 raise BenchmarkError(f"T3 overhead must explicitly be unknown for {run['id']}")
+            subagents = run.get("t3_subagents", [])
+            if not isinstance(subagents, list) or not all(
+                isinstance(item, dict) and {"thread_id", "session_id", "title"} <= set(item) for item in subagents
+            ):
+                raise BenchmarkError(f"Invalid t3_subagents for {run['id']}")
+            if subagents and run["harness"] != "t3_codex":
+                raise BenchmarkError(f"Subagent usage is only collected for T3 Codex runs, not {run['id']}")
         aliases = run.get("static_aliases", {})
         if not isinstance(aliases, dict) or not all(
             isinstance(alias, str) and isinstance(source, str) and alias and source
@@ -922,7 +929,7 @@ def collect_pi(run: dict[str, Any], pi_home: Path) -> RunResult:
     )
 
 
-def usage_from_t3(raw: dict[str, Any]) -> Usage:
+def usage_from_t3(raw: dict[str, Any], has_subagents: bool = False) -> Usage:
     required = {
         "inputTokens", "cachedInputTokens", "cacheCreationTokens", "outputTokens",
         "reasoningTokens", "usageStatus", "usageScope", "hasSubagents",
@@ -931,8 +938,11 @@ def usage_from_t3(raw: dict[str, Any]) -> Usage:
         raise BenchmarkError("Unsupported T3 usage schema: expected an object")
     if not required <= set(raw):
         raise BenchmarkError(f"Unsupported T3 usage schema: missing {sorted(required - set(raw))}")
-    if raw["usageStatus"] != "complete" or raw["usageScope"] != "main_agent" or raw["hasSubagents"] is not False:
-        raise BenchmarkError("T3 usage must be complete main-agent usage without subagents")
+    if raw["usageStatus"] != "complete" or raw["usageScope"] != "main_agent" or raw["hasSubagents"] is not has_subagents:
+        raise BenchmarkError(
+            "T3 usage must be complete main-agent usage "
+            + ("of a run with the declared subagents" if has_subagents else "without subagents")
+        )
     for key in required - {"usageStatus", "usageScope", "hasSubagents"}:
         if type(raw[key]) is not int or raw[key] < 0:
             raise BenchmarkError(f"Invalid T3 token count: {key}")
@@ -1128,7 +1138,14 @@ def collect_t3_opencode(run: dict[str, Any], t3_home: Path, codex_home: Path | N
     end_ms = parse_iso_ms(record["completed_at"])
     if end_ms < start_ms:
         raise BenchmarkError(f"T3 response ends before the user message for {run['id']}")
-    tested = usage_from_t3(raw_usage)
+    subagents = run.get("t3_subagents", [])
+    tested = usage_from_t3(raw_usage, bool(subagents))
+    reasoning = raw_usage["reasoningTokens"]
+    raw_subagent_usage = []
+    if subagents:
+        subagent_tested, reasoning_extra, raw_subagent_usage = collect_t3_subagents(run, database, end_ms, codex_home)
+        tested += subagent_tested
+        reasoning += reasoning_extra
     phase = Phase(
         number=1, start_ms=start_ms, end_ms=end_ms, usage=tested,
         responses=0, assistant_messages=sum(
@@ -1140,10 +1157,50 @@ def collect_t3_opencode(run: dict[str, Any], t3_home: Path, codex_home: Path | N
     return RunResult(
         run=run, session_file=str(database), phases=[phase], included_phases=[phase],
         tested=tested, overhead=None, combined=None, overhead_label="Not verified",
-        overhead_count=0, raw_tested_events=[{"turnTokenUsage": raw_usage}],
+        overhead_count=0, raw_tested_events=[{"turnTokenUsage": raw_usage}, *raw_subagent_usage],
         raw_overhead_events=parent_events, average_duration_ms=0,
-        reasoning_output=raw_usage["reasoningTokens"],
+        reasoning_output=reasoning,
     )
+
+
+def collect_t3_subagents(
+    run: dict[str, Any], database: Path, end_ms: int, codex_home: Path | None,
+) -> tuple[Usage, int, list[dict[str, Any]]]:
+    """Usage of the subagents the tested agent started, which T3 keeps on their own threads.
+
+    Every subagent must belong to the run's root thread, run the same model and effort, and finish
+    before the benchmark turn ends; together they must be exactly the subagents T3 recorded."""
+    declared = run["t3_subagents"]
+    with closing(sqlite3.connect(database.resolve().as_uri() + "?mode=ro", uri=True)) as connection:
+        connection.row_factory = sqlite3.Row
+        recorded = {row["thread_id"] for row in connection.execute(
+            "SELECT thread_id FROM orchestration_v2_projection_threads "
+            "WHERE json_extract(payload_json, '$.lineage.rootThreadId')=? "
+            "AND json_extract(payload_json, '$.lineage.relationshipToParent')='subagent' AND deleted_at IS NULL",
+            (run["t3_thread_id"],),
+        )}
+        if recorded != {item["thread_id"] for item in declared}:
+            raise BenchmarkError(f"T3 subagent threads do not match the registry for {run['id']}")
+        usage, reasoning, raw = Usage(), 0, []
+        for item in declared:
+            turns = connection.execute("""
+                SELECT u.status, u.completed_at, u.payload_json FROM orchestration_v2_projection_provider_turns u
+                JOIN orchestration_v2_projection_provider_threads pt
+                  ON pt.provider_thread_id=u.provider_thread_id AND pt.thread_id=u.thread_id
+                WHERE u.thread_id=? AND json_extract(pt.payload_json, '$.nativeThreadRef.nativeId')=?
+                ORDER BY u.ordinal
+            """, (item["thread_id"], item["session_id"])).fetchall()
+            if not turns:
+                raise BenchmarkError(f"Subagent {item['title']} of {run['id']} has no turns")
+            for turn in turns:
+                if turn["status"] != "completed" or not turn["completed_at"] or parse_iso_ms(turn["completed_at"]) > end_ms:
+                    raise BenchmarkError(f"Subagent {item['title']} of {run['id']} did not finish within the benchmark turn")
+                raw_usage = json.loads(turn["payload_json"])["turnTokenUsage"]
+                usage += usage_from_t3(raw_usage, True)
+                reasoning += raw_usage["reasoningTokens"]
+                raw.append({"subagent": item["title"], "turnTokenUsage": raw_usage})
+            validate_codex_effort({**run, "session_id": item["session_id"]}, codex_home or t3_runs.codex_home())
+    return usage, reasoning, raw
 
 
 def collect_run(
@@ -1202,6 +1259,12 @@ def render_statistics(result: RunResult) -> str:
         ])
         if "fast_mode" in run:
             lines.append(f"- Fast mode: {'on' if run['fast_mode'] else 'off'}")
+        if run.get("t3_subagents"):
+            names = ", ".join(f"`{item['title']}`" for item in run["t3_subagents"])
+            lines.append(
+                f"- Subagents started by the tested agent: {len(run['t3_subagents'])} ({names}); "
+                "their tokens are included in the usage below"
+            )
         if run.get("expected_task_cwd"):
             lines.append(f"- Delegated implementation directory: `{run['expected_task_cwd']}`")
         if run.get("missing_lockfile"):
@@ -1776,9 +1839,13 @@ def import_t3_run(
             f"The thread ran in {identity['runtime_mode']} mode, so elapsed time may include waiting for approvals. "
             "Use --allow-approvals to import it anyway."
         )
-    findings = t3_runs.outside_access(
-        t3_home, identity["t3_thread_id"], record["workspace"], t3_runs.benchmark_markers(root),
-    )
+    markers = t3_runs.benchmark_markers(root)
+    findings = t3_runs.outside_access(t3_home, identity["t3_thread_id"], record["workspace"], markers)
+    for subagent in identity.get("subagents", []):
+        findings += [
+            {**item, "tool": f"{subagent['title']} {item['tool']}"}
+            for item in t3_runs.outside_access(t3_home, subagent["thread_id"], record["workspace"], markers)
+        ]
     if findings and not allow_outside:
         listed = "\n".join(
             f"  {item['time'][11:19]} {item['tool']} {item['kind']}: {item['reference'][:160]}" for item in findings[:10]
@@ -1826,6 +1893,8 @@ def import_t3_run(
         entry["t3_provider_instance"] = identity["provider_instance"]
     if "fast_mode" in identity:
         entry["fast_mode"] = identity["fast_mode"]
+    if identity.get("subagents"):
+        entry["t3_subagents"] = identity["subagents"]
     if findings:
         entry["isolation"] = {"outside_access": findings}
     if not (Path(record.get("archived_workspace") or record["workspace"]) / "package-lock.json").exists():
@@ -1902,9 +1971,11 @@ def cleanup_run(t3_home: Path, record: dict[str, Any]) -> list[str]:
         started = connection.execute(
             "SELECT min(created_at) FROM orchestration_v2_projection_messages WHERE thread_id=?", (thread["thread_id"],),
         ).fetchone()[0]
-    lines = run_cleanup.remove_scratch(
-        t3_runs.shared_places(t3_home, thread["thread_id"]), parse_iso_ms(started) / 1000,
-    )
+        threads = [thread["thread_id"]] + [row["thread_id"] for row in t3_runs.subagent_threads(connection, record)]
+    places: dict[str, tuple[str, str]] = {}
+    for thread_id in threads:
+        places.update(t3_runs.shared_places(t3_home, thread_id))
+    lines = run_cleanup.remove_scratch(places, parse_iso_ms(started) / 1000)
     processes = run_cleanup.list_processes()
     targets = run_cleanup.leftovers(processes, [Path(record["workspace"])])
     return lines + run_cleanup.stop(run_cleanup.stop_order(processes, targets))
@@ -2001,6 +2072,11 @@ def isolation_report(root: Path, runs: list[dict[str, Any]], t3_home: Path) -> i
         if not run["harness"].startswith("t3_"):
             continue
         findings = t3_runs.outside_access(t3_home, run["t3_thread_id"], run["expected_cwd"], markers)
+        for subagent in run.get("t3_subagents", []):
+            findings += [
+                {**item, "tool": f"{subagent['title']} {item['tool']}"}
+                for item in t3_runs.outside_access(t3_home, subagent["thread_id"], run["expected_cwd"], markers)
+            ]
         flagged += bool(findings)
         print(f"{run['id']}: {'no access outside the workspace' if not findings else f'{len(findings)} outside reference(s)'}")
         for item in findings:

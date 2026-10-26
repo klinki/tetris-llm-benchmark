@@ -328,16 +328,55 @@ def hold_run(root: Path, record: dict[str, Any], reason: str) -> Path:
     return destination
 
 
-def thread_for(connection: sqlite3.Connection, record: dict[str, Any]) -> sqlite3.Row | None:
-    rows = connection.execute("""
-        SELECT t.thread_id, t.runtime_mode, t.provider_instance_id, t.payload_json AS app_json
+def _workspace_threads(connection: sqlite3.Connection, record: dict[str, Any]) -> list[sqlite3.Row]:
+    return connection.execute("""
+        SELECT t.thread_id, t.runtime_mode, t.provider_instance_id, t.title, t.payload_json AS app_json
         FROM orchestration_v2_projection_threads t
         JOIN projection_projects p ON p.project_id=t.project_id
         WHERE p.workspace_root=? AND p.deleted_at IS NULL AND t.deleted_at IS NULL
+        ORDER BY t.created_at, t.thread_id
     """, (record["workspace"],)).fetchall()
-    if len(rows) > 1:
-        raise RunError(f"{record['key']} has {len(rows)} T3 threads; a benchmark run must have exactly one")
-    return rows[0] if rows else None
+
+
+def _subagent_root(row: sqlite3.Row) -> str | None:
+    """The root thread of a subagent the tested agent started itself (e.g. Codex at ultra effort), else None."""
+    lineage = json.loads(row["app_json"]).get("lineage") or {}
+    return lineage.get("rootThreadId") if lineage.get("relationshipToParent") == "subagent" else None
+
+
+def thread_for(connection: sqlite3.Connection, record: dict[str, Any]) -> sqlite3.Row | None:
+    """The run's one root thread. Subagents the tested agent started belong to it and are not separate runs."""
+    rows = _workspace_threads(connection, record)
+    roots = [row for row in rows if _subagent_root(row) is None]
+    if len(roots) > 1:
+        raise RunError(f"{record['key']} has {len(roots)} T3 threads; a benchmark run must have exactly one")
+    if not roots:
+        if rows:
+            raise RunError(f"{record['key']} has subagent threads but no root thread")
+        return None
+    strays = [row["thread_id"] for row in rows if row is not roots[0] and _subagent_root(row) != roots[0]["thread_id"]]
+    if strays:
+        raise RunError(f"{record['key']} has subagent threads of another root: {', '.join(strays)}")
+    return roots[0]
+
+
+def subagent_threads(connection: sqlite3.Connection, record: dict[str, Any]) -> list[sqlite3.Row]:
+    """Subagent threads the tested agent started in its workspace, oldest first."""
+    root = thread_for(connection, record)
+    return [row for row in _workspace_threads(connection, record)
+            if root is not None and _subagent_root(row) == root["thread_id"]]
+
+
+def native_session(connection: sqlite3.Connection, thread_id: str) -> str:
+    rows = connection.execute(
+        "SELECT payload_json FROM orchestration_v2_projection_provider_threads WHERE thread_id=?", (thread_id,),
+    ).fetchall()
+    if len(rows) != 1:
+        raise RunError(f"Thread {thread_id} has {len(rows)} provider threads; expected one")
+    session_id = json.loads(rows[0]["payload_json"]).get("nativeThreadRef", {}).get("nativeId")
+    if not session_id:
+        raise RunError(f"Thread {thread_id} has no native session ID yet")
+    return session_id
 
 
 def is_notification(message_json: str) -> bool:
@@ -385,10 +424,15 @@ def run_status(t3_home: Path, record: dict[str, Any]) -> tuple[str, str]:
             "SELECT status FROM orchestration_v2_projection_provider_turns WHERE thread_id=? ORDER BY ordinal",
             (thread["thread_id"],),
         )]
+        subagent_turns = [row["status"] for subagent in subagent_threads(connection, record) for row in connection.execute(
+            "SELECT status FROM orchestration_v2_projection_provider_turns WHERE thread_id=?", (subagent["thread_id"],),
+        )]
     if users > 1:
         return "failed", f"{users} user messages; a benchmark run allows exactly one"
-    if not turns or any(status not in FINISHED_TURN_STATUSES for status in turns):
+    if not turns or any(status not in FINISHED_TURN_STATUSES for status in turns + subagent_turns):
         return "running", f"thread {thread['thread_id']}"
+    if any(status != "completed" for status in subagent_turns):
+        return "failed", "a subagent turn did not complete"
     # Later turns can only come from harness notifications; the benchmark work is the first.
     if turns[0] != "completed":
         return "failed", f"the provider turn ended as {turns[0]}"
@@ -451,6 +495,10 @@ def inspect_run(t3_home: Path, record: dict[str, Any]) -> dict[str, Any]:
             SELECT driver, provider, payload_json FROM orchestration_v2_projection_provider_threads
             WHERE thread_id=?
         """, (thread["thread_id"],)).fetchall()
+        subagents = [
+            {"thread_id": row["thread_id"], "session_id": native_session(connection, row["thread_id"]), "title": row["title"]}
+            for row in subagent_threads(connection, record)
+        ]
     if len(provider_threads) != 1:
         raise RunError(f"{record['key']} has {len(provider_threads)} provider threads; expected one")
     driver = provider_threads[0]["driver"]
@@ -485,6 +533,9 @@ def inspect_run(t3_home: Path, record: dict[str, Any]) -> dict[str, Any]:
         if context["service_tier"] in FAST_SERVICE_TIERS:
             raise RunError(f"{record['key']} ran on the faster {context['service_tier']} service tier")
         identity.update(provider="codex", model=selection["model"], effort=context["effort"])
+        for subagent in subagents:
+            if codex_turn_context(codex_home(), subagent["session_id"]) != context:
+                raise RunError(f"Subagent {subagent['title']} of {record['key']} ran with a different model, effort, cwd, or tier")
     else:
         selection = native["nativeMetadata"]["modelSelection"]
         provider, _, model = selection["model"].partition("/")
@@ -492,6 +543,10 @@ def inspect_run(t3_home: Path, record: dict[str, Any]) -> dict[str, Any]:
         identity.update(provider=provider, model=model, effort=variants[0] if len(variants) == 1 else None)
     if not identity["effort"]:
         raise RunError(f"Could not determine the reasoning effort T3 used for {record['key']}")
+    if subagents and driver != "codex":
+        raise RunError(f"{record['key']} started subagents on the {driver} driver, which the collector does not support yet")
+    if subagents:
+        identity["subagents"] = subagents
     return identity
 
 

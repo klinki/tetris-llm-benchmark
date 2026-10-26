@@ -444,6 +444,68 @@ class ImportTests(unittest.TestCase):
             self.run_import(identity={**self.identity, "runtime_mode": "approval-required"})
         self.assertEqual((self.root / "benchmark-runs.json").read_text(), self.manifest)
 
+    def test_records_subagents_and_scans_them_for_outside_access(self) -> None:
+        subagent = {"thread_id": "sub-1", "session_id": "session-10", "title": "/root/ui"}
+        identity = {**self.identity, "driver": "codex", "provider_instance": "codex", "provider": "codex",
+                    "subagents": [subagent]}
+        del identity["fast_mode"]
+        finding = {"time": "2026-10-24T10:00:00Z", "tool": "exec", "kind": "path", "reference": "/elsewhere"}
+        scanned = []
+
+        def access(home, thread_id, workspace, markers):
+            scanned.append(thread_id)
+            return [finding] if thread_id == "sub-1" else []
+
+        homes = (Path("/none"),) * 4
+        with mock.patch.object(benchmark.t3_runs, "run_status", return_value=("completed", "")), \
+                mock.patch.object(benchmark.t3_runs, "inspect_run", return_value=identity), \
+                mock.patch.object(benchmark.t3_runs, "outside_access", side_effect=access), \
+                mock.patch.object(benchmark.t3_runs, "notification_turns", return_value=[]), \
+                mock.patch.object(benchmark, "refresh"):
+            with self.assertRaisesRegex(benchmark.BenchmarkError, "/root/ui exec path"):
+                benchmark.import_t3_run(self.root, self.record, homes, allow_outside=False, allow_approvals=False)
+            entry = benchmark.import_t3_run(self.root, self.record, homes, allow_outside=True, allow_approvals=False)
+        self.assertEqual(scanned, ["thread-9", "sub-1"] * 2)
+        self.assertEqual(entry["t3_subagents"], [subagent])
+        self.assertEqual(entry["isolation"]["outside_access"][0]["tool"], "/root/ui exec")
+
+
+class SubagentThreadTests(unittest.TestCase):
+    def setUp(self) -> None:
+        self.connection = sqlite3.connect(":memory:")
+        self.connection.row_factory = sqlite3.Row
+        self.connection.executescript("""
+            CREATE TABLE projection_projects (project_id, workspace_root, deleted_at);
+            CREATE TABLE orchestration_v2_projection_threads (
+                thread_id, project_id, title, runtime_mode, provider_instance_id, created_at, deleted_at, payload_json);
+            INSERT INTO projection_projects VALUES ('p', '/ws/tetris', NULL);
+        """)
+        self.record = {"key": "run-1", "workspace": "/ws/tetris"}
+
+    def add(self, thread_id: str, created: str, root: str | None = None) -> None:
+        lineage = {"relationshipToParent": "subagent", "rootThreadId": root} if root else {"rootThreadId": thread_id}
+        self.connection.execute(
+            "INSERT INTO orchestration_v2_projection_threads VALUES (?,?,?,?,?,?,?,?)",
+            (thread_id, "p", thread_id, "full-access", "codex", created, None, json.dumps({"lineage": lineage})),
+        )
+
+    def test_subagents_belong_to_the_one_root_thread(self) -> None:
+        self.add("root", "1")
+        self.add("sub-b", "3", root="root")
+        self.add("sub-a", "2", root="root")
+        self.assertEqual(t3_runs.thread_for(self.connection, self.record)["thread_id"], "root")
+        self.assertEqual([row["thread_id"] for row in t3_runs.subagent_threads(self.connection, self.record)],
+                         ["sub-a", "sub-b"])
+
+    def test_a_second_root_or_a_foreign_subagent_is_refused(self) -> None:
+        self.add("root", "1")
+        self.add("sub", "2", root="elsewhere")
+        with self.assertRaisesRegex(t3_runs.RunError, "another root"):
+            t3_runs.thread_for(self.connection, self.record)
+        self.add("root-2", "3")
+        with self.assertRaisesRegex(t3_runs.RunError, "exactly one"):
+            t3_runs.thread_for(self.connection, self.record)
+
 
 if __name__ == "__main__":
     unittest.main()
