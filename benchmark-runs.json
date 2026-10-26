@@ -527,6 +527,7 @@
       "expected_cwd_basename": "tetris",
       "reasoning_variant": "high",
       "web": "open",
+      "earlier_attempts": "This is the sixth attempt. Four launches failed before any model call (OpenCode could not resolve the then-unlistable workspace parent folders; fixed in e62f847). The fifth was interrupted after 8m 31.5s and 682,107 tokens when the agent ran `lsof -ti:8321 | xargs kill -9` to free its port: OpenCode itself held connections to 8321 from the agent's browser and fetch checks, so the command killed the agent's own harness. Only this attempt is scored and counted in tokens, cost and time. See .audit/gemini-high-attempts.md.",
       "cutoff": {
         "through_user_message": 1,
         "exclude_inter_message_wait": true

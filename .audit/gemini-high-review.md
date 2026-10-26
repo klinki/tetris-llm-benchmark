@@ -183,6 +183,8 @@ this audit did not independently rescan session logs:
 - Four preceding launch attempts failed before any model call because
   OpenCode could not resolve the real paths of then-unlistable workspace
   parent folders; this was fixed in commit `e62f847`.
+  Both are described in detail in the
+  [abandoned-attempts record](gemini-high-attempts.md).
 - The imported attempt's isolation scan found **no outside access, T3 tool
   calls or benchmark lookups**. Runs execute **one at a time**. The reviewed
   implementation supplied no contrary evidence.

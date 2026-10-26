@@ -13,6 +13,7 @@
 - Model responses: Not verified
 - Tool calls/results: Not verified
 - Model/API and tool errors: Not verified
+- Earlier attempts, not counted: This is the sixth attempt. Four launches failed before any model call (OpenCode could not resolve the then-unlistable workspace parent folders; fixed in e62f847). The fifth was interrupted after 8m 31.5s and 682,107 tokens when the agent ran `lsof -ti:8321 | xargs kill -9` to free its port: OpenCode itself held connections to 8321 from the agent's browser and fetch checks, so the command killed the agent's own harness. Only this attempt is scored and counted in tokens, cost and time. See .audit/gemini-high-attempts.md.
 - Start: `2026-10-24T00:34:55.932Z`
 - Implementation end: `2026-10-24T00:48:05.639Z`
 - Elapsed: 13m 9.707s

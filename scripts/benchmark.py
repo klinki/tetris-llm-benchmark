@@ -207,6 +207,8 @@ def load_manifest(root: Path) -> tuple[dict[str, Any], list[dict[str, Any]]]:
             raise BenchmarkError(f"web_root for {run['id']} must be a folder inside the project")
         if not isinstance(run.get("external_actions", ""), str):
             raise BenchmarkError(f"external_actions for {run['id']} must be a description")
+        if not isinstance(run.get("earlier_attempts", ""), str):
+            raise BenchmarkError(f"earlier_attempts for {run['id']} must be a description")
         if not isinstance(run.get("known_browser_failure", ""), str):
             raise BenchmarkError(f"known_browser_failure for {run['id']} must be a description")
         ids.add(run["id"])
@@ -1210,6 +1212,8 @@ def render_statistics(result: RunResult) -> str:
             lines.append(f"- Known test failure: {run['known_test_failure']}")
         if run.get("external_actions"):
             lines.append(f"- Actions outside the benchmark: {run['external_actions']}")
+        if run.get("earlier_attempts"):
+            lines.append(f"- Earlier attempts, not counted: {run['earlier_attempts']}")
         for turn in run.get("t3_notification_turns", []):
             lines.append(
                 f"- Excluded turn {turn['ordinal']}: started by the harness notification "
@@ -1685,6 +1689,7 @@ def site_results(
             "known_build_failure": run.get("known_build_failure"),
             "known_test_failure": run.get("known_test_failure"),
             "external_actions": run.get("external_actions"),
+            "earlier_attempts": run.get("earlier_attempts"),
             "missing_lockfile": bool(run.get("missing_lockfile")),
             "static_aliases": run.get("static_aliases", {}),
             "web_root": run.get("web_root"),

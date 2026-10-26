@@ -278,6 +278,11 @@ def run_page(run: dict[str, Any], results: dict[str, Any], repo: str | None, gam
             '<div class="callout callout-critical"><strong>This run acted outside the benchmark.</strong> '
             f"{esc(run['external_actions'])}</div>"
         )
+    if run.get("earlier_attempts"):
+        notes.append(
+            '<div class="callout"><strong>Earlier attempts were set aside.</strong> '
+            f"{esc(run['earlier_attempts'])}</div>"
+        )
     if run.get("known_test_failure"):
         notes.append(
             '<div class="callout"><strong>Its own tests fail.</strong> '

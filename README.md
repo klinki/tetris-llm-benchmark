@@ -653,7 +653,11 @@ time, which also keeps elapsed time free of CPU contention, and after each run:
   Site through Codex's Sites app) is recorded with `external_actions`, shown
   in its `STATISTICS.md` and on its site page;
 - `discard KEY --reason "..."` sets a failed attempt aside in
-  `.bench/abandoned` and archives its workspace;
+  `.bench/abandoned` and archives its workspace. When a later attempt is
+  imported, the registry's `earlier_attempts` field describes the set-aside
+  ones in its `STATISTICS.md` and on its site page (Gemini 4 Argon (high):
+  four failed launches and one attempt that killed its own harness, see
+  [`.audit/gemini-high-attempts.md`](.audit/gemini-high-attempts.md));
 - `python3 scripts/benchmark.py overlaps KEY...` lists every `/tmp` entry named
   by more than one of the given runs (pending keys or run IDs), and every
   localhost port they used during overlapping intervals. It exits non-zero
