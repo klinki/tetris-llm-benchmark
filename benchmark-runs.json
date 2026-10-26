@@ -2342,6 +2342,51 @@
           "message": "Background command completed (exit 143): /bin/zsh -lc 'npm start'\n\nOutput tail:\n\n> tetrisjs@1.0.0 start\n> node server.mjs\n\nTetrisJS running at http://localhost:8321"
         }
       ]
+    },
+    {
+      "id": "gpt-6.1-terra-max",
+      "label": "GPT-6.1 Terra (max)",
+      "order": 690,
+      "project_dir": "gpt-6.1-terra-max",
+      "harness": "t3_codex",
+      "harness_label": "T3 Code / Codex",
+      "provider": "codex",
+      "provider_label": "Codex",
+      "model": "gpt-6.1-terra",
+      "session_id": "01a1799c-dff1-7f83-bf0d-f09dc86e0072",
+      "t3_thread_id": "mcp:2819ac29-18e6-4f4e-a42f-d314496a319a",
+      "expected_cwd": "/Users/david/tetris-bench/runs/e35893967c22/tetris",
+      "expected_cwd_basename": "tetris",
+      "reasoning_variant": "max",
+      "web": "open",
+      "cutoff": {
+        "through_user_message": 1,
+        "exclude_inter_message_wait": true
+      },
+      "overhead": {
+        "kind": "unknown"
+      },
+      "spec": {
+        "sha256": "36e2097a78fe8b5646e6216338640831cff0a284cc823c4b1f658991c8d40294",
+        "commit": "aeebe4537650d350905072126bddfdee0d782082",
+        "modified": false
+      },
+      "isolation": {
+        "outside_access": [
+          {
+            "time": "2026-10-26T19:08:18.353Z",
+            "tool": "command_execution",
+            "kind": "command",
+            "reference": "/Users/david/.codex/plugins/cache/openai-curated-remote/sites/1.1.2/skills/sites/SKILL.md"
+          },
+          {
+            "time": "2026-10-26T19:08:23.420Z",
+            "tool": "command_execution",
+            "kind": "command",
+            "reference": "/Users/david/.codex/plugins/cache/openai-curated-remote/sites/1.1.2/skills/sites/references/preview/local.md"
+          }
+        ]
+      }
     }
   ]
 }

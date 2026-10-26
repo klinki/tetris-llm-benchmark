@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0a0e18">
+  <meta name="description" content="A little strategy. A lot of satisfaction. Play Tetris in your browser.">
+  <title>Tetris — Make your next move</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="app-shell">
+    <header class="topbar">
+      <a class="brand" href="./" aria-label="Tetris home">
+        <span class="brand-mark" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
+        <span class="brand-name">TETRIS<span class="brand-dot">.</span></span>
+        <span class="brand-divider"></span>
+        <span class="brand-caption">THE CLASSIC<br>BLOCK GAME</span>
+      </a>
+      <div class="topbar-right">
+        <div class="mode-indicator"><span class="status-dot"></span><span>MARATHON MODE</span></div>
+        <button id="pause-button" class="pause-button" type="button" aria-label="Pause game"><span class="pause-icon" aria-hidden="true">Ⅱ</span><span id="pause-text">Pause</span></button>
+      </div>
+    </header>
+
+    <main>
+      <div class="intro">
+        <div>
+          <p class="eyebrow"><span></span> YOUR MOMENT OF PLAY</p>
+          <h1>Make your next move<span class="accent">.</span></h1>
+          <p class="intro-copy">Find your rhythm, clear some lines, and enjoy the game.</p>
+        </div>
+        <div class="intro-note"><span>01 / 01</span><br>READY WHEN YOU ARE</div>
+      </div>
+
+      <section class="game-layout" aria-label="Tetris game">
+        <aside class="left-column">
+          <div class="panel hold-panel">
+            <div class="panel-heading"><span>HOLD</span><span class="panel-index">01</span></div>
+            <div class="preview-wrap hold-preview"><canvas id="hold" width="128" height="76" aria-label="Held piece"></canvas></div>
+            <div class="panel-foot"><span>STORE A PIECE</span><kbd>C</kbd></div>
+          </div>
+
+          <div class="panel score-panel">
+            <div class="panel-heading"><span>SCORE</span><span class="tiny-spark">✳</span></div>
+            <div id="score" class="score-value">0</div>
+            <div class="best-row"><span>PERSONAL BEST</span><strong id="best">0</strong></div>
+            <div class="stats-divider"></div>
+            <div class="stat-pair"><span>LEVEL</span><strong id="level">01</strong></div>
+            <div class="stat-pair"><span>LINES</span><strong id="lines">00</strong></div>
+            <div class="progress-track"><div id="progress" class="progress-fill"></div></div>
+            <p class="progress-caption"><span>NEXT LEVEL</span><span id="progress-text">0 / 10</span></p>
+          </div>
+          <div class="left-note"><span class="note-icon">✦</span><span>Good things come<br>to those who stack.</span></div>
+        </aside>
+
+        <div class="board-column">
+          <div class="board-topline"><span><i></i> IN PLAY</span><span id="board-level">LEVEL 01</span></div>
+          <div class="board-frame">
+            <canvas id="board" width="300" height="600" aria-label="Tetris playfield: 10 columns and 20 rows"></canvas>
+            <div id="overlay" class="overlay" hidden>
+              <div class="overlay-content">
+                <span class="overlay-kicker" id="overlay-kicker">TAKE YOUR TIME</span>
+                <h2 id="overlay-title">Paused</h2>
+                <p id="overlay-copy">Your game is right where you left it.</p>
+                <button id="overlay-button" type="button">Resume game <span>→</span></button>
+              </div>
+            </div>
+            <div id="clear-message" class="clear-message" aria-live="polite"></div>
+          </div>
+          <div class="board-bottomline"><span>✦ &nbsp; ONE LINE AT A TIME</span><span>10 × 20</span></div>
+        </div>
+
+        <aside class="right-column">
+          <div class="panel next-panel">
+            <div class="panel-heading"><span>NEXT UP</span><span class="panel-index">02</span></div>
+            <div class="next-preview"><canvas id="next" width="128" height="240" aria-label="Next five pieces"></canvas></div>
+            <div class="panel-foot"><span>LOOK AHEAD</span><span>↗</span></div>
+          </div>
+          <div class="controls-panel">
+            <div class="controls-title"><span>THE CONTROLS</span><span>↘</span></div>
+            <div class="control-row"><span>Move</span><div><kbd>←</kbd><kbd>→</kbd></div></div>
+            <div class="control-row"><span>Rotate</span><div><kbd>↑</kbd><kbd>X</kbd></div></div>
+            <div class="control-row"><span>Rotate back</span><div><kbd>Z</kbd><kbd>CTRL</kbd></div></div>
+            <div class="control-row"><span>Soft drop</span><div><kbd>↓</kbd></div></div>
+            <div class="control-row"><span>Hard drop</span><div><kbd class="space-key">SPACE</kbd></div></div>
+            <div class="control-row"><span>Hold</span><div><kbd>C</kbd></div></div>
+          </div>
+        </aside>
+      </section>
+
+      <div class="mobile-stats" aria-label="Game statistics"><span>SCORE <strong id="mobile-score">0</strong></span><span>LEVEL <strong id="mobile-level">01</strong></span><span>LINES <strong id="mobile-lines">00</strong></span></div>
+      <div class="touch-controls" aria-label="Touch controls">
+        <button type="button" data-action="hold" aria-label="Hold piece">HOLD</button>
+        <button type="button" data-action="left" aria-label="Move left">←</button>
+        <button type="button" data-action="rotate-left" aria-label="Rotate counterclockwise">↶</button>
+        <button type="button" data-action="rotate-right" aria-label="Rotate clockwise">↷</button>
+        <button type="button" data-action="right" aria-label="Move right">→</button>
+        <button type="button" data-action="down" aria-label="Soft drop">↓</button>
+        <button type="button" class="drop-button" data-action="drop" aria-label="Hard drop">DROP <span>↓</span></button>
+      </div>
+    </main>
+    <footer><span>BUILT FOR THE LOVE OF THE GAME</span><span>TAKE A BREATH. MAKE A MOVE. <span class="footer-star">✳</span></span></footer>
+  </div>
+  <script type="module" src="dist/main.js"></script>
+</body>
+</html>
