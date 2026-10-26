@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>TetrisJS</title>
+    <link rel="icon" href="data:," />
+    <link rel="stylesheet" href="style.css" />
+    <script type="module" src="dist/main.js"></script>
+  </head>
+  <body>
+    <main class="game">
+      <aside class="panel">
+        <section>
+          <h2>Hold</h2>
+          <canvas id="hold"></canvas>
+        </section>
+        <section>
+          <dl class="stats">
+            <dt>Score</dt>
+            <dd id="score">0</dd>
+            <dt>Level</dt>
+            <dd id="level">1</dd>
+            <dt>Lines</dt>
+            <dd id="lines">0</dd>
+          </dl>
+        </section>
+        <div id="action" class="action" aria-live="polite"></div>
+      </aside>
+
+      <div class="playfield">
+        <canvas id="board"></canvas>
+        <div id="overlay" class="overlay" hidden>
+          <h2 id="overlay-title"></h2>
+          <p id="overlay-hint"></p>
+        </div>
+      </div>
+
+      <aside class="panel">
+        <section>
+          <h2>Next</h2>
+          <canvas id="next"></canvas>
+        </section>
+        <section>
+          <h2>Controls</h2>
+          <ul class="controls">
+            <li><span><kbd>←</kbd><kbd>→</kbd></span> Move</li>
+            <li><span><kbd>↑</kbd><kbd>X</kbd></span> Rotate ↻</li>
+            <li><span><kbd>Z</kbd><kbd>Ctrl</kbd></span> Rotate ↺</li>
+            <li><span><kbd>↓</kbd></span> Soft drop</li>
+            <li><span><kbd>Space</kbd></span> Hard drop</li>
+            <li><span><kbd>C</kbd></span> Hold</li>
+            <li><span><kbd>P</kbd><kbd>Esc</kbd></span> Pause</li>
+            <li><span><kbd>R</kbd></span> Restart</li>
+          </ul>
+        </section>
+      </aside>
+    </main>
+  </body>
+</html>
