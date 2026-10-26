@@ -84,6 +84,7 @@ The table is generated from [`benchmark-runs.json`](benchmark-runs.json),
 | 64 | [Beam (medium)](beam-free-medium/STATISTICS.md) | `beam-free` | `medium` | T3 Code / OpenCode | **3.80** | 419,090 | — | 38.039s | CommonJS prevents browser startup; diagnostic SRS, scoring, gravity, lock clocks and supporting UI fail |
 | 65 | [Beam (low)](beam-free-low/STATISTICS.md) | `beam-free` | `low` | T3 Code / OpenCode | **2.95** | 82,729 | — | 16.402s | Basic falling blocks; missing hold/ghost/next/SRS, incomplete scoring, wrong gravity and broken restart |
 | — | [GPT-6.1 Terra (low)](gpt-6.1-terra-low/STATISTICS.md) | `gpt-6.1-terra` | `low` | T3 Code / Codex | Pending | 186,465 | $0.06 | 56.483s | Not ranked yet |
+| — | [GPT-6.1 Terra (medium)](gpt-6.1-terra-medium/STATISTICS.md) | `gpt-6.1-terra` | `medium` | T3 Code / Codex | Pending | 392,853 | $0.11 | 1m 21.624s | Not ranked yet |
 
 **† Muse Spark 1.3 (medium, reference-assisted):** Reference-assisted run: the medium-reasoning child read Gemini-4's engine, shape tables, tests, and build files before writing this implementation, so token/time efficiency is not an independent from-scratch comparison. Primary time covers the child task only. The xhigh parent prepared/delegated and verified/reported the result: 339,157 recorded parent tokens and 2m 54.475s end-to-end are documented separately.
 
