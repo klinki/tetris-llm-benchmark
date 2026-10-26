@@ -2109,6 +2109,35 @@
         "commit": "bc3e987fae813d05d66741fbde225a214a2fdb5e",
         "modified": false
       }
+    },
+    {
+      "id": "beam-free-medium",
+      "label": "Beam (medium)",
+      "order": 630,
+      "project_dir": "beam-free-medium",
+      "harness": "t3_opencode",
+      "harness_label": "T3 Code / OpenCode",
+      "provider": "opencode-go",
+      "provider_label": "opencode-go",
+      "model": "beam-free",
+      "session_id": "ses_e88b869deffet1EBLMkaNH1HiX",
+      "t3_thread_id": "mcp:65f86f3c-4dc0-471e-87b5-c66ffc02e61f",
+      "expected_cwd": "/Users/david/tetris-bench/runs/40716741dc5c/tetris",
+      "expected_cwd_basename": "tetris",
+      "reasoning_variant": "medium",
+      "web": "open",
+      "cutoff": {
+        "through_user_message": 1,
+        "exclude_inter_message_wait": true
+      },
+      "overhead": {
+        "kind": "unknown"
+      },
+      "spec": {
+        "sha256": "36e2097a78fe8b5646e6216338640831cff0a284cc823c4b1f658991c8d40294",
+        "commit": "8e9b605b74e12f7cc291723decd6830e8bdc3fae",
+        "modified": false
+      }
     }
   ]
 }
