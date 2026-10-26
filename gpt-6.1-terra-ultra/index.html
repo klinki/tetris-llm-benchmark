@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#11141d">
+  <title>Tetris — Play</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="app-shell">
+    <header class="topbar">
+      <a class="brand" href="./" aria-label="Tetris home"><span class="brand-mark" aria-hidden="true"><i></i><i></i><i></i><i></i></span><span>BLOCK<span class="brand-accent">/</span>DROP</span></a>
+      <div class="topbar-right"><span class="status-dot"></span><span>READY TO PLAY</span></div>
+    </header>
+
+    <main class="layout">
+      <section class="intro" aria-label="Game introduction">
+        <div class="eyebrow"><span></span> THE CLASSIC, REIMAGINED</div>
+        <h1>MAKE<br>YOUR <em>MOVE.</em></h1>
+        <p>Clear the lines. Find your flow.<br>How long can you keep up?</p>
+        <div class="intro-rule"></div>
+        <div class="controls-title">THE CONTROLS <span>01 — 07</span></div>
+        <div class="controls-list">
+          <div><span>Move</span><span><kbd>←</kbd><kbd>→</kbd></span></div>
+          <div><span>Rotate</span><span><kbd>↑</kbd><kbd>X</kbd> <small>/</small> <kbd>Z</kbd><kbd>CTRL</kbd></span></div>
+          <div><span>Soft drop</span><span><kbd>↓</kbd></span></div>
+          <div><span>Hard drop</span><span><kbd>SPACE</kbd></span></div>
+          <div><span>Hold piece</span><span><kbd>C</kbd></span></div>
+          <div><span>Pause</span><span><kbd>P</kbd></span></div>
+        </div>
+        <p class="intro-foot">A LITTLE STRATEGY GOES A LONG WAY <span>↗</span></p>
+      </section>
+
+      <section class="game-area" aria-label="Tetris game">
+        <div class="game-header"><div><span class="section-kicker">THE PLAYFIELD</span><strong>LET'S PLAY <span>✳</span></strong></div><button id="pause" class="icon-button" type="button" aria-label="Pause game" title="Pause game">Ⅱ</button></div>
+        <div class="game-layout">
+          <div class="board-frame">
+            <canvas id="board" width="300" height="600" aria-label="Tetris playfield"></canvas>
+            <div id="overlay" class="overlay" hidden><span id="overlay-kicker">TAKE A BREATHER</span><strong id="overlay-title">PAUSED</strong><button id="overlay-action" type="button">RESUME GAME <span>↗</span></button><small id="overlay-hint">PRESS P TO RESUME</small></div>
+          </div>
+          <aside class="sidebar" aria-label="Game information">
+            <div class="side-card hold-card"><div class="card-heading"><span>HOLD</span><span>01</span></div><canvas id="hold" width="112" height="82" aria-label="Held piece"></canvas><small>PRESS C TO SWAP</small></div>
+            <div class="side-card stats-card"><div class="card-heading"><span>SCORE</span><span>✳</span></div><strong id="score">000000</strong><div class="stats-divider"></div><div class="stat-line"><span>LEVEL</span><b id="level">01</b></div><div class="stat-line"><span>LINES</span><b id="lines">00</b></div></div>
+            <div class="side-card next-card"><div class="card-heading"><span>UP NEXT</span><span>↓</span></div><canvas id="next" width="112" height="245" aria-label="Next pieces"></canvas></div>
+          </aside>
+        </div>
+        <div class="game-footer"><span><i></i> GOOD LUCK OUT THERE</span><span>© BLOCK / DROP</span></div>
+        <div class="touch-controls" aria-label="Touch controls">
+          <button data-action="left" aria-label="Move left">←</button><button data-action="right" aria-label="Move right">→</button><button data-action="rotate" aria-label="Rotate clockwise">↻</button><button data-action="down" aria-label="Soft drop">↓</button><button data-action="drop" aria-label="Hard drop">DROP</button><button data-action="hold" aria-label="Hold piece">HOLD</button>
+        </div>
+      </section>
+    </main>
+    <footer class="page-footer"><span>STACK SMART. PLAY FOREVER.</span><span>BUILT FOR THE LOVE OF THE GAME <span class="footer-star">✳</span></span></footer>
+  </div>
+  <script type="module" src="dist/main.js"></script>
+</body>
+</html>

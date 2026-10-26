@@ -2387,6 +2387,58 @@
           }
         ]
       }
+    },
+    {
+      "id": "gpt-6.1-terra-ultra",
+      "label": "GPT-6.1 Terra (ultra)",
+      "order": 700,
+      "project_dir": "gpt-6.1-terra-ultra",
+      "harness": "t3_codex",
+      "harness_label": "T3 Code / Codex",
+      "provider": "codex",
+      "provider_label": "Codex",
+      "model": "gpt-6.1-terra",
+      "session_id": "01a179a1-d428-7ba2-a048-05f0562aa9bc",
+      "t3_thread_id": "mcp:846042a8-fa6e-45f1-84f1-059ee7bf13e4",
+      "expected_cwd": "/Users/david/tetris-bench/runs/4257c3679efa/tetris",
+      "expected_cwd_basename": "tetris",
+      "reasoning_variant": "ultra",
+      "web": "open",
+      "cutoff": {
+        "through_user_message": 1,
+        "exclude_inter_message_wait": true
+      },
+      "overhead": {
+        "kind": "unknown"
+      },
+      "spec": {
+        "sha256": "36e2097a78fe8b5646e6216338640831cff0a284cc823c4b1f658991c8d40294",
+        "commit": "ffe5703826ee5795b04026151e37939097ee96aa",
+        "modified": false
+      },
+      "t3_subagents": [
+        {
+          "thread_id": "thread:provider:codex:native-thread:01a179a1-df15-7613-8584-5f79392f990f",
+          "session_id": "01a179a1-df15-7613-8584-5f79392f990f",
+          "title": "/root/inspect_requirements"
+        },
+        {
+          "thread_id": "thread:provider:codex:native-thread:01a179a1-e391-71f1-bb81-69afa94670d3",
+          "session_id": "01a179a1-e391-71f1-bb81-69afa94670d3",
+          "title": "/root/inspect_testing"
+        },
+        {
+          "thread_id": "thread:provider:codex:native-thread:01a179a2-0c4f-77c1-8cec-e742708933fc",
+          "session_id": "01a179a2-0c4f-77c1-8cec-e742708933fc",
+          "title": "/root/ui"
+        }
+      ],
+      "t3_notification_turns": [
+        {
+          "ordinal": 2,
+          "message": "Background command completed (exit 143): /bin/zsh -lc 'npm start'\n\nOutput tail:\n\n> tetris-js@1.0.0 start\n> node server.mjs\n\nTetris running at http://localhost:8321"
+        }
+      ]
     }
   ]
 }
