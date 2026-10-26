@@ -174,7 +174,10 @@ tests must keep failing, and the game is still published. A run whose own server
 publishes only its build folder is declared with `web_root` (e.g. `dist`), and
 the site serves that folder as the game; `static_aliases` are now applied
 before the site looks for `index.html`, so a server that maps `/` to
-`public/index.html` can be aliased too.
+`public/index.html` can be aliased too. A file the run's own server builds on
+each request (GPT-6.1 Terra (low) concatenates its `bundle.js`) is declared as
+`server_generated` with the server's port and the paths: the site build starts
+the run's unmodified `npm start` and saves what the server returns.
 
 Runs that are not a fair comparison, or that newer runs of the same model
 supersede, are declared with `site_excluded` and the reason. They stay recorded here, in this README's leaderboard, `RANKING.md`, and
@@ -744,7 +747,8 @@ implementations, update quality rankings, or create Git commits.
    section to [`RANKING.md`](RANKING.md), then run
    `python3 scripts/benchmark.py render`.
 6. Build the site and run the browser check. If the game needs its own server
-   to load, declare the mapping as `static_aliases`, or record a
+   to load, declare the mapping as `static_aliases` (or `server_generated`
+   for a file the server builds per request), or record a
    `known_browser_failure` if it cannot run in a browser at all, or a
    `known_build_failure` if it does not build.
 

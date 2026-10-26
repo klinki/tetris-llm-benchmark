@@ -210,6 +210,14 @@ def load_manifest(root: Path) -> tuple[dict[str, Any], list[dict[str, Any]]]:
             raise BenchmarkError(f"web for {run['id']} must be one of {list(t3_runs.WEB_MODES)}")
         if "site_excluded" in run and not (isinstance(run["site_excluded"], str) and run["site_excluded"]):
             raise BenchmarkError(f"site_excluded for {run['id']} must give the reason")
+        generated = run.get("server_generated")
+        if generated is not None and not (
+            isinstance(generated, dict) and isinstance(generated.get("port"), int)
+            and isinstance(generated.get("paths"), list) and generated["paths"]
+            and all(isinstance(path, str) and path and ".." not in Path(path).parts and not path.startswith("/")
+                    for path in generated["paths"])
+        ):
+            raise BenchmarkError(f"server_generated for {run['id']} must give the server's port and the paths it builds")
         if not isinstance(run.get("web_root", ""), str) or ".." in Path(run.get("web_root", "")).parts:
             raise BenchmarkError(f"web_root for {run['id']} must be a folder inside the project")
         if not isinstance(run.get("external_actions", ""), str):
@@ -1756,6 +1764,7 @@ def site_results(
             "missing_lockfile": bool(run.get("missing_lockfile")),
             "static_aliases": run.get("static_aliases", {}),
             "web_root": run.get("web_root"),
+            "server_generated": run.get("server_generated"),
             "cost": estimate_cost(values["tested_usage"], price_on(pricing["models"][run["model"]], values["start"])),
             "price": price_on(pricing["models"][run["model"]], values["start"]),
             "rank": None,

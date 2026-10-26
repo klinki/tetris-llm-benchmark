@@ -2171,6 +2171,7 @@
     },
     {
       "id": "gpt-6.1-terra-low",
+      "server_generated": {"port": 8321, "paths": ["bundle.js"]},
       "label": "GPT-6.1 Terra (low)",
       "order": 650,
       "project_dir": "gpt-6.1-terra-low",

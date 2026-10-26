@@ -11,7 +11,9 @@ import re
 import shutil
 import subprocess
 import tempfile
+import time
 from typing import Any
+import urllib.request
 
 
 SITE_MARKER = ".benchmark-site"
@@ -315,6 +317,11 @@ def run_page(run: dict[str, Any], results: dict[str, Any], repo: str | None, gam
                 f'<p class="muted small">Deployment change: the run\'s own server publishes only '
                 f"<code>{esc(game['web_root'])}/</code>, so the site serves that folder as the game.</p>"
             )
+        for path in game.get("generated", []):
+            rewrite += (
+                f'<p class="muted small">Deployment change: the run\'s own server builds <code>/{esc(path)}</code> '
+                "on each request, so the site serves the file that server returned, saved at build time.</p>"
+            )
         for alias, source in game["aliases"].items():
             rewrite += (
                 f'<p class="muted small">Deployment change: the run\'s own server maps <code>/{esc(alias)}</code> '
@@ -465,6 +472,9 @@ def build_game(root: Path, run: dict[str, Any], destination: Path) -> dict[str, 
         if not published.is_dir():
             raise SiteError(f"{run['id']} web_root {web_root} does not exist after the build")
         shutil.copytree(published, destination, ignore=shutil.ignore_patterns("node_modules", ".git"))
+        generated = run.get("server_generated")
+        if generated:
+            save_server_generated(run, work, destination, generated)
     # Paths the run's own server maps to other files; a static host needs a copy at the requested path.
     aliases = run.get("static_aliases", {})
     for alias, source in aliases.items():
@@ -480,7 +490,41 @@ def build_game(root: Path, run: dict[str, Any], destination: Path) -> dict[str, 
     for script in destination.rglob("*.js"):
         if ROOT_RELATIVE_IMPORT.search(script.read_text(errors="replace")):
             raise SiteError(f"{run['id']} imports a root-relative module in {script.relative_to(destination)}")
-    return {"rewritten": rewritten, "aliases": aliases, "web_root": web_root}
+    return {"rewritten": rewritten, "aliases": aliases, "web_root": web_root,
+            "generated": (run.get("server_generated") or {}).get("paths", [])}
+
+
+def save_server_generated(run: dict[str, Any], work: Path, destination: Path, generated: dict[str, Any]) -> None:
+    """Save files the run's own server builds per request (e.g. a bundle it concatenates) as static copies.
+
+    The server is started with the run's unmodified `npm start` on the port it listens on."""
+    server = subprocess.Popen(
+        ["npm", "start"], cwd=work, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, start_new_session=True,
+    )
+    try:
+        deadline = time.monotonic() + 60
+        for path in generated["paths"]:
+            url = f"http://127.0.0.1:{generated['port']}/{path}"
+            while True:
+                try:
+                    with urllib.request.urlopen(url, timeout=5) as response:
+                        body = response.read()
+                    break
+                except OSError:
+                    if server.poll() is not None or time.monotonic() > deadline:
+                        raise SiteError(f"{run['id']} server did not serve /{path} on port {generated['port']}")
+                    time.sleep(0.5)
+            target = destination / path
+            if target.exists():
+                raise SiteError(f"{run['id']} server_generated {path} already exists as a file")
+            target.parent.mkdir(parents=True, exist_ok=True)
+            target.write_bytes(body)
+    finally:
+        try:
+            os.killpg(server.pid, 15)
+        except ProcessLookupError:
+            pass
+        server.wait(timeout=10)
 
 
 def prepare_output(out: Path) -> None:

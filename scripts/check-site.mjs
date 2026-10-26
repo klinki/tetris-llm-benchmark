@@ -44,7 +44,11 @@ async function visit(path, { play = false } = {}) {
   const problems = [];
   // A run page embeds its game; the game is checked on its own, so only the top document counts here.
   const own = (frame) => frame === page.mainFrame();
-  page.on("pageerror", (error) => problems.push(`page error: ${error.message}`));
+  page.on("pageerror", (error) => {
+    // An uncaught error thrown by the embedded game's scripts belongs to the game check.
+    if (!play && (error.stack ?? "").includes("/play/")) return;
+    problems.push(`page error: ${error.message}`);
+  });
   page.on("console", (message) => {
     if (message.type() === "error" && !message.location().url.includes("/play/")) {
       problems.push(`console error: ${message.text()}`);
