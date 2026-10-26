@@ -2074,6 +2074,185 @@
         }
       ],
       "summary": "Canonical SRS and broad smoke coverage; incomplete spin/PC scoring, soft-drop jump and clipped phone/advanced stats"
+    },
+    {
+      "run_id": "gpt-6.1-terra-low",
+      "audited": "2026-10-26",
+      "scores": {
+        "correctness": 8,
+        "tests": 5,
+        "code": 7,
+        "simplicity": 9,
+        "browser_ux": 8
+      },
+      "bugs": [
+        {
+          "severity": "minor",
+          "title": "Mini T-spins receive full-spin scores",
+          "detail": "Actual final CW from T r3,(3,17) into the grounded mini pocket scores400/800 for zero/single instead of100/200 through hard and timed lock. Stack(5,17),(3,19),(5,19); add row18 outside x3..5 for single. Low uses a binary three-corner classifier. Full zero/single/double and ordinary B2B/combo pass."
+        },
+        {
+          "severity": "minor",
+          "title": "The benchmark perfect-clear bonus is absent",
+          "detail": "Horizontal I r0,(3,18), row19 except x3..6: zero-travel hard drop empties the field but scores100 instead of900. Tetris/no-clear/Tetris-PC totals2000 instead of5200. Full spins, ordinary B2B/combo and pre-clear multipliers pass; PC variants are one omission."
+        },
+        {
+          "severity": "minor",
+          "title": "Landing frames charge pre-contact time to lock delay",
+          "detail": "O r0,(3,17), advance990 ms in <=16 ms parts, then16 and483: zero welded cells at1489; another1 ms welds four at1490 instead of1500. Engine and unchanged Chromium RAF agree; ordinary499/500, successful/failed resets, fifteen-cap and pre-cap ledge safety pass."
+        },
+        {
+          "severity": "minor",
+          "title": "A partially hidden legal lock incorrectly ends the game",
+          "detail": "Stack(1,2),(3,0),(9,3),(8,1),(1,3),(2,3); actual T spawn(3,0); CW,CW,Left,CCW,CCW,Left,CW,CW,Right reaches grounded r2,(1,-2), three hidden/one visible cells. Incoming I(3,0) is independently open. Zero-travel hard drop sets over=true because lock rejects any hidden cell. Real browser keys agree."
+        }
+      ],
+      "summary": "Canonical SRS and basic modern scoring; mini/PC omissions, early landing lock and premature partial lock-out; compressed source"
+    },
+    {
+      "run_id": "gpt-6.1-terra-medium",
+      "audited": "2026-10-26",
+      "scores": {
+        "correctness": 7,
+        "tests": 5,
+        "code": 7,
+        "simplicity": 8.5,
+        "browser_ux": 8.5
+      },
+      "bugs": [
+        {
+          "severity": "minor",
+          "title": "The benchmark perfect-clear bonus is absent",
+          "detail": "Horizontal I r0,(3,18), row19 except x3..6: zero-travel hard drop empties the field but scores100 instead of900. Tetris/no-clear/Tetris-PC totals2000 instead of5200. Full spins, ordinary B2B/combo and pre-clear multipliers pass; PC variants are one omission."
+        },
+        {
+          "severity": "minor",
+          "title": "Landing frames charge pre-contact time to lock delay",
+          "detail": "O r0,(3,17), advance990 ms in <=16 ms parts, then16 and483: zero welded cells at1489; another1 ms welds four at1490 instead of1500. Engine and unchanged Chromium RAF agree; ordinary499/500, successful/failed resets, fifteen-cap and pre-cap ledge safety pass."
+        },
+        {
+          "severity": "minor",
+          "title": "Manual soft drop preserves stale T-spin credit",
+          "detail": "Stack(0,17),(0,19),(2,19), T r0,(0,3), actual CW and successful manual soft drops until grounded r1,(0,17), then zero-travel hard drop:100 extra mini points instead of0. Same corner pose with no rotation credit scores0. Engine and Chromium reproduce it without assigning spin flags."
+        },
+        {
+          "severity": "minor",
+          "title": "Discarded gravity remainder makes falling refresh-dependent",
+          "detail": "O(3,0), level10,600 ms of unchanged main callbacks:9 rows at60 Hz versus8 at144 Hz. Level15 over100.001 ms yields6/5. fall is zeroed after one row. First-row curve and accepted16 ms terminal floor pass; Chromium repeats both rates."
+        },
+        {
+          "severity": "minor",
+          "title": "Public hard drop mutates the engine after game over",
+          "detail": "Block T spawn cell(4,-2), outgoing floor O(0,18), incoming T. First hard drop ends the game; direct engine hardDrop again moves the blocked T down and adds40 points while over stays true. lock guards but hardDrop does not. Real terminal UI keys are inert; Chromium separately repeats the direct engine call."
+        },
+        {
+          "severity": "minor",
+          "title": "Hold and next previews are stretched non-uniformly",
+          "detail": "Desktop next120x70 backing displays110x70 (cell aspect0.916667). At390x844, hold120x84 displays60x60 (aspect0.7) and next120x70 displays52x55 (0.551515). All16 preview cells paint within their backings and all panels fit width; one preview-aspect deduction."
+        }
+      ],
+      "summary": "Canonical SRS/full-mini scoring; missing PC, stale spin, landing/refresh clocks, terminal engine mutation and stretched previews"
+    },
+    {
+      "run_id": "gpt-6.1-terra-high",
+      "audited": "2026-10-26",
+      "scores": {
+        "correctness": 8.5,
+        "tests": 6.5,
+        "code": 7.5,
+        "simplicity": 9,
+        "browser_ux": 8
+      },
+      "bugs": [
+        {
+          "severity": "minor",
+          "title": "The benchmark perfect-clear bonus is absent",
+          "detail": "Horizontal I r0,(3,18), row19 except x3..6: zero-travel hard drop empties the field but scores100 instead of900. Tetris/no-clear/Tetris-PC totals2000 instead of5200. Full spins, ordinary B2B/combo and pre-clear multipliers pass; PC variants are one omission."
+        },
+        {
+          "severity": "minor",
+          "title": "Landing frames charge pre-contact time to lock delay",
+          "detail": "O r0,(3,17), advance990 ms in <=16 ms parts, then16 and483: zero welded cells at1489; another1 ms welds four at1490 instead of1500. Engine and unchanged Chromium RAF agree; ordinary499/500, successful/failed resets, fifteen-cap and pre-cap ledge safety pass."
+        },
+        {
+          "severity": "minor",
+          "title": "A partially hidden legal lock incorrectly ends the game",
+          "detail": "Stack(7,1),(8,1), actual T spawn(3,-1), Right four times reaches grounded r0,(7,-1), one hidden/three visible cells. Incoming I(3,-1) is independently open. Zero-travel hard drop sets over=true because lock rejects any hidden cell. Engine and real Chromium keys agree."
+        }
+      ],
+      "summary": "Canonical SRS/full-mini core; missing PC, landing-clock error and premature partial lock-out"
+    },
+    {
+      "run_id": "gpt-6.1-terra-xhigh",
+      "audited": "2026-10-26",
+      "scores": {
+        "correctness": 8.5,
+        "tests": 6.5,
+        "code": 9,
+        "simplicity": 9,
+        "browser_ux": 8.5
+      },
+      "bugs": [
+        {
+          "severity": "minor",
+          "title": "Landing frames charge pre-contact time to lock delay",
+          "detail": "O r0,(3,17), advance990 ms in <=16 ms parts, then16 and483: zero welded cells at1489; another1 ms welds four at1490 instead of1500. Engine and unchanged Chromium RAF agree; ordinary499/500, successful/failed resets, fifteen-cap and pre-cap ledge safety pass."
+        },
+        {
+          "severity": "minor",
+          "title": "Manual soft drop preserves stale T-spin credit",
+          "detail": "Stack(0,17),(0,19),(2,19), T r0,(0,3), actual CW and successful manual soft drops until grounded r1,(0,17), then zero-travel hard drop:100 extra mini points instead of0. Same corner pose with no rotation credit scores0. Engine and Chromium reproduce it without assigning spin flags."
+        },
+        {
+          "severity": "minor",
+          "title": "Starting soft drop consumes accumulated normal-gravity time",
+          "detail": "After800 ms normal time in <=16 ms parts, real Down and the next1 ms unchanged RAF move/score17 rows: one immediate step and16 spending stale time at50 ms per row. Engine and both Chromium widths agree."
+        }
+      ],
+      "summary": "Readable canonical core and complete PC scoring; stale manual spin credit, soft-entry jump and premature landing clock"
+    },
+    {
+      "run_id": "gpt-6.1-terra-max",
+      "audited": "2026-10-26",
+      "scores": {
+        "correctness": 9,
+        "tests": 8.5,
+        "code": 9,
+        "simplicity": 8.5,
+        "browser_ux": 9
+      },
+      "bugs": [
+        {
+          "severity": "minor",
+          "title": "A new lowest row retains exhausted lock time",
+          "detail": "O r0,(-1,12) on only support(0,14),15 actual CW rotations, wait490 ms, Right off ledge. With1 ms frames floor contact is6000 ms after the move, weld6010, only10 ms later instead of500. Previous-contact lockElapsed=490 survives six new lower rows. Ordinary contact and pre-cap ledge safety pass; real Up/Right and unchanged Chromium RAF agree."
+        },
+        {
+          "severity": "minor",
+          "title": "The desktop next preview is stretched non-uniformly",
+          "detail": "At1280x800, the next128x240 backing displays128x210 because the short-desktop media rule changes height alone. Cell width/height ratio1.142857 makes squares wide. Hold and phone previews remain proportional; all24 preview cells paint inside the backings."
+        }
+      ],
+      "summary": "Broad deterministic suite and event-ordered gravity; exhausted ledge retains old lock time and desktop queue is stretched"
+    },
+    {
+      "run_id": "gpt-6.1-terra-ultra",
+      "audited": "2026-10-26",
+      "scores": {
+        "correctness": 9.5,
+        "tests": 6.5,
+        "code": 9,
+        "simplicity": 9,
+        "browser_ux": 8.5
+      },
+      "bugs": [
+        {
+          "severity": "minor",
+          "title": "A clicked Pause button captures Space instead of hard drop",
+          "detail": "Fresh T r0,(3,5), mouse-click Pause twice, then real Space. #pause keeps focus; active pose/score and zero welded cells are unchanged while overlay becomes display:flex as native Space pauses again. Both Chromium sizes reproduce it. Required keys work with board/body focus; all engine probes pass."
+        }
+      ],
+      "summary": "Canonical engine passes audited rules; narrower own suite, responsive UI and clicked Pause capturing Space"
     }
   ]
 }

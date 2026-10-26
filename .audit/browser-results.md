@@ -1,5 +1,64 @@
 # Browser audit results
 
+## GPT-6.1 Terra — six efforts, 2026-10-26
+
+[Review and scores](gpt61-terra-review.md), [runner](run-gpt61-terra-audit.py),
+[engine probes](gpt61-terra-audit.mjs), [browser assertions](gpt61-terra-browser.cjs).
+Fresh disposable builds, own unchanged npm start commands and authored servers.
+All six hard-code 8321; only the copied listen literal changes to honor PORT.
+Free **41000–49999** ports; Chromium **156.0.8078.4**, Playwright **1.64.0**,
+**1280×800 / 390×844** CSS viewports with the prior desktop user agent.
+
+| Effort | Desktop board | Phone board | Phone document width | Preview/focus finding |
+|---|---|---|---:|---|
+| low | 300×600,x491 | 176×354,x107 | 390 | Three next; complete proportional previews |
+| medium | 296×592,x492 | 188×376,x101 | 390 | Phone hold aspect0.7, next0.551515; desktop next0.916667 |
+| high | 298×596,x491 | 192×384,x99 | 390 | Five square previews |
+| xhigh | 233×466,x523.5 | 192×384,x99 | 390 | Five complete previews; subpixel aspect1.007 |
+| max | 273×546,x503.5 | 208.390625×416.78125,x90.796875 | 390 | Desktop next aspect1.142857; phone proportional |
+| ultra | 242×484,x813.453125 | 230×460,x28.5 | 390 | Three square previews; clicked Pause captures Space |
+
+All six start, respond to real **Left/Right/Up/X/Z/Left Ctrl/Down/Space/C**,
+and **R** resets a real blocked-spawn game over. Terminal UI keys are inert.
+Low's own server bundles CommonJS correctly; it has no Beam-medium-style
+startup failure. Main responses gain accessors only; RAF is captured to
+run unchanged callbacks at exact timestamps. Medium's clock tests call the
+actual act handler, preserving its main-owned reset policy.
+
+Every engine finding repeats in served Chromium modules at both sizes:
+low's mini points; low/medium/high's PC omissions; medium/xhigh's manual
+spin credit; legal partial lock-outs in low/high; and medium's direct
+hardDrop adding40 points after over while the UI guard works. Required
+keys and public-action hidden/partial fixtures use real keyboard events.
+All 28 states/48 candidate sequences, 100 actual bags and seven independently
+checked actual ghost drawings pass in every run. O hold and I next fixtures
+paint 16 complete cells in low/medium/ultra and 24 in high/xhigh/max, with no
+off-backing rectangles. All canvases fit horizontally at both sizes.
+
+The unchanged RAF repeats low/medium/high/xhigh's **1490 ms** premature
+landing lock in the 990+16+484 ms fixture; max/ultra remain unlocked.
+After800 normal ms, real Down plus1 ms yields xhigh **17 rows/17 points**,
+others 1/1. At level 10 over600 ms, medium moves **9/8** rows at 60/144 Hz;
+others 9/9. At level 15 over100.001 ms, medium 6/5, low/xhigh 6/6,
+high/max/ultra 14/14. Real Up×15, wait 490, Right and 1 ms frames reproduce
+max's exhausted-ledge floor contact at 6000 and lock at 6010, just 10 ms later.
+No held replacement falls after 200 ms following an 800 ms outgoing phase.
+
+Clicking Pause twice then Space in ultra leaves T(3,5), score 0, welded0,
+focus **#pause**, and changes the overlay to **display:flex**. Medium/xhigh/
+max hard-drop after the same clicks; max explicitly blurs mouse clicks.
+The focus finding is a single correctness minor, as in Sol xhigh.
+
+All 12 full-page screenshots were visually inspected outside the checkout
+and deleted. Board horizontal geometry is pinned within .03 px; font-sensitive
+vertical positions are recorded only. No application exception, unexpected
+console error or failed required asset occurred; external Google Fonts and
+favicon noise are excluded. T3 preview status/open was checked and its owned
+incognito tab closed. The explicitly requested prior Playwright-library
+workflow is used. No physical touch/HiDPI, native OS repeat or other-browser
+claim. Every owned server/browser, temporary copy and evidence root was cleaned,
+including exploratory failure paths. No prior score changed.
+
 ## Beam low/medium and MiMo default — 2026-10-26
 
 Fresh disposable builds and each declared **npm start** workflow,

@@ -2,6 +2,46 @@
 
 This directory contains the reproducible, repository-safe parts of the audit behind [`RANKING.md`](../RANKING.md). Generated builds, copied `node_modules` trees, temporary web servers, browser profiles, and timestamped Playwright artifacts are intentionally excluded.
 
+## GPT-6.1 Terra — six efforts, October 26
+
+The [review](gpt61-terra-review.md) independently scores the first
+`gpt-6.1-terra-{low,medium,high,xhigh,max,ultra}` runs with the unchanged
+rubric and GPT-5.6 Terra/GPT-6.1 Sol calibration. It records every criterion,
+weighted arithmetic, exact fixtures, own-suite gaps, browser measurements,
+limits and supplied isolation/multi-agent facts. All 65 historical entries
+are unchanged. No implementation transcript or T3 thread-reading tool was used.
+
+```sh
+python3 .audit/run-gpt61-terra-audit.py --offline
+```
+
+The [runner](run-gpt61-terra-audit.py) installs locked dependencies, builds,
+runs unchanged own workflows, [engine assertions](gpt61-terra-audit.mjs),
+then [desktop/390×844 Chromium checks](gpt61-terra-browser.cjs) in random
+disposable copies. All six build/test/start; own suites are nine/twelve
+smoke assertions and 8/7/10/8 cases. Passing asserts exact defective and
+conforming outcomes. Tokens, effort, ultra's three tested-agent subagents
+and xhigh/max's recorded isolation findings have no scoring effect.
+
+Coverage includes 28 canonical states/48 ordered kicks, actual T/I wall/
+floor kicks, 100 actual bags per run, hold/retrieval/orientation/restart bag,
+seven independent obstructed ghosts/points/cells, precise delay/reset/cap/
+landing/ordinary and exhausted ledges, full/mini/B2B/combo/PC scoring,
+manual-spin cancellation, gravity/refresh/soft transition, legal hidden/
+partial locks, terminal engine/UI guards and real R. Every engine finding
+repeats against served Chromium modules; actual RAF/keys additionally
+reproduce timing and hidden paths. Preview painting/aspect, complete phone
+fit and clicked-Pause Space handling have exact assertions.
+
+All six own servers ignore PORT and hard-code 8321. As in earlier runners,
+only that copied listen literal changes; each unmodified npm start command,
+bundling, routes, MIME and app body stay intact. Only free 41000–49999 ports
+are used. Installed Playwright/Chromium is reused without downloads.
+`--effort` selects a run; `--engine-only` skips browsers; `--review` waits
+for Enter to inspect evidence inside the disposable root, then deletes it.
+No retained-copy option. All copies/logs/screenshots and owned browser/
+server groups are cleaned on success, failure and handled interruption.
+
 ## Beam efforts and MiMo-V2.6-Flash — October 26
 
 The [Beam effort review](beam-efforts-review.md) scores `beam-free-low`
