@@ -1629,6 +1629,7 @@
     },
     {
       "id": "gpt-5.6-terra-high",
+      "web_root": "dist",
       "label": "GPT-5.6 Terra (high)",
       "order": 520,
       "project_dir": "gpt-5.6-terra-high",
@@ -1709,6 +1710,7 @@
     },
     {
       "id": "gpt-5.6-sol-low",
+      "web_root": "dist",
       "label": "GPT-5.6 Sol (low)",
       "order": 540,
       "project_dir": "gpt-5.6-sol-low",
@@ -1754,6 +1756,7 @@
     },
     {
       "id": "gpt-5.6-sol-medium",
+      "web_root": "dist",
       "label": "GPT-5.6 Sol (medium)",
       "order": 550,
       "project_dir": "gpt-5.6-sol-medium",
@@ -1799,6 +1802,7 @@
     },
     {
       "id": "gpt-5.6-sol-high",
+      "web_root": "dist",
       "label": "GPT-5.6 Sol (high)",
       "order": 560,
       "project_dir": "gpt-5.6-sol-high",
@@ -1844,6 +1848,7 @@
     },
     {
       "id": "gpt-5.6-sol-xhigh",
+      "web_root": "dist",
       "label": "GPT-5.6 Sol (xhigh)",
       "order": 570,
       "project_dir": "gpt-5.6-sol-xhigh",
@@ -1889,6 +1894,7 @@
     },
     {
       "id": "gpt-5.6-terra-max",
+      "web_root": "dist",
       "external_actions": "Unasked, it used Codex's built-in Sites app to create a Site (tetris-20261025-f5977c1a) on the user's ChatGPT account, committed its workspace under the user's git identity, and deployed the game privately to tetris-20261025-f5977c1a.just-pond-5231.chatgpt.site. See .audit/gpt56-terra-max-external-actions.md.",
       "label": "GPT-5.6 Terra (max)",
       "order": 580,
