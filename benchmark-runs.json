@@ -2138,6 +2138,35 @@
         "commit": "8e9b605b74e12f7cc291723decd6830e8bdc3fae",
         "modified": false
       }
+    },
+    {
+      "id": "mimo-v2.6-flash-default",
+      "label": "MiMo-V2.6-Flash (default)",
+      "order": 640,
+      "project_dir": "mimo-v2.6-flash-default",
+      "harness": "t3_opencode",
+      "harness_label": "T3 Code / OpenCode",
+      "provider": "opencode-go",
+      "provider_label": "opencode-go",
+      "model": "mimo-v2.6-flash",
+      "session_id": "ses_e881cc2a6ffeBa6VMXC5mE3sz9",
+      "t3_thread_id": "mcp:9623e357-f8ab-4926-88eb-025500588cc0",
+      "expected_cwd": "/Users/david/tetris-bench/runs/8216d4b73f46/tetris",
+      "expected_cwd_basename": "tetris",
+      "reasoning_variant": "default",
+      "web": "open",
+      "cutoff": {
+        "through_user_message": 1,
+        "exclude_inter_message_wait": true
+      },
+      "overhead": {
+        "kind": "unknown"
+      },
+      "spec": {
+        "sha256": "36e2097a78fe8b5646e6216338640831cff0a284cc823c4b1f658991c8d40294",
+        "commit": "92b95312e107e7b4335cde3a0b474ef0cad9d290",
+        "modified": false
+      }
     }
   ]
 }
