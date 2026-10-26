@@ -2168,6 +2168,41 @@
         "commit": "92b95312e107e7b4335cde3a0b474ef0cad9d290",
         "modified": false
       }
+    },
+    {
+      "id": "gpt-6.1-terra-low",
+      "label": "GPT-6.1 Terra (low)",
+      "order": 650,
+      "project_dir": "gpt-6.1-terra-low",
+      "harness": "t3_codex",
+      "harness_label": "T3 Code / Codex",
+      "provider": "codex",
+      "provider_label": "Codex",
+      "model": "gpt-6.1-terra",
+      "session_id": "01a17996-64e6-7233-943c-1de28ca0ff53",
+      "t3_thread_id": "mcp:b56e0260-c514-4992-aff3-ac763c2ec270",
+      "expected_cwd": "/Users/david/tetris-bench/runs/2c08cc9fcea7/tetris",
+      "expected_cwd_basename": "tetris",
+      "reasoning_variant": "low",
+      "web": "open",
+      "cutoff": {
+        "through_user_message": 1,
+        "exclude_inter_message_wait": true
+      },
+      "overhead": {
+        "kind": "unknown"
+      },
+      "spec": {
+        "sha256": "36e2097a78fe8b5646e6216338640831cff0a284cc823c4b1f658991c8d40294",
+        "commit": "8b7bc0ee747485095284d136a5b0dd5b1f6774d4",
+        "modified": false
+      },
+      "t3_notification_turns": [
+        {
+          "ordinal": 2,
+          "message": "Background command completed (exit 143): /bin/zsh -lc 'npm start'\n\nOutput tail:\n\n> tetrisjs@1.0.0 start\n> npm run build && node server.js\n\n\n> tetrisjs@1.0.0 build\n> tsc\n\nTetris running at http://localhost:8321"
+        }
+      ]
     }
   ]
 }
