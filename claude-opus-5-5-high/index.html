@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>TetrisJS</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <main class="game">
+      <aside class="panel">
+        <section>
+          <h2>Hold</h2>
+          <canvas id="hold"></canvas>
+        </section>
+        <section class="stats">
+          <h2>Score</h2>
+          <p id="score">0</p>
+          <h2>Level</h2>
+          <p id="level">1</p>
+          <h2>Lines</h2>
+          <p id="lines">0</p>
+        </section>
+        <p id="message" class="message" aria-live="polite"></p>
+      </aside>
+
+      <div class="field">
+        <canvas id="board"></canvas>
+        <div id="overlay" class="overlay" hidden></div>
+      </div>
+
+      <aside class="panel">
+        <section>
+          <h2>Next</h2>
+          <canvas id="next"></canvas>
+        </section>
+      </aside>
+    </main>
+
+    <footer class="help">
+      ← → move · ↑ / X rotate CW · Z / Ctrl rotate CCW · ↓ soft drop · Space hard drop · C / Shift hold · P pause · R restart
+    </footer>
+
+    <script type="module" src="dist/main.js"></script>
+  </body>
+</html>

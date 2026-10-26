@@ -2018,6 +2018,37 @@
       },
       "t3_provider_instance": "claudeAgent_claude_home",
       "fast_mode": false
+    },
+    {
+      "id": "claude-opus-5-5-high",
+      "label": "Claude Opus 5.5 (high)",
+      "order": 600,
+      "project_dir": "claude-opus-5-5-high",
+      "harness": "t3_claude",
+      "harness_label": "T3 Code / Claude Agent SDK",
+      "provider": "claudeAgent",
+      "provider_label": "Claude Agent SDK",
+      "model": "claude-opus-5-5",
+      "session_id": "9d577128-1d04-439a-9580-5620902928fe",
+      "t3_thread_id": "mcp:6c26e1a3-818d-48cc-afc3-a611cf999582",
+      "expected_cwd": "/Users/david/tetris-bench/runs/c83c75b716ba/tetris",
+      "expected_cwd_basename": "tetris",
+      "reasoning_variant": "high",
+      "web": "open",
+      "cutoff": {
+        "through_user_message": 1,
+        "exclude_inter_message_wait": true
+      },
+      "overhead": {
+        "kind": "unknown"
+      },
+      "spec": {
+        "sha256": "36e2097a78fe8b5646e6216338640831cff0a284cc823c4b1f658991c8d40294",
+        "commit": "6e401a49bca4bbf650fa0e7aa40afe8510448365",
+        "modified": false
+      },
+      "t3_provider_instance": "claudeAgent_claude_home",
+      "fast_mode": false
     }
   ]
 }

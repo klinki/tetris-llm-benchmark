@@ -1,0 +1,94 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  background: radial-gradient(circle at top, #1d2240, #07080f);
+  color: #e6e8f2;
+  font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+}
+
+.game {
+  display: flex;
+  align-items: flex-start;
+  gap: 20px;
+}
+
+.panel {
+  width: 130px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.panel section {
+  background: #11142a;
+  border: 1px solid #262c4d;
+  border-radius: 8px;
+  padding: 10px;
+}
+
+h2 {
+  margin: 0 0 6px;
+  font-size: 12px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: #8a91b4;
+}
+
+.stats p {
+  margin: 0 0 12px;
+  font-size: 20px;
+  font-variant-numeric: tabular-nums;
+}
+
+.stats p:last-child {
+  margin-bottom: 0;
+}
+
+.message {
+  min-height: 4em;
+  margin: 0;
+  white-space: pre-line;
+  font-weight: 700;
+  color: #ffd600;
+  text-align: center;
+}
+
+.field {
+  position: relative;
+}
+
+#board {
+  display: block;
+}
+
+.overlay {
+  position: absolute;
+  inset: 60px 0 0 0; /* skip the buffer rows drawn above the field */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  white-space: pre-line;
+  text-align: center;
+  font-size: 24px;
+  font-weight: 700;
+  line-height: 1.6;
+  background: rgba(5, 6, 14, 0.75);
+}
+
+.overlay[hidden] {
+  display: none;
+}
+
+.help {
+  font-size: 13px;
+  color: #8a91b4;
+}
