@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#10131e">
+  <title>TetrisJS — Play</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="app-shell">
+    <header class="topbar">
+      <a class="brand" href="/" aria-label="TetrisJS home"><span class="brand-icon"><i></i><i></i><i></i><i></i></span><span>TETRIS<span class="brand-js">JS</span></span></a>
+      <div class="top-right"><span class="status"><span class="status-dot"></span> READY TO PLAY</span><button id="pause" class="icon-button" aria-label="Pause game" title="Pause game"><span id="pause-icon">Ⅱ</span></button></div>
+    </header>
+    <main>
+      <section class="intro"><div><div class="eyebrow"><span></span> THE CLASSIC, REIMAGINED</div><h1>Let's stack.</h1><p>A little strategy. A lot of satisfaction.</p></div><div class="intro-tag">MARATHON <span> / </span> 01</div></section>
+      <div class="game-layout">
+        <aside class="left-panel">
+          <section class="panel hold-panel"><div class="panel-head"><span>HOLD</span><span class="small-key">C</span></div><canvas id="hold" width="160" height="105" aria-label="Held piece"></canvas><p class="panel-note">Save for later.</p></section>
+          <section class="panel stats-panel"><div class="panel-head"><span>YOUR STATS</span><span class="tiny-cross">✳</span></div><div class="stat"><span>SCORE</span><strong id="score">000000</strong></div><div class="stat-row"><div class="stat"><span>LEVEL</span><strong id="level">01</strong></div><div class="stat"><span>LINES</span><strong id="lines">00</strong></div></div><div class="level-progress"><div id="progress"></div></div><div class="progress-caption"><span>NEXT LEVEL</span><span id="progress-text">0 / 10</span></div></section>
+          <div class="side-caption"><span>✦</span> ONE LINE AT A TIME.</div>
+        </aside>
+        <section class="board-wrap" aria-label="Tetris game board"><div class="board-top"><span>THE PLAYING FIELD</span><span><i></i> MARATHON</span></div><div class="board-frame"><canvas id="board" width="300" height="600" aria-label="Game board"></canvas><div id="overlay" class="overlay hidden"><div class="overlay-content"><span class="overlay-symbol">✳</span><h2 id="overlay-title">Paused</h2><p id="overlay-text">Take your time.</p><button id="overlay-button">RESUME GAME <span>↗</span></button></div></div></div><div class="board-bottom"><span>10 × 20 GRID</span><span id="game-message">GOOD LUCK &amp; HAVE FUN</span><span>✳</span></div></section>
+        <aside class="right-panel"><section class="panel next-panel"><div class="panel-head"><span>UP NEXT</span><span class="queue-indicator">05</span></div><div id="next-queue" class="next-queue"></div></section><section class="panel controls-panel"><div class="panel-head"><span>CONTROLS</span><span class="tiny-cross">↗</span></div><div class="control"><span>Move</span><span><kbd>←</kbd><kbd>→</kbd></span></div><div class="control"><span>Rotate</span><span><kbd>↑</kbd><kbd>X</kbd></span></div><div class="control"><span>Rotate back</span><span><kbd>Z</kbd></span></div><div class="control"><span>Soft drop</span><span><kbd>↓</kbd></span></div><div class="control"><span>Hard drop</span><span><kbd class="wide-key">SPACE</kbd></span></div><div class="control"><span>Hold</span><span><kbd>C</kbd></span></div></section></aside>
+      </div>
+      <div class="mobile-controls" aria-label="Touch controls"><button data-action="left" aria-label="Move left">←</button><button data-action="rotate-back" aria-label="Rotate counterclockwise">↶</button><button data-action="down" aria-label="Soft drop">↓</button><button data-action="rotate" aria-label="Rotate clockwise">↷</button><button data-action="right" aria-label="Move right">→</button><button data-action="hold">HOLD</button><button data-action="drop" class="drop-button">HARD DROP</button></div>
+    </main>
+    <footer><span>MADE FOR THE LOVE OF THE GAME <span class="footer-heart">♥</span></span><span>TAKE A BREAK. MAKE A LINE.</span></footer>
+  </div>
+  <script type="module" src="dist/main.js"></script>
+</body>
+</html>
