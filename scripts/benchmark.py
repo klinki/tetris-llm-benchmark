@@ -1968,6 +1968,7 @@ def run_batch(
         for line in preflight(root, runs, workspaces):
             print(f"  preflight: {line}", flush=True)
         record = t3_runs.new_run(root, model, effort, workspaces, open_app=False)
+        t3_runs.lock_sources(root, Path(record["archive"]))
         selection = t3_runs.model_selection(t3_home, model, effort, instance)
         record["launched_thread_id"] = t3_runs.launch_thread(root, t3_home, record["t3_project_id"], selection)
         t3_runs.save_pending(root, record)
@@ -1977,6 +1978,7 @@ def run_batch(
             if state in ("completed", "failed"):
                 break
             time.sleep(interval)
+        t3_runs.unlock_sources(root)
         if state == "failed":
             raise BenchmarkError(
                 f"{record['key']} failed ({detail}); inspect it, then `discard {record['key']} --reason ...` "
@@ -2177,6 +2179,9 @@ def main(argv: list[str] | None = None) -> int:
     root = repository_root()
     if args.manifest:
         root = args.manifest.resolve().parent
+    # A run's lock ends with the run: whatever the next command is, it needs the repository back.
+    if unlocked := t3_runs.unlock_sources(root):
+        print(f"Unlocked {len(unlocked)} path(s) locked during the run")
     _, runs = load_manifest(root)
     ranking = load_ranking(root, runs)
     pricing = load_pricing(root, runs)
@@ -2203,6 +2208,8 @@ def main(argv: list[str] | None = None) -> int:
             root, args.model, args.effort, args.workspaces, open_app=not args.no_open, register=not args.no_register,
         )
         print(f"Prepared {record['key']}\n  workspace: {record['workspace']}")
+        locked = t3_runs.lock_sources(root, Path(record["archive"]))
+        print(f"  locked {len(locked)} path(s) with earlier implementations until the next command")
         if args.no_register:
             print("Register the workspace as a T3 project, start the run there, then `cleanup` and `import` it.")
             return 0

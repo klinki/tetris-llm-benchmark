@@ -18,6 +18,7 @@ import re
 import secrets
 import shutil
 import sqlite3
+import stat
 import subprocess
 from typing import Any
 
@@ -27,6 +28,10 @@ PROMPT = "Read the README.md file and implement it"
 WORKSPACE_NAME = "tetris"
 UNLISTABLE = 0o300
 ARCHIVE_NAME = "archive"
+LOCK_STATE = "locked.json"
+LOCK_EXTRA = "lock-extra"
+# What stays readable while a run's sources are locked: what the tool itself needs.
+LOCK_KEEP = {"scripts", ".bench", "benchmark-runs.json", "pricing.json", "ranking.json", "TETRIS.md"}
 FINISHED_TURN_STATUSES = {"completed", "failed", "interrupted"}
 HARNESSES = {
     "claudeAgent": {"harness": "t3_claude", "harness_label": "T3 Code / Claude Agent SDK", "provider_label": "Claude Agent SDK"},
@@ -158,6 +163,53 @@ def new_run(
     if open_app and register:
         t3_command("app", str(workspace))
     return record
+
+
+def lock_paths(root: Path, archive: Path | None = None) -> list[Path]:
+    """Everything a tested agent could copy from: earlier implementations, audits, git history,
+    the records that name archived workspaces, the archive itself, and any folders listed in
+    `.bench/lock-extra` (one path per line, for copies kept elsewhere on this machine)."""
+    paths = [path for path in sorted(root.iterdir()) if path.name not in LOCK_KEEP]
+    paths += [root / ".bench" / "abandoned", root / ".bench" / "held"]
+    if archive:
+        paths.append(archive)
+    extra = root / ".bench" / LOCK_EXTRA
+    if extra.is_file():
+        paths += [Path(line.strip()).expanduser() for line in extra.read_text().splitlines()
+                  if line.strip() and not line.lstrip().startswith("#")]
+    return [path for path in paths if path.exists() and not path.is_symlink()]
+
+
+def lock_sources(root: Path, archive: Path | None = None) -> list[str]:
+    """Remove every permission from earlier implementations while a run is active.
+
+    An agent that searches the disk for "hidden tests" otherwise finds and copies earlier runs
+    (Beam xhigh copied Space-bunny this way). The agent runs as this user and could restore the
+    permissions, but that is a deliberate act the isolation check reports. `scripts/`, `.bench`
+    and the manifest, ranking and pricing files stay readable so the tool can unlock again."""
+    unlock_sources(root)
+    state = root / ".bench" / LOCK_STATE
+    locked = [{"path": str(path), "mode": stat.S_IMODE(path.lstat().st_mode)} for path in lock_paths(root, archive)]
+    # Recorded before any change, so an interrupted lock can still be undone.
+    state.parent.mkdir(parents=True, exist_ok=True)
+    state.write_text(json.dumps(locked, indent=2) + "\n")
+    for item in locked:
+        os.chmod(item["path"], 0)
+    return [item["path"] for item in locked]
+
+
+def unlock_sources(root: Path) -> list[str]:
+    """Restore what `lock_sources` locked; every command does this first."""
+    state = root / ".bench" / LOCK_STATE
+    if not state.is_file():
+        return []
+    restored = []
+    for item in json.loads(state.read_text()):
+        if os.path.lexists(item["path"]):
+            os.chmod(item["path"], item["mode"])
+            restored.append(item["path"])
+    state.unlink()
+    return restored
 
 
 def archive_container(container: Path, archive: Path) -> Path:

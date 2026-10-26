@@ -223,6 +223,38 @@ class NewRunTests(unittest.TestCase):
         self.assertEqual([path.name for path in workspaces.iterdir()], [Path(second["workspace"]).parent.name])
         self.assertEqual([record["key"] for record in t3_runs.load_pending(self.root)], [second["key"]])
 
+    def test_earlier_implementations_are_locked_during_a_run_and_restored_after(self) -> None:
+        (self.root / "space-bunny" / "src").mkdir(parents=True)
+        (self.root / "space-bunny" / "src" / "game.ts").write_text("export {};\n")
+        (self.root / "scripts").mkdir()
+        (self.root / "benchmark-runs.json").write_text("{}\n")
+        (self.root / ".bench" / "abandoned").mkdir(parents=True)
+        elsewhere = self.base / "old-runs"
+        elsewhere.mkdir(mode=0o755)
+        (self.root / ".bench" / t3_runs.LOCK_EXTRA).write_text(f"# copies outside the repo\n{elsewhere}\n")
+        workspaces = self.base / "runs"
+        with mock.patch.dict(os.environ, {"T3_BIN": str(self.fake_t3)}):
+            first = t3_runs.new_run(self.root, "m", "high", workspaces, open_app=False)
+            (t3_runs.pending_dir(self.root) / f"{first['key']}.json").unlink()
+            record = t3_runs.new_run(self.root, "m", "max", workspaces, open_app=False)
+        archive = Path(record["archive"])
+        locked = t3_runs.lock_sources(self.root, archive)
+        self.assertEqual(
+            sorted(locked),
+            sorted(str(path) for path in (self.root / "space-bunny", self.root / ".bench" / "abandoned", archive, elsewhere)),
+        )
+        for path in locked:
+            self.assertEqual(stat.S_IMODE(os.stat(path).st_mode), 0)
+        with self.assertRaises(PermissionError):
+            (self.root / "space-bunny" / "src" / "game.ts").read_text()
+        self.assertEqual((self.root / "benchmark-runs.json").read_text(), "{}\n")
+        self.assertTrue((Path(record["workspace"]) / "README.md").is_file())
+        self.assertEqual(sorted(t3_runs.unlock_sources(self.root)), sorted(locked))
+        self.assertEqual((self.root / "space-bunny" / "src" / "game.ts").read_text(), "export {};\n")
+        self.assertEqual(stat.S_IMODE(elsewhere.stat().st_mode), 0o755)
+        self.assertEqual(stat.S_IMODE(archive.stat().st_mode), 0o300)
+        self.assertEqual(t3_runs.unlock_sources(self.root), [])
+
     def test_refuses_workspaces_inside_the_repository(self) -> None:
         # The fake t3 keeps a missed refusal from registering a real T3 project.
         with mock.patch.dict(os.environ, {"T3_BIN": str(self.fake_t3)}):
