@@ -14,6 +14,7 @@
     {"name": "Meituan", "tiers": ["LongCat"]},
     {"name": "NVIDIA", "tiers": ["Nemotron Ultra", "Nemotron Super"]},
     {"name": "Z.ai", "tiers": ["GLM", "GLM Flash"]},
+    {"name": "Xiaomi", "tiers": ["MiMo Flash"]},
     {"name": "Unattributed", "tiers": ["Beam", "Space Bunny"]}
   ],
   "models": {
@@ -140,6 +141,14 @@
       "evidence": "official",
       "source": "https://www.alibabacloud.com/help/en/model-studio/model-pricing",
       "note": "International (Singapore) rate, one tier up to 1M tokens. No cache-hit or cache-creation price is published, so cached tokens are priced as regular input: an upper bound."
+    },
+    "mimo-v2.6-flash": {
+      "label": "MiMo-V2.6-Flash",
+      "family": "Xiaomi", "tier": "MiMo Flash", "version": "2.6",
+      "prices": {"input": 0.14, "cache_read": 0.0028, "cache_write": null, "output": 0.28},
+      "evidence": "official",
+      "source": "https://mimo.mi.com/docs/en-US/pricing",
+      "note": "Overseas real-time rate, checked 2026-10-26. Cache writes are free for a limited time."
     },
     "glm-5.3-flash-free": {
       "label": "GLM-5.3-Flash",
