@@ -2,6 +2,44 @@
 
 This directory contains the reproducible, repository-safe parts of the audit behind [`RANKING.md`](../RANKING.md). Generated builds, copied `node_modules` trees, temporary web servers, browser profiles, and timestamped Playwright artifacts are intentionally excluded.
 
+## Claude Opus 5.5 efforts — October 26
+
+The [Opus effort review](opus55-efforts-review.md) independently audits
+`claude-opus-5-5-{low,high,xhigh}` with the existing rubric and calibration.
+It records all five criteria/weighted arithmetic, exact fixtures, own-test
+coverage, Chromium geometry and supplied no-outside-access facts. The
+existing medium `opus-5.5` stays **9.05**; every historical score is unchanged.
+
+```sh
+python3 .audit/run-opus55-efforts-audit.py --offline
+```
+
+The [runner](run-opus55-efforts-audit.py) performs locked installs, explicit
+builds and unchanged own suites in random disposable copies, then runs
+[engine assertions](opus55-efforts-audit.mjs) and
+[desktop/390×844 Chromium assertions](opus55-efforts-browser.cjs). All three
+build/test/start; own suites pass **11/12/16** deterministic cases. Passing
+asserts exact recorded defective outcomes as well as conforming paths.
+
+Coverage includes 28 canonical states/48 ordered transitions, actual T/I
+wall/floor kicks, 100 actual bags, held retrieval/orientation, seven
+independently obstructed ghosts/exact drop points/cells, ordinary lock/reset/
+ledge paths, full/mini/B2B/combo/PC scoring, gravity/levels, soft transitions,
+held replacement phase, legal hidden/partial locks and terminal reset.
+Browser checks repeat the engine suite against served modules, every real
+required key and R, seven actual ghost drawings, complete proportional
+previews and exact phone clipping. Unchanged RAF reproduces low/high's
+sixteen-row soft jump, all three's premature landing-frame lock, high/xhigh's
+fifteenth-reset lock and low's exhausted-ledge stale clock.
+
+All servers use **unmodified `npm start` with PORT** on free 41000–49999
+ports. No application/server source changes are needed. Omit `--offline`
+when dependencies are not cached; `--engine-only`, `--effort` and an
+outside-checkout `--artifacts-dir` are supported. Installed Playwright and
+Chromium are reused without downloads. Browsers/server groups/copies are
+cleaned on success/failure; retained evidence is optional. Physical touch,
+HiDPI hardware, native OS repeat and other browsers remain unverified.
+
 ## GPT-5.6 Terra and Qwen3.8 Max — October 25
 
 The [Terra review](gpt56-terra-review.md) covers low/medium/high/xhigh/max;

@@ -1805,6 +1805,118 @@
         }
       ],
       "summary": "Canonical SRS, gravity and responsive controls; mini/PC scoring, landing lock time, hidden lock-out and stretched phone next fail"
+    },
+    {
+      "run_id": "claude-opus-5-5-low",
+      "audited": "2026-10-26",
+      "scores": {
+        "correctness": 7.5,
+        "tests": 6,
+        "code": 9,
+        "simplicity": 9,
+        "browser_ux": 8
+      },
+      "bugs": [
+        {
+          "severity": "minor",
+          "title": "The benchmark perfect-clear bonus is absent",
+          "detail": "A zero-travel horizontal I empties the board with a single but scores 100 instead of 900. Tetris/no-clear/Tetris-PC totals 2000 instead of 5200. Full/mini spins, ordinary B2B/combo and pre-clear level scoring pass; this isolated bonus omission is one minor deduction."
+        },
+        {
+          "severity": "minor",
+          "title": "Starting soft drop consumes earlier normal-gravity time",
+          "detail": "Fifty update(16) calls accumulate 800 ms without moving O. Real ArrowDown plus the next 1 ms frame moves sixteen rows and awards sixteen points. The old accumulator is spent at the new 50 ms interval; engine and Chromium reproduce it."
+        },
+        {
+          "severity": "minor",
+          "title": "Landing frames charge pre-contact time to lock delay",
+          "detail": "O one row above the floor receives 990 ms in <=16 ms parts, then 16 ms, then 484 ms. It welds four cells at absolute 1490 ms instead of 1500; at 1489 it is unlocked. The whole landing-frame delta is charged as grounded. Engine and unchanged Chromium RAF reproduce it; ordinary 499/500 ms locking and pre-cap ledge safety pass."
+        },
+        {
+          "severity": "minor",
+          "title": "A new lowest row retains exhausted lock time",
+          "detail": "O at field (0,12) rests on support (0,14). Fifteen real CW rotations exhaust its resets; after 490 ms, move right off the ledge. Descending resets lockResets but leaves lockTimer=490. With 1 ms steps it reaches the floor 6000 ms after the move and locks at 6009, only 9 ms after contact. Engine and real Chromium Up/Right plus unchanged RAF agree. This is distinct from landing-frame rounding: prior-contact time survives six lower rows."
+        },
+        {
+          "severity": "minor",
+          "title": "The fixed phone cabinet clips hold, stats and next",
+          "detail": "At 390x844 document width is 525 px and the 660 px canvas starts at x=-135. The 300x600 playfield fits at x=45, but hold/stats are off the left and NEXT begins at x=365 with its pieces extending past the viewport. Desktop previews are complete."
+        }
+      ],
+      "summary": "Canonical SRS and full/mini scoring; missing PC, soft-drop jump, two contact-clock errors and clipped phone support"
+    },
+    {
+      "run_id": "claude-opus-5-5-high",
+      "audited": "2026-10-26",
+      "scores": {
+        "correctness": 7.5,
+        "tests": 7.5,
+        "code": 9,
+        "simplicity": 8,
+        "browser_ux": 8.5
+      },
+      "bugs": [
+        {
+          "severity": "minor",
+          "title": "The benchmark perfect-clear bonus is absent",
+          "detail": "A zero-travel horizontal I empties the board with a single but scores 100 instead of 900. Tetris/no-clear/Tetris-PC totals 2000 instead of 5200. Full/mini spins, ordinary B2B/combo and pre-clear level scoring pass; this isolated bonus omission is one minor deduction."
+        },
+        {
+          "severity": "minor",
+          "title": "Starting soft drop consumes earlier normal-gravity time",
+          "detail": "Fifty update(16) calls accumulate 800 ms without moving O. Real ArrowDown plus the next 1 ms frame moves sixteen rows and awards sixteen points. The old accumulator is spent at the new 50 ms interval; engine and Chromium reproduce it."
+        },
+        {
+          "severity": "minor",
+          "title": "Landing frames charge pre-contact time to lock delay",
+          "detail": "O one row above the floor receives 990 ms in <=16 ms parts, then 16 ms, then 484 ms. It welds four cells at absolute 1490 ms instead of 1500; at 1489 it is unlocked. The whole landing-frame delta is charged as grounded. Engine and unchanged Chromium RAF reproduce it; ordinary 499/500 ms locking and pre-cap ledge safety pass."
+        },
+        {
+          "severity": "minor",
+          "title": "The fifteenth reset forces an immediate lock",
+          "detail": "A floor O receives fifteen alternating successful moves separated by 10 ms. It remains unlocked at 150 ms immediately after the last reset, then welds four cells on update(1) at 151 ms because lockResets>=15 is itself a lock condition. The last allowed reset does not receive its fresh delay; this matches the Qwen low minor finding."
+        },
+        {
+          "severity": "minor",
+          "title": "The fixed phone cabinet clips hold, stats and next",
+          "detail": "At 390x844 document width is 495 px. The 300x600 field fits at x=45 inside a 300x660 canvas, but hold begins at x=-94 and next at x=376, both 110 px wide. Supporting panels clip; previews keep square cells and paint fully inside their backings."
+        }
+      ],
+      "summary": "Canonical core with exact kicks and spin/B2B tests; missing PC, soft-drop jump, contact/reset timing and clipped phone support"
+    },
+    {
+      "run_id": "claude-opus-5-5-xhigh",
+      "audited": "2026-10-26",
+      "scores": {
+        "correctness": 8,
+        "tests": 8,
+        "code": 9,
+        "simplicity": 8.5,
+        "browser_ux": 8.5
+      },
+      "bugs": [
+        {
+          "severity": "minor",
+          "title": "The benchmark perfect-clear bonus is absent",
+          "detail": "A zero-travel horizontal I empties the board with a single but scores 100 instead of 900. Tetris/no-clear/Tetris-PC totals 2000 instead of 5200. Full/mini spins, ordinary B2B/combo and pre-clear level scoring pass; this isolated bonus omission is one minor deduction."
+        },
+        {
+          "severity": "minor",
+          "title": "Landing frames charge pre-contact time to lock delay",
+          "detail": "O one row above the floor receives 990 ms in <=16 ms parts, then 16 ms, then 484 ms. It welds four cells at absolute 1490 ms instead of 1500; at 1489 it is unlocked. The whole landing-frame delta is charged as grounded. Engine and unchanged Chromium RAF reproduce it; ordinary 499/500 ms locking and pre-cap ledge safety pass."
+        },
+        {
+          "severity": "minor",
+          "title": "The fifteenth reset forces an immediate lock",
+          "detail": "A floor O receives fifteen alternating successful moves separated by 10 ms. It remains unlocked at 150 ms immediately after the last reset, then welds four cells on update(1) at 151 ms because lockResets>=15 is itself a lock condition. The last allowed reset does not receive its fresh delay; this matches the Qwen low minor finding."
+        },
+        {
+          "severity": "minor",
+          "title": "The fixed phone cabinet clips the playfield and next",
+          "detail": "At 390x844 document width is 684 px. The 300x600 board starts at x=192 and ends at 492, so part of the field is outside the viewport; next begins at x=527, width 124. Desktop and proportional preview painting work."
+        }
+      ],
+      "summary": "Canonical core and stronger deterministic suite; missing PC, contact/reset timing and a clipped phone playfield"
     }
   ]
 }

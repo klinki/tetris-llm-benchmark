@@ -1,5 +1,60 @@
 # Browser audit results
 
+## Claude Opus 5.5 efforts — 2026-10-26
+
+Independent disposable-copy builds and **unmodified `npm start` with PORT**,
+installed **Chromium 156.0.8078.4**, **1280×800** and **390×844**. All three
+start and pass their own **11/12/16** deterministic cases. Exact fixtures,
+scores, own-suite limits and supplied isolation facts are in the
+[Opus effort review](opus55-efforts-review.md). The earlier medium
+`opus-5.5` stays **9.05** and is not rescored.
+
+| Effort | Desktop field | Phone document width | Phone field | Supporting-state evidence |
+|---|---|---:|---|---|
+| low | 300×600 at x=490 | 525 | 300×600 at x=45 | Combined canvas x=−135,width=660; hold/stats off left; NEXT label x=365 |
+| high | 300×600 at x=490 inside 300×660 canvas | 495 | 300×600 at x=45 | Hold x=−94,width=110; next x=376,width=110 |
+| xhigh | 300×600 at x=490 | 684 | 300×600 at x=192 | Field ends at 492, next x=527,width=124; hold fits at x=33 |
+
+Every full-page screenshot was visually inspected outside the checkout.
+Exact horizontal geometry is asserted within 0.03 px. All three fixed
+cabinets clip at phone width: low/high clip supporting panels while xhigh
+also clips the playfield. High previews scale uniformly; xhigh's hold cell
+aspect is 1.000126 and next is 1. No preview distortion is scored.
+Deterministic O hold/five-I queues paint four/twenty complete preview cells
+inside high/xhigh's backing canvases; low's combined previews are visually
+complete on desktop. Actual draws match all seven independent obstructed
+ghost poses at both sizes.
+
+Real **Left, Right, Up, X, Z, Left Ctrl, Down, Space, C** assert movement,
+every rotation binding, soft movement/points, four hard-locked cells and
+restricted hold. Real Space triggers blocked incoming spawn; terminal
+movement/rotation/drop/hold are inert; **real R** fully resets. High/xhigh
+show **none → flex → none** overlays; low uses canvas text. There are no
+application exceptions, console errors or failed required assets; harmless
+favicon 404s are excluded.
+
+Main responses gain accessors only; captured RAF drives the **unchanged**
+frame body. After 800 ms normal time, real Down plus 1 ms produces
+**16/16/1 rows and points** for low/high/xhigh. All three weld at absolute
+**1490 ms** in the 990+16+484 ms landing fixture, ten milliseconds early.
+After fifteen alternating real horizontal moves at 10 ms intervals,
+high/xhigh lock at **151 ms**; low remains unlocked. Low's separate real
+Up ×15 / wait490 / Right ledge fixture contacts the floor at **6000 ms**
+after leaving the ledge and welds at **6009 ms**, retaining old contact time.
+
+All actual frame callbacks agree at **60/144 Hz**: level-two 1480.001 ms
+1/1 row, level-ten 600 ms 9/9, level-fifteen 100 ms 14/14. A held replacement
+waits a fresh **1000 ms**. The full canonical engine suite also repeats
+inside Chromium against served modules, asserting missing PC and legal
+hidden/partial lock paths separately from the real-key integration checks.
+
+Reproduce with the [runner](run-opus55-efforts-audit.py), using `--offline`
+when dependencies are cached. It uses the [engine probes](opus55-efforts-audit.mjs)
+and [Chromium script](opus55-efforts-browser.cjs). All servers run on free
+41000–49999 ports, with no source/port substitutions, and browser/server
+process groups and copies are cleaned. No run folder is modified. Phone
+coverage is CSS viewport/keyboard behavior, not physical touch or another browser.
+
 ## GPT-5.6 Terra and Qwen3.8 Max — 2026-10-25
 
 Independent fresh-copy builds and intended start servers, installed Chromium
