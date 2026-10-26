@@ -1,0 +1,14 @@
+{
+  "name": "tetrisjs",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "tsc",
+    "start": "npm run build && node scripts/serve.js",
+    "test": "npm run build && node test/smoke.js"
+  },
+  "devDependencies": {
+    "typescript": "^5.6.0"
+  }
+}
