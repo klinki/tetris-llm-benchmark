@@ -1,0 +1,13 @@
+{
+  "name": "tetris",
+  "version": "1.0.0",
+  "scripts": {
+    "build": "tsc",
+    "start": "npx http-server . -p 8321",
+    "test": "npm run build && node dist/test.js"
+  },
+  "devDependencies": {
+    "typescript": "^5.0.0",
+    "http-server": "^14.1.1"
+  }
+}

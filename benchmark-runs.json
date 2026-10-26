@@ -2080,6 +2080,35 @@
       },
       "t3_provider_instance": "claudeAgent_claude_home",
       "fast_mode": false
+    },
+    {
+      "id": "beam-free-low",
+      "label": "Beam (low)",
+      "order": 620,
+      "project_dir": "beam-free-low",
+      "harness": "t3_opencode",
+      "harness_label": "T3 Code / OpenCode",
+      "provider": "opencode-go",
+      "provider_label": "opencode-go",
+      "model": "beam-free",
+      "session_id": "ses_e88b8dd26ffexZj7cO24zJtWzp",
+      "t3_thread_id": "mcp:1b154e65-9076-4a49-a51a-a5a7a4d1c4bf",
+      "expected_cwd": "/Users/david/tetris-bench/runs/1f3b704aa900/tetris",
+      "expected_cwd_basename": "tetris",
+      "reasoning_variant": "low",
+      "web": "open",
+      "cutoff": {
+        "through_user_message": 1,
+        "exclude_inter_message_wait": true
+      },
+      "overhead": {
+        "kind": "unknown"
+      },
+      "spec": {
+        "sha256": "36e2097a78fe8b5646e6216338640831cff0a284cc823c4b1f658991c8d40294",
+        "commit": "bc3e987fae813d05d66741fbde225a214a2fdb5e",
+        "modified": false
+      }
     }
   ]
 }
