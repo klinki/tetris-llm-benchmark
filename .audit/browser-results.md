@@ -1,5 +1,61 @@
 # Browser audit results
 
+## Beam low/medium and MiMo default — 2026-10-26
+
+Fresh disposable builds and each declared **npm start** workflow,
+Chromium **156.0.8078.4**, **1280×800** and **390×844** CSS viewports.
+Only Beam's copied hard-coded port literals change; MiMo uses PORT
+unchanged. Free **41000–49999** ports only. See the
+[Beam review](beam-efforts-review.md), [MiMo review](mimo-v26-flash-review.md)
+and [shared runner](run-beam-mimo-audit.py). Old Beam remains **5.60**.
+
+| Run | Desktop | Phone document width | Phone | Runtime |
+|---|---|---:|---|---|
+| Beam low | Bordered canvas 324×644 at x=436.203125; field 320×640 | 399 | Canvas x=−8.796875; field x=−6.796875; stats also clip | Starts; R clears state but leaves RAF stopped |
+| Beam medium | Blank default canvas 300×150 at x=490 | 390 | Blank canvas 300×150 at x=45 | `exports is not defined`; empty HUD, no RAF |
+| MiMo default | Canvas 480×620 at x=400; field 300×600 at x=410 | 435 | Canvas x=−45; field x=−35, losing 35 px | Starts; real R resets all state |
+
+All six full-page screenshots were visually inspected outside the checkout,
+then deleted. Horizontal geometry is pinned within .03 px; vertical font
+positions are recorded. Beam lacks viewport metadata. As in earlier audits,
+390 px means a CSS viewport with desktop user agent, not physical mobile.
+
+Low's real Left/Right/Up/X/Z/Down/Space respond; **Left Ctrl/C do nothing**.
+Down/Space award zero drop points. Actual blocked-spawn game over leaves
+Right enabled. Consume the last callback, real R, advance to 5000 ms:
+zero scheduled callbacks, active y remains zero. Draw records contain only
+four active blocks and no ghost/hold/next. Real keys and unchanged RAF
+repeat the engine's state/lock/gravity findings.
+
+Medium throws at the first emitted CommonJS exports statement. All ten
+keys including R leave the delivered HUD empty. Screenshots and startup
+assertions run **before** diagnostics. Separate evaluation supplies
+exports/require to unchanged emitted engine/main bodies to repeat source
+findings, including six bad states, generic floor kick, basic scoring,
+800 ms gravity-tick lock, 200 ms held-replacement fall and a legal hidden
+lock continuing. This does not establish delivered browser gameplay.
+Forcing held O/five next I changes neither diagnostic draw calls nor HUD;
+those previews are absent even independently of the module-format failure.
+
+MiMo's required real keys and R pass state assertions, blocked spawn and
+terminal guards. After 800 ms normal time, real Down and the next 1 ms
+unchanged RAF produce **17 rows/17 points**. All 28 states/48 ordered
+candidate sequences, normal/full/mini/PC outcomes, cap/ledge/hidden/partial
+and clock fixtures repeat in served modules. Main refresh checks agree
+at 60/144 Hz: L2/1480.001 ms 1/1, L10/600 ms 9/9, L15/100.001 ms 6/6;
+held replacement gets a fresh 1000 ms phase. Seven actual ghost drawings
+match independent obstructed landings. O hold/five I next paint 24 complete
+square cells inside the backing. With combo=1/B2B=true, text is issued at
+COMBO y=615, x1 y=630, B2B y=660, x1.5 y=675 in a **620 px** backing:
+advanced values disappear at both widths, independently of phone clipping.
+
+No unexpected console errors or required-asset failures; medium's one
+startup exception is the expected finding. Harmless favicon 404s excluded.
+The requested prior-audit Playwright-library workflow is used; T3 preview
+status/open was checked and its own incognito tab closed. No physical
+touch/HiDPI, native OS repeat or other-browser certification. All copies,
+evidence folders, owned server groups and browsers were cleaned.
+
 ## Claude Opus 5.5 efforts — 2026-10-26
 
 Independent disposable-copy builds and **unmodified `npm start` with PORT**,

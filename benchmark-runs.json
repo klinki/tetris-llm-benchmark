@@ -2126,6 +2126,7 @@
       "expected_cwd_basename": "tetris",
       "reasoning_variant": "medium",
       "web": "open",
+      "known_browser_failure": "TypeScript emits CommonJS, so the browser stops with `exports is not defined` before the game initializes.",
       "cutoff": {
         "through_user_message": 1,
         "exclude_inter_message_wait": true

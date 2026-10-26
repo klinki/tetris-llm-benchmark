@@ -1917,6 +1917,163 @@
         }
       ],
       "summary": "Canonical core and stronger deterministic suite; missing PC, contact/reset timing and a clipped phone playfield"
+    },
+    {
+      "run_id": "beam-free-low",
+      "audited": "2026-10-26",
+      "scores": {
+        "correctness": 0,
+        "tests": 0,
+        "code": 7,
+        "simplicity": 9,
+        "browser_ux": 6.5
+      },
+      "bugs": [
+        {
+          "severity": "major",
+          "title": "Rotations and kicks are not SRS",
+          "detail": "After one fixed origin translation per piece, 13 of 28 states fail: I1/I2/I3, J1/J2, L1/L2, S1/S2, T1/T2, Z1/Z2. Cropped rectangular rotation changes pivots; floor T at (3,18) rejects CW instead of reaching r1,(2,17). No wall/floor kick sequence exists."
+        },
+        {
+          "severity": "major",
+          "title": "Hold is absent",
+          "detail": "Real C leaves the complete active pose unchanged. There is no hold state, action or preview. The absence of the hold display is included in this single required-feature deduction."
+        },
+        {
+          "severity": "major",
+          "title": "Ghost is absent",
+          "detail": "With empty stack and T at (3,0), the unchanged renderer paints exactly four active block fills and no translucent or outline projection; no alternative DOM ghost exists."
+        },
+        {
+          "severity": "major",
+          "title": "Next preview is absent",
+          "detail": "The internal bag never appears in the UI: the page and renderer contain only the board and score/level/lines, with no upcoming-piece presentation. This is distinct from absent hold and ghost mechanics."
+        },
+        {
+          "severity": "major",
+          "title": "Drop points and advanced scoring are absent",
+          "detail": "O soft/hard drops score zero despite movement/four welded cells. A legal final-rotation full T-spin single scores 100 instead of 800; Tetris/no-clear/Tetris totals 1600 instead of 2000; second level-two combo single adds 200 instead of 300; single PC scores 100 instead of 900. Related scoring omissions are grouped once."
+        },
+        {
+          "severity": "major",
+          "title": "Gravity uses 1000 divided by level",
+          "detail": "Actual emitted update first-row boundaries at levels 1/2/5/10 are 1001/501/201/101 ms, rather than the Guideline curve 1000/793/356/65 at integer resolution. The substantial curve error is one major; no separate one-ms threshold deduction."
+        },
+        {
+          "severity": "major",
+          "title": "R does not restart the stopped animation loop",
+          "detail": "Actual blocked incoming-O spawn ends the game; the final RAF returns without scheduling another callback. Real R clears state/spawns but schedules zero callbacks. Driving the queue to timestamp 5000 leaves the active piece at y=0. Engine scheduling and Chromium agree."
+        },
+        {
+          "severity": "minor",
+          "title": "Locking follows failed gravity ticks",
+          "detail": "A floor O remains unlocked at 500 ms, moves right, then welds four cells at update(1001). There is no separate 500 ms grounded delay or capped manipulation reset policy; these share one lock-policy finding."
+        },
+        {
+          "severity": "minor",
+          "title": "Left Ctrl does not rotate",
+          "detail": "Up/X/Z change an open T pose, while real ControlLeft leaves it unchanged. The key handler has no Control branch. This control omission is separate from physical rotation geometry."
+        },
+        {
+          "severity": "minor",
+          "title": "Movement remains active after game over",
+          "detail": "After a real blocked incoming-O spawn sets gameOverFlag, Right still moves the blocked active O one column. The real handler lacks a terminal guard except for R; engine and Chromium reproduce it."
+        },
+        {
+          "severity": "minor",
+          "title": "Phone layout clips playfield and stats",
+          "detail": "At 390x844 document width is 399; bordered canvas 324x644 begins at x=-8.796875, with field x=-6.796875 and stats past the right edge. Desktop field is visible; this is one responsive-layout deduction."
+        }
+      ],
+      "summary": "Basic falling blocks; missing hold/ghost/next/SRS, incomplete scoring, wrong gravity and broken restart"
+    },
+    {
+      "run_id": "beam-free-medium",
+      "audited": "2026-10-26",
+      "scores": {
+        "correctness": 0,
+        "tests": 3.5,
+        "code": 8,
+        "simplicity": 8.5,
+        "browser_ux": 6.5
+      },
+      "bugs": [
+        {
+          "severity": "critical",
+          "title": "CommonJS output cannot start in the delivered page",
+          "detail": "TypeScript emits exports/require but index.html uses a plain script. Chromium throws exactly exports is not defined at both sizes, before initialization: empty HUD, default 300x150 canvas, zero RAF callbacks and inert required keys. Correctness is capped at 4; diagnostic engine evaluation is not a delivery pass."
+        },
+        {
+          "severity": "major",
+          "title": "Six states and generic kicks differ from SRS",
+          "detail": "The 28-state oracle fails I2/I3/S2/S3/Z2/Z3 because I/S/Z store two states. Floor T r0,(3,18) CW reaches r1,(3,17) rather than (2,17); one generic nine-offset list replaces indexed SRS kicks. Reproduced headlessly and in separate unchanged-body Chromium diagnostics."
+        },
+        {
+          "severity": "major",
+          "title": "Advanced scoring is absent",
+          "detail": "Diagnostic actual final-rotation full single gives 100 instead of 800; Tetris/no-clear/Tetris 1600 instead of 2000; second logical-level-two combo single 200 instead of 300; single PC 100 instead of 900. Normal/drop points pass; related scoring omissions are one grouped major."
+        },
+        {
+          "severity": "major",
+          "title": "Gravity uses an NES-style table",
+          "detail": "Logical levels 1/2/5/10 (internal 0/1/4/9) use 800/717/467/100 ms rather than the established Guideline curve. This is a diagnostic source finding; no delivered browser gameplay is claimed."
+        },
+        {
+          "severity": "major",
+          "title": "Hold and next are never displayed",
+          "detail": "Engine hold/retrieval and five queued entries exist, but the unchanged diagnostic renderer ignores both. Forcing held O and five next I leaves every draw call and HUD text identical. One missing supporting-state presentation deduction covers both previews, independently of startup."
+        },
+        {
+          "severity": "minor",
+          "title": "Lock delay follows gravity failure",
+          "detail": "Unchanged emitted tick with floor O leaves zero welded cells at 500 ms; move right, tick(800) welds four. Lock fields are unused and there is no elapsed grounded delay/reset cap. Node and Chromium diagnostics agree."
+        },
+        {
+          "severity": "minor",
+          "title": "Hold inherits outgoing gravity phase",
+          "detail": "O in the air receives tick(600), actual hold, then tick(800). The replacement has fallen after only 200 ms rather than a fresh native 800 ms interval. The emitted main accumulator is not reset by hold."
+        },
+        {
+          "severity": "minor",
+          "title": "A legal wholly hidden lock continues play",
+          "detail": "Stack (4,2),(2,1),(8,2),(5,3),(0,0),(3,3), real T spawn, CWx4/Left/CWx4 reaches r0,(0,-2), wholly hidden and grounded. Incoming I is independently open. Zero-travel hard drop discards hidden cells, leaves six stack cells and gameOver=false; no active pose/spin flag is injected."
+        }
+      ],
+      "summary": "CommonJS prevents browser startup; diagnostic SRS, scoring, gravity, lock clocks and supporting UI fail"
+    },
+    {
+      "run_id": "mimo-v2.6-flash-default",
+      "audited": "2026-10-26",
+      "scores": {
+        "correctness": 7,
+        "tests": 7.5,
+        "code": 9,
+        "simplicity": 8.5,
+        "browser_ux": 8.5
+      },
+      "bugs": [
+        {
+          "severity": "major",
+          "title": "Zero-line spins, mini and perfect-clear points are wrong",
+          "detail": "Actual final CW into grounded full/mini pockets yields zero-line scores 0/0 instead of 400/100 and single scores 800/100 instead of 800/200, through hard and timed lock. Single PC gives 200 instead of 900; Tetris/no-clear/Tetris-PC total is 2800 instead of 5200. Full double, ordinary B2B/combo and pre-clear multipliers pass. Related scoring errors are grouped once."
+        },
+        {
+          "severity": "minor",
+          "title": "Entering soft drop consumes old normal time",
+          "detail": "After 800 ms normal time in <=16 ms parts, real Down plus 1 ms unchanged RAF produces 17 rows and 17 points. One row is the immediate Down step; sixteen consume the stale accumulator at the new 50 ms interval. Engine and both Chromium sizes agree."
+        },
+        {
+          "severity": "minor",
+          "title": "Fixed phone canvas clips the playfield",
+          "detail": "At 390x844 canvas is 480x620 at x=-45 and document width 435. The 300x600 playfield starts at x=-35, losing 35 px on the left; hold/next boxes x=275..395 also extend beyond the viewport. Desktop field fits."
+        },
+        {
+          "severity": "minor",
+          "title": "Combo and B2B values lie below the canvas backing",
+          "detail": "With combo=1 and backToBack=true, unchanged renderer issues COMBO at y=615, x1 at 630, B2B at 660 and x1.5 at 675 in a 620 px backing. Values/B2B disappear at desktop and phone, independently of horizontal responsive layout; page scrolling cannot restore discarded pixels."
+        }
+      ],
+      "summary": "Canonical SRS and broad smoke coverage; incomplete spin/PC scoring, soft-drop jump and clipped phone/advanced stats"
     }
   ]
 }

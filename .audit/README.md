@@ -2,6 +2,44 @@
 
 This directory contains the reproducible, repository-safe parts of the audit behind [`RANKING.md`](../RANKING.md). Generated builds, copied `node_modules` trees, temporary web servers, browser profiles, and timestamped Playwright artifacts are intentionally excluded.
 
+## Beam efforts and MiMo-V2.6-Flash — October 26
+
+The [Beam effort review](beam-efforts-review.md) scores `beam-free-low`
+and `beam-free-medium`; the [MiMo review](mimo-v26-flash-review.md) scores
+the first `mimo-v2.6-flash-default`. Both retain the rubric/calibration,
+five criteria, weighted arithmetic, exact fixtures, own-suite coverage and
+supplied no-outside-access facts. Old `beam` stays **5.60**; all 62 earlier
+entries are unchanged. No implementation transcript was read.
+
+```sh
+python3 .audit/run-beam-mimo-audit.py --offline
+```
+
+The [runner](run-beam-mimo-audit.py) performs locked installs, explicit
+builds, unchanged own suites, [engine assertions](beam-mimo-audit.mjs)
+and [desktop/390×844 Chromium assertions](beam-mimo-browser.cjs) in random
+disposable copies. All build/test; low only prints `ok` with zero assertions,
+medium runs four assertions, MiMo reports 76. Medium's CommonJS entry fails
+with `exports is not defined`; headless/browser engine diagnostics are
+explicitly separate from delivery. Low and MiMo start; low R leaves RAF
+stopped. Passing asserts exact defects as well as conformance.
+
+Coverage includes canonical states/kicks, bags, hold, independent obstructed
+ghosts/drop points/cells, normal/spin/B2B/combo/PC scoring, gravity/levels,
+lock/reset/cap/ledge, replacement clocks, public hidden locks, real keys/R
+and exact canvas/phone clipping. MiMo passes all 28 states/48 actual ordered
+transitions and 100 actual bags; its real RAF reproduces the 17-row soft jump.
+Low's 13 and medium's six noncanonical states are pinned. Browser evidence
+and limitations are in the records and [browser results](browser-results.md).
+
+Omit `--offline` for uncached dependencies; `--effort low|medium|mimo`
+selects one run; `--engine-only` skips browsers. Each declared **npm start**
+workflow is used; only copied hard-coded port literals change for Beam,
+while MiMo honors PORT unchanged. Only free **41000–49999** ports are used.
+Installed Playwright/Chromium are reused without downloads. Logs/screenshots
+stay inside the disposable root and are removed with copies and owned
+servers/browsers on success/failure/interruption. No retained-copy option.
+
 ## Claude Opus 5.5 efforts — October 26
 
 The [Opus effort review](opus55-efforts-review.md) independently audits
