@@ -1,0 +1,26 @@
+{
+  "run-a": {
+    "correctness": 9.0, "tests": 8.0, "code": 8.5, "simplicity": 9.0, "browser_ux": 9.5, "weighted": 8.75,
+    "findings": [
+      {"severity": "minor", "title": "T-spin credited after the T moved down (hard-drop travel or gravity) since its last rotation"},
+      {"severity": "minor", "title": "Lock timer and reset allowance not restored on reaching a new lowest row"}
+    ]
+  },
+  "run-b": {
+    "correctness": 9.0, "tests": 8.0, "code": 9.0, "simplicity": 9.0, "browser_ux": 7.5, "weighted": 8.65,
+    "findings": [
+      {"severity": "minor", "title": "No perfect-clear bonus (single PC scores 100, expected 900)"},
+      {"severity": "minor", "title": "Phone layout overflows to 684 px and cuts off the playfield and next queue at 390x844"}
+    ]
+  },
+  "run-c": {
+    "correctness": 7.5, "tests": 6.5, "code": 7.5, "simplicity": 6.5, "browser_ux": 7.5, "weighted": 7.20,
+    "findings": [
+      {"severity": "minor", "title": "No perfect-clear bonus (single PC scores 100, expected 900)"},
+      {"severity": "minor", "title": "No hidden buffer: spawn one row low (premature top-out) and cells locked above the field are discarded"},
+      {"severity": "minor", "title": "10 ms gravity floor makes levels 15+ slower than Guideline (level 20 is 1 row/16 ms, not 20G)"},
+      {"severity": "minor", "title": "OS key auto-repeat not filtered: holding Space hard-drops successive pieces, held rotation keys keep rotating"},
+      {"severity": "minor", "title": "Phone layout clips side panels: hold/score at negative x (unreachable), next off-screen at 390x844"}
+    ]
+  }
+}
