@@ -1,5 +1,51 @@
 # Browser audit results
 
+## Claude Opus 5.5 medium isolated rerun — 2026-10-27
+
+[Review/scores](opus55-medium-rerun-review.md), [runner](run-opus55-medium-rerun-audit.py),
+[engine probes](opus55-medium-rerun-audit.mjs), [browser assertions](opus55-medium-rerun-browser.cjs).
+Fresh disposable build, own unmodified **npm start/server** with PORT on
+free41000 (permitted41000–49999), **Chromium156.0.8078.4 / Playwright1.64.0**.
+Both **1280×800 and390×844** CSS viewports use the prior desktop user agent.
+
+| View | Document width | Board | Hold | Next |
+|---|---:|---|---|---|
+| Desktop | 1280 | 300×600,x490 | 100×60,x352 | 100×300,x828 |
+| Phone | 503 | 300×600,x45 | 100×60,x−93 | 100×300,x383 |
+
+The board fits both widths; phone hold/stats is mostly off the left and
+next extends beyond390. This is one supporting-layout minor. Complete24
+O-hold/five-I-next cells paint inside their backings; no separate preview
+omission. All seven obstructed ghost drawings match independent geometry.
+Horizontal positions/widths are exact assertions; font-sensitive vertical
+positions (board y84/y98) are recorded only. Both screenshots were visually
+inspected inside the disposable root and deleted.
+
+Every engine probe repeats against the served modules, including all28
+states/48 ordered kicks/100 bags. Real **Left/Right/Up/X/Z/Left Ctrl/Down/
+Space/C/R** work. Real Space empties the PC-single board with score100
+instead of900. After800 normal ms, real held Down plus1 ms unchanged RAF
+produces16 rows/16 points. Both are calibrated correctness minors.
+
+Unchanged frame/input/render bodies with appended accessors reproduce:
+grounded499/500, full fifteenth delay (499 more ms unlocked; sixteenth
+move+1 ms locks), exhausted-ledged contact6000/lock6500, fresh held999/1000
+phase, and60/144 Hz agreement (L2 over1480.001 ms1/1, L10 over600 ms9/9,
+L15 over100 ms14/14). The990+16+483+1+15+1 landing fixture remains unlocked
+at1489/1490/1505 and locks1506, ordinary frame observation rather than an
+early contact charge. The other Opus efforts' clock/cap findings do not recur.
+
+Real-key legal whole-hidden and partial paths match engine results;
+incoming I is independently open. Actual blocked incoming T ends play,
+terminal keys are inert, real R resets board/score/lines/level/hold/availability,
+and overlay none→flex→none/P toggles pass. No application exception,
+unexpected console error or failed required asset; favicon404 excluded.
+T3 preview status/open was checked and its owned incognito tab closed;
+the requested prior Playwright-library workflow was used. No physical
+touch/HiDPI, native repeat or cross-browser certification. All owned servers,
+Chromium sessions and temporary copies/evidence were removed, including
+initial diagnostic failures. Original medium stays9.05 and no old score changes.
+
 ## GPT-6.1 Terra — six efforts, 2026-10-26
 
 [Review and scores](gpt61-terra-review.md), [runner](run-gpt61-terra-audit.py),

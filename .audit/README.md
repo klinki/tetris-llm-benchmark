@@ -2,6 +2,42 @@
 
 This directory contains the reproducible, repository-safe parts of the audit behind [`RANKING.md`](../RANKING.md). Generated builds, copied `node_modules` trees, temporary web servers, browser profiles, and timestamped Playwright artifacts are intentionally excluded.
 
+## Claude Opus 5.5 medium isolated rerun — October 27
+
+The [review](opus55-medium-rerun-review.md) independently audits
+`claude-opus-5-5-medium` with the existing rubric and original/low/high/xhigh
+Opus calibration. Scores are **8.5/7.5/9/8.5/8.5 = 8.40**, three minors:
+missing PC bonuses, a sixteen-row soft-entry jump and clipped phone support.
+It records every delivered file/own-test review, exact fixtures, coverage,
+browser evidence, limits and supplied isolation facts. All 71 historical
+entries are unchanged; **Claude Opus 5.5 (medium, original)** stays **9.05**.
+No benchmark transcript or T3 thread-reading tool was used.
+
+```sh
+python3 .audit/run-opus55-medium-rerun-audit.py --offline
+```
+
+The [runner](run-opus55-medium-rerun-audit.py) performs locked install,
+explicit build, unchanged own tests (**13/13**), [engine assertions](opus55-medium-rerun-audit.mjs)
+and [1280×800/390×844 Chromium checks](opus55-medium-rerun-browser.cjs) in
+one random disposable root. Omit `--offline` if packages are uncached;
+`--engine-only` explicitly skips browsers; `--review` waits for local
+evidence inspection, then deletes it. No retained-copy/artifact option.
+
+Coverage includes28 states/48 ordered kicks, concrete wall/floor outcomes,
+100 actual bags, hold/retrieval/orientation, seven independent obstructed
+ghosts/drop points/cells, precise delay/reset/cap/landing/ordinary and
+exhausted ledges, full/mini/B2B/combo/PC scoring, gravity/refresh/soft entry,
+legal hidden/partial locks, terminal/reset/pause, real required keys/R,
+complete preview painting and exact phone bounds. All engine findings repeat
+against served Chromium modules; real Space/Down/RAF reproduce PC/soft entry.
+
+Own **unmodified npm start/server** honors PORT; only free41000–49999 ports
+are used. Installed Playwright/Chromium is reused without download. Copies,
+logs/screenshots and owned process/browser groups are cleaned on success,
+failure and handled interruption, including initial exploratory failures.
+No run implementation, scripts/tests, registry/pricing or earlier score changed.
+
 ## GPT-6.1 Terra — six efforts, October 26
 
 The [review](gpt61-terra-review.md) independently scores the first

@@ -2253,6 +2253,35 @@
         }
       ],
       "summary": "Canonical engine passes audited rules; narrower own suite, responsive UI and clicked Pause capturing Space"
+    },
+    {
+      "run_id": "claude-opus-5-5-medium",
+      "audited": "2026-10-27",
+      "scores": {
+        "correctness": 8.5,
+        "tests": 7.5,
+        "code": 9.0,
+        "simplicity": 8.5,
+        "browser_ux": 8.5
+      },
+      "bugs": [
+        {
+          "severity": "minor",
+          "title": "The benchmark perfect-clear bonus is absent",
+          "detail": "Zero-travel horizontal I r0,(3,18) fills row19 except x3..6 and empties the board, but scores100 instead of900. Tetris/no-clear/Tetris-PC totals2000 instead of5200; single PC after a difficult clear totals900 instead of1700. Full/mini/B2B/combo/drop and pre-clear-level points pass. One isolated PC omission, reproduced in Node and served Chromium; real Space repeats the single."
+        },
+        {
+          "severity": "minor",
+          "title": "Starting soft drop consumes earlier normal-gravity time",
+          "detail": "O r0,(3,0), fifty update(16) calls accumulate800 normal ms. setSoftDrop(true), then update(1), moves16 rows/16 points because gravityAcc is reused at the50 ms interval. Real held ArrowDown plus1 ms through the unchanged main frame reproduces16/16 at both viewport sizes."
+        },
+        {
+          "severity": "minor",
+          "title": "The fixed phone layout clips hold, stats and next",
+          "detail": "At390x844, document width503; board300x600 at x45 fits, but hold100x60 at x-93 and next100x300 at x383 clip supporting state. Desktop board x490, hold x352 and next x828 fit. Complete24 preview cells paint inside backings; one horizontal layout defect."
+        }
+      ],
+      "summary": "Canonical SRS and sound audited lock/spin rules; missing PC bonuses, a soft-drop jump and clipped phone support"
     }
   ]
 }

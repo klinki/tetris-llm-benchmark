@@ -243,6 +243,7 @@
     {
       "id": "opus-5.5",
       "label": "Claude Opus 5.5 (medium, original)",
+      "comparison_note": "Kept as a reference. This original medium run worked inside the benchmark repository and read its README, including the results table with other runs' scores and main defects, before implementing; it may have realized it was being rated, so it is not an independent comparison. The isolated re-run, Claude Opus 5.5 (medium), is the comparable medium result.",
       "order": 110,
       "project_dir": "opus-5.5",
       "harness": "t3_claude",

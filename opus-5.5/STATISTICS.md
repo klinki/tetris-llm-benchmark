@@ -20,6 +20,8 @@
 
 Timing starts at the benchmark user message and ends at the selected tested-agent completion.
 
+> Kept as a reference. This original medium run worked inside the benchmark repository and read its README, including the results table with other runs' scores and main defects, before implementing; it may have realized it was being rated, so it is not an independent comparison. The isolated re-run, Claude Opus 5.5 (medium), is the comparable medium result.
+
 ## Tested-agent usage
 
 This is the primary benchmark figure.
