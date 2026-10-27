@@ -439,6 +439,21 @@ def run_status(t3_home: Path, record: dict[str, Any]) -> tuple[str, str]:
     return "completed", f"thread {thread['thread_id']}"
 
 
+def items_started_after(t3_home: Path, thread_id: str, after_ms: float) -> list[dict[str, Any]]:
+    """Timeline items of a thread that started at or after a time, with their type."""
+    with closing(connect(t3_home)) as connection:
+        rows = connection.execute(
+            "SELECT type, payload_json FROM orchestration_v2_projection_turn_items WHERE thread_id=? ORDER BY ordinal",
+            (thread_id,),
+        ).fetchall()
+    found = []
+    for row in rows:
+        started = json.loads(row["payload_json"]).get("startedAt")
+        if started and dt.datetime.fromisoformat(started.replace("Z", "+00:00")).timestamp() * 1000 >= after_ms:
+            found.append({"type": row["type"], "started_at": started})
+    return found
+
+
 def provider_logs(t3_home: Path, thread_id: str) -> list[Path]:
     """A thread's provider event logs. T3 writes the `:` of IDs such as `mcp:<uuid>` as `-` in the file name."""
     name = thread_id.replace(":", "-")

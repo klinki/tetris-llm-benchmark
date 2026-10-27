@@ -1,0 +1,15 @@
+{
+  "name": "tetrisjs",
+  "version": "1.0.0",
+  "description": "Browser based implementation of the famous Tetris game, following the Tetris Guideline",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "build": "tsc",
+    "start": "node scripts/serve.mjs",
+    "test": "npm run build && node --test test/smoke.test.mjs"
+  },
+  "devDependencies": {
+    "typescript": "^5.6.0"
+  }
+}

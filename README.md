@@ -92,6 +92,7 @@ The table is generated from [`benchmark-runs.json`](benchmark-runs.json),
 | 72 | [Beam (low)](beam-free-low/STATISTICS.md) | `beam-free` | `low` | T3 Code / OpenCode | **2.95** | 82,729 | — | 16.402s | Basic falling blocks; missing hold/ghost/next/SRS, incomplete scoring, wrong gravity and broken restart |
 | — | [Qwen3.8 Flash (low)](qwen3.8-flash-low/STATISTICS.md) | `qwen3.8-flash` | `low` | T3 Code / OpenCode | Pending | 2,797,077 | $0.44 | 18m 29.858s | Not ranked yet |
 | — | [Qwen3.8 Flash (xhigh)](qwen3.8-flash-xhigh/STATISTICS.md) | `qwen3.8-flash` | `xhigh` | T3 Code / OpenCode | Pending | 5,100,876 | $0.81 | 31m 16.524s | Not ranked yet |
+| — | [Qwen3.8 Flash (medium)](qwen3.8-flash-medium/STATISTICS.md) | `qwen3.8-flash` | `medium` | T3 Code / OpenCode | Pending | 1,274,812 | $0.21 | 16m 0.208s | Not ranked yet |
 
 **† Claude Opus 5.5 (medium, original):** Kept as a reference. This original medium run worked inside the benchmark repository and read its README, including the results table with other runs' scores and main defects, before implementing; it may have realized it was being rated, so it is not an independent comparison. The isolated re-run, Claude Opus 5.5 (medium), is the comparable medium result.
 
@@ -175,7 +176,12 @@ installed with `npm install` instead of `npm ci`. A run whose own build fails is
 declared `known_build_failure` (`import --build-failure "<why>"`): `npm test`
 must keep failing, and its page has no playable game. A run that builds but
 whose own tests fail is declared `known_test_failure` (`--test-failure`): the
-tests must keep failing, and the game is still published. A run whose own server
+tests must keep failing, and the game is still published. A run whose turn the
+harness interrupted because the agent blocked on one tool call (Qwen3.8 Flash
+medium ran its server in the foreground) is declared `interrupted`
+(`import --interrupted-at <time the call started> --interrupted-reason "<why>"`):
+time ends when that call started, nothing else may start after it, and the
+harness's partial usage counts every model call made before the stop. A run whose own server
 publishes only its build folder is declared with `web_root` (e.g. `dist`), and
 the site serves that folder as the game; `static_aliases` are now applied
 before the site looks for `index.html`, so a server that maps `/` to

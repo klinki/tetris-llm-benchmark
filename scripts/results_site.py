@@ -297,6 +297,12 @@ def run_page(run: dict[str, Any], results: dict[str, Any], repo: str | None, gam
             "<code>package-lock.json</code>, so its dependencies were installed with <code>npm install</code> "
             "at build time rather than from pinned versions.</div>"
         )
+    if run.get("interrupted"):
+        notes.append(
+            '<div class="callout"><strong>Interrupted by the harness.</strong> '
+            f'{esc(run["interrupted"]["reason"])} Time is measured to '
+            f'<code>{esc(run["interrupted"]["implementation_end"])}</code>, when the blocking call started.</div>'
+        )
     if run.get("comparison_note"):
         notes.append(f'<div class="callout"><strong>Comparison note.</strong> {esc(run["comparison_note"])}</div>')
 

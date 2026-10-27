@@ -479,6 +479,37 @@ class T3CollectorTests(unittest.TestCase):
         with self.assertRaisesRegex(benchmark.BenchmarkError, "Unsupported T3 usage schema"):
             benchmark.collect_t3_opencode(self.run, self.home)
 
+    def test_an_interrupted_turn_is_timed_to_its_blocking_call(self) -> None:
+        self.turn["status"] = "interrupted"
+        self.turn["turnTokenUsage"]["usageStatus"] = "partial"
+        self.save_turn()
+        items = [
+            ("reasoning", "2026-01-01T00:00:03.000Z"),
+            ("command_execution", "2026-01-01T00:00:03.950Z"),
+            ("run_interrupt_result", "2026-01-01T00:01:00.000Z"),
+        ]
+        with closing(sqlite3.connect(self.database)) as connection, connection:
+            connection.execute("UPDATE orchestration_v2_projection_provider_turns SET status='interrupted', "
+                               "completed_at='2026-01-01T00:01:00.000Z'")
+            connection.execute("CREATE TABLE orchestration_v2_projection_turn_items "
+                               "(thread_id TEXT, type TEXT, payload_json TEXT, ordinal INTEGER)")
+            connection.executemany(
+                "INSERT INTO orchestration_v2_projection_turn_items VALUES ('app-thread', ?, ?, ?)",
+                [(kind, json.dumps({"startedAt": started}), index) for index, (kind, started) in enumerate(items)],
+            )
+        with self.assertRaisesRegex(benchmark.BenchmarkError, "no completed response"):
+            benchmark.collect_t3_opencode(self.run, self.home)
+        run = {**self.run, "interrupted": {"implementation_end": "2026-01-01T00:00:03.950Z", "reason": "Blocked."}}
+        result = benchmark.collect_t3_opencode(run, self.home)
+        self.assertEqual(result.active_elapsed_ms, 2950)
+        self.assertEqual(result.tested.total, 140)
+        self.assertIn("- Interrupted by the harness; time ends at `2026-01-01T00:00:03.950Z`: Blocked.",
+                      benchmark.render_statistics(result))
+        # Work after the cutoff would be cut off unmeasured, so a cutoff before it is refused.
+        early = {**run, "interrupted": {**run["interrupted"], "implementation_end": "2026-01-01T00:00:02.000Z"}}
+        with self.assertRaisesRegex(benchmark.BenchmarkError, "more than one blocked tool call"):
+            benchmark.collect_t3_opencode(early, self.home)
+
     def test_rejects_ambiguous_provider_turn(self) -> None:
         with closing(sqlite3.connect(self.database)) as connection, connection:
             connection.execute("""

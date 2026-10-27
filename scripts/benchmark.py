@@ -224,6 +224,15 @@ def load_manifest(root: Path) -> tuple[dict[str, Any], list[dict[str, Any]]]:
             raise BenchmarkError(f"external_actions for {run['id']} must be a description")
         if not isinstance(run.get("earlier_attempts", ""), str):
             raise BenchmarkError(f"earlier_attempts for {run['id']} must be a description")
+        interrupted = run.get("interrupted")
+        if interrupted is not None and not (
+            run["harness"].startswith("t3_") and not run.get("t3_subagents") and isinstance(interrupted, dict)
+            and isinstance(interrupted.get("reason"), str) and interrupted["reason"]
+            and isinstance(interrupted.get("implementation_end"), str) and parse_iso_ms(interrupted["implementation_end"])
+        ):
+            raise BenchmarkError(
+                f"interrupted for {run['id']} must give the implementation_end time and the reason (T3 runs only)"
+            )
         if not isinstance(run.get("known_browser_failure", ""), str):
             raise BenchmarkError(f"known_browser_failure for {run['id']} must be a description")
         ids.add(run["id"])
@@ -937,7 +946,7 @@ def collect_pi(run: dict[str, Any], pi_home: Path) -> RunResult:
     )
 
 
-def usage_from_t3(raw: dict[str, Any], has_subagents: bool = False) -> Usage:
+def usage_from_t3(raw: dict[str, Any], has_subagents: bool = False, interrupted: bool = False) -> Usage:
     required = {
         "inputTokens", "cachedInputTokens", "cacheCreationTokens", "outputTokens",
         "reasoningTokens", "usageStatus", "usageScope", "hasSubagents",
@@ -946,7 +955,9 @@ def usage_from_t3(raw: dict[str, Any], has_subagents: bool = False) -> Usage:
         raise BenchmarkError("Unsupported T3 usage schema: expected an object")
     if not required <= set(raw):
         raise BenchmarkError(f"Unsupported T3 usage schema: missing {sorted(required - set(raw))}")
-    if raw["usageStatus"] != "complete" or raw["usageScope"] != "main_agent" or raw["hasSubagents"] is not has_subagents:
+    # T3 marks an interrupted turn's usage partial: it is the total of every model call made before the stop.
+    statuses = {"complete", "partial"} if interrupted else {"complete"}
+    if raw["usageStatus"] not in statuses or raw["usageScope"] != "main_agent" or raw["hasSubagents"] is not has_subagents:
         raise BenchmarkError(
             "T3 usage must be complete main-agent usage "
             + ("of a run with the declared subagents" if has_subagents else "without subagents")
@@ -1134,8 +1145,10 @@ def collect_t3_opencode(run: dict[str, Any], t3_home: Path, codex_home: Path | N
         variants = [option.get("value") for option in selection.get("options", []) if option.get("id") == "variant"]
         if variants != [run["reasoning_variant"]]:
             raise BenchmarkError(f"T3 reasoning variant mismatch for {run['id']}: {variants}")
-    if record["status"] != "completed" or turn.get("status") != "completed" or not record["completed_at"]:
-        raise BenchmarkError(f"T3 turn has no completed response for {run['id']}")
+    interrupted = run.get("interrupted")
+    expected_status = "interrupted" if interrupted else "completed"
+    if record["status"] != expected_status or turn.get("status") != expected_status or not record["completed_at"]:
+        raise BenchmarkError(f"T3 turn has no {expected_status} response for {run['id']}")
     if run["overhead"].get("kind") != "unknown":
         raise BenchmarkError(f"T3 overhead must explicitly be unknown for {run['id']}")
     if run.get("expected_task_cwd"):
@@ -1144,10 +1157,25 @@ def collect_t3_opencode(run: dict[str, Any], t3_home: Path, codex_home: Path | N
             raise BenchmarkError(f"T3 delegated working-directory instruction mismatch for {run['id']}")
     start_ms = parse_iso_ms(users[0]["created_at"])
     end_ms = parse_iso_ms(record["completed_at"])
+    if interrupted:
+        # The harness stopped a turn the agent had left blocked on a tool call; time ends when that call started.
+        end_ms = parse_iso_ms(interrupted["implementation_end"])
+        if end_ms > parse_iso_ms(record["completed_at"]):
+            raise BenchmarkError(f"implementation_end for {run['id']} is after the turn ended")
+        later = t3_runs.items_started_after(t3_home, run["t3_thread_id"], end_ms)
+        if any(item["type"] not in {"command_execution", "run_interrupt_result", "checkpoint"} for item in later) or sum(
+            item["type"] == "command_execution" for item in later
+        ) > 1:
+            raise BenchmarkError(
+                f"{run['id']} did more than one blocked tool call after implementation_end: "
+                + ", ".join(item["type"] for item in later)
+            )
+        if any(message["role"] == "assistant" and parse_iso_ms(message["created_at"]) > end_ms for message in messages):
+            raise BenchmarkError(f"{run['id']} wrote an assistant message after implementation_end")
     if end_ms < start_ms:
         raise BenchmarkError(f"T3 response ends before the user message for {run['id']}")
     subagents = run.get("t3_subagents", [])
-    tested = usage_from_t3(raw_usage, bool(subagents))
+    tested = usage_from_t3(raw_usage, bool(subagents), bool(interrupted))
     reasoning = raw_usage["reasoningTokens"]
     raw_subagent_usage = []
     if subagents:
@@ -1285,6 +1313,11 @@ def render_statistics(result: RunResult) -> str:
             lines.append(f"- Actions outside the benchmark: {run['external_actions']}")
         if run.get("earlier_attempts"):
             lines.append(f"- Earlier attempts, not counted: {run['earlier_attempts']}")
+        if run.get("interrupted"):
+            lines.append(
+                f"- Interrupted by the harness; time ends at `{run['interrupted']['implementation_end']}`: "
+                f"{run['interrupted']['reason']}"
+            )
         for turn in run.get("t3_notification_turns", []):
             lines.append(
                 f"- Excluded turn {turn['ordinal']}: started by the harness notification "
@@ -1756,6 +1789,7 @@ def site_results(
             "model_responses": values["model_responses"],
             "overhead_verified": values["overhead"] is not None,
             "comparison_note": run.get("comparison_note"),
+            "interrupted": run.get("interrupted"),
             "known_browser_failure": run.get("known_browser_failure"),
             "known_build_failure": run.get("known_build_failure"),
             "known_test_failure": run.get("known_test_failure"),
@@ -1822,6 +1856,14 @@ def append_manifest_entry(root: Path, entry: dict[str, Any]) -> str:
     return original
 
 
+def interrupted_option(args: argparse.Namespace) -> dict[str, str] | None:
+    if bool(args.interrupted_at) != bool(args.interrupted_reason):
+        raise BenchmarkError("--interrupted-at and --interrupted-reason go together")
+    if not args.interrupted_at:
+        return None
+    return {"implementation_end": iso_ms(parse_iso_ms(args.interrupted_at)), "reason": args.interrupted_reason}
+
+
 def import_t3_run(
     root: Path,
     record: dict[str, Any],
@@ -1830,10 +1872,13 @@ def import_t3_run(
     allow_approvals: bool,
     build_failure: str | None = None,
     test_failure: str | None = None,
+    interrupted: dict[str, str] | None = None,
 ) -> dict[str, Any]:
     t3_home = homes[3]
     state, detail = t3_runs.run_status(t3_home, record)
-    if state != "completed":
+    if interrupted and not (state == "failed" and detail == "the provider turn ended as interrupted"):
+        raise BenchmarkError(f"--interrupted-at only applies to a turn the harness interrupted, not: {state} ({detail})")
+    if state != "completed" and not interrupted:
         raise BenchmarkError(f"{record['key']} is not finished: {state} ({detail})")
     identity = t3_runs.inspect_run(t3_home, record)
     pending_file = t3_runs.record_file(root, record)
@@ -1908,6 +1953,8 @@ def import_t3_run(
         entry["isolation"] = {"outside_access": findings}
     if not (Path(record.get("archived_workspace") or record["workspace"]) / "package-lock.json").exists():
         entry["missing_lockfile"] = True
+    if interrupted:
+        entry["interrupted"] = interrupted
     if build_failure:
         entry["known_build_failure"] = build_failure
     if test_failure:
@@ -2250,6 +2297,12 @@ def parse_args(argv: list[str]) -> argparse.Namespace:
         "--test-failure", metavar="DESCRIPTION",
         help="Import a run that builds but whose own tests fail, recording why; checks require that they still fail",
     )
+    import_parser.add_argument(
+        "--interrupted-at", metavar="TIME",
+        help="Import a turn the harness interrupted while the agent was blocked on one tool call; "
+        "TIME is when that call started (ISO 8601) and ends the measured time. Requires --interrupted-reason",
+    )
+    import_parser.add_argument("--interrupted-reason", metavar="DESCRIPTION", help="What blocked the agent")
     isolation_parser = subparsers.add_parser("isolation", help="Report T3 runs that reached outside their workspace")
     isolation_parser.add_argument("run_id", nargs="?")
     overlaps_parser = subparsers.add_parser(
@@ -2336,7 +2389,7 @@ def main(argv: list[str] | None = None) -> int:
     elif args.command == "import":
         entry = import_t3_run(
             root, t3_runs.find_pending(root, args.key), homes, args.allow_outside, args.allow_approvals,
-            args.build_failure, args.test_failure,
+            args.build_failure, args.test_failure, interrupted_option(args),
         )
         print(f"Imported {args.key} as {entry['id']} ({entry['label']}); it appears as Pending until it is scored.")
     elif args.command == "isolation":

@@ -2670,6 +2670,39 @@
           }
         ]
       }
+    },
+    {
+      "id": "qwen3.8-flash-medium",
+      "label": "Qwen3.8 Flash (medium)",
+      "order": 740,
+      "project_dir": "qwen3.8-flash-medium",
+      "harness": "t3_opencode",
+      "harness_label": "T3 Code / OpenCode",
+      "provider": "opencode-go",
+      "provider_label": "opencode-go",
+      "model": "qwen3.8-flash",
+      "session_id": "ses_e82c8cfebffealEFdOqIzvYEgm",
+      "t3_thread_id": "mcp:4c689fbd-604a-4ccf-a46c-0773ac77a067",
+      "expected_cwd": "/Users/david/tetris-bench/runs/f48719ca9beb/tetris",
+      "expected_cwd_basename": "tetris",
+      "reasoning_variant": "medium",
+      "web": "open",
+      "cutoff": {
+        "through_user_message": 1,
+        "exclude_inter_message_wait": true
+      },
+      "overhead": {
+        "kind": "unknown"
+      },
+      "spec": {
+        "sha256": "36e2097a78fe8b5646e6216338640831cff0a284cc823c4b1f658991c8d40294",
+        "commit": "c2cb0ac6e1ef77b0d01da04eb5af514e35d5ea0f",
+        "modified": false
+      },
+      "interrupted": {
+        "implementation_end": "2026-10-27T12:11:31.170Z",
+        "reason": "The agent finished the game and its 17 own tests passed, then ran its server in the foreground (node scripts/serve.mjs), which never returns. The harness stopped the blocked turn 60 minutes later. The model made no further calls, so its token usage is complete."
+      }
     }
   ]
 }
