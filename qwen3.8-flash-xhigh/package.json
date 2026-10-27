@@ -1,0 +1,16 @@
+{
+  "name": "tetris",
+  "version": "1.0.0",
+  "description": "Browser-based Tetris following the Tetris Guideline (SRS, 7-bag, ghost, hold, lock delay)",
+  "type": "module",
+  "scripts": {
+    "build": "tsc",
+    "start": "node server.js",
+    "test": "npm run build && node --test \"dist/tests/*.test.js\""
+  },
+  "devDependencies": {
+    "@types/node": "^26.6.5",
+    "typescript": "^5.6.3"
+  },
+  "private": true
+}

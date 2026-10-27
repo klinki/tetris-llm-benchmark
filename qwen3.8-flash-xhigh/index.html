@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Tetris</title>
+    <style>
+      :root {
+        color-scheme: dark;
+      }
+      body {
+        margin: 0;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 14px;
+        background: #05060b;
+        color: #aab3c7;
+        font-family: ui-sans-serif, system-ui, -apple-system, sans-serif;
+      }
+      h1 {
+        font-size: 18px;
+        font-weight: 600;
+        letter-spacing: 4px;
+        text-transform: uppercase;
+        margin: 0;
+        color: #e8ecf6;
+      }
+      canvas {
+        border-radius: 10px;
+        box-shadow: 0 12px 40px rgba(0, 0, 0, 0.55);
+      }
+      footer {
+        font-size: 12px;
+        line-height: 1.7;
+        text-align: center;
+      }
+      kbd {
+        background: #1a1e2c;
+        border: 1px solid #2a2f42;
+        border-bottom-width: 2px;
+        border-radius: 4px;
+        padding: 1px 5px;
+        font-family: ui-monospace, "SF Mono", Menlo, monospace;
+        font-size: 11px;
+        color: #d7dce9;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Tetris</h1>
+    <canvas id="board"></canvas>
+    <footer>
+      <kbd>←</kbd> <kbd>→</kbd> move &nbsp;·&nbsp; <kbd>↑</kbd>/<kbd>X</kbd> rotate CW
+      &nbsp;·&nbsp; <kbd>Z</kbd>/<kbd>Ctrl</kbd> rotate CCW &nbsp;·&nbsp; <kbd>↓</kbd> soft drop
+      &nbsp;·&nbsp; <kbd>Space</kbd> hard drop &nbsp;·&nbsp; <kbd>C</kbd> hold &nbsp;·&nbsp;
+      <kbd>R</kbd> restart
+    </footer>
+    <script type="module" src="dist/main.js"></script>
+  </body>
+</html>

@@ -91,6 +91,7 @@ The table is generated from [`benchmark-runs.json`](benchmark-runs.json),
 | 71 | [Beam (medium)](beam-free-medium/STATISTICS.md) | `beam-free` | `medium` | T3 Code / OpenCode | **3.80** | 419,090 | — | 38.039s | CommonJS prevents browser startup; diagnostic SRS, scoring, gravity, lock clocks and supporting UI fail |
 | 72 | [Beam (low)](beam-free-low/STATISTICS.md) | `beam-free` | `low` | T3 Code / OpenCode | **2.95** | 82,729 | — | 16.402s | Basic falling blocks; missing hold/ghost/next/SRS, incomplete scoring, wrong gravity and broken restart |
 | — | [Qwen3.8 Flash (low)](qwen3.8-flash-low/STATISTICS.md) | `qwen3.8-flash` | `low` | T3 Code / OpenCode | Pending | 2,797,077 | $0.44 | 18m 29.858s | Not ranked yet |
+| — | [Qwen3.8 Flash (xhigh)](qwen3.8-flash-xhigh/STATISTICS.md) | `qwen3.8-flash` | `xhigh` | T3 Code / OpenCode | Pending | 5,100,876 | $0.81 | 31m 16.524s | Not ranked yet |
 
 **† Claude Opus 5.5 (medium, original):** Kept as a reference. This original medium run worked inside the benchmark repository and read its README, including the results table with other runs' scores and main defects, before implementing; it may have realized it was being rated, so it is not an independent comparison. The isolated re-run, Claude Opus 5.5 (medium), is the comparable medium result.
 
