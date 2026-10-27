@@ -65,17 +65,49 @@ the blind Opus audit Terra > Opus > Gemini.
   Most disagreement comes from which defects each auditor finds, not from how
   it applies the fixed severities.
 
+### Adjudication of disputed findings
+
+Each finding reported by only one auditor was checked against the delivered
+source and against how the benchmark has already ruled on the same behaviour
+in other runs (`ranking.json`). No score was changed.
+
+| Run | Finding (reported by) | Verdict | Evidence |
+|---|---|---|---|
+| Terra max | T-spin still credited after the T travels down by hard drop or gravity after its rotation (Opus) | **Valid minor** (hard-drop travel); gravity part unruled | `hardDrop()` and gravity never clear `lastRotation`; only `move()` and `softDrop()` do. The benchmark already deducts "Manual soft drop preserves stale T-spin credit" as a minor (GPT-5.6 Luna xhigh, GPT-5.6 Sol xhigh, GPT-6 Luna max, GPT-6.1 Terra medium/xhigh); travelling down by hard drop is the same downward last action. No precedent covers gravity alone. |
+| Terra max | Stretched desktop next preview (Sol) | **Valid minor** | Sol's runner measures the 128×240 backing shown at 128×210; Opus did not examine it. |
+| Opus xhigh | Landing frames charge pre-contact time to lock delay (Sol) | **Valid minor** | Reproduced by Sol's runner; the same defect is deducted for GPT-5.6 Terra max. |
+| Opus xhigh | The fifteenth reset forces an immediate lock (Sol) | **Valid minor** | Reproduced by Sol's runner; deducted for Qwen3.8 Max low and Claude Opus 5.5 high. |
+| Gemini Argon | Cells locked above the field are discarded; pieces spawn one row low (Opus) | **Valid minor** (discarded cells); spawn row not a defect under current convention | `lockPiece()` writes only cells with `y >= 0` and continues play when any cell is visible, so blocks above the field vanish (deducted the same way for Beam medium). No earlier audit has deducted for spawning in the top visible rows. |
+| Gemini Argon | 10 ms gravity floor at levels 15+ (Opus) | **Valid minor** | `getGravityIntervalMs` returns `Math.max(10, …)`; its own Guideline formula gives about 7.1 ms at level 15 and 0.45 ms at level 20. Sol's Gemini probe checked only levels 1–2; wrong gravity curves are minors elsewhere (GLM-5.3-Flash). |
+| Gemini Argon | Held keys auto-repeat hard drop and rotation (Opus) | **Not a defect under current convention** | Native key repeat is noted as UX context in many audits (including Sol's Gemini audit) and has never been deducted. Repeated hard drop on a held Space is arguably different and should be ruled on for all runs at once, not for one. |
+
+**Correctness if every valid finding were applied** (each −0.5):
+
+| Run | Sol | Opus (blind) | Adjudicated | Weighted (Sol's other criteria) |
+|---|---:|---:|---:|---:|
+| GPT-6.1 Terra (max) | 9.0 | 9.0 | 8.5 | 8.85 → 8.65 |
+| Claude Opus 5.5 (xhigh) | 8.0 | 9.0 | 8.0 | 8.30 (unchanged) |
+| Gemini 4 Argon (high) | 9.0 | 7.5 | 8.0 | 8.45 → 8.05 |
+
+Both auditors missed real defects: Sol three (one on Terra, two on Gemini),
+the blind Opus audit three (one on Terra, two on Opus xhigh). Opus also
+reported two behaviours the benchmark has not treated as defects. So the main
+source of disagreement is recall, and a single audit tends to overstate
+correctness by roughly 0.5–1.0 on some runs.
+
+The scores in `ranking.json` are unchanged. Applying the missed findings only
+to the sampled runs would penalise them relative to runs that were audited
+once and never re-checked.
+
 ### Limits
 
 Three runs is a very small sample. The blind auditor had two calibration
 audits; Sol had the full ranking and every earlier audit. Disputed findings
-have not yet been adjudicated, so neither auditor's version is treated as
-correct here.
+are adjudicated above.
 
 ### Next
 
-1. Adjudicate the disputed findings by reproduction: Opus's three extra
-   Gemini findings and its Terra T-spin finding, and Sol's two Opus xhigh
-   timing findings that the blind audit missed.
+1. Decide whether adjudicated findings change official scores, and whether
+   repeated hard drop on a held key and the spawn row become rules for all runs.
 2. Extend to the full eight-run sample (adding Terra low, GPT-5.6 Sol high,
    GLM-5.3-Flash max, MiMo and Sonnet 5.5 medium) with the same blind setup.
