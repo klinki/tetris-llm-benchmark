@@ -202,10 +202,11 @@ def index_page(results: dict[str, Any]) -> str:
         + "</p>"
         + (f'<p class="muted small">{left_off.strip()}</p>' if left_off else "")
     )
-    unpriced = [run["label"] for run in runs if run["cost"] is None]
+    # Unpriced runs are only counted here; the charts that need a price leave them out entirely.
+    unpriced = sum(1 for run in runs if run["cost"] is None)
     left_out = (
-        f" {' and '.join(unpriced) if len(unpriced) < 3 else ', '.join(unpriced)} "
-        f"{'has' if len(unpriced) == 1 else 'have'} no public price and {'is' if len(unpriced) == 1 else 'are'} left out."
+        f" {unpriced} {'run' if unpriced == 1 else 'runs'} on free models with no public price "
+        f"{'is' if unpriced == 1 else 'are'} left out."
         if unpriced else ""
     )
     cost_subtitle = (
