@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Tetris</title>
+    <link rel="icon" href="data:," />
+    <style>
+      :root {
+        color-scheme: dark;
+      }
+      body {
+        margin: 0;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        background: #0b0b12;
+        color: #c9c9d6;
+        font-family: system-ui, -apple-system, sans-serif;
+      }
+      h1 {
+        margin: 0;
+        font-size: 22px;
+        letter-spacing: 6px;
+        text-transform: uppercase;
+        color: #e6e6f0;
+      }
+      canvas {
+        display: block;
+      }
+      .controls {
+        margin: 0;
+        font-size: 12.5px;
+        color: #7e7e96;
+      }
+      kbd {
+        color: #c9c9d6;
+        background: #1c1c2a;
+        border-radius: 4px;
+        padding: 1px 5px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Tetris</h1>
+    <canvas id="game"></canvas>
+    <p class="controls">
+      <kbd>&larr;</kbd><kbd>&rarr;</kbd> move &middot;
+      <kbd>&uarr;</kbd>/<kbd>X</kbd> rotate &middot;
+      <kbd>Z</kbd>/<kbd>Ctrl</kbd> rotate back &middot;
+      <kbd>&darr;</kbd> soft drop &middot;
+      <kbd>Space</kbd> hard drop &middot;
+      <kbd>C</kbd> hold &middot;
+      <kbd>R</kbd> restart
+    </p>
+    <script type="module" src="dist/main.js"></script>
+  </body>
+</html>

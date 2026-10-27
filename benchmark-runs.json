@@ -2703,6 +2703,36 @@
         "implementation_end": "2026-10-27T12:11:31.170Z",
         "reason": "The agent finished the game and its 17 own tests passed, then ran its server in the foreground (node scripts/serve.mjs), which never returns. The harness stopped the blocked turn 60 minutes later. The model made no further calls, so its token usage is complete."
       }
+    },
+    {
+      "id": "qwen3.8-max-xhigh",
+      "label": "Qwen3.8 Max (xhigh)",
+      "order": 750,
+      "project_dir": "qwen3.8-max-xhigh",
+      "harness": "t3_opencode",
+      "harness_label": "T3 Code / OpenCode",
+      "provider": "opencode-go",
+      "provider_label": "opencode-go",
+      "model": "qwen3.8-max",
+      "session_id": "ses_e8192fdc7ffeRR8EKAaAVRcDm0",
+      "t3_thread_id": "mcp:fc15e07a-f7d4-4653-99fc-fd58769a24a8",
+      "expected_cwd": "/Users/david/tetris-bench/runs/c92b117ecf28/tetris",
+      "expected_cwd_basename": "tetris",
+      "reasoning_variant": "xhigh",
+      "web": "open",
+      "earlier_attempts": "One earlier attempt (qwen3.8-max-xhigh-807ae75b92fc, 2026-10-26) failed 83 minutes in when OpenCode Go returned 'Insufficient account funds' while the agent was still writing tests. It was set aside and is not counted.",
+      "cutoff": {
+        "through_user_message": 1,
+        "exclude_inter_message_wait": true
+      },
+      "overhead": {
+        "kind": "unknown"
+      },
+      "spec": {
+        "sha256": "36e2097a78fe8b5646e6216338640831cff0a284cc823c4b1f658991c8d40294",
+        "commit": "d32c019bb41618ebb388eb2f22175da03a23a924",
+        "modified": false
+      }
     }
   ]
 }
