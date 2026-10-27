@@ -164,6 +164,17 @@
       "expected_cwd": "/Users/david/projects/own/tetris/beam",
       "expected_cwd_basename": "beam",
       "reasoning_variant": "xhigh",
+      "isolation": {
+        "outside_access": [
+          {
+            "time": "2026-10-16T23:01:08.260Z",
+            "tool": "command_execution",
+            "kind": "command",
+            "reference": "/Users/david/projects/own/tetris"
+          }
+        ],
+        "review": "Reviewed 2026-10-27 (pre-isolation run in a shared folder): one `ls` of the parent folder, chained after `which tsc`, which failed first, so the listing never ran. No other run's files or results were read."
+      },
       "cutoff": {"through_user_message": 1, "exclude_inter_message_wait": true},
       "overhead": {"kind": "unknown"}
     },
@@ -182,6 +193,10 @@
       "expected_cwd": "/Users/david/projects/own/tetris/cat-jam",
       "expected_cwd_basename": "cat-jam",
       "reasoning_variant": "default",
+      "isolation": {
+        "outside_access": [],
+        "review": "Reviewed 2026-10-27 (pre-isolation run in a shared folder): no tool call left the run's folder."
+      },
       "cutoff": {"through_user_message": 1, "exclude_inter_message_wait": true},
       "overhead": {"kind": "unknown"}
     },
@@ -200,6 +215,59 @@
       "expected_cwd": "/Users/david/projects/own/tetris/gemini-4",
       "expected_cwd_basename": "gemini-4",
       "reasoning_variant": "medium",
+      "isolation": {
+        "outside_access": [
+          {
+            "time": "2026-10-16T23:02:28.508Z",
+            "tool": "read",
+            "kind": "path",
+            "reference": "../README.md"
+          },
+          {
+            "time": "2026-10-16T23:02:28.614Z",
+            "tool": "read",
+            "kind": "path",
+            "reference": ".."
+          },
+          {
+            "time": "2026-10-16T23:02:33.666Z",
+            "tool": "file_search",
+            "kind": "path",
+            "reference": ".."
+          },
+          {
+            "time": "2026-10-16T23:02:39.882Z",
+            "tool": "read",
+            "kind": "path",
+            "reference": "../beam/README.md"
+          },
+          {
+            "time": "2026-10-16T23:02:40.114Z",
+            "tool": "read",
+            "kind": "path",
+            "reference": "../cat-jam/README.md"
+          },
+          {
+            "time": "2026-10-16T23:03:02.736Z",
+            "tool": "read",
+            "kind": "path",
+            "reference": "../deepseek-pi/README.md"
+          },
+          {
+            "time": "2026-10-16T23:03:02.855Z",
+            "tool": "read",
+            "kind": "path",
+            "reference": "../nemotron/README.md"
+          },
+          {
+            "time": "2026-10-16T23:03:07.376Z",
+            "tool": "read",
+            "kind": "path",
+            "reference": "../tetris-sol/README.md"
+          }
+        ],
+        "review": "Reviewed 2026-10-27 (pre-isolation run in a shared folder): its own folder had no README.md, so it searched the parent folder for README files and read five sibling READMEs. Four were the unchanged task spec (identical to TETRIS.md); deepseek-pi's was an older, shorter version of the same spec. It read no other run's code, tests or results."
+      },
       "cutoff": {"through_user_message": 1, "exclude_inter_message_wait": true},
       "overhead": {"kind": "unknown"}
     },
@@ -219,6 +287,10 @@
       "expected_cwd": "/Users/david/projects/own/tetris/nemotron",
       "expected_cwd_basename": "nemotron",
       "reasoning_variant": "thinking",
+      "isolation": {
+        "outside_access": [],
+        "review": "Reviewed 2026-10-27 (pre-isolation run in a shared folder): no tool call left the run's folder."
+      },
       "cutoff": {"through_user_message": 1, "exclude_inter_message_wait": true},
       "overhead": {"kind": "unknown"}
     },
@@ -237,6 +309,23 @@
       "expected_cwd": "/Users/david/projects/own/tetris/space-bunny",
       "expected_cwd_basename": "space-bunny",
       "reasoning_variant": "xhigh",
+      "isolation": {
+        "outside_access": [
+          {
+            "time": "2026-10-16T23:03:09.087Z",
+            "tool": "execute",
+            "kind": "command",
+            "reference": "/Users/david/projects/own/tetris"
+          },
+          {
+            "time": "2026-10-16T23:03:10.671Z",
+            "tool": "command_execution",
+            "kind": "command",
+            "reference": "/Users/david/projects/own/tetris/"
+          }
+        ],
+        "review": "Reviewed 2026-10-27 (pre-isolation run in a shared folder): listed the parent folder once (folder names only); a second listing attempt failed with an unknown-tool error. No other run's files or results were read."
+      },
       "cutoff": {"through_user_message": 1, "exclude_inter_message_wait": true},
       "overhead": {"kind": "unknown"}
     },
@@ -258,6 +347,47 @@
       "expected_cwd_basename": "opus5.5",
       "reasoning_variant": "medium",
       "fast_mode": false,
+      "isolation": {
+        "outside_access": [
+          {
+            "time": "2026-10-23T12:38:46.252Z",
+            "tool": "command_execution",
+            "kind": "command",
+            "reference": ".."
+          },
+          {
+            "time": "2026-10-23T12:38:51.779Z",
+            "tool": "command_execution",
+            "kind": "benchmark",
+            "reference": "cd /Users/david/projects/own/tetris-llm-benchmark && cat README.md; echo ----; cat TETRIS.md; echo ----; ls opus-5.5 luna-pi tests scripts; git status --short | head"
+          },
+          {
+            "time": "2026-10-23T12:38:51.779Z",
+            "tool": "command_execution",
+            "kind": "command",
+            "reference": "/Users/david/projects/own/tetris-llm-benchmark"
+          },
+          {
+            "time": "2026-10-23T12:38:56.270Z",
+            "tool": "command_execution",
+            "kind": "benchmark",
+            "reference": "cd /Users/david/projects/own/tetris-llm-benchmark && cat opus-5.5/README.md; echo ----; cat luna-pi/README.md | head -50; cat luna-pi/package.json"
+          },
+          {
+            "time": "2026-10-23T12:38:56.270Z",
+            "tool": "command_execution",
+            "kind": "command",
+            "reference": "/Users/david/projects/own/tetris-llm-benchmark"
+          },
+          {
+            "time": "2026-10-23T12:39:42.181Z",
+            "tool": "command_execution",
+            "kind": "command",
+            "reference": "../opus-5.5/README.md"
+          }
+        ],
+        "review": "Reviewed 2026-10-27 (pre-isolation run inside the repository): read the repository README with the results table and other runs' main defects, plus part of Luna PI's README and its package.json, before implementing. No other run's source was read. Kept as a reference; see comparison_note and the isolated re-run claude-opus-5-5-medium."
+      },
       "cutoff": {"through_user_message": 1, "exclude_inter_message_wait": true},
       "overhead": {"kind": "unknown"}
     },

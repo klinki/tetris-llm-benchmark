@@ -578,6 +578,9 @@ is fine; finding other runs' code or results is not. A run with findings is
 refused unless imported with `--allow-outside`, in which case the findings are
 stored with its registry entry. `python3 scripts/benchmark.py isolation
 [RUN_ID]` runs the same check on registered T3 runs.
+When findings have been reviewed by hand, `isolation.review` records the
+conclusion; the runs that predate isolated workspaces were reviewed this way in
+[`.audit/pre-isolation-runs-review.md`](.audit/pre-isolation-runs-review.md).
 
 Every run records its web mode as `"web"` in
 [`benchmark-runs.json`](benchmark-runs.json) and on its site page. All runs so

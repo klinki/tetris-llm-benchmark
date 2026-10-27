@@ -2,6 +2,16 @@
 
 This directory contains the reproducible, repository-safe parts of the audit behind [`RANKING.md`](../RANKING.md). Generated builds, copied `node_modules` trees, temporary web servers, browser profiles, and timestamped Playwright artifacts are intentionally excluded.
 
+## Pre-isolation runs isolation review — October 27
+
+The [review](pre-isolation-runs-review.md) scans the six site runs that
+predate isolated workspaces (Beam, Cat-jam, Gemini-4, Nemotron, Space-bunny
+and the original Opus 5.5 medium) with `benchmark.py isolation` and reads
+every flagged call in full. Only the original Opus medium run was exposed to
+other runs' results. Gemini-4 read sibling copies of the task prompt because
+its own folder had no README; Beam and Space-bunny only listed (or tried to
+list) the parent folder. No score changed.
+
 ## Claude Opus 5.5 medium isolated rerun — October 27
 
 The [review](opus55-medium-rerun-review.md) independently audits
