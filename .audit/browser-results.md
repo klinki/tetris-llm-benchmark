@@ -1,5 +1,58 @@
 # Browser audit results
 
+## Qwen3.8 Max xhigh — 2026-10-27
+
+[Review/scores](qwen38-max-xhigh-review.md), [runner](run-qwen38-max-xhigh-audit.py),
+[engine probes](qwen38-max-xhigh-audit.mjs), [browser assertions](qwen38-max-xhigh-browser.cjs).
+Fresh disposable build; original npm start command/server with only copied
+hard-coded8321 constant changed for PORT. Free41000 (allowed41000–49999).
+**Chromium156.0.8078.4 / Playwright1.64.0**, **1280×800 and390×844** CSS
+viewports with desktop user agent.
+
+| View | Document width | Canvas | Field | Hold | Next/stats |
+|---|---:|---|---|---|---|
+| Desktop |1280 |636×592,x322 |280×560,x500 |150px panel,x338 |150px panel,x792 |
+| Phone |513 |636×592,x−123 |280×560,x55 |150px panel,x−107 |150px panel,x347 |
+
+Full board fits; phone hold is largely off the left and next/stats extends
+to497. One supporting-layout minor. All16 O-hold/three-I-next cells paint
+inside the backing with square proportions; three previews meet the task.
+All seven actual obstructed ghost drawings match independent geometry.
+Horizontal geometry is asserted; canvas y109.5/124 is recorded only.
+Both screenshots were visually inspected inside the disposable root/deleted.
+
+Every engine assertion repeats against served modules, including28 states,
+48 ordered kicks,672 independently predicted rotations,100 actual bags,
+all20 gravity levels,full/mini/downward/B2B/combo/PC variants,lock/reset/
+new-lowest/ledge clocks and legal hidden/partial paths. Real Up/Space gives
+mini/full zero scores0/0 instead of100/400;Space PC single gives100 instead
+of900;Tetris/no-clear/Tetris real Space totals800/800/1600 instead of2000.
+These omissions are one grouped major. Wholly hidden T from real spawn
+(3,−2),stack(0,0),Left×3 locks at(0,−2) and continues with independently
+open I;one hidden-lock minor. Partial visible locks correctly continue.
+
+All required real keys **Left,Right,Up,X,Z,Left Ctrl,Down,Space,C,R** work.
+Blocked spawn,terminal guards/full reset pass. Seed42 top-out takes12 real
+Space presses;real R opens Z,T,L,I,J,O,S,a fresh bag. Held movement reaches
+walls,latest direction wins/reverts on release,repeated X rotates once and
+blur releases movement/soft drop. After800 normal ms,Down+1 ms RAF gives
+0 rows/points;grounded Down+1 ms welds0. Earlier Qwen soft jumps do not recur.
+
+499/500 delay,full fifteenth delay and natural contact pass. Fifteen real
+O rotations1 ms apart,490 wait,Right off support gives lower floor contact
+6000/lock6500 ms after the move. Served-module new-lowest assertions also
+pin lockTimer0 at row13 and an exhausted cap that cannot reset the lower
+contact's499/500 clock. Unchanged60/144 Hz callbacks agree:L2 over1480.001 ms
+1/1,L10 over600 ms9/9,L15 over100 ms14/14. No premature landing charge.
+No application exception,unexpected console error or failed required asset.
+
+App bodies stay unchanged; appended accessors,deterministic RAF/performance
+clock and forwarding canvas observation support the assertions. Requested
+prior-audit Playwright-library workflow;owned blank T3 tab closed. All
+owned server/Chromium groups and disposable/evidence roots were removed,
+including initial fixture-error failure. No physical-device/cross-browser
+certification. All75 historical scores remain unchanged.
+
 ## Qwen3.8 Flash — 2026-10-27
 
 [Review/scores](qwen38-flash-review.md), [runner](run-qwen38-flash-audit.py),

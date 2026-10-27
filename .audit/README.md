@@ -2,6 +2,40 @@
 
 This directory contains the reproducible, repository-safe parts of the audit behind [`RANKING.md`](../RANKING.md). Generated builds, copied `node_modules` trees, temporary web servers, browser profiles, and timestamped Playwright artifacts are intentionally excluded.
 
+## Qwen3.8 Max xhigh — October 27
+
+The [independent review](qwen38-max-xhigh-review.md) scores the new Alibaba
+`qwen3.8-max-xhigh` via OpenCode Go / T3 Code OpenCode:
+**7.5/7.5/9/8.5/8.5 = 8.00**. One grouped scoring major (missing full/mini
+spins and PC, no-clear B2B break), two minors (hidden lock-out, phone support).
+All 75 historical entries, including Max low/medium and Flash, are unchanged.
+The earlier provider-funds failure remains excluded; no quality effect.
+Every delivered file and own test was reviewed; no transcript was read.
+
+```sh
+python3 .audit/run-qwen38-max-xhigh-audit.py --offline
+```
+
+The [runner](run-qwen38-max-xhigh-audit.py) performs locked install, explicit
+build, **17 unchanged own passes**, [engine assertions](qwen38-max-xhigh-audit.mjs)
+and [1280×800/390×844 Chromium checks](qwen38-max-xhigh-browser.cjs) in a
+random disposable root. Coverage includes 28 states/48 ordered kicks,
+672 independent rotations,100 actual bags,hold/retrieval,seven independent
+ghosts/exact drops,500 ms/fifteen-reset/new-lowest/ledge clocks,gravity at
+all20 levels,full/mini including downward credit,B2B/combo/PC,legal hidden/
+partial paths,blocked spawn/restart,real keys/RAF and exact phone geometry.
+All engine assertions repeat in Chromium; real keys reproduce each finding.
+Three complete previews meet the task. Both screenshots were inspected.
+
+Own **unmodified npm start command**; only the copied hard-coded8321
+constant changes to honor PORT on free41000–49999. No application body
+changes. Installed Playwright/Chromium is reused without download.
+`--offline`, `--engine-only` and `--review` match recent runners; no retained
+copy/artifact option. Copies/evidence and owned server/browser groups are
+cleaned on success/failure/interruption, including the initial B2B-fixture
+failure. The owned blank preview tab was closed. Work stayed on main,
+without implementation/scripts/tests/registry/pricing edits or commits.
+
 ## Qwen3.8 Flash — October 27
 
 The [review](qwen38-flash-review.md) independently audits the first Alibaba

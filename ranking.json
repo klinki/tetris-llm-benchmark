@@ -2389,6 +2389,35 @@
         }
       ],
       "summary": "Canonical SRS and full/mini scoring; wrong PC profile, soft-drop timing, hidden lock-out, restart bag and phone gaps"
+    },
+    {
+      "run_id": "qwen3.8-max-xhigh",
+      "audited": "2026-10-27",
+      "scores": {
+        "correctness": 7.5,
+        "tests": 7.5,
+        "code": 9.0,
+        "simplicity": 8.5,
+        "browser_ux": 8.5
+      },
+      "bugs": [
+        {
+          "severity": "major",
+          "title": "T-spins and perfect-clear bonuses are absent; no-clear locks break B2B",
+          "detail": "Legal final-rotation full/mini zero/single hard and timed locks score 0/100 instead of full 400/800 or mini 100/200; full double gives 300 instead of 1200. Rotation then natural descent gives 0 instead of mini100; nonzero hard descent gives28 instead of128. PC single/double/triple/Tetris give100/300/500/800 instead of900/1500/2300/2800. Tetris/no-clear/Tetris totals1600 instead of2000; final Tetris-PC totals1600 instead of5200. Consecutive B2B/combo/drop/pre-clear level points pass. Related omissions grouped once."
+        },
+        {
+          "severity": "minor",
+          "title": "A legal wholly hidden lock continues play",
+          "detail": "Stack only(0,0), real T spawn(3,-2), Left×3 reaches grounded r0,(0,-2), wholly hidden. Incoming I is independently open. Zero-travel hard drop welds T and spawns I with status=playing instead of game over. Node and real Chromium keys agree. Partial visible locks correctly continue; blocked spawn works."
+        },
+        {
+          "severity": "minor",
+          "title": "The fixed phone cabinet clips hold and the right panel",
+          "detail": "At390x844 document width513;636x592 canvas begins x=-123. The280x560 field fits at x55, but150px hold panel begins x=-107 and next/stats x347..497. Complete16 hold/three-next cells paint proportionally inside backing. One supporting-layout deduction."
+        }
+      ],
+      "summary": "Canonical SRS and sound gravity/lock timing; incomplete spin/PC/B2B scoring, hidden lock-out and phone support gaps"
     }
   ]
 }
