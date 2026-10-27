@@ -242,7 +242,7 @@
     },
     {
       "id": "opus-5.5",
-      "label": "Opus 5.5",
+      "label": "Claude Opus 5.5 (medium)",
       "order": 110,
       "project_dir": "opus-5.5",
       "harness": "t3_claude",
