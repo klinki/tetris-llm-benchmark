@@ -13,6 +13,13 @@ browser evidence, limits and supplied isolation facts. All 71 historical
 entries are unchanged; **Claude Opus 5.5 (medium, original)** stays **9.05**.
 No benchmark transcript or T3 thread-reading tool was used.
 
+**Round 2 independently confirms all five scores and all three minor
+findings.** Added 672 actual first-fitting SRS comparisons, all four
+full/mini T facings, nonadjacent-row compaction, level-scaled scoring,
+pause/soft-release clocks and real held-key/direction/blur/pause checks.
+Node and both Chromium sizes pass; audit coverage adds no own-test credit.
+The original score, all 71 historical entries and this run's rank16 stay unchanged.
+
 ```sh
 python3 .audit/run-opus55-medium-rerun-audit.py --offline
 ```

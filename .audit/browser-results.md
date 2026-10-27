@@ -27,6 +27,19 @@ Space/C/R** work. Real Space empties the PC-single board with score100
 instead of900. After800 normal ms, real held Down plus1 ms unchanged RAF
 produces16 rows/16 points. Both are calibrated correctness minors.
 
+Round 2 repeats all findings and adds **672 actual SRS outcome comparisons**
+against independent geometry:125 rejected, candidate1–5 successes
+309/117/58/28/35. Mini/full zero-line scores100/400 pass in all four T
+facings; nonadjacent row17/19 clears preserve exact remaining cells and
+score300; level3/10 singles score300/1000 with level-independent drop points.
+Pause preserves the saved800 ms gravity and490 ms grounded phases, and
+soft release preserves ordinary timing without extra soft points. Real held
+keys repeat to walls, latest direction wins/reverts on release, blur releases
+movement/soft drop, repeated X keydown rotates once, and second C is inert.
+Real P freezes actions/time and Escape resumes the saved gravity phase.
+Both screenshots were inspected again. No new finding or score change;
+the same8.40 and three minor severities are independently confirmed.
+
 Unchanged frame/input/render bodies with appended accessors reproduce:
 grounded499/500, full fifteenth delay (499 more ms unlocked; sixteenth
 move+1 ms locks), exhausted-ledged contact6000/lock6500, fresh held999/1000

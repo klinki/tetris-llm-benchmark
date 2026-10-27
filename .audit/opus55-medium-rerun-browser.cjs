@@ -68,6 +68,42 @@ async function runBrowser(base,artifacts) {
         assert.equal(controls[7].after.count,4);assert.equal(controls[8].after.held,controls[8].before.active.type);
         assert.equal(controls[8].after.canHold,false);
 
+        // Round 2: real held-key repeat, most-recent direction, release and blur.
+        await page.evaluate(()=>__v.fresh('T',0,3,5));
+        await page.keyboard.down('ArrowRight');await page.evaluate(()=>__v.advance(700));
+        assert.equal((await page.evaluate(()=>__v.state())).active.x,7);
+        await page.keyboard.up('ArrowRight');await page.evaluate(()=>__v.advance(100));
+        assert.equal((await page.evaluate(()=>__v.state())).active.x,7);
+        await page.evaluate(()=>__v.fresh('T',0,3,5));
+        await page.keyboard.down('ArrowLeft');await page.keyboard.down('ArrowRight');
+        await page.evaluate(()=>__v.advance(250));
+        const recent=(await page.evaluate(()=>__v.state())).active.x;
+        assert(recent>3,'most-recent direction repeats');
+        await page.keyboard.up('ArrowRight');await page.evaluate(()=>__v.advance(250));
+        assert((await page.evaluate(()=>__v.state())).active.x<recent,'remaining left resumes');
+        await page.keyboard.up('ArrowLeft');
+        await page.evaluate(()=>__v.fresh('T',0,3,5));
+        await page.keyboard.down('ArrowLeft');await page.keyboard.down('ArrowDown');
+        await page.evaluate(()=>window.dispatchEvent(new Event('blur')));
+        const blurBefore=await page.evaluate(()=>__v.state());await page.evaluate(()=>__v.advance(300));
+        const blurAfter=await page.evaluate(()=>__v.state());
+        assert.deepEqual(blurAfter,blurBefore,'blur releases held movement and soft drop');
+        await page.keyboard.up('ArrowLeft');await page.keyboard.up('ArrowDown');
+        // Repeated keydown must not rotate again or bypass hold restriction.
+        await page.evaluate(()=>__v.fresh('T',0,3,5));
+        await page.keyboard.down('x');await page.keyboard.down('x');await page.keyboard.up('x');
+        assert.equal((await page.evaluate(()=>__v.state())).active.rotation,1);
+        await page.keyboard.press('c');const heldOnce=await page.evaluate(()=>__v.state());
+        await page.keyboard.press('c');assert.deepEqual(await page.evaluate(()=>__v.state()),heldOnce);
+        // Paused real-key actions must preserve both state and the saved phase.
+        await page.evaluate(()=>{__v.fresh('O',0,3,0);__v.advance(800);});
+        await page.keyboard.press('p');const paused=await page.evaluate(()=>__v.state());
+        for(const key of ['ArrowLeft','ArrowRight','ArrowUp','z','Space','c'])await page.keyboard.press(key);
+        await page.evaluate(()=>__v.advance(2000));assert.deepEqual(await page.evaluate(()=>__v.state()),paused);
+        await page.keyboard.press('Escape');await page.evaluate(()=>__v.advance(199));
+        assert.equal((await page.evaluate(()=>__v.state())).active.y,0);
+        await page.evaluate(()=>__v.frame(1));assert.equal((await page.evaluate(()=>__v.state())).active.y,1);
+
         // Real Space, not a direct scoring helper, reproduces the missing PC.
         await page.evaluate(()=>{__v.fresh('I',0,3,18);for(let x=0;x<10;x++)if(x<3||x>6)__v.a.put(__v.game(),x,19);});
         await page.keyboard.press('Space');const pc=await page.evaluate(()=>__v.state());
@@ -155,7 +191,11 @@ async function runBrowser(base,artifacts) {
         assert.deepEqual(errors,[]);assert.deepEqual(assets,[]);
         if(artifacts)await page.screenshot({path:path.join(artifacts,`medium-rerun-${name}.png`),fullPage:true});
         result.views[name]={presentation,pc:{score:pc.score,lines:pc.lines,count:pc.count},soft:{rows:soft.active.y,points:soft.score},
-          clocks,ledge,ghosts:ghosts.length,controls:controls.map(c=>c.key),errors,assets};
+          clocks,ledge,ghosts:ghosts.length,controls:controls.map(c=>c.key),
+          round2:{rotationOutcomes:engine.rotationOutcomes,spinFacings:engine.spinFacings,
+            nonadjacentClear:engine.nonadjacentClear,scaledScores:engine.scaledScores,
+            pauseGravity:engine.pauseGravity,pauseLock:engine.pauseLock,softRelease:engine.softRelease,
+            heldRepeat:true,latestDirection:true,blurRelease:true,repeatSuppression:true,pauseKeys:true},errors,assets};
       } finally {await context.close();}
     }
   } finally {process.off('SIGTERM',shutdown);process.off('SIGINT',shutdown);await browser.close();}

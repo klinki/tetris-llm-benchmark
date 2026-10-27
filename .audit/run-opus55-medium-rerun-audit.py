@@ -79,6 +79,14 @@ def browser(copy, temporary):
                           f"http://localhost:{port}/", str(artifacts)], ROOT, temporary / "browser.log")
             data = json.loads(output.strip().splitlines()[-1])
             assert set(data["views"]) == {"desktop", "mobile"}
+            for view in data["views"].values():
+                extra = view["round2"]
+                assert extra["rotationOutcomes"] == {
+                    "rotations": 672, "rejections": 125,
+                    "acceptedCandidates": [309, 117, 58, 28, 35]}
+                assert len(extra["spinFacings"]) == 8
+                assert all(extra[key] for key in (
+                    "heldRepeat", "latestDirection", "blurRelease", "repeatSuppression", "pauseKeys"))
             (temporary / "browser.json").write_text(json.dumps(data, indent=2) + "\n")
             print(f"Chromium {data['browser']}: desktop/390×844 assertions passed", flush=True)
             print(json.dumps(data), flush=True)
@@ -113,6 +121,9 @@ def main():
         engine = run(["node", str(ROOT / ".audit/opus55-medium-rerun-audit.mjs"), str(copy)],
                      ROOT, temporary / "engine.log")
         assert "canonical engine, scoring, clocks and transitions asserted" in engine
+        evidence = json.loads(engine.strip().splitlines()[0])
+        assert evidence["rotationOutcomes"]["rotations"] == 672
+        assert len(evidence["spinFacings"]) == 8
         print(engine.strip(), flush=True)
         if not args.engine_only:
             browser(copy, temporary)

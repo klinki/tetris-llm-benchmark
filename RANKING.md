@@ -807,18 +807,21 @@ Column identifies `claude-opus-5-5-medium`; original medium remains above.
 | Build/browser start; TypeScript; dependency-free runtime | ✅ |
 | Seven shapes/colors; every required real keyboard binding and R | ✅ |
 | 28 canonical states; 48 ordered SRS transitions; actual wall/floor kicks | ✅ |
+| 672 actual first-fitting SRS outcomes on independent obstructed fixtures | ✅ |
 | Seven-bag; held retrieval/orientation/restriction; fresh restart bag | ✅ |
 | Seven independent obstructed ghosts and exact hard-drop points/cells | ✅ |
 | Grounded 499/500 ms, successful/failed resets and full fifteenth delay | ✅ |
 | Ordinary/exhausted ledge safety and fresh lower-contact delay | ✅ |
 | Landing frame excludes pre-contact time | ✅ |
 | Full/mini/B2B/combo/drop and pre-clear-level scoring | ✅ |
+| Full/mini zero-line scoring in all four T facings; nonadjacent row compaction | ✅ |
 | Benchmark perfect-clear bonuses | ◐ |
 | Guideline gravity/ten-line levels; 60/144 Hz agreement | ✅ |
 | Normal-to-soft transition | ◐ |
 | Fresh held replacement gravity phase | ✅ |
 | Legal whole-hidden lock-out and partial visible continuation | ✅ |
 | Blocked spawn; terminal guards; real R reset; overlays/pause | ✅ |
+| Saved pause phases; soft release; real held-key/direction/blur handling | ✅ |
 | Complete hold/five-next backing painting | ✅ |
 | Phone board fits horizontally | ✅ |
 | Phone supporting state fits or is scroll-reachable | ◐ |
@@ -828,6 +831,10 @@ Single PC scores100 instead of900; related PC fixtures share one minor.
 at x45, but hold/stats are off the left and next begins at x383. The other
 Opus efforts' premature landing/cap/exhausted-contact findings do not
 reproduce here. [Exact fixtures, scores and limits](.audit/opus55-medium-rerun-review.md).
+
+Round 2 independently re-derived all five scores and confirmed all three
+minor findings. The additional engine/Chromium assertions above pass at both
+sizes; scores, rank16 and all71 historical entries remain unchanged.
 
 ## Test-coverage comparison
 
@@ -1565,6 +1572,11 @@ Test gaps and rationale:
 - Code 9.0 and simplicity 8.5 reflect 787 source lines in six strict modules with a DOM-free engine, injected RNG and one millisecond clock. UX 8.5 reflects a clear board, ghost, hold/five-next previews, legend, overlays and high-DPI setup, without pointer controls or canvas labels. Findings are deducted only from correctness.
 
 The [medium rerun audit](.audit/opus55-medium-rerun-review.md) records exact fixtures, browser measurements and the comparison with the original medium run.
+
+Round 2 independently confirms the three minor severities and all five
+scores. Added actual SRS outcome/orientation scoring, compaction, pause/
+soft-release and real held-key/blur checks all pass in Node/Chromium;
+these audit additions do not increase the own-test score.
 
 ### 17. Claude Sonnet 5.5 (medium) — 8.35
 

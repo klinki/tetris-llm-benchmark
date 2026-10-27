@@ -7,6 +7,30 @@ Claude Agent SDK**, medium effort, fast mode off. The single prompt was
 This is the isolated rerun of **Claude Opus 5.5 (medium, original)**,
 `opus-5.5`, whose **9.05** score and findings remain unchanged.
 
+## Round 2 — independent re-audit
+
+Re-read the implementation from scratch, including every delivered file and
+all 13 own tests, then re-derived all five scores against the original and
+low/high/xhigh Opus calibration. **Agree with round 1 entirely on findings,
+severities and scores: 8.5/7.5/9.0/8.5/8.5 = 8.40.** No additional defect
+was confirmed. The PC omission remains one minor because the other scoring
+features work; the soft-entry jump and clipped supporting panels retain
+their established minor severities. Test breadth supports 7.5 rather than
+the original's 9.0; strict readable separation supports code 9.0, modest
+input/render machinery simplicity 8.5, and the clear keyboard-oriented
+presentation UX 8.5, without deducting the findings again.
+
+Added independent first-fitting SRS outcomes for **672 actual rotations**,
+full/mini zero-line scoring in all four T facings, nonadjacent-row compaction,
+level-three/ten scoring and level-independent drop points, pause/resume
+gravity and lock phases, soft release, and real-key repeat/direction/blur/
+pause checks. All pass in Node and served Chromium at both sizes. Rechecked
+the existing cap/ledge/landing, PC/soft-entry, hidden-lock, restart and exact
+layout evidence and inspected both fresh screenshots. Extended the probes,
+browser script and runner; updated this record, audit index, browser results
+and ranking narrative. `ranking.json`, every score and rank, the original's
+comparison note and all implementation files remain unchanged.
+
 ## Method and calibration
 
 Re-read `RANKING.md`'s rubric, weights, Methodology and conformance/coverage
@@ -203,6 +227,29 @@ unchanged. Real keyboard/RAF checks additionally establish UI integration.
   real P toggles overlay correctly. No unexpected application exception,
   console error or failed required asset. Harmless favicon404 is excluded.
 
+Round 2 adds assertions beyond the shared calibration, without own-test credit:
+
+- An independent canonical-geometry collision oracle predicts the first
+  legal SRS outcome on seeded obstructed stacks, walls, floors and hidden
+  rows: **672 actual rotations, 125 rejections**, with **309/117/58/28/35**
+  successes on candidates 1–5. Every resulting pose and success/failure
+  matches; no collision method is intercepted in this added check.
+- Eight actual final-rotation pockets cover mini/full zero-line scores
+  **100/400** in all four T facings. A public I lock completes nonadjacent
+  rows17/19, scores **300**, and preserves the exact four remaining cells
+  and every empty coordinate after compaction. Normal singles at levels3/10
+  score **300/1000**; soft/hard points remain **1/2 per row**, independent
+  of level. No spin flags are assigned.
+- After800 normal ms, pause for2000, resume199/1 ms: **0/1 row, 0 points**.
+  Grounded490, pause2000, resume9/1 ms: **0/4 welded cells**. Soft50 then
+  release999/1 ms gives **y1/y2 with only1 soft point**. These engine
+  assertions all repeat in Chromium.
+- Real held Right reaches the wall; keyup stops repeat; the latest of
+  Left/Right takes priority and releasing it resumes the still-held key.
+  Blur releases both horizontal movement and soft drop. Repeated X keydown
+  rotates once; a second C is inert. Real P freezes move/rotate/drop/hold
+  and time; Escape resumes the saved800 ms gravity phase at199/1 ms.
+
 Desktop board y84, phone y98; vertical/font-sensitive positions are recorded,
 not asserted as invariants. Horizontal bounds are pinned within.03 px.
 Both full-page screenshots were visually inspected inside the disposable
@@ -238,14 +285,16 @@ case or other-browser certification. Representative scoring/kick fixtures
 do not prove all arrangements. Own tests, not audit probes, determine tests.
 
 - Complete offline runner: **passed**, locked install/build,13 own passes,
-  exact engine findings and both Chromium viewport passes.
+  exact engine findings, expanded round-2 assertions and both Chromium
+  viewport passes. `--review` screenshot inspection also completed.
 - `python3 scripts/benchmark.py render`: **passed**.
 - `python3 scripts/benchmark.py verify`: **passed**.
 - `python3 -m unittest discover tests`: **passed**,69 tests, OK.
 - `node .audit/verify-ranking.mjs` and `git diff --check`: **passed**.
 
 All owned server/Chromium groups and every created disposable copy/evidence
-folder were removed, including the initial diagnostic assertion failure.
+folder were removed, including round-2 fixture and noninteractive-review
+failure paths. Those were audit fixture/interaction errors, not run defects.
 No original implementation, scripts/tests, registry/pricing or historical
 ranking score changed. Work stayed on main, with no commit/stash/reset/
 revert/push. No Sites/deployment/publishing tool; parent owns the commit.
