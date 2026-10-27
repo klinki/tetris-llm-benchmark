@@ -114,7 +114,7 @@ Scores and confirmed bugs are recorded in [`ranking.json`](ranking.json); this t
 |---:|---|---:|---:|---:|---:|---:|---:|---:|
 | 1 | GPT-6.1 Sol (high) | 10.0 | 9.0 | 9.0 | 8.5 | 9.0 | **9.35** | 0 |
 | 2 | GPT-6.1 Sol (xhigh) | 9.5 | 9.5 | 9.0 | 8.5 | 9.0 | **9.25** | 1 minor |
-| 3 | Claude Opus 5.5 (medium) | 9.5 | 9.0 | 9.0 | 8.0 | 8.5 | **9.05** | 1 minor |
+| 3 | Claude Opus 5.5 (medium, original) | 9.5 | 9.0 | 9.0 | 8.0 | 8.5 | **9.05** | 1 minor |
 | 4 | Claude Sonnet 5.5 (xhigh) | 9.5 | 8.5 | 9.0 | 8.0 | 9.0 | **9.00** | 1 minor |
 | 5 | GPT-6.1 Sol (medium) | 9.5 | 8.5 | 8.5 | 9.0 | 9.0 | **9.00** | 1 minor |
 | 6 | GPT-6.1 Terra (max) | 9.0 | 8.5 | 9.0 | 8.5 | 9.0 | **8.85** | 2 minor |
@@ -1244,7 +1244,7 @@ Confirmed findings:
 
 Exact fixtures, browser evidence, limits and supplied generation/isolation context: [GPT-6.1 Sol audit](.audit/gpt61-sol-review.md).
 
-### 3. Claude Opus 5.5 (medium) — 9.05
+### 3. Claude Opus 5.5 (medium, original) — 9.05
 
 Strengths:
 

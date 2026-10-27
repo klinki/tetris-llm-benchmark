@@ -20,7 +20,7 @@ The table is generated from [`benchmark-runs.json`](benchmark-runs.json),
 |---:|---|---|---|---|---:|---:|---:|---:|---|
 | 1 | [GPT-6.1 Sol (high)](gpt-6.1-sol-high/STATISTICS.md) | `gpt-6.1-sol` | `high` | T3 Code / Codex | **9.35** | 1,433,435 | $0.54 | 11m 37.239s | Every engine and browser probe passes; Opus-level suite, event-ordered clock and polished responsive UI |
 | 2 | [GPT-6.1 Sol (xhigh)](gpt-6.1-sol-xhigh/STATISTICS.md) | `gpt-6.1-sol` | `xhigh` | T3 Code / Codex | **9.25** | 1,181,592 | $0.61 | 14m 15.041s | Every engine probe passes with the broadest own suite; focused header buttons swallow Space |
-| 3 | [Claude Opus 5.5 (medium)](opus-5.5/STATISTICS.md) | `claude-opus-5-5` | `medium` | T3 Code / Claude Agent SDK | **9.05** | 1,510,085 | $1.50 | 7m 17.232s | Strongest tests and rules coverage; board does not fit a phone screen |
+| 3 | [Claude Opus 5.5 (medium, original)](opus-5.5/STATISTICS.md) | `claude-opus-5-5` | `medium` | T3 Code / Claude Agent SDK | **9.05** | 1,510,085 | $1.50 | 7m 17.232s | Strongest tests and rules coverage; board does not fit a phone screen |
 | 4 | [Claude Sonnet 5.5 (xhigh)](claude-sonnet-5-5-xhigh/STATISTICS.md) | `claude-sonnet-5-5` | `xhigh` | T3 Code / Claude Agent SDK | **9.00** | 2,531,771 | $1.30 | 9m 23.043s | Broad rules, strong integration/input tests and a fitting phone layout; soft-drop jump |
 | 5 | [GPT-6.1 Sol (medium)](gpt-6.1-sol-medium/STATISTICS.md) | `gpt-6.1-sol` | `medium` | T3 Code / Codex | **9.00** | 576,119 | $0.28 | 6m 4.302s | Every engine probe passes; strong deterministic suite, compact readable engine, touch UI; stretched previews |
 | 6 | [GPT-6.1 Terra (max)](gpt-6.1-terra-max/STATISTICS.md) | `gpt-6.1-terra` | `max` | T3 Code / Codex | **8.85** | 1,988,500 | $0.41 | 4m 55.516s | Broad deterministic suite and event-ordered gravity; exhausted ledge retains old lock time and desktop queue is stretched |
@@ -89,6 +89,7 @@ The table is generated from [`benchmark-runs.json`](benchmark-runs.json),
 | 69 | [GPT-6 Luna (medium)](gpt-6-luna-medium/STATISTICS.md) | `gpt-6-luna` | `medium` | T3 Code / Codex | **3.80** | 160,641 | $0.01 | 1m 35.743s | Does not build or start; diagnostic source has wrong SRS, scoring and gravity |
 | 70 | [Beam (medium)](beam-free-medium/STATISTICS.md) | `beam-free` | `medium` | T3 Code / OpenCode | **3.80** | 419,090 | — | 38.039s | CommonJS prevents browser startup; diagnostic SRS, scoring, gravity, lock clocks and supporting UI fail |
 | 71 | [Beam (low)](beam-free-low/STATISTICS.md) | `beam-free` | `low` | T3 Code / OpenCode | **2.95** | 82,729 | — | 16.402s | Basic falling blocks; missing hold/ghost/next/SRS, incomplete scoring, wrong gravity and broken restart |
+| — | [Claude Opus 5.5 (medium)](claude-opus-5-5-medium/STATISTICS.md) | `claude-opus-5-5` | `medium` | T3 Code / Claude Agent SDK | Pending | 882,725 | $1.01 | 4m 29.563s | Not ranked yet |
 
 **† Muse Spark 1.3 (medium, reference-assisted):** Reference-assisted run: the medium-reasoning child read Gemini-4's engine, shape tables, tests, and build files before writing this implementation, so token/time efficiency is not an independent from-scratch comparison. Primary time covers the child task only. The xhigh parent prepared/delegated and verified/reported the result: 339,157 recorded parent tokens and 2m 54.475s end-to-end are documented separately.
 
