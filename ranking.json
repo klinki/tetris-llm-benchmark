@@ -2282,6 +2282,113 @@
         }
       ],
       "summary": "Canonical SRS and sound audited lock/spin rules; missing PC bonuses, a soft-drop jump and clipped phone support"
+    },
+    {
+      "run_id": "qwen3.8-flash-low",
+      "audited": "2026-10-27",
+      "scores": {
+        "correctness": 7.5,
+        "tests": 7.5,
+        "code": 9.0,
+        "simplicity": 8.5,
+        "browser_ux": 8.5
+      },
+      "bugs": [
+        {
+          "severity": "major",
+          "title": "T-spins and benchmark perfect-clear bonuses are absent",
+          "detail": "Actual final-rotation full/mini zero/single locks score 0/100 instead of full 400/800 or mini 100/200, through hard and timed locks; full double gives 300 instead of 1200. Single PC scores 100 instead of 900; B2B Tetris PC sequence totals 2000 instead of 5200. Ordinary B2B/combo/drop/pre-clear-level points pass. Related scoring omissions are grouped once."
+        },
+        {
+          "severity": "minor",
+          "title": "Restart preserves a partially consumed seven-bag",
+          "detail": "With LCG seed 42, eleven real hard drops reach game over. Real R/reset then opens I,T,J,Z,Z,S,O: six types, duplicate Z and no L. Restart discards the preview queue but retains the readonly bag and its remaining entries. Node and both real-key Chromium passes reproduce it."
+        },
+        {
+          "severity": "minor",
+          "title": "The fixed phone canvas clips the playfield and stats",
+          "detail": "At 390x844 the 560x640 canvas is at x=-85 and document width is 475. The 300x600 field begins at x=-65, losing 65 px on the left; score/best/level/lines end at x=445, beyond the initial viewport. Complete hold/five-next cells paint inside backing; one responsive-layout deduction."
+        }
+      ],
+      "summary": "Canonical SRS and basic B2B/combo; missing spins/PC, retained restart bag and clipped phone field"
+    },
+    {
+      "run_id": "qwen3.8-flash-medium",
+      "audited": "2026-10-27",
+      "scores": {
+        "correctness": 6.0,
+        "tests": 7.0,
+        "code": 9.0,
+        "simplicity": 8.5,
+        "browser_ux": 8.5
+      },
+      "bugs": [
+        {
+          "severity": "major",
+          "title": "Six I-kick transitions have inverted vertical offsets",
+          "detail": "All 28 states are canonical, but the final two offsets in I transitions 1>2,2>1,2>3,3>2,3>0,0>3 have wrong Y signs. Empty-floor I r0,(3,18) CCW fails instead of r3,(2,16); I r2,(3,17) CCW reaches r1,(4,15) instead of (1,16). Independent first-fitting oracle finds 26 differences in 672 rotations; Node and real Z/Chromium agree."
+        },
+        {
+          "severity": "major",
+          "title": "T-spins and benchmark perfect-clear bonuses are absent",
+          "detail": "Actual final-rotation full/mini zero/single locks score 0/100 instead of full 400/800 or mini 100/200, through hard and timed locks; full double gives 300 instead of 1200. Single PC scores 100 instead of 900; B2B Tetris PC sequence totals 2000 instead of 5200. Ordinary B2B/combo/drop/pre-clear-level points pass. Related scoring omissions are grouped once."
+        },
+        {
+          "severity": "minor",
+          "title": "Entering soft drop consumes old normal-gravity time",
+          "detail": "O r0,(3,0), fifty 16 ms normal updates, then real ArrowDown plus 1 ms unchanged RAF: sixteen rows and sixteen points, spending the saved 800 ms at the new 50 ms interval. Engine and Chromium agree. Low performs an immediate softStep that resets this clock and does not reproduce the defect."
+        },
+        {
+          "severity": "minor",
+          "title": "The fixed phone cabinet clips supporting state",
+          "detail": "At 390x844 the bordered 642x642 canvas is at x=-126 and document width is 516. The full 300x600 board fits at x=45, but hold/stats begin at x=-105 and next at x=375, each panel 120 px wide. Negative-left information cannot be restored by ordinary rightward scrolling. One supporting-layout deduction."
+        }
+      ],
+      "summary": "Playable core with wrong I kicks, missing spins/PC, a soft-drop jump and clipped phone support"
+    },
+    {
+      "run_id": "qwen3.8-flash-xhigh",
+      "audited": "2026-10-27",
+      "scores": {
+        "correctness": 7.0,
+        "tests": 8.0,
+        "code": 9.0,
+        "simplicity": 8.5,
+        "browser_ux": 8.5
+      },
+      "bugs": [
+        {
+          "severity": "minor",
+          "title": "Perfect clears use a different replacement score table",
+          "detail": "Zero-travel single/double/triple/Tetris perfect clears score 2000/3000/4000/8000 instead of benchmark additive totals 900/1500/2300/2800. Tetris/no-clear/Tetris-PC totals 10800 instead of 5200. Full/mini/B2B/combo scoring otherwise passes; related PC variants are one isolated omission."
+        },
+        {
+          "severity": "minor",
+          "title": "Entering soft drop consumes old normal-gravity time",
+          "detail": "O r0,(3,0), fifty 16 ms normal updates, then real ArrowDown plus 1 ms unchanged RAF: sixteen rows and sixteen points, spending the saved 800 ms at the new 50 ms interval. Engine and Chromium agree. Low performs an immediate softStep that resets this clock and does not reproduce the defect."
+        },
+        {
+          "severity": "minor",
+          "title": "Held soft drop bypasses the grounded lock delay",
+          "detail": "Floor O r0,(3,18), fresh clock, setSoftDrop(true), update(1) welds four cells immediately instead of waiting 500 ms. Real held Down plus 1 ms unchanged RAF reproduces it. Normal 499/500 delay, resets, full fifteenth delay and exhausted-ledge contact pass."
+        },
+        {
+          "severity": "minor",
+          "title": "A legal wholly hidden lock continues play",
+          "detail": "Stack (2,0),(3,1),(4,1), real T spawn (3,-1), CW/CCW/Left/Left reaches grounded r0,(0,-2), wholly hidden. Incoming I is independently open. Zero-travel hard drop welds the hidden T and spawns I with state=playing. Engine and actual Chromium keys agree; partial visible locks correctly continue."
+        },
+        {
+          "severity": "minor",
+          "title": "Restart preserves a partially consumed seven-bag",
+          "detail": "With LCG seed 42, eleven real hard drops reach game over. Real R/reset then opens I,T,J,Z,Z,S,O: six types, duplicate Z and no L. Restart discards the preview queue but retains the readonly bag and its remaining entries. Node and both real-key Chromium passes reproduce it."
+        },
+        {
+          "severity": "minor",
+          "title": "The fixed phone canvas clips the playfield and panels",
+          "detail": "At 390x844 the 520x640 canvas is at x=-65 and document width is 455. The 300x600 field begins at x=-45, losing 45 px on the left; hold/next span x=285..435. Complete 24 preview cells paint inside backing; one responsive-layout deduction."
+        }
+      ],
+      "summary": "Canonical SRS and full/mini scoring; wrong PC profile, soft-drop timing, hidden lock-out, restart bag and phone gaps"
     }
   ]
 }

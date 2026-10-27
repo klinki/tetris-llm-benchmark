@@ -2,6 +2,46 @@
 
 This directory contains the reproducible, repository-safe parts of the audit behind [`RANKING.md`](../RANKING.md). Generated builds, copied `node_modules` trees, temporary web servers, browser profiles, and timestamped Playwright artifacts are intentionally excluded.
 
+## Qwen3.8 Flash — October 27
+
+The [review](qwen38-flash-review.md) independently audits the first Alibaba
+`qwen3.8-flash-{low,medium,xhigh}` runs via OpenCode Go / T3 Code OpenCode.
+Scores in correctness/tests/code/simplicity/UX order:
+**7.5/7.5/9/8.5/8.5=8.00**, **6/7/9/8.5/8.5=7.30**,
+**7/8/9/8.5/8.5=7.90**. Every delivered file and own test was reviewed;
+exact fixtures, arithmetic, coverage, browser measurements and limits are
+recorded. Medium's foreground-server interruption and xhigh's saved own
+truncated web fetch are context only. All 72 historical entries, including
+Qwen Max low/medium 7.80/7.65, remain unchanged. No transcript was read.
+
+```sh
+python3 .audit/run-qwen38-flash-audit.py --offline
+```
+
+The [runner](run-qwen38-flash-audit.py) performs locked install, explicit
+build, unchanged own tests (**20/17/37 passes**),
+[engine probes](qwen38-flash-audit.mjs) and
+[1280×800/390×844 Chromium checks](qwen38-flash-browser.cjs) in one random
+disposable root. All build/test/start. Coverage includes 28 canonical states,
+48 real candidate lists,672 independent actual rotation outcomes per run,
+100 actual bags, held retrieval/orientation, seven independent obstructed
+ghosts/exact drop points/cells, precise lock/reset/cap/contact/ledge clocks,
+full/mini/B2B/combo/PC/level variants, hidden/partial legal paths, restart,
+every real required key, held-key/blur behavior and exact phone bounds.
+All engine assertions repeat against served modules; real keys/RAF also
+reproduce the scoring, I-kick, soft, hidden and restart findings.
+
+Each original **npm start** command is used. All three servers ignore PORT;
+only their copied 8321 constant changes to honor a free 41000–49999 port.
+Omit `--offline` for uncached packages; `--effort` selects one run;
+`--engine-only` explicitly skips browsers; `--review` permits evidence
+inspection before deletion. No retained-copy/artifact option. Installed
+Playwright/Chromium is reused without download. Copies, logs/screenshots
+and owned server/browser groups are cleaned on success/failure/interruption,
+including the initial fixture-error path. All six screenshots were inspected
+and deleted. No implementation, scripts/tests, registry/pricing or old score
+changed; work stayed on main without commit/stash/reset/revert/push.
+
 ## Pre-isolation runs isolation review — October 27
 
 The [review](pre-isolation-runs-review.md) scans the six site runs that

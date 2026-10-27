@@ -1,5 +1,65 @@
 # Browser audit results
 
+## Qwen3.8 Flash — 2026-10-27
+
+[Review/scores](qwen38-flash-review.md), [runner](run-qwen38-flash-audit.py),
+[engine probes](qwen38-flash-audit.mjs), [browser assertions](qwen38-flash-browser.cjs).
+Fresh disposable builds; original npm start commands and authored servers.
+All three hard-code8321: only that copied constant changes to honor PORT,
+using free 41000 (permitted 41000–49999). **Chromium 156.0.8078.4 /
+Playwright 1.64.0**, **1280×800 and 390×844** CSS viewports, desktop user agent.
+
+| Effort | Desktop canvas/field x | Phone canvas | Phone field | Phone document width | Phone supporting state |
+|---|---|---|---|---:|---|
+| low |360/380 |560×640,x−85 |300×600,x−65 |475 |Hold/next x255; stats end445 |
+| medium |319/490 |642×642 bordered,x−126 |300×600,x45 |516 |Hold/stats x−105; next x375..495 |
+| xhigh |380/400 |520×640,x−65 |300×600,x−45 |455 |Hold/next x285..435 |
+
+Low/xhigh lose65/45 px from the board's left side; medium's board fits but
+supporting rails clip. One layout minor per run covers its combined clipped
+state. All 24 O-hold/five-I-next cells paint fully inside each backing with
+square cell proportions. All seven actual obstructed ghost drawings match
+independent geometry. Horizontal positions/widths and document overflow are
+assertions; font-sensitive vertical positions are recorded in the review.
+All six screenshots were visually inspected in the disposable root and deleted.
+
+Every engine assertion repeats against served modules:28 canonical states,
+48 real ordered candidate lists,672 independent first-fitting rotations,
+100 actual bags and scoring/clocks/state fixtures. Medium has six wrong
+I-kick transitions and 26 independent rotation differences; real Z fails
+floor I r0,(3,18) and sends r2,(3,17) to the wrong position. Low/xhigh
+match their independent rotation oracles completely.
+
+Real **Left,Right,Up,X,Z,Left Ctrl,Down,Space,C,R** work. Real Up/Space
+confirms missing full/mini zero scores0/0 in low/medium versus100/400 in
+xhigh. Real Space produces PC single 100/100/2000 instead of900.
+After800 normal ms, real Down plus1 ms unchanged RAF yields **1/16/16
+rows and points**: low's immediate softStep resets the phase. Grounded
+Down plus1 ms welds **0/0/4 cells**: xhigh bypasses the 500 ms delay.
+Eleven actual Space presses reach game over; real R then gives
+**I,T,J,Z,Z,S,O** in low/xhigh (six types), while medium has a fresh bag.
+
+Real-key legal whole-hidden paths end low/medium but continue xhigh;
+partial visible paths continue all three with incoming I independently
+open. Blocked incoming spawn, terminal engine/UI guards and full real R
+reset pass. Held keys reach the wall; latest direction wins/reverts on
+release; repeated X rotates once; blur releases both movement and soft drop.
+
+Ordinary 499/500 delay, successful/failed reset, full fifteenth delay,
+landing partition and exhausted ledge pass. Fifteen real O rotations1 ms
+apart,490 wait, Right off support gives floor contact 6000/lock 6500 ms after
+the move. Fresh held 999/1000 phase passes. Unchanged 60/144 Hz callbacks
+agree: L2 over1480.001 ms1/1 row, L10 over600 ms9/9, L15 over100 ms14/14.
+No application exception, unexpected console error or failed required asset;
+favicon404 is excluded. App bodies are unchanged; only appended accessors,
+captured RAF scheduling and forwarding canvas observation are used.
+
+The requested prior-audit Playwright-library workflow was followed. The
+owned blank T3 incognito tab was closed. All owned server/Chromium groups,
+disposable copies and evidence roots were removed, including the initial
+fixture-error path. No physical touch/HiDPI or cross-browser certification;
+all 72 earlier scores remain unchanged.
+
 ## Claude Opus 5.5 medium isolated rerun — 2026-10-27
 
 [Review/scores](opus55-medium-rerun-review.md), [runner](run-opus55-medium-rerun-audit.py),
