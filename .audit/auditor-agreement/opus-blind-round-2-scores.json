@@ -1,0 +1,66 @@
+{
+  "run-a": {
+    "correctness": 8.0,
+    "tests": 7.0,
+    "code": 8.5,
+    "simplicity": 7.0,
+    "browser_ux": 8.0,
+    "weighted": 7.80,
+    "findings": [
+      {"severity": "major", "title": "Gravity uses a classic frame table instead of the Guideline curve at all levels 1-20 (L1 ~283 ms/row vs 1000 ms; max one row per frame)"},
+      {"severity": "minor", "title": "No perfect-clear bonus (single perfect clear scores 100 instead of 900)"}
+    ]
+  },
+  "run-b": {
+    "correctness": 9.0,
+    "tests": 5.5,
+    "code": 8.0,
+    "simplicity": 9.0,
+    "browser_ux": 6.0,
+    "weighted": 7.80,
+    "findings": [
+      {"severity": "minor", "title": "No perfect-clear bonus (single perfect clear scores 100 instead of 900)"},
+      {"severity": "minor", "title": "Fixed 580 px canvas overflows 390 px viewport (document width 485, hold panel at x=-95 unreachable)"}
+    ]
+  },
+  "run-c": {
+    "correctness": 7.5,
+    "tests": 2.0,
+    "code": 3.0,
+    "simplicity": 5.0,
+    "browser_ux": 8.0,
+    "weighted": 5.30,
+    "findings": [
+      {"severity": "major", "title": "Grouped scoring: no T-spin mini (mini scored as full), false T-spin plus B2B after air rotation and long hard drop, no perfect-clear bonus"},
+      {"severity": "minor", "title": "Gravity capped at one row per 16 ms from level 14 (Guideline 11.4 down to 0.46 ms/row)"},
+      {"severity": "minor", "title": "No buffer zone: a lock partly above the visible field ends the game"}
+    ]
+  },
+  "run-d": {
+    "correctness": 7.5,
+    "tests": 7.5,
+    "code": 8.5,
+    "simplicity": 7.0,
+    "browser_ux": 7.0,
+    "weighted": 7.60,
+    "findings": [
+      {"severity": "major", "title": "Grouped scoring: zero-line T-spins/minis score 0, mini single 100 and mini double 200, perfect-clear bonus repeats line value, air-rotated hard drop counts as spin and sets B2B"},
+      {"severity": "minor", "title": "Gravity capped at one row per frame (1/60 s) from level 14"},
+      {"severity": "minor", "title": "Fixed 480 px canvas cut off at 390 px (document width 435, board at x=-45 unreachable)"}
+    ]
+  },
+  "run-e": {
+    "correctness": 7.0,
+    "tests": 3.5,
+    "code": 7.5,
+    "simplicity": 7.0,
+    "browser_ux": 8.5,
+    "weighted": 6.55,
+    "findings": [
+      {"severity": "major", "title": "Grouped scoring: T-spins locked by hard drop never recognised (TSD by hard drop scores 300), no perfect-clear bonus, mini double scores 200"},
+      {"severity": "minor", "title": "New pieces spawn invisibly in hidden rows (level 1: first cell visible after ~1 s, whole piece after ~2 s)"},
+      {"severity": "minor", "title": "No lock-out: a piece locked entirely above the visible field leaves invisible cells and play continues"},
+      {"severity": "minor", "title": "Gravity capped at 16.67 ms/row from level 14"}
+    ]
+  }
+}

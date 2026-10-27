@@ -76,13 +76,16 @@ including the initial fixture-error path. All six screenshots were inspected
 and deleted. No implementation, scripts/tests, registry/pricing or old score
 changed; work stayed on main without commit/stash/reset/revert/push.
 
-## Auditor agreement check, round 1 — October 27
+## Auditor agreement check — October 27
 
-The [agreement record](auditor-agreement.md) compares a blind Claude Opus 5.5
-(high) audit of GPT-6.1 Terra (max), Claude Opus 5.5 (xhigh) and Gemini 4
-Argon (high) with Sol's scores: 8.85→8.75, 8.30→8.65 and 8.45→7.20 (mean
-absolute difference 0.57). No score changed. The blind report, scores and
-probes are in [`auditor-agreement/`](auditor-agreement/opus-blind-round-1-report.md).
+The [agreement record](auditor-agreement.md) compares blind Claude Opus 5.5
+(high) audits of eight runs with Sol's scores (mean absolute weighted
+difference 0.78) and adjudicates every finding only one auditor reported.
+After adjudication Sol's correctness was right on five runs and 0.5 too high
+on three; the blind audit missed seven real defects. Three open rules (gravity
+floor, spawn position, held-key hard drop) are listed for a decision. No
+score changed. Blind reports, scores and probes are in
+[`auditor-agreement/`](auditor-agreement/opus-blind-round-2-report.md).
 
 ## Pre-isolation runs isolation review — October 27
 
