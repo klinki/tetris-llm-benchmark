@@ -2602,6 +2602,35 @@
       },
       "t3_provider_instance": "claudeAgent_claude_home",
       "fast_mode": false
+    },
+    {
+      "id": "qwen3.8-flash-low",
+      "label": "Qwen3.8 Flash (low)",
+      "order": 720,
+      "project_dir": "qwen3.8-flash-low",
+      "harness": "t3_opencode",
+      "harness_label": "T3 Code / OpenCode",
+      "provider": "opencode-go",
+      "provider_label": "opencode-go",
+      "model": "qwen3.8-flash",
+      "session_id": "ses_e82da5297ffe8MHFdNnnb86Bxz",
+      "t3_thread_id": "mcp:b7fc2db2-ae64-4933-ad63-f9267db983f4",
+      "expected_cwd": "/Users/david/tetris-bench/runs/ea985d200bd9/tetris",
+      "expected_cwd_basename": "tetris",
+      "reasoning_variant": "low",
+      "web": "open",
+      "cutoff": {
+        "through_user_message": 1,
+        "exclude_inter_message_wait": true
+      },
+      "overhead": {
+        "kind": "unknown"
+      },
+      "spec": {
+        "sha256": "36e2097a78fe8b5646e6216338640831cff0a284cc823c4b1f658991c8d40294",
+        "commit": "44355f7177f7124ae5264dc8d7d52d40b1879bb4",
+        "modified": false
+      }
     }
   ]
 }

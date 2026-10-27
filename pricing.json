@@ -145,10 +145,10 @@
     "qwen3.8-flash": {
       "label": "Qwen3.8 Flash",
       "family": "Alibaba", "tier": "Qwen Flash", "version": "3.8",
-      "prices": {"input": 0.15, "cache_read": 0.15, "cache_write": null, "output": 0.47},
+      "prices": {"input": 0.15, "cache_read": 0.15, "cache_write": 0.1875, "output": 0.47},
       "evidence": "official",
       "source": "https://www.alibabacloud.com/help/en/model-studio/model-pricing",
-      "note": "International (Singapore) rate, one tier up to 1M tokens. No cache-hit or cache-creation price is published, so cached tokens are priced as regular input: an upper bound."
+      "note": "International (Singapore) rate, one tier up to 1M tokens. No cache-hit price is published, so cached tokens are priced as regular input: an upper bound. Explicit cache creation is 125% of input per Alibaba's context-cache documentation, as for Qwen3.8 Max."
     },
     "mimo-v2.6-flash": {
       "label": "MiMo-V2.6-Flash",
