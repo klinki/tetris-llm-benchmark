@@ -40,10 +40,10 @@ The table is generated from [`benchmark-runs.json`](benchmark-runs.json),
 | 20 | [Claude Haiku 5.5 (low)](claude-haiku-5-5-low/STATISTICS.md) | `claude-haiku-5-5` | `low` | T3 Code / Claude Agent SDK | **8.25** | 508,602 | $0.04 | 3m 36.967s | Broad core rules; B2B perfect-clear under-award and soft-drop timing jump |
 | 21 | [GPT-6.1 Terra (xhigh)](gpt-6.1-terra-xhigh/STATISTICS.md) | `gpt-6.1-terra` | `xhigh` | T3 Code / Codex | **8.25** | 902,742 | $0.19 | 2m 2.686s | Readable canonical core and complete PC scoring; stale manual spin credit, soft-entry jump and premature landing clock |
 | 22 | [Claude Haiku 5.5 (max)](claude-haiku-5-5-max/STATISTICS.md) | `claude-haiku-5-5` | `max` | T3 Code / Claude Agent SDK | **8.25** | 7,447,694 | $0.25 | 23m 8.921s | No perfect-clear bonus or hidden lock-out; soft-drop timing jump and phone sidebar overflow |
-| 23 | [DeepSeek V4.1 Flash (max)](deepseek-v4.1-flash-max/STATISTICS.md) | `deepseek-v4.1-flash` | `max` | T3 Code / OpenCode | **8.25** | 9,118,921 | $0.14 | 24m 21.634s | Broad scoring and fitting UI; unlimited lock resets, ceiling-buffer and B2B-PC gaps, soft-drop jump |
+| 23 | [DeepSeek V4.1 Flash 1017 (max)](deepseek-v4.1-flash-max/STATISTICS.md) | `deepseek-v4.1-flash` | `max` | T3 Code / OpenCode | **8.25** | 9,118,921 | $0.14 | 24m 21.634s | Broad scoring and fitting UI; unlimited lock resets, ceiling-buffer and B2B-PC gaps, soft-drop jump |
 | 24 | [GLM-5.3-Flash (max)](glm-5.3-flash-free-max/STATISTICS.md) | `glm-5.3-flash-free` | `max` | T3 Code / OpenCode | **8.20** | 4,253,523 | $0.19 | 19m 50.224s | Broad rules and responsive UI; wrong gravity curve and no perfect-clear bonus |
 | 25 | [Sol Codex](sol-codex/STATISTICS.md) | `gpt-5.6-sol` | — | Codex Desktop | **8.20** | 909,035 | $1.12 | 6m 22.017s | Piece can lock in mid-air after a ledge move; no mini T-spins |
-| 26 | [DeepSeek V4.1 Flash (low)](deepseek-v4.1-flash-low/STATISTICS.md) | `deepseek-v4.1-flash` | `low` | T3 Code / OpenCode | **8.15** | 2,309,531 | $0.05 | 6m 54.369s | Canonical core and responsive UI; hard-drop spin loss, incomplete scoring and soft-drop timing jump |
+| 26 | [DeepSeek V4.1 Flash 1017 (low)](deepseek-v4.1-flash-low/STATISTICS.md) | `deepseek-v4.1-flash` | `low` | T3 Code / OpenCode | **8.15** | 2,309,531 | $0.05 | 6m 54.369s | Canonical core and responsive UI; hard-drop spin loss, incomplete scoring and soft-drop timing jump |
 | 27 | [GPT-5.6 Sol (xhigh)](gpt-5.6-sol-xhigh/STATISTICS.md) | `gpt-5.6-sol` | `xhigh` | T3 Code / Codex | **8.00** | 2,931,919 | $2.20 | 7m 29.604s | Canonical core and responsive UI; mini/B2B-PC scoring, stale soft-drop spin credit and partial lock-out fail |
 | 28 | [Qwen3.8 Flash (low)](qwen3.8-flash-low/STATISTICS.md) | `qwen3.8-flash` | `low` | T3 Code / OpenCode | **8.00** | 2,797,077 | $0.44 | 18m 29.858s | Canonical SRS and basic B2B/combo; missing spins/PC, retained restart bag and clipped phone field |
 | 29 | [Qwen3.8 Max (xhigh)](qwen3.8-max-xhigh/STATISTICS.md) | `qwen3.8-max` | `xhigh` | T3 Code / OpenCode | **8.00** | 1,445,897 | $3.34 | 41m 24.719s | Canonical SRS and sound gravity/lock timing; incomplete spin/PC/B2B scoring, hidden lock-out and phone support gaps |
@@ -52,7 +52,7 @@ The table is generated from [`benchmark-runs.json`](benchmark-runs.json),
 | 32 | [GPT-6.1 Terra (high)](gpt-6.1-terra-high/STATISTICS.md) | `gpt-6.1-terra` | `high` | T3 Code / Codex | **7.90** | 332,921 | $0.09 | 1m 8.663s | Canonical SRS/full-mini core; missing PC, landing-clock error and premature partial lock-out |
 | 33 | [GLM-5.3-Flash (high)](glm-5.3-flash-free-high/STATISTICS.md) | `glm-5.3-flash-free` | `high` | T3 Code / OpenCode | **7.90** | 2,363,761 | $0.11 | 14m 37.371s | Working core with mini/PC scoring gaps, hidden lock-out, soft-drop jump and phone sidebar clipping |
 | 34 | [Qwen3.8 Flash (xhigh)](qwen3.8-flash-xhigh/STATISTICS.md) | `qwen3.8-flash` | `xhigh` | T3 Code / OpenCode | **7.90** | 5,100,876 | $0.81 | 31m 16.524s | Canonical SRS and full/mini scoring; wrong PC profile, soft-drop timing, hidden lock-out, restart bag and phone gaps |
-| 35 | [DeepSeek V4.1 Flash (high)](deepseek-v4.1-flash-high/STATISTICS.md) | `deepseek-v4.1-flash` | `high` | T3 Code / OpenCode | **7.85** | 5,255,770 | $0.09 | 19m 30.263s | Broad rules and responsive reflow; inverted I kicks, B2B scoring errors and soft-drop timing jump |
+| 35 | [DeepSeek V4.1 Flash 1017 (high)](deepseek-v4.1-flash-high/STATISTICS.md) | `deepseek-v4.1-flash` | `high` | T3 Code / OpenCode | **7.85** | 5,255,770 | $0.09 | 19m 30.263s | Broad rules and responsive reflow; inverted I kicks, B2B scoring errors and soft-drop timing jump |
 | 36 | [Claude Haiku 5.5 (medium)](claude-haiku-5-5-medium/STATISTICS.md) | `claude-haiku-5-5` | `medium` | T3 Code / Claude Agent SDK | **7.80** | 783,362 | $0.05 | 4m 16.792s | Hidden locks continue or crash; B2B perfect-clear under-award, soft-drop jump and phone sidebar clipping |
 | 37 | [Qwen3.8 Max (low)](qwen3.8-max-low/STATISTICS.md) | `qwen3.8-max` | `low` | T3 Code / OpenCode | **7.80** | 935,844 | $2.05 | 16m 33.165s | Canonical core and broad smoke coverage; advanced scoring, soft timing, reset-cap and phone layout gaps |
 | 38 | [MiMo-V2.6-Flash (default)](mimo-v2.6-flash-default/STATISTICS.md) | `mimo-v2.6-flash` | `default` | T3 Code / OpenCode | **7.80** | 2,129,675 | $0.04 | 31m 55.288s | Canonical SRS and broad smoke coverage; incomplete spin/PC scoring, soft-drop jump and clipped phone/advanced stats |
@@ -146,6 +146,11 @@ reproducible probes, browser evidence, isolation context and test-coverage limit
 Effort values are the exact settings T3 stored. Cat-jam's `default` means the
 provider's default setting, not that reasoning was disabled. Opus 5.5 ran with
 fast mode off.
+
+The DeepSeek V4.1 Flash runs use revision **1017**, following OpenCode’s
+[October 19 update](https://x.com/opencode/status/2112220734768779441),
+before the October 24 benchmark runs. Their recorded model alias is
+`opencode-go/deepseek-v4.1-flash`.
 
 ## Results site
 

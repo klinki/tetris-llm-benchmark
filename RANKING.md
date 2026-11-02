@@ -31,7 +31,7 @@ The [GLM audit](.audit/glm-review.md) records their isolated builds/tests,
 engine/browser probes, max's flaky own assertion, scores and generation context.
 High's excluded notification turn changed no files; turn-1 code is audited.
 
-DeepSeek V4.1 Flash (low, high and max) were independently audited on
+DeepSeek V4.1 Flash 1017 (low, high and max) were independently audited on
 2026-10-24. The [DeepSeek V4.1 audit](.audit/deepseek-v41-review.md) records
 isolated builds/tests, canonical engine probes, desktop/phone checks,
 scoring rationale and the supplied own-log isolation exemption.
@@ -162,10 +162,10 @@ Scores and confirmed bugs are recorded in [`ranking.json`](ranking.json); this t
 | 20 | Claude Haiku 5.5 (low) | 9.0 | 6.0 | 9.0 | 8.5 | 8.0 | **8.25** | 2 minor |
 | 21 | GPT-6.1 Terra (xhigh) | 8.5 | 6.5 | 9.0 | 9.0 | 8.5 | **8.25** | 3 minor |
 | 22 | Claude Haiku 5.5 (max) | 8.0 | 8.0 | 9.0 | 8.0 | 8.5 | **8.25** | 4 minor |
-| 23 | DeepSeek V4.1 Flash (max) | 8.0 | 8.0 | 9.0 | 7.5 | 9.0 | **8.25** | 4 minor |
+| 23 | DeepSeek V4.1 Flash 1017 (max) | 8.0 | 8.0 | 9.0 | 7.5 | 9.0 | **8.25** | 4 minor |
 | 24 | GLM-5.3-Flash (max) | 8.0 | 7.5 | 9.0 | 8.0 | 9.0 | **8.20** | 1 major, 1 minor |
 | 25 | Sol Codex | 8.0 | 6.5 | 9.0 | 9.5 | 9.5 | **8.20** | 1 major, 1 minor |
-| 26 | DeepSeek V4.1 Flash (low) | 8.0 | 7.5 | 9.0 | 8.0 | 8.5 | **8.15** | 1 major, 1 minor |
+| 26 | DeepSeek V4.1 Flash 1017 (low) | 8.0 | 7.5 | 9.0 | 8.0 | 8.5 | **8.15** | 1 major, 1 minor |
 | 27 | GPT-5.6 Sol (xhigh) | 8.0 | 6.5 | 9.0 | 8.0 | 9.0 | **8.00** | 4 minor |
 | 28 | Qwen3.8 Flash (low) | 7.5 | 7.5 | 9.0 | 8.5 | 8.5 | **8.00** | 1 major, 2 minor |
 | 29 | Qwen3.8 Max (xhigh) | 7.5 | 7.5 | 9.0 | 8.5 | 8.5 | **8.00** | 1 major, 2 minor |
@@ -174,7 +174,7 @@ Scores and confirmed bugs are recorded in [`ranking.json`](ranking.json); this t
 | 32 | GPT-6.1 Terra (high) | 8.5 | 6.5 | 7.5 | 9.0 | 8.0 | **7.90** | 3 minor |
 | 33 | GLM-5.3-Flash (high) | 7.5 | 7.0 | 9.0 | 8.5 | 8.5 | **7.90** | 5 minor |
 | 34 | Qwen3.8 Flash (xhigh) | 7.0 | 8.0 | 9.0 | 8.5 | 8.5 | **7.90** | 6 minor |
-| 35 | DeepSeek V4.1 Flash (high) | 7.0 | 8.0 | 9.0 | 8.0 | 8.5 | **7.85** | 1 major, 3 minor |
+| 35 | DeepSeek V4.1 Flash 1017 (high) | 7.0 | 8.0 | 9.0 | 8.0 | 8.5 | **7.85** | 1 major, 3 minor |
 | 36 | Claude Haiku 5.5 (medium) | 8.0 | 5.5 | 9.0 | 8.5 | 8.5 | **7.80** | 4 minor |
 | 37 | Qwen3.8 Max (low) | 7.0 | 7.5 | 9.0 | 8.5 | 8.5 | **7.80** | 1 major, 3 minor |
 | 38 | MiMo-V2.6-Flash (default) | 7.0 | 7.5 | 9.0 | 8.5 | 8.5 | **7.80** | 1 major, 3 minor |
@@ -457,7 +457,7 @@ gravity table is 267/217 ms at levels one/two and PC bonuses are absent.
 Low/max render four previews; high renders five. The task sets no count.
 The [GLM record](.audit/glm-review.md) provides exact reproducible fixtures.
 
-### DeepSeek V4.1 Flash additions — October 24
+### DeepSeek V4.1 Flash 1017 additions — October 24
 
 Columns identify `deepseek-v4.1-flash-{low,high,max}`.
 
@@ -1097,7 +1097,7 @@ That test-quality limitation is separate from correctness deductions. None
 tests the full canonical oracle, ledge behavior, hidden lock-out or browser.
 Audit-added probes do not earn own-test credit. See the [GLM audit](.audit/glm-review.md).
 
-### DeepSeek V4.1 Flash test suites — October 24
+### DeepSeek V4.1 Flash 1017 test suites — October 24
 
 | Behavior | low: 16 cases | high: 24 cases | max: 19 cases |
 |---|---|---|---|
@@ -1868,7 +1868,7 @@ Test gaps and rationale:
 
 Exact probes, browser measurements and isolation context are in the [Haiku audit record](.audit/haiku-review.md).
 
-### 23. DeepSeek V4.1 Flash (max) — 8.25
+### 23. DeepSeek V4.1 Flash 1017 (max) — 8.25
 
 Run ID: `deepseek-v4.1-flash-max`. Summary: **Broad scoring and fitting UI; unlimited lock resets, ceiling-buffer and B2B-PC gaps, soft-drop jump**.
 
@@ -1949,7 +1949,7 @@ Test gaps and rationale:
 - Tests cover bag behavior, hard drop, line clear, hold, a wall kick, and blocked-spawn top-out. They do not cover gravity, next/ghost output, lock delay, scoring beyond a normal clear, restart, or browser behavior.
 - The serious ledge defect holds correctness below the two OMP implementations; otherwise this is the clearest and most maintainable codebase in the set.
 
-### 26. DeepSeek V4.1 Flash (low) — 8.15
+### 26. DeepSeek V4.1 Flash 1017 (low) — 8.15
 
 Run ID: `deepseek-v4.1-flash-low`. Summary: **Canonical core and responsive UI; hard-drop spin loss, incomplete scoring and soft-drop timing jump**.
 
@@ -2232,7 +2232,7 @@ Weighted: `7×.40 + 8×.20 + 9×.20 + 8.5×.10 + 8.5×.10 = 7.90`.
 Exact fixtures, calibration, own-suite gaps, browser evidence, limits and supplied
 context: [Qwen Flash audit](.audit/qwen38-flash-review.md).
 
-### 35. DeepSeek V4.1 Flash (high) — 7.85
+### 35. DeepSeek V4.1 Flash 1017 (high) — 7.85
 
 Run ID: `deepseek-v4.1-flash-high`. Summary: **Broad rules and responsive reflow; inverted I kicks, B2B scoring errors and soft-drop timing jump**.
 
@@ -3406,9 +3406,9 @@ The [October 23 record](.audit/oct23-review.md) additionally isolates Opus's Cla
 | GLM-5.3-Flash (low) | 737 | 79 | 4,356,489 | 10m 15.035s | — |
 | GLM-5.3-Flash (high) | 704 | 167 | 2,363,761 | 14m 37.371s | — |
 | GLM-5.3-Flash (max) | 1,121 | 352 | 4,253,523 | 19m 50.224s | — |
-| DeepSeek V4.1 Flash (low) | 1,268 | 256 | 2,309,531 | 6m 54.369s | — |
-| DeepSeek V4.1 Flash (high) | 1,330 | 382 | 5,255,770 | 19m 30.263s | — |
-| DeepSeek V4.1 Flash (max) | 1,562 | 351 | 9,118,921 | 24m 21.634s | — |
+| DeepSeek V4.1 Flash 1017 (low) | 1,268 | 256 | 2,309,531 | 6m 54.369s | — |
+| DeepSeek V4.1 Flash 1017 (high) | 1,330 | 382 | 5,255,770 | 19m 30.263s | — |
+| DeepSeek V4.1 Flash 1017 (max) | 1,562 | 351 | 9,118,921 | 24m 21.634s | — |
 | DeepSeek OMP/PI | 791 | 240 | 18,118,592 | 0:44:11.418 | 127 |
 | Gemini-4 | 1,587 | 163 | 590,203 | 0:06:36.862 | — |
 | Gemini 4 Argon (high) | 1,892 | 298 | 1,125,477 | 0:13:09.707 | — |

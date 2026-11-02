@@ -914,7 +914,7 @@
     },
     {
       "id": "deepseek-v4.1-flash-low",
-      "label": "DeepSeek V4.1 Flash (low)",
+      "label": "DeepSeek V4.1 Flash 1017 (low)",
       "order": 290,
       "project_dir": "deepseek-v4.1-flash-low",
       "harness": "t3_opencode",
@@ -944,7 +944,7 @@
     {
       "id": "deepseek-v4.1-flash-high",
       "web_root": "dist",
-      "label": "DeepSeek V4.1 Flash (high)",
+      "label": "DeepSeek V4.1 Flash 1017 (high)",
       "order": 300,
       "project_dir": "deepseek-v4.1-flash-high",
       "harness": "t3_opencode",
@@ -974,7 +974,7 @@
     {
       "id": "deepseek-v4.1-flash-max",
       "web_root": "dist",
-      "label": "DeepSeek V4.1 Flash (max)",
+      "label": "DeepSeek V4.1 Flash 1017 (max)",
       "order": 310,
       "project_dir": "deepseek-v4.1-flash-max",
       "harness": "t3_opencode",

@@ -1,10 +1,18 @@
-# DeepSeek V4.1 Flash audits (low, high, max)
+# DeepSeek V4.1 Flash 1017 audits (low, high, max)
 
 Audit date: **2026-10-24 (Europe/Rome)**. Three independent runs of
 `deepseek-v4.1-flash` via OpenCode Go in T3 Code / OpenCode, each from the
 single prompt “Read the README.md file and implement it”. Run IDs are
 `deepseek-v4.1-flash-{low,high,max}`. This record supports
 [`ranking.json`](../ranking.json) and [`RANKING.md`](../RANKING.md).
+
+## Model revision
+
+These October 24 runs used revision **1017**, based on OpenCode’s
+[October 19 announcement](https://x.com/opencode/status/2112220734768779441)
+that DeepSeek V4.1 Flash was updated to 1017 in OpenCode Go and Free.
+The recorded provider/model remains `opencode-go/deepseek-v4.1-flash`;
+the revision is identified from the provider announcement.
 
 ## Scope and method
 
