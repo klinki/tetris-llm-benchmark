@@ -1,0 +1,46 @@
+:root {
+  color-scheme: dark;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #090b0e;
+  color: #e8ecf3;
+  font-family: ui-monospace, Menlo, Consolas, monospace;
+}
+
+.stage {
+  padding: 24px;
+  text-align: center;
+}
+
+h1 {
+  margin: 0 0 16px;
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: 0.35em;
+  text-transform: uppercase;
+}
+
+canvas {
+  display: block;
+  margin: 0 auto;
+  max-width: 100%;
+  height: auto;
+  border-radius: 10px;
+}
+
+.help {
+  margin: 14px 0 0;
+  font-size: 12px;
+  line-height: 1.6;
+  color: #8b94a7;
+}

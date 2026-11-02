@@ -158,6 +158,14 @@
       "source": "https://mimo.mi.com/docs/en-US/pricing",
       "note": "Overseas real-time rate, checked 2026-10-26. Cache writes are free for a limited time."
     },
+    "glm-5.3": {
+      "label": "GLM-5.3",
+      "family": "Z.ai", "tier": "GLM", "version": "5.3",
+      "prices": {"input": 1.40, "cache_read": 0.26, "cache_write": null, "output": 4.40},
+      "evidence": "official",
+      "source": "https://docs.z.ai/guides/overview/pricing",
+      "note": "Full GLM-5.3, checked 2026-11-02 against Z.ai's official Latest Models table. The runs use opencode-go/glm-5.3 through OpenCode Go; Z.ai's public API list rate estimates token cost, not subscription charges. Cached-input storage is limited-time free; no separate cache-write token rate is published. This is not GLM-5.3-Flash pricing."
+    },
     "glm-5.3-flash-free": {
       "label": "GLM-5.3-Flash",
       "family": "Z.ai", "tier": "GLM Flash", "version": "5.3",

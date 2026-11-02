@@ -1,0 +1,14 @@
+{
+  "name": "tetris",
+  "version": "1.0.0",
+  "description": "Browser based implementation of the Tetris Guideline in TypeScript",
+  "type": "module",
+  "scripts": {
+    "build": "tsc",
+    "start": "node server.mjs",
+    "test": "npm run build && node dist/logic-test.js"
+  },
+  "devDependencies": {
+    "typescript": "^5.0.0"
+  }
+}

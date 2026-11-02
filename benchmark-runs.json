@@ -2733,6 +2733,64 @@
         "commit": "d32c019bb41618ebb388eb2f22175da03a23a924",
         "modified": false
       }
+    },
+    {
+      "id": "glm-5.3-low",
+      "label": "GLM-5.3 (low)",
+      "order": 760,
+      "project_dir": "glm-5.3-low",
+      "harness": "t3_opencode",
+      "harness_label": "T3 Code / OpenCode",
+      "provider": "opencode-go",
+      "provider_label": "opencode-go",
+      "model": "glm-5.3",
+      "session_id": "ses_e61f3087dffecfZ0FhaEh9CBiq",
+      "t3_thread_id": "thread:project:9f9ab44a-eff6-47d3-b14c-2875e220e957:d98bda80-cbff-4016-813b-adc93fdf2802",
+      "expected_cwd": "/Users/david/tetris-bench/runs/389680ea7e30/tetris",
+      "expected_cwd_basename": "tetris",
+      "reasoning_variant": "low",
+      "web": "open",
+      "cutoff": {
+        "through_user_message": 1,
+        "exclude_inter_message_wait": true
+      },
+      "overhead": {
+        "kind": "unknown"
+      },
+      "spec": {
+        "sha256": "36e2097a78fe8b5646e6216338640831cff0a284cc823c4b1f658991c8d40294",
+        "commit": "a178e6a56feaf8d1b9d51b05f1b5c4cd560323ea",
+        "modified": false
+      }
+    },
+    {
+      "id": "glm-5.3-high",
+      "label": "GLM-5.3 (high)",
+      "order": 770,
+      "project_dir": "glm-5.3-high",
+      "harness": "t3_opencode",
+      "harness_label": "T3 Code / OpenCode",
+      "provider": "opencode-go",
+      "provider_label": "opencode-go",
+      "model": "glm-5.3",
+      "session_id": "ses_e61e75fc6ffeJK4Ux4m2Ic21t1",
+      "t3_thread_id": "thread:project:72f5d36b-366c-47fa-93d4-2997bd58b4d4:a76aba05-2c4b-4295-aaf9-d3e46128aba7",
+      "expected_cwd": "/Users/david/tetris-bench/runs/2266bea69ed7/tetris",
+      "expected_cwd_basename": "tetris",
+      "reasoning_variant": "high",
+      "web": "open",
+      "cutoff": {
+        "through_user_message": 1,
+        "exclude_inter_message_wait": true
+      },
+      "overhead": {
+        "kind": "unknown"
+      },
+      "spec": {
+        "sha256": "36e2097a78fe8b5646e6216338640831cff0a284cc823c4b1f658991c8d40294",
+        "commit": "a178e6a56feaf8d1b9d51b05f1b5c4cd560323ea",
+        "modified": false
+      }
     }
   ]
 }

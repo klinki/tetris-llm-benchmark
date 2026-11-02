@@ -2,6 +2,43 @@
 
 This directory contains the reproducible, repository-safe parts of the audit behind [`RANKING.md`](../RANKING.md). Generated builds, copied `node_modules` trees, temporary web servers, browser profiles, and timestamped Playwright artifacts are intentionally excluded.
 
+## Full GLM-5.3 low/high — November 2
+
+The [independent Sol xhigh review](glm53-review.md) audits full
+`opencode-go/glm-5.3`, OpenCode Go / T3 Code OpenCode. Scores in
+correctness/tests/code/simplicity/UX order: **7/7.5/9/8.5/8.5=7.80** and
+**5/7/9/8.5/8.5=6.90**. Low has six minors; high one SRS major/seven minors.
+All 76 historical scores remain unchanged. Every delivered file/own test was
+reviewed; generation metadata was separated from quality grading and no
+implementation transcript was used for grading. No audit was delegated.
+
+```sh
+python3 .audit/run-glm53-audit.py --offline
+```
+
+The [runner](run-glm53-audit.py), [engine fixtures](glm53-audit.mjs) and
+[Chromium checks](glm53-browser.cjs) build/test disposable locked-install
+copies, then run both unchanged npm start commands via PORT. Low 11 own
+cases/high 57 checks pass. Coverage: 28 states, 48 ordered kick lists, 672 actual
+first-fitting outcomes each (recording 59 low ceiling/50 high shape/boundary
+differences), 100 real bags, hold/drop/ghost, 500 ms/fifteen-reset/contact/ledge/
+new-lowest clocks, full/mini/fourth/fifth kicks/B2B/combo/PC, gravity 1–20,
+hidden/partial/blocked spawn/reset and 1280×800/390×844 actual-key/RAF/layout
+checks. All engine assertions repeat in both browser views. Four screenshots
+were inspected locally; no application page/asset failure. Every delivered
+hash remains unchanged. Copies, evidence and owned browser/server groups
+are cleaned on all exits, including corrected audit-fixture failures.
+`--effort`, `--engine-only`, `--review` and optional offline cache match recent
+runners; no retained-copy mode. No implementation/server/test repair.
+
+The documented batch pipeline ran sequentially without --commit, fallback,
+retry or isolation override: fresh task-only workspaces, exact fixed prompt,
+full access, low/high variant, generateTitle:false, 94/95 source locks,
+cleanup/import/archive, clean outside-access/overlap reports, settled threads.
+[Exact projects/threads/sessions, spec SHA, times, measured usage, verified
+full GLM pricing and limits](glm53-review.md#generation-pricing-and-isolation-non-scoring).
+No workflow gap required a generation-doc change; no commits/push/PR/publish.
+
 ## Qwen3.8 Max xhigh — October 27
 
 The [independent review](qwen38-max-xhigh-review.md) scores the new Alibaba

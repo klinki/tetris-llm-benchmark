@@ -2418,6 +2418,104 @@
         }
       ],
       "summary": "Canonical SRS and sound gravity/lock timing; incomplete spin/PC/B2B scoring, hidden lock-out and phone support gaps"
+    },
+    {
+      "run_id": "glm-5.3-low",
+      "audited": "2026-11-02",
+      "scores": {
+        "correctness": 7.0,
+        "tests": 7.5,
+        "code": 9.0,
+        "simplicity": 8.5,
+        "browser_ux": 8.5
+      },
+      "bugs": [
+        {
+          "severity": "minor",
+          "title": "Perfect-clear bonuses are absent",
+          "detail": "PC single/double/triple/Tetris award100/300/500/800 rather than900/1500/2300/2800. Tetris/no-clear/Tetris-PC totals2000 instead of5200. Ordinary full/mini, B2B/combo and pre-clear level scoring pass; one isolated bonus omission."
+        },
+        {
+          "severity": "minor",
+          "title": "Soft-drop entry spends accumulated normal-gravity time",
+          "detail": "O receives800 ms normal updates, then real Down and1 ms:16 rows and16 points, expected no new row after1 ms. Both engine and unchanged Chromium RAF reproduce it."
+        },
+        {
+          "severity": "minor",
+          "title": "Landing frames charge pre-contact time to lock delay",
+          "detail": "O one row above floor:990 ms in <=16 ms steps,16,483 leaves no welded cells at1489;1 more locks four at1490 instead of1500. Existing-ground499/500, full fifteenth reset, ledge safety and new-lowest allowance pass."
+        },
+        {
+          "severity": "minor",
+          "title": "Restart reuses a partial old bag",
+          "detail": "After actual top-out and reset, first seven types contain only six distinct pieces for seeds1,2,42. Seed42 low: I O J Z Z T L; high: S O L L J T I. Real R reproduces duplicate opening pieces. Fresh games pass100 bags."
+        },
+        {
+          "severity": "minor",
+          "title": "Spin history and fourth-kick mini classification are incorrect",
+          "detail": "A real CW then fourteen-row hard drop into the mini pocket scores28 rather than128; manual soft descent then zero-drop retains stale100 spin points. T r1,(3,17), stack(3,15),(3,17),(5,17),(3,18),(6,19), real CCW fourth kick to r0,(3,15) scores400 rather than mini100. Ordinary full/mini and fifth-kick promotion pass; related spin edges grouped once."
+        },
+        {
+          "severity": "minor",
+          "title": "The ceiling rejects a legal SRS kick",
+          "detail": "Stack(3,0),(4,0), actual T spawn r0,(3,-2), CW should use third candidate r1,(2,-3); rotate returnsfalse because native y<0 is solid. All28 states/48 kick lists are canonical;672 actual comparisons retain59 above-buffer differences. Node and real Chromium agree."
+        }
+      ],
+      "summary": "Canonical shapes and broad own tests; spin, PC, soft/contact timing, ceiling and restart-bag defects"
+    },
+    {
+      "run_id": "glm-5.3-high",
+      "audited": "2026-11-02",
+      "scores": {
+        "correctness": 5.0,
+        "tests": 7.0,
+        "code": 9.0,
+        "simplicity": 8.5,
+        "browser_ux": 8.5
+      },
+      "bugs": [
+        {
+          "severity": "major",
+          "title": "Four J/L rotation states are not SRS",
+          "detail": "J1/J3 contain canonical L1/L3 and L1/L3 contain J1/J3 while spawn/180 states retain original handedness. Real J CW changes handed shape. Ordered kick lists are correct;672 comparisons retain46 J/L placement differences plus four separately grouped boundary differences."
+        },
+        {
+          "severity": "minor",
+          "title": "Perfect-clear bonuses are absent",
+          "detail": "PC single/double/triple/Tetris award100/300/500/800 rather than900/1500/2300/2800. Tetris/no-clear/Tetris-PC totals2000 instead of5200. Ordinary full/mini, B2B/combo and pre-clear level scoring pass; one isolated bonus omission."
+        },
+        {
+          "severity": "minor",
+          "title": "Soft-drop entry spends accumulated normal-gravity time",
+          "detail": "O receives800 ms normal updates, then real Down and1 ms:16 rows and16 points, expected no new row after1 ms. Both engine and unchanged Chromium RAF reproduce it."
+        },
+        {
+          "severity": "minor",
+          "title": "Landing frames charge pre-contact time to lock delay",
+          "detail": "O one row above floor:990 ms in <=16 ms steps,16,483 leaves no welded cells at1489;1 more locks four at1490 instead of1500. Existing-ground499/500, full fifteenth reset, ledge safety and new-lowest allowance pass."
+        },
+        {
+          "severity": "minor",
+          "title": "Restart reuses a partial old bag",
+          "detail": "After actual top-out and reset, first seven types contain only six distinct pieces for seeds1,2,42. Seed42 low: I O J Z Z T L; high: S O L L J T I. Real R reproduces duplicate opening pieces. Fresh games pass100 bags."
+        },
+        {
+          "severity": "minor",
+          "title": "Manual soft descent preserves stale spin credit",
+          "detail": "T CW in open space then fourteen manual soft rows into a three-corner pocket retains rotation credit. Zero-travel Space adds100 spin points beyond14 soft points, expected0. Ordinary full/mini, natural descent and fourth/fifth kicks pass."
+        },
+        {
+          "severity": "minor",
+          "title": "Above-buffer boundary handling permits wall escape and premature partial lock-out",
+          "detail": "S r1,(-1,-2), blockers(2,-2),(0,0), real CCW accepts r0,(-1,-4), including x=-1; canonical fifth candidate is x0,-4. Separately actual I spawn with blockers(5,0),(3,0),(6,1), CW fifth kick then1000 ms reaches r1,(4,-3), one visible cell and open incoming T; Space incorrectly ends play for any native y<0. Related buffer-edge manifestations grouped once."
+        },
+        {
+          "severity": "minor",
+          "title": "The fixed phone layout clips the playfield",
+          "detail": "At390x844 document width475,height1041;302x602 board starts x=-61,y70, clipping61px. Hold and five-next previews paint completely/proportionally, but supporting state/legend also exceeds the viewport. Desktop board fits. One layout deduction."
+        }
+      ],
+      "summary": "Four wrong J/L states; spin, PC, soft/contact timing, restart, buffer and clipped phone defects"
     }
   ]
 }
