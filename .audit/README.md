@@ -2,6 +2,40 @@
 
 This directory contains the reproducible, repository-safe parts of the audit behind [`RANKING.md`](../RANKING.md). Generated builds, copied `node_modules` trees, temporary web servers, browser profiles, and timestamped Playwright artifacts are intentionally excluded.
 
+## Full GLM-5.3 MAX — November 3
+
+The [independent Sol xhigh review](glm53-max-review.md) scores full
+`opencode-go/glm-5.3` MAX **8/7.5/9/8.5/8.5=8.20**, repository25/79,
+site21/72. Four minors: missing PC bonus, travelling-hard-drop spin loss,
+a discarded above-buffer cell and phone clipping. All78 historical scores/
+evidence remain unchanged. Complete delivered-source/own-test review;
+no implementation transcript for grading or audit delegation.
+
+```sh
+python3 .audit/run-glm53-max-audit.py --offline
+```
+
+The [runner](run-glm53-max-audit.py), [engine fixtures](glm53-max-audit.mjs)
+and [Chromium checks](glm53-max-browser.cjs) use disposable locked-install
+copies, explicit build,24 unchanged own passes,28 states/48 ordered kicks/
+672 actual rotations (zero differences),100 bags,hold/drop/ghost,precise
+lock/reset/cap/contact/ledge/new-lowest clocks,full/mini/deep/downward spins,
+B2B/combo/PC,gravity/cadence/real soft entry,hidden/partial/blocked/reset and
+actual-key/RAF/geometry checks at1280×800/390×844. All engine assertions
+repeat in both views; both screenshots inspected.19 delivered hashes stay
+unchanged;18 authored files match archive. Only copied server's8321 listen
+constant is adapted to PORT; own npm start/app bodies remain. Review records
+this and local T3/cache/browser reproducibility dependencies explicitly.
+`--offline`, `--engine-only`, `--review`; no retained-copy mode. All copies,
+evidence/logs and owned server/browser groups clean on all handled exits.
+
+Existing batch without --commit: only task README, exact prompt, MAX/full
+access/title-generation-off,96 source locks maintained through generation,
+clean isolation/overlap,cleanup/import/archive and settled thread. Full-model
+pricing entry verified/reused, **4,906,530 tokens/32m7.063s/$2.25576186**;
+[exact IDs, usage, limits and validation](glm53-max-review.md). No commit,
+push, PR or publication; no other model run.
+
 ## Full GLM-5.3 low/high — November 2
 
 The [independent Sol xhigh review](glm53-review.md) audits full

@@ -1,0 +1,174 @@
+:root {
+  --bg: #0b0e14;
+  --panel: #131826;
+  --line: #232b3f;
+  --text: #e8ecf5;
+  --muted: #7b869e;
+  --accent: #31c7ef;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  height: 100%;
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: 16px;
+}
+
+.stage {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+}
+
+h1 {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: 0.45em;
+  text-indent: 0.45em; /* visually recenters the tracking */
+  color: var(--text);
+}
+
+.layout {
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
+}
+
+.board-wrap {
+  position: relative;
+}
+
+#board {
+  display: block;
+  height: min(82vh, 640px);
+  width: auto;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #0d1322;
+}
+
+.panel {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 118px;
+}
+
+.box {
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 10px;
+}
+
+.box h2 {
+  margin: 0 0 8px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+#hold,
+#next {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.stats dl {
+  margin: 0;
+  display: grid;
+  gap: 8px;
+}
+
+.stats dt {
+  font-size: 10px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.stats dd {
+  margin: 0;
+  font-size: 19px;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+
+.message {
+  min-height: 1.5em;
+  margin: 0;
+  font-size: 12px;
+  font-weight: 600;
+  text-align: center;
+  color: var(--accent);
+}
+
+.overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  border-radius: 8px;
+  background: rgba(8, 10, 16, 0.85);
+  text-align: center;
+}
+
+.overlay[hidden] {
+  display: none;
+}
+
+.overlay-title {
+  margin: 0;
+  font-size: 26px;
+  font-weight: 700;
+  letter-spacing: 0.25em;
+  text-indent: 0.25em;
+}
+
+.overlay-sub {
+  margin: 0;
+  font-size: 13px;
+  color: var(--muted);
+}
+
+kbd {
+  background: #1b2233;
+  border: 1px solid #2c3650;
+  border-bottom-width: 2px;
+  border-radius: 4px;
+  padding: 0 5px;
+  font: 11px/1.5 "SFMono-Regular", Consolas, monospace;
+  color: var(--text);
+}
+
+.controls {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 6px 14px;
+  max-width: 560px;
+  font-size: 12px;
+  color: var(--muted);
+}

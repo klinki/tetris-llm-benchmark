@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Tetris</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <main class="stage">
+    <h1>TETRIS</h1>
+    <div class="layout">
+      <div class="board-wrap">
+        <canvas id="board" width="320" height="640" aria-label="Playfield"></canvas>
+        <div id="overlay" class="overlay" hidden>
+          <p class="overlay-title">GAME OVER</p>
+          <p class="overlay-sub">press <kbd>R</kbd> to restart</p>
+        </div>
+      </div>
+      <aside class="panel">
+        <section class="box">
+          <h2>Hold</h2>
+          <canvas id="hold" width="96" height="56" aria-label="Held piece"></canvas>
+        </section>
+        <section class="box stats">
+          <h2>Stats</h2>
+          <dl>
+            <div><dt>Score</dt><dd id="score">0</dd></div>
+            <div><dt>Level</dt><dd id="level">1</dd></div>
+            <div><dt>Lines</dt><dd id="lines">0</dd></div>
+          </dl>
+        </section>
+        <section class="box">
+          <h2>Next</h2>
+          <canvas id="next" width="96" height="248" aria-label="Next pieces"></canvas>
+        </section>
+        <p id="message" class="message"></p>
+      </aside>
+    </div>
+    <footer class="controls">
+      <span><kbd>←</kbd><kbd>→</kbd> move</span>
+      <span><kbd>↑</kbd>/<kbd>X</kbd> rotate</span>
+      <span><kbd>Z</kbd>/<kbd>Ctrl</kbd> rotate ccw</span>
+      <span><kbd>↓</kbd> soft drop</span>
+      <span><kbd>Space</kbd> hard drop</span>
+      <span><kbd>C</kbd> hold</span>
+      <span><kbd>R</kbd> restart</span>
+    </footer>
+  </main>
+  <script type="module" src="dist/src/ui/main.js"></script>
+</body>
+</html>

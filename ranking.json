@@ -2516,6 +2516,40 @@
         }
       ],
       "summary": "Four wrong J/L states; spin, PC, soft/contact timing, restart, buffer and clipped phone defects"
+    },
+    {
+      "run_id": "glm-5.3-max",
+      "audited": "2026-11-03",
+      "scores": {
+        "correctness": 8.0,
+        "tests": 7.5,
+        "code": 9.0,
+        "simplicity": 8.5,
+        "browser_ux": 8.5
+      },
+      "bugs": [
+        {
+          "severity": "minor",
+          "title": "Perfect-clear bonuses are absent",
+          "detail": "Independent PC single/double/triple/Tetris award100/300/500/800 rather than900/1500/2300/2800; Tetris/no-clear/Tetris-PC totals2000 rather than5200. Perfect-clear detection and UI labels work, but scoring adds no bonus. Real zero-travel I Space gives100 and an empty board."
+        },
+        {
+          "severity": "minor",
+          "title": "A travelling hard drop erases valid spin credit",
+          "detail": "Stack(0,17),(0,19),(2,19), T r0,(0,3), actual CW then fourteen-row Space reaches the mini pocket for28 rather than128. hardDrop sets lastAction=fall for positive travel. Zero-travel full/mini and fourth/fifth kicks pass; manual soft descent correctly clears credit. One spin-history minor, as in full GLM low."
+        },
+        {
+          "severity": "minor",
+          "title": "A legal above-buffer partial lock discards one cell",
+          "detail": "Stack(5,0),(3,0),(6,1), actual I spawn, CW fifth kick then1000ms reaches grounded r1,(4,-3), with cells(6,-3)..(6,0) and incoming T open. Space continues but welds only3 cells: native y=-1 is omitted, leaving6 total instead of7. Normal stored-buffer partial locks preserve all4 and hidden lock-out works. Engine and real Chromium agree."
+        },
+        {
+          "severity": "minor",
+          "title": "The fixed phone layout clips the playfield and panels",
+          "detail": "At390x844 document width423;321x640 board begins x=-32.5,y92. Panel x304.5,width118 extends to422.5;96px hold/next at315.5 extend to411.5. Controls also clip. All24 preview cells paint completely/proportionally in backing canvases; desktop fits. One layout deduction."
+        }
+      ],
+      "summary": "Canonical SRS and fresh restart bags; missing PC, hard-drop spin loss, above-buffer cell loss and phone clipping"
     }
   ]
 }

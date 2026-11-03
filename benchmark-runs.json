@@ -2791,6 +2791,35 @@
         "commit": "a178e6a56feaf8d1b9d51b05f1b5c4cd560323ea",
         "modified": false
       }
+    },
+    {
+      "id": "glm-5.3-max",
+      "label": "GLM-5.3 (max)",
+      "order": 780,
+      "project_dir": "glm-5.3-max",
+      "harness": "t3_opencode",
+      "harness_label": "T3 Code / OpenCode",
+      "provider": "opencode-go",
+      "provider_label": "opencode-go",
+      "model": "glm-5.3",
+      "session_id": "ses_e5fca540cffe45nKzYrtT06MCO",
+      "t3_thread_id": "thread:project:f55337a2-210e-41f8-b86c-9f259f406d78:bf0be126-3858-4f86-a580-f580dea14bdd",
+      "expected_cwd": "/Users/david/tetris-bench/runs/1c896e6a8739/tetris",
+      "expected_cwd_basename": "tetris",
+      "reasoning_variant": "max",
+      "web": "open",
+      "cutoff": {
+        "through_user_message": 1,
+        "exclude_inter_message_wait": true
+      },
+      "overhead": {
+        "kind": "unknown"
+      },
+      "spec": {
+        "sha256": "36e2097a78fe8b5646e6216338640831cff0a284cc823c4b1f658991c8d40294",
+        "commit": "26676be56c382a25afed8b8cba2af484932ecf09",
+        "modified": false
+      }
     }
   ]
 }
