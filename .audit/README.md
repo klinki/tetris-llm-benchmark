@@ -2,6 +2,41 @@
 
 This directory contains the reproducible, repository-safe parts of the audit behind [`RANKING.md`](../RANKING.md). Generated builds, copied `node_modules` trees, temporary web servers, browser profiles, and timestamped Playwright artifacts are intentionally excluded.
 
+## GPT-6.1 Sol (max) — November 3
+
+The [Sol max review](gpt61-sol-max-review.md) scores `gpt-6.1-sol` max
+**9/9/9/8.5/9 = 8.95**, repository rank 6/80. It was audited by the same
+reviewer as the four earlier Sol efforts, Claude Opus 5.5 (high, fast mode
+off), so that Sol does not grade itself; nothing was delegated. Two minors:
+a new lowest row keeps exhausted lock time and spent resets, and Space on the
+auto-focused Play again button restarts after top-out. Travelling-hard-drop
+spin clearing is recorded but not deducted, following the
+[agreement adjudication](auditor-agreement.md) and Sol high/xhigh. All 79
+historical scores and evidence are unchanged.
+
+```sh
+python3 .audit/run-gpt61-sol-max-audit.py --offline
+```
+
+The [runner](run-gpt61-sol-max-audit.py), [engine fixtures](gpt61-sol-max-audit.mjs)
+and [Chromium checks](gpt61-sol-max-browser.cjs) use one disposable locked-install
+copy, explicit build, 42/42 unchanged own passes, 28 states/48 ordered kicks/
+672 actual rotations, 100 bags, hold, ghosts (also as drawn), lock/reset/cap/
+contact/ledge/new-lowest clocks, all-level gravity, real soft entry, full
+scoring, buffer locks, terminal/reset and real-key/RAF/focus/geometry checks
+at 1280×800 and 390×844. The delivered server honours `PORT`, so nothing in the
+copy is adapted. 17 delivered hashes stay unchanged; `--archive` also
+compares the 16 authored files with the archived workspace. Options:
+`--offline`, `--engine-only`, `--review` and `--archive`. All copies, evidence,
+servers and browsers are cleaned on every handled exit.
+
+Generated with `batch gpt-6.1-sol max --instance codex` (no `--commit`), then
+imported with `--allow-outside` after the 41 findings were reviewed (AGENTS.md
+lookups, Codex skill docs and Playwright skill use, own test imports; recorded
+as `isolation.review`). **3,386,983 tokens, 19m 10.942s, $1.1650764** at the
+verified list price. See the review for exact IDs, usage, limits and validation.
+No commit, push, PR or publication.
+
 ## Full GLM-5.3 MAX — November 3
 
 The [independent Sol xhigh review](glm53-max-review.md) scores full

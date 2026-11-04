@@ -9,7 +9,7 @@ through a hard drop that travels, the blind Opus audit missed seven lock and
 gravity timing defects, and three rule questions have been judged
 differently from run to run. No score has been changed yet.
 
-- [ ] **Decide three open rules** (each would be a minor correctness
+- [ ] **Decide the open rules** (each would be a minor correctness
       defect):
   - [ ] Gravity floor: falling capped at about one row per frame from
         level 14 (four of the eight sampled runs do this).
@@ -17,6 +17,12 @@ differently from run to run. No score has been changed yet.
         the field and be visible at once? GPT-5.6 Sol high's pieces stay
         hidden for about 1 s at level 1.
   - [ ] Held Space: should holding Space keep hard-dropping new pieces?
+  - [ ] Spin credit after downward travel: the auditor-agreement
+        adjudication treats credit *kept* through a travelling hard drop as
+        a defect, but the GLM-5.3 low/MAX and Qwen3.8 Max xhigh audits
+        deduct credit *cleared* by it (expected 128). GPT-6.1 Sol
+        high/xhigh/max clear it and are not deducted
+        ([Sol max audit](.audit/gpt61-sol-max-review.md)).
 - [ ] **Probe every run the same way**, then apply deductions to all runs at
       once: T-spin credit after a travelling hard drop, partial locks above
       the field, and any rule adopted above. Among the sampled runs only

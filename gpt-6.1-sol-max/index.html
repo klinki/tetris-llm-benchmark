@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#f5f4ee" />
+    <meta name="description" content="A little focus. A little fun. Play a fresh take on classic Tetris, right in your browser." />
+    <title>Tetris — One more line.</title>
+    <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+    <link rel="stylesheet" href="styles.css" />
+    <script type="module" src="dist/main.js"></script>
+  </head>
+  <body>
+    <header class="site-header">
+      <a class="wordmark" href="./" aria-label="Tetris home">
+        <svg class="brand-mark" viewBox="0 0 30 30" aria-hidden="true"><path d="M1 1h8v8H1zm10 0h8v8h-8zm10 0h8v8h-8zM11 11h8v8h-8zm0 10h8v8h-8z" fill="currentColor" /></svg>
+        TETRIS<span class="wordmark-dot">.</span>
+      </a>
+      <span class="header-note">A classic. A fresh perspective.</span>
+      <button id="help-button" class="help-button" type="button"><span class="help-icon" aria-hidden="true">?</span> How to play</button>
+    </header>
+
+    <main>
+      <section class="intro" aria-labelledby="page-title">
+        <p class="eyebrow"><span class="tiny-star" aria-hidden="true">✳</span> SMALL BLOCKS. ENDLESS POSSIBILITIES.</p>
+        <h1 id="page-title">One more <em>line.</em></h1>
+        <p class="intro-copy">Find your rhythm. Make a little room.</p>
+      </section>
+
+      <section class="game-layout" aria-label="Tetris game">
+        <aside class="left-rail" aria-label="Game statistics and held piece">
+          <section class="score-card">
+            <h2 class="section-label">YOUR SCORE</h2>
+            <p class="score-value" id="score">000000</p>
+            <div class="best-row"><span><span aria-hidden="true">↗</span> Personal best</span><strong id="best">0</strong></div>
+          </section>
+
+          <section class="stats-card" aria-label="Progress">
+            <div class="stat-row"><h2 class="section-label">LEVEL</h2><p id="level">01</p></div>
+            <div class="stat-row"><h2 class="section-label">LINES</h2><p id="lines">000</p></div>
+            <div class="level-progress"><span id="progress-label">0 / 10 to next level</span><div class="progress-track" role="progressbar" aria-label="Lines to next level" aria-valuemin="0" aria-valuemax="10" aria-valuenow="0" id="progress"><div id="progress-fill"></div></div></div>
+          </section>
+
+          <section class="hold-card">
+            <div class="section-heading"><h2 class="section-label">HOLD</h2><kbd>C</kbd></div>
+            <div class="hold-preview" id="hold-preview"><canvas id="hold-canvas" width="144" height="88" role="img" aria-label="No held piece"></canvas><span class="hold-placeholder" id="hold-placeholder" aria-hidden="true">＋</span></div>
+            <p id="hold-note" class="hold-note">A little something<br />for later.</p>
+          </section>
+
+          <div class="session-stats"><span>TIME <strong id="time">00:00</strong></span><span>PIECES <strong id="pieces">0</strong></span></div>
+          <div id="clear-message" class="clear-message" hidden><strong id="clear-title"></strong><span id="clear-detail"></span></div>
+        </aside>
+
+        <div class="play-column">
+          <div class="board-heading"><span class="mode-label"><span class="status-dot" id="status-dot"></span> MARATHON</span><button type="button" class="pause-button" id="pause-button" aria-label="Pause game" disabled><svg id="pause-icon" viewBox="0 0 16 16" aria-hidden="true"><path d="M5 3v10M11 3v10" stroke="currentColor" stroke-width="2.5" /></svg><span id="pause-label">Pause</span><kbd>P</kbd></button></div>
+          <div class="play-area" id="play-area" tabindex="0" aria-label="Tetris playfield. Use arrow keys to move, up or X to rotate, space to drop, and C to hold.">
+            <canvas id="board" width="300" height="600" role="img" aria-label="Tetris playfield, 10 columns and 20 rows"></canvas>
+            <div id="overlay" class="board-overlay">
+              <div class="overlay-content">
+                <div class="overlay-symbol" id="overlay-symbol" aria-hidden="true"><span></span><span></span><span></span><span></span></div>
+                <p id="overlay-eyebrow" class="overlay-eyebrow">A FAMILIAR KIND OF FUN</p>
+                <h2 id="overlay-title">Ready to<br />find your flow?</h2>
+                <p id="overlay-description">A fresh board.<br />A world of possibilities.</p>
+                <button type="button" id="primary-button" class="primary-button">Let's play <span aria-hidden="true">↗</span></button>
+                <span id="overlay-hint" class="overlay-hint">or press <kbd>Enter</kbd></span>
+              </div>
+            </div>
+          </div>
+          <div class="board-footer"><span id="game-status">READY WHEN YOU ARE</span><span class="board-dimensions">10 × 20</span></div>
+        </div>
+
+        <aside class="right-rail" aria-label="Next pieces and controls">
+          <section class="next-card">
+            <div class="section-heading"><h2 class="section-label">UP NEXT</h2><span class="queue-count">05</span></div>
+            <ol class="next-list" aria-label="Next five pieces">
+              <li><span aria-hidden="true">01</span><canvas class="next-canvas" width="112" height="62" role="img" aria-label="First next piece"></canvas></li>
+              <li><span aria-hidden="true">02</span><canvas class="next-canvas" width="112" height="62" role="img" aria-label="Second next piece"></canvas></li>
+              <li><span aria-hidden="true">03</span><canvas class="next-canvas" width="112" height="62" role="img" aria-label="Third next piece"></canvas></li>
+              <li><span aria-hidden="true">04</span><canvas class="next-canvas" width="112" height="62" role="img" aria-label="Fourth next piece"></canvas></li>
+              <li><span aria-hidden="true">05</span><canvas class="next-canvas" width="112" height="62" role="img" aria-label="Fifth next piece"></canvas></li>
+            </ol>
+          </section>
+
+          <section class="controls-card" aria-label="Keyboard shortcuts">
+            <h2 class="section-label">MAKE YOUR MOVE</h2>
+            <dl class="shortcut-list">
+              <div><dt>Move</dt><dd><kbd>←</kbd><kbd>→</kbd></dd></div>
+              <div><dt>Rotate</dt><dd><kbd>↑</kbd><kbd>X</kbd></dd></div>
+              <div><dt>Soft drop</dt><dd><kbd>↓</kbd></dd></div>
+              <div><dt>Hard drop</dt><dd><kbd class="wide-key">space</kbd></dd></div>
+            </dl>
+            <p class="controls-note">Good things fall<br />into place.</p>
+          </section>
+        </aside>
+      </section>
+
+      <div class="touch-controls" aria-label="Touch game controls">
+        <div class="touch-row"><button type="button" data-action="hold" aria-label="Hold piece"><span>C</span><small>HOLD</small></button><button type="button" data-action="ccw" aria-label="Rotate counterclockwise"><span>↶</span><small>ROTATE</small></button><button type="button" data-action="cw" aria-label="Rotate clockwise"><span>↷</span><small>ROTATE</small></button><button type="button" data-action="drop" class="touch-drop" aria-label="Hard drop"><span>⇓</span><small>DROP</small></button></div>
+        <div class="touch-row"><button type="button" data-action="left" aria-label="Move left">←</button><button type="button" data-action="down" aria-label="Soft drop">↓</button><button type="button" data-action="right" aria-label="Move right">→</button></div>
+      </div>
+
+      <p class="game-caption"><span aria-hidden="true">✳</span> No rush. Just you and the next piece.</p>
+      <p id="announcer" class="sr-only" role="status" aria-live="polite" aria-atomic="true"></p>
+      <noscript><p class="noscript-message">Please enable JavaScript to play Tetris.</p></noscript>
+    </main>
+
+    <footer class="site-footer"><span>THE SIMPLE JOY OF MAKING THINGS FIT.</span><span>MADE TO PLAY. AGAIN &amp; AGAIN.</span></footer>
+
+    <dialog id="help-dialog" aria-labelledby="help-title">
+      <div class="dialog-top"><p class="eyebrow">A QUICK REFRESHER</p><button type="button" id="close-help" class="close-button" aria-label="Close instructions">×</button></div>
+      <h2 id="help-title">Everything in its place.</h2>
+      <p>Move and rotate the falling pieces to fill a horizontal line. Full lines disappear, making room for more. Keep the stack from reaching the top.</p>
+      <dl class="help-controls">
+        <div><dt>Move left / right</dt><dd><kbd>←</kbd> <kbd>→</kbd></dd></div>
+        <div><dt>Rotate clockwise</dt><dd><kbd>↑</kbd> or <kbd>X</kbd></dd></div>
+        <div><dt>Rotate counterclockwise</dt><dd><kbd>Z</kbd> or <kbd>left ctrl</kbd></dd></div>
+        <div><dt>Soft drop</dt><dd><kbd>↓</kbd></dd></div>
+        <div><dt>Hard drop &amp; lock</dt><dd><kbd>space</kbd></dd></div>
+        <div><dt>Hold / swap piece</dt><dd><kbd>C</kbd></dd></div>
+        <div><dt>Pause / resume</dt><dd><kbd>P</kbd> or <kbd>Esc</kbd></dd></div>
+        <div><dt>Restart after game over</dt><dd><kbd>R</kbd> or <kbd>Enter</kbd></dd></div>
+      </dl>
+      <div class="help-tip"><strong>A few little advantages.</strong><p>The outlined ghost shows your landing spot. Hold a piece once per turn. Clear four lines together for a Tetris, or try a T-spin. Combos, back-to-back difficult clears, and perfect clears earn extra points.</p><p>Every 10 lines, the level and speed increase. Your personal best is saved on this device.</p></div>
+      <button type="button" id="done-help" class="primary-button">Got it <span aria-hidden="true">↗</span></button>
+    </dialog>
+  </body>
+</html>

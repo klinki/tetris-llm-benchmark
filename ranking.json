@@ -2550,6 +2550,30 @@
         }
       ],
       "summary": "Canonical SRS and fresh restart bags; missing PC, hard-drop spin loss, above-buffer cell loss and phone clipping"
+    },
+    {
+      "run_id": "gpt-6.1-sol-max",
+      "audited": "2026-11-03",
+      "scores": {
+        "correctness": 9.0,
+        "tests": 9.0,
+        "code": 9.0,
+        "simplicity": 8.5,
+        "browser_ux": 9.0
+      },
+      "bugs": [
+        {
+          "severity": "minor",
+          "title": "A new lowest row neither restores lock delay nor refreshes spent resets",
+          "detail": "O r0 at (-1,12) on support (0,14): fifteen real rotations spend every reset; after 490 ms, Right moves it off the ledge. Airborne time keeps accruing once resets reach 15, and descending clears neither the lock clock nor the count, so the O touches the floor at 5495 ms and welds at 5496, 1 ms after contact instead of 500. With eleven spent resets the same fall leaves 4 grounded resets, not 15. The ordinary pre-cap ledge is safe (contact 5510, weld 6010). Engine and real Chromium Up/Right plus the unchanged RAF agree."
+        },
+        {
+          "severity": "minor",
+          "title": "Space starts a new game from the game-over screen",
+          "detail": "Top-out focuses the overlay's Play again button and Input ignores Space on focused buttons, so the browser activates it. After eleven real Space drops reach game over, releasing that Space does nothing and Left/Up/C/Down are inert, but the next Space press, or a held Space that auto-repeats, immediately clears the board, final score and overlay and starts a new game. Only R (plus Enter, as documented) should restart. Reproduced at 1280x800 and 390x844; real R restarts with a fresh bag."
+        }
+      ],
+      "summary": "Canonical SRS, exact clocks and full scoring with the broad own suite; new-lowest-row lock reset and game-over Space restart"
     }
   ]
 }
