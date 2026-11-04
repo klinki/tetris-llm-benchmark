@@ -120,6 +120,7 @@ def main():
             print(f"{mode}: unchanged own workflow passed ({own.strip().splitlines()[-1]})", flush=True)
             engine = run(["node", str(ROOT / ".audit/gpt61-terra-audit.mjs"), str(copy), mode], ROOT, temporary / f"{mode}-engine.log")
             print(f"{mode}: engine outcomes asserted", flush=True)
+            print(json.dumps({"mode": mode, "hardDropCredit": json.loads(engine)["hardDropCredit"]}), flush=True)
             if not args.engine_only:
                 browser(copy, mode, temporary, args)
         if args.review:

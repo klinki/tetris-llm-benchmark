@@ -89,10 +89,13 @@ export function runProbes(a,oracle) {
   e.hidden=[];for(const partial of [false,true]){const g=make();clear(g);put(g,partial?8:0,partial?1:0);if(mode==='low'&&!partial)put(g,5,0);spawn(g,'T');incoming(g,'I');const start=active(g);for(let i=0;i<(partial?4:3);i++)check(move(g,partial?1:-1),'hidden move');if(partial&&mode!=='low')advance(g,1000);const pose=active(g),ys=cells(pose).map(p=>p[1]);check(partial?ys.some(y=>y<0)&&ys.some(y=>y>=0):ys.every(y=>y<0),'hidden extent');eq(ghost(g),pose.y,'grounded hidden');hard(g);e.hidden.push({partial,start,pose,over:over(g)});}
   {const g=make();place(g,'O',0,-1,18);incoming(g,'T');put(g,4,-2);hard(g);check(over(g),'blocked spawn');const snap=()=>JSON.stringify([active(g),count(g),g.score,g.hold,g.lines,g.level]),before=snap();move(g,-1);rotate(g,1);hard(g);hold(g);advance(g,1000);eq(snap(),before,'terminal guards');g.reset();eq([over(g),count(g),g.score,g.lines,g.level,g.hold,g.canHold],[false,0,0,0,1,null,true],'reset state');e.terminal='pass';}
   e.restart=[];for(const seed of [1,2,42]){const g=make(seed);let n=0;while(!over(g)&&n++<100)hard(g);check(over(g),'natural topout');g.reset();const opening=[];for(let i=0;i<7;i++){opening.push(active(g).type);clear(g);hard(g);}e.restart.push({seed,opening,types:new Set(opening).size});}
+  // HD-SPIN-1: snapshots retain failures; only 28 points conforms.
+  e.hardDropCredit={distance:14,score:e.scores.hardDownExtra,expected:28,conforms:e.scores.hardDownExtra===28};
   return e;
 }
 
 export function assertRecorded(e) {
+  assert.deepEqual(e.hardDropCredit,{distance:14,score:e.mode==='low'?28:128,expected:28,conforms:e.mode==='low'});
   assert.equal(e.bags,100);assert.equal(e.rotations.mismatches,e.mode==='low'?59:50);assert.deepEqual(e.landing,{at1489:0,at1490:4});assert.deepEqual(e.restart.map(r=>r.types),[6,6,6]);assert.deepEqual(e.refresh,[9,9]);assert.equal(e.rotations.total,672);assert.deepEqual(e.kicks,[]);
   assert.deepEqual(e.states,e.mode==='low'?[]:['J1','J3','L1','L3']);
   for(const timed of [false,true])for(const full of [false,true])for(const line of [false,true])assert.equal(e.scores[`${timed?'timed':'hard'}-${full?'full':'mini'}-${line?'single':'zero'}`],full?(line?800:400):(line?200:100));

@@ -26,9 +26,13 @@ isolation and price do not change quality.
 
 | Correctness | Tests | Code | Simplicity | Browser UX | Weighted | Findings |
 |---:|---:|---:|---:|---:|---:|---|
-| 8.0 | 7.5 | 9.0 | 8.5 | 8.5 | **8.20** | 4 minor |
+| 8.5 | 7.5 | 9.0 | 8.5 | 8.5 | **8.40** | 3 minor |
 
-`10−4×.5=8`; `3.20+1.50+1.80+.85+.85=8.20`.
+`10−3×.5=8.5`; `3.40+1.50+1.80+.85+.85=8.40`.
+
+Amended 2026-11-04 under [HD-SPIN-1](SPEC.md);
+[score reconciliation](hard-drop-rule-review.md). The ranks and validation
+counts recorded below refer to the original November 3 audit.
 Repository rank **25/79**; local results-site rank **21/72**, under its
 existing exclusions. No historical score or audit body was revised; only
 necessary ranking-heading ordinals move.
@@ -98,7 +102,7 @@ handle inside main. Controlled RAF/time, seeded RNG and forwarded canvas
 draw calls provide repeatable observation. All24 hold/five-next preview cells
 paint inside their backing canvases at proportional dimensions.
 
-## Four confirmed minor findings
+## Three confirmed minor findings (amended November 4)
 
 Coordinates below use visible x0..9,y0..19; native y is visible y+2.
 
@@ -109,16 +113,7 @@ Coordinates below use visible x0..9,y0..19; native y is visible y+2.
    never adds the bonus. One isolated minor, matching low/high/Gemini/Opus.
    Real horizontal-I zero-travel Space yields100 and an empty board.
 
-2. **A travelling hard drop erases valid spin credit.** Stack
-   `(0,17),(0,19),(2,19)`, T r0,(0,3), actual CW, then fourteen-row Space
-   reaches the mini pocket for **28**, expected **128**. `hardDrop` changes
-   lastAction to fall when distance>0. Zero-travel full/mini locks and deep
-   kicks work. Natural descent gives0 extra spin points, manual soft descent
-   correctly gives0; these observations are recorded without a separate
-   gravity-only ruling or second deduction. The recent full-GLM low audit
-   deducts this same travelling-hard-drop defect as one spin-history minor.
-
-3. **A legal above-buffer partial lock discards one cell.** Stack
+2. **A legal above-buffer partial lock discards one cell.** Stack
    `(5,0),(3,0),(6,1)`, real I spawn, CW uses fifth kick to r1,(4,−4).
    After1000 ms the grounded pose is r1,(4,−3), occupying
    `(6,−3),(6,−2),(6,−1),(6,0)` with one visible cell. Incoming T is open.
@@ -130,7 +125,7 @@ Coordinates below use visible x0..9,y0..19; native y is visible y+2.
    fidelity minor follows the existing discarded-hidden-cell precedent,
    separate from normal stored-buffer behavior.
 
-4. **The fixed phone layout clips the field and supporting panels.** At
+3. **The fixed phone layout clips the field and supporting panels.** At
    390×844 document width**423**. Board border321×640 at **x−32.5,y92** loses
    32.5 px on the left. Panel x304.5,width118 extends to422.5; hold/next
    96 px at x315.5 extend to411.5. Controls spanx−32.5..422.5. Desktop board
@@ -143,6 +138,13 @@ then499/1 ms locks at**1506** overall, not prematurely at1490. This is
 ordinary frame-delayed contact observation, accepted in the Opus/MiMo
 calibration; **no new contact deduction**. No new gravity-floor/spawn-row/
 held-key-repeat rule was introduced.
+
+## Conforming hard-drop spin history
+
+Stack `(0,17),(0,19),(2,19)`, T r0 at `(0,3)`, real CW then fourteen-row
+Space scores **28**, conforming under HD-SPIN-1. Zero-travel full/mini locks
+and fourth/fifth kicks retain their bonuses. The former spin-loss deduction
+is withdrawn; gravity remains observed without a new ruling.
 
 ## Own tests and qualitative criteria
 

@@ -200,6 +200,8 @@ export function additionalProbes(a) {
     step(g,ms*.002);if(active(g).y<1||g.score!==0)throw Error('missing gravity L'+level);
     gravity.push({level,firstInteger:Math.ceil(ms),rows:active(g).y,score:g.score});
   }
+  // HD-SPIN-1: the hard-drop case conforms at 28; absent zero-travel
+  // spin recognition remains part of the separate grouped scoring defect.
   const downward=[];
   for(const method of ['gravity','hard','soft']) {
     const g=make();for(const[x,y]of [[0,17],[0,19],[2,19]])put(g,x,y);

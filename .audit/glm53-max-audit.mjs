@@ -95,10 +95,13 @@ export function runProbes(a,oracle) {
   {const g=make();place(g,'O',0,-1,12);put(g,0,14);for(let i=0;i<15;i++)rotate(g,1);const spent=g.lockResets;move(g,1);advance(g,1000);e.newLowest={spent,pose:active(g),resets:g.lockResets};advance(g,5000);move(g,1);e.newLowest.freshReset=g.lockResets;advance(g,499);eq(count(g),1,'new lowest full reset survival');step(g,1);eq(count(g),5,'new lowest lock');}
   {const g=make();place(g,'O',0,3,0);advance(g,800);g.update(1,true);e.rawSoftEntry={rows:active(g).y,points:g.score};}
   {const g=make();place(g,'S',1,-1,-2);put(g,2,-2);put(g,0,0);rotate(g,-1);e.ceilingWall=active(g);}
+  // HD-SPIN-1: snapshots retain failures; only 28 points conforms.
+  e.hardDropCredit={distance:14,score:e.scores.hardDownExtra,expected:28,conforms:e.scores.hardDownExtra===28};
   return e;
 }
 
 export function assertRecorded(e) {
+  assert.deepEqual(e.hardDropCredit,{distance:14,score:28,expected:28,conforms:true});
   assert.equal(e.rotations.total,672);assert.equal(e.rotations.rejected,88);assert.equal(e.rotations.mismatches,0);
   assert.deepEqual(e.states,[]);assert.deepEqual(e.kicks,[]);assert.equal(e.bags,100);
   assert.equal(e.hold,'pass');assert.equal(e.compaction,'pass');assert.equal(e.ghosts.length,7);assert(e.ghosts.every(x=>x[1]===14));

@@ -1,5 +1,11 @@
 # Qwen3.8 Max xhigh audit
 
+**2026-11-04 policy amendment:** [HD-SPIN-1](SPEC.md) now governs hard-drop
+spin credit. See the [consistency amendment](hard-drop-rule-review.md) for
+current scores, grouped findings and reproduced outcomes. Tables/ranks and
+statements about unchanged historical scores below describe the original
+audit date except where explicitly amended.
+
 Audit date: **2026-10-27 (Europe/Rome)**. Independent audit on `main` of
 `qwen3.8-max-xhigh`, **Alibaba `qwen3.8-max`**, **OpenCode Go**, harness
 **T3 Code / OpenCode**, effort xhigh. Single prompt: “Read the README.md
@@ -107,8 +113,8 @@ poses and clocks, never spin credit or a repaired rule.
 
    Downward-credit fixture: stack **(0,17),(0,19),(2,19)**, T r0,(0,3),
    actual CW, then descend to r1,(0,17). Natural gravity then zero-travel
-   hard drop gives **0**, expected **100 mini**. Nonzero hard drop gives
-   **28**, expected **128** (14 rows×2+100). Successful manual soft descent
+   hard drop gives **0**, expected **100 mini**. Nonzero hard drop correctly gives
+   **28** under HD-SPIN-1 (14 rows×2, no spin bonus). Successful manual soft descent
    gives 14 soft points with 0 extra, matching the prior audit's manual
    translation-cancels-credit profile. These are the same absent-spin
    feature, not extra deductions.

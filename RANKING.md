@@ -2,6 +2,13 @@
 
 This ranking evaluates 80 implementations against [`TETRIS.md`](TETRIS.md). Quality is scored independently of generation time and token use; efficiency data appears only as non-scoring context.
 
+**November 4 scoring amendment:** [HD-SPIN-1](.audit/SPEC.md) adopts the earlier
+hard-drop interpretation. The [consistency review](.audit/hard-drop-rule-review.md)
+reconciles eleven implementations and changes four weighted scores. Current
+rankings below include those changes; dated historical audit summaries retain
+their original context. Other historical runs have not been newly certified
+against this edge case.
+
 The original audit was performed on 2026-08-10, Luna PI was added on 2026-08-29, and five T3 Code/OpenCode implementations were added on 2026-10-20. The first 32 implementations initially passed their declared build/test workflows in isolated temporary copies. GPT-6 Luna medium fails to build; GPT-6 Luna xhigh builds but has a deterministically failing own bag test, recorded separately below. GLM max also has a reproducible random-dependent own-test failure, recorded in its audit and test score. Nemotron nevertheless fails to start in the browser because its emitted imports do not resolve. Browser checks used each project's intended server behavior and Chromium at 1280×800 and 390×844. Reproducible probes and evidence are in [`.audit`](.audit/README.md).
 
 Opus 5.5 and Muse Spark 1.3 (medium, reference-assisted; `muse-spark-1.3-medium`) were added on 2026-10-23 with the same scoring profile. Muse's implementation agent read Gemini-4's engine, shape data, tests, and build files before writing its version; its quality can be scored, but its efficiency is not an independent from-scratch comparison. See the [October 23 audit](.audit/oct23-review.md).
@@ -144,7 +151,7 @@ Full GLM-5.3 MAX (`opencode-go/glm-5.3`, `glm-5.3-max`) was independently
 reviewed by **GPT-6.1 Sol xhigh** on 2026-11-03. The
 [MAX audit](.audit/glm53-max-review.md) records all delivered source/own-test
 review, fresh-copy build and24/24 own passes, independent engine and both
-Chromium views, score **8.20**, exact identity/usage/pricing and clean
+Chromium views, amended score **8.40**, exact identity/usage/pricing and clean
 isolation. All78 historical scores and audit evidence remain unchanged.
 
 GPT-6.1 Sol (max) (`gpt-6.1-sol-max`, T3 Code / Codex, standard tier) was
@@ -169,26 +176,26 @@ Scores and confirmed bugs are recorded in [`ranking.json`](ranking.json); this t
 | 4 | Claude Sonnet 5.5 (xhigh) | 9.5 | 8.5 | 9.0 | 8.0 | 9.0 | **9.00** | 1 minor |
 | 5 | GPT-6.1 Sol (medium) | 9.5 | 8.5 | 8.5 | 9.0 | 9.0 | **9.00** | 1 minor |
 | 6 | GPT-6.1 Sol (max) | 9.0 | 9.0 | 9.0 | 8.5 | 9.0 | **8.95** | 2 minor |
-| 7 | GPT-6.1 Terra (max) | 9.0 | 8.5 | 9.0 | 8.5 | 9.0 | **8.85** | 2 minor |
-| 8 | Claude Haiku 5.5 (xhigh) | 9.0 | 8.5 | 9.0 | 8.5 | 8.5 | **8.80** | 2 minor |
-| 9 | GPT-6.1 Terra (ultra) | 9.5 | 6.5 | 9.0 | 9.0 | 8.5 | **8.65** | 1 minor |
-| 10 | Claude Sonnet 5.5 (high) | 9.0 | 8.0 | 9.0 | 8.0 | 8.5 | **8.65** | 2 minor |
-| 11 | Luna OMP | 10.0 | 6.5 | 8.5 | 7.0 | 9.0 | **8.60** | 0 |
-| 12 | Claude Haiku 5.5 (high) | 9.0 | 7.5 | 9.0 | 8.0 | 8.5 | **8.55** | 2 minor |
-| 13 | Gemini-4 | 9.0 | 8.0 | 8.5 | 7.0 | 9.0 | **8.50** | 2 minor |
-| 14 | Luna PI | 9.5 | 6.5 | 9.0 | 7.0 | 8.5 | **8.45** | 1 minor |
-| 15 | Gemini 4 Argon (high) | 9.0 | 8.0 | 8.5 | 7.0 | 8.5 | **8.45** | 2 minor |
+| 7 | Claude Haiku 5.5 (xhigh) | 9.0 | 8.5 | 9.0 | 8.5 | 8.5 | **8.80** | 2 minor |
+| 8 | Claude Sonnet 5.5 (high) | 9.0 | 8.0 | 9.0 | 8.0 | 8.5 | **8.65** | 2 minor |
+| 9 | GPT-6.1 Terra (max) | 8.5 | 8.5 | 9.0 | 8.5 | 9.0 | **8.65** | 3 minor |
+| 10 | Luna OMP | 10.0 | 6.5 | 8.5 | 7.0 | 9.0 | **8.60** | 0 |
+| 11 | Claude Haiku 5.5 (high) | 9.0 | 7.5 | 9.0 | 8.0 | 8.5 | **8.55** | 2 minor |
+| 12 | Gemini-4 | 9.0 | 8.0 | 8.5 | 7.0 | 9.0 | **8.50** | 2 minor |
+| 13 | Luna PI | 9.5 | 6.5 | 9.0 | 7.0 | 8.5 | **8.45** | 1 minor |
+| 14 | Gemini 4 Argon (high) | 9.0 | 8.0 | 8.5 | 7.0 | 8.5 | **8.45** | 2 minor |
+| 15 | GPT-6.1 Terra (ultra) | 9.0 | 6.5 | 9.0 | 9.0 | 8.5 | **8.45** | 2 minor |
 | 16 | Muse Spark 1.3 (medium, reference-assisted) | 9.0 | 7.5 | 8.0 | 8.0 | 9.0 | **8.40** | 2 minor |
 | 17 | Claude Opus 5.5 (medium) | 8.5 | 7.5 | 9.0 | 8.5 | 8.5 | **8.40** | 3 minor |
-| 18 | Claude Sonnet 5.5 (medium) | 8.5 | 7.5 | 9.0 | 8.5 | 8.0 | **8.35** | 3 minor |
-| 19 | Sol OMP | 9.5 | 5.5 | 8.5 | 8.0 | 9.0 | **8.30** | 1 minor |
-| 20 | Claude Opus 5.5 (xhigh) | 8.0 | 8.0 | 9.0 | 8.5 | 8.5 | **8.30** | 4 minor |
-| 21 | Claude Haiku 5.5 (low) | 9.0 | 6.0 | 9.0 | 8.5 | 8.0 | **8.25** | 2 minor |
-| 22 | GPT-6.1 Terra (xhigh) | 8.5 | 6.5 | 9.0 | 9.0 | 8.5 | **8.25** | 3 minor |
-| 23 | Claude Haiku 5.5 (max) | 8.0 | 8.0 | 9.0 | 8.0 | 8.5 | **8.25** | 4 minor |
-| 24 | DeepSeek V4.1 Flash 1017 (max) | 8.0 | 8.0 | 9.0 | 7.5 | 9.0 | **8.25** | 4 minor |
-| 25 | GLM-5.3-Flash (max) | 8.0 | 7.5 | 9.0 | 8.0 | 9.0 | **8.20** | 1 major, 1 minor |
-| 26 | GLM-5.3 (max) | 8.0 | 7.5 | 9.0 | 8.5 | 8.5 | **8.20** | 4 minor |
+| 18 | GLM-5.3 (max) | 8.5 | 7.5 | 9.0 | 8.5 | 8.5 | **8.40** | 3 minor |
+| 19 | Claude Sonnet 5.5 (medium) | 8.5 | 7.5 | 9.0 | 8.5 | 8.0 | **8.35** | 3 minor |
+| 20 | Sol OMP | 9.5 | 5.5 | 8.5 | 8.0 | 9.0 | **8.30** | 1 minor |
+| 21 | Claude Opus 5.5 (xhigh) | 8.0 | 8.0 | 9.0 | 8.5 | 8.5 | **8.30** | 4 minor |
+| 22 | Claude Haiku 5.5 (low) | 9.0 | 6.0 | 9.0 | 8.5 | 8.0 | **8.25** | 2 minor |
+| 23 | GPT-6.1 Terra (xhigh) | 8.5 | 6.5 | 9.0 | 9.0 | 8.5 | **8.25** | 3 minor |
+| 24 | Claude Haiku 5.5 (max) | 8.0 | 8.0 | 9.0 | 8.0 | 8.5 | **8.25** | 4 minor |
+| 25 | DeepSeek V4.1 Flash 1017 (max) | 8.0 | 8.0 | 9.0 | 7.5 | 9.0 | **8.25** | 4 minor |
+| 26 | GLM-5.3-Flash (max) | 8.0 | 7.5 | 9.0 | 8.0 | 9.0 | **8.20** | 1 major, 1 minor |
 | 27 | Sol Codex | 8.0 | 6.5 | 9.0 | 9.5 | 9.5 | **8.20** | 1 major, 1 minor |
 | 28 | DeepSeek V4.1 Flash 1017 (low) | 8.0 | 7.5 | 9.0 | 8.0 | 8.5 | **8.15** | 1 major, 1 minor |
 | 29 | GPT-5.6 Sol (xhigh) | 8.0 | 6.5 | 9.0 | 8.0 | 9.0 | **8.00** | 4 minor |
@@ -215,10 +222,10 @@ Scores and confirmed bugs are recorded in [`ranking.json`](ranking.json); this t
 | 50 | GPT-5.6 Sol (medium) | 7.0 | 5.5 | 9.0 | 8.5 | 8.5 | **7.40** | 1 major, 3 minor |
 | 51 | Cat-jam | 6.5 | 7.5 | 8.5 | 8.0 | 8.0 | **7.40** | 2 major, 1 minor |
 | 52 | Muse Spark 1.3 (xhigh) | 7.0 | 6.0 | 8.5 | 8.0 | 8.5 | **7.35** | 1 major, 3 minor |
-| 53 | GPT-6.1 Terra (low) | 8.0 | 5.0 | 7.0 | 9.0 | 8.0 | **7.30** | 4 minor |
-| 54 | DeepSeek OMP/PI | 6.5 | 8.5 | 8.0 | 7.0 | 7.0 | **7.30** | 2 major, 1 minor |
-| 55 | Qwen3.8 Flash (medium) | 6.0 | 7.0 | 9.0 | 8.5 | 8.5 | **7.30** | 2 major, 2 minor |
-| 56 | GPT-6 Luna (max) | 6.5 | 5.5 | 9.0 | 8.5 | 9.0 | **7.25** | 1 major, 4 minor |
+| 53 | DeepSeek OMP/PI | 6.5 | 8.5 | 8.0 | 7.0 | 7.0 | **7.30** | 2 major, 1 minor |
+| 54 | Qwen3.8 Flash (medium) | 6.0 | 7.0 | 9.0 | 8.5 | 8.5 | **7.30** | 2 major, 2 minor |
+| 55 | GPT-6 Luna (max) | 6.5 | 5.5 | 9.0 | 8.5 | 9.0 | **7.25** | 1 major, 4 minor |
+| 56 | GPT-6.1 Terra (low) | 7.5 | 5.0 | 7.0 | 9.0 | 8.0 | **7.10** | 1 major, 2 minor |
 | 57 | Muse Spark 1.3 (medium) | 6.5 | 5.5 | 8.5 | 8.5 | 8.0 | **7.05** | 1 major, 4 minor |
 | 58 | GPT-6.1 Terra (medium) | 7.0 | 5.0 | 7.0 | 8.5 | 8.5 | **6.90** | 6 minor |
 | 59 | GLM-5.3 (high) | 5.0 | 7.0 | 9.0 | 8.5 | 8.5 | **6.90** | 1 major, 7 minor |
@@ -990,7 +997,7 @@ unresolved high-level gravity floor are recorded without a new deduction.
 | 499/500 lock, full fifteen-cap, ordinary/exhausted ledges/new-lowest | ✅ |
 | Natural contact clock (ordinary frame-delayed observation) | ✅ |
 | Normal/full/mini/B2B/combo/pre-clear level scoring | ✅ |
-| Spin credit through travelling hard drop | ◐ |
+| Travelling hard drop cancels spin credit; zero-travel preserves it | ✅ |
 | Perfect-clear bonuses, including B2B Tetris PC | ◐ |
 | Gravity curve/levels/60–144 Hz; actual soft entry/release | ✅ |
 | Stored-buffer hidden/partial locks; blocked spawn/terminal/reset | ✅ |
@@ -1001,7 +1008,7 @@ unresolved high-level gravity floor are recorded without a new deduction.
 All geometry/rotation comparisons match. Real Down clears prior gravity time
 and gives one immediate row. Landing is observed6ms late in the standard
 fixture, accepted under recent calibration. One partial I lock above the
-stored buffer loses a cell; travelling Space loses spin credit; PC bonuses
+stored buffer loses a cell; travelling Space correctly clears spin credit; PC bonuses
 are absent; the phone board/panel clip. [Exact fixtures](.audit/glm53-max-review.md).
 
 ### GPT-6.1 Sol (max) — November 3
@@ -1678,26 +1685,11 @@ Confirmed findings:
 - **Minor (−0.5 correctness): a new lowest row neither restores lock delay nor refreshes spent resets.** O r0,(−1,12) on support (0,14): fifteen real rotations, 490 ms, Right off the ledge. Airborne time keeps accruing once resets reach 15, so it touches the floor at 5495 ms and welds at 5496, 1 ms after contact instead of 500; eleven spent resets leave only four after the fall. The pre-cap ledge is safe (5510/6010). Precedent: GPT-6.1 Terra max, Claude Opus 5.5 low. Scoring effect: `10.0 → 9.5`.
 - **Minor (−0.5 correctness): Space starts a new game from the game-over screen.** Top-out focuses Play again, and Input ignores Space on focused buttons. Releasing the final Space and pressing Left/Up/C/Down do nothing, but the next Space press, or a held Space that auto-repeats, clears the board, final score and overlay and starts a new game. Only R (and documented Enter) should restart. Both sizes. Scoring effect: `9.5 → 9.0`.
 
-Not deducted: travelling hard drop, gravity and soft rows all clear spin credit (28 rather than 128 in the downward fixture), as in Sol high/xhigh and as the auditor-agreement adjudication rules; the later GLM/Qwen profile differs and is listed in [`TODO.md`](TODO.md).
+Not deducted: travelling hard drop, gravity and soft rows all clear spin credit (28 rather than 128 in the downward fixture), as in Sol high/xhigh and as the auditor-agreement adjudication rules; the earlier ruling is now specified in [HD-SPIN-1](.audit/SPEC.md) and the conflicting GLM/Qwen findings are reconciled.
 
 [Complete review, reproducible engine/browser fixtures, calibration, limits, identity, usage, pricing and isolation](.audit/gpt61-sol-max-review.md). All 79 historical scores and evidence remain unchanged.
 
-### 7. GPT-6.1 Terra (max) — 8.85
-
-Run ID: `gpt-6.1-terra-max`. Summary: **Broad deterministic suite and event-ordered gravity; exhausted ledge retains old lock time and desktop queue is stretched**.
-
-Scores (correctness/tests/code/simplicity/browser UX): **9.0/8.5/9.0/8.5/9.0**.
-
-- **Minor (−0.5 correctness): A new lowest row retains exhausted lock time.** O r0,(-1,12) on only support(0,14),15 actual CW rotations, wait490 ms, Right off ledge. With1 ms frames floor contact is6000 ms after the move, weld6010, only10 ms later instead of500. Previous-contact lockElapsed=490 survives six new lower rows. Ordinary contact and pre-cap ledge safety pass; real Up/Right and unchanged Chromium RAF agree.
-- **Minor (−0.5 correctness): The desktop next preview is stretched non-uniformly.** At1280x800, the next128x240 backing displays128x210 because the short-desktop media rule changes height alone. Cell width/height ratio1.142857 makes squares wide. Hold and phone previews remain proportional; all24 preview cells paint inside the backings.
-
-Correctness: `10 − 2×0.5 = 9.0`. Weighted: `3.60 + 1.70 + 1.80 + 0.85 + 0.90 = 8.85`.
-
-Tests **8.5**: ten seeded cases with precise cap/contact, full/mini zero, B2B/combo/PC and held orientation; all pass. Audit probes do not earn own-test credit. Code **9.0**, simplicity **8.5**, UX **9.0**: readable typed engine with event-ordered clocks and a larger direct UI; custom keyboard/pointer repeat, full responsive state and labels.
-
-All build/test/start, canonical engine and desktop/phone checks passed with the recorded defective outcomes. Full criterion rationale, own-suite coverage, fixtures, browser geometry, generation/isolation context and limits: [GPT-6.1 Terra audit](.audit/gpt61-terra-review.md).
-
-### 8. Claude Haiku 5.5 (xhigh) — 8.80
+### 7. Claude Haiku 5.5 (xhigh) — 8.80
 
 Strengths:
 
@@ -1717,21 +1709,7 @@ Test gaps and rationale:
 
 Evidence and the port-8321 isolation incident are in the [Haiku audit record](.audit/haiku-review.md).
 
-### 9. GPT-6.1 Terra (ultra) — 8.65
-
-Run ID: `gpt-6.1-terra-ultra`. Summary: **Canonical engine passes audited rules; narrower own suite, responsive UI and clicked Pause capturing Space**.
-
-Scores (correctness/tests/code/simplicity/browser UX): **9.5/6.5/9.0/9.0/8.5**.
-
-- **Minor (−0.5 correctness): A clicked Pause button captures Space instead of hard drop.** Fresh T r0,(3,5), mouse-click Pause twice, then real Space. #pause keeps focus; active pose/score and zero welded cells are unchanged while overlay becomes display:flex as native Space pauses again. Both Chromium sizes reproduce it. Required keys work with board/body focus; all engine probes pass.
-
-Correctness: `10 − 1×0.5 = 9.5`. Weighted: `3.80 + 1.30 + 1.80 + 0.90 + 0.85 = 8.65`.
-
-Tests **6.5**: eight basic cases with obstructed ghost, exact delay and hidden/blocked spawn; all pass. Audit probes do not earn own-test credit. Code **9.0**, simplicity **9.0**, UX **8.5**: readable strict two-module engine with event-ordered time and separate hidden rows; responsive three-preview UI and pointer repeats.
-
-All build/test/start, canonical engine and desktop/phone checks passed with the recorded defective outcomes. Full criterion rationale, own-suite coverage, fixtures, browser geometry, generation/isolation context and limits: [GPT-6.1 Terra audit](.audit/gpt61-terra-review.md).
-
-### 10. Claude Sonnet 5.5 (high) — 8.65
+### 8. Claude Sonnet 5.5 (high) — 8.65
 
 Strengths:
 
@@ -1751,7 +1729,25 @@ Test gaps and rationale:
 
 The [Sonnet record](.audit/sonnet-review.md) contains reproductions and supplied isolation facts.
 
-### 11. Luna OMP — 8.60
+### 9. GPT-6.1 Terra (max) — 8.65
+
+Run ID: `gpt-6.1-terra-max`. Summary: **Broad deterministic suite and event-ordered gravity; exhausted ledge retains old lock time and desktop queue is stretched; travelling hard drop preserves stale spin credit**.
+
+Scores (correctness/tests/code/simplicity/browser UX): **8.5/8.5/9.0/8.5/9.0 = 8.65**.
+
+- **Minor: A new lowest row retains exhausted lock time.** O r0,(-1,12) on only support(0,14),15 actual CW rotations, wait490 ms, Right off ledge. With1 ms frames floor contact is6000 ms after the move, weld6010, only10 ms later instead of500. Previous-contact lockElapsed=490 survives six new lower rows. Ordinary contact and pre-cap ledge safety pass; real Up/Right and unchanged Chromium RAF agree.
+- **Minor: The desktop next preview is stretched non-uniformly.** At1280x800, the next128x240 backing displays128x210 because the short-desktop media rule changes height alone. Cell width/height ratio1.142857 makes squares wide. Hold and phone previews remain proportional; all24 preview cells paint inside the backings.
+- **Minor: A travelling hard drop preserves stale T-spin credit.** HD-SPIN-1: stack(0,17),(0,19),(2,19), T r0,(0,3), real CW then fourteen-row hard drop into r1,(0,17) scores128 rather than28. Positive travel must cancel rotation credit; zero-travel locks preserve it. Node and both Chromium views reproduce the recorded result.
+
+Correctness: `10 − 0×1.5 − 3×0.5 = 8.5`; weighted **8.65**.
+
+Tests **8.5**: ten seeded cases with precise cap/contact, full/mini zero, B2B/combo/PC and held orientation; all pass. Audit probes do not earn own-test credit. Code **9.0**, simplicity **8.5**, UX **9.0**: readable typed engine with event-ordered clocks and a larger direct UI; custom keyboard/pointer repeat, full responsive state and labels.
+
+All build/test/start, canonical engine and desktop/phone checks passed with the recorded defective outcomes. Full criterion rationale, own-suite coverage, fixtures, browser geometry, generation/isolation context and limits: [GPT-6.1 Terra audit](.audit/gpt61-terra-review.md).
+
+Reconciled under [HD-SPIN-1](.audit/SPEC.md#hd-spin-1-t-spin-credit-after-a-hard-drop), 2026-11-04; [evidence and score changes](.audit/hard-drop-rule-review.md).
+
+### 10. Luna OMP — 8.60
 
 Strengths:
 
@@ -1768,7 +1764,7 @@ Test gaps and rationale:
 - Existing tests cover the bag, movement, hard drop, hold, rotation, gravity/pause, dimensions, and a line clear, but do not assert concrete kick offsets, lock-delay timing/reset limits, ghost projection, top-out/restart, advanced scoring, or browser behavior.
 - The engine is one of the larger implementations and contains proportionate but substantial rule machinery, which lowers simplicity relative to the compact Sol implementations.
 
-### 12. Claude Haiku 5.5 (high) — 8.55
+### 11. Claude Haiku 5.5 (high) — 8.55
 
 Strengths:
 
@@ -1789,7 +1785,7 @@ Test gaps and rationale:
 
 Reproductions, browser measurements and isolation context are in the [Haiku audit record](.audit/haiku-review.md).
 
-### 13. Gemini-4 — 8.50
+### 12. Gemini-4 — 8.50
 
 Strengths:
 
@@ -1807,7 +1803,7 @@ Test gaps and rationale:
 - The suite lacks mini/full T-spin integration, back-to-back/combo edge cases, perfect clears, reset-cap/ledge timing, restart, and browser checks. The bag test uses random order but asserts invariant distribution.
 - At 1,587 source lines, the implementation is substantial; its abstractions remain readable, but the large rule/constant modules lower simplicity relative to the compact engines. Desktop UX is excellent; touch controls are absent.
 
-### 14. Luna PI — 8.45
+### 13. Luna PI — 8.45
 
 Strengths:
 
@@ -1826,7 +1822,7 @@ Test gaps and rationale:
 
 Detailed evidence is in the [Luna PI audit record](.audit/luna-pi-review.md).
 
-### 15. Gemini 4 Argon (high) — 8.45
+### 14. Gemini 4 Argon (high) — 8.45
 
 Strengths:
 
@@ -1845,6 +1841,23 @@ Test gaps and rationale:
 - Code 8.5 and simplicity 7.0 reflect clear strict modules and snapshots, with public mutable state, redundant aliases, repeated movement code and substantial rule/constant machinery: 1,892 source lines excluding 298 test lines. UX 8.5 reflects polished desktop board/ghost/state, dimmed used hold, full legend, labeled focusable playfield and restart button; input relies on native repeat, with no touch controls or high-DPI scaling. Findings are each deducted only from correctness.
 
 The [Gemini high audit](.audit/gemini-high-review.md) records exact reproductions and the supplied failed-launch/first-attempt/isolation context. Those generation facts have no quality-score effect.
+
+### 15. GPT-6.1 Terra (ultra) — 8.45
+
+Run ID: `gpt-6.1-terra-ultra`. Summary: **Canonical SRS and responsive UI; narrower own suite, stale hard-drop spin credit and clicked Pause capturing Space**.
+
+Scores (correctness/tests/code/simplicity/browser UX): **9.0/6.5/9.0/9.0/8.5 = 8.45**.
+
+- **Minor: A clicked Pause button captures Space instead of hard drop.** Fresh T r0,(3,5), mouse-click Pause twice, then real Space. #pause keeps focus; active pose/score and zero welded cells are unchanged while overlay becomes display:flex as native Space pauses again. Both Chromium sizes reproduce it. Required keys work with board/body focus; all engine probes pass.
+- **Minor: A travelling hard drop preserves stale T-spin credit.** HD-SPIN-1: stack(0,17),(0,19),(2,19), T r0,(0,3), real CW then fourteen-row hard drop into r1,(0,17) scores128 rather than28. Positive travel must cancel rotation credit; zero-travel locks preserve it. Node and both Chromium views reproduce the recorded result.
+
+Correctness: `10 − 0×1.5 − 2×0.5 = 9.0`; weighted **8.45**.
+
+Tests **6.5**: eight basic cases with obstructed ghost, exact delay and hidden/blocked spawn; all pass. Audit probes do not earn own-test credit. Code **9.0**, simplicity **9.0**, UX **8.5**: readable strict two-module engine with event-ordered time and separate hidden rows; responsive three-preview UI and pointer repeats.
+
+All build/test/start, canonical engine and desktop/phone checks passed with the recorded defective outcomes. Full criterion rationale, own-suite coverage, fixtures, browser geometry, generation/isolation context and limits: [GPT-6.1 Terra audit](.audit/gpt61-terra-review.md).
+
+Reconciled under [HD-SPIN-1](.audit/SPEC.md#hd-spin-1-t-spin-credit-after-a-hard-drop), 2026-11-04; [evidence and score changes](.audit/hard-drop-rule-review.md).
 
 ### 16. Muse Spark 1.3 (medium, reference-assisted) — 8.40 — `muse-spark-1.3-medium`
 
@@ -1889,7 +1902,36 @@ scores. Added actual SRS outcome/orientation scoring, compaction, pause/
 soft-release and real held-key/blur checks all pass in Node/Chromium;
 these audit additions do not increase the own-test score.
 
-### 18. Claude Sonnet 5.5 (medium) — 8.35
+### 18. GLM-5.3 (max) — 8.40
+
+Run ID: `glm-5.3-max`. Auditor: **GPT-6.1 Sol xhigh**,2026-11-03.
+Summary: **Canonical SRS and fresh restart bags; missing PC, above-buffer cell loss and phone clipping**.
+
+Scores (correctness/tests/code/simplicity/browser UX): **8.5/7.5/9.0/8.5/8.5 = 8.40**.
+
+Fresh-copy locked install, explicit build, unchanged own suite24/24 and
+1280×800/390×844 Chromium checks pass with exact defective/conforming
+outcomes. Both screenshots inspected;19 delivered hashes unchanged.
+
+Confirmed findings:
+
+- **Minor: Perfect-clear bonuses are absent.** Independent PC single/double/triple/Tetris award100/300/500/800 rather than900/1500/2300/2800; Tetris/no-clear/Tetris-PC totals2000 rather than5200. Perfect-clear detection and UI labels work, but scoring adds no bonus. Real zero-travel I Space gives100 and an empty board.
+- **Minor: A legal above-buffer partial lock discards one cell.** Stack(5,0),(3,0),(6,1), actual I spawn, CW fifth kick then1000ms reaches grounded r1,(4,-3), with cells(6,-3)..(6,0) and incoming T open. Space continues but welds only3 cells: native y=-1 is omitted, leaving6 total instead of7. Normal stored-buffer partial locks preserve all4 and hidden lock-out works. Engine and real Chromium agree.
+- **Minor: The fixed phone layout clips the playfield and panels.** At390x844 document width423;321x640 board begins x=-32.5,y92. Panel x304.5,width118 extends to422.5;96px hold/next at315.5 extend to411.5. Controls also clip. All24 preview cells paint completely/proportionally in backing canvases; desktop fits. One layout deduction.
+
+Correctness: `10 − 0×1.5 − 3×0.5 = 8.5`; weighted **8.40**.
+Tests7.5 reflect the delivered24-case coverage and gaps. Code9.0/simplicity8.5
+reflect998 readable strict DOM-free TS lines, focused modules and cached
+render tiles. UX8.5 reflects legible state, ghost/colors/previews/keyboard
+legend, DAS/ARR/blur, game-over guidance, canvas labels and DPR backing.
+Findings are charged only to correctness. Actual soft entry passes; ordinary
+frame-late contact is not a new deduction. HD-SPIN-1 withdraws the prior isolated spin-loss finding.
+
+[Complete review, reproducible engine/browser fixtures, calibration, limits, identity, isolation and cost](.audit/glm53-max-review.md). All78 historical scores and evidence remain unchanged.
+
+Reconciled under [HD-SPIN-1](.audit/SPEC.md#hd-spin-1-t-spin-credit-after-a-hard-drop), 2026-11-04; [evidence and score changes](.audit/hard-drop-rule-review.md).
+
+### 19. Claude Sonnet 5.5 (medium) — 8.35
 
 Strengths:
 
@@ -1910,7 +1952,7 @@ Test gaps and rationale:
 
 See the [Sonnet record](.audit/sonnet-review.md) for scores, exact fixtures and browser measurements.
 
-### 19. Sol OMP — 8.30
+### 20. Sol OMP — 8.30
 
 Strengths:
 
@@ -1927,7 +1969,7 @@ Test gaps and rationale:
 - The compact tests cover bag uniqueness, wall blocking, hard drop, hold, rotation state, and pause, but omit line scoring, actual kick displacement, gravity cadence, ghost/next projection, lock delay, top-out, restart, and the browser.
 - The sparse suite is the main reason it ranks below Luna OMP despite excellent implementation quality.
 
-### 20. Claude Opus 5.5 (xhigh) — 8.30
+### 21. Claude Opus 5.5 (xhigh) — 8.30
 
 Run ID: `claude-opus-5-5-xhigh`. Scores (correctness/tests/code/simplicity/browser UX): **8.0/8.0/9.0/8.5/8.5**.
 
@@ -1973,7 +2015,7 @@ Confirmed findings (each −0.5 correctness):
 
 Exact fixtures, browser evidence, limits and supplied isolation context: [Opus effort audit](.audit/opus55-efforts-review.md).
 
-### 21. Claude Haiku 5.5 (low) — 8.25
+### 22. Claude Haiku 5.5 (low) — 8.25
 
 Summary: **Broad core rules; B2B perfect-clear under-award and soft-drop timing jump**.
 
@@ -2009,23 +2051,25 @@ its playfield is 182.81×365.63 at x=103.59 within the 390×390 cabinet.
 
 Exact evidence and supplied isolation context: [Haiku audit](.audit/haiku-review.md).
 
-### 22. GPT-6.1 Terra (xhigh) — 8.25
+### 23. GPT-6.1 Terra (xhigh) — 8.25
 
 Run ID: `gpt-6.1-terra-xhigh`. Summary: **Readable canonical core and complete PC scoring; stale manual spin credit, soft-entry jump and premature landing clock**.
 
-Scores (correctness/tests/code/simplicity/browser UX): **8.5/6.5/9.0/9.0/8.5**.
+Scores (correctness/tests/code/simplicity/browser UX): **8.5/6.5/9.0/9.0/8.5 = 8.25**.
 
-- **Minor (−0.5 correctness): Landing frames charge pre-contact time to lock delay.** O r0,(3,17), advance990 ms in <=16 ms parts, then16 and483: zero welded cells at1489; another1 ms welds four at1490 instead of1500. Engine and unchanged Chromium RAF agree; ordinary499/500, successful/failed resets, fifteen-cap and pre-cap ledge safety pass.
-- **Minor (−0.5 correctness): Manual soft drop preserves stale T-spin credit.** Stack(0,17),(0,19),(2,19), T r0,(0,3), actual CW and successful manual soft drops until grounded r1,(0,17), then zero-travel hard drop:100 extra mini points instead of0. Same corner pose with no rotation credit scores0. Engine and Chromium reproduce it without assigning spin flags.
-- **Minor (−0.5 correctness): Starting soft drop consumes accumulated normal-gravity time.** After800 ms normal time in <=16 ms parts, real Down and the next1 ms unchanged RAF move/score17 rows: one immediate step and16 spending stale time at50 ms per row. Engine and both Chromium widths agree.
+- **Minor: Landing frames charge pre-contact time to lock delay.** O r0,(3,17), advance990 ms in <=16 ms parts, then16 and483: zero welded cells at1489; another1 ms welds four at1490 instead of1500. Engine and unchanged Chromium RAF agree; ordinary499/500, successful/failed resets, fifteen-cap and pre-cap ledge safety pass.
+- **Minor: Manual downward movement preserves stale T-spin credit.** Stack(0,17),(0,19),(2,19), T r0,(0,3), actual CW and successful manual soft drops until grounded r1,(0,17), then zero-travel hard drop:100 extra mini points instead of0. Same corner pose with no rotation credit scores0. Engine and Chromium reproduce it without assigning spin flags. HD-SPIN-1: stack(0,17),(0,19),(2,19), T r0,(0,3), real CW then fourteen-row hard drop into r1,(0,17) scores128 rather than28. Positive travel must cancel rotation credit; zero-travel locks preserve it. Node and both Chromium views reproduce the recorded result. Soft and hard descent are one spin-history minor.
+- **Minor: Starting soft drop consumes accumulated normal-gravity time.** After800 ms normal time in <=16 ms parts, real Down and the next1 ms unchanged RAF move/score17 rows: one immediate step and16 spending stale time at50 ms per row. Engine and both Chromium widths agree.
 
-Correctness: `10 − 3×0.5 = 8.5`. Weighted: `3.40 + 1.30 + 1.80 + 0.90 + 0.85 = 8.25`.
+Correctness: `10 − 0×1.5 − 3×0.5 = 8.5`; weighted **8.25**.
 
 Tests **6.5**: seven basic cases including a PC single and T kick; all pass. Audit probes do not earn own-test credit. Code **9.0**, simplicity **9.0**, UX **8.5**: readable strict two-module engine/entry; labeled responsive five-preview UI, pause/blur pause and phone buttons.
 
 All build/test/start, canonical engine and desktop/phone checks passed with the recorded defective outcomes. Full criterion rationale, own-suite coverage, fixtures, browser geometry, generation/isolation context and limits: [GPT-6.1 Terra audit](.audit/gpt61-terra-review.md).
 
-### 23. Claude Haiku 5.5 (max) — 8.25
+Reconciled under [HD-SPIN-1](.audit/SPEC.md#hd-spin-1-t-spin-credit-after-a-hard-drop), 2026-11-04; [evidence and score changes](.audit/hard-drop-rule-review.md).
+
+### 24. Claude Haiku 5.5 (max) — 8.25
 
 Strengths:
 
@@ -2047,7 +2091,7 @@ Test gaps and rationale:
 
 Exact probes, browser measurements and isolation context are in the [Haiku audit record](.audit/haiku-review.md).
 
-### 24. DeepSeek V4.1 Flash 1017 (max) — 8.25
+### 25. DeepSeek V4.1 Flash 1017 (max) — 8.25
 
 Run ID: `deepseek-v4.1-flash-max`. Summary: **Broad scoring and fitting UI; unlimited lock resets, ceiling-buffer and B2B-PC gaps, soft-drop jump**.
 
@@ -2089,7 +2133,7 @@ lists Z only for CCW. No touch controls are provided.
 
 Each finding is deducted once from correctness. See the [DeepSeek V4.1 audit](.audit/deepseek-v41-review.md) for exact fixtures, browser measurements and supplied isolation context.
 
-### 25. GLM-5.3-Flash (max) — 8.20
+### 26. GLM-5.3-Flash (max) — 8.20
 
 Run ID: `glm-5.3-flash-free-max`. Summary: **Broad rules and responsive UI; wrong gravity curve and no perfect-clear bonus**.
 
@@ -2109,34 +2153,6 @@ Tests **7.5**: 23 cases / 352 lines cover bag invariants/distribution, board shi
 Code **9.0**, simplicity **8.0**: 1,121 source TS lines in focused typed modules, DOM-free rules, small direct helpers and separate normal/soft accumulators. Mutable state, repeated setup and reset/restart aliases add modest weight. UX **9.0** reflects responsive high-DPI rendering, canvas label, complete legend, ghost/grid, dimmed hold and scoring messages. Four previews satisfy the unspecified queue count. Phone text shrinks with the canvas; no touch controls are supplied.
 
 Exact reproducible fixtures, browser measurements and generation/isolation context are in the [GLM audit](.audit/glm-review.md).
-
-### 26. GLM-5.3 (max) — 8.20
-
-Run ID: `glm-5.3-max`. Auditor: **GPT-6.1 Sol xhigh**,2026-11-03.
-Summary: **Canonical SRS and fresh restart bags; missing PC, hard-drop spin loss, above-buffer cell loss and phone clipping**.
-
-Scores (correctness/tests/code/simplicity/browser UX): **8.0/7.5/9.0/8.5/8.5 = 8.20**.
-
-Fresh-copy locked install, explicit build, unchanged own suite24/24 and
-1280×800/390×844 Chromium checks pass with exact defective/conforming
-outcomes. Both screenshots inspected;19 delivered hashes unchanged.
-
-Confirmed findings:
-
-- **Minor: Perfect-clear bonuses are absent.** PC1–4 give100/300/500/800 instead of900/1500/2300/2800; B2B-PC sequence2000 instead of5200. Detection/label work; scoring never adds the bonus.
-- **Minor: A travelling hard drop erases valid spin credit.** Real CW then fourteen-row Space into the mini pocket gives28 instead of128. Zero-travel full/mini and fourth/fifth kicks pass; manual soft correctly clears credit.
-- **Minor: A legal above-buffer partial lock discards one cell.** Real I spawn/CW fifth kick/1000ms reaches r1,(4,−3), one visible cell and open incoming T. Space continues but omits native y−1, welding3 rather than4 cells. Normal stored-buffer partial locks retain all4.
-- **Minor: The fixed phone layout clips the playfield and panels.** At390×844 document width423;321×640 board startsx−32.5,y92. Panel extends to422.5; hold/next to411.5. Complete preview backing paints proportionally; desktop fits.
-
-Correctness: `10−4×.5=8.0`; weighted `3.20+1.50+1.80+.85+.85=8.20`.
-Tests7.5 reflect the delivered24-case coverage and gaps. Code9.0/simplicity8.5
-reflect998 readable strict DOM-free TS lines, focused modules and cached
-render tiles. UX8.5 reflects legible state, ghost/colors/previews/keyboard
-legend, DAS/ARR/blur, game-over guidance, canvas labels and DPR backing.
-Findings are charged only to correctness. Actual soft entry passes; ordinary
-frame-late contact is not a new deduction. No historical scoring rule changed.
-
-[Complete review, reproducible engine/browser fixtures, calibration, limits, identity, isolation and cost](.audit/glm53-max-review.md). All78 historical scores and evidence remain unchanged.
 
 ### 27. Sol Codex — 8.20
 
@@ -2257,7 +2273,7 @@ Run ID: `qwen3.8-max-xhigh`. Summary: **Canonical SRS and sound audited
 gravity/lock timing; incomplete spin/PC/B2B scoring, hidden lock-out and
 clipped phone support**.
 
-Scores (correctness/tests/code/simplicity/browser UX): **7.5/7.5/9.0/8.5/8.5**.
+Scores (correctness/tests/code/simplicity/browser UX): **7.5/7.5/9.0/8.5/8.5 = 8.00**.
 Correctness `10−1.5−2×.5=7.5`; weighted
 `7.5×.40+7.5×.20+9×.20+8.5×.10+8.5×.10=8.00`.
 
@@ -2271,17 +2287,9 @@ modules,injected RNG,one clock,no runtime dependencies. UX **8.5**:clear
 beveled grid/ghost,complete proportional hold/three-next,stats/full legend,
 high-DPI setup,DAS/ARR and blur release;no pause/pointer UI/canvas labels.
 
-- **Major: T-spins and PC bonuses are absent; no-clear locks break B2B.**
-  Legal full/mini zero/single hard/timed locks score0/100 instead of full
-  400/800 or mini100/200;full double300 instead of1200. Rotation followed
-  by natural descent gets0 instead of mini100;nonzero hard descent28
-  instead of128. PC single100 instead of900;Tetris/no-clear/Tetris1600
-  instead of2000;final Tetris-PC1600 instead of5200. One grouped omission.
-- **Minor: A legal wholly hidden lock continues play.** Stack(0,0),real T
-  spawn(3,−2),Left×3 reaches grounded r0,(0,−2). Incoming I independently
-  open;zero-travel hard drop leaves status=playing. Partial visible locks
-  correctly continue;blocked incoming spawn works.
-- **Minor: Fixed phone cabinet clips supporting state.** At390×844,
+- **Major: T-spins and perfect-clear bonuses are absent; no-clear locks break B2B.** Legal final-rotation full/mini zero/single hard and timed locks score 0/100 instead of full 400/800 or mini 100/200; full double gives 300 instead of 1200. Rotation then natural descent gives 0 instead of mini100; nonzero hard descent correctly gives28 without a spin bonus. PC single/double/triple/Tetris give100/300/500/800 instead of900/1500/2300/2800. Tetris/no-clear/Tetris totals1600 instead of2000; final Tetris-PC totals1600 instead of5200. Consecutive B2B/combo/drop/pre-clear level points pass. Related omissions grouped once.
+- **Minor: A legal wholly hidden lock continues play.** Stack only(0,0), real T spawn(3,-2), Left×3 reaches grounded r0,(0,-2), wholly hidden. Incoming I is independently open. Zero-travel hard drop welds T and spawns I with status=playing instead of game over. Node and real Chromium keys agree. Partial visible locks correctly continue; blocked spawn works.
+- **Minor: The fixed phone cabinet clips hold and the right panel.** At390x844 document width513;636x592 canvas begins x=-123. The280x560 field fits at x55, but150px hold panel begins x=-107 and next/stats x347..497. Complete16 hold/three-next cells paint proportionally inside backing. One supporting-layout deduction.
   document width513;636×592 canvas x−123. Board280×560 fits at x55,
   hold150px panel begins−107,next/stats347..497. Complete16 preview cells
   paint proportionally;one layout finding.
@@ -2293,6 +2301,8 @@ Qwen soft-entry jump or premature-cap lock. All findings repeat in both
 Chromium sizes;real keys/RAF reproduce scoring/hidden paths. Earlier failed
 funds attempt is context only. [Full review, fixtures, runner, coverage and
 limits](.audit/qwen38-max-xhigh-review.md).
+
+Reconciled under [HD-SPIN-1](.audit/SPEC.md#hd-spin-1-t-spin-credit-after-a-hard-drop), 2026-11-04; [evidence and score changes](.audit/hard-drop-rule-review.md).
 
 ### 32. GPT-5.6 Sol (high) — 7.95
 
@@ -2616,12 +2626,14 @@ Confirmed findings:
 - **Minor: Soft-drop entry spends accumulated normal-gravity time.** O receives800 ms normal updates, then real Down and1 ms:16 rows and16 points, expected no new row after1 ms. Both engine and unchanged Chromium RAF reproduce it.
 - **Minor: Landing frames charge pre-contact time to lock delay.** O one row above floor:990 ms in <=16 ms steps,16,483 leaves no welded cells at1489;1 more locks four at1490 instead of1500. Existing-ground499/500, full fifteenth reset, ledge safety and new-lowest allowance pass.
 - **Minor: Restart reuses a partial old bag.** After actual top-out and reset, first seven types contain only six distinct pieces for seeds1,2,42. Seed42 low: I O J Z Z T L; high: S O L L J T I. Real R reproduces duplicate opening pieces. Fresh games pass100 bags.
-- **Minor: Spin history and fourth-kick mini classification are incorrect.** A real CW then fourteen-row hard drop into the mini pocket scores28 rather than128; manual soft descent then zero-drop retains stale100 spin points. T r1,(3,17), stack(3,15),(3,17),(5,17),(3,18),(6,19), real CCW fourth kick to r0,(3,15) scores400 rather than mini100. Ordinary full/mini and fifth-kick promotion pass; related spin edges grouped once.
+- **Minor: Spin history and fourth-kick mini classification are incorrect.** A real CW then fourteen-row hard drop correctly scores28 with no spin bonus. Manual soft descent then zero-drop retains stale100 spin points. T r1,(3,17), stack(3,15),(3,17),(5,17),(3,18),(6,19), real CCW fourth kick to r0,(3,15) scores400 rather than mini100. Ordinary full/mini and fifth-kick promotion pass; related spin edges grouped once.
 - **Minor: The ceiling rejects a legal SRS kick.** Stack(3,0),(4,0), actual T spawn r0,(3,-2), CW should use third candidate r1,(2,-3); rotate returnsfalse because native y<0 is solid. All28 states/48 kick lists are canonical;672 actual comparisons retain59 above-buffer differences. Node and real Chromium agree.
 
-Correctness: `10 − 0×1.5 − 6×0.5 = 7.0`. Tests reflect delivered coverage only; code 9.0/simplicity 8.5 reflect focused strict DOM-free modules; UX 8.5 reflects readable colors/ghost/state, five previews, keyboard legend and DAS/ARR. Findings are deducted only from correctness.
+Correctness: `10 − 0×1.5 − 6×0.5 = 7.0`; weighted **7.80**. Tests reflect delivered coverage only; code 9.0/simplicity 8.5 reflect focused strict DOM-free modules; UX 8.5 reflects readable colors/ghost/state, five previews, keyboard legend and DAS/ARR. Findings are deducted only from correctness.
 
 [Complete independent review, fixtures, coverage, screenshots, calibration, isolation/pricing and usage](.audit/glm53-review.md). All 76 earlier scores remain unchanged.
+
+Reconciled under [HD-SPIN-1](.audit/SPEC.md#hd-spin-1-t-spin-credit-after-a-hard-drop), 2026-11-04; [evidence and score changes](.audit/hard-drop-rule-review.md).
 
 ### 42. Claude Opus 5.5 (low) — 7.70
 
@@ -2903,24 +2915,7 @@ Code **8.5**, simplicity **8.0**: **868 source TS lines**, focused typed board/g
 
 Exact engine/browser fixtures and isolation context are in the [Muse contributor audit](.audit/muse-review.md). Each finding is charged only to correctness.
 
-### 53. GPT-6.1 Terra (low) — 7.30
-
-Run ID: `gpt-6.1-terra-low`. Summary: **Canonical SRS and basic modern scoring; mini/PC omissions, early landing lock and premature partial lock-out; compressed source**.
-
-Scores (correctness/tests/code/simplicity/browser UX): **8.0/5.0/7.0/9.0/8.0**.
-
-- **Minor (−0.5 correctness): Mini T-spins receive full-spin scores.** Actual final CW from T r3,(3,17) into the grounded mini pocket scores400/800 for zero/single instead of100/200 through hard and timed lock. Stack(5,17),(3,19),(5,19); add row18 outside x3..5 for single. Low uses a binary three-corner classifier. Full zero/single/double and ordinary B2B/combo pass.
-- **Minor (−0.5 correctness): The benchmark perfect-clear bonus is absent.** Horizontal I r0,(3,18), row19 except x3..6: zero-travel hard drop empties the field but scores100 instead of900. Tetris/no-clear/Tetris-PC totals2000 instead of5200. Full spins, ordinary B2B/combo and pre-clear multipliers pass; PC variants are one omission.
-- **Minor (−0.5 correctness): Landing frames charge pre-contact time to lock delay.** O r0,(3,17), advance990 ms in <=16 ms parts, then16 and483: zero welded cells at1489; another1 ms welds four at1490 instead of1500. Engine and unchanged Chromium RAF agree; ordinary499/500, successful/failed resets, fifteen-cap and pre-cap ledge safety pass.
-- **Minor (−0.5 correctness): A partially hidden legal lock incorrectly ends the game.** Stack(1,2),(3,0),(9,3),(8,1),(1,3),(2,3); actual T spawn(3,0); CW,CW,Left,CCW,CCW,Left,CW,CW,Right reaches grounded r2,(1,-2), three hidden/one visible cells. Incoming I(3,0) is independently open. Zero-travel hard drop sets over=true because lock rejects any hidden cell. Real browser keys agree.
-
-Correctness: `10 − 4×0.5 = 8.0`. Weighted: `3.20 + 1.00 + 1.40 + 0.90 + 0.80 = 7.30`.
-
-Tests **5.0**: nine narrow behavioral smoke assertions; all pass. Audit probes do not earn own-test credit. Code **7.0**, simplicity **9.0**, UX **8.0**: strict injected-RNG engine with compressed long methods; direct design and readable responsive three-preview UI.
-
-All build/test/start, canonical engine and desktop/phone checks passed with the recorded defective outcomes. Full criterion rationale, own-suite coverage, fixtures, browser geometry, generation/isolation context and limits: [GPT-6.1 Terra audit](.audit/gpt61-terra-review.md).
-
-### 54. DeepSeek OMP/PI — 7.30
+### 53. DeepSeek OMP/PI — 7.30
 
 Strengths:
 
@@ -2939,7 +2934,7 @@ Test gaps and rationale:
 - Despite being the best suite overall, it has no lock-delay/ledge test, advanced scoring tests, reset-limit test, or browser assertions. The current hard-drop test exercises the same projection used by the ghost but does not validate rendering.
 - The multi-file split is readable but more verbose than Sol Codex. Browser UX is good on desktop and materially weaker on a phone-sized viewport.
 
-### 55. Qwen3.8 Flash (medium) — 7.30
+### 54. Qwen3.8 Flash (medium) — 7.30
 
 Run ID: `qwen3.8-flash-medium`. Summary: **Playable core with wrong I kicks, missing spins/PC, a soft-drop jump and clipped phone support**.
 
@@ -2972,7 +2967,7 @@ Weighted: `6×.40 + 7×.20 + 9×.20 + 8.5×.10 + 8.5×.10 = 7.30`.
 Exact fixtures, calibration, own-suite gaps, browser evidence, limits and supplied
 context: [Qwen Flash audit](.audit/qwen38-flash-review.md).
 
-### 56. GPT-6 Luna (max) — 7.25
+### 55. GPT-6 Luna (max) — 7.25
 
 Summary: **Wrong I kicks; B2B perfect-clear, stale soft-drop spin, timing and phone preview defects**.
 
@@ -2989,6 +2984,24 @@ Confirmed findings:
 - **Minor: Phone next previews are painted at obsolete widths and squashed.** At 390×844, adding the five flex queue items one at a time paints backing widths 310/155/103/77/61 px, but every final canvas is about 61.2 px wide. Five identical I previews paint CSS widths about 13.03/26.46/39.81/40.54/35.12 px, with inconsistent block aspect ratios. paintQueue caches these drawings after sibling insertion shrinks the earlier canvases; desktop widths are stable.
 
 Exact fixtures, coverage and scoring rationale are in the [GPT-6 Luna audit](.audit/gpt6-luna-review.md).
+
+### 56. GPT-6.1 Terra (low) — 7.10
+
+Run ID: `gpt-6.1-terra-low`. Summary: **Canonical SRS and basic modern scoring; mini/PC/stale-spin scoring, early landing lock and premature partial lock-out; compressed source**.
+
+Scores (correctness/tests/code/simplicity/browser UX): **7.5/5.0/7.0/9.0/8.0 = 7.10**.
+
+- **Major: Mini, hard-drop spin history and perfect-clear scoring are incorrect.** Actual final CW from T r3,(3,17) into the grounded mini pocket scores400/800 for zero/single instead of100/200 through hard and timed lock. Stack(5,17),(3,19),(5,19); add row18 outside x3..5 for single. Low uses a binary three-corner classifier. Full zero/single/double and ordinary B2B/combo pass. Horizontal I r0,(3,18), row19 except x3..6: zero-travel hard drop empties the field but scores100 instead of900. Tetris/no-clear/Tetris-PC totals2000 instead of5200. Full spins, ordinary B2B/combo and pre-clear multipliers pass; PC variants are one omission. HD-SPIN-1: stack(0,17),(0,19),(2,19), T r0,(0,3), real CW then fourteen-row hard drop into r1,(0,17) scores428 rather than28. Positive travel must cancel rotation credit; zero-travel locks preserve it. Node and both Chromium views reproduce the recorded result. Three related scoring defects grouped once, following the earlier auditor-agreement ruling.
+- **Minor: Landing frames charge pre-contact time to lock delay.** O r0,(3,17), advance990 ms in <=16 ms parts, then16 and483: zero welded cells at1489; another1 ms welds four at1490 instead of1500. Engine and unchanged Chromium RAF agree; ordinary499/500, successful/failed resets, fifteen-cap and pre-cap ledge safety pass.
+- **Minor: A partially hidden legal lock incorrectly ends the game.** Stack(1,2),(3,0),(9,3),(8,1),(1,3),(2,3); actual T spawn(3,0); CW,CW,Left,CCW,CCW,Left,CW,CW,Right reaches grounded r2,(1,-2), three hidden/one visible cells. Incoming I(3,0) is independently open. Zero-travel hard drop sets over=true because lock rejects any hidden cell. Real browser keys agree.
+
+Correctness: `10 − 1×1.5 − 2×0.5 = 7.5`; weighted **7.10**.
+
+Tests **5.0**: nine narrow behavioral smoke assertions; all pass. Audit probes do not earn own-test credit. Code **7.0**, simplicity **9.0**, UX **8.0**: strict injected-RNG engine with compressed long methods; direct design and readable responsive three-preview UI.
+
+All build/test/start, canonical engine and desktop/phone checks passed with the recorded defective outcomes. Full criterion rationale, own-suite coverage, fixtures, browser geometry, generation/isolation context and limits: [GPT-6.1 Terra audit](.audit/gpt61-terra-review.md).
+
+Reconciled under [HD-SPIN-1](.audit/SPEC.md#hd-spin-1-t-spin-credit-after-a-hard-drop), 2026-11-04; [evidence and score changes](.audit/hard-drop-rule-review.md).
 
 ### 57. Muse Spark 1.3 (medium) — 7.05 — `muse-spark-1.3-contributor-medium` (from scratch)
 
@@ -3019,20 +3032,22 @@ Exact engine/browser fixtures and isolation context are in the [Muse contributor
 
 Run ID: `gpt-6.1-terra-medium`. Summary: **Canonical SRS/full-mini scoring; missing PC, stale spin, landing/refresh clocks, terminal engine mutation and stretched previews**.
 
-Scores (correctness/tests/code/simplicity/browser UX): **7.0/5.0/7.0/8.5/8.5**.
+Scores (correctness/tests/code/simplicity/browser UX): **7.0/5.0/7.0/8.5/8.5 = 6.90**.
 
-- **Minor (−0.5 correctness): The benchmark perfect-clear bonus is absent.** Horizontal I r0,(3,18), row19 except x3..6: zero-travel hard drop empties the field but scores100 instead of900. Tetris/no-clear/Tetris-PC totals2000 instead of5200. Full spins, ordinary B2B/combo and pre-clear multipliers pass; PC variants are one omission.
-- **Minor (−0.5 correctness): Landing frames charge pre-contact time to lock delay.** O r0,(3,17), advance990 ms in <=16 ms parts, then16 and483: zero welded cells at1489; another1 ms welds four at1490 instead of1500. Engine and unchanged Chromium RAF agree; ordinary499/500, successful/failed resets, fifteen-cap and pre-cap ledge safety pass.
-- **Minor (−0.5 correctness): Manual soft drop preserves stale T-spin credit.** Stack(0,17),(0,19),(2,19), T r0,(0,3), actual CW and successful manual soft drops until grounded r1,(0,17), then zero-travel hard drop:100 extra mini points instead of0. Same corner pose with no rotation credit scores0. Engine and Chromium reproduce it without assigning spin flags.
-- **Minor (−0.5 correctness): Discarded gravity remainder makes falling refresh-dependent.** O(3,0), level10,600 ms of unchanged main callbacks:9 rows at60 Hz versus8 at144 Hz. Level15 over100.001 ms yields6/5. fall is zeroed after one row. First-row curve and accepted16 ms terminal floor pass; Chromium repeats both rates.
-- **Minor (−0.5 correctness): Public hard drop mutates the engine after game over.** Block T spawn cell(4,-2), outgoing floor O(0,18), incoming T. First hard drop ends the game; direct engine hardDrop again moves the blocked T down and adds40 points while over stays true. lock guards but hardDrop does not. Real terminal UI keys are inert; Chromium separately repeats the direct engine call.
-- **Minor (−0.5 correctness): Hold and next previews are stretched non-uniformly.** Desktop next120x70 backing displays110x70 (cell aspect0.916667). At390x844, hold120x84 displays60x60 (aspect0.7) and next120x70 displays52x55 (0.551515). All16 preview cells paint within their backings and all panels fit width; one preview-aspect deduction.
+- **Minor: The benchmark perfect-clear bonus is absent.** Horizontal I r0,(3,18), row19 except x3..6: zero-travel hard drop empties the field but scores100 instead of900. Tetris/no-clear/Tetris-PC totals2000 instead of5200. Full spins, ordinary B2B/combo and pre-clear multipliers pass; PC variants are one omission.
+- **Minor: Landing frames charge pre-contact time to lock delay.** O r0,(3,17), advance990 ms in <=16 ms parts, then16 and483: zero welded cells at1489; another1 ms welds four at1490 instead of1500. Engine and unchanged Chromium RAF agree; ordinary499/500, successful/failed resets, fifteen-cap and pre-cap ledge safety pass.
+- **Minor: Manual downward movement preserves stale T-spin credit.** Stack(0,17),(0,19),(2,19), T r0,(0,3), actual CW and successful manual soft drops until grounded r1,(0,17), then zero-travel hard drop:100 extra mini points instead of0. Same corner pose with no rotation credit scores0. Engine and Chromium reproduce it without assigning spin flags. HD-SPIN-1: stack(0,17),(0,19),(2,19), T r0,(0,3), real CW then fourteen-row hard drop into r1,(0,17) scores128 rather than28. Positive travel must cancel rotation credit; zero-travel locks preserve it. Node and both Chromium views reproduce the recorded result. Soft and hard descent are one spin-history minor.
+- **Minor: Discarded gravity remainder makes falling refresh-dependent.** O(3,0), level10,600 ms of unchanged main callbacks:9 rows at60 Hz versus8 at144 Hz. Level15 over100.001 ms yields6/5. fall is zeroed after one row. First-row curve and accepted16 ms terminal floor pass; Chromium repeats both rates.
+- **Minor: Public hard drop mutates the engine after game over.** Block T spawn cell(4,-2), outgoing floor O(0,18), incoming T. First hard drop ends the game; direct engine hardDrop again moves the blocked T down and adds40 points while over stays true. lock guards but hardDrop does not. Real terminal UI keys are inert; Chromium separately repeats the direct engine call.
+- **Minor: Hold and next previews are stretched non-uniformly.** Desktop next120x70 backing displays110x70 (cell aspect0.916667). At390x844, hold120x84 displays60x60 (aspect0.7) and next120x70 displays52x55 (0.551515). All16 preview cells paint within their backings and all panels fit width; one preview-aspect deduction.
 
-Correctness: `10 − 6×0.5 = 7.0`. Weighted: `2.80 + 1.00 + 1.40 + 0.85 + 0.85 = 6.90`.
+Correctness: `10 − 0×1.5 − 6×0.5 = 7.0`; weighted **6.90**.
 
 Tests **5.0**: twelve narrow behavioral smoke assertions; all pass. Audit probes do not earn own-test credit. Code **7.0**, simplicity **8.5**, UX **8.5**: strict but compressed engine/entry with main-owned clocks; polished responsive three-preview UI and phone buttons.
 
 All build/test/start, canonical engine and desktop/phone checks passed with the recorded defective outcomes. Full criterion rationale, own-suite coverage, fixtures, browser geometry, generation/isolation context and limits: [GPT-6.1 Terra audit](.audit/gpt61-terra-review.md).
+
+Reconciled under [HD-SPIN-1](.audit/SPEC.md#hd-spin-1-t-spin-credit-after-a-hard-drop), 2026-11-04; [evidence and score changes](.audit/hard-drop-rule-review.md).
 
 ### 59. GLM-5.3 (high) — 6.90
 
@@ -3050,13 +3065,15 @@ Confirmed findings:
 - **Minor: Soft-drop entry spends accumulated normal-gravity time.** O receives800 ms normal updates, then real Down and1 ms:16 rows and16 points, expected no new row after1 ms. Both engine and unchanged Chromium RAF reproduce it.
 - **Minor: Landing frames charge pre-contact time to lock delay.** O one row above floor:990 ms in <=16 ms steps,16,483 leaves no welded cells at1489;1 more locks four at1490 instead of1500. Existing-ground499/500, full fifteenth reset, ledge safety and new-lowest allowance pass.
 - **Minor: Restart reuses a partial old bag.** After actual top-out and reset, first seven types contain only six distinct pieces for seeds1,2,42. Seed42 low: I O J Z Z T L; high: S O L L J T I. Real R reproduces duplicate opening pieces. Fresh games pass100 bags.
-- **Minor: Manual soft descent preserves stale spin credit.** T CW in open space then fourteen manual soft rows into a three-corner pocket retains rotation credit. Zero-travel Space adds100 spin points beyond14 soft points, expected0. Ordinary full/mini, natural descent and fourth/fifth kicks pass.
+- **Minor: Manual downward movement preserves stale spin credit.** T CW in open space then fourteen manual soft rows into a three-corner pocket retains rotation credit. Zero-travel Space adds100 spin points beyond14 soft points, expected0. Ordinary full/mini, natural descent and fourth/fifth kicks pass. The same real rotation then fourteen-row hard drop gives128 rather than28, preserving100 stale mini points. Soft and hard descent are one spin-history minor, not two deductions.
 - **Minor: Above-buffer boundary handling permits wall escape and premature partial lock-out.** S r1,(-1,-2), blockers(2,-2),(0,0), real CCW accepts r0,(-1,-4), including x=-1; canonical fifth candidate is x0,-4. Separately actual I spawn with blockers(5,0),(3,0),(6,1), CW fifth kick then1000 ms reaches r1,(4,-3), one visible cell and open incoming T; Space incorrectly ends play for any native y<0. Related buffer-edge manifestations grouped once.
 - **Minor: The fixed phone layout clips the playfield.** At390x844 document width475,height1041;302x602 board starts x=-61,y70, clipping61px. Hold and five-next previews paint completely/proportionally, but supporting state/legend also exceeds the viewport. Desktop board fits. One layout deduction.
 
-Correctness: `10 − 1×1.5 − 7×0.5 = 5.0`. Tests reflect delivered coverage only; code 9.0/simplicity 8.5 reflect focused strict DOM-free modules; UX 8.5 reflects readable colors/ghost/state, five previews, keyboard legend and DAS/ARR. Findings are deducted only from correctness.
+Correctness: `10 − 1×1.5 − 7×0.5 = 5.0`; weighted **6.90**. Tests reflect delivered coverage only; code 9.0/simplicity 8.5 reflect focused strict DOM-free modules; UX 8.5 reflects readable colors/ghost/state, five previews, keyboard legend and DAS/ARR. Findings are deducted only from correctness.
 
 [Complete independent review, fixtures, coverage, screenshots, calibration, isolation/pricing and usage](.audit/glm53-review.md). All 76 earlier scores remain unchanged.
+
+Reconciled under [HD-SPIN-1](.audit/SPEC.md#hd-spin-1-t-spin-credit-after-a-hard-drop), 2026-11-04; [evidence and score changes](.audit/hard-drop-rule-review.md).
 
 ### 60. Space-bunny — 6.75
 
@@ -3717,6 +3734,16 @@ Each category is scored from 0 to 10 in 0.5-point increments. Correctness begins
 - **Minor:** −0.5; reproducible edge-case, fidelity, control, presentation, or non-blocking runtime defect.
 
 Correctness is clamped to 0–10. A confirmed defect is deducted once; it is not used again to lower code-quality or test-quality scores. Test omissions affect the tests category and are not counted as implementation bugs. Code, simplicity, and UX scores reflect their broader category criteria rather than repeating the numerical bug deduction.
+
+### T-spin credit after hard-drop travel
+
+The audit uses [HD-SPIN-1](.audit/SPEC.md#hd-spin-1-t-spin-credit-after-a-hard-drop):
+a hard drop that moves a piece cancels prior rotation credit; a zero-distance
+hard drop preserves it. Failed actions do not cancel credit. Automatic
+gravity remains a separate rule question. The specification includes exact
+travel/zero-travel fixtures, expected points and grouping/deduction policy.
+The [November 4 consistency amendment](.audit/hard-drop-rule-review.md)
+reconciles confirmed findings and records the remaining coverage limits.
 
 ### Audit procedure
 

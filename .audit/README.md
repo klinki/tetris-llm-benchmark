@@ -2,6 +2,17 @@
 
 This directory contains the reproducible, repository-safe parts of the audit behind [`RANKING.md`](../RANKING.md). Generated builds, copied `node_modules` trees, temporary web servers, browser profiles, and timestamped Playwright artifacts are intentionally excluded.
 
+## Audit specification and hard-drop reconciliation — November 4
+
+[Audit specification](SPEC.md) rule **HD-SPIN-1** adopts the earlier ruling:
+positive hard-drop travel cancels rotation credit, while zero-travel locking
+preserves it. See the [consistency amendment](hard-drop-rule-review.md) for
+all eleven tested implementations, fixtures, grouped findings and limits.
+GLM-5.3 max changes **8.20→8.40**, GPT-6.1 Terra low **7.30→7.10**,
+max **8.85→8.65**, ultra **8.65→8.45**. Other scores are unchanged.
+The older dated cohort sections below describe their original audit dates
+unless amended; the current registry/tables and this amendment govern.
+
 ## GPT-6.1 Sol (max) — November 3
 
 The [Sol max review](gpt61-sol-max-review.md) scores `gpt-6.1-sol` max
@@ -40,9 +51,9 @@ No commit, push, PR or publication.
 ## Full GLM-5.3 MAX — November 3
 
 The [independent Sol xhigh review](glm53-max-review.md) scores full
-`opencode-go/glm-5.3` MAX **8/7.5/9/8.5/8.5=8.20**, repository25/79,
-site21/72. Four minors: missing PC bonus, travelling-hard-drop spin loss,
-a discarded above-buffer cell and phone clipping. All78 historical scores/
+`opencode-go/glm-5.3` MAX now **8.5/7.5/9/8.5/8.5=8.40** under HD-SPIN-1.
+Three minors remain: missing PC bonus, a discarded above-buffer cell and
+phone clipping. The original audit placed it repository25/79, site21/72. All78 historical scores/
 evidence remain unchanged. Complete delivered-source/own-test review;
 no implementation transcript for grading or audit delegation.
 

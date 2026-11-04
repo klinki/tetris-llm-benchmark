@@ -94,6 +94,9 @@ export function runProbes(a,oracle) {
   for(const timed of [false,true]){const g=make();for(let x=0;x<10;x++){if(x!==4)put(g,x,19);if(x<3||x>5)put(g,x,18);}put(g,3,17);place(g,'T',0,3,17);check(rotate(g,1)&&rotate(g,1),'double rotations');if(timed)advance(g,500);else hard(g);scores[timed?'timedDouble':'hardDouble']=g.score;}
   {const g=make();for(const[x,y]of [[0,17],[0,19],[2,19]])put(g,x,y);place(g,'T',0,0,3);check(rotate(g,1),'cancel start rotation');while(ghost(g)>active(g).y)check(soft(g),'manual soft');const before=g.score;hard(g);scores.manualSoftExtra=g.score-before;}
   {const g=make();for(const[x,y]of [[0,17],[0,19],[2,19]])put(g,x,y);place(g,'T',0,0,3);check(rotate(g,1),'no rotation credit');place(g,'T',1,0,17);hard(g);scores.noRotation=g.score;}
+  // Audit spec HD-SPIN-1: positive hard-drop travel cancels rotation credit.
+  // Use a real rotation; do not inject lastRotation or repair application code.
+  {const g=make();for(const[x,y]of [[0,17],[0,19],[2,19]])put(g,x,y);place(g,'T',0,0,3);check(rotate(g,1),'travelling hard-drop rotation');const start=active(g);eq(start,{type:'T',rotation:1,x:0,y:3},'air rotation pose');eq(ghost(g),17,'fourteen-row destination');const before=g.score;hard(g);out.hardDropCredit={distance:14,score:g.score-before,expected:28,conforms:g.score-before===28};}
   out.scores=scores;
   out.gravity=[];for(const level of [1,2,5,9,10,14,15,20]){const g=make();place(g,'O',0,3,0);g.level=level;let ms=0;while(active(g).y===0&&ms<2000){step(g,1);ms++;}eq(g.score,0,'no gravity points');out.gravity.push(ms);}
   out.refresh={};for(const[level,duration]of [[2,1480.001],[10,600],[15,100.001]]){out.refresh[level]=[];for(const hz of [60,144]){const g=make();place(g,'O',0,3,0);g.level=level;let t=0;while(t<duration-1e-8){const dt=Math.min(1000/hz,duration-t);step(g,dt);t+=dt;}out.refresh[level].push(active(g).y);}}
@@ -128,6 +131,7 @@ export async function loadCopy(copy,mode) {
   return createAdapter(core,mode,clock);
 }
 export function assertRecorded(e) {
+  assert.deepEqual(e.hardDropCredit,{distance:14,score:{low:428,medium:128,high:28,xhigh:128,max:128,ultra:128}[e.mode],expected:28,conforms:e.mode==='high'});
   assert.deepEqual(e.srs,{states:28,orderedTransitions:48});assert.equal(e.bags,100);assert.deepEqual(e.ghosts,Array(7).fill(14));
   const slow=['low','medium','xhigh'].includes(e.mode),pcMissing=['low','medium','high'].includes(e.mode);
   assert.deepEqual(e.floor,{I:{type:'I',rotation:1,x:4,y:16},T:{type:'T',rotation:1,x:2,y:17}});

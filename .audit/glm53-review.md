@@ -1,5 +1,11 @@
 # Full GLM-5.3 low/high audit
 
+**2026-11-04 policy amendment:** [HD-SPIN-1](SPEC.md) now governs hard-drop
+spin credit. See the [consistency amendment](hard-drop-rule-review.md) for
+current scores, grouped findings and reproduced outcomes. Tables/ranks and
+statements about unchanged historical scores below describe the original
+audit date except where explicitly amended.
+
 Audit: **2026-11-02, Europe/Prague; GPT-6.1 Sol, xhigh, standard tier**
 in T3 Code / Codex. This auditor performed generation orchestration, source
 review, probes and scoring itself. Only the two tested GLM agents were launched;
@@ -130,8 +136,8 @@ rules. All findings below repeat in Node and served Chromium.
 5. **Spin history and a fourth-kick mini are incorrect.** Stack
    `(0,17),(0,19),(2,19)`, T r0,(0,3), real CW reaches r1. Natural descent
    fourteen rows then zero-drop earns mini100 correctly. Nonzero hard drop
-   instead earns only**28** drop points (expected128 under the latest audit
-   profile); it clears rotation credit solely because travel>0. Manually
+   correctly earns **28** drop points under HD-SPIN-1; it clears rotation
+   credit because travel>0. Manually
    soft-dropping fourteen rows leaves stale credit: zero-drop adds**100**
    beyond fourteen soft points, expected0. Separately, T r1,(3,17), stack
    `(3,15),(3,17),(5,17),(3,18),(6,19)`, actual CCW uses fourth candidate
@@ -160,8 +166,9 @@ rules. All findings below repeat in Node and served Chromium.
 
 6. **Minor: manual soft descent preserves stale spin credit.** The shared
    fourteen-row T fixture adds mini**100** after14 soft points, expected0.
-   Natural descent and both zero/nonzero hard-drop paths follow the latest
-   audited profile correctly (**100** and **128**); ordinary four-facing
+   Natural descent is recorded without a gravity-only ruling. Zero-travel
+   hard drop preserves credit; travelling hard drop incorrectly gives **128**
+   instead of **28**. This joins the manual-soft spin-history minor; ordinary four-facing
    full/mini and fourth/fifth kicks also pass.
 
 7. **Minor: above-buffer boundaries accept an out-of-wall rotation and reject
@@ -303,9 +310,9 @@ rounded gravity table deviates from formula by small lower-level fractions
 and yields first-row thresholds262 vs263 atL6,95 vs94 atL9 and6/4/3/2/2 vs
 5/3/2/1/1 atL16–20 under the existing1 ms comparison floor. Values are recorded;
 **no new gravity-floor/table-rounding deduction**, following the unresolved
-agreement rule rather than changing the profile for this cohort. The latest
-published downward-spin fixtures, including hard-drop preservation, are used
-without retroactively changing historical scores.
+agreement rule rather than changing the profile for this cohort. [HD-SPIN-1](SPEC.md) supersedes the previous hard-drop-preservation
+expectation; the low/high spin-history findings retain their grouped minor
+severity because manual-soft/fourth-kick defects remain.
 
 Chromium only; no physical phone/touch/HiDPI/cross-browser certification.
 Permissions locks prevent casual discovery, not a same-user adversary;

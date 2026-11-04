@@ -7,7 +7,9 @@ The blind auditor-agreement check
 correctness findings are not applied evenly: Sol misses T-spin credit kept
 through a hard drop that travels, the blind Opus audit missed seven lock and
 gravity timing defects, and three rule questions have been judged
-differently from run to run. No score has been changed yet.
+differently from run to run. The November 4 [hard-drop consistency amendment](.audit/hard-drop-rule-review.md)
+applies the adopted spin-credit ruling to confirmed cases; the remaining
+findings and unsampled implementations still need the broader census.
 
 - [ ] **Decide the open rules** (each would be a minor correctness
       defect):
@@ -17,18 +19,16 @@ differently from run to run. No score has been changed yet.
         the field and be visible at once? GPT-5.6 Sol high's pieces stay
         hidden for about 1 s at level 1.
   - [ ] Held Space: should holding Space keep hard-dropping new pieces?
-  - [ ] Spin credit after downward travel: the auditor-agreement
-        adjudication treats credit *kept* through a travelling hard drop as
-        a defect, but the GLM-5.3 low/MAX and Qwen3.8 Max xhigh audits
-        deduct credit *cleared* by it (expected 128). GPT-6.1 Sol
-        high/xhigh/max clear it and are not deducted
-        ([Sol max audit](.audit/gpt61-sol-max-review.md)).
+  - [x] Hard-drop spin credit: adopted the earlier ruling as
+        [HD-SPIN-1](.audit/SPEC.md). Positive travel cancels credit;
+        zero-distance locking preserves it. Confirmed cases reconciled;
+        gravity-only behavior remains unruled.
 - [ ] **Probe every run the same way**, then apply deductions to all runs at
       once: T-spin credit after a travelling hard drop, partial locks above
-      the field, and any rule adopted above. Among the sampled runs only
-      GPT-6.1 Terra max (8.85 → 8.65), Terra low (7.30 → 7.10) and Gemini 4
-      Argon (8.45 → 8.25) are known to change; unsampled runs probably have
-      the same misses.
+      the field, and any rule adopted above. The confirmed Terra spin-history
+      findings are now applied, including ultra; Gemini 4 Argon's separate partial-lock correction (8.45 → 8.25)
+      and other untested historical runs remain pending. Do not infer that
+      untested runs conform to HD-SPIN-1.
 - [ ] **Optional: checklists for the judgement criteria** (tests, code,
       simplicity, UX), which cause most of the 0.78 mean gap between
       auditors.

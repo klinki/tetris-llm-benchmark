@@ -1,5 +1,12 @@
 # Auditor agreement check
 
+**2026-11-04 implementation note:** the owner adopted this record's earlier
+travelling-hard-drop ruling as [HD-SPIN-1](SPEC.md). The
+[consistency amendment](hard-drop-rule-review.md) applies the confirmed
+spin-history findings and reconciles later contradictory deductions. The
+original comparison tables and score projections below remain historical;
+other timing/visibility questions are still pending.
+
 Most runs are audited by GPT-6.1 Sol (xhigh), including OpenAI models from its
 own family. This check measures how far a second, independent auditor agrees
 with those scores, and whether either auditor appears to favour its own family.

@@ -1,5 +1,11 @@
 # GPT-6.1 Sol (max) audit
 
+**2026-11-04 policy amendment:** [HD-SPIN-1](SPEC.md) now governs hard-drop
+spin credit. See the [consistency amendment](hard-drop-rule-review.md) for
+current scores, grouped findings and reproduced outcomes. Tables/ranks and
+statements about unchanged historical scores below describe the original
+audit date except where explicitly amended.
+
 Audit date: **2026-11-03 (Europe/Prague)**. Run ID `gpt-6.1-sol-max`:
 `gpt-6.1-sol` in **T3 Code / Codex, standard service tier, reasoning effort
 max**, implementing [`TETRIS.md`](../TETRIS.md) from the single prompt
@@ -141,15 +147,11 @@ above as y −20..−1. Every fixture reaches its pose through real engine calls
   when it travels, and so do gravity and soft-drop rows. Real CW at (0,3)
   then a fourteen-row Space into the mini pocket scores **28** (drop points
   only); natural descent then zero-travel drop adds 0; manual soft descent
-  adds 0. The repository's records disagree on the travelling-hard-drop
-  case. The [auditor-agreement adjudication](auditor-agreement.md) rules
-  that *keeping* credit through hard-drop travel is a valid minor (gravity
-  unruled), and the earlier GPT-6.1 Sol high (10.0 correctness) and xhigh
-  clear credit exactly as max does without a deduction. The later GLM-5.3
-  low/MAX and Qwen3.8 Max xhigh audits instead expect 128. Under the
-  agreement adjudication and the primary Sol comparison this is conforming,
-  so no deduction is made and no historical score is revised. The
-  conflict is recorded for the open rule list in [`TODO.md`](../TODO.md).
+  adds 0.   [HD-SPIN-1](SPEC.md) now explicitly adopts the earlier adjudication:
+  the travelling hard-drop result is conforming, so no deduction applies.
+  Zero-travel full/mini controls still pass. Gravity is recorded without a
+  new ruling. The [consistency amendment](hard-drop-rule-review.md) resolves
+  the later GLM/Qwen expectation without changing Sol max's 8.95 score.
 - After the pre-cap ledge move, the falling O keeps the gravity phase it
   accumulated while grounded (first fall 510 ms after the move). This is
   ordinary continuous gravity and the lock clock is correct.

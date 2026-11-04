@@ -2079,7 +2079,7 @@
       "run_id": "gpt-6.1-terra-low",
       "audited": "2026-10-26",
       "scores": {
-        "correctness": 8,
+        "correctness": 7.5,
         "tests": 5,
         "code": 7,
         "simplicity": 9,
@@ -2087,14 +2087,9 @@
       },
       "bugs": [
         {
-          "severity": "minor",
-          "title": "Mini T-spins receive full-spin scores",
-          "detail": "Actual final CW from T r3,(3,17) into the grounded mini pocket scores400/800 for zero/single instead of100/200 through hard and timed lock. Stack(5,17),(3,19),(5,19); add row18 outside x3..5 for single. Low uses a binary three-corner classifier. Full zero/single/double and ordinary B2B/combo pass."
-        },
-        {
-          "severity": "minor",
-          "title": "The benchmark perfect-clear bonus is absent",
-          "detail": "Horizontal I r0,(3,18), row19 except x3..6: zero-travel hard drop empties the field but scores100 instead of900. Tetris/no-clear/Tetris-PC totals2000 instead of5200. Full spins, ordinary B2B/combo and pre-clear multipliers pass; PC variants are one omission."
+          "severity": "major",
+          "title": "Mini, hard-drop spin history and perfect-clear scoring are incorrect",
+          "detail": "Actual final CW from T r3,(3,17) into the grounded mini pocket scores400/800 for zero/single instead of100/200 through hard and timed lock. Stack(5,17),(3,19),(5,19); add row18 outside x3..5 for single. Low uses a binary three-corner classifier. Full zero/single/double and ordinary B2B/combo pass. Horizontal I r0,(3,18), row19 except x3..6: zero-travel hard drop empties the field but scores100 instead of900. Tetris/no-clear/Tetris-PC totals2000 instead of5200. Full spins, ordinary B2B/combo and pre-clear multipliers pass; PC variants are one omission. HD-SPIN-1: stack(0,17),(0,19),(2,19), T r0,(0,3), real CW then fourteen-row hard drop into r1,(0,17) scores428 rather than28. Positive travel must cancel rotation credit; zero-travel locks preserve it. Node and both Chromium views reproduce the recorded result. Three related scoring defects grouped once, following the earlier auditor-agreement ruling."
         },
         {
           "severity": "minor",
@@ -2107,7 +2102,7 @@
           "detail": "Stack(1,2),(3,0),(9,3),(8,1),(1,3),(2,3); actual T spawn(3,0); CW,CW,Left,CCW,CCW,Left,CW,CW,Right reaches grounded r2,(1,-2), three hidden/one visible cells. Incoming I(3,0) is independently open. Zero-travel hard drop sets over=true because lock rejects any hidden cell. Real browser keys agree."
         }
       ],
-      "summary": "Canonical SRS and basic modern scoring; mini/PC omissions, early landing lock and premature partial lock-out; compressed source"
+      "summary": "Canonical SRS and basic modern scoring; mini/PC/stale-spin scoring, early landing lock and premature partial lock-out; compressed source"
     },
     {
       "run_id": "gpt-6.1-terra-medium",
@@ -2132,8 +2127,8 @@
         },
         {
           "severity": "minor",
-          "title": "Manual soft drop preserves stale T-spin credit",
-          "detail": "Stack(0,17),(0,19),(2,19), T r0,(0,3), actual CW and successful manual soft drops until grounded r1,(0,17), then zero-travel hard drop:100 extra mini points instead of0. Same corner pose with no rotation credit scores0. Engine and Chromium reproduce it without assigning spin flags."
+          "title": "Manual downward movement preserves stale T-spin credit",
+          "detail": "Stack(0,17),(0,19),(2,19), T r0,(0,3), actual CW and successful manual soft drops until grounded r1,(0,17), then zero-travel hard drop:100 extra mini points instead of0. Same corner pose with no rotation credit scores0. Engine and Chromium reproduce it without assigning spin flags. HD-SPIN-1: stack(0,17),(0,19),(2,19), T r0,(0,3), real CW then fourteen-row hard drop into r1,(0,17) scores128 rather than28. Positive travel must cancel rotation credit; zero-travel locks preserve it. Node and both Chromium views reproduce the recorded result. Soft and hard descent are one spin-history minor."
         },
         {
           "severity": "minor",
@@ -2200,8 +2195,8 @@
         },
         {
           "severity": "minor",
-          "title": "Manual soft drop preserves stale T-spin credit",
-          "detail": "Stack(0,17),(0,19),(2,19), T r0,(0,3), actual CW and successful manual soft drops until grounded r1,(0,17), then zero-travel hard drop:100 extra mini points instead of0. Same corner pose with no rotation credit scores0. Engine and Chromium reproduce it without assigning spin flags."
+          "title": "Manual downward movement preserves stale T-spin credit",
+          "detail": "Stack(0,17),(0,19),(2,19), T r0,(0,3), actual CW and successful manual soft drops until grounded r1,(0,17), then zero-travel hard drop:100 extra mini points instead of0. Same corner pose with no rotation credit scores0. Engine and Chromium reproduce it without assigning spin flags. HD-SPIN-1: stack(0,17),(0,19),(2,19), T r0,(0,3), real CW then fourteen-row hard drop into r1,(0,17) scores128 rather than28. Positive travel must cancel rotation credit; zero-travel locks preserve it. Node and both Chromium views reproduce the recorded result. Soft and hard descent are one spin-history minor."
         },
         {
           "severity": "minor",
@@ -2215,7 +2210,7 @@
       "run_id": "gpt-6.1-terra-max",
       "audited": "2026-10-26",
       "scores": {
-        "correctness": 9,
+        "correctness": 8.5,
         "tests": 8.5,
         "code": 9,
         "simplicity": 8.5,
@@ -2231,15 +2226,20 @@
           "severity": "minor",
           "title": "The desktop next preview is stretched non-uniformly",
           "detail": "At1280x800, the next128x240 backing displays128x210 because the short-desktop media rule changes height alone. Cell width/height ratio1.142857 makes squares wide. Hold and phone previews remain proportional; all24 preview cells paint inside the backings."
+        },
+        {
+          "severity": "minor",
+          "title": "A travelling hard drop preserves stale T-spin credit",
+          "detail": "HD-SPIN-1: stack(0,17),(0,19),(2,19), T r0,(0,3), real CW then fourteen-row hard drop into r1,(0,17) scores128 rather than28. Positive travel must cancel rotation credit; zero-travel locks preserve it. Node and both Chromium views reproduce the recorded result."
         }
       ],
-      "summary": "Broad deterministic suite and event-ordered gravity; exhausted ledge retains old lock time and desktop queue is stretched"
+      "summary": "Broad deterministic suite and event-ordered gravity; exhausted ledge retains old lock time and desktop queue is stretched; travelling hard drop preserves stale spin credit"
     },
     {
       "run_id": "gpt-6.1-terra-ultra",
       "audited": "2026-10-26",
       "scores": {
-        "correctness": 9.5,
+        "correctness": 9.0,
         "tests": 6.5,
         "code": 9,
         "simplicity": 9,
@@ -2250,9 +2250,14 @@
           "severity": "minor",
           "title": "A clicked Pause button captures Space instead of hard drop",
           "detail": "Fresh T r0,(3,5), mouse-click Pause twice, then real Space. #pause keeps focus; active pose/score and zero welded cells are unchanged while overlay becomes display:flex as native Space pauses again. Both Chromium sizes reproduce it. Required keys work with board/body focus; all engine probes pass."
+        },
+        {
+          "severity": "minor",
+          "title": "A travelling hard drop preserves stale T-spin credit",
+          "detail": "HD-SPIN-1: stack(0,17),(0,19),(2,19), T r0,(0,3), real CW then fourteen-row hard drop into r1,(0,17) scores128 rather than28. Positive travel must cancel rotation credit; zero-travel locks preserve it. Node and both Chromium views reproduce the recorded result."
         }
       ],
-      "summary": "Canonical engine passes audited rules; narrower own suite, responsive UI and clicked Pause capturing Space"
+      "summary": "Canonical SRS and responsive UI; narrower own suite, stale hard-drop spin credit and clicked Pause capturing Space"
     },
     {
       "run_id": "claude-opus-5-5-medium",
@@ -2404,7 +2409,7 @@
         {
           "severity": "major",
           "title": "T-spins and perfect-clear bonuses are absent; no-clear locks break B2B",
-          "detail": "Legal final-rotation full/mini zero/single hard and timed locks score 0/100 instead of full 400/800 or mini 100/200; full double gives 300 instead of 1200. Rotation then natural descent gives 0 instead of mini100; nonzero hard descent gives28 instead of128. PC single/double/triple/Tetris give100/300/500/800 instead of900/1500/2300/2800. Tetris/no-clear/Tetris totals1600 instead of2000; final Tetris-PC totals1600 instead of5200. Consecutive B2B/combo/drop/pre-clear level points pass. Related omissions grouped once."
+          "detail": "Legal final-rotation full/mini zero/single hard and timed locks score 0/100 instead of full 400/800 or mini 100/200; full double gives 300 instead of 1200. Rotation then natural descent gives 0 instead of mini100; nonzero hard descent correctly gives28 without a spin bonus. PC single/double/triple/Tetris give100/300/500/800 instead of900/1500/2300/2800. Tetris/no-clear/Tetris totals1600 instead of2000; final Tetris-PC totals1600 instead of5200. Consecutive B2B/combo/drop/pre-clear level points pass. Related omissions grouped once."
         },
         {
           "severity": "minor",
@@ -2453,7 +2458,7 @@
         {
           "severity": "minor",
           "title": "Spin history and fourth-kick mini classification are incorrect",
-          "detail": "A real CW then fourteen-row hard drop into the mini pocket scores28 rather than128; manual soft descent then zero-drop retains stale100 spin points. T r1,(3,17), stack(3,15),(3,17),(5,17),(3,18),(6,19), real CCW fourth kick to r0,(3,15) scores400 rather than mini100. Ordinary full/mini and fifth-kick promotion pass; related spin edges grouped once."
+          "detail": "A real CW then fourteen-row hard drop correctly scores28 with no spin bonus. Manual soft descent then zero-drop retains stale100 spin points. T r1,(3,17), stack(3,15),(3,17),(5,17),(3,18),(6,19), real CCW fourth kick to r0,(3,15) scores400 rather than mini100. Ordinary full/mini and fifth-kick promotion pass; related spin edges grouped once."
         },
         {
           "severity": "minor",
@@ -2501,8 +2506,8 @@
         },
         {
           "severity": "minor",
-          "title": "Manual soft descent preserves stale spin credit",
-          "detail": "T CW in open space then fourteen manual soft rows into a three-corner pocket retains rotation credit. Zero-travel Space adds100 spin points beyond14 soft points, expected0. Ordinary full/mini, natural descent and fourth/fifth kicks pass."
+          "title": "Manual downward movement preserves stale spin credit",
+          "detail": "T CW in open space then fourteen manual soft rows into a three-corner pocket retains rotation credit. Zero-travel Space adds100 spin points beyond14 soft points, expected0. Ordinary full/mini, natural descent and fourth/fifth kicks pass. The same real rotation then fourteen-row hard drop gives128 rather than28, preserving100 stale mini points. Soft and hard descent are one spin-history minor, not two deductions."
         },
         {
           "severity": "minor",
@@ -2521,7 +2526,7 @@
       "run_id": "glm-5.3-max",
       "audited": "2026-11-03",
       "scores": {
-        "correctness": 8.0,
+        "correctness": 8.5,
         "tests": 7.5,
         "code": 9.0,
         "simplicity": 8.5,
@@ -2535,11 +2540,6 @@
         },
         {
           "severity": "minor",
-          "title": "A travelling hard drop erases valid spin credit",
-          "detail": "Stack(0,17),(0,19),(2,19), T r0,(0,3), actual CW then fourteen-row Space reaches the mini pocket for28 rather than128. hardDrop sets lastAction=fall for positive travel. Zero-travel full/mini and fourth/fifth kicks pass; manual soft descent correctly clears credit. One spin-history minor, as in full GLM low."
-        },
-        {
-          "severity": "minor",
           "title": "A legal above-buffer partial lock discards one cell",
           "detail": "Stack(5,0),(3,0),(6,1), actual I spawn, CW fifth kick then1000ms reaches grounded r1,(4,-3), with cells(6,-3)..(6,0) and incoming T open. Space continues but welds only3 cells: native y=-1 is omitted, leaving6 total instead of7. Normal stored-buffer partial locks preserve all4 and hidden lock-out works. Engine and real Chromium agree."
         },
@@ -2549,7 +2549,7 @@
           "detail": "At390x844 document width423;321x640 board begins x=-32.5,y92. Panel x304.5,width118 extends to422.5;96px hold/next at315.5 extend to411.5. Controls also clip. All24 preview cells paint completely/proportionally in backing canvases; desktop fits. One layout deduction."
         }
       ],
-      "summary": "Canonical SRS and fresh restart bags; missing PC, hard-drop spin loss, above-buffer cell loss and phone clipping"
+      "summary": "Canonical SRS and fresh restart bags; missing PC, above-buffer cell loss and phone clipping"
     },
     {
       "run_id": "gpt-6.1-sol-max",

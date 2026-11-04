@@ -219,10 +219,13 @@ export function runProbes(a, oracle) {
   }
   e.restart = [];
   for (const sd of [1, 2, 42]) { const g = make(sd); let n = 0; while (!over(g) && n++ < 100) hard(g); check(over(g), 'natural topout'); reset(g); const opening = []; for (let i = 0; i < 7; i++) { opening.push(active(g).type); clear(g); hard(g); } e.restart.push({ seed: sd, drops: n, types: new Set(opening).size }); }
+  // HD-SPIN-1: snapshots retain failures; only 28 points conforms.
+  e.hardDropCredit = { distance: 14, score: e.scores.hardDownExtra, expected: 28, conforms: e.scores.hardDownExtra === 28 };
   return e;
 }
 
 export function assertRecorded(e) {
+  assert.deepEqual(e.hardDropCredit, { distance: 14, score: 28, expected: 28, conforms: true });
   assert.deepEqual(e.states, []); assert.equal(e.colors, 7); assert.deepEqual(e.kicks, []);
   assert.equal(e.rotations.total, 672); assert.equal(e.rotations.mismatches, 0, JSON.stringify(e.rotations.examples));
   assert.deepEqual(e.spawn, { type: e.spawn.type, rotation: 0, x: 3, y: -1 });

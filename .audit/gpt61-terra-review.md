@@ -1,5 +1,11 @@
 # GPT-6.1 Terra audits (six efforts)
 
+**2026-11-04 policy amendment:** [HD-SPIN-1](SPEC.md) now governs hard-drop
+spin credit. See the [consistency amendment](hard-drop-rule-review.md) for
+current scores, grouped findings and reproduced outcomes. Tables/ranks and
+statements about unchanged historical scores below describe the original
+audit date except where explicitly amended.
+
 Audit date: **2026-10-26 (Europe/Rome)**. Independent review of the first
 six **OpenAI `gpt-6.1-terra`** runs, **T3 Code / Codex, standard service
 tier**, on `main`: `gpt-6.1-terra-{low,medium,high,xhigh,max,ultra}`.

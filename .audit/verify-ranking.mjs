@@ -12,6 +12,7 @@ const documents = [
   "RANKING.md", "README.md", ".audit/README.md", ".audit/browser-results.md",
   ".audit/october-review.md",
   ".audit/oct23-review.md",
+  ".audit/SPEC.md", ".audit/hard-drop-rule-review.md",
 ];
 for (const relativePath of documents) {
   const documentPath = resolve(repositoryRoot, relativePath);
