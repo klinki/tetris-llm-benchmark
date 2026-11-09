@@ -2574,6 +2574,40 @@
         }
       ],
       "summary": "Canonical SRS, exact clocks and full scoring with the broad own suite; new-lowest-row lock reset and game-over Space restart"
+    },
+    {
+      "run_id": "hy4-high",
+      "audited": "2026-11-10",
+      "scores": {
+        "correctness": 8.0,
+        "tests": 7.0,
+        "code": 9.0,
+        "simplicity": 8.5,
+        "browser_ux": 8.5
+      },
+      "bugs": [
+        {
+          "severity": "minor",
+          "title": "T-spin corner classification over-awards full spins",
+          "detail": "Real CW zero-travel/timed mini zero/single scores400/800 instead of100/200; all four mini facings and fourth-kick mini are full. A real T r1,(3,16) CW to r2 with only front corners(3,18),(5,18), support(4,19), scores400 instead of0. Full/fifth-kick spins and HD-SPIN-1 travel clearing pass; one classification finding."
+        },
+        {
+          "severity": "minor",
+          "title": "Perfect-clear bonuses use the wrong crossing level and omit B2B Tetris uplift",
+          "detail": "A zero-travel I PC single crossing9 to10 lines gives1700 instead of900: bonus uses updated level2. Tetris/no-clear/Tetris-PC totals4000 instead of5200, using2000 rather than3200 PC bonus. Ordinary PC1/2/3/4 totals900/1500/2300/2800 pass; related PC arithmetic grouped once."
+        },
+        {
+          "severity": "minor",
+          "title": "Landing frames charge airborne time to lock delay",
+          "detail": "O at(3,17),990ms in <=16ms steps then16+483ms is unlocked at1489;1ms welds four cells at1490 rather than1500. Existing-ground499/500, full fifteenth reset, failed actions, ordinary/exhausted ledges and new-lowest allowance pass apart from the same one-frame contact charge."
+        },
+        {
+          "severity": "minor",
+          "title": "Above-buffer handling permits wall escape and discards partial-lock cells",
+          "detail": "S r1,(-1,-2), blockers(2,-2),(0,0), real CCW accepts r0,(-1,-4), including x=-1; canonical fifth candidate is(0,-4). Separately actual I spawn with stack(5,1),(3,1),(6,1), CW fifth kick to r1,(4,-3) then zero-drop welds3 cells, not4, and continues with incoming T open. 672 comparisons retain14 boundary differences; one buffer-edge finding."
+        }
+      ],
+      "summary": "Canonical states and kick tables; spin classification, PC arithmetic, landing clock and above-buffer boundary defects"
     }
   ]
 }

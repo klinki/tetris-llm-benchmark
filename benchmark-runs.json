@@ -3100,6 +3100,35 @@
         ],
         "review": "Reviewed 2026-11-03 by the orchestrator (Claude Opus 5.5 high), from tool-call metadata only: Codex's standard AGENTS.md existence test (`[ -f ]`) for /Users, /Users/david, ~/tetris-bench, ~/tetris-bench/runs and the run folder (none exist; nothing listed); reads of Codex's own Sites and Playwright skill docs under ~/.codex; use of the Playwright skill script ~/.codex/skills/playwright/scripts/playwright_cli.sh with Chromium from ~/Library/Caches/ms-playwright and @playwright/cli from the npx cache to check its own page on localhost:8321; the three `../dist/*.js` references are imports inside its own tests/game.test.mjs. Web searches were Tetris Guideline/SRS wiki pages only. No benchmark, T3-data, other-run or external-app access; one turn, no approvals. During the run the repository sources, archive, .bench/imported|held|abandoned, /Users/david/projects/own/tetris and ~/.bench-scratch were permission-locked, and a September Luna timing-experiment folder (~/Documents/ChatGPT/Playground/t3-timing/tetris-run), whose lock did not persist, was moved to a locked folder and restored afterwards."
       }
+    },
+    {
+      "id": "hy4-high",
+      "label": "Hy4 (high)",
+      "order": 800,
+      "project_dir": "hy4-high",
+      "harness": "t3_opencode",
+      "harness_label": "T3 Code / OpenCode",
+      "provider": "opencode-go",
+      "provider_label": "opencode-go",
+      "model": "hy4",
+      "session_id": "ses_e3dfa01d5ffebQg9F86Evx43fZ",
+      "t3_thread_id": "mcp:launch:cebbf60e352331a41f54f5ea47978a5ee27f225e92bc1b7546ea9e06fdc3e000",
+      "expected_cwd": "/Users/david/tetris-bench/runs/d2c973ec92cf/tetris",
+      "expected_cwd_basename": "tetris",
+      "reasoning_variant": "high",
+      "web": "open",
+      "cutoff": {
+        "through_user_message": 1,
+        "exclude_inter_message_wait": true
+      },
+      "overhead": {
+        "kind": "unknown"
+      },
+      "spec": {
+        "sha256": "36e2097a78fe8b5646e6216338640831cff0a284cc823c4b1f658991c8d40294",
+        "commit": "bd596e329e496af264b395b4a11760767cd8cf6d",
+        "modified": false
+      }
     }
   ]
 }

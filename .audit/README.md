@@ -2,6 +2,33 @@
 
 This directory contains the reproducible, repository-safe parts of the audit behind [`RANKING.md`](../RANKING.md). Generated builds, copied `node_modules` trees, temporary web servers, browser profiles, and timestamped Playwright artifacts are intentionally excluded.
 
+## Hy4 high — November 10
+
+The [independent GPT-6.1 Sol xhigh review](hy4-review.md) scores `hy4-high`
+**8/7/9/8.5/8.5=8.10**, four grouped minors: spin classification,
+PC arithmetic, premature landing lock and above-buffer boundary handling.
+All 80 historical scores and existing attempt/import work remain unchanged.
+Every delivered file and own test was read; no transcript or delegation.
+
+```sh
+python3 .audit/run-hy4-audit.py --offline
+```
+
+The [runner](run-hy4-audit.py), [engine fixtures](hy4-audit.mjs) and
+[Chromium checks](hy4-browser.cjs) use a disposable locked-install copy,
+explicit build, 26 unchanged own passes, 28 states/48 ordered kicks/672 actual
+comparisons,100 actual bags,independent ghosts/hold,lock/reset/cap/ledge/
+new-lowest,gravity/cadence,spin/PC/B2B/combo/top-out/reset and actual keys/RAF/
+preview geometry at 1280×800 and 390×844. HD-SPIN-1 travel scores 28 correctly;
+zero-travel mini scores 400 rather than 100. All engine probes repeat in both
+views; real keys reproduce each finding. Both screenshots were inspected.
+All 18 delivered hashes remain unchanged. Only copied server's8321 constant
+is adapted to PORT; own npm start/app bodies remain. `--offline`,
+`--engine-only`, `--review` (interactive terminal for screenshot inspection).
+Copies, evidence and owned server/browser groups are cleaned on handled exits.
+Identity, effort, isolation were verified on import; no re-accounting or score
+effect. No implementation/registry/pricing change, commit, push or PR.
+
 ## Audit specification and hard-drop reconciliation — November 4
 
 [Audit specification](SPEC.md) rule **HD-SPIN-1** adopts the earlier ruling:
