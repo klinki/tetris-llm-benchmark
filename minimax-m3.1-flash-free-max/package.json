@@ -1,0 +1,15 @@
+{
+  "name": "tetris",
+  "version": "1.0.0",
+  "description": "Browser based Tetris following the Tetris Guideline",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "build": "tsc -p tsconfig.json && node tools/copy-assets.js",
+    "start": "npm run build && node tools/serve.js",
+    "test": "npm run build && node dist/test/smoke.test.js"
+  },
+  "devDependencies": {
+    "typescript": "^5.9.3"
+  }
+}

@@ -2608,6 +2608,246 @@
         }
       ],
       "summary": "Canonical states and kick tables; spin classification, PC arithmetic, landing clock and above-buffer boundary defects"
+    },
+    {
+      "run_id": "minimax-m3.1-flash-free-max",
+      "audited": "2026-11-12",
+      "scores": {
+        "correctness": 4,
+        "tests": 6.5,
+        "code": 9,
+        "simplicity": 8.5,
+        "browser_ux": 8.5
+      },
+      "bugs": [
+        {
+          "severity": "major",
+          "title": "I geometry and kick tables are not canonical SRS",
+          "detail": "I3 is duplicated from I1 (column2 instead of column1), and I3>2/I0>3 ordered kick tables are wrong. 28-state/48-list probes pin these differences;84/576 independent actual rotations differ when ceiling cases are included."
+        },
+        {
+          "severity": "major",
+          "title": "Spin and perfect-clear scoring are absent and B2B is incorrect",
+          "detail": "Real rotated full/mini zero/single locks score0/100 instead of400/800 or100/200; full double300 instead of1200. PC1–4 give100/300/500/800 instead of900/1500/2300/2800. Consecutive Tetrises total2100 instead of2050; Tetris/no-clear/Tetris1600 instead of2000. Triples incorrectly count as difficult, with extra50-per-streak bonuses. One grouped scoring major, following Qwen Max xhigh."
+        },
+        {
+          "severity": "minor",
+          "title": "Landing frames shorten lock delay",
+          "detail": "O one row above floor at (3,17), advance990 ms in <=16 ms parts, then16,483,1 ms. No welded cells at1489; four at1490 instead of a full500 ms after contact at1000. The entire landing frame is charged as grounded time. Node and unchanged served RAF agree."
+        },
+        {
+          "severity": "minor",
+          "title": "Reset-cap handling forces early locks and keeps spent resets at a lower row",
+          "detail": "Fifteen grounded shifts then100 ms, a sixteenth shift and1 ms weld four instead of waiting until500. O r0 at (-1,12), supports (0,14),(1,14); fifteen successful alternating shifts,490 ms, Right off the ledge, fall to the new lowest row. After400 ms grounded, Left then100 ms welds four (total6 including supports) instead of granting a fresh500 ms. No airborne weld; spent15 resets are not restored. "
+        },
+        {
+          "severity": "minor",
+          "title": "The ceiling rejects legal upward SRS kicks",
+          "detail": "Legal S r1 at (-1,-2), blockers (2,-2),(0,0), real CCW should use fifth SRS candidate r0 at (0,-4). Rotation fails and leaves the original pose because the two-row storage boundary is treated as a solid ceiling. This is a legal-pose setup, not a claimed spawn-to-pose replay. "
+        },
+        {
+          "severity": "minor",
+          "title": "Restart reuses a partial old bag",
+          "detail": "After actual top-out and reset, the first seven pieces have only six distinct types for seeds1,2,42 because the bag is not reset. Fresh games pass100 actual bags. Real R/placements reproduce the seed42 duplicate opening."
+        },
+        {
+          "severity": "minor",
+          "title": "Space and movement still alter a paused game",
+          "detail": "Fresh T at(3,5), P then Space welds four cells and adds drop points while status remains paused. Engine and real Chromium keys reproduce it; tick alone is paused correctly."
+        },
+        {
+          "severity": "minor",
+          "title": "The phone layout clips the playfield",
+          "detail": "At390×844 document width443; board x=-53,width300 and panel x263,width180. The fixed496px cabinet clips53px from the field and extends right. Desktop fits. One layout deduction."
+        }
+      ],
+      "summary": "I geometry and kick tables are not canonical SRS; Spin and perfect-clear scoring are absent and B2B is incorrect; Landing frames shorten lock delay; Reset-cap handling forces early locks and keeps spent resets at a lower row; The ceiling rejects legal upward SRS kicks; Restart reuses a partial old bag; Space and movement still alter a paused game; The phone layout clips the playfield"
+    },
+    {
+      "run_id": "minimax-m3.1-flash-free-xhigh",
+      "audited": "2026-11-12",
+      "scores": {
+        "correctness": 9,
+        "tests": 6.5,
+        "code": 9,
+        "simplicity": 8.5,
+        "browser_ux": 8.5
+      },
+      "bugs": [
+        {
+          "severity": "minor",
+          "title": "Spin history and fifth-kick mini promotion are incorrect",
+          "detail": "HD-SPIN-1: stack (0,17),(0,19),(2,19), T r0 at (0,3), real CW to r1 and independently verified ghost (0,17), fourteen-row hard drop scores128 instead of28. Zero-travel mini/full hard and timed controls score100/400 correctly. Manual soft rows correctly cancel credit. Actual fifth kick T r1,(3,17), stack(4,15),(6,15),(6,17),(3,18),(6,18),(3,16), CW reaches r2,(4,15); zero-drop score100 instead of full400. Related spin edges grouped once, following GLM low."
+        },
+        {
+          "severity": "minor",
+          "title": "Landing frames shorten lock delay",
+          "detail": "O one row above floor at (3,17), advance990 ms in <=16 ms parts, then16,483,1 ms. No welded cells at1489; four at1490 instead of a full500 ms after contact at1000. The entire landing frame is charged as grounded time. Node and unchanged served RAF agree."
+        }
+      ],
+      "summary": "Spin history and fifth-kick mini promotion are incorrect; Landing frames shorten lock delay"
+    },
+    {
+      "run_id": "minimax-m3.1-flash-free-high",
+      "audited": "2026-11-12",
+      "scores": {
+        "correctness": 6,
+        "tests": 7,
+        "code": 9,
+        "simplicity": 8.5,
+        "browser_ux": 8.5
+      },
+      "bugs": [
+        {
+          "severity": "minor",
+          "title": "Spin history and fifth-kick mini promotion are incorrect",
+          "detail": "HD-SPIN-1: stack (0,17),(0,19),(2,19), T r0 at (0,3), real CW to r1 and independently verified ghost (0,17), fourteen-row hard drop scores128 instead of28. Zero-travel mini/full hard and timed controls score100/400 correctly. Manual soft descent also leaves100 stale mini points. The fifth-kick fixture documented for xhigh gives100 instead of400. These manifestations are one spin-edge group."
+        },
+        {
+          "severity": "minor",
+          "title": "Perfect-clear bonuses are absent",
+          "detail": "PC1–4 give100/300/500/800 instead of900/1500/2300/2800, and PC at a level crossing gives100 instead of900. One bonus omission."
+        },
+        {
+          "severity": "minor",
+          "title": "A no-clear lock breaks B2B",
+          "detail": "Real Tetris, no-clear O placement, then Tetris totals1600 instead of2000. Consecutive Tetrises score2050 correctly. scoreClear returns backToBack=false for a non-difficult no-clear placement."
+        },
+        {
+          "severity": "minor",
+          "title": "Landing frames shorten lock delay",
+          "detail": "O one row above floor at (3,17), advance990 ms in <=16 ms parts, then16,483,1 ms. No welded cells at1489; four at1490 instead of a full500 ms after contact at1000. The entire landing frame is charged as grounded time. Node and unchanged served RAF agree."
+        },
+        {
+          "severity": "minor",
+          "title": "Reaching a lower row does not restore spent lock resets",
+          "detail": "O r0 at (-1,12), supports (0,14),(1,14); fifteen successful alternating shifts,490 ms, Right off the ledge, fall to the new lowest row. After400 ms grounded, Left then100 ms welds four (total6 including supports) instead of granting a fresh500 ms. No airborne weld; spent15 resets are not restored. "
+        },
+        {
+          "severity": "minor",
+          "title": "The ceiling rejects legal upward SRS kicks",
+          "detail": "Legal S r1 at (-1,-2), blockers (2,-2),(0,0), real CCW should use fifth SRS candidate r0 at (0,-4). Rotation fails and leaves the original pose because the two-row storage boundary is treated as a solid ceiling. This is a legal-pose setup, not a claimed spawn-to-pose replay. "
+        },
+        {
+          "severity": "minor",
+          "title": "Restart reuses a partial old bag",
+          "detail": "After actual top-out and reset, the first seven pieces have only six distinct types for seeds1,2,42 because the bag is not reset. Fresh games pass100 actual bags. Real R/placements reproduce the seed42 duplicate opening."
+        },
+        {
+          "severity": "minor",
+          "title": "The phone page overflows horizontally",
+          "detail": "At390×844 document width407; the canvas x24,width358.8 remains inside the viewport, but layout padding/help produce17px horizontal overflow. Supporting text is cut at the initial viewport. Distinct from max/low clipping the actual well."
+        }
+      ],
+      "summary": "Spin history and fifth-kick mini promotion are incorrect; Perfect-clear bonuses are absent; A no-clear lock breaks B2B; Landing frames shorten lock delay; Reaching a lower row does not restore spent lock resets; The ceiling rejects legal upward SRS kicks; Restart reuses a partial old bag; The phone page overflows horizontally"
+    },
+    {
+      "run_id": "minimax-m3.1-flash-free-medium",
+      "audited": "2026-11-12",
+      "scores": {
+        "correctness": 6.5,
+        "tests": 5.5,
+        "code": 9,
+        "simplicity": 8.5,
+        "browser_ux": 8.5
+      },
+      "bugs": [
+        {
+          "severity": "minor",
+          "title": "A travelling hard drop retains stale spin credit",
+          "detail": "HD-SPIN-1: stack (0,17),(0,19),(2,19), T r0 at (0,3), real CW to r1 and independently verified ghost (0,17), fourteen-row hard drop scores128 instead of28. Zero-travel mini/full hard and timed controls score100/400 correctly. Fourteen public manual softDrop calls clear credit; the hard-drop history remains stale. Fifth-kick promotion and ordinary corner controls pass."
+        },
+        {
+          "severity": "minor",
+          "title": "Back-to-back mini and perfect-clear bonuses are under-awarded",
+          "detail": "Two actual mini singles: second250 instead of350 including combo. Tetris/no-clear/Tetris-PC totals4000 instead of5200: final award3200 instead of4400. Ordinary B2B, normal PC1–4 and pre-clear PC crossing pass. Related B2B bonus edges grouped once."
+        },
+        {
+          "severity": "minor",
+          "title": "Soft-drop entry spends old normal-gravity time",
+          "detail": "O at(3,0),800 normal ms, setSoftDrop(true),1 ms gives16 rows/16 points. Real Down adds its immediate row, then1 ms yields17 rows/17 points. Faster cadence should not convert the old800 ms into scored soft rows."
+        },
+        {
+          "severity": "minor",
+          "title": "Reaching a lower row does not restore spent lock resets",
+          "detail": "O r0 at (-1,12), supports (0,14),(1,14); fifteen successful alternating shifts,490 ms, Right off the ledge, fall to the new lowest row. After400 ms grounded, Left then100 ms welds four (total6 including supports) instead of granting a fresh500 ms. No airborne weld; spent15 resets are not restored. "
+        },
+        {
+          "severity": "minor",
+          "title": "A wholly hidden lock continues play",
+          "detail": "O at(-1,-2),support(0,0), incoming I independently open: zero-drop welds four hidden cells but continues playing after the100 ms entry delay. Partial visible controls correctly continue. No whole-piece lock-out check exists."
+        },
+        {
+          "severity": "minor",
+          "title": "Restart reuses a partial old bag",
+          "detail": "Actual top-out/restart yields only6/5/6 distinct opening types for seeds1/2/42. Real R reproduces the seed42 duplicate. Fresh games pass100 bags."
+        },
+        {
+          "severity": "minor",
+          "title": "Left Ctrl does not rotate",
+          "detail": "The advertised Left Ctrl CCW binding is absent from the input switch. Real ControlLeft leaves the T orientation unchanged in desktop/phone Chromium; Z works."
+        }
+      ],
+      "summary": "A travelling hard drop retains stale spin credit; Back-to-back mini and perfect-clear bonuses are under-awarded; Soft-drop entry spends old normal-gravity time; Reaching a lower row does not restore spent lock resets; A wholly hidden lock continues play; Restart reuses a partial old bag; Left Ctrl does not rotate"
+    },
+    {
+      "run_id": "minimax-m3.1-flash-free-low",
+      "audited": "2026-11-12",
+      "scores": {
+        "correctness": 3.5,
+        "tests": 4.5,
+        "code": 8.5,
+        "simplicity": 8.5,
+        "browser_ux": 8
+      },
+      "bugs": [
+        {
+          "severity": "major",
+          "title": "Three I kick transitions are not SRS",
+          "detail": "I3>2,I3>0,I0>3 have the wrong ordered offsets. All28 state sets pass after the fixed O origin translation;14/576 independent actual rotations differ. Example I r0,(0,8), blockers in the committed exact fixture: CCW lands r3,(1,8), expected(-1,8)."
+        },
+        {
+          "severity": "major",
+          "title": "Line and spin base points do not scale with level",
+          "detail": "applyScoring never multiplies normal/spin base points by level. At level2, the second single of a combo awards200 instead of300; the first awards100 instead of200. This breaks the common level-scoring feature; combo alone is level-scaled."
+        },
+        {
+          "severity": "minor",
+          "title": "Perfect-clear bonuses are absent",
+          "detail": "PC1–4 give100/300/500/800 instead of900/1500/2300/2800; B2B-PC total2000 instead of5200. Ordinary B2B/no-clear continuity pass."
+        },
+        {
+          "severity": "minor",
+          "title": "Spin history and corner/kick classification are incorrect",
+          "detail": "HD-SPIN-1: stack (0,17),(0,19),(2,19), T r0 at (0,3), real CW to r1 and independently verified ghost (0,17), fourteen-row hard drop scores128 instead of28. Zero-travel mini/full hard and timed controls score100/400 correctly. Manual soft travel also leaves100 stale mini points. Two occupied front corners without a third corner score400 instead of0; fifth-kick promotion scores100 instead of400. Related spin edges grouped once rather than one penalty per manifestation."
+        },
+        {
+          "severity": "minor",
+          "title": "Airborne moves spend resets and a lower row keeps them",
+          "detail": "Fifteen open-air shifts consume all15 resets before first contact. O r0 at (-1,12), supports (0,14),(1,14); fifteen successful alternating shifts,490 ms, Right off the ledge, fall to the new lowest row. After400 ms grounded, Left then100 ms welds four (total6 including supports) instead of granting a fresh500 ms. No airborne weld; spent15 resets are not restored. "
+        },
+        {
+          "severity": "minor",
+          "title": "Hidden locks discard cells and continue play",
+          "detail": "Legal O at(-1,-2) over support(0,0), incoming I open: zero-drop discards all four above-field cells and continues playing with only the support left. Whole hidden lock-out and partial-cell retention are absent; grouped boundary/lock-out minor."
+        },
+        {
+          "severity": "minor",
+          "title": "Hard drop still changes a terminal game",
+          "detail": "After blocked spawn the active colliding piece is retained. hardDrop has no state guard and changes board/score/spawn after gameover; the full before/after terminal snapshot differs. Movement/rotation/hold are guarded. Independent served-module probes reproduce the state change."
+        },
+        {
+          "severity": "minor",
+          "title": "The phone layout clips the playfield",
+          "detail": "At390×844 the430px canvas begins x=-20 and document width434; the left well and control text are clipped. Desktop fits. One responsive-layout deduction."
+        },
+        {
+          "severity": "minor",
+          "title": "Held preview overlaps its label",
+          "detail": "Held T preview cells extend from native y24 to52 while the HOLD label baseline is28. Forwarded drawing and both screenshots show the top purple cell painted over HOLD. Separate from the phone clipping; no own rendering assertion covers it."
+        }
+      ],
+      "summary": "Three I kick transitions are not SRS; Line and spin base points do not scale with level; Perfect-clear bonuses are absent; Spin history and corner/kick classification are incorrect; Airborne moves spend resets and a lower row keeps them; Hidden locks discard cells and continue play; Hard drop still changes a terminal game; The phone layout clips the playfield; Held preview overlaps its label"
     }
   ]
 }

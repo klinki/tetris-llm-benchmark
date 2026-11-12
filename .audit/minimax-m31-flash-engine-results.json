@@ -1,0 +1,2799 @@
+{
+  "max": {
+    "mode": "max",
+    "states": [
+      "I3"
+    ],
+    "kicks": [
+      {
+        "t": "I",
+        "tr": "3>2",
+        "got": [
+          [
+            0,
+            0
+          ],
+          [
+            -1,
+            0
+          ],
+          [
+            2,
+            0
+          ],
+          [
+            -1,
+            -2
+          ],
+          [
+            2,
+            1
+          ]
+        ],
+        "want": [
+          [
+            0,
+            0
+          ],
+          [
+            -2,
+            0
+          ],
+          [
+            1,
+            0
+          ],
+          [
+            -2,
+            1
+          ],
+          [
+            1,
+            -2
+          ]
+        ]
+      },
+      {
+        "t": "I",
+        "tr": "0>3",
+        "got": [
+          [
+            0,
+            0
+          ],
+          [
+            -2,
+            0
+          ],
+          [
+            1,
+            0
+          ],
+          [
+            -2,
+            1
+          ],
+          [
+            1,
+            -2
+          ]
+        ],
+        "want": [
+          [
+            0,
+            0
+          ],
+          [
+            -1,
+            0
+          ],
+          [
+            2,
+            0
+          ],
+          [
+            -1,
+            -2
+          ],
+          [
+            2,
+            1
+          ]
+        ]
+      }
+    ],
+    "rotations": {
+      "total": 576,
+      "mismatches": 84,
+      "examples": [
+        {
+          "before": {
+            "type": "I",
+            "rotation": 0,
+            "x": 6,
+            "y": -2
+          },
+          "d": -1,
+          "stack": [
+            [
+              0,
+              -2
+            ],
+            [
+              8,
+              -2
+            ],
+            [
+              9,
+              -2
+            ],
+            [
+              3,
+              0
+            ],
+            [
+              5,
+              0
+            ],
+            [
+              8,
+              0
+            ],
+            [
+              3,
+              1
+            ],
+            [
+              4,
+              1
+            ],
+            [
+              5,
+              1
+            ],
+            [
+              6,
+              1
+            ]
+          ],
+          "got": {
+            "type": "I",
+            "rotation": 0,
+            "x": 6,
+            "y": -2
+          },
+          "want": {
+            "type": "I",
+            "rotation": 3,
+            "x": 6,
+            "y": -2
+          }
+        },
+        {
+          "before": {
+            "type": "I",
+            "rotation": 0,
+            "x": 0,
+            "y": 8
+          },
+          "d": -1,
+          "stack": [
+            [
+              2,
+              6
+            ],
+            [
+              7,
+              6
+            ],
+            [
+              8,
+              6
+            ],
+            [
+              0,
+              7
+            ],
+            [
+              1,
+              7
+            ],
+            [
+              4,
+              7
+            ],
+            [
+              5,
+              7
+            ],
+            [
+              6,
+              7
+            ],
+            [
+              7,
+              7
+            ],
+            [
+              8,
+              7
+            ],
+            [
+              9,
+              7
+            ],
+            [
+              5,
+              8
+            ],
+            [
+              7,
+              8
+            ],
+            [
+              8,
+              8
+            ],
+            [
+              5,
+              9
+            ],
+            [
+              6,
+              9
+            ],
+            [
+              9,
+              9
+            ],
+            [
+              1,
+              10
+            ],
+            [
+              7,
+              10
+            ],
+            [
+              1,
+              11
+            ],
+            [
+              6,
+              11
+            ],
+            [
+              7,
+              11
+            ],
+            [
+              8,
+              11
+            ],
+            [
+              9,
+              11
+            ],
+            [
+              2,
+              12
+            ],
+            [
+              6,
+              12
+            ]
+          ],
+          "got": {
+            "type": "I",
+            "rotation": 3,
+            "x": 0,
+            "y": 8
+          },
+          "want": {
+            "type": "I",
+            "rotation": 3,
+            "x": -1,
+            "y": 8
+          }
+        },
+        {
+          "before": {
+            "type": "I",
+            "rotation": 0,
+            "x": 3,
+            "y": 8
+          },
+          "d": -1,
+          "stack": [
+            [
+              2,
+              6
+            ],
+            [
+              4,
+              6
+            ],
+            [
+              7,
+              6
+            ],
+            [
+              8,
+              6
+            ],
+            [
+              9,
+              6
+            ],
+            [
+              0,
+              7
+            ],
+            [
+              1,
+              7
+            ],
+            [
+              5,
+              7
+            ],
+            [
+              2,
+              8
+            ],
+            [
+              4,
+              8
+            ],
+            [
+              6,
+              8
+            ],
+            [
+              7,
+              8
+            ],
+            [
+              9,
+              8
+            ],
+            [
+              1,
+              9
+            ],
+            [
+              9,
+              9
+            ],
+            [
+              1,
+              10
+            ],
+            [
+              9,
+              10
+            ],
+            [
+              1,
+              11
+            ],
+            [
+              3,
+              11
+            ],
+            [
+              4,
+              11
+            ],
+            [
+              1,
+              12
+            ],
+            [
+              5,
+              12
+            ]
+          ],
+          "got": {
+            "type": "I",
+            "rotation": 3,
+            "x": 3,
+            "y": 8
+          },
+          "want": {
+            "type": "I",
+            "rotation": 3,
+            "x": 2,
+            "y": 6
+          }
+        },
+        {
+          "before": {
+            "type": "I",
+            "rotation": 0,
+            "x": 6,
+            "y": 8
+          },
+          "d": -1,
+          "stack": [
+            [
+              0,
+              6
+            ],
+            [
+              2,
+              6
+            ],
+            [
+              6,
+              6
+            ],
+            [
+              9,
+              6
+            ],
+            [
+              0,
+              7
+            ],
+            [
+              4,
+              7
+            ],
+            [
+              5,
+              7
+            ],
+            [
+              1,
+              8
+            ],
+            [
+              3,
+              8
+            ],
+            [
+              8,
+              8
+            ],
+            [
+              9,
+              8
+            ],
+            [
+              1,
+              9
+            ],
+            [
+              2,
+              9
+            ],
+            [
+              3,
+              9
+            ],
+            [
+              4,
+              9
+            ],
+            [
+              2,
+              10
+            ],
+            [
+              7,
+              10
+            ],
+            [
+              2,
+              11
+            ],
+            [
+              4,
+              11
+            ],
+            [
+              8,
+              11
+            ],
+            [
+              1,
+              12
+            ],
+            [
+              2,
+              12
+            ],
+            [
+              8,
+              12
+            ]
+          ],
+          "got": {
+            "type": "I",
+            "rotation": 3,
+            "x": 4,
+            "y": 8
+          },
+          "want": {
+            "type": "I",
+            "rotation": 3,
+            "x": 5,
+            "y": 8
+          }
+        },
+        {
+          "before": {
+            "type": "I",
+            "rotation": 0,
+            "x": 0,
+            "y": 18
+          },
+          "d": -1,
+          "stack": [
+            [
+              0,
+              16
+            ],
+            [
+              1,
+              17
+            ],
+            [
+              5,
+              17
+            ],
+            [
+              1,
+              18
+            ],
+            [
+              2,
+              18
+            ],
+            [
+              6,
+              19
+            ],
+            [
+              7,
+              19
+            ]
+          ],
+          "got": {
+            "type": "I",
+            "rotation": 3,
+            "x": 1,
+            "y": 16
+          },
+          "want": {
+            "type": "I",
+            "rotation": 0,
+            "x": 0,
+            "y": 18
+          }
+        },
+        {
+          "before": {
+            "type": "I",
+            "rotation": 0,
+            "x": 0,
+            "y": -2
+          },
+          "d": -1,
+          "stack": [
+            [
+              0,
+              -2
+            ],
+            [
+              7,
+              -2
+            ],
+            [
+              9,
+              -2
+            ],
+            [
+              7,
+              -1
+            ],
+            [
+              2,
+              0
+            ],
+            [
+              4,
+              0
+            ],
+            [
+              8,
+              1
+            ],
+            [
+              4,
+              2
+            ],
+            [
+              8,
+              2
+            ]
+          ],
+          "got": {
+            "type": "I",
+            "rotation": 3,
+            "x": 1,
+            "y": -2
+          },
+          "want": {
+            "type": "I",
+            "rotation": 3,
+            "x": 0,
+            "y": -2
+          }
+        }
+      ]
+    },
+    "bags": 100,
+    "hold": "pass",
+    "ghosts": [
+      [
+        "I",
+        14
+      ],
+      [
+        "J",
+        14
+      ],
+      [
+        "L",
+        14
+      ],
+      [
+        "O",
+        14
+      ],
+      [
+        "S",
+        14
+      ],
+      [
+        "T",
+        14
+      ],
+      [
+        "Z",
+        14
+      ]
+    ],
+    "compaction": "pass",
+    "grounded": [
+      0,
+      4
+    ],
+    "resetClock": [
+      0,
+      4
+    ],
+    "cap": [
+      0,
+      4
+    ],
+    "failedClock": 4,
+    "contactLock": 1490,
+    "ledge": {
+      "airborne": 1,
+      "land": 5490,
+      "lock": 5989,
+      "count": 5
+    },
+    "exhaustedLedge": {
+      "airborne": 1,
+      "land": 5475,
+      "lock": 5974,
+      "count": 5
+    },
+    "newLowest": {
+      "resets": 15,
+      "pose": {
+        "type": "O",
+        "rotation": 0,
+        "x": 1,
+        "y": 13
+      }
+    },
+    "sixteenthEarly": 4,
+    "airResets": 0,
+    "gravity": [
+      1000,
+      793,
+      618,
+      473,
+      356,
+      263,
+      190,
+      135,
+      94,
+      65,
+      43,
+      29,
+      19,
+      12,
+      8,
+      5,
+      3,
+      2,
+      1,
+      1
+    ],
+    "refresh": [
+      9,
+      9
+    ],
+    "softEntry": {
+      "y": 0,
+      "score": 0
+    },
+    "softRelease": 0,
+    "holdClock": [
+      0,
+      1
+    ],
+    "scores": {
+      "normal1": 100,
+      "pc1": 100,
+      "normal2": 300,
+      "pc2": 300,
+      "normal3": 500,
+      "pc3": 500,
+      "normal4": 800,
+      "pc4": 800,
+      "consecutive": 2100,
+      "b2b": 1600,
+      "break": 1750,
+      "level2Combo": 300,
+      "crossing": [
+        100,
+        10,
+        2
+      ],
+      "b2bPc": 1600,
+      "hard-mini-zero": 0,
+      "hard-mini-single": 100,
+      "hard-full-zero": 0,
+      "hard-full-single": 100,
+      "timed-mini-zero": 0,
+      "timed-mini-single": 100,
+      "timed-full-zero": 0,
+      "timed-full-single": 100,
+      "hardDownExtra": 28,
+      "softDownExtra": 0,
+      "twoCorners": 0,
+      "fifthPose": {
+        "type": "T",
+        "rotation": 2,
+        "x": 4,
+        "y": 15
+      },
+      "fifthScore": 0,
+      "failedActions": 0,
+      "pcCrossing": [
+        100,
+        2
+      ],
+      "hardDouble": 300,
+      "timedDouble": 300,
+      "secondMini": 150,
+      "noRotation": 0
+    },
+    "newLowestMove": 6,
+    "pauseCells": 4,
+    "ceilingS": {
+      "type": "S",
+      "rotation": 1,
+      "x": -1,
+      "y": -2
+    },
+    "hidden": [
+      {
+        "partial": false,
+        "over": true,
+        "cells": 5
+      },
+      {
+        "partial": true,
+        "over": false,
+        "cells": 5
+      }
+    ],
+    "blocked": true,
+    "terminal": true,
+    "reset": [
+      false,
+      0,
+      0,
+      0,
+      1,
+      null
+    ],
+    "restartBags": [
+      6,
+      6,
+      6
+    ]
+  },
+  "xhigh": {
+    "mode": "xhigh",
+    "states": [],
+    "kicks": [],
+    "rotations": {
+      "total": 576,
+      "mismatches": 0,
+      "examples": []
+    },
+    "bags": 100,
+    "hold": "pass",
+    "ghosts": [
+      [
+        "I",
+        14
+      ],
+      [
+        "J",
+        14
+      ],
+      [
+        "L",
+        14
+      ],
+      [
+        "O",
+        14
+      ],
+      [
+        "S",
+        14
+      ],
+      [
+        "T",
+        14
+      ],
+      [
+        "Z",
+        14
+      ]
+    ],
+    "compaction": "pass",
+    "grounded": [
+      0,
+      4
+    ],
+    "resetClock": [
+      0,
+      4
+    ],
+    "cap": [
+      0,
+      4
+    ],
+    "failedClock": 4,
+    "contactLock": 1490,
+    "ledge": {
+      "airborne": 1,
+      "land": 5490,
+      "lock": 5989,
+      "count": 5
+    },
+    "exhaustedLedge": {
+      "airborne": 1,
+      "land": 5475,
+      "lock": 5974,
+      "count": 5
+    },
+    "newLowest": {
+      "resets": 0,
+      "pose": {
+        "type": "O",
+        "rotation": 0,
+        "x": 1,
+        "y": 13
+      }
+    },
+    "sixteenthEarly": 0,
+    "airResets": 0,
+    "gravity": [
+      1000,
+      793,
+      618,
+      473,
+      356,
+      263,
+      190,
+      135,
+      94,
+      65,
+      43,
+      29,
+      19,
+      12,
+      8,
+      5,
+      3,
+      2,
+      1,
+      1
+    ],
+    "refresh": [
+      9,
+      9
+    ],
+    "softEntry": {
+      "y": 0,
+      "score": 0
+    },
+    "softRelease": 0,
+    "holdClock": [
+      0,
+      1
+    ],
+    "scores": {
+      "normal1": 100,
+      "pc1": 900,
+      "normal2": 300,
+      "pc2": 1500,
+      "normal3": 500,
+      "pc3": 2300,
+      "normal4": 800,
+      "pc4": 2800,
+      "consecutive": 2050,
+      "b2b": 2000,
+      "break": 2150,
+      "level2Combo": 300,
+      "crossing": [
+        100,
+        10,
+        2
+      ],
+      "b2bPc": 5200,
+      "hard-mini-zero": 100,
+      "hard-mini-single": 200,
+      "hard-full-zero": 400,
+      "hard-full-single": 800,
+      "timed-mini-zero": 100,
+      "timed-mini-single": 200,
+      "timed-full-zero": 400,
+      "timed-full-single": 800,
+      "hardDownExtra": 128,
+      "softDownExtra": 0,
+      "twoCorners": 0,
+      "fifthPose": {
+        "type": "T",
+        "rotation": 2,
+        "x": 4,
+        "y": 15
+      },
+      "fifthScore": 100,
+      "failedActions": 400,
+      "pcCrossing": [
+        900,
+        2
+      ],
+      "hardDouble": 1200,
+      "timedDouble": 1200,
+      "secondMini": 350,
+      "noRotation": 0
+    },
+    "newLowestMove": 2,
+    "ceilingS": {
+      "type": "S",
+      "rotation": 0,
+      "x": 0,
+      "y": -4
+    },
+    "hidden": [
+      {
+        "partial": false,
+        "over": true,
+        "cells": 5
+      },
+      {
+        "partial": true,
+        "over": false,
+        "cells": 5
+      }
+    ],
+    "blocked": true,
+    "terminal": true,
+    "reset": [
+      false,
+      0,
+      0,
+      0,
+      1,
+      null
+    ],
+    "restartBags": [
+      7,
+      7,
+      7
+    ]
+  },
+  "high": {
+    "mode": "high",
+    "states": [],
+    "kicks": [],
+    "rotations": {
+      "total": 576,
+      "mismatches": 63,
+      "examples": [
+        {
+          "before": {
+            "type": "J",
+            "rotation": 0,
+            "x": 0,
+            "y": -2
+          },
+          "d": -1,
+          "stack": [
+            [
+              1,
+              -2
+            ],
+            [
+              3,
+              -2
+            ],
+            [
+              4,
+              -2
+            ],
+            [
+              7,
+              -2
+            ],
+            [
+              3,
+              -1
+            ],
+            [
+              5,
+              -1
+            ],
+            [
+              9,
+              -1
+            ],
+            [
+              2,
+              0
+            ],
+            [
+              3,
+              0
+            ],
+            [
+              6,
+              0
+            ],
+            [
+              0,
+              1
+            ],
+            [
+              5,
+              1
+            ],
+            [
+              6,
+              1
+            ],
+            [
+              7,
+              1
+            ],
+            [
+              2,
+              2
+            ],
+            [
+              3,
+              2
+            ]
+          ],
+          "got": {
+            "type": "J",
+            "rotation": 3,
+            "x": 0,
+            "y": 0
+          },
+          "want": {
+            "type": "J",
+            "rotation": 3,
+            "x": 1,
+            "y": -3
+          }
+        },
+        {
+          "before": {
+            "type": "J",
+            "rotation": 0,
+            "x": 3,
+            "y": -2
+          },
+          "d": -1,
+          "stack": [
+            [
+              2,
+              -2
+            ],
+            [
+              9,
+              -2
+            ],
+            [
+              0,
+              -1
+            ],
+            [
+              7,
+              -1
+            ],
+            [
+              1,
+              0
+            ],
+            [
+              4,
+              0
+            ],
+            [
+              5,
+              0
+            ],
+            [
+              7,
+              0
+            ],
+            [
+              6,
+              1
+            ],
+            [
+              8,
+              1
+            ],
+            [
+              9,
+              1
+            ],
+            [
+              3,
+              2
+            ],
+            [
+              4,
+              2
+            ],
+            [
+              5,
+              2
+            ]
+          ],
+          "got": {
+            "type": "J",
+            "rotation": 0,
+            "x": 3,
+            "y": -2
+          },
+          "want": {
+            "type": "J",
+            "rotation": 3,
+            "x": 4,
+            "y": -3
+          }
+        },
+        {
+          "before": {
+            "type": "J",
+            "rotation": 0,
+            "x": 0,
+            "y": -2
+          },
+          "d": 1,
+          "stack": [
+            [
+              1,
+              -2
+            ],
+            [
+              6,
+              -2
+            ],
+            [
+              8,
+              -2
+            ],
+            [
+              3,
+              -1
+            ],
+            [
+              5,
+              -1
+            ],
+            [
+              6,
+              -1
+            ],
+            [
+              6,
+              0
+            ],
+            [
+              8,
+              0
+            ],
+            [
+              2,
+              1
+            ],
+            [
+              5,
+              1
+            ],
+            [
+              6,
+              1
+            ],
+            [
+              2,
+              2
+            ],
+            [
+              3,
+              2
+            ],
+            [
+              4,
+              2
+            ]
+          ],
+          "got": {
+            "type": "J",
+            "rotation": 1,
+            "x": 0,
+            "y": 0
+          },
+          "want": {
+            "type": "J",
+            "rotation": 1,
+            "x": -1,
+            "y": -3
+          }
+        },
+        {
+          "before": {
+            "type": "J",
+            "rotation": 0,
+            "x": 7,
+            "y": -2
+          },
+          "d": 1,
+          "stack": [
+            [
+              1,
+              -2
+            ],
+            [
+              8,
+              -2
+            ],
+            [
+              2,
+              -1
+            ],
+            [
+              5,
+              0
+            ],
+            [
+              2,
+              1
+            ],
+            [
+              8,
+              1
+            ],
+            [
+              1,
+              2
+            ],
+            [
+              2,
+              2
+            ],
+            [
+              5,
+              2
+            ],
+            [
+              6,
+              2
+            ]
+          ],
+          "got": {
+            "type": "J",
+            "rotation": 1,
+            "x": 6,
+            "y": 0
+          },
+          "want": {
+            "type": "J",
+            "rotation": 1,
+            "x": 6,
+            "y": -3
+          }
+        },
+        {
+          "before": {
+            "type": "J",
+            "rotation": 1,
+            "x": 7,
+            "y": -2
+          },
+          "d": -1,
+          "stack": [
+            [
+              0,
+              -2
+            ],
+            [
+              1,
+              -2
+            ],
+            [
+              3,
+              -2
+            ],
+            [
+              6,
+              -2
+            ],
+            [
+              1,
+              -1
+            ],
+            [
+              4,
+              -1
+            ],
+            [
+              6,
+              -1
+            ],
+            [
+              7,
+              -1
+            ],
+            [
+              0,
+              0
+            ],
+            [
+              2,
+              0
+            ],
+            [
+              9,
+              0
+            ],
+            [
+              3,
+              1
+            ],
+            [
+              7,
+              1
+            ],
+            [
+              3,
+              2
+            ],
+            [
+              4,
+              2
+            ],
+            [
+              6,
+              2
+            ],
+            [
+              8,
+              2
+            ]
+          ],
+          "got": {
+            "type": "J",
+            "rotation": 1,
+            "x": 7,
+            "y": -2
+          },
+          "want": {
+            "type": "J",
+            "rotation": 0,
+            "x": 7,
+            "y": -4
+          }
+        },
+        {
+          "before": {
+            "type": "J",
+            "rotation": 1,
+            "x": -1,
+            "y": -2
+          },
+          "d": -1,
+          "stack": [
+            [
+              3,
+              -2
+            ],
+            [
+              4,
+              -2
+            ],
+            [
+              1,
+              -1
+            ],
+            [
+              8,
+              -1
+            ],
+            [
+              1,
+              0
+            ],
+            [
+              2,
+              0
+            ],
+            [
+              4,
+              0
+            ],
+            [
+              5,
+              0
+            ],
+            [
+              7,
+              0
+            ],
+            [
+              4,
+              1
+            ],
+            [
+              8,
+              1
+            ],
+            [
+              1,
+              2
+            ],
+            [
+              5,
+              2
+            ],
+            [
+              8,
+              2
+            ]
+          ],
+          "got": {
+            "type": "J",
+            "rotation": 1,
+            "x": -1,
+            "y": -2
+          },
+          "want": {
+            "type": "J",
+            "rotation": 0,
+            "x": 0,
+            "y": -4
+          }
+        }
+      ]
+    },
+    "bags": 100,
+    "hold": "pass",
+    "ghosts": [
+      [
+        "I",
+        14
+      ],
+      [
+        "J",
+        14
+      ],
+      [
+        "L",
+        14
+      ],
+      [
+        "O",
+        14
+      ],
+      [
+        "S",
+        14
+      ],
+      [
+        "T",
+        14
+      ],
+      [
+        "Z",
+        14
+      ]
+    ],
+    "compaction": "pass",
+    "grounded": [
+      0,
+      4
+    ],
+    "resetClock": [
+      0,
+      4
+    ],
+    "cap": [
+      0,
+      4
+    ],
+    "failedClock": 4,
+    "contactLock": 1490,
+    "ledge": {
+      "airborne": 1,
+      "land": 5490,
+      "lock": 5989,
+      "count": 5
+    },
+    "exhaustedLedge": {
+      "airborne": 1,
+      "land": 5475,
+      "lock": 5974,
+      "count": 5
+    },
+    "newLowest": {
+      "resets": 15,
+      "pose": {
+        "type": "O",
+        "rotation": 0,
+        "x": 1,
+        "y": 13
+      }
+    },
+    "sixteenthEarly": 0,
+    "airResets": 0,
+    "gravity": [
+      1000,
+      793,
+      618,
+      473,
+      356,
+      263,
+      190,
+      135,
+      94,
+      65,
+      43,
+      29,
+      19,
+      12,
+      8,
+      7,
+      7,
+      7,
+      7,
+      7
+    ],
+    "refresh": [
+      9,
+      9
+    ],
+    "softEntry": {
+      "y": 0,
+      "score": 0
+    },
+    "softRelease": 1,
+    "holdClock": [
+      0,
+      1
+    ],
+    "scores": {
+      "normal1": 100,
+      "pc1": 100,
+      "normal2": 300,
+      "pc2": 300,
+      "normal3": 500,
+      "pc3": 500,
+      "normal4": 800,
+      "pc4": 800,
+      "consecutive": 2050,
+      "b2b": 1600,
+      "break": 1750,
+      "level2Combo": 300,
+      "crossing": [
+        100,
+        10,
+        2
+      ],
+      "b2bPc": 1600,
+      "hard-mini-zero": 100,
+      "hard-mini-single": 200,
+      "hard-full-zero": 400,
+      "hard-full-single": 800,
+      "timed-mini-zero": 100,
+      "timed-mini-single": 200,
+      "timed-full-zero": 400,
+      "timed-full-single": 800,
+      "hardDownExtra": 128,
+      "softDownExtra": 100,
+      "twoCorners": 0,
+      "fifthPose": {
+        "type": "T",
+        "rotation": 2,
+        "x": 4,
+        "y": 15
+      },
+      "fifthScore": 100,
+      "failedActions": 400,
+      "pcCrossing": [
+        100,
+        2
+      ],
+      "hardDouble": 1200,
+      "timedDouble": 1200,
+      "secondMini": 350,
+      "noRotation": 0
+    },
+    "newLowestMove": 6,
+    "ceilingS": {
+      "type": "S",
+      "rotation": 1,
+      "x": -1,
+      "y": -2
+    },
+    "hidden": [
+      {
+        "partial": false,
+        "over": true,
+        "cells": 5
+      },
+      {
+        "partial": true,
+        "over": false,
+        "cells": 5
+      }
+    ],
+    "blocked": true,
+    "terminal": true,
+    "reset": [
+      false,
+      0,
+      0,
+      0,
+      1,
+      null
+    ],
+    "restartBags": [
+      6,
+      6,
+      6
+    ]
+  },
+  "medium": {
+    "mode": "medium",
+    "states": [],
+    "kicks": [],
+    "rotations": {
+      "total": 576,
+      "mismatches": 0,
+      "examples": []
+    },
+    "bags": 100,
+    "hold": "pass",
+    "ghosts": [
+      [
+        "I",
+        14
+      ],
+      [
+        "J",
+        14
+      ],
+      [
+        "L",
+        14
+      ],
+      [
+        "O",
+        14
+      ],
+      [
+        "S",
+        14
+      ],
+      [
+        "T",
+        14
+      ],
+      [
+        "Z",
+        14
+      ]
+    ],
+    "compaction": "pass",
+    "grounded": [
+      0,
+      4
+    ],
+    "resetClock": [
+      0,
+      4
+    ],
+    "cap": [
+      0,
+      4
+    ],
+    "failedClock": 4,
+    "contactLock": 1506,
+    "ledge": {
+      "airborne": 1,
+      "land": 5980,
+      "lock": 6480,
+      "count": 5
+    },
+    "exhaustedLedge": {
+      "airborne": 1,
+      "land": 5483,
+      "lock": 5983,
+      "count": 5
+    },
+    "newLowest": {
+      "resets": 15,
+      "pose": {
+        "type": "O",
+        "rotation": 0,
+        "x": 1,
+        "y": 13
+      }
+    },
+    "sixteenthEarly": 0,
+    "airResets": 0,
+    "gravity": [
+      1000,
+      793,
+      618,
+      473,
+      356,
+      263,
+      190,
+      135,
+      94,
+      65,
+      43,
+      29,
+      19,
+      12,
+      8,
+      5,
+      3,
+      2,
+      1,
+      1
+    ],
+    "refresh": [
+      9,
+      9
+    ],
+    "softEntry": {
+      "y": 16,
+      "score": 16
+    },
+    "softRelease": 17,
+    "holdClock": [
+      0,
+      1
+    ],
+    "scores": {
+      "normal1": 100,
+      "pc1": 900,
+      "normal2": 300,
+      "pc2": 1500,
+      "normal3": 500,
+      "pc3": 2300,
+      "normal4": 800,
+      "pc4": 2800,
+      "consecutive": 2050,
+      "b2b": 2000,
+      "break": 2150,
+      "level2Combo": 300,
+      "crossing": [
+        100,
+        10,
+        2
+      ],
+      "b2bPc": 4000,
+      "hard-mini-zero": 100,
+      "hard-mini-single": 200,
+      "hard-full-zero": 400,
+      "hard-full-single": 800,
+      "timed-mini-zero": 100,
+      "timed-mini-single": 200,
+      "timed-full-zero": 400,
+      "timed-full-single": 800,
+      "hardDownExtra": 128,
+      "softDownExtra": 0,
+      "twoCorners": 0,
+      "fifthPose": {
+        "type": "T",
+        "rotation": 2,
+        "x": 4,
+        "y": 15
+      },
+      "fifthScore": 400,
+      "failedActions": 400,
+      "pcCrossing": [
+        900,
+        2
+      ],
+      "hardDouble": 1200,
+      "timedDouble": 1200,
+      "secondMini": 250,
+      "noRotation": 0
+    },
+    "newLowestMove": 6,
+    "ceilingS": {
+      "type": "S",
+      "rotation": 0,
+      "x": 0,
+      "y": -4
+    },
+    "hidden": [
+      {
+        "partial": false,
+        "over": false,
+        "cells": 5
+      },
+      {
+        "partial": true,
+        "over": false,
+        "cells": 5
+      }
+    ],
+    "blocked": true,
+    "terminal": true,
+    "reset": [
+      false,
+      0,
+      0,
+      0,
+      1,
+      null
+    ],
+    "restartBags": [
+      6,
+      5,
+      6
+    ]
+  },
+  "low": {
+    "mode": "low",
+    "states": [],
+    "kicks": [
+      {
+        "t": "I",
+        "tr": "3>2",
+        "got": [
+          [
+            0,
+            0
+          ],
+          [
+            1,
+            0
+          ],
+          [
+            -2,
+            0
+          ],
+          [
+            1,
+            2
+          ],
+          [
+            -2,
+            -1
+          ]
+        ],
+        "want": [
+          [
+            0,
+            0
+          ],
+          [
+            -2,
+            0
+          ],
+          [
+            1,
+            0
+          ],
+          [
+            -2,
+            1
+          ],
+          [
+            1,
+            -2
+          ]
+        ]
+      },
+      {
+        "t": "I",
+        "tr": "3>0",
+        "got": [
+          [
+            0,
+            0
+          ],
+          [
+            -2,
+            0
+          ],
+          [
+            1,
+            0
+          ],
+          [
+            -2,
+            1
+          ],
+          [
+            1,
+            -2
+          ]
+        ],
+        "want": [
+          [
+            0,
+            0
+          ],
+          [
+            1,
+            0
+          ],
+          [
+            -2,
+            0
+          ],
+          [
+            1,
+            2
+          ],
+          [
+            -2,
+            -1
+          ]
+        ]
+      },
+      {
+        "t": "I",
+        "tr": "0>3",
+        "got": [
+          [
+            0,
+            0
+          ],
+          [
+            1,
+            0
+          ],
+          [
+            -2,
+            0
+          ],
+          [
+            1,
+            2
+          ],
+          [
+            -2,
+            -1
+          ]
+        ],
+        "want": [
+          [
+            0,
+            0
+          ],
+          [
+            -1,
+            0
+          ],
+          [
+            2,
+            0
+          ],
+          [
+            -1,
+            -2
+          ],
+          [
+            2,
+            1
+          ]
+        ]
+      }
+    ],
+    "rotations": {
+      "total": 576,
+      "mismatches": 14,
+      "examples": [
+        {
+          "before": {
+            "type": "I",
+            "rotation": 0,
+            "x": 0,
+            "y": 8
+          },
+          "d": -1,
+          "stack": [
+            [
+              2,
+              6
+            ],
+            [
+              7,
+              6
+            ],
+            [
+              8,
+              6
+            ],
+            [
+              0,
+              7
+            ],
+            [
+              1,
+              7
+            ],
+            [
+              4,
+              7
+            ],
+            [
+              5,
+              7
+            ],
+            [
+              6,
+              7
+            ],
+            [
+              7,
+              7
+            ],
+            [
+              8,
+              7
+            ],
+            [
+              9,
+              7
+            ],
+            [
+              5,
+              8
+            ],
+            [
+              7,
+              8
+            ],
+            [
+              8,
+              8
+            ],
+            [
+              5,
+              9
+            ],
+            [
+              6,
+              9
+            ],
+            [
+              9,
+              9
+            ],
+            [
+              1,
+              10
+            ],
+            [
+              7,
+              10
+            ],
+            [
+              1,
+              11
+            ],
+            [
+              6,
+              11
+            ],
+            [
+              7,
+              11
+            ],
+            [
+              8,
+              11
+            ],
+            [
+              9,
+              11
+            ],
+            [
+              2,
+              12
+            ],
+            [
+              6,
+              12
+            ]
+          ],
+          "got": {
+            "type": "I",
+            "rotation": 3,
+            "x": 1,
+            "y": 8
+          },
+          "want": {
+            "type": "I",
+            "rotation": 3,
+            "x": -1,
+            "y": 8
+          }
+        },
+        {
+          "before": {
+            "type": "I",
+            "rotation": 0,
+            "x": 3,
+            "y": 8
+          },
+          "d": -1,
+          "stack": [
+            [
+              2,
+              6
+            ],
+            [
+              4,
+              6
+            ],
+            [
+              7,
+              6
+            ],
+            [
+              8,
+              6
+            ],
+            [
+              9,
+              6
+            ],
+            [
+              0,
+              7
+            ],
+            [
+              1,
+              7
+            ],
+            [
+              5,
+              7
+            ],
+            [
+              2,
+              8
+            ],
+            [
+              4,
+              8
+            ],
+            [
+              6,
+              8
+            ],
+            [
+              7,
+              8
+            ],
+            [
+              9,
+              8
+            ],
+            [
+              1,
+              9
+            ],
+            [
+              9,
+              9
+            ],
+            [
+              1,
+              10
+            ],
+            [
+              9,
+              10
+            ],
+            [
+              1,
+              11
+            ],
+            [
+              3,
+              11
+            ],
+            [
+              4,
+              11
+            ],
+            [
+              1,
+              12
+            ],
+            [
+              5,
+              12
+            ]
+          ],
+          "got": {
+            "type": "I",
+            "rotation": 3,
+            "x": 4,
+            "y": 8
+          },
+          "want": {
+            "type": "I",
+            "rotation": 3,
+            "x": 2,
+            "y": 6
+          }
+        },
+        {
+          "before": {
+            "type": "I",
+            "rotation": 0,
+            "x": 6,
+            "y": 8
+          },
+          "d": -1,
+          "stack": [
+            [
+              0,
+              6
+            ],
+            [
+              2,
+              6
+            ],
+            [
+              6,
+              6
+            ],
+            [
+              9,
+              6
+            ],
+            [
+              0,
+              7
+            ],
+            [
+              4,
+              7
+            ],
+            [
+              5,
+              7
+            ],
+            [
+              1,
+              8
+            ],
+            [
+              3,
+              8
+            ],
+            [
+              8,
+              8
+            ],
+            [
+              9,
+              8
+            ],
+            [
+              1,
+              9
+            ],
+            [
+              2,
+              9
+            ],
+            [
+              3,
+              9
+            ],
+            [
+              4,
+              9
+            ],
+            [
+              2,
+              10
+            ],
+            [
+              7,
+              10
+            ],
+            [
+              2,
+              11
+            ],
+            [
+              4,
+              11
+            ],
+            [
+              8,
+              11
+            ],
+            [
+              1,
+              12
+            ],
+            [
+              2,
+              12
+            ],
+            [
+              8,
+              12
+            ]
+          ],
+          "got": {
+            "type": "I",
+            "rotation": 3,
+            "x": 4,
+            "y": 8
+          },
+          "want": {
+            "type": "I",
+            "rotation": 3,
+            "x": 5,
+            "y": 8
+          }
+        },
+        {
+          "before": {
+            "type": "I",
+            "rotation": 0,
+            "x": 6,
+            "y": 0
+          },
+          "d": -1,
+          "stack": [
+            [
+              9,
+              0
+            ],
+            [
+              4,
+              2
+            ],
+            [
+              8,
+              2
+            ],
+            [
+              3,
+              3
+            ],
+            [
+              7,
+              3
+            ],
+            [
+              0,
+              4
+            ],
+            [
+              3,
+              4
+            ],
+            [
+              6,
+              4
+            ],
+            [
+              7,
+              4
+            ],
+            [
+              9,
+              4
+            ]
+          ],
+          "got": {
+            "type": "I",
+            "rotation": 3,
+            "x": 4,
+            "y": 0
+          },
+          "want": {
+            "type": "I",
+            "rotation": 3,
+            "x": 5,
+            "y": 0
+          }
+        },
+        {
+          "before": {
+            "type": "I",
+            "rotation": 3,
+            "x": -1,
+            "y": 0
+          },
+          "d": -1,
+          "stack": [
+            [
+              3,
+              0
+            ],
+            [
+              5,
+              0
+            ],
+            [
+              7,
+              0
+            ],
+            [
+              9,
+              0
+            ],
+            [
+              3,
+              1
+            ],
+            [
+              8,
+              1
+            ],
+            [
+              3,
+              2
+            ],
+            [
+              5,
+              2
+            ],
+            [
+              7,
+              2
+            ],
+            [
+              9,
+              2
+            ],
+            [
+              4,
+              3
+            ],
+            [
+              6,
+              3
+            ],
+            [
+              9,
+              3
+            ],
+            [
+              4,
+              4
+            ],
+            [
+              5,
+              4
+            ],
+            [
+              7,
+              4
+            ]
+          ],
+          "got": {
+            "type": "I",
+            "rotation": 2,
+            "x": 0,
+            "y": 2
+          },
+          "want": {
+            "type": "I",
+            "rotation": 3,
+            "x": -1,
+            "y": 0
+          }
+        },
+        {
+          "before": {
+            "type": "I",
+            "rotation": 3,
+            "x": 8,
+            "y": 0
+          },
+          "d": -1,
+          "stack": [
+            [
+              0,
+              0
+            ],
+            [
+              2,
+              0
+            ],
+            [
+              4,
+              0
+            ],
+            [
+              6,
+              0
+            ],
+            [
+              7,
+              0
+            ],
+            [
+              2,
+              1
+            ],
+            [
+              3,
+              1
+            ],
+            [
+              2,
+              2
+            ],
+            [
+              4,
+              2
+            ],
+            [
+              7,
+              2
+            ],
+            [
+              4,
+              3
+            ],
+            [
+              6,
+              3
+            ],
+            [
+              3,
+              4
+            ]
+          ],
+          "got": {
+            "type": "I",
+            "rotation": 2,
+            "x": 6,
+            "y": -1
+          },
+          "want": {
+            "type": "I",
+            "rotation": 3,
+            "x": 8,
+            "y": 0
+          }
+        }
+      ]
+    },
+    "bags": 100,
+    "hold": "pass",
+    "ghosts": [
+      [
+        "I",
+        14
+      ],
+      [
+        "J",
+        14
+      ],
+      [
+        "L",
+        14
+      ],
+      [
+        "O",
+        14
+      ],
+      [
+        "S",
+        14
+      ],
+      [
+        "T",
+        14
+      ],
+      [
+        "Z",
+        14
+      ]
+    ],
+    "compaction": "pass",
+    "grounded": [
+      0,
+      4
+    ],
+    "resetClock": [
+      0,
+      4
+    ],
+    "cap": [
+      0,
+      4
+    ],
+    "failedClock": 4,
+    "contactLock": 1506,
+    "ledge": {
+      "airborne": 1,
+      "land": 5980,
+      "lock": 6480,
+      "count": 5
+    },
+    "exhaustedLedge": {
+      "airborne": 1,
+      "land": 5483,
+      "lock": 5983,
+      "count": 5
+    },
+    "newLowest": {
+      "resets": 15,
+      "pose": {
+        "type": "O",
+        "rotation": 0,
+        "x": 1,
+        "y": 13
+      }
+    },
+    "sixteenthEarly": 0,
+    "airResets": 15,
+    "gravity": [
+      1000,
+      793,
+      618,
+      473,
+      355,
+      262,
+      190,
+      135,
+      94,
+      64,
+      43,
+      28,
+      18,
+      11,
+      7,
+      4,
+      3,
+      1,
+      1,
+      1
+    ],
+    "refresh": [
+      9,
+      9
+    ],
+    "softEntry": {
+      "y": 1,
+      "score": 1
+    },
+    "softRelease": 2,
+    "holdClock": [
+      0,
+      1
+    ],
+    "scores": {
+      "normal1": 100,
+      "pc1": 100,
+      "normal2": 300,
+      "pc2": 300,
+      "normal3": 500,
+      "pc3": 500,
+      "normal4": 800,
+      "pc4": 800,
+      "consecutive": 2050,
+      "b2b": 2000,
+      "break": 2150,
+      "level2Combo": 200,
+      "crossing": [
+        100,
+        10,
+        2
+      ],
+      "b2bPc": 2000,
+      "hard-mini-zero": 100,
+      "hard-mini-single": 200,
+      "hard-full-zero": 400,
+      "hard-full-single": 800,
+      "timed-mini-zero": 100,
+      "timed-mini-single": 200,
+      "timed-full-zero": 400,
+      "timed-full-single": 800,
+      "hardDownExtra": 128,
+      "softDownExtra": 100,
+      "twoCorners": 400,
+      "fifthPose": {
+        "type": "T",
+        "rotation": 2,
+        "x": 4,
+        "y": 15
+      },
+      "fifthScore": 100,
+      "failedActions": 400,
+      "pcCrossing": [
+        100,
+        2
+      ],
+      "hardDouble": 1200,
+      "timedDouble": 1200,
+      "secondMini": 350,
+      "noRotation": 0
+    },
+    "newLowestMove": 6,
+    "lowHidden": {
+      "over": false,
+      "count": 1
+    },
+    "hidden": [],
+    "blocked": true,
+    "terminal": false,
+    "reset": [
+      false,
+      0,
+      0,
+      0,
+      1,
+      null
+    ],
+    "restartBags": [
+      7,
+      7,
+      7
+    ]
+  }
+}

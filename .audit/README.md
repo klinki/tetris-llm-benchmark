@@ -2,6 +2,31 @@
 
 This directory contains the reproducible, repository-safe parts of the audit behind [`RANKING.md`](../RANKING.md). Generated builds, copied `node_modules` trees, temporary web servers, browser profiles, and timestamped Playwright artifacts are intentionally excluded.
 
+## MiniMax M3.1 Flash — November12
+
+The [independent Sol xhigh review](minimax-m31-flash-review.md) audits all five
+completed efforts in requested order **max → xhigh → high → medium → low**:
+**6.40/8.40/7.30/7.20/5.65**. All 81 historical entries and131 delivered files
+are unchanged. Complete source/own-suite review, fresh locked builds, own
+65/17/(24+7)/18 passes; low seed1:16 pass, seed4:15 pass/1 fail,28 states/48 ordered kick lists/576 actual rotations,
+100 actual bags per effort, hold/ghost/drop, clocks/contact/cap/ledge/new-lowest,
+spin/PC/B2B/combo/level, hidden/terminal/reset, real Chromium at1280×800 and
+390×844, all ten screenshots inspected. Added probes earn no own-test credit.
+
+```sh
+python3 .audit/run-minimax-m31-flash-audit.py --offline
+```
+
+[Runner](run-minimax-m31-flash-audit.py), [engine fixtures](minimax-m31-flash-audit.mjs),
+[browser fixtures](minimax-m31-flash-browser.cjs), [pinned engine outcomes](minimax-m31-flash-engine-results.json),
+[numeric browser evidence and file hashes](minimax-m31-flash-evidence.json).
+Options `--effort`, `--engine-only`, `--review` (interactive PTY). Only copied
+max/xhigh server port constants change; all bodies/own assertions remain.
+Copies/screenshots/logs and owned processes clean on handled exits. No new
+model run, commit/push/PR or pricing invention. Settling completed threads is
+blocked by T3's parent-auto/child-full-access runtime guard; parent handoff is
+recorded in the review.
+
 ## Hy4 high — November 10
 
 The [independent GPT-6.1 Sol xhigh review](hy4-review.md) scores `hy4-high`

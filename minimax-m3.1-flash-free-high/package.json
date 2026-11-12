@@ -1,0 +1,16 @@
+{
+  "name": "tetris",
+  "version": "1.0.0",
+  "description": "Browser based Tetris implementation following the Tetris Guideline",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "build": "tsc && node scripts/copy-assets.mjs",
+    "prestart": "npm run build",
+    "start": "node scripts/serve.mjs",
+    "test": "npm run build && tsc -p tsconfig.test.json && node build-test/tests/logic.test.js && node build-test/tests/input.test.js"
+  },
+  "devDependencies": {
+    "typescript": "^7.0.2"
+  }
+}

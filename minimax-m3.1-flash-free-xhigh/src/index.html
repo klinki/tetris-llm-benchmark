@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Tetris</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <main class="game">
+      <h1 class="game__title">TETRIS</h1>
+
+      <div class="game__layout">
+        <aside class="panel">
+          <h2 class="panel__title">Hold</h2>
+          <canvas id="hold" class="preview" width="120" height="56"></canvas>
+
+          <dl class="stats">
+            <div class="stats__row">
+              <dt>Score</dt>
+              <dd id="score">0</dd>
+            </div>
+            <div class="stats__row">
+              <dt>Best</dt>
+              <dd id="best">0</dd>
+            </div>
+            <div class="stats__row">
+              <dt>Lines</dt>
+              <dd id="lines">0</dd>
+            </div>
+            <div class="stats__row">
+              <dt>Level</dt>
+              <dd id="level">1</dd>
+            </div>
+          </dl>
+        </aside>
+
+        <section class="playfield">
+          <canvas id="board" class="playfield__canvas" width="300" height="600"></canvas>
+          <p id="message" class="playfield__message" aria-live="polite"></p>
+          <div id="overlay" class="overlay" hidden>
+            <p id="overlay-title" class="overlay__title">Game over</p>
+            <p id="overlay-text" class="overlay__text">Press R to restart</p>
+          </div>
+        </section>
+
+        <aside class="panel">
+          <h2 class="panel__title">Next</h2>
+          <canvas id="next" class="preview" width="120" height="280"></canvas>
+        </aside>
+      </div>
+
+      <footer class="legend">
+        <span><kbd>&larr;</kbd><kbd>&rarr;</kbd> move</span>
+        <span><kbd>&uarr;</kbd><kbd>X</kbd> rotate</span>
+        <span><kbd>Z</kbd><kbd>Ctrl</kbd> rotate back</span>
+        <span><kbd>&darr;</kbd> soft drop</span>
+        <span><kbd>Space</kbd> drop</span>
+        <span><kbd>C</kbd> hold</span>
+        <span><kbd>P</kbd> pause</span>
+        <span><kbd>R</kbd> restart</span>
+      </footer>
+    </main>
+
+    <script type="module" src="./main.js"></script>
+  </body>
+</html>

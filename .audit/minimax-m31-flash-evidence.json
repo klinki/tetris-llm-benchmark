@@ -1,0 +1,3947 @@
+{
+  "auditor": "GPT-6.1 Sol xhigh",
+  "date": "2026-11-12",
+  "order": [
+    "max",
+    "xhigh",
+    "high",
+    "medium",
+    "low"
+  ],
+  "engine": "minimax-m31-flash-engine-results.json",
+  "delivery_hashes": {
+    "max": {
+      "STATISTICS.md": "bee15c3b4e102ef4b622e12646fca14439dab429adc35b2afefd84edf41633b8",
+      "README.md": "36e2097a78fe8b5646e6216338640831cff0a284cc823c4b1f658991c8d40294",
+      ".gitignore": "3a3bcf768c25d0483b1e4b81f5a2879def4f8160c994929ae3a997511dbd84ae",
+      "package-lock.json": "d0438cd1c107aecb42ff2b3ac8996eaa3a2da24e2e8c3d95e1f70cf42f471418",
+      "package.json": "3b105742dafe85c6281ad74a1d76dedad36edd2aebc662972290652f60c9596d",
+      "tsconfig.json": "c1f581119f4fa9a9db37442af92f6f515faa7ba20ce1bdb464b9c600323c1f07",
+      "tools/serve.js": "382116e6ed45a52ca1d6b4821edd982844d15441900d04cd1faa3df5a7313924",
+      "tools/copy-assets.js": "e7e16123c8a3d76611a4a7ea11b58840c124ccd02c4b0e94f7590d028488838f",
+      "src/index.html": "7be400a95b3cf9e478a10990b6479d1fb55b1b3a1c132012f5fbdf5cc825c221",
+      "src/main.ts": "323d02450131e3cf5c7053b7666d92119d6c5b87467037e265593f237a29132d",
+      "src/styles.css": "26d7725e252d4ea8e9092e492df459ae92cfbacc34da5e2be18d7f56b3301836",
+      "src/ui/input.ts": "1ac59cfdab4940114ce12f14b5c6f371c9d9dcd8bc54216a9d9111a4bfa7df34",
+      "src/ui/renderer.ts": "b5b6a47aed4e4fd35eb72791b213b22d52b8eefb234a4b79c5c5340cc3feea5e",
+      "src/core/gravity.ts": "50f1462cff699c856d71e710c22c72a9c4ba17872dc608d54d81e4b611517287",
+      "src/core/pieces.ts": "d35ab8f979fe690e44f6bcf553c5fafaa050cc4b963df9a7ba3e2d4b528b4b9b",
+      "src/core/types.ts": "85ef8e1143e2a97bfd638f7fb6836f1139a8462ffff74ae2ab15f55108c1fe56",
+      "src/core/constants.ts": "d1499c1e9116deeaaf8c3420af754bf687adf1e0e08be7155d53abaa45697ca6",
+      "src/core/scoring.ts": "9a053413eae42c881e71b466e8ab7348a78a1cd70903c1d42af12ec8060caf60",
+      "src/core/randomizer.ts": "fa2d09bd7f4afc47b244d9899cbd52b5514d26c883efb4e364d206fe76f37817",
+      "src/core/game.ts": "0e1095327163e2e47437c593fc244fd6e66d32ffd676beedeeb391deff79eb81",
+      "src/core/board.ts": "e5a8bf9104b2720278154d8c2ad4ed0fd3f60751005552e4b9b9effc646f53f3",
+      "src/test/smoke.test.ts": "bafc0d438c484275fcafc5422d44df2ced8def75df27c7fcae0442d84e4c0270"
+    },
+    "xhigh": {
+      "STATISTICS.md": "a5d7921a100fdda6a6c1522759538e54138aa477bebd960e8eb6b19ace3b11b0",
+      "README.md": "88d1f12fd547edc815ef08b52f2dad73bc0b9a3bf42fe8cf7e0baa744d4a96a6",
+      ".gitignore": "d15f232be465c9c8646f8af762131180e79f266aaac444919a5493efcaa4cb38",
+      "package-lock.json": "1ec81d4444f80eb84b235f29f01f9fd9282f5c1cdd5f72254f8e02c0cfde5e9d",
+      "package.json": "21b25ed438cdcb9f2101fdfb2de89d58a0bb71fbc810e93a574fe12a426059bf",
+      "tsconfig.json": "b489f87676d860bd32aebe23d785600e281dbf1152f7a50b3a72eac303809d3d",
+      "scripts/serve.js": "520d989aa69a3db9816c8b4e508d8d1a0846baa5cbb41bf242fe3fae70a6db5a",
+      "scripts/copy-static.js": "bd3b2f7247094ed691b79477dd36064a09b4cb477b19c69fd4dc0c652b0fd540",
+      "src/index.html": "f9c37414048e29b2ce3f576da47867bbfcec4052d10b5898faaf06b6f2b35c71",
+      "src/main.ts": "275a84be54495504e03ecb32f64c1f5fb0d10bea9dc13b2433c21e96d5aafb05",
+      "src/styles.css": "a990b03f6eacdea09feb6e29711238dfca96aae334ee7fd6b543f760d0e86a9a",
+      "src/ui/input.ts": "771a924314c8c0658463a718a30b65d0a69f307f88e91ccb0123b3b24afed79b",
+      "src/ui/renderer.ts": "b2d139ad2920f4600aea38b38887a8c53b93ffb24977a64112e55d6ca97a5456",
+      "src/core/pieces.ts": "42cb85260272cf77dd9950897c4c2a6d9ca5729a7d0e8d6dc9e4a708e0f2ad73",
+      "src/core/kicks.ts": "37e757f3124030369ae1f263925de20244fa1e3d086bc7c189207d4eff33c5f2",
+      "src/core/types.ts": "9e231962df8a0cdeab91a11e03f6651b79452bc78cf4a487640f3ef130554507",
+      "src/core/constants.ts": "95f82338e3d5c3f04cad6c9816b00cf4f8456c5f224da888c115d44f9cbd4a0c",
+      "src/core/game.ts": "f1b8a76f8a3f0a9c8b67c746b05c4425cf9695e50ec1927b3a9c8ac93563d2a4",
+      "src/core/board.ts": "0ebee8ab379a571fb6d4254478a4716f531ba4678b87565b8ffdbec54f653a31",
+      "src/core/bag.ts": "ec9bb6e18f8f9a8c525911783c547173be6271f8abc1b0b0844cc0c0e681e3a9",
+      "src/tests/smoke.ts": "3e13735001fd13becb210105ccc2224148ab9dfc3d3710ef38756db5abc08354"
+    },
+    "high": {
+      "STATISTICS.md": "92a129c7acfa3e52ac027fdb98f22393131ceed2f67489d4c07da9fa90ef2765",
+      "README.md": "36e2097a78fe8b5646e6216338640831cff0a284cc823c4b1f658991c8d40294",
+      "tsconfig.test.json": "0e24e48fe861cac2844c09c9b32fe0df5de9dcb0866e9568cc7c09a40e34f2f7",
+      ".gitignore": "a2cd2a06f8faff965af9865c1f3b7c4d4b970e2686da72176b1111935fb9556e",
+      "package-lock.json": "17286dfedc2a98bd208494231c781e27f7e54c5539d2eb1320244b4907b84b74",
+      "package.json": "bc2ff2b99b249ef3f5ab592c0204f912b5a06a7d9ca5dbed500c1071cf718267",
+      "tsconfig.json": "39d3a1d659b44309ae04d8213237973b90a9c0c8103ab8d12f50dca3440a7891",
+      "tests/input.test.ts": "c54e2bcd26b927d72e4d16fbfbecc681d48990c84c01feddfa03bed698d50be1",
+      "tests/logic.test.ts": "5c489ad78391503358d49c425b15f47a4f845a2a29e421ff0ff60b7f9f176397",
+      "tests/harness.ts": "93432307183ff478cebd49ad7f6979063880edfd3a4ed7c28f8e9cb72c10c035",
+      "scripts/copy-assets.mjs": "f7f690b6599d4ad90c3a91c2ab2d4c25ccfd5bad559e00216eacdd2cbbfe99ff",
+      "scripts/serve.mjs": "fd7282086e21dd20ea733238bd12bd4b2cef3370081ccd408e63a320d1993d04",
+      "src/index.html": "e5dc9ca70f262f363610eff8f367f1cc425191cd887d2ff155a8a75c9ba47c7a",
+      "src/main.ts": "d430f2b1f2643ff2ad7478ba10e76dfe87665330274b9dc9776609a3338a8f1b",
+      "src/styles.css": "27f286d4dc0b29629abd941e9ad3ec4537623e0129b79f3482339fc2b2e94ca7",
+      "src/core/pieces.ts": "7125729e7a47dcc693edd7f1f9630949b7a25d8bdc2cf680c75477f25bc4afbb",
+      "src/core/kicks.ts": "707c25cb34b0c30ebe9b4c04d8cb3ad968f9eebe730003c4ea39041ebbb7b70a",
+      "src/core/constants.ts": "98706eef3c05191bd5cbe09a781edf68af87dd9ab3522d1388722ec9d2565efc",
+      "src/core/scoring.ts": "51ac4cec41cf8df5ad8d302b1df47e9afe2c51924538d83ca4263170de0073ed",
+      "src/core/randomizer.ts": "956d5b599a1a7c107902e852147cd5683de98caae581d66fcbfded43d14572ee",
+      "src/core/game.ts": "1062251d3aca1756cf52d7c2a89c984c68d0c618318b22706acb09fa3be73545",
+      "src/core/board.ts": "d7100d0f28a2f868a1cb4c7aa9f1befcb88aef629175f5aad008820869ed3106",
+      "src/input/keyboard.ts": "7bddb444aaa9b8f4798b0831afd0e642bbe05fb0aa7aa8812ced953f0480ed1a",
+      "src/render/renderer.ts": "1e6e476d653100fd3f894c5c927f933de3777d324843876b85f262b3d714dbd0",
+      "build-test/tests/harness.js.map": "29de6fa45098ea8774ce6682fa92fd18b73c680bcae6581509f8f579bdf1b9dd",
+      "build-test/tests/logic.test.js": "caad942c5cac827f99def9fd2b8c86021cd837af3cdd400900a4378b319dccb6",
+      "build-test/tests/harness.js": "a1336e53c3506d15f8e39ba555cfeec0c81aa8275c92d13a3b46b5e74e8d472f",
+      "build-test/tests/input.test.js.map": "bb1597e84f05ac9b2a7ad79b4217f01ac50fd8c2432fb8d348f6a861be6560a3",
+      "build-test/tests/logic.test.js.map": "1623c933a99eb1ac7a382a86ebb73d271016348ffaf75e0482a777fa76c61ced",
+      "build-test/tests/input.test.js": "09d5c86e3830503a9351b38029085656e5c39cf93c6c2b7e77e2d2579d3d0387",
+      "build-test/src/main.js.map": "368d35cb32216479884933457646547d176e83bb000affcf179dd3154cb28dc4",
+      "build-test/src/main.js": "138bd26507c22065a9e2dd13a926941fed11b37c7b405778f5adee8870254da5",
+      "build-test/src/core/constants.js": "4a024982b78e38dbeccb56fd09e430704957453a292e741079da8822b2538c28",
+      "build-test/src/core/scoring.js.map": "47f998623b5660bb39ecc69c5fc901addd86458b5dabd87e418fab7032d09ff0",
+      "build-test/src/core/scoring.js": "394916eb67c4e1865233173057b7d50698ed2bbad64c76f137a661b151a2c7e5",
+      "build-test/src/core/randomizer.js": "305ed4b7a61060365fca41d5cc6033cc1debffbb573e9b34979a6b4a3c58627c",
+      "build-test/src/core/game.js": "2b91ba067eadeb67620bc07fe640d632141e9a77c97203f4f5f712d42ae41092",
+      "build-test/src/core/board.js": "ed9bb843be12c47144e6c48cf8b2294ee20c2d667380c6fe2e5724dc60f8c361",
+      "build-test/src/core/game.js.map": "e13824ad090d40a160919200fac19ee0aa8b97ac00bb86572e746594df959f8f",
+      "build-test/src/core/randomizer.js.map": "2f7d209f31ad9a095042f851042b931fdaef87fe19cd1444d2e017876bd9fb66",
+      "build-test/src/core/constants.js.map": "a63895fbc9b4bcb455ecfef3d574d39f29c8073e3270e4d282919be7af89c85b",
+      "build-test/src/core/pieces.js.map": "48a52677204a2e153b3e87df7e3f93e8d560b6429511d807877f009db8fff65c",
+      "build-test/src/core/kicks.js.map": "a4253aeccd73bbd378d72e2f4a013a80aadb415f05e641f466f5ca6418eede0d",
+      "build-test/src/core/pieces.js": "9bfd53b2226faa12e2bbfc8fa1f3bbcaf71b586ad3c1e44241722d92bc5954a1",
+      "build-test/src/core/kicks.js": "7f9e23c26eaef45252aecfbd06b2508edbbee4f58372c9df01de454ff66cb1a1",
+      "build-test/src/core/board.js.map": "7e1fd3c3c49922fdf355d42ca9409623ee4b3623dda5960da303f92838fdb5ea",
+      "build-test/src/input/keyboard.js.map": "e2dfc59071499e144f7f7deb6bebf706b01c232b19724e3c8899ed62f08ab899",
+      "build-test/src/input/keyboard.js": "08f000c5f60f8759fe348fd252f4bdb5ec755bc0c0ae14c6ddd0bb0ad7673aae",
+      "build-test/src/render/renderer.js": "2af0fe3f446085c2994f7ce9dc7d1630d601ca5316659e8eeb63c674504780ed",
+      "build-test/src/render/renderer.js.map": "06b0c656933dc7bce2dccd38f2a846fa04488825b5c02c496430cf34d3db867e"
+    },
+    "medium": {
+      "STATISTICS.md": "84b339937090d2d7d2e6f54aa07fa33063d94938b36ad7a9f153ce5c082b8f0b",
+      "README.md": "36e2097a78fe8b5646e6216338640831cff0a284cc823c4b1f658991c8d40294",
+      ".gitignore": "d15f232be465c9c8646f8af762131180e79f266aaac444919a5493efcaa4cb38",
+      "package-lock.json": "0dfc79d1814d6cc44c7a43dcff286fb904fc2a5facbcc66c91c9eeaa438706b4",
+      "package.json": "6fcd7d1650de54599c780fefe1878113db812f5f122a318ad6482bbbc049e126",
+      "tsconfig.json": "e44b60410172297f815a2120386cbc7d4060b33f63c15557e461f555fb52624a",
+      "scripts/copy-assets.mjs": "18f5a312c2b373d213436c11ff6bb21ee261b7de709c061620b5a3266008f990",
+      "src/index.html": "0d93b30542be362997ed3aeb0edcb92b6deee7483c9ddc1e0883eb5da00d6dd1",
+      "src/main.ts": "53fd39d1c8d32282079bd3cc2f21ea09f46edd3d9d9745663203fcba5eb1cd37",
+      "src/styles.css": "dbb0cc1f78b324b46c99df58864241f899f79655429e003bcede26f3a1588017",
+      "src/server.ts": "e5817c3913a2331c997a7ef93716f98acabe38c2f6737fa3646447bb9f726a00",
+      "src/ui/input.ts": "9a4e3a78f979ee31f8e1d6fe3de6d9edfe657b6471ed4255bf8a3b8c8daa079e",
+      "src/ui/renderer.ts": "31fde58caaa71e03c143584cf4f94974ecb60b3e44223cfce2b8ae2445186c98",
+      "src/core/pieces.ts": "ffc00ccb203de35c6f49cc258c229162637d8c07d653635acc676f45ce402ac4",
+      "src/core/constants.ts": "681a3ca57b9852400f0ea89d52bf72e962ef3d6ed5e7261c0b19b78307fdd0e8",
+      "src/core/randomizer.ts": "a4f347d78ab0e36fe60dd05ec388cbf6a6bc4f4ce6db71dca38461dd8633b489",
+      "src/core/game.ts": "bd2828904f03f6c022214a449c0cc00b00a293363060117cb540fc94a280b60c",
+      "src/core/board.ts": "12b4be53fb56758faf862027a1fb38f40f6b7058e1b1418de45060cda9270bb4",
+      "src/test/game.test.ts": "5b2fd1c61142e5f988c7f364a5ee54ac3568d044ec95f1463a0e2276ed4b7027"
+    },
+    "low": {
+      "STATISTICS.md": "9bac859d15cf0df42548236f6a8824ff72b61a6a2237deabb317cb7c2a9d77d6",
+      "README.md": "36e2097a78fe8b5646e6216338640831cff0a284cc823c4b1f658991c8d40294",
+      ".gitignore": "e8bc935ce727f1809c792f4c5d26c5fc75ba2b7df7fc9390c56c8892f6a6007f",
+      "package-lock.json": "0f13d3a066926c5c6350298001bc38b338159f018c35c43a86972a5d5622c97b",
+      "package.json": "a24834165c69f26d71bad543c67507eef729cd28f4cba96a856ab0bab8e7cf3e",
+      "tsconfig.json": "e2ee1489530a6107a64564462b3ab2f79b3836c061505ffab0af1471ef644559",
+      "scripts/serve.js": "164bd35bf57d6186408f6a6167a5edd05552fde0922ce16ee50f05470407857d",
+      "scripts/build.js": "088e260893ba84eb4f18bdd779441933c7dc59534c3e44bce65b2189dc1f8827",
+      "src/index.html": "f1bb5d135ceb12da73b941f04208466e0ed1e4e4c9751efbe08afbfca3a95345",
+      "src/main.ts": "d0ca9c738ced671115180dbc9949bef3cfca268275bae8aa2c9eeff98f9a8100",
+      "src/input.ts": "2bd7a34682f2c361a54fddc02c55551733710637b6f791215e8f2038a2450537",
+      "src/pieces.ts": "dc0a573fdf40759aa2d5a66699c1c8c6005fb19c6a2136afc570869b49903f08",
+      "src/constants.ts": "6eab19041671f86269243cfc3e9c181eb78d040443216062f1692a413257b2c3",
+      "src/style.css": "fb51fe7fc4a0810405f49dfbbaa922cdaa638dcb7e80ca139be1fb637cf7927a",
+      "src/randomizer.ts": "4dc6fd6ad1e76ae36acbbd6c0efefe2f8801da22075228b23f834ae6bfb9853e",
+      "src/renderer.ts": "e3afa965738258f13cd46d3f9b6dd2fe2a79763aebdd2a3becc05a215ca811b4",
+      "src/game.ts": "14f50f18bf2dc56f0c64af92d66b2cde8c27e1d5ecbbe3c118fe151b164e4afa",
+      "src/board.ts": "df8cc3aaa1ed868975b765dca4ff4de19b59f0d10ef18d9b86ad7bfa2a2175af",
+      "src/tests/logic.test.ts": "20a4403d3397b355aef311b25fabb8538a375461aee502d7d8c381a2ecfec8b1"
+    }
+  },
+  "browser": {
+    "max": {
+      "mode": "max",
+      "browser": "156.0.8078.4",
+      "views": {
+        "desktop": {
+          "keys": [
+            {
+              "key": "ArrowLeft",
+              "before": {
+                "active": {
+                  "type": "T",
+                  "rotation": 0,
+                  "x": 3,
+                  "y": 5
+                },
+                "count": 0,
+                "score": 0,
+                "held": null,
+                "over": false
+              },
+              "after": {
+                "active": {
+                  "type": "T",
+                  "rotation": 0,
+                  "x": 2,
+                  "y": 5
+                },
+                "count": 0,
+                "score": 0,
+                "held": null,
+                "over": false
+              }
+            },
+            {
+              "key": "ArrowRight",
+              "before": {
+                "active": {
+                  "type": "T",
+                  "rotation": 0,
+                  "x": 2,
+                  "y": 5
+                },
+                "count": 0,
+                "score": 0,
+                "held": null,
+                "over": false
+              },
+              "after": {
+                "active": {
+                  "type": "T",
+                  "rotation": 0,
+                  "x": 3,
+                  "y": 5
+                },
+                "count": 0,
+                "score": 0,
+                "held": null,
+                "over": false
+              }
+            },
+            {
+              "key": "ArrowUp",
+              "before": {
+                "active": {
+                  "type": "T",
+                  "rotation": 0,
+                  "x": 3,
+                  "y": 5
+                },
+                "count": 0,
+                "score": 0,
+                "held": null,
+                "over": false
+              },
+              "after": {
+                "active": {
+                  "type": "T",
+                  "rotation": 1,
+                  "x": 3,
+                  "y": 5
+                },
+                "count": 0,
+                "score": 0,
+                "held": null,
+                "over": false
+              }
+            },
+            {
+              "key": "x",
+              "before": {
+                "active": {
+                  "type": "T",
+                  "rotation": 1,
+                  "x": 3,
+                  "y": 5
+                },
+                "count": 0,
+                "score": 0,
+                "held": null,
+                "over": false
+              },
+              "after": {
+                "active": {
+                  "type": "T",
+                  "rotation": 2,
+                  "x": 3,
+                  "y": 5
+                },
+                "count": 0,
+                "score": 0,
+                "held": null,
+                "over": false
+              }
+            },
+            {
+              "key": "z",
+              "before": {
+                "active": {
+                  "type": "T",
+                  "rotation": 2,
+                  "x": 3,
+                  "y": 5
+                },
+                "count": 0,
+                "score": 0,
+                "held": null,
+                "over": false
+              },
+              "after": {
+                "active": {
+                  "type": "T",
+                  "rotation": 1,
+                  "x": 3,
+                  "y": 5
+                },
+                "count": 0,
+                "score": 0,
+                "held": null,
+                "over": false
+              }
+            },
+            {
+              "key": "ControlLeft",
+              "before": {
+                "active": {
+                  "type": "T",
+                  "rotation": 1,
+                  "x": 3,
+                  "y": 5
+                },
+                "count": 0,
+                "score": 0,
+                "held": null,
+                "over": false
+              },
+              "after": {
+                "active": {
+                  "type": "T",
+                  "rotation": 0,
+                  "x": 3,
+                  "y": 5
+                },
+                "count": 0,
+                "score": 0,
+                "held": null,
+                "over": false
+              }
+            },
+            {
+              "key": "ArrowDown",
+              "before": {
+                "active": {
+                  "type": "T",
+                  "rotation": 0,
+                  "x": 3,
+                  "y": 5
+                },
+                "count": 0,
+                "score": 0,
+                "held": null,
+                "over": false
+              },
+              "after": {
+                "active": {
+                  "type": "T",
+                  "rotation": 0,
+                  "x": 3,
+                  "y": 5
+                },
+                "count": 0,
+                "score": 0,
+                "held": null,
+                "over": false
+              }
+            },
+            {
+              "key": "Space",
+              "before": {
+                "active": {
+                  "type": "T",
+                  "rotation": 0,
+                  "x": 3,
+                  "y": 5
+                },
+                "count": 0,
+                "score": 0,
+                "held": null,
+                "over": false
+              },
+              "after": {
+                "active": {
+                  "type": "I",
+                  "rotation": 0,
+                  "x": 3,
+                  "y": 0
+                },
+                "count": 4,
+                "score": 26,
+                "held": null,
+                "over": false
+              }
+            },
+            {
+              "key": "c",
+              "before": {
+                "active": {
+                  "type": "I",
+                  "rotation": 0,
+                  "x": 3,
+                  "y": 0
+                },
+                "count": 4,
+                "score": 26,
+                "held": null,
+                "over": false
+              },
+              "after": {
+                "active": {
+                  "type": "L",
+                  "rotation": 0,
+                  "x": 3,
+                  "y": 0
+                },
+                "count": 4,
+                "score": 26,
+                "held": "I",
+                "over": false
+              }
+            }
+          ],
+          "spins": {
+            "travel": {
+              "distance": 14,
+              "score": 28
+            },
+            "mini": {
+              "distance": 0,
+              "score": 0
+            },
+            "full": {
+              "distance": 0,
+              "score": 0
+            }
+          },
+          "timedSpins": {
+            "mini": 0,
+            "full": 0
+          },
+          "soft": {
+            "active": {
+              "type": "O",
+              "rotation": 0,
+              "x": 3,
+              "y": 0
+            },
+            "count": 0,
+            "score": 0,
+            "held": null,
+            "over": false
+          },
+          "reset": {
+            "active": {
+              "type": "L",
+              "rotation": 0,
+              "x": 3,
+              "y": 0
+            },
+            "count": 0,
+            "score": 0,
+            "held": null,
+            "over": false
+          },
+          "opening": [
+            "L",
+            "I",
+            "O",
+            "J",
+            "Z",
+            "Z",
+            "T"
+          ],
+          "landing": {
+            "at1489": 0,
+            "at1490": 4
+          },
+          "pause": {
+            "active": {
+              "type": "I",
+              "rotation": 0,
+              "x": 3,
+              "y": 0
+            },
+            "count": 4,
+            "score": 26,
+            "held": null,
+            "over": false
+          },
+          "layout": {
+            "width": 1280,
+            "height": 800,
+            "scrollWidth": 1280,
+            "scrollHeight": 800,
+            "canvases": [
+              {
+                "id": "board",
+                "width": 300,
+                "height": 600,
+                "rect": {
+                  "x": 269.125,
+                  "y": 100,
+                  "width": 300,
+                  "height": 600
+                }
+              },
+              {
+                "id": "panel",
+                "width": 180,
+                "height": 600,
+                "rect": {
+                  "x": 585.125,
+                  "y": 100,
+                  "width": 180,
+                  "height": 600
+                }
+              }
+            ]
+          },
+          "rendered": {
+            "actual": [
+              [
+                120,
+                540
+              ],
+              [
+                90,
+                570
+              ],
+              [
+                120,
+                570
+              ],
+              [
+                150,
+                570
+              ]
+            ],
+            "expected": [
+              [
+                120,
+                540
+              ],
+              [
+                90,
+                570
+              ],
+              [
+                120,
+                570
+              ],
+              [
+                150,
+                570
+              ]
+            ],
+            "ghostMatches": true,
+            "previews": 16
+          },
+          "errors": [],
+          "assets": []
+        },
+        "mobile": {
+          "keys": [
+            {
+              "key": "ArrowLeft",
+              "before": {
+                "active": {
+                  "type": "T",
+                  "rotation": 0,
+                  "x": 3,
+                  "y": 5
+                },
+                "count": 0,
+                "score": 0,
+                "held": null,
+                "over": false
+              },
+              "after": {
+                "active": {
+                  "type": "T",
+                  "rotation": 0,
+                  "x": 2,
+                  "y": 5
+                },
+                "count": 0,
+                "score": 0,
+                "held": null,
+                "over": false
+              }
+            },
+            {
+              "key": "ArrowRight",
+              "before": {
+                "active": {
+                  "type": "T",
+                  "rotation": 0,
+                  "x": 2,
+                  "y": 5
+                },
+                "count": 0,
+                "score": 0,
+                "held": null,
+                "over": false
+              },
+              "after": {
+                "active": {
+                  "type": "T",
+                  "rotation": 0,
+                  "x": 3,
+                  "y": 5
+                },
+                "count": 0,
+                "score": 0,
+                "held": null,
+                "over": false
+              }
+            },
+            {
+              "key": "ArrowUp",
+              "before": {
+                "active": {
+                  "type": "T",
+                  "rotation": 0,
+                  "x": 3,
+                  "y": 5
+                },
+                "count": 0,
+                "score": 0,
+                "held": null,
+                "over": false
+              },
+              "after": {
+                "active": {
+                  "type": "T",
+                  "rotation": 1,
+                  "x": 3,
+                  "y": 5
+                },
+                "count": 0,
+                "score": 0,
+                "held": null,
+                "over": false
+              }
+            },
+            {
+              "key": "x",
+              "before": {
+                "active": {
+                  "type": "T",
+                  "rotation": 1,
+                  "x": 3,
+                  "y": 5
+                },
+                "count": 0,
+                "score": 0,
+                "held": null,
+                "over": false
+              },
+              "after": {
+                "active": {
+                  "type": "T",
+                  "rotation": 2,
+                  "x": 3,
+                  "y": 5
+                },
+                "count": 0,
+                "score": 0,
+                "held": null,
+                "over": false
+              }
+            },
+            {
+              "key": "z",
+              "before": {
+                "active": {
+                  "type": "T",
+                  "rotation": 2,
+                  "x": 3,
+                  "y": 5
+                },
+                "count": 0,
+                "score": 0,
+                "held": null,
+                "over": false
+              },
+              "after": {
+                "active": {
+                  "type": "T",
+                  "rotation": 1,
+                  "x": 3,
+                  "y": 5
+                },
+                "count": 0,
+                "score": 0,
+                "held": null,
+                "over": false
+              }
+            },
+            {
+              "key": "ControlLeft",
+              "before": {
+                "active": {
+                  "type": "T",
+                  "rotation": 1,
+                  "x": 3,
+                  "y": 5
+                },
+                "count": 0,
+                "score": 0,
+                "held": null,
+                "over": false
+              },
+              "after": {
+                "active": {
+                  "type": "T",
+                  "rotation": 0,
+                  "x": 3,
+                  "y": 5
+                },
+                "count": 0,
+                "score": 0,
+                "held": null,
+                "over": false
+              }
+            },
+            {
+              "key": "ArrowDown",
+              "before": {
+                "active": {
+                  "type": "T",
+                  "rotation": 0,
+                  "x": 3,
+                  "y": 5
+                },
+                "count": 0,
+                "score": 0,
+                "held": null,
+                "over": false
+              },
+              "after": {
+                "active": {
+                  "type": "T",
+                  "rotation": 0,
+                  "x": 3,
+                  "y": 5
+                },
+                "count": 0,
+                "score": 0,
+                "held": null,
+                "over": false
+              }
+            },
+            {
+              "key": "Space",
+              "before": {
+                "active": {
+                  "type": "T",
+                  "rotation": 0,
+                  "x": 3,
+                  "y": 5
+                },
+                "count": 0,
+                "score": 0,
+                "held": null,
+                "over": false
+              },
+              "after": {
+                "active": {
+                  "type": "I",
+                  "rotation": 0,
+                  "x": 3,
+                  "y": 0
+                },
+                "count": 4,
+                "score": 26,
+                "held": null,
+                "over": false
+              }
+            },
+            {
+              "key": "c",
+              "before": {
+                "active": {
+                  "type": "I",
+                  "rotation": 0,
+                  "x": 3,
+                  "y": 0
+                },
+                "count": 4,
+                "score": 26,
+                "held": null,
+                "over": false
+              },
+              "after": {
+                "active": {
+                  "type": "L",
+                  "rotation": 0,
+                  "x": 3,
+                  "y": 0
+                },
+                "count": 4,
+                "score": 26,
+                "held": "I",
+                "over": false
+              }
+            }
+          ],
+          "spins": {
+            "travel": {
+              "distance": 14,
+              "score": 28
+            },
+            "mini": {
+              "distance": 0,
+              "score": 0
+            },
+            "full": {
+              "distance": 0,
+              "score": 0
+            }
+          },
+          "timedSpins": {
+            "mini": 0,
+            "full": 0
+          },
+          "soft": {
+            "active": {
+              "type": "O",
+              "rotation": 0,
+              "x": 3,
+              "y": 0
+            },
+            "count": 0,
+            "score": 0,
+            "held": null,
+            "over": false
+          },
+          "reset": {
+            "active": {
+              "type": "L",
+              "rotation": 0,
+              "x": 3,
+              "y": 0
+            },
+            "count": 0,
+            "score": 0,
+            "held": null,
+            "over": false
+          },
+          "opening": [
+            "L",
+            "I",
+            "O",
+            "J",
+            "Z",
+            "Z",
+            "T"
+          ],
+          "landing": {
+            "at1489": 0,
+            "at1490": 4
+          },
+          "pause": {
+            "active": {
+              "type": "I",
+              "rotation": 0,
+              "x": 3,
+              "y": 0
+            },
+            "count": 4,
+            "score": 26,
+            "held": null,
+            "over": false
+          },
+          "layout": {
+            "width": 390,
+            "height": 844,
+            "scrollWidth": 443,
+            "scrollHeight": 965,
+            "canvases": [
+              {
+                "id": "board",
+                "width": 300,
+                "height": 600,
+                "rect": {
+                  "x": -53,
+                  "y": 24,
+                  "width": 300,
+                  "height": 600
+                }
+              },
+              {
+                "id": "panel",
+                "width": 180,
+                "height": 600,
+                "rect": {
+                  "x": 263,
+                  "y": 24,
+                  "width": 180,
+                  "height": 600
+                }
+              }
+            ]
+          },
+          "rendered": {
+            "actual": [
+              [
+                120,
+                540
+              ],
+              [
+                90,
+                570
+              ],
+              [
+                120,
+                570
+              ],
+              [
+                150,
+                570
+              ]
+            ],
+            "expected": [
+              [
+                120,
+                540
+              ],
+              [
+                90,
+                570
+              ],
+              [
+                120,
+                570
+              ],
+              [
+                150,
+                570
+              ]
+            ],
+            "ghostMatches": true,
+            "previews": 16
+          },
+          "errors": [],
+          "assets": []
+        }
+      }
+    },
+    "xhigh": {
+      "mode": "xhigh",
+      "browser": "156.0.8078.4",
+      "views": {
+        "desktop": {
+          "keys": [
+            {
+              "key": "ArrowLeft",
+              "before": {
+                "active": {
+                  "type": "T",
+                  "rotation": 0,
+                  "x": 3,
+                  "y": 5
+                },
+                "count": 0,
+                "score": 0,
+                "held": null,
+                "over": false
+              },
+              "after": {
+                "active": {
+                  "type": "T",
+                  "rotation": 0,
+                  "x": 2,
+                  "y": 5
+                },
+                "count": 0,
+                "score": 0,
+                "held": null,
+                "over": false
+              }
+            },
+            {
+              "key": "ArrowRight",
+              "before": {
+                "active": {
+                  "type": "T",
+                  "rotation": 0,
+                  "x": 2,
+                  "y": 5
+                },
+                "count": 0,
+                "score": 0,
+                "held": null,
+                "over": false
+              },
+              "after": {
+                "active": {
+                  "type": "T",
+                  "rotation": 0,
+                  "x": 3,
+                  "y": 5
+                },
+                "count": 0,
+                "score": 0,
+                "held": null,
+                "over": false
+              }
+            },
+            {
+              "key": "ArrowUp",
+              "before": {
+                "active": {
+                  "type": "T",
+                  "rotation": 0,
+                  "x": 3,
+                  "y": 5
+                },
+                "count": 0,
+                "score": 0,
+                "held": null,
+                "over": false
+              },
+              "after": {
+                "active": {
+                  "type": "T",
+                  "rotation": 1,
+                  "x": 3,
+                  "y": 5
+                },
+                "count": 0,
+                "score": 0,
+                "held": null,
+                "over": false
+              }
+            },
+            {
+              "key": "x",
+              "before": {
+                "active": {
+                  "type": "T",
+                  "rotation": 1,
+                  "x": 3,
+                  "y": 5
+                },
+                "count": 0,
+                "score": 0,
+                "held": null,
+                "over": false
+              },
+              "after": {
+                "active": {
+                  "type": "T",
+                  "rotation": 2,
+                  "x": 3,
+                  "y": 5
+                },
+                "count": 0,
+                "score": 0,
+                "held": null,
+                "over": false
+              }
+            },
+            {
+              "key": "z",
+              "before": {
+                "active": {
+                  "type": "T",
+                  "rotation": 2,
+                  "x": 3,
+                  "y": 5
+                },
+                "count": 0,
+                "score": 0,
+                "held": null,
+                "over": false
+              },
+              "after": {
+                "active": {
+                  "type": "T",
+                  "rotation": 1,
+                  "x": 3,
+                  "y": 5
+                },
+                "count": 0,
+                "score": 0,
+                "held": null,
+                "over": false
+              }
+            },
+            {
+              "key": "ControlLeft",
+              "before": {
+                "active": {
+                  "type": "T",
+                  "rotation": 1,
+                  "x": 3,
+                  "y": 5
+                },
+                "count": 0,
+                "score": 0,
+                "held": null,
+                "over": false
+              },
+              "after": {
+                "active": {
+                  "type": "T",
+                  "rotation": 0,
+                  "x": 3,
+                  "y": 5
+                },
+                "count": 0,
+                "score": 0,
+                "held": null,
+                "over": false
+              }
+            },
+            {
+              "key": "ArrowDown",
+              "before": {
+                "active": {
+                  "type": "T",
+                  "rotation": 0,
+                  "x": 3,
+                  "y": 5
+                },
+                "count": 0,
+                "score": 0,
+                "held": null,
+                "over": false
+              },
+              "after": {
+                "active": {
+                  "type": "T",
+                  "rotation": 0,
+                  "x": 3,
+                  "y": 5
+                },
+                "count": 0,
+                "score": 0,
+                "held": null,
+                "over": false
+              }
+            },
+            {
+              "key": "Space",
+              "before": {
+                "active": {
+                  "type": "T",
+                  "rotation": 0,
+                  "x": 3,
+                  "y": 5
+                },
+                "count": 0,
+                "score": 0,
+                "held": null,
+                "over": false
+              },
+              "after": {
+                "active": {
+                  "type": "I",
+                  "rotation": 0,
+                  "x": 3,
+                  "y": -1
+                },
+                "count": 4,
+                "score": 26,
+                "held": null,
+                "over": false
+              }
+            },
+            {
+              "key": "c",
+              "before": {
+                "active": {
+                  "type": "I",
+                  "rotation": 0,
+                  "x": 3,
+                  "y": -1
+                },
+                "count": 4,
+                "score": 26,
+                "held": null,
+                "over": false
+              },
+              "after": {
+                "active": {
+                  "type": "L",
+                  "rotation": 0,
+                  "x": 3,
+                  "y": -1
+                },
+                "count": 4,
+                "score": 26,
+                "held": "I",
+                "over": false
+              }
+            }
+          ],
+          "spins": {
+            "travel": {
+              "distance": 14,
+              "score": 128
+            },
+            "mini": {
+              "distance": 0,
+              "score": 100
+            },
+            "full": {
+              "distance": 0,
+              "score": 400
+            }
+          },
+          "timedSpins": {
+            "mini": 100,
+            "full": 400
+          },
+          "soft": {
+            "active": {
+              "type": "O",
+              "rotation": 0,
+              "x": 3,
+              "y": 0
+            },
+            "count": 0,
+            "score": 0,
+            "held": null,
+            "over": false
+          },
+          "reset": {
+            "active": {
+              "type": "Z",
+              "rotation": 0,
+              "x": 3,
+              "y": -1
+            },
+            "count": 0,
+            "score": 0,
+            "held": null,
+            "over": false
+          },
+          "opening": [
+            "Z",
+            "T",
+            "L",
+            "I",
+            "J",
+            "O",
+            "S"
+          ],
+          "landing": {
+            "at1489": 0,
+            "at1490": 4
+          },
+          "pause": null,
+          "layout": {
+            "width": 1280,
+            "height": 800,
+            "scrollWidth": 1280,
+            "scrollHeight": 800,
+            "canvases": [
+              {
+                "id": "hold",
+                "width": 120,
+                "height": 56,
+                "rect": {
+                  "x": 348,
+                  "y": 132,
+                  "width": 110,
+                  "height": 51.328125
+                }
+              },
+              {
+                "id": "board",
+                "width": 300,
+                "height": 600,
+                "rect": {
+                  "x": 490,
+                  "y": 95,
+                  "width": 300,
+                  "height": 600
+                }
+              },
+              {
+                "id": "next",
+                "width": 120,
+                "height": 280,
+                "rect": {
+                  "x": 822,
+                  "y": 132,
+                  "width": 110,
+                  "height": 256.65625
+                }
+              }
+            ]
+          },
+          "rendered": {
+            "actual": [
+              [
+                120,
+                540
+              ],
+              [
+                90,
+                570
+              ],
+              [
+                120,
+                570
+              ],
+              [
+                150,
+                570
+              ]
+            ],
+            "expected": [
+              [
+                120,
+                540
+              ],
+              [
+                90,
+                570
+              ],
+              [
+                120,
+                570
+              ],
+              [
+                150,
+                570
+              ]
+            ],
+            "ghostMatches": true,
+            "previews": 24
+          },
+          "errors": [],
+          "assets": []
+        },
+        "mobile": {
+          "keys": [
+            {
+              "key": "ArrowLeft",
+              "before": {
+                "active": {
+                  "type": "T",
+                  "rotation": 0,
+                  "x": 3,
+                  "y": 5
+                },
+                "count": 0,
+                "score": 0,
+                "held": null,
+                "over": false
+              },
+              "after": {
+                "active": {
+                  "type": "T",
+                  "rotation": 0,
+                  "x": 2,
+                  "y": 5
+                },
+                "count": 0,
+                "score": 0,
+                "held": null,
+                "over": false
+              }
+            },
+            {
+              "key": "ArrowRight",
+              "before": {
+                "active": {
+                  "type": "T",
+                  "rotation": 0,
+                  "x": 2,
+                  "y": 5
+                },
+                "count": 0,
+                "score": 0,
+                "held": null,
+                "over": false
+              },
+              "after": {
+                "active": {
+                  "type": "T",
+                  "rotation": 0,
+                  "x": 3,
+                  "y": 5
+                },
+                "count": 0,
+                "score": 0,
+                "held": null,
+                "over": false
+              }
+            },
+            {
+              "key": "ArrowUp",
+              "before": {
+                "active": {
+                  "type": "T",
+                  "rotation": 0,
+                  "x": 3,
+                  "y": 5
+                },
+                "count": 0,
+                "score": 0,
+                "held": null,
+                "over": false
+              },
+              "after": {
+                "active": {
+                  "type": "T",
+                  "rotation": 1,
+                  "x": 3,
+                  "y": 5
+                },
+                "count": 0,
+                "score": 0,
+                "held": null,
+                "over": false
+              }
+            },
+            {
+              "key": "x",
+              "before": {
+                "active": {
+                  "type": "T",
+                  "rotation": 1,
+                  "x": 3,
+                  "y": 5
+                },
+                "count": 0,
+                "score": 0,
+                "held": null,
+                "over": false
+              },
+              "after": {
+                "active": {
+                  "type": "T",
+                  "rotation": 2,
+                  "x": 3,
+                  "y": 5
+                },
+                "count": 0,
+                "score": 0,
+                "held": null,
+                "over": false
+              }
+            },
+            {
+              "key": "z",
+              "before": {
+                "active": {
+                  "type": "T",
+                  "rotation": 2,
+                  "x": 3,
+                  "y": 5
+                },
+                "count": 0,
+                "score": 0,
+                "held": null,
+                "over": false
+              },
+              "after": {
+                "active": {
+                  "type": "T",
+                  "rotation": 1,
+                  "x": 3,
+                  "y": 5
+                },
+                "count": 0,
+                "score": 0,
+                "held": null,
+                "over": false
+              }
+            },
+            {
+              "key": "ControlLeft",
+              "before": {
+                "active": {
+                  "type": "T",
+                  "rotation": 1,
+                  "x": 3,
+                  "y": 5
+                },
+                "count": 0,
+                "score": 0,
+                "held": null,
+                "over": false
+              },
+              "after": {
+                "active": {
+                  "type": "T",
+                  "rotation": 0,
+                  "x": 3,
+                  "y": 5
+                },
+                "count": 0,
+                "score": 0,
+                "held": null,
+                "over": false
+              }
+            },
+            {
+              "key": "ArrowDown",
+              "before": {
+                "active": {
+                  "type": "T",
+                  "rotation": 0,
+                  "x": 3,
+                  "y": 5
+                },
+                "count": 0,
+                "score": 0,
+                "held": null,
+                "over": false
+              },
+              "after": {
+                "active": {
+                  "type": "T",
+                  "rotation": 0,
+                  "x": 3,
+                  "y": 5
+                },
+                "count": 0,
+                "score": 0,
+                "held": null,
+                "over": false
+              }
+            },
+            {
+              "key": "Space",
+              "before": {
+                "active": {
+                  "type": "T",
+                  "rotation": 0,
+                  "x": 3,
+                  "y": 5
+                },
+                "count": 0,
+                "score": 0,
+                "held": null,
+                "over": false
+              },
+              "after": {
+                "active": {
+                  "type": "I",
+                  "rotation": 0,
+                  "x": 3,
+                  "y": -1
+                },
+                "count": 4,
+                "score": 26,
+                "held": null,
+                "over": false
+              }
+            },
+            {
+              "key": "c",
+              "before": {
+                "active": {
+                  "type": "I",
+                  "rotation": 0,
+                  "x": 3,
+                  "y": -1
+                },
+                "count": 4,
+                "score": 26,
+                "held": null,
+                "over": false
+              },
+              "after": {
+                "active": {
+                  "type": "L",
+                  "rotation": 0,
+                  "x": 3,
+                  "y": -1
+                },
+                "count": 4,
+                "score": 26,
+                "held": "I",
+                "over": false
+              }
+            }
+          ],
+          "spins": {
+            "travel": {
+              "distance": 14,
+              "score": 128
+            },
+            "mini": {
+              "distance": 0,
+              "score": 100
+            },
+            "full": {
+              "distance": 0,
+              "score": 400
+            }
+          },
+          "timedSpins": {
+            "mini": 100,
+            "full": 400
+          },
+          "soft": {
+            "active": {
+              "type": "O",
+              "rotation": 0,
+              "x": 3,
+              "y": 0
+            },
+            "count": 0,
+            "score": 0,
+            "held": null,
+            "over": false
+          },
+          "reset": {
+            "active": {
+              "type": "Z",
+              "rotation": 0,
+              "x": 3,
+              "y": -1
+            },
+            "count": 0,
+            "score": 0,
+            "held": null,
+            "over": false
+          },
+          "opening": [
+            "Z",
+            "T",
+            "L",
+            "I",
+            "J",
+            "O",
+            "S"
+          ],
+          "landing": {
+            "at1489": 0,
+            "at1490": 4
+          },
+          "pause": null,
+          "layout": {
+            "width": 390,
+            "height": 844,
+            "scrollWidth": 390,
+            "scrollHeight": 1314,
+            "canvases": [
+              {
+                "id": "hold",
+                "width": 120,
+                "height": 56,
+                "rect": {
+                  "x": 111.3125,
+                  "y": 138,
+                  "width": 120,
+                  "height": 56
+                }
+              },
+              {
+                "id": "board",
+                "width": 300,
+                "height": 600,
+                "rect": {
+                  "x": 45,
+                  "y": 267,
+                  "width": 300,
+                  "height": 600
+                }
+              },
+              {
+                "id": "next",
+                "width": 120,
+                "height": 280,
+                "rect": {
+                  "x": 210,
+                  "y": 899,
+                  "width": 120,
+                  "height": 280
+                }
+              }
+            ]
+          },
+          "rendered": {
+            "actual": [
+              [
+                120,
+                540
+              ],
+              [
+                90,
+                570
+              ],
+              [
+                120,
+                570
+              ],
+              [
+                150,
+                570
+              ]
+            ],
+            "expected": [
+              [
+                120,
+                540
+              ],
+              [
+                90,
+                570
+              ],
+              [
+                120,
+                570
+              ],
+              [
+                150,
+                570
+              ]
+            ],
+            "ghostMatches": true,
+            "previews": 24
+          },
+          "errors": [],
+          "assets": []
+        }
+      }
+    },
+    "high": {
+      "mode": "high",
+      "browser": "156.0.8078.4",
+      "views": {
+        "desktop": {
+          "keys": [
+            {
+              "key": "ArrowLeft",
+              "before": {
+                "active": {
+                  "type": "T",
+                  "rotation": 0,
+                  "x": 3,
+                  "y": 5
+                },
+                "count": 0,
+                "score": 0,
+                "held": null,
+                "over": false
+              },
+              "after": {
+                "active": {
+                  "type": "T",
+                  "rotation": 0,
+                  "x": 2,
+                  "y": 5
+                },
+                "count": 0,
+                "score": 0,
+                "held": null,
+                "over": false
+              }
+            },
+            {
+              "key": "ArrowRight",
+              "before": {
+                "active": {
+                  "type": "T",
+                  "rotation": 0,
+                  "x": 2,
+                  "y": 5
+                },
+                "count": 0,
+                "score": 0,
+                "held": null,
+                "over": false
+              },
+              "after": {
+                "active": {
+                  "type": "T",
+                  "rotation": 0,
+                  "x": 3,
+                  "y": 5
+                },
+                "count": 0,
+                "score": 0,
+                "held": null,
+                "over": false
+              }
+            },
+            {
+              "key": "ArrowUp",
+              "before": {
+                "active": {
+                  "type": "T",
+                  "rotation": 0,
+                  "x": 3,
+                  "y": 5
+                },
+                "count": 0,
+                "score": 0,
+                "held": null,
+                "over": false
+              },
+              "after": {
+                "active": {
+                  "type": "T",
+                  "rotation": 1,
+                  "x": 3,
+                  "y": 5
+                },
+                "count": 0,
+                "score": 0,
+                "held": null,
+                "over": false
+              }
+            },
+            {
+              "key": "x",
+              "before": {
+                "active": {
+                  "type": "T",
+                  "rotation": 1,
+                  "x": 3,
+                  "y": 5
+                },
+                "count": 0,
+                "score": 0,
+                "held": null,
+                "over": false
+              },
+              "after": {
+                "active": {
+                  "type": "T",
+                  "rotation": 2,
+                  "x": 3,
+                  "y": 5
+                },
+                "count": 0,
+                "score": 0,
+                "held": null,
+                "over": false
+              }
+            },
+            {
+              "key": "z",
+              "before": {
+                "active": {
+                  "type": "T",
+                  "rotation": 2,
+                  "x": 3,
+                  "y": 5
+                },
+                "count": 0,
+                "score": 0,
+                "held": null,
+                "over": false
+              },
+              "after": {
+                "active": {
+                  "type": "T",
+                  "rotation": 1,
+                  "x": 3,
+                  "y": 5
+                },
+                "count": 0,
+                "score": 0,
+                "held": null,
+                "over": false
+              }
+            },
+            {
+              "key": "ControlLeft",
+              "before": {
+                "active": {
+                  "type": "T",
+                  "rotation": 1,
+                  "x": 3,
+                  "y": 5
+                },
+                "count": 0,
+                "score": 0,
+                "held": null,
+                "over": false
+              },
+              "after": {
+                "active": {
+                  "type": "T",
+                  "rotation": 0,
+                  "x": 3,
+                  "y": 5
+                },
+                "count": 0,
+                "score": 0,
+                "held": null,
+                "over": false
+              }
+            },
+            {
+              "key": "ArrowDown",
+              "before": {
+                "active": {
+                  "type": "T",
+                  "rotation": 0,
+                  "x": 3,
+                  "y": 5
+                },
+                "count": 0,
+                "score": 0,
+                "held": null,
+                "over": false
+              },
+              "after": {
+                "active": {
+                  "type": "T",
+                  "rotation": 0,
+                  "x": 3,
+                  "y": 5
+                },
+                "count": 0,
+                "score": 0,
+                "held": null,
+                "over": false
+              }
+            },
+            {
+              "key": "Space",
+              "before": {
+                "active": {
+                  "type": "T",
+                  "rotation": 0,
+                  "x": 3,
+                  "y": 5
+                },
+                "count": 0,
+                "score": 0,
+                "held": null,
+                "over": false
+              },
+              "after": {
+                "active": {
+                  "type": "I",
+                  "rotation": 0,
+                  "x": 3,
+                  "y": -1
+                },
+                "count": 4,
+                "score": 26,
+                "held": null,
+                "over": false
+              }
+            },
+            {
+              "key": "c",
+              "before": {
+                "active": {
+                  "type": "I",
+                  "rotation": 0,
+                  "x": 3,
+                  "y": -1
+                },
+                "count": 4,
+                "score": 26,
+                "held": null,
+                "over": false
+              },
+              "after": {
+                "active": {
+                  "type": "L",
+                  "rotation": 0,
+                  "x": 3,
+                  "y": -1
+                },
+                "count": 4,
+                "score": 26,
+                "held": "I",
+                "over": false
+              }
+            }
+          ],
+          "spins": {
+            "travel": {
+              "distance": 14,
+              "score": 128
+            },
+            "mini": {
+              "distance": 0,
+              "score": 100
+            },
+            "full": {
+              "distance": 0,
+              "score": 400
+            }
+          },
+          "timedSpins": {
+            "mini": 100,
+            "full": 400
+          },
+          "soft": {
+            "active": {
+              "type": "O",
+              "rotation": 0,
+              "x": 3,
+              "y": 0
+            },
+            "count": 0,
+            "score": 0,
+            "held": null,
+            "over": false
+          },
+          "reset": {
+            "active": {
+              "type": "I",
+              "rotation": 0,
+              "x": 3,
+              "y": -1
+            },
+            "count": 0,
+            "score": 0,
+            "held": null,
+            "over": false
+          },
+          "opening": [
+            "I",
+            "O",
+            "J",
+            "Z",
+            "Z",
+            "T",
+            "L"
+          ],
+          "landing": {
+            "at1489": 0,
+            "at1490": 4
+          },
+          "pause": null,
+          "layout": {
+            "width": 1280,
+            "height": 800,
+            "scrollWidth": 1280,
+            "scrollHeight": 800,
+            "canvases": [
+              {
+                "id": "game",
+                "width": 438,
+                "height": 558,
+                "rect": {
+                  "x": 244,
+                  "y": 120,
+                  "width": 440,
+                  "height": 560
+                }
+              }
+            ]
+          },
+          "rendered": {
+            "actual": [
+              [
+                126,
+                495
+              ],
+              [
+                99,
+                522
+              ],
+              [
+                126,
+                522
+              ],
+              [
+                153,
+                522
+              ]
+            ],
+            "expected": [
+              [
+                126,
+                495
+              ],
+              [
+                99,
+                522
+              ],
+              [
+                126,
+                522
+              ],
+              [
+                153,
+                522
+              ]
+            ],
+            "ghostMatches": true,
+            "previews": 24
+          },
+          "errors": [],
+          "assets": []
+        },
+        "mobile": {
+          "keys": [
+            {
+              "key": "ArrowLeft",
+              "before": {
+                "active": {
+                  "type": "T",
+                  "rotation": 0,
+                  "x": 3,
+                  "y": 5
+                },
+                "count": 0,
+                "score": 0,
+                "held": null,
+                "over": false
+              },
+              "after": {
+                "active": {
+                  "type": "T",
+                  "rotation": 0,
+                  "x": 2,
+                  "y": 5
+                },
+                "count": 0,
+                "score": 0,
+                "held": null,
+                "over": false
+              }
+            },
+            {
+              "key": "ArrowRight",
+              "before": {
+                "active": {
+                  "type": "T",
+                  "rotation": 0,
+                  "x": 2,
+                  "y": 5
+                },
+                "count": 0,
+                "score": 0,
+                "held": null,
+                "over": false
+              },
+              "after": {
+                "active": {
+                  "type": "T",
+                  "rotation": 0,
+                  "x": 3,
+                  "y": 5
+                },
+                "count": 0,
+                "score": 0,
+                "held": null,
+                "over": false
+              }
+            },
+            {
+              "key": "ArrowUp",
+              "before": {
+                "active": {
+                  "type": "T",
+                  "rotation": 0,
+                  "x": 3,
+                  "y": 5
+                },
+                "count": 0,
+                "score": 0,
+                "held": null,
+                "over": false
+              },
+              "after": {
+                "active": {
+                  "type": "T",
+                  "rotation": 1,
+                  "x": 3,
+                  "y": 5
+                },
+                "count": 0,
+                "score": 0,
+                "held": null,
+                "over": false
+              }
+            },
+            {
+              "key": "x",
+              "before": {
+                "active": {
+                  "type": "T",
+                  "rotation": 1,
+                  "x": 3,
+                  "y": 5
+                },
+                "count": 0,
+                "score": 0,
+                "held": null,
+                "over": false
+              },
+              "after": {
+                "active": {
+                  "type": "T",
+                  "rotation": 2,
+                  "x": 3,
+                  "y": 5
+                },
+                "count": 0,
+                "score": 0,
+                "held": null,
+                "over": false
+              }
+            },
+            {
+              "key": "z",
+              "before": {
+                "active": {
+                  "type": "T",
+                  "rotation": 2,
+                  "x": 3,
+                  "y": 5
+                },
+                "count": 0,
+                "score": 0,
+                "held": null,
+                "over": false
+              },
+              "after": {
+                "active": {
+                  "type": "T",
+                  "rotation": 1,
+                  "x": 3,
+                  "y": 5
+                },
+                "count": 0,
+                "score": 0,
+                "held": null,
+                "over": false
+              }
+            },
+            {
+              "key": "ControlLeft",
+              "before": {
+                "active": {
+                  "type": "T",
+                  "rotation": 1,
+                  "x": 3,
+                  "y": 5
+                },
+                "count": 0,
+                "score": 0,
+                "held": null,
+                "over": false
+              },
+              "after": {
+                "active": {
+                  "type": "T",
+                  "rotation": 0,
+                  "x": 3,
+                  "y": 5
+                },
+                "count": 0,
+                "score": 0,
+                "held": null,
+                "over": false
+              }
+            },
+            {
+              "key": "ArrowDown",
+              "before": {
+                "active": {
+                  "type": "T",
+                  "rotation": 0,
+                  "x": 3,
+                  "y": 5
+                },
+                "count": 0,
+                "score": 0,
+                "held": null,
+                "over": false
+              },
+              "after": {
+                "active": {
+                  "type": "T",
+                  "rotation": 0,
+                  "x": 3,
+                  "y": 5
+                },
+                "count": 0,
+                "score": 0,
+                "held": null,
+                "over": false
+              }
+            },
+            {
+              "key": "Space",
+              "before": {
+                "active": {
+                  "type": "T",
+                  "rotation": 0,
+                  "x": 3,
+                  "y": 5
+                },
+                "count": 0,
+                "score": 0,
+                "held": null,
+                "over": false
+              },
+              "after": {
+                "active": {
+                  "type": "I",
+                  "rotation": 0,
+                  "x": 3,
+                  "y": -1
+                },
+                "count": 4,
+                "score": 26,
+                "held": null,
+                "over": false
+              }
+            },
+            {
+              "key": "c",
+              "before": {
+                "active": {
+                  "type": "I",
+                  "rotation": 0,
+                  "x": 3,
+                  "y": -1
+                },
+                "count": 4,
+                "score": 26,
+                "held": null,
+                "over": false
+              },
+              "after": {
+                "active": {
+                  "type": "L",
+                  "rotation": 0,
+                  "x": 3,
+                  "y": -1
+                },
+                "count": 4,
+                "score": 26,
+                "held": "I",
+                "over": false
+              }
+            }
+          ],
+          "spins": {
+            "travel": {
+              "distance": 14,
+              "score": 128
+            },
+            "mini": {
+              "distance": 0,
+              "score": 100
+            },
+            "full": {
+              "distance": 0,
+              "score": 400
+            }
+          },
+          "timedSpins": {
+            "mini": 100,
+            "full": 400
+          },
+          "soft": {
+            "active": {
+              "type": "O",
+              "rotation": 0,
+              "x": 3,
+              "y": 0
+            },
+            "count": 0,
+            "score": 0,
+            "held": null,
+            "over": false
+          },
+          "reset": {
+            "active": {
+              "type": "I",
+              "rotation": 0,
+              "x": 3,
+              "y": -1
+            },
+            "count": 0,
+            "score": 0,
+            "held": null,
+            "over": false
+          },
+          "opening": [
+            "I",
+            "O",
+            "J",
+            "Z",
+            "Z",
+            "T",
+            "L"
+          ],
+          "landing": {
+            "at1489": 0,
+            "at1490": 4
+          },
+          "pause": null,
+          "layout": {
+            "width": 390,
+            "height": 844,
+            "scrollWidth": 407,
+            "scrollHeight": 850,
+            "canvases": [
+              {
+                "id": "game",
+                "width": 357,
+                "height": 455,
+                "rect": {
+                  "x": 24,
+                  "y": 24,
+                  "width": 358.796875,
+                  "height": 456.640625
+                }
+              }
+            ]
+          },
+          "rendered": {
+            "actual": [
+              [
+                102,
+                404
+              ],
+              [
+                80,
+                426
+              ],
+              [
+                102,
+                426
+              ],
+              [
+                124,
+                426
+              ]
+            ],
+            "expected": [
+              [
+                102,
+                404
+              ],
+              [
+                80,
+                426
+              ],
+              [
+                102,
+                426
+              ],
+              [
+                124,
+                426
+              ]
+            ],
+            "ghostMatches": true,
+            "previews": 24
+          },
+          "errors": [],
+          "assets": []
+        }
+      }
+    },
+    "medium": {
+      "mode": "medium",
+      "browser": "156.0.8078.4",
+      "views": {
+        "desktop": {
+          "keys": [
+            {
+              "key": "ArrowLeft",
+              "before": {
+                "active": {
+                  "type": "T",
+                  "rotation": 0,
+                  "x": 3,
+                  "y": 5
+                },
+                "count": 0,
+                "score": 0,
+                "held": null,
+                "over": false
+              },
+              "after": {
+                "active": {
+                  "type": "T",
+                  "rotation": 0,
+                  "x": 2,
+                  "y": 5
+                },
+                "count": 0,
+                "score": 0,
+                "held": null,
+                "over": false
+              }
+            },
+            {
+              "key": "ArrowRight",
+              "before": {
+                "active": {
+                  "type": "T",
+                  "rotation": 0,
+                  "x": 2,
+                  "y": 5
+                },
+                "count": 0,
+                "score": 0,
+                "held": null,
+                "over": false
+              },
+              "after": {
+                "active": {
+                  "type": "T",
+                  "rotation": 0,
+                  "x": 3,
+                  "y": 5
+                },
+                "count": 0,
+                "score": 0,
+                "held": null,
+                "over": false
+              }
+            },
+            {
+              "key": "ArrowUp",
+              "before": {
+                "active": {
+                  "type": "T",
+                  "rotation": 0,
+                  "x": 3,
+                  "y": 5
+                },
+                "count": 0,
+                "score": 0,
+                "held": null,
+                "over": false
+              },
+              "after": {
+                "active": {
+                  "type": "T",
+                  "rotation": 1,
+                  "x": 3,
+                  "y": 5
+                },
+                "count": 0,
+                "score": 0,
+                "held": null,
+                "over": false
+              }
+            },
+            {
+              "key": "x",
+              "before": {
+                "active": {
+                  "type": "T",
+                  "rotation": 1,
+                  "x": 3,
+                  "y": 5
+                },
+                "count": 0,
+                "score": 0,
+                "held": null,
+                "over": false
+              },
+              "after": {
+                "active": {
+                  "type": "T",
+                  "rotation": 2,
+                  "x": 3,
+                  "y": 5
+                },
+                "count": 0,
+                "score": 0,
+                "held": null,
+                "over": false
+              }
+            },
+            {
+              "key": "z",
+              "before": {
+                "active": {
+                  "type": "T",
+                  "rotation": 2,
+                  "x": 3,
+                  "y": 5
+                },
+                "count": 0,
+                "score": 0,
+                "held": null,
+                "over": false
+              },
+              "after": {
+                "active": {
+                  "type": "T",
+                  "rotation": 1,
+                  "x": 3,
+                  "y": 5
+                },
+                "count": 0,
+                "score": 0,
+                "held": null,
+                "over": false
+              }
+            },
+            {
+              "key": "ControlLeft",
+              "before": {
+                "active": {
+                  "type": "T",
+                  "rotation": 1,
+                  "x": 3,
+                  "y": 5
+                },
+                "count": 0,
+                "score": 0,
+                "held": null,
+                "over": false
+              },
+              "after": {
+                "active": {
+                  "type": "T",
+                  "rotation": 1,
+                  "x": 3,
+                  "y": 5
+                },
+                "count": 0,
+                "score": 0,
+                "held": null,
+                "over": false
+              }
+            },
+            {
+              "key": "ArrowDown",
+              "before": {
+                "active": {
+                  "type": "T",
+                  "rotation": 1,
+                  "x": 3,
+                  "y": 5
+                },
+                "count": 0,
+                "score": 0,
+                "held": null,
+                "over": false
+              },
+              "after": {
+                "active": {
+                  "type": "T",
+                  "rotation": 1,
+                  "x": 3,
+                  "y": 6
+                },
+                "count": 0,
+                "score": 1,
+                "held": null,
+                "over": false
+              }
+            },
+            {
+              "key": "Space",
+              "before": {
+                "active": {
+                  "type": "T",
+                  "rotation": 1,
+                  "x": 3,
+                  "y": 6
+                },
+                "count": 0,
+                "score": 1,
+                "held": null,
+                "over": false
+              },
+              "after": {
+                "active": null,
+                "count": 4,
+                "score": 23,
+                "held": null,
+                "over": false
+              }
+            },
+            {
+              "key": "c",
+              "before": {
+                "active": null,
+                "count": 4,
+                "score": 23,
+                "held": null,
+                "over": false
+              },
+              "after": {
+                "active": null,
+                "count": 4,
+                "score": 23,
+                "held": null,
+                "over": false
+              }
+            }
+          ],
+          "spins": {
+            "travel": {
+              "distance": 14,
+              "score": 128
+            },
+            "mini": {
+              "distance": 0,
+              "score": 100
+            },
+            "full": {
+              "distance": 0,
+              "score": 400
+            }
+          },
+          "timedSpins": {
+            "mini": 100,
+            "full": 400
+          },
+          "soft": {
+            "active": {
+              "type": "O",
+              "rotation": 0,
+              "x": 3,
+              "y": 17
+            },
+            "count": 0,
+            "score": 17,
+            "held": null,
+            "over": false
+          },
+          "reset": {
+            "active": {
+              "type": "I",
+              "rotation": 0,
+              "x": 3,
+              "y": -1
+            },
+            "count": 0,
+            "score": 0,
+            "held": null,
+            "over": false
+          },
+          "opening": [
+            "I",
+            "O",
+            "J",
+            "Z",
+            "Z",
+            "T",
+            "L"
+          ],
+          "landing": {
+            "at1489": 0,
+            "at1490": 0
+          },
+          "pause": null,
+          "layout": {
+            "width": 1280,
+            "height": 800,
+            "scrollWidth": 1280,
+            "scrollHeight": 800,
+            "canvases": [
+              {
+                "id": "hold",
+                "width": 104,
+                "height": 72,
+                "rect": {
+                  "x": 356,
+                  "y": 132,
+                  "width": 104,
+                  "height": 72
+                }
+              },
+              {
+                "id": "board",
+                "width": 260,
+                "height": 520,
+                "rect": {
+                  "x": 510,
+                  "y": 95,
+                  "width": 260,
+                  "height": 520
+                }
+              },
+              {
+                "id": "next",
+                "width": 104,
+                "height": 320,
+                "rect": {
+                  "x": 800,
+                  "y": 132,
+                  "width": 104,
+                  "height": 320
+                }
+              }
+            ]
+          },
+          "rendered": {
+            "actual": [
+              [
+                104,
+                468
+              ],
+              [
+                78,
+                494
+              ],
+              [
+                104,
+                494
+              ],
+              [
+                130,
+                494
+              ]
+            ],
+            "expected": [
+              [
+                104,
+                468
+              ],
+              [
+                78,
+                494
+              ],
+              [
+                104,
+                494
+              ],
+              [
+                130,
+                494
+              ]
+            ],
+            "ghostMatches": true,
+            "previews": 24
+          },
+          "errors": [],
+          "assets": []
+        },
+        "mobile": {
+          "keys": [
+            {
+              "key": "ArrowLeft",
+              "before": {
+                "active": {
+                  "type": "T",
+                  "rotation": 0,
+                  "x": 3,
+                  "y": 5
+                },
+                "count": 0,
+                "score": 0,
+                "held": null,
+                "over": false
+              },
+              "after": {
+                "active": {
+                  "type": "T",
+                  "rotation": 0,
+                  "x": 2,
+                  "y": 5
+                },
+                "count": 0,
+                "score": 0,
+                "held": null,
+                "over": false
+              }
+            },
+            {
+              "key": "ArrowRight",
+              "before": {
+                "active": {
+                  "type": "T",
+                  "rotation": 0,
+                  "x": 2,
+                  "y": 5
+                },
+                "count": 0,
+                "score": 0,
+                "held": null,
+                "over": false
+              },
+              "after": {
+                "active": {
+                  "type": "T",
+                  "rotation": 0,
+                  "x": 3,
+                  "y": 5
+                },
+                "count": 0,
+                "score": 0,
+                "held": null,
+                "over": false
+              }
+            },
+            {
+              "key": "ArrowUp",
+              "before": {
+                "active": {
+                  "type": "T",
+                  "rotation": 0,
+                  "x": 3,
+                  "y": 5
+                },
+                "count": 0,
+                "score": 0,
+                "held": null,
+                "over": false
+              },
+              "after": {
+                "active": {
+                  "type": "T",
+                  "rotation": 1,
+                  "x": 3,
+                  "y": 5
+                },
+                "count": 0,
+                "score": 0,
+                "held": null,
+                "over": false
+              }
+            },
+            {
+              "key": "x",
+              "before": {
+                "active": {
+                  "type": "T",
+                  "rotation": 1,
+                  "x": 3,
+                  "y": 5
+                },
+                "count": 0,
+                "score": 0,
+                "held": null,
+                "over": false
+              },
+              "after": {
+                "active": {
+                  "type": "T",
+                  "rotation": 2,
+                  "x": 3,
+                  "y": 5
+                },
+                "count": 0,
+                "score": 0,
+                "held": null,
+                "over": false
+              }
+            },
+            {
+              "key": "z",
+              "before": {
+                "active": {
+                  "type": "T",
+                  "rotation": 2,
+                  "x": 3,
+                  "y": 5
+                },
+                "count": 0,
+                "score": 0,
+                "held": null,
+                "over": false
+              },
+              "after": {
+                "active": {
+                  "type": "T",
+                  "rotation": 1,
+                  "x": 3,
+                  "y": 5
+                },
+                "count": 0,
+                "score": 0,
+                "held": null,
+                "over": false
+              }
+            },
+            {
+              "key": "ControlLeft",
+              "before": {
+                "active": {
+                  "type": "T",
+                  "rotation": 1,
+                  "x": 3,
+                  "y": 5
+                },
+                "count": 0,
+                "score": 0,
+                "held": null,
+                "over": false
+              },
+              "after": {
+                "active": {
+                  "type": "T",
+                  "rotation": 1,
+                  "x": 3,
+                  "y": 5
+                },
+                "count": 0,
+                "score": 0,
+                "held": null,
+                "over": false
+              }
+            },
+            {
+              "key": "ArrowDown",
+              "before": {
+                "active": {
+                  "type": "T",
+                  "rotation": 1,
+                  "x": 3,
+                  "y": 5
+                },
+                "count": 0,
+                "score": 0,
+                "held": null,
+                "over": false
+              },
+              "after": {
+                "active": {
+                  "type": "T",
+                  "rotation": 1,
+                  "x": 3,
+                  "y": 6
+                },
+                "count": 0,
+                "score": 1,
+                "held": null,
+                "over": false
+              }
+            },
+            {
+              "key": "Space",
+              "before": {
+                "active": {
+                  "type": "T",
+                  "rotation": 1,
+                  "x": 3,
+                  "y": 6
+                },
+                "count": 0,
+                "score": 1,
+                "held": null,
+                "over": false
+              },
+              "after": {
+                "active": null,
+                "count": 4,
+                "score": 23,
+                "held": null,
+                "over": false
+              }
+            },
+            {
+              "key": "c",
+              "before": {
+                "active": null,
+                "count": 4,
+                "score": 23,
+                "held": null,
+                "over": false
+              },
+              "after": {
+                "active": null,
+                "count": 4,
+                "score": 23,
+                "held": null,
+                "over": false
+              }
+            }
+          ],
+          "spins": {
+            "travel": {
+              "distance": 14,
+              "score": 128
+            },
+            "mini": {
+              "distance": 0,
+              "score": 100
+            },
+            "full": {
+              "distance": 0,
+              "score": 400
+            }
+          },
+          "timedSpins": {
+            "mini": 100,
+            "full": 400
+          },
+          "soft": {
+            "active": {
+              "type": "O",
+              "rotation": 0,
+              "x": 3,
+              "y": 17
+            },
+            "count": 0,
+            "score": 17,
+            "held": null,
+            "over": false
+          },
+          "reset": {
+            "active": {
+              "type": "I",
+              "rotation": 0,
+              "x": 3,
+              "y": -1
+            },
+            "count": 0,
+            "score": 0,
+            "held": null,
+            "over": false
+          },
+          "opening": [
+            "I",
+            "O",
+            "J",
+            "Z",
+            "Z",
+            "T",
+            "L"
+          ],
+          "landing": {
+            "at1489": 0,
+            "at1490": 0
+          },
+          "pause": null,
+          "layout": {
+            "width": 390,
+            "height": 844,
+            "scrollWidth": 390,
+            "scrollHeight": 1108,
+            "canvases": [
+              {
+                "id": "hold",
+                "width": 104,
+                "height": 72,
+                "rect": {
+                  "x": 77.875,
+                  "y": 58,
+                  "width": 104,
+                  "height": 72
+                }
+              },
+              {
+                "id": "board",
+                "width": 260,
+                "height": 520,
+                "rect": {
+                  "x": 65,
+                  "y": 197,
+                  "width": 260,
+                  "height": 520
+                }
+              },
+              {
+                "id": "next",
+                "width": 104,
+                "height": 320,
+                "rect": {
+                  "x": 33,
+                  "y": 772,
+                  "width": 104,
+                  "height": 320
+                }
+              }
+            ]
+          },
+          "rendered": {
+            "actual": [
+              [
+                104,
+                468
+              ],
+              [
+                78,
+                494
+              ],
+              [
+                104,
+                494
+              ],
+              [
+                130,
+                494
+              ]
+            ],
+            "expected": [
+              [
+                104,
+                468
+              ],
+              [
+                78,
+                494
+              ],
+              [
+                104,
+                494
+              ],
+              [
+                130,
+                494
+              ]
+            ],
+            "ghostMatches": true,
+            "previews": 24
+          },
+          "errors": [],
+          "assets": []
+        }
+      }
+    },
+    "low": {
+      "mode": "low",
+      "browser": "156.0.8078.4",
+      "views": {
+        "desktop": {
+          "keys": [
+            {
+              "key": "ArrowLeft",
+              "before": {
+                "active": {
+                  "type": "T",
+                  "rotation": 0,
+                  "x": 3,
+                  "y": 5
+                },
+                "count": 0,
+                "score": 0,
+                "held": null,
+                "over": false
+              },
+              "after": {
+                "active": {
+                  "type": "T",
+                  "rotation": 0,
+                  "x": 2,
+                  "y": 5
+                },
+                "count": 0,
+                "score": 0,
+                "held": null,
+                "over": false
+              }
+            },
+            {
+              "key": "ArrowRight",
+              "before": {
+                "active": {
+                  "type": "T",
+                  "rotation": 0,
+                  "x": 2,
+                  "y": 5
+                },
+                "count": 0,
+                "score": 0,
+                "held": null,
+                "over": false
+              },
+              "after": {
+                "active": {
+                  "type": "T",
+                  "rotation": 0,
+                  "x": 3,
+                  "y": 5
+                },
+                "count": 0,
+                "score": 0,
+                "held": null,
+                "over": false
+              }
+            },
+            {
+              "key": "ArrowUp",
+              "before": {
+                "active": {
+                  "type": "T",
+                  "rotation": 0,
+                  "x": 3,
+                  "y": 5
+                },
+                "count": 0,
+                "score": 0,
+                "held": null,
+                "over": false
+              },
+              "after": {
+                "active": {
+                  "type": "T",
+                  "rotation": 1,
+                  "x": 3,
+                  "y": 5
+                },
+                "count": 0,
+                "score": 0,
+                "held": null,
+                "over": false
+              }
+            },
+            {
+              "key": "x",
+              "before": {
+                "active": {
+                  "type": "T",
+                  "rotation": 1,
+                  "x": 3,
+                  "y": 5
+                },
+                "count": 0,
+                "score": 0,
+                "held": null,
+                "over": false
+              },
+              "after": {
+                "active": {
+                  "type": "T",
+                  "rotation": 2,
+                  "x": 3,
+                  "y": 5
+                },
+                "count": 0,
+                "score": 0,
+                "held": null,
+                "over": false
+              }
+            },
+            {
+              "key": "z",
+              "before": {
+                "active": {
+                  "type": "T",
+                  "rotation": 2,
+                  "x": 3,
+                  "y": 5
+                },
+                "count": 0,
+                "score": 0,
+                "held": null,
+                "over": false
+              },
+              "after": {
+                "active": {
+                  "type": "T",
+                  "rotation": 1,
+                  "x": 3,
+                  "y": 5
+                },
+                "count": 0,
+                "score": 0,
+                "held": null,
+                "over": false
+              }
+            },
+            {
+              "key": "ControlLeft",
+              "before": {
+                "active": {
+                  "type": "T",
+                  "rotation": 1,
+                  "x": 3,
+                  "y": 5
+                },
+                "count": 0,
+                "score": 0,
+                "held": null,
+                "over": false
+              },
+              "after": {
+                "active": {
+                  "type": "T",
+                  "rotation": 0,
+                  "x": 3,
+                  "y": 5
+                },
+                "count": 0,
+                "score": 0,
+                "held": null,
+                "over": false
+              }
+            },
+            {
+              "key": "ArrowDown",
+              "before": {
+                "active": {
+                  "type": "T",
+                  "rotation": 0,
+                  "x": 3,
+                  "y": 5
+                },
+                "count": 0,
+                "score": 0,
+                "held": null,
+                "over": false
+              },
+              "after": {
+                "active": {
+                  "type": "T",
+                  "rotation": 0,
+                  "x": 3,
+                  "y": 6
+                },
+                "count": 0,
+                "score": 1,
+                "held": null,
+                "over": false
+              }
+            },
+            {
+              "key": "Space",
+              "before": {
+                "active": {
+                  "type": "T",
+                  "rotation": 0,
+                  "x": 3,
+                  "y": 6
+                },
+                "count": 0,
+                "score": 1,
+                "held": null,
+                "over": false
+              },
+              "after": {
+                "active": {
+                  "type": "I",
+                  "rotation": 0,
+                  "x": 3,
+                  "y": 0
+                },
+                "count": 4,
+                "score": 25,
+                "held": null,
+                "over": false
+              }
+            },
+            {
+              "key": "c",
+              "before": {
+                "active": {
+                  "type": "I",
+                  "rotation": 0,
+                  "x": 3,
+                  "y": 0
+                },
+                "count": 4,
+                "score": 25,
+                "held": null,
+                "over": false
+              },
+              "after": {
+                "active": {
+                  "type": "S",
+                  "rotation": 0,
+                  "x": 3,
+                  "y": 0
+                },
+                "count": 4,
+                "score": 25,
+                "held": "I",
+                "over": false
+              }
+            }
+          ],
+          "spins": {
+            "travel": {
+              "distance": 14,
+              "score": 128
+            },
+            "mini": {
+              "distance": 0,
+              "score": 100
+            },
+            "full": {
+              "distance": 0,
+              "score": 400
+            }
+          },
+          "timedSpins": {
+            "mini": 100,
+            "full": 400
+          },
+          "soft": {
+            "active": {
+              "type": "O",
+              "rotation": 0,
+              "x": 3,
+              "y": 1
+            },
+            "count": 0,
+            "score": 1,
+            "held": null,
+            "over": false
+          },
+          "reset": {
+            "active": {
+              "type": "Z",
+              "rotation": 0,
+              "x": 3,
+              "y": 0
+            },
+            "count": 0,
+            "score": 0,
+            "held": null,
+            "over": false
+          },
+          "opening": [
+            "Z",
+            "S",
+            "I",
+            "O",
+            "J",
+            "T",
+            "L"
+          ],
+          "landing": {
+            "at1489": 0,
+            "at1490": 0
+          },
+          "pause": null,
+          "layout": {
+            "width": 1280,
+            "height": 800,
+            "scrollWidth": 1280,
+            "scrollHeight": 800,
+            "canvases": [
+              {
+                "id": "game",
+                "width": 430,
+                "height": 560,
+                "rect": {
+                  "x": 425,
+                  "y": 78.609375,
+                  "width": 430,
+                  "height": 560
+                }
+              }
+            ]
+          },
+          "rendered": {
+            "actual": [
+              [
+                112,
+                504
+              ],
+              [
+                84,
+                532
+              ],
+              [
+                112,
+                532
+              ],
+              [
+                140,
+                532
+              ]
+            ],
+            "expected": [
+              [
+                112,
+                504
+              ],
+              [
+                84,
+                532
+              ],
+              [
+                112,
+                532
+              ],
+              [
+                140,
+                532
+              ]
+            ],
+            "ghostMatches": true,
+            "previews": 24
+          },
+          "errors": [],
+          "assets": []
+        },
+        "mobile": {
+          "keys": [
+            {
+              "key": "ArrowLeft",
+              "before": {
+                "active": {
+                  "type": "T",
+                  "rotation": 0,
+                  "x": 3,
+                  "y": 5
+                },
+                "count": 0,
+                "score": 0,
+                "held": null,
+                "over": false
+              },
+              "after": {
+                "active": {
+                  "type": "T",
+                  "rotation": 0,
+                  "x": 2,
+                  "y": 5
+                },
+                "count": 0,
+                "score": 0,
+                "held": null,
+                "over": false
+              }
+            },
+            {
+              "key": "ArrowRight",
+              "before": {
+                "active": {
+                  "type": "T",
+                  "rotation": 0,
+                  "x": 2,
+                  "y": 5
+                },
+                "count": 0,
+                "score": 0,
+                "held": null,
+                "over": false
+              },
+              "after": {
+                "active": {
+                  "type": "T",
+                  "rotation": 0,
+                  "x": 3,
+                  "y": 5
+                },
+                "count": 0,
+                "score": 0,
+                "held": null,
+                "over": false
+              }
+            },
+            {
+              "key": "ArrowUp",
+              "before": {
+                "active": {
+                  "type": "T",
+                  "rotation": 0,
+                  "x": 3,
+                  "y": 5
+                },
+                "count": 0,
+                "score": 0,
+                "held": null,
+                "over": false
+              },
+              "after": {
+                "active": {
+                  "type": "T",
+                  "rotation": 1,
+                  "x": 3,
+                  "y": 5
+                },
+                "count": 0,
+                "score": 0,
+                "held": null,
+                "over": false
+              }
+            },
+            {
+              "key": "x",
+              "before": {
+                "active": {
+                  "type": "T",
+                  "rotation": 1,
+                  "x": 3,
+                  "y": 5
+                },
+                "count": 0,
+                "score": 0,
+                "held": null,
+                "over": false
+              },
+              "after": {
+                "active": {
+                  "type": "T",
+                  "rotation": 2,
+                  "x": 3,
+                  "y": 5
+                },
+                "count": 0,
+                "score": 0,
+                "held": null,
+                "over": false
+              }
+            },
+            {
+              "key": "z",
+              "before": {
+                "active": {
+                  "type": "T",
+                  "rotation": 2,
+                  "x": 3,
+                  "y": 5
+                },
+                "count": 0,
+                "score": 0,
+                "held": null,
+                "over": false
+              },
+              "after": {
+                "active": {
+                  "type": "T",
+                  "rotation": 1,
+                  "x": 3,
+                  "y": 5
+                },
+                "count": 0,
+                "score": 0,
+                "held": null,
+                "over": false
+              }
+            },
+            {
+              "key": "ControlLeft",
+              "before": {
+                "active": {
+                  "type": "T",
+                  "rotation": 1,
+                  "x": 3,
+                  "y": 5
+                },
+                "count": 0,
+                "score": 0,
+                "held": null,
+                "over": false
+              },
+              "after": {
+                "active": {
+                  "type": "T",
+                  "rotation": 0,
+                  "x": 3,
+                  "y": 5
+                },
+                "count": 0,
+                "score": 0,
+                "held": null,
+                "over": false
+              }
+            },
+            {
+              "key": "ArrowDown",
+              "before": {
+                "active": {
+                  "type": "T",
+                  "rotation": 0,
+                  "x": 3,
+                  "y": 5
+                },
+                "count": 0,
+                "score": 0,
+                "held": null,
+                "over": false
+              },
+              "after": {
+                "active": {
+                  "type": "T",
+                  "rotation": 0,
+                  "x": 3,
+                  "y": 6
+                },
+                "count": 0,
+                "score": 1,
+                "held": null,
+                "over": false
+              }
+            },
+            {
+              "key": "Space",
+              "before": {
+                "active": {
+                  "type": "T",
+                  "rotation": 0,
+                  "x": 3,
+                  "y": 6
+                },
+                "count": 0,
+                "score": 1,
+                "held": null,
+                "over": false
+              },
+              "after": {
+                "active": {
+                  "type": "I",
+                  "rotation": 0,
+                  "x": 3,
+                  "y": 0
+                },
+                "count": 4,
+                "score": 25,
+                "held": null,
+                "over": false
+              }
+            },
+            {
+              "key": "c",
+              "before": {
+                "active": {
+                  "type": "I",
+                  "rotation": 0,
+                  "x": 3,
+                  "y": 0
+                },
+                "count": 4,
+                "score": 25,
+                "held": null,
+                "over": false
+              },
+              "after": {
+                "active": {
+                  "type": "S",
+                  "rotation": 0,
+                  "x": 3,
+                  "y": 0
+                },
+                "count": 4,
+                "score": 25,
+                "held": "I",
+                "over": false
+              }
+            }
+          ],
+          "spins": {
+            "travel": {
+              "distance": 14,
+              "score": 128
+            },
+            "mini": {
+              "distance": 0,
+              "score": 100
+            },
+            "full": {
+              "distance": 0,
+              "score": 400
+            }
+          },
+          "timedSpins": {
+            "mini": 100,
+            "full": 400
+          },
+          "soft": {
+            "active": {
+              "type": "O",
+              "rotation": 0,
+              "x": 3,
+              "y": 1
+            },
+            "count": 0,
+            "score": 1,
+            "held": null,
+            "over": false
+          },
+          "reset": {
+            "active": {
+              "type": "Z",
+              "rotation": 0,
+              "x": 3,
+              "y": 0
+            },
+            "count": 0,
+            "score": 0,
+            "held": null,
+            "over": false
+          },
+          "opening": [
+            "Z",
+            "S",
+            "I",
+            "O",
+            "J",
+            "T",
+            "L"
+          ],
+          "landing": {
+            "at1489": 0,
+            "at1490": 0
+          },
+          "pause": null,
+          "layout": {
+            "width": 390,
+            "height": 844,
+            "scrollWidth": 434,
+            "scrollHeight": 844,
+            "canvases": [
+              {
+                "id": "game",
+                "width": 430,
+                "height": 560,
+                "rect": {
+                  "x": -20,
+                  "y": 92.609375,
+                  "width": 430,
+                  "height": 560
+                }
+              }
+            ]
+          },
+          "rendered": {
+            "actual": [
+              [
+                112,
+                504
+              ],
+              [
+                84,
+                532
+              ],
+              [
+                112,
+                532
+              ],
+              [
+                140,
+                532
+              ]
+            ],
+            "expected": [
+              [
+                112,
+                504
+              ],
+              [
+                84,
+                532
+              ],
+              [
+                112,
+                532
+              ],
+              [
+                140,
+                532
+              ]
+            ],
+            "ghostMatches": true,
+            "previews": 24
+          },
+          "errors": [],
+          "assets": []
+        }
+      }
+    }
+  },
+  "own_low_reproduction": {
+    "low-own-seed1.log": "\n> tetrisjs@1.0.0 test\n> npm run build && node dist/tests/logic.test.js\n\n\n> tetrisjs@1.0.0 build\n> tsc -p tsconfig.json && node scripts/build.js\n\nassets copied to dist/\nAll 16 tests passed.\n",
+    "low-own-seed4.log": "\n> tetrisjs@1.0.0 test\n> npm run build && node dist/tests/logic.test.js\n\n\n> tetrisjs@1.0.0 build\n> tsc -p tsconfig.json && node scripts/build.js\n\nassets copied to dist/\n1 test(s) failed:\n  - top out happens when the spawn area is blocked: Expected values to be strictly equal:\n\ntrue !== false\n\n"
+  },
+  "validations": {
+    "repository_unittest": {
+      "passed": 70
+    },
+    "documents": "render and verify passed",
+    "individual_import_verification": "all five passed",
+    "ranking_verifier": "86 rows,541 links passed",
+    "site": "site --skip-games and npm run check:site passed",
+    "original_files": 131,
+    "historical_entries_unchanged": 81,
+    "thread_settling": "denied: parent auto / child full-access",
+    "own_low": "initially passed; later unseeded failure; seeded1 16 pass, seeded4 15 pass / 1 expected fixture failure",
+    "rendered_ghosts_and_previews": "all five efforts, both viewports: exact four ghost coordinates;16 max /24 other preview cells"
+  }
+}

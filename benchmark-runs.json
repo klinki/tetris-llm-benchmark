@@ -3129,6 +3129,151 @@
         "commit": "bd596e329e496af264b395b4a11760767cd8cf6d",
         "modified": false
       }
+    },
+    {
+      "id": "minimax-m3.1-flash-free-max",
+      "label": "MiniMax M3.1 Flash (max)",
+      "order": 810,
+      "project_dir": "minimax-m3.1-flash-free-max",
+      "harness": "t3_opencode",
+      "harness_label": "T3 Code / OpenCode",
+      "provider": "opencode",
+      "provider_label": "opencode",
+      "model": "minimax-m3.1-flash-free",
+      "session_id": "ses_e30e378caffeSdYjewuoh1Axm0",
+      "t3_thread_id": "thread:project:411f21f9-2421-4160-ac99-53996cefd19d:a233ca36-600d-458a-a7ed-4fa7ca57c3bd",
+      "expected_cwd": "/Users/david/tetris-bench/runs/d158b72e0a29/tetris",
+      "expected_cwd_basename": "tetris",
+      "reasoning_variant": "max",
+      "web": "open",
+      "cutoff": {
+        "through_user_message": 1,
+        "exclude_inter_message_wait": true
+      },
+      "overhead": {
+        "kind": "unknown"
+      },
+      "spec": {
+        "sha256": "36e2097a78fe8b5646e6216338640831cff0a284cc823c4b1f658991c8d40294",
+        "commit": "9ccddb86aeed72b0d826d61f723d60a38da5245e",
+        "modified": false
+      }
+    },
+    {
+      "id": "minimax-m3.1-flash-free-xhigh",
+      "label": "MiniMax M3.1 Flash (xhigh)",
+      "order": 820,
+      "project_dir": "minimax-m3.1-flash-free-xhigh",
+      "harness": "t3_opencode",
+      "harness_label": "T3 Code / OpenCode",
+      "provider": "opencode",
+      "provider_label": "opencode",
+      "model": "minimax-m3.1-flash-free",
+      "session_id": "ses_e30d51531ffepYddHLerE6kjBv",
+      "t3_thread_id": "thread:project:4650b044-ba3f-409f-99ca-f9cf29265a5f:d9e7c2fa-4657-4c46-875e-3363329482f3",
+      "expected_cwd": "/Users/david/tetris-bench/runs/1efc03ec1bc1/tetris",
+      "expected_cwd_basename": "tetris",
+      "reasoning_variant": "xhigh",
+      "web": "open",
+      "cutoff": {
+        "through_user_message": 1,
+        "exclude_inter_message_wait": true
+      },
+      "overhead": {
+        "kind": "unknown"
+      },
+      "spec": {
+        "sha256": "36e2097a78fe8b5646e6216338640831cff0a284cc823c4b1f658991c8d40294",
+        "commit": "9ccddb86aeed72b0d826d61f723d60a38da5245e",
+        "modified": false
+      }
+    },
+    {
+      "id": "minimax-m3.1-flash-free-high",
+      "label": "MiniMax M3.1 Flash (high)",
+      "order": 830,
+      "project_dir": "minimax-m3.1-flash-free-high",
+      "harness": "t3_opencode",
+      "harness_label": "T3 Code / OpenCode",
+      "provider": "opencode",
+      "provider_label": "opencode",
+      "model": "minimax-m3.1-flash-free",
+      "session_id": "ses_e30c92167ffeDNLasA807k5IC6",
+      "t3_thread_id": "thread:project:364a9eed-5244-4206-a969-4d32abdacda2:0e02ae6b-5cc3-4ace-ac5b-f8c3fe2834a0",
+      "expected_cwd": "/Users/david/tetris-bench/runs/9b01f84226b3/tetris",
+      "expected_cwd_basename": "tetris",
+      "reasoning_variant": "high",
+      "web": "open",
+      "cutoff": {
+        "through_user_message": 1,
+        "exclude_inter_message_wait": true
+      },
+      "overhead": {
+        "kind": "unknown"
+      },
+      "spec": {
+        "sha256": "36e2097a78fe8b5646e6216338640831cff0a284cc823c4b1f658991c8d40294",
+        "commit": "9ccddb86aeed72b0d826d61f723d60a38da5245e",
+        "modified": false
+      }
+    },
+    {
+      "id": "minimax-m3.1-flash-free-medium",
+      "label": "MiniMax M3.1 Flash (medium)",
+      "order": 840,
+      "project_dir": "minimax-m3.1-flash-free-medium",
+      "harness": "t3_opencode",
+      "harness_label": "T3 Code / OpenCode",
+      "provider": "opencode",
+      "provider_label": "opencode",
+      "model": "minimax-m3.1-flash-free",
+      "session_id": "ses_e30be17caffeWRe8ydtX6XBEhK",
+      "t3_thread_id": "thread:project:aafa625a-d619-4100-99f5-393418f611d2:5f7f2129-fafd-42a2-9d9b-0974f669f73b",
+      "expected_cwd": "/Users/david/tetris-bench/runs/b70dd6f6137b/tetris",
+      "expected_cwd_basename": "tetris",
+      "reasoning_variant": "medium",
+      "web": "open",
+      "cutoff": {
+        "through_user_message": 1,
+        "exclude_inter_message_wait": true
+      },
+      "overhead": {
+        "kind": "unknown"
+      },
+      "spec": {
+        "sha256": "36e2097a78fe8b5646e6216338640831cff0a284cc823c4b1f658991c8d40294",
+        "commit": "9ccddb86aeed72b0d826d61f723d60a38da5245e",
+        "modified": false
+      }
+    },
+    {
+      "id": "minimax-m3.1-flash-free-low",
+      "label": "MiniMax M3.1 Flash (low)",
+      "order": 850,
+      "project_dir": "minimax-m3.1-flash-free-low",
+      "harness": "t3_opencode",
+      "harness_label": "T3 Code / OpenCode",
+      "provider": "opencode",
+      "provider_label": "opencode",
+      "model": "minimax-m3.1-flash-free",
+      "session_id": "ses_e30b44653ffe66mewAa7UQnOb3",
+      "t3_thread_id": "thread:project:94d15a01-2014-4c05-8aed-31867bc1e3db:66d88dea-bca8-4691-9c1c-ba1b25c7ec84",
+      "expected_cwd": "/Users/david/tetris-bench/runs/33f53810fafc/tetris",
+      "expected_cwd_basename": "tetris",
+      "reasoning_variant": "low",
+      "web": "open",
+      "cutoff": {
+        "through_user_message": 1,
+        "exclude_inter_message_wait": true
+      },
+      "overhead": {
+        "kind": "unknown"
+      },
+      "spec": {
+        "sha256": "36e2097a78fe8b5646e6216338640831cff0a284cc823c4b1f658991c8d40294",
+        "commit": "9ccddb86aeed72b0d826d61f723d60a38da5245e",
+        "modified": false
+      }
     }
   ]
 }

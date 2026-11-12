@@ -8,6 +8,7 @@
     {"name": "OpenAI", "tiers": ["Sol", "Terra", "Luna"]},
     {"name": "Anthropic", "tiers": ["Fable", "Opus", "Sonnet", "Haiku"]},
     {"name": "Meta", "tiers": ["Muse Spark"]},
+    {"name": "MiniMax", "tiers": ["M Flash"]},
     {"name": "Alibaba", "tiers": ["Qwen Max", "Qwen Flash"]},
     {"name": "DeepSeek", "tiers": ["Pro", "Flash"]},
     {"name": "Google", "tiers": ["Gemini"]},
@@ -19,6 +20,12 @@
     {"name": "Unattributed", "tiers": ["Beam", "Space Bunny"]}
   ],
   "models": {
+    "minimax-m3.1-flash-free": {
+      "label": "MiniMax M3.1 Flash",
+      "family": "MiniMax", "tier": "M Flash", "version": "3.1",
+      "unpriced": "The selected OpenCode endpoint is advertised as free. A comparable public paid API rate has not been verified; no paid-model cost estimate is assigned.",
+      "note": "Runs select opencode/minimax-m3.1-flash-free. Advertised free endpoint billing is distinct from the benchmark paid API comparison estimate."
+    },
     "hy4": {
       "label": "Hy4",
       "family": "Tencent", "tier": "Hy", "version": "4",

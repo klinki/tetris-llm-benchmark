@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Tetris</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <main class="layout">
+      <canvas id="game" width="440" height="560" aria-label="Tetris playfield"></canvas>
+      <section class="help">
+        <h1>Tetris</h1>
+        <ul>
+          <li><kbd>←</kbd> <kbd>→</kbd> move to the sides</li>
+          <li><kbd>↑</kbd> <kbd>X</kbd> rotate clockwise</li>
+          <li><kbd>Z</kbd> <kbd>Ctrl</kbd> rotate anti clockwise</li>
+          <li><kbd>↓</kbd> soft drop</li>
+          <li><kbd>Space</kbd> drop to position</li>
+          <li><kbd>C</kbd> hold piece</li>
+          <li><kbd>R</kbd> restart after game over</li>
+        </ul>
+        <p class="hint">7-bag randomizer · super rotation system · ghost piece · hold · lock delay</p>
+      </section>
+    </main>
+    <script type="module" src="./main.js"></script>
+  </body>
+</html>

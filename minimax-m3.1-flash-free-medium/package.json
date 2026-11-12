@@ -1,0 +1,17 @@
+{
+  "name": "tetris",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Browser based implementation of the classic Tetris game, following the Tetris Guideline.",
+  "type": "module",
+  "scripts": {
+    "build": "tsc -p tsconfig.json && node scripts/copy-assets.mjs",
+    "prestart": "npm run build",
+    "start": "node dist/server.js",
+    "test": "npm run build && node --test \"dist/**/*.test.js\""
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.2",
+    "typescript": "^5.7.2"
+  }
+}
