@@ -529,6 +529,10 @@ phone evidence and four grouped minors. All 80 historical scores are unchanged.
 
 ## Running a benchmark in T3 Code
 
+Before starting a run, follow the [AGENTS.md preflight instructions](AGENTS.md):
+check the run registry for duplicates and [UNAVAILABLE_MODELS.md](UNAVAILABLE_MODELS.md)
+for known provider restrictions.
+
 New runs are executed in [T3 Code](https://github.com/pingdotgg/t3code) and
 brought into the repository in three steps:
 
@@ -567,6 +571,22 @@ the repository without `node_modules` or build output, runs `refresh`
 and rolls everything back if any step fails. The run shows as `Pending` until
 it is audited and scored. Its model needs a [`pricing.json`](pricing.json)
 entry first.
+
+### Completing a benchmark
+
+After import, finish the quality audit and scoring, save and verify the results,
+and complete workspace cleanup. Then archive the dedicated T3 Code project used
+for the run with `t3_project_update`, passing its `projectId` and `archived: true`.
+Use `t3_project_read` to confirm that `archivedAt` is set. The project ID is
+recorded as `t3_project_id` in the local run record; if it is missing, read the
+run's T3 thread to identify the project.
+
+This step applies to manual, `watch --import`, and `batch` runs once their audits
+are complete. Import alone leaves a run pending audit. Archiving the T3 project
+preserves its threads and files and is separate from moving the workspace into
+`~/tetris-bench/archive` or settling a thread. Archive only the isolated run
+project, after all work in it has finished. If T3 rejects archiving, report that
+cleanup remains outstanding.
 
 ### Isolation
 
@@ -674,6 +694,9 @@ until the thread reaches a final state. The orchestrating thread runs:
 5. `t3_thread_organize` with `action: "settle"` on the run's thread, so
    finished benchmark threads leave T3's active list. Settle each audit's
    thread too once its results are committed.
+6. Once the quality audit and scoring are complete and the saved results have
+   been verified, archive the run's T3 project and confirm `archivedAt`, as
+   described in [Completing a benchmark](#completing-a-benchmark).
 
 This removes the undocumented `orchestration.launchThread` RPC, the
 `t3 auth session issue` token, the WebSocket client, and the 20-second polling
