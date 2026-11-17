@@ -1,11 +1,23 @@
 {
   "schema_version": 1,
-  "weights": {"correctness": 40, "tests": 20, "code": 20, "simplicity": 10, "browser_ux": 10},
+  "weights": {
+    "correctness": 40,
+    "tests": 20,
+    "code": 20,
+    "simplicity": 10,
+    "browser_ux": 10
+  },
   "entries": [
     {
       "run_id": "luna-codex",
       "audited": "2026-08-10",
-      "scores": {"correctness": 7.5, "tests": 7.0, "code": 8.0, "simplicity": 7.5, "browser_ux": 8.5},
+      "scores": {
+        "correctness": 7.5,
+        "tests": 7.0,
+        "code": 8.0,
+        "simplicity": 7.5,
+        "browser_ux": 8.5
+      },
       "bugs": [
         {
           "severity": "major",
@@ -28,19 +40,31 @@
     {
       "run_id": "luna-omp",
       "audited": "2026-08-10",
-      "scores": {"correctness": 10.0, "tests": 6.5, "code": 8.5, "simplicity": 7.0, "browser_ux": 9.0},
+      "scores": {
+        "correctness": 10.0,
+        "tests": 6.5,
+        "code": 8.5,
+        "simplicity": 7.0,
+        "browser_ux": 9.0
+      },
       "bugs": [],
       "summary": "No confirmed bugs; tests skip kicks, lock delay and advanced scoring"
     },
     {
       "run_id": "luna-pi",
       "audited": "2026-08-29",
-      "scores": {"correctness": 9.5, "tests": 6.5, "code": 9.0, "simplicity": 7.0, "browser_ux": 8.5},
+      "scores": {
+        "correctness": 9.5,
+        "tests": 6.5,
+        "code": 9.0,
+        "simplicity": 7.0,
+        "browser_ux": 8.5
+      },
       "bugs": [
         {
           "severity": "minor",
           "title": "Combo points are multiplied by the level twice",
-          "detail": "At level two with one prior consecutive clear, a single should award `100×2 + 50×1×2 = 300`. [`awardLineScore`](luna-pi/src/game.ts) adds an already level-scaled combo bonus to `base`, then multiplies all of `base` by the level, awarding 400. The committed audit probe reproduces the over-award."
+          "detail": "At level two with one prior consecutive clear, a single should award `100\u00d72 + 50\u00d71\u00d72 = 300`. [`awardLineScore`](luna-pi/src/game.ts) adds an already level-scaled combo bonus to `base`, then multiplies all of `base` by the level, awarding 400. The committed audit probe reproduces the over-award."
         }
       ],
       "summary": "Combo bonus is multiplied by the level twice"
@@ -48,7 +72,13 @@
     {
       "run_id": "sol-codex",
       "audited": "2026-08-10",
-      "scores": {"correctness": 8.0, "tests": 6.5, "code": 9.0, "simplicity": 9.5, "browser_ux": 9.5},
+      "scores": {
+        "correctness": 8.0,
+        "tests": 6.5,
+        "code": 9.0,
+        "simplicity": 9.5,
+        "browser_ux": 9.5
+      },
       "bugs": [
         {
           "severity": "major",
@@ -66,7 +96,13 @@
     {
       "run_id": "sol-omp",
       "audited": "2026-08-10",
-      "scores": {"correctness": 9.5, "tests": 5.5, "code": 8.5, "simplicity": 8.0, "browser_ux": 9.0},
+      "scores": {
+        "correctness": 9.5,
+        "tests": 5.5,
+        "code": 8.5,
+        "simplicity": 8.0,
+        "browser_ux": 9.0
+      },
       "bugs": [
         {
           "severity": "minor",
@@ -79,7 +115,13 @@
     {
       "run_id": "deepseek-pi",
       "audited": "2026-08-10",
-      "scores": {"correctness": 6.5, "tests": 8.5, "code": 8.0, "simplicity": 7.0, "browser_ux": 7.0},
+      "scores": {
+        "correctness": 6.5,
+        "tests": 8.5,
+        "code": 8.0,
+        "simplicity": 7.0,
+        "browser_ux": 7.0
+      },
       "bugs": [
         {
           "severity": "major",
@@ -102,12 +144,18 @@
     {
       "run_id": "beam",
       "audited": "2026-10-20",
-      "scores": {"correctness": 6.0, "tests": 4.5, "code": 5.0, "simplicity": 6.5, "browser_ux": 6.5},
+      "scores": {
+        "correctness": 6.0,
+        "tests": 4.5,
+        "code": 5.0,
+        "simplicity": 6.5,
+        "browser_ux": 6.5
+      },
       "bugs": [
         {
           "severity": "major",
           "title": "Moving a grounded piece prevents normal timed locking",
-          "detail": "[`resetLockDelay`](beam/src/game.ts) stores `Date.now()`, but `updateLockDelay` receives `requestAnimationFrame`/`performance.now()` time. After a grounded move the lock timestamp is about 10¹² ms larger than the comparison clock. The piece remains unlocked even after a simulated nine-second wait."
+          "detail": "[`resetLockDelay`](beam/src/game.ts) stores `Date.now()`, but `updateLockDelay` receives `requestAnimationFrame`/`performance.now()` time. After a grounded move the lock timestamp is about 10\u00b9\u00b2 ms larger than the comparison clock. The piece remains unlocked even after a simulated nine-second wait."
         },
         {
           "severity": "major",
@@ -117,7 +165,7 @@
         {
           "severity": "minor",
           "title": "Narrow-screen panels are clipped",
-          "detail": "Document width is 467 px at 390 px, with the hold canvas beginning at x≈−77."
+          "detail": "Document width is 467 px at 390 px, with the hold canvas beginning at x\u2248\u221277."
         },
         {
           "severity": "minor",
@@ -130,7 +178,13 @@
     {
       "run_id": "cat-jam",
       "audited": "2026-10-20",
-      "scores": {"correctness": 6.5, "tests": 7.5, "code": 8.5, "simplicity": 8.0, "browser_ux": 8.0},
+      "scores": {
+        "correctness": 6.5,
+        "tests": 7.5,
+        "code": 8.5,
+        "simplicity": 8.0,
+        "browser_ux": 8.0
+      },
       "bugs": [
         {
           "severity": "major",
@@ -153,7 +207,13 @@
     {
       "run_id": "gemini-4",
       "audited": "2026-10-20",
-      "scores": {"correctness": 9.0, "tests": 8.0, "code": 8.5, "simplicity": 7.0, "browser_ux": 9.0},
+      "scores": {
+        "correctness": 9.0,
+        "tests": 8.0,
+        "code": 8.5,
+        "simplicity": 7.0,
+        "browser_ux": 9.0
+      },
       "bugs": [
         {
           "severity": "minor",
@@ -163,7 +223,7 @@
         {
           "severity": "minor",
           "title": "Supporting panels overflow on narrow screens",
-          "detail": "At 390 px, document width is 570 px; hold is at x=−150 and next at x=415. The main board fits, but important state is off-screen."
+          "detail": "At 390 px, document width is 570 px; hold is at x=\u2212150 and next at x=415. The main board fits, but important state is off-screen."
         }
       ],
       "summary": "No perfect-clear bonus; side panels overflow on phones"
@@ -171,7 +231,13 @@
     {
       "run_id": "nemotron",
       "audited": "2026-10-20",
-      "scores": {"correctness": 0.0, "tests": 6.0, "code": 6.5, "simplicity": 8.5, "browser_ux": 6.5},
+      "scores": {
+        "correctness": 0.0,
+        "tests": 6.0,
+        "code": 6.5,
+        "simplicity": 8.5,
+        "browser_ux": 6.5
+      },
       "bugs": [
         {
           "severity": "critical",
@@ -196,7 +262,7 @@
         {
           "severity": "minor",
           "title": "The narrow layout clips the board",
-          "detail": "At 390 px, the board starts at x=−22, document width is 412 px, and the body hides overflow."
+          "detail": "At 390 px, the board starts at x=\u221222, document width is 412 px, and the body hides overflow."
         }
       ],
       "summary": "Does not start in the browser: imports lack .js extensions"
@@ -204,7 +270,13 @@
     {
       "run_id": "space-bunny",
       "audited": "2026-10-20",
-      "scores": {"correctness": 5.5, "tests": 7.5, "code": 8.0, "simplicity": 6.5, "browser_ux": 8.0},
+      "scores": {
+        "correctness": 5.5,
+        "tests": 7.5,
+        "code": 8.0,
+        "simplicity": 6.5,
+        "browser_ux": 8.0
+      },
       "bugs": [
         {
           "severity": "major",
@@ -227,12 +299,18 @@
     {
       "run_id": "opus-5.5",
       "audited": "2026-10-23",
-      "scores": {"correctness": 9.5, "tests": 9.0, "code": 9.0, "simplicity": 8.0, "browser_ux": 8.5},
+      "scores": {
+        "correctness": 9.5,
+        "tests": 9.0,
+        "code": 9.0,
+        "simplicity": 8.0,
+        "browser_ux": 8.5
+      },
       "bugs": [
         {
           "severity": "minor",
           "title": "Fixed-width layout does not fit a phone-sized viewport",
-          "detail": "At 390×844, document width is 760 px; the 300 px board begins at x=230, so much of the board and next panel lie beyond the viewport."
+          "detail": "At 390\u00d7844, document width is 760 px; the 300 px board begins at x=230, so much of the board and next panel lie beyond the viewport."
         }
       ],
       "summary": "Strongest tests and rules coverage; board does not fit a phone screen"
@@ -240,7 +318,13 @@
     {
       "run_id": "muse-spark-1.3-medium",
       "audited": "2026-10-23",
-      "scores": {"correctness": 9.0, "tests": 7.5, "code": 8.0, "simplicity": 8.0, "browser_ux": 9.0},
+      "scores": {
+        "correctness": 9.0,
+        "tests": 7.5,
+        "code": 8.0,
+        "simplicity": 8.0,
+        "browser_ux": 9.0
+      },
       "bugs": [
         {
           "severity": "minor",
@@ -249,7 +333,7 @@
         },
         {
           "severity": "minor",
-          "title": "The playfield collapses to 0×0 CSS pixels on a 390 px viewport",
+          "title": "The playfield collapses to 0\u00d70 CSS pixels on a 390 px viewport",
           "detail": "Fixed side columns consume the available grid width and `canvas { max-width:100% }` shrinks the automatic center column to zero. The board is entirely invisible even though desktop play works. This is scored as one responsive-layout defect under the same rubric as earlier narrow-layout findings."
         }
       ],
@@ -258,7 +342,13 @@
     {
       "run_id": "claude-haiku-5-5-high",
       "audited": "2026-10-24",
-      "scores": {"correctness": 9.0, "tests": 7.5, "code": 9.0, "simplicity": 8.0, "browser_ux": 8.5},
+      "scores": {
+        "correctness": 9.0,
+        "tests": 7.5,
+        "code": 9.0,
+        "simplicity": 8.0,
+        "browser_ux": 8.5
+      },
       "bugs": [
         {
           "severity": "minor",
@@ -268,7 +358,7 @@
         {
           "severity": "minor",
           "title": "Fixed-width layout clips the playfield on phones",
-          "detail": "At 390×844, document width is 758 px. The board's 302×602 px border box starts at x=228 and ends at x=530; the next queue starts at x=554, outside the viewport. The fixed flex layout has no narrow-screen reflow."
+          "detail": "At 390\u00d7844, document width is 758 px. The board's 302\u00d7602 px border box starts at x=228 and ends at x=530; the next queue starts at x=554, outside the viewport. The fixed flex layout has no narrow-screen reflow."
         }
       ],
       "summary": "Broad rules support; soft-drop timing jump and clipped phone playfield"
@@ -276,7 +366,13 @@
     {
       "run_id": "claude-haiku-5-5-xhigh",
       "audited": "2026-10-24",
-      "scores": {"correctness": 9.0, "tests": 8.5, "code": 9.0, "simplicity": 8.5, "browser_ux": 8.5},
+      "scores": {
+        "correctness": 9.0,
+        "tests": 8.5,
+        "code": 9.0,
+        "simplicity": 8.5,
+        "browser_ux": 8.5
+      },
       "bugs": [
         {
           "severity": "minor",
@@ -286,7 +382,7 @@
         {
           "severity": "minor",
           "title": "Fixed-width layout clips the playfield on phones",
-          "detail": "At 390×844 in Chromium, document width is 752 px. The board border box is 304×604 at x=224, ending at x=528; next begins at x=552. Its fixed flex layout has no narrow-screen reflow, leaving much of the playfield outside the initial viewport."
+          "detail": "At 390\u00d7844 in Chromium, document width is 752 px. The board border box is 304\u00d7604 at x=224, ending at x=528; next begins at x=552. Its fixed flex layout has no narrow-screen reflow, leaving much of the playfield outside the initial viewport."
         }
       ],
       "summary": "Broad rules and strong tests; soft-drop timing jump and clipped phone playfield"
@@ -294,17 +390,23 @@
     {
       "run_id": "claude-haiku-5-5-max",
       "audited": "2026-10-24",
-      "scores": {"correctness": 8.0, "tests": 8.0, "code": 9.0, "simplicity": 8.0, "browser_ux": 8.5},
+      "scores": {
+        "correctness": 8.0,
+        "tests": 8.0,
+        "code": 9.0,
+        "simplicity": 8.0,
+        "browser_ux": 8.5
+      },
       "bugs": [
         {
           "severity": "minor",
           "title": "Perfect-clear bonus is absent under the benchmark scoring profile",
-          "detail": "A horizontal I at x=3,y=20 completes row 21 at zero drop distance. One row clears and the 22-row board is empty, but score is 100 rather than the benchmark profile’s 900. Neither Scorer.lock nor Game.lockPiece checks for an empty board."
+          "detail": "A horizontal I at x=3,y=20 completes row 21 at zero drop distance. One row clears and the 22-row board is empty, but score is 100 rather than the benchmark profile\u2019s 900. Neither Scorer.lock nor Game.lockPiece checks for an empty board."
         },
         {
           "severity": "minor",
           "title": "Locking a whole piece above the skyline does not end the game",
-          "detail": "Use a T,I source and blockers at (2,2),(3,3),(4,3). From the actual T spawn (3,1), rotate CW via SRS test 3 to (2,0), then CCW to spawn orientation at (2,0). The ghost is y=0. A zero-distance hard drop locks all four T cells in hidden rows 0–1, but status remains playing and the unblocked I spawns. Blocked-spawn top-out works; this specific lock-out path is absent."
+          "detail": "Use a T,I source and blockers at (2,2),(3,3),(4,3). From the actual T spawn (3,1), rotate CW via SRS test 3 to (2,0), then CCW to spawn orientation at (2,0). The ghost is y=0. A zero-distance hard drop locks all four T cells in hidden rows 0\u20131, but status remains playing and the unblocked I spawns. Blocked-spawn top-out works; this specific lock-out path is absent."
         },
         {
           "severity": "minor",
@@ -314,7 +416,7 @@
         {
           "severity": "minor",
           "title": "Supporting state overflows the phone viewport",
-          "detail": "At 390×844 in Chromium, document width is 596 px. The 300×600 board remains visible at x=18, but the 240 px sidebar begins at x=340 and both hold and next canvases start at x=424. Their contents and right-aligned scores are outside the initial viewport."
+          "detail": "At 390\u00d7844 in Chromium, document width is 596 px. The 300\u00d7600 board remains visible at x=18, but the 240 px sidebar begins at x=340 and both hold and next canvases start at x=424. Their contents and right-aligned scores are outside the initial viewport."
         }
       ],
       "summary": "No perfect-clear bonus or hidden lock-out; soft-drop timing jump and phone sidebar overflow"
@@ -322,7 +424,13 @@
     {
       "run_id": "claude-sonnet-5-5-low",
       "audited": "2026-10-24",
-      "scores": {"correctness": 7.0, "tests": 6.0, "code": 8.5, "simplicity": 9.0, "browser_ux": 8.0},
+      "scores": {
+        "correctness": 7.0,
+        "tests": 6.0,
+        "code": 8.5,
+        "simplicity": 9.0,
+        "browser_ux": 8.0
+      },
       "bugs": [
         {
           "severity": "major",
@@ -342,7 +450,7 @@
         {
           "severity": "minor",
           "title": "Supporting state is clipped on a phone-sized viewport",
-          "detail": "At 390×844, document width is 527 px and the 664 px canvas begins at x=-137. The 300×600 board fits at x=45, but the hold/score label origin is x=-120 and next begins at x=360, clipping supporting state on both sides."
+          "detail": "At 390\u00d7844, document width is 527 px and the 664 px canvas begins at x=-137. The 300\u00d7600 board fits at x=45, but the hold/score label origin is x=-120 and next begins at x=360, clipping supporting state on both sides."
         }
       ],
       "summary": "Basic scoring only; hidden lock-out missing, soft-drop jump and clipped phone sidebars"
@@ -350,12 +458,18 @@
     {
       "run_id": "claude-sonnet-5-5-medium",
       "audited": "2026-10-24",
-      "scores": {"correctness": 8.5, "tests": 7.5, "code": 9.0, "simplicity": 8.5, "browser_ux": 8.0},
+      "scores": {
+        "correctness": 8.5,
+        "tests": 7.5,
+        "code": 9.0,
+        "simplicity": 8.5,
+        "browser_ux": 8.0
+      },
       "bugs": [
         {
           "severity": "minor",
           "title": "No perfect-clear bonus under the benchmark scoring profile",
-          "detail": "Fill row 21 except columns 3–6 and hard drop a horizontal I at x=3,y=20 with zero travel. One row clears and the entire field becomes empty, but score is 100 rather than the benchmark expectation of 900. Full/mini spins, B2B and combo scoring pass their independent fixtures."
+          "detail": "Fill row 21 except columns 3\u20136 and hard drop a horizontal I at x=3,y=20 with zero travel. One row clears and the entire field becomes empty, but score is 100 rather than the benchmark expectation of 900. Full/mini spins, B2B and combo scoring pass their independent fixtures."
         },
         {
           "severity": "minor",
@@ -365,7 +479,7 @@
         {
           "severity": "minor",
           "title": "Supporting state is clipped on a phone-sized viewport",
-          "detail": "At 390×844, document width is 485 px and the 580 px canvas begins at x=-95. The 300×600 board fits at x=45, but hold begins at x=-75 and next/stats at x=365, leaving supporting state clipped."
+          "detail": "At 390\u00d7844, document width is 485 px and the 580 px canvas begins at x=-95. The 300\u00d7600 board fits at x=45, but hold begins at x=-75 and next/stats at x=365, leaving supporting state clipped."
         }
       ],
       "summary": "Full/mini spins, B2B and combos work; no perfect-clear bonus, soft-drop jump and clipped sidebars"
@@ -373,7 +487,13 @@
     {
       "run_id": "claude-sonnet-5-5-high",
       "audited": "2026-10-24",
-      "scores": {"correctness": 9.0, "tests": 8.0, "code": 9.0, "simplicity": 8.0, "browser_ux": 8.5},
+      "scores": {
+        "correctness": 9.0,
+        "tests": 8.0,
+        "code": 9.0,
+        "simplicity": 8.0,
+        "browser_ux": 8.5
+      },
       "bugs": [
         {
           "severity": "minor",
@@ -383,7 +503,7 @@
         {
           "severity": "minor",
           "title": "Supporting state is clipped on a phone-sized viewport",
-          "detail": "At 390×844, document width is 496 px and the 602 px canvas border box begins at x=-106. The 300×600 board fits at x=45, but hold/stats begin at x=-85 and next at x=365, clipping supporting state."
+          "detail": "At 390\u00d7844, document width is 496 px and the 602 px canvas border box begins at x=-106. The 300\u00d7600 board fits at x=45, but hold/stats begin at x=-85 and next at x=365, clipping supporting state."
         }
       ],
       "summary": "Broad rules and timing tests; soft-drop jump and clipped phone sidebars"
@@ -391,7 +511,13 @@
     {
       "run_id": "claude-sonnet-5-5-xhigh",
       "audited": "2026-10-24",
-      "scores": {"correctness": 9.5, "tests": 8.5, "code": 9.0, "simplicity": 8.0, "browser_ux": 9.0},
+      "scores": {
+        "correctness": 9.5,
+        "tests": 8.5,
+        "code": 9.0,
+        "simplicity": 8.0,
+        "browser_ux": 9.0
+      },
       "bugs": [
         {
           "severity": "minor",
@@ -420,7 +546,7 @@
         {
           "severity": "minor",
           "title": "Supporting state is clipped on phones",
-          "detail": "At 390×844, document width is 543 px. The 300×600 board fits at x=35, but hold/stats start at x=−153 and next/controls at x=353; hold and next canvases start at x=−128 and x=388. The fixed side columns have no narrow-screen reflow."
+          "detail": "At 390\u00d7844, document width is 543 px. The 300\u00d7600 board fits at x=35, but hold/stats start at x=\u2212153 and next/controls at x=353; hold and next canvases start at x=\u2212128 and x=388. The fixed side columns have no narrow-screen reflow."
         }
       ],
       "summary": "Broad rules support; missing perfect-clear bonus and clipped phone sidebars"
@@ -454,12 +580,12 @@
         {
           "severity": "minor",
           "title": "A wholly hidden lock does not end the game",
-          "detail": "Spawn T with next I and stack cells (2,2),(3,3),(4,3). CW, CCW, then three left moves legally reach T rotation 0,x=0,y=0, wholly in hidden rows 0–1 and grounded. Zero-distance hard drop continues with an independently verified open I spawn; blocked-spawn top-out works."
+          "detail": "Spawn T with next I and stack cells (2,2),(3,3),(4,3). CW, CCW, then three left moves legally reach T rotation 0,x=0,y=0, wholly in hidden rows 0\u20131 and grounded. Zero-distance hard drop continues with an independently verified open I spawn; blocked-spawn top-out works."
         },
         {
           "severity": "minor",
           "title": "Supporting panels are clipped on phones",
-          "detail": "At 390×844, document width is 501 px. The 300×600 board fits at x=45 (304×604 frame at x=43), but hold canvas starts at x=−102 and next at x=372; supporting state is clipped."
+          "detail": "At 390\u00d7844, document width is 501 px. The 300\u00d7600 board fits at x=45 (304\u00d7604 frame at x=43), but hold canvas starts at x=\u2212102 and next at x=372; supporting state is clipped."
         }
       ],
       "summary": "Canonical core geometry; incomplete scoring, lock resets and soft timing, hidden lock-out and phone clipping"
@@ -478,7 +604,7 @@
         {
           "severity": "major",
           "title": "Non-I SRS kick offsets are incorrect",
-          "detail": "The third offset differs in 2→3, 3→2, 3→0 and 0→3 for every JLSTZ piece (20 table transitions). With T rotation 0 at (3,10) and blockers (4,12),(5,12), CCW produces rotation 3 at (3,8) instead of canonical (4,9)."
+          "detail": "The third offset differs in 2\u21923, 3\u21922, 3\u21920 and 0\u21923 for every JLSTZ piece (20 table transitions). With T rotation 0 at (3,10) and blockers (4,12),(5,12), CCW produces rotation 3 at (3,8) instead of canonical (4,9)."
         },
         {
           "severity": "major",
@@ -493,12 +619,12 @@
         {
           "severity": "minor",
           "title": "The phone layout clips the left side of the playfield",
-          "detail": "At 390×844, document width is 505 px. The fixed 620×600 canvas starts at x=−115 and its 280×560 board starts at x=−95, clipping 95 px of the playfield. On-screen buttons reflow, but the canvas does not."
+          "detail": "At 390\u00d7844, document width is 505 px. The fixed 620\u00d7600 canvas starts at x=\u2212115 and its 280\u00d7560 board starts at x=\u221295, clipping 95 px of the playfield. On-screen buttons reflow, but the canvas does not."
         },
         {
           "severity": "minor",
           "title": "Canvas legend overlaps the playfield and statistics",
-          "detail": "Renderer paints the legend at canvas x=184 with baselines y=544,560,576, inside the board rectangle x=20–300,y=20–580. The second line extends across the LINES statistic. Forwarded fillText bounds and desktop screenshots independently confirm the overlap."
+          "detail": "Renderer paints the legend at canvas x=184 with baselines y=544,560,576, inside the board rectangle x=20\u2013300,y=20\u2013580. The second line extends across the LINES statistic. Forwarded fillText bounds and desktop screenshots independently confirm the overlap."
         }
       ],
       "summary": "Incorrect kicks and incomplete advanced scoring; soft-drop jump, clipped phone board and overlaid legend"
@@ -522,7 +648,7 @@
         {
           "severity": "minor",
           "title": "A wholly hidden lock does not end the game",
-          "detail": "Spawn T with next I and stack cells (2,2),(3,3),(4,3). CW, CCW, then three left moves legally reach T rotation 0,x=0,y=0, wholly in hidden rows 0–1 and grounded. Zero-distance hard drop continues with an independently verified open I spawn; blocked-spawn top-out works."
+          "detail": "Spawn T with next I and stack cells (2,2),(3,3),(4,3). CW, CCW, then three left moves legally reach T rotation 0,x=0,y=0, wholly in hidden rows 0\u20131 and grounded. Zero-distance hard drop continues with an independently verified open I spawn; blocked-spawn top-out works."
         },
         {
           "severity": "minor",
@@ -532,7 +658,7 @@
         {
           "severity": "minor",
           "title": "Supporting panels are clipped on phones",
-          "detail": "At 390×844, document width is 537 px. The 300×600 board fits at x=45, but the hold canvas starts at x=−115 and next at x≈372.69, clipping supporting state."
+          "detail": "At 390\u00d7844, document width is 537 px. The 300\u00d7600 board fits at x=45, but the hold canvas starts at x=\u2212115 and next at x\u2248372.69, clipping supporting state."
         },
         {
           "severity": "minor",
@@ -566,7 +692,7 @@
         {
           "severity": "minor",
           "title": "A wholly hidden lock does not end the game",
-          "detail": "Spawn T with next I and stack cells (2,2),(3,3),(4,3). CW, CCW, then three left moves legally reach T rotation 0,x=0,y=0, wholly in hidden rows 0–1 and grounded. Zero-distance hard drop continues with an independently verified open I spawn; blocked-spawn top-out works."
+          "detail": "Spawn T with next I and stack cells (2,2),(3,3),(4,3). CW, CCW, then three left moves legally reach T rotation 0,x=0,y=0, wholly in hidden rows 0\u20131 and grounded. Zero-distance hard drop continues with an independently verified open I spawn; blocked-spawn top-out works."
         },
         {
           "severity": "minor",
@@ -581,7 +707,7 @@
         {
           "severity": "minor",
           "title": "Supporting panels are clipped on phones",
-          "detail": "At 390×844, document width is 502 px. The board content fits at x=45 (302×602 frame at x=44), but hold starts at x=−99 and next at x=375; hold, queue and stats are clipped."
+          "detail": "At 390\u00d7844, document width is 502 px. The board content fits at x=45 (302\u00d7602 frame at x=44), but hold starts at x=\u221299 and next at x=375; hold, queue and stats are clipped."
         }
       ],
       "summary": "Full spins, B2B and combos work; mini/PC gaps, hidden lock-out, two soft-drop defects and phone clipping"
@@ -605,7 +731,7 @@
         {
           "severity": "minor",
           "title": "A wholly hidden lock does not end the game",
-          "detail": "Spawn T with next I and stack cells (2,2),(3,3),(4,3). CW, CCW, then three left moves legally reach T rotation 0,x=0,y=0, wholly in hidden rows 0–1 and grounded. Zero-distance hard drop continues with an independently verified open I spawn; blocked-spawn top-out works."
+          "detail": "Spawn T with next I and stack cells (2,2),(3,3),(4,3). CW, CCW, then three left moves legally reach T rotation 0,x=0,y=0, wholly in hidden rows 0\u20131 and grounded. Zero-distance hard drop continues with an independently verified open I spawn; blocked-spawn top-out works."
         },
         {
           "severity": "minor",
@@ -615,7 +741,7 @@
         {
           "severity": "minor",
           "title": "Supporting panels are clipped on phones",
-          "detail": "At 390×844, document width is 515 px. The board content fits at x=45 (304×604 frame at x=43), but hold starts at x=−113 and next at x=363; supporting state is clipped."
+          "detail": "At 390\u00d7844, document width is 515 px. The board content fits at x=45 (304\u00d7604 frame at x=43), but hold starts at x=\u2212113 and next at x=363; supporting state is clipped."
         }
       ],
       "summary": "Hard drop erases spin credit; mini/PC gaps, hidden lock-out, soft-drop jump and phone clipping"
@@ -623,7 +749,13 @@
     {
       "run_id": "glm-5.3-flash-free-low",
       "audited": "2026-10-24",
-      "scores": {"correctness": 2.0, "tests": 3.5, "code": 8.5, "simplicity": 8.5, "browser_ux": 8.0},
+      "scores": {
+        "correctness": 2.0,
+        "tests": 3.5,
+        "code": 8.5,
+        "simplicity": 8.5,
+        "browser_ux": 8.0
+      },
       "bugs": [
         {
           "severity": "major",
@@ -661,7 +793,13 @@
     {
       "run_id": "glm-5.3-flash-free-high",
       "audited": "2026-10-24",
-      "scores": {"correctness": 7.5, "tests": 7.0, "code": 9.0, "simplicity": 8.5, "browser_ux": 8.5},
+      "scores": {
+        "correctness": 7.5,
+        "tests": 7.0,
+        "code": 9.0,
+        "simplicity": 8.5,
+        "browser_ux": 8.5
+      },
       "bugs": [
         {
           "severity": "minor",
@@ -694,7 +832,13 @@
     {
       "run_id": "glm-5.3-flash-free-max",
       "audited": "2026-10-24",
-      "scores": {"correctness": 8.0, "tests": 7.5, "code": 9.0, "simplicity": 8.0, "browser_ux": 9.0},
+      "scores": {
+        "correctness": 8.0,
+        "tests": 7.5,
+        "code": 9.0,
+        "simplicity": 8.0,
+        "browser_ux": 9.0
+      },
       "bugs": [
         {
           "severity": "major",
@@ -814,7 +958,7 @@
       "bugs": [
         {
           "severity": "major",
-          "title": "Fifteen non-I/O rotation states use a 4×4 pivot instead of SRS",
+          "title": "Fifteen non-I/O rotation states use a 4\u00d74 pivot instead of SRS",
           "detail": "The independent 28-state oracle fails J/L/S/T/Z rotations 1, 2 and 3. Every non-O piece rotates with [3-y,x], although these five pieces require [2-y,x]. The kick offsets are canonical but cannot repair the incorrect basic orientations."
         },
         {
@@ -835,7 +979,7 @@
         {
           "severity": "minor",
           "title": "The phone layout hides the hold display",
-          "detail": "At 390×844 the board fits at x=77 with size 300×600 and document width 390, but #hold has display:none and zero bounds. This is one responsive supporting-state defect."
+          "detail": "At 390\u00d7844 the board fits at x=77 with size 300\u00d7600 and document width 390, but #hold has display:none and zero bounds. This is one responsive supporting-state defect."
         }
       ],
       "summary": "Wrong SRS pivots, basic-only scoring and gravity; erased next previews and hidden phone hold"
@@ -858,7 +1002,7 @@
         },
         {
           "severity": "major",
-          "title": "Fifteen non-I/O rotation states use a 4×4 pivot instead of SRS",
+          "title": "Fifteen non-I/O rotation states use a 4\u00d74 pivot instead of SRS",
           "detail": "The independent 28-state oracle fails J/L/S/T/Z rotations 1, 2 and 3. Every non-O piece rotates with [3-y,x], although these five pieces require [2-y,x]. The kick offsets are canonical but cannot repair the incorrect basic orientations."
         },
         {
@@ -874,7 +1018,7 @@
         {
           "severity": "minor",
           "title": "The static phone layout removes the next queue",
-          "detail": "At 390×844 the unchanged HTML/CSS has document width 390 and a 300×600 board at x=79, but .right-rail is display:none and #next has zero bounds. The static diagnostic is not a gameplay pass."
+          "detail": "At 390\u00d7844 the unchanged HTML/CSS has document width 390 and a 300\u00d7600 board at x=79, but .right-rail is display:none and #next has zero bounds. The static diagnostic is not a gameplay pass."
         }
       ],
       "summary": "Does not build or start; diagnostic source has wrong SRS, scoring and gravity"
@@ -937,7 +1081,7 @@
         {
           "severity": "minor",
           "title": "A wholly hidden lock does not end the game",
-          "detail": "From the real T spawn (3,0), stack (2,2),(3,3),(4,3); CW, CCW, three left moves reach a grounded T wholly in hidden rows 0–1. The incoming I spawn is independently open. Zero-travel hard drop leaves gameOver=false; lockPiece only tests y<0, not the hidden-row boundary at 2."
+          "detail": "From the real T spawn (3,0), stack (2,2),(3,3),(4,3); CW, CCW, three left moves reach a grounded T wholly in hidden rows 0\u20131. The incoming I spawn is independently open. Zero-travel hard drop leaves gameOver=false; lockPiece only tests y<0, not the hidden-row boundary at 2."
         },
         {
           "severity": "minor",
@@ -947,7 +1091,7 @@
         {
           "severity": "minor",
           "title": "The phone stylesheet hides the entire next queue",
-          "detail": "At 390×844, the board fits at x=13 with size 249×498 and hold remains visible, but .right-column has display:none and all five next canvases have zero bounds. Desktop previews work."
+          "detail": "At 390\u00d7844, the board fits at x=13 with size 249\u00d7498 and hold remains visible, but .right-column has display:none and all five next canvases have zero bounds. Desktop previews work."
         }
       ],
       "summary": "Wrong I kick and gravity; hidden lock-out, B2B perfect-clear and phone next gaps"
@@ -986,7 +1130,7 @@
         {
           "severity": "minor",
           "title": "Phone next previews are painted at obsolete widths and squashed",
-          "detail": "At 390×844, adding the five flex queue items one at a time paints backing widths 310/155/103/77/61 px, but every final canvas is about 61.2 px wide. Five identical I previews paint CSS widths about 13.03/26.46/39.81/40.54/35.12 px, with inconsistent block aspect ratios. paintQueue caches these drawings after sibling insertion shrinks the earlier canvases; desktop widths are stable."
+          "detail": "At 390\u00d7844, adding the five flex queue items one at a time paints backing widths 310/155/103/77/61 px, but every final canvas is about 61.2 px wide. Five identical I previews paint CSS widths about 13.03/26.46/39.81/40.54/35.12 px, with inconsistent block aspect ratios. paintQueue caches these drawings after sibling insertion shrinks the earlier canvases; desktop widths are stable."
         }
       ],
       "summary": "Wrong I kicks; B2B perfect-clear, stale soft-drop spin, timing and phone preview defects"
@@ -994,7 +1138,13 @@
     {
       "run_id": "claude-haiku-5-5-low",
       "audited": "2026-10-24",
-      "scores": {"correctness": 9.0, "tests": 6.0, "code": 9.0, "simplicity": 8.5, "browser_ux": 8.0},
+      "scores": {
+        "correctness": 9.0,
+        "tests": 6.0,
+        "code": 9.0,
+        "simplicity": 8.5,
+        "browser_ux": 8.0
+      },
       "bugs": [
         {
           "severity": "minor",
@@ -1012,7 +1162,13 @@
     {
       "run_id": "claude-haiku-5-5-medium",
       "audited": "2026-10-24",
-      "scores": {"correctness": 8.0, "tests": 5.5, "code": 9.0, "simplicity": 8.5, "browser_ux": 8.5},
+      "scores": {
+        "correctness": 8.0,
+        "tests": 5.5,
+        "code": 9.0,
+        "simplicity": 8.5,
+        "browser_ux": 8.5
+      },
       "bugs": [
         {
           "severity": "minor",
@@ -1022,7 +1178,7 @@
         {
           "severity": "minor",
           "title": "Wholly hidden locks continue play or throw above the allocated board",
-          "detail": "From actual T spawn with next I and blockers (2,2),(3,3),(4,3), public CW/CCW reaches rotation 0,x=2,y=0. Zero-distance hard drop locks entirely in hidden rows 0–1 but gameOver stays false and I spawns. A second fixture with only blockers (0,2),(2,3), then Left,Left,CW,CW,CCW,Left reaches legal T rotation 1,x=-1,y=-1. Space throws TypeError: Cannot set properties of undefined (setting '0'), because lockPiece writes board[-1]; R remains inert. Engine and real Chromium keys confirm this second manifestation of the same unsafe hidden-lock handling, charged once."
+          "detail": "From actual T spawn with next I and blockers (2,2),(3,3),(4,3), public CW/CCW reaches rotation 0,x=2,y=0. Zero-distance hard drop locks entirely in hidden rows 0\u20131 but gameOver stays false and I spawns. A second fixture with only blockers (0,2),(2,3), then Left,Left,CW,CW,CCW,Left reaches legal T rotation 1,x=-1,y=-1. Space throws TypeError: Cannot set properties of undefined (setting '0'), because lockPiece writes board[-1]; R remains inert. Engine and real Chromium keys confirm this second manifestation of the same unsafe hidden-lock handling, charged once."
         },
         {
           "severity": "minor",
@@ -1032,7 +1188,7 @@
         {
           "severity": "minor",
           "title": "Supporting panels are clipped on phones",
-          "detail": "At 390×844, document width is 521 px. The 304×604 board border box fits at x=43, but hold is at x=-131 with width 124, and next starts at x=371 with width 124. The hold/legend rail is off the left edge and most previews/scores overflow right. The fixed 652 px centered layout has no narrow-screen reflow; desktop is usable."
+          "detail": "At 390\u00d7844, document width is 521 px. The 304\u00d7604 board border box fits at x=43, but hold is at x=-131 with width 124, and next starts at x=371 with width 124. The hold/legend rail is off the left edge and most previews/scores overflow right. The fixed 652 px centered layout has no narrow-screen reflow; desktop is usable."
         }
       ],
       "summary": "Hidden locks continue or crash; B2B perfect-clear under-award, soft-drop jump and phone sidebar clipping"
@@ -1391,7 +1547,7 @@
         {
           "severity": "minor",
           "title": "The phone layout clips the next panel",
-          "detail": "At 390×844, document width is 413 px. The board fits at x=105 with size 202.8×405.59, but next starts at x=320.8 and ends at 400.8; its panel extends further."
+          "detail": "At 390\u00d7844, document width is 413 px. The board fits at x=105 with size 202.8\u00d7405.59, but next starts at x=320.8 and ends at 400.8; its panel extends further."
         },
         {
           "severity": "minor",
@@ -1450,7 +1606,7 @@
         {
           "severity": "minor",
           "title": "The phone layout clips the next panel",
-          "detail": "At 390×844, the transformed fixed cabinet creates a 513 px document. Board x=130.44,width=237.12 fits, but next begins at x=390.18,width=93.6 and is outside the viewport."
+          "detail": "At 390\u00d7844, the transformed fixed cabinet creates a 513 px document. Board x=130.44,width=237.12 fits, but next begins at x=390.18,width=93.6 and is outside the viewport."
         }
       ],
       "summary": "Text-only smoke test; generic kicks, basic scoring, gravity and lock timing fail; phone next clips"
@@ -1493,13 +1649,13 @@
         },
         {
           "severity": "minor",
-          "title": "Hold retains the outgoing piece’s gravity and lock counters",
+          "title": "Hold retains the outgoing piece\u2019s gravity and lock counters",
           "detail": "After 800 ms of normal time, C replaces the active piece but its first row falls only 200 ms later. Separately, fifteen old-piece grounded moves at 10 ms intervals, C, manual descent, 490 ms grounded wait, Right and 20 ms lock the replacement because the exhausted reset allowance is inherited."
         },
         {
           "severity": "minor",
           "title": "The phone stylesheet removes the hold display",
-          "detail": "At 390×844 the 260×520 board and five textual next entries fit, but .side.left is display:none and #hold has zero bounds. The complete held-piece state is unavailable on the phone."
+          "detail": "At 390\u00d7844 the 260\u00d7520 board and five textual next entries fit, but .side.left is display:none and #hold has zero bounds. The complete held-piece state is unavailable on the phone."
         }
       ],
       "summary": "Inverted vertical kicks and incomplete scoring; slow high-level gravity, refresh, hold-clock and phone gaps"
@@ -1582,7 +1738,7 @@
         {
           "severity": "minor",
           "title": "The fixed phone cabinet clips hold, stats and next",
-          "detail": "At 390×844 document width is 503 px. The 304×604 board fits at x=43, but hold begins at x=-104 and next at x=372, each 120 px wide. The supporting panels are clipped; desktop previews are complete."
+          "detail": "At 390\u00d7844 document width is 503 px. The 304\u00d7604 board fits at x=43, but hold begins at x=-104 and next at x=372, each 120 px wide. The supporting panels are clipped; desktop previews are complete."
         }
       ],
       "summary": "Canonical core and broad smoke coverage; advanced scoring, soft timing, reset-cap and phone layout gaps"
@@ -1616,7 +1772,7 @@
         {
           "severity": "minor",
           "title": "The fixed phone cabinet clips hold, stats and next",
-          "detail": "At 390×844 document width is 516 px. The 302×602 board fits at x=44, but hold begins at x=-106 and next at x=366, both 130 px wide. Supporting state and part of the legend are outside the initial viewport."
+          "detail": "At 390\u00d7844 document width is 516 px. The 302\u00d7602 board fits at x=44, but hold begins at x=-106 and next at x=366, both 130 px wide. Supporting state and part of the legend are outside the initial viewport."
         }
       ],
       "summary": "Canonical SRS and timed full/mini spins; hard-drop/PC scoring, soft timing, partial lock-out and phone gaps"
@@ -1796,12 +1952,12 @@
         {
           "severity": "minor",
           "title": "A wholly hidden legal lock does not end the game",
-          "detail": "From actual T spawn at field (3,-2), inject only stack (7,0), move right four times and hard-drop zero rows. T locks at (7,-2), wholly in hidden native rows 0–1; the incoming I at (3,-2) is independently open, but phase remains playing. lockPiece checks cells above the allocated array rather than the visible-field boundary."
+          "detail": "From actual T spawn at field (3,-2), inject only stack (7,0), move right four times and hard-drop zero rows. T locks at (7,-2), wholly in hidden native rows 0\u20131; the incoming I at (3,-2) is independently open, but phase remains playing. lockPiece checks cells above the allocated array rather than the visible-field boundary."
         },
         {
           "severity": "minor",
           "title": "The phone next preview is stretched non-uniformly",
-          "detail": "At 390×844 the 164×388 next backing is displayed at 77.21875×260 CSS pixels. Its cell width/height ratio is 0.702647, so square blocks become visibly tall rectangles. The phone min-height:260px overrides proportional height. All five previews are painted within the backing; desktop next, held preview and board scale uniformly, and phone panels remain reachable."
+          "detail": "At 390\u00d7844 the 164\u00d7388 next backing is displayed at 77.21875\u00d7260 CSS pixels. Its cell width/height ratio is 0.702647, so square blocks become visibly tall rectangles. The phone min-height:260px overrides proportional height. All five previews are painted within the backing; desktop next, held preview and board scale uniformly, and phone panels remain reachable."
         }
       ],
       "summary": "Canonical SRS, gravity and responsive controls; mini/PC scoring, landing lock time, hidden lock-out and stretched phone next fail"
@@ -2414,7 +2570,7 @@
         {
           "severity": "minor",
           "title": "A legal wholly hidden lock continues play",
-          "detail": "Stack only(0,0), real T spawn(3,-2), Left×3 reaches grounded r0,(0,-2), wholly hidden. Incoming I is independently open. Zero-travel hard drop welds T and spawns I with status=playing instead of game over. Node and real Chromium keys agree. Partial visible locks correctly continue; blocked spawn works."
+          "detail": "Stack only(0,0), real T spawn(3,-2), Left\u00d73 reaches grounded r0,(0,-2), wholly hidden. Incoming I is independently open. Zero-travel hard drop welds T and spawns I with status=playing instead of game over. Node and real Chromium keys agree. Partial visible locks correctly continue; blocked spawn works."
         },
         {
           "severity": "minor",
@@ -2628,7 +2784,7 @@
         {
           "severity": "major",
           "title": "Spin and perfect-clear scoring are absent and B2B is incorrect",
-          "detail": "Real rotated full/mini zero/single locks score0/100 instead of400/800 or100/200; full double300 instead of1200. PC1–4 give100/300/500/800 instead of900/1500/2300/2800. Consecutive Tetrises total2100 instead of2050; Tetris/no-clear/Tetris1600 instead of2000. Triples incorrectly count as difficult, with extra50-per-streak bonuses. One grouped scoring major, following Qwen Max xhigh."
+          "detail": "Real rotated full/mini zero/single locks score0/100 instead of400/800 or100/200; full double300 instead of1200. PC1\u20134 give100/300/500/800 instead of900/1500/2300/2800. Consecutive Tetrises total2100 instead of2050; Tetris/no-clear/Tetris1600 instead of2000. Triples incorrectly count as difficult, with extra50-per-streak bonuses. One grouped scoring major, following Qwen Max xhigh."
         },
         {
           "severity": "minor",
@@ -2658,7 +2814,7 @@
         {
           "severity": "minor",
           "title": "The phone layout clips the playfield",
-          "detail": "At390×844 document width443; board x=-53,width300 and panel x263,width180. The fixed496px cabinet clips53px from the field and extends right. Desktop fits. One layout deduction."
+          "detail": "At390\u00d7844 document width443; board x=-53,width300 and panel x263,width180. The fixed496px cabinet clips53px from the field and extends right. Desktop fits. One layout deduction."
         }
       ],
       "summary": "I geometry and kick tables are not canonical SRS; Spin and perfect-clear scoring are absent and B2B is incorrect; Landing frames shorten lock delay; Reset-cap handling forces early locks and keeps spent resets at a lower row; The ceiling rejects legal upward SRS kicks; Restart reuses a partial old bag; Space and movement still alter a paused game; The phone layout clips the playfield"
@@ -2706,7 +2862,7 @@
         {
           "severity": "minor",
           "title": "Perfect-clear bonuses are absent",
-          "detail": "PC1–4 give100/300/500/800 instead of900/1500/2300/2800, and PC at a level crossing gives100 instead of900. One bonus omission."
+          "detail": "PC1\u20134 give100/300/500/800 instead of900/1500/2300/2800, and PC at a level crossing gives100 instead of900. One bonus omission."
         },
         {
           "severity": "minor",
@@ -2736,7 +2892,7 @@
         {
           "severity": "minor",
           "title": "The phone page overflows horizontally",
-          "detail": "At390×844 document width407; the canvas x24,width358.8 remains inside the viewport, but layout padding/help produce17px horizontal overflow. Supporting text is cut at the initial viewport. Distinct from max/low clipping the actual well."
+          "detail": "At390\u00d7844 document width407; the canvas x24,width358.8 remains inside the viewport, but layout padding/help produce17px horizontal overflow. Supporting text is cut at the initial viewport. Distinct from max/low clipping the actual well."
         }
       ],
       "summary": "Spin history and fifth-kick mini promotion are incorrect; Perfect-clear bonuses are absent; A no-clear lock breaks B2B; Landing frames shorten lock delay; Reaching a lower row does not restore spent lock resets; The ceiling rejects legal upward SRS kicks; Restart reuses a partial old bag; The phone page overflows horizontally"
@@ -2760,7 +2916,7 @@
         {
           "severity": "minor",
           "title": "Back-to-back mini and perfect-clear bonuses are under-awarded",
-          "detail": "Two actual mini singles: second250 instead of350 including combo. Tetris/no-clear/Tetris-PC totals4000 instead of5200: final award3200 instead of4400. Ordinary B2B, normal PC1–4 and pre-clear PC crossing pass. Related B2B bonus edges grouped once."
+          "detail": "Two actual mini singles: second250 instead of350 including combo. Tetris/no-clear/Tetris-PC totals4000 instead of5200: final award3200 instead of4400. Ordinary B2B, normal PC1\u20134 and pre-clear PC crossing pass. Related B2B bonus edges grouped once."
         },
         {
           "severity": "minor",
@@ -2814,7 +2970,7 @@
         {
           "severity": "minor",
           "title": "Perfect-clear bonuses are absent",
-          "detail": "PC1–4 give100/300/500/800 instead of900/1500/2300/2800; B2B-PC total2000 instead of5200. Ordinary B2B/no-clear continuity pass."
+          "detail": "PC1\u20134 give100/300/500/800 instead of900/1500/2300/2800; B2B-PC total2000 instead of5200. Ordinary B2B/no-clear continuity pass."
         },
         {
           "severity": "minor",
@@ -2839,7 +2995,7 @@
         {
           "severity": "minor",
           "title": "The phone layout clips the playfield",
-          "detail": "At390×844 the430px canvas begins x=-20 and document width434; the left well and control text are clipped. Desktop fits. One responsive-layout deduction."
+          "detail": "At390\u00d7844 the430px canvas begins x=-20 and document width434; the left well and control text are clipped. Desktop fits. One responsive-layout deduction."
         },
         {
           "severity": "minor",
@@ -2848,6 +3004,338 @@
         }
       ],
       "summary": "Three I kick transitions are not SRS; Line and spin base points do not scale with level; Perfect-clear bonuses are absent; Spin history and corner/kick classification are incorrect; Airborne moves spend resets and a lower row keeps them; Hidden locks discard cells and continue play; Hard drop still changes a terminal game; The phone layout clips the playfield; Held preview overlaps its label"
+    },
+    {
+      "run_id": "hy4-flash-free-high",
+      "audited": "2026-11-16",
+      "scores": {
+        "correctness": 5.5,
+        "tests": 7.0,
+        "code": 9.0,
+        "simplicity": 8.5,
+        "browser_ux": 7.5
+      },
+      "bugs": [
+        {
+          "severity": "major",
+          "title": "Pieces spawn twenty hidden rows above the playfield",
+          "detail": "PIECES spawnY=0 is used with HIDDEN_ROWS=20. Fresh-game cells are at visible y=-20/-19; normal level-one gravity takes about 19 seconds before any cell appears. The initial Chromium screenshots show only the ghost, and every subsequent spawn repeats the delay."
+        },
+        {
+          "severity": "major",
+          "title": "T-spins and perfect-clear bonuses are absent, and a no-clear breaks B2B",
+          "detail": "Real final-rotation zero-distance and timed mini/full locks award 0 rather than 100/400. PC single/double/triple/Tetris award 100/300/500/800 rather than 900/1500/2300/2800. Two non-PC Tetrises separated by a no-clear give a second 800 rather than 1200. Related advanced-scoring omissions are grouped once; ordinary clears, drop points and combos work."
+        },
+        {
+          "severity": "minor",
+          "title": "Landing frames discard remaining lock-delay time",
+          "detail": "An O one row above the floor updated by 1100 ms lands with lockMs=0 rather than 100. The equivalent <=16 ms progression retains 92 ms. Already-grounded 499/500 ms locking passes; contact timing depends on frame partition."
+        },
+        {
+          "severity": "minor",
+          "title": "Lock-reset allowance is consumed in air and retained at lower rows",
+          "detail": "Sixteen successful alternating horizontal moves in air spend all 15 lock resets. Descent to the floor does not restore them: after 450 ms contact, a legal move and another 60 ms lock the piece instead of granting a fresh 500 ms delay. An additional real ledge descent after exhausting fifteen grounded actions also retains the spent allowance at a genuinely lower floor. Two support cells remain plus four locked O minos after 400ms, move, 120ms, instead of keeping the O active. Both manifestations share one reset-state deduction."
+        },
+        {
+          "severity": "minor",
+          "title": "The phone layout clips the left of the playfield",
+          "detail": "At 390x844 document width is 453 px and the 304px-wide board begins at x=-39. Its left columns and the right support panel are clipped. Desktop controls also extend below the initial 800px viewport; the numeric phone clipping is the presentation deduction."
+        }
+      ],
+      "summary": "Canonical SRS; off-screen spawns, missing spin/PC scoring, contact/reset timing and clipped phone field"
+    },
+    {
+      "run_id": "qwen4-max-high",
+      "audited": "2026-11-16",
+      "scores": {
+        "correctness": 7.0,
+        "tests": 8.0,
+        "code": 9.0,
+        "simplicity": 8.5,
+        "browser_ux": 8.5
+      },
+      "bugs": [
+        {
+          "severity": "minor",
+          "title": "A travelling hard drop retains old spin credit",
+          "detail": "HD-SPIN-1 real CW T rotation at (0,3), ghost (0,17), then a fourteen-row hard drop scores 128 rather than 28. Zero-travel mini/full controls correctly score 100/400. Node and both actual-key Chromium views agree."
+        },
+        {
+          "severity": "minor",
+          "title": "Landing frames charge airborne time to lock delay",
+          "detail": "An O one row above the floor updated by 1100 ms locks immediately, although only 100 ms of the 500ms delay has elapsed since landing. Fine stepping leaves it on the floor with 108 ms on the clock; the whole landing frame is charged."
+        },
+        {
+          "severity": "minor",
+          "title": "Soft-drop entry spends old normal-gravity time",
+          "detail": "After 900 ms normal accumulation, entering soft drop for 1 ms moves the T fifteen rows, rather than at most one. The same jump occurs through real ArrowDown at both browser sizes."
+        },
+        {
+          "severity": "minor",
+          "title": "Legal above-buffer locking discards a mino",
+          "detail": "A vertical I at visible (-2,-3), occupying column 0, rests on a support at (0,1). Zero hard drop stores only three I minos plus the support instead of four minos plus support, while continuing play; collision permits the above-storage cell but lock drops it."
+        },
+        {
+          "severity": "minor",
+          "title": "Restart retains a partially consumed bag",
+          "detail": "After three actual drops, restart and the next seven actual dealt pieces contain duplicates in all 20 deterministic seeds. restart clears the preview queue but retains its readonly Bag. A real R restart also reproduces duplicated openings in Chromium."
+        },
+        {
+          "severity": "minor",
+          "title": "The fixed phone cabinet clips the supporting panels",
+          "detail": "At 390x844 document width is 539 px. The board fits at x=45, but hold is at x=-98 and next at x=392, beyond the initial viewport. Desktop panels and previews fit."
+        }
+      ],
+      "summary": "Canonical SRS and full scoring; stale hard-drop spin, soft/contact clocks, buffer loss, restart bag and phone panels"
+    },
+    {
+      "run_id": "qwen4-max-low",
+      "audited": "2026-11-16",
+      "scores": {
+        "correctness": 6.0,
+        "tests": 7.0,
+        "code": 9.0,
+        "simplicity": 8.5,
+        "browser_ux": 8.0
+      },
+      "bugs": [
+        {
+          "severity": "minor",
+          "title": "Hard and soft translations retain old spin credit",
+          "detail": "HD-SPIN-1 travel scores 128 rather than 28; fourteen real soft-drop rows followed by a timed lock score 114 rather than 14. Zero-travel mini/full controls score 100/400. Both manifestations are grouped as one spin-history finding."
+        },
+        {
+          "severity": "minor",
+          "title": "Landing frames discard remaining lock-delay time",
+          "detail": "A one-row-above-floor O updated by 1100 ms retains zero lock time rather than 100 ms. Fine stepping retains 92 ms; timing begins only on a later update that starts grounded."
+        },
+        {
+          "severity": "minor",
+          "title": "Soft-drop entry consumes old normal-gravity time",
+          "detail": "After 900 ms of normal accumulation, a 1ms soft update moves a T fifteen rows. Real ArrowDown reproduces it in both Chromium views."
+        },
+        {
+          "severity": "minor",
+          "title": "High-level gravity is capped at one row per frame",
+          "detail": "At level 15 a free I falls six rows in 100 ms rather than fourteen from the Guideline curve. MIN_GRAVITY=1/60 seconds caps it at 60 rows/second, rather than allowing the faster curve/20G ceiling."
+        },
+        {
+          "severity": "minor",
+          "title": "Returning to an old lowest row renews spent lock resets",
+          "detail": "After fifteen grounded moves, a real floor kick up and reverse rotation let the T return to its previous lowest row. The descent resets lockResets to 0, even though no new lowest row was reached; a later move renews the delay when the spent allowance should force locking."
+        },
+        {
+          "severity": "minor",
+          "title": "A partially hidden lock ends the game prematurely",
+          "detail": "An O at visible (0,-1), supported at (0,1), has cells in the visible field and an unobstructed center spawn. Hard lock still sets gameover because Board.merge reports any hidden cell, rather than a wholly hidden lock."
+        },
+        {
+          "severity": "minor",
+          "title": "The phone canvas clips hold, controls and stats",
+          "detail": "At 390x844 the fixed 660x640 canvas is at x=-135 and document width is 525 px. The board fits, but its supporting panels and control legend are clipped; no responsive scale or reflow is applied."
+        },
+        {
+          "severity": "minor",
+          "title": "Stats labels and values overlap",
+          "detail": "The single-canvas renderer draws a 13px label at y+12 and a bold 20px value at y+24. Chromium text metrics show overlapping ink for SCORE/LEVEL/LINES (about 0.7-0.8 logical px on desktop and 2.6-3.0 on phone), also visible in the inspected screenshots."
+        }
+      ],
+      "summary": "Canonical SRS; spin history, gravity/soft/contact/reset timing, partial lock-out and clipped/overlapping HUD"
+    },
+    {
+      "run_id": "qwen4-max-xhigh",
+      "audited": "2026-11-16",
+      "scores": {
+        "correctness": 8.0,
+        "tests": 8.0,
+        "code": 9.0,
+        "simplicity": 8.5,
+        "browser_ux": 9.0
+      },
+      "bugs": [
+        {
+          "severity": "minor",
+          "title": "Spin credit is cleared on zero hard drops but retained after soft descent",
+          "detail": "Zero-distance hard drop after real rotation scores 0 for both mini/full instead of 100/400; equivalent timed locks correctly score 100/400. Conversely, fourteen manual soft-drop rows preserve stale rotation credit and a timed lock scores 114 rather than 14. These flag-history manifestations are grouped once. Travelling hard drop correctly scores 28."
+        },
+        {
+          "severity": "minor",
+          "title": "Soft-drop entry consumes earlier normal-gravity time",
+          "detail": "After 900 ms normal accumulation, entering soft drop for 1 ms moves a T fifteen rows, including through real browser ArrowDown. Mid-frame landing timing itself passes with exactly 100 ms retained."
+        },
+        {
+          "severity": "minor",
+          "title": "Above-buffer locking silently drops a mino",
+          "detail": "A legal vertical I at visible (-2,-3) locks on a support at (0,1), retaining only three I cells plus support. One cell above the two-row storage buffer is discarded while play continues."
+        },
+        {
+          "severity": "minor",
+          "title": "Restart reuses a partially consumed bag",
+          "detail": "After three actual drops, reset and the next seven actual pieces include duplicates in 19 of 20 deterministic seeds. reset clears the queue while retaining Bag. Real R restart produced duplicated openings in both inspected browser views."
+        }
+      ],
+      "summary": "Canonical SRS, correct landing clocks and fitting phone layout; spin history, soft-entry jump, buffer loss and restart bag"
+    },
+    {
+      "run_id": "hy4-flash-free-none",
+      "audited": "2026-11-16",
+      "scores": {
+        "correctness": 0.0,
+        "tests": 7.0,
+        "code": 9.0,
+        "simplicity": 8.5,
+        "browser_ux": 6.5
+      },
+      "bugs": [
+        {
+          "severity": "critical",
+          "title": "The delivered browser game cannot initialize",
+          "detail": "npm run build and all 19 Node tests pass. tsconfig emits CommonJS and index.html loads dist/main.js as a classic script. Both desktop and phone Chromium throw exports is not defined at main.js:2. Three 300x150 default canvases remain transparent after every required key and R. No loader or bundle is delivered."
+        },
+        {
+          "severity": "major",
+          "title": "The L counter-clockwise state is shifted away from the SRS origin",
+          "detail": "L state 3 uses [(1,0),(2,0),(1,1),(1,2)] instead of [(0,0),(1,0),(1,1),(1,2)]. The other L states retain canonical origins. This changes rotations and kick acceptance. The independent comparison records 32 mismatches in 672 rotations. All 48 ordered kick tables themselves agree."
+        },
+        {
+          "severity": "major",
+          "title": "T-spin and perfect-clear scoring are absent",
+          "detail": "Real rotated zero-travel mini/full hard and timed locks score 0 instead of 100/400. Perfect-clear single/double/triple/Tetris score 100/300/500/800 instead of 900/1500/2300/2800. These related omissions form one advanced-scoring group. Ordinary clears, drop points, combos and no-clear B2B continuation pass."
+        },
+        {
+          "severity": "minor",
+          "title": "Gravity is capped at one row per frame",
+          "detail": "gravityForLevel rounds to integer frames and clamps to one. At level 15 the unchanged engine falls six rows in 100ms instead of fourteen. This is a Node frame-tick diagnostic, separate from browser delivery."
+        },
+        {
+          "severity": "minor",
+          "title": "Lock-reset state is inverted in air and stays exhausted after descent",
+          "detail": "After a natural one-row fall the engine marks an airborne T grounded=true. One subsequent legal lateral action consumes a reset. Exhausting fifteen actions on a ledge and descending to a genuinely lower floor fails to restore the allowance, so a move after 400ms does not renew the 500ms delay. These reset-state manifestations are grouped once."
+        },
+        {
+          "severity": "minor",
+          "title": "Any occupied hidden row ends the game",
+          "detail": "An O at visible (0,-1), supported at (0,1), locks partly in the visible field with an unobstructed next spawn. isToppedOut still ends the game because it checks every hidden cell on the board. The wholly hidden control correctly ends play."
+        },
+        {
+          "severity": "minor",
+          "title": "Locking above the two-row buffer discards a mino",
+          "detail": "A legal vertical I at visible (-2,-3), supported at (0,1), locks only three I minos plus the support. Its fourth mino above storage is discarded. This storage defect is distinct from premature partial lock-out."
+        },
+        {
+          "severity": "minor",
+          "title": "Keyboard repeat remains held after window blur",
+          "detail": "Using the unchanged InputHandler with a diagnostic event sink, press ArrowLeft, blur, then tick twelve frames. The T continues from x=2 to x=0 without a new keydown. No blur listener clears the down/held sets. This Node input diagnostic cannot establish working browser input."
+        },
+        {
+          "severity": "minor",
+          "title": "The static phone layout overflows and clips its top",
+          "detail": "At 390x844 DPR2 the unmodified failed-delivery page has scrollWidth=438. Default 300px preview canvases overflow the 140px side panels, and vertical flex centering places the hold section above the reachable top. The browser UX score follows the established 6.5 static-presentation calibration."
+        }
+      ],
+      "summary": "CommonJS browser startup failure; shifted L rotation, absent spin/PC scoring, gravity/reset/top-out/storage/input defects and phone overflow"
+    },
+    {
+      "run_id": "gpt-6.2-sol-low",
+      "audited": "2026-11-17",
+      "scores": {
+        "correctness": 5.5,
+        "tests": 4.5,
+        "code": 8.5,
+        "simplicity": 9.5,
+        "browser_ux": 8
+      },
+      "bugs": [
+        {
+          "severity": "major",
+          "title": "Custom three/five-cell pieces and generic kicks replace tetrominoes/SRS",
+          "detail": "Kind0 has three cells and kinds1\u20136 have five; none of the 28 orientations can be a standard tetromino. All 48 diagnostic ordered candidate lists use nine generic offsets rather than SRS transition-specific I/JLSTZ tables. Actual hard drops weld three/five cells."
+        },
+        {
+          "severity": "major",
+          "title": "Advanced Guideline scoring is absent",
+          "detail": "No spin detector/history, perfect-clear bonus, combo or B2B state. Native empty-board two/three-row clears score 300/500 instead of 1500/2300; the second consecutive non-PC single adds100 instead of150. No delivered T or four-row piece exists; standard T-spin/Tetris fixtures are inexpressible, not passes."
+        },
+        {
+          "severity": "minor",
+          "title": "The field is 12 by 22",
+          "detail": "WIDTH12/HEIGHT22 govern storage, collision, line clearing and the visible board instead of standard10\u00d720. Both Chromium sizes confirm it."
+        },
+        {
+          "severity": "minor",
+          "title": "Spent lock clocks and resets survive descent to a new lowest row",
+          "detail": "Kind0 r0(0,12), supports(0,14),(1,14),15 alternating grounded moves,490ms, Right twice: lands8000ms after departure and locks8010 instead of8500. A lower-row control retains resets15;400ms, Right,100ms welds the triangle instead of granting a fresh delay. No airborne lock."
+        },
+        {
+          "severity": "minor",
+          "title": "A partially visible lock tops out before storing its cells",
+          "detail": "Kind0 r0(0,\u22121), support(0,1), zero-distance hard drop: bottom cell is visible, but any y<0 sets over=true before writing cells. Occupied count remains1. The wholly hidden control also tops out as expected; these are legal direct boundary setups."
+        }
+      ],
+      "summary": "Custom pieces/SRS, missing advanced scoring, wrong field and lock/buffer edges"
+    },
+    {
+      "run_id": "gpt-6.2-sol-medium",
+      "audited": "2026-11-17",
+      "scores": {
+        "correctness": 9,
+        "tests": 6.5,
+        "code": 9,
+        "simplicity": 9,
+        "browser_ux": 9
+      },
+      "bugs": [
+        {
+          "severity": "minor",
+          "title": "Perfect-clear bonuses are missing",
+          "detail": "Real grounded PC1/2/3/4 clears empty the board for100/300/500/800 instead of900/1500/2300/2800. At nine lines PC single gives100 not900; Tetris/no-clear/PC-Tetris totals2000 not5200. One absent-PC feature group."
+        },
+        {
+          "severity": "minor",
+          "title": "The fifteenth reset immediately locks the piece",
+          "detail": "Grounded I r0(4,18),100ms,15 alternating successful Right/Left actions: the fifteenth immediately welds four cells instead of granting500ms. Real desktop/phone keys agree. tryMove increments resets to15 and lockAtResetLimit locks; own test encodes this behavior."
+        }
+      ],
+      "summary": "Missing perfect-clear bonuses; fifteenth reset forces immediate lock"
+    },
+    {
+      "run_id": "gpt-6.2-sol-high",
+      "audited": "2026-11-17",
+      "scores": {
+        "correctness": 4.5,
+        "tests": 5.5,
+        "code": 9,
+        "simplicity": 9,
+        "browser_ux": 9
+      },
+      "bugs": [
+        {
+          "severity": "major",
+          "title": "Custom three/five-cell pieces and generic kicks replace tetrominoes/SRS",
+          "detail": "Beam/elbow have3 cells and hook/crown/switch/cross/kite have5; no four-cell tetromino exists. All28 diagnostic states and48 ordered lists differ. Cross is inert; others use a single generic nine-offset search in both directions."
+        },
+        {
+          "severity": "major",
+          "title": "Line and advanced scoring do not follow the Guideline",
+          "detail": "Non-PC1/2/3/4 scores100/400/900/1600 from100*rows\u00b2 rather than100/300/500/800. Empty-board PC1/3/4 gives100/900/1600 instead of900/2300/2800. Two four-row clears separated by no-clear total3200 instead of2000. No spin/PC/difficult B2B state; absent T means canonical spin fixtures cannot be expressed."
+        },
+        {
+          "severity": "major",
+          "title": "Gravity and level progression use different rules",
+          "detail": "Fresh level1 first drop occurs at860ms instead of1000, level2 at688 instead of793 and level10 at116 instead of65. Levels increase every6 cleared rows rather than10. The separate85ms high-level floor receives no extra deduction."
+        },
+        {
+          "severity": "minor",
+          "title": "Lock timing is shortened and retained at lower rows",
+          "detail": "450ms lock and only8 resets replace500ms/15. Beam(1,12), supports(0,13),(1,13),8 grounded alternating moves,440ms, Right twice: lands4300ms after leaving and locks4310, retaining stale440ms. New-lowest control retains8 spent resets;400ms, Right,100ms welds instead of resetting. These timer/reset variants share one minor."
+        },
+        {
+          "severity": "minor",
+          "title": "The field is 11 by 18",
+          "detail": "WIDTH11/HEIGHT18 drive storage, collision, full-row clearing and the visible grid rather than10\u00d720. Both browser views and the playfield label confirm the substitution."
+        }
+      ],
+      "summary": "Custom pieces/scoring/gravity; wrong field and shortened retained lock clocks"
     }
   ]
 }

@@ -1,12 +1,14 @@
 from __future__ import annotations
 
 import dataclasses
+import copy
 from contextlib import closing
 import json
 from pathlib import Path
 import sqlite3
 import tempfile
 import unittest
+from unittest import mock
 
 from scripts import benchmark, results_site
 
@@ -548,6 +550,15 @@ class T3CollectorTests(unittest.TestCase):
         self.assertIn('Excluded turn 2: started by the harness notification "Background task completed."',
                       benchmark.render_statistics(result))
 
+    def test_server_posted_background_command_notice_is_a_notification(self) -> None:
+        notice = {"notification": {"source": {"kind": "background_command"}, "outcome": "failed"},
+                  "createdBy": "agent", "creationSource": "server",
+                  "text": "Background command completed (exit 143): npm start"}
+        self.assertTrue(benchmark.t3_runs.is_notification(json.dumps(notice)))
+        person = {"createdBy": "user", "creationSource": "web", "text": "Read the README.md file and implement it"}
+        self.assertFalse(benchmark.t3_runs.is_notification(json.dumps(person)))
+        self.assertFalse(benchmark.t3_runs.is_notification(json.dumps({**person, "creationSource": "server"})))
+
     def test_claude_sdk_effective_effort_is_validated_from_matching_log(self) -> None:
         self.run.update({
             "harness": "t3_claude", "harness_label": "T3 Code / Claude Agent SDK",
@@ -852,6 +863,127 @@ class SiteTests(unittest.TestCase):
 
     def test_github_heading_anchor(self) -> None:
         self.assertEqual(results_site.github_slug("1. Opus 5.5 — 9.05"), "1-opus-55--905")
+
+
+
+class NativeReconciliationTests(unittest.TestCase):
+    """Native reconciliation is explicit and bound to one complete recorded session."""
+
+    def setUp(self) -> None:
+        T3CollectorTests.setUp(self)
+        self.native = self.home / 'opencode.db'
+        self.run['t3_native_usage_reconciliation'] = {
+            'source': 'opencode_sqlite_v2', 'session_id': self.run['session_id'],
+        }
+        self.model = {'id': self.run['model'], 'providerID': self.run['provider'], 'variant': 'xhigh'}
+        self.turn['turnTokenUsage']['usageStatus'] = 'partial'
+        T3CollectorTests.save_turn(self)
+        self.message = {'model': self.model, 'time': {'created': 1767225602000, 'completed': 1767225603900},
+                        'finish': 'stop', 'tokens': {'input': 30, 'output': 20, 'reasoning': 12,
+                                                   'cache': {'read': 80, 'write': 10}}}
+        with closing(sqlite3.connect(self.native)) as c, c:
+            c.executescript('''
+                CREATE TABLE session_v2 (id TEXT, directory TEXT, model TEXT, parent_id TEXT,
+                    fork_session_id TEXT, idle_outcome TEXT, tokens_input INTEGER, tokens_output INTEGER,
+                    tokens_reasoning INTEGER, tokens_cache_read INTEGER, tokens_cache_write INTEGER);
+                CREATE TABLE session_message (id TEXT, session_id TEXT, type TEXT, seq INTEGER, data TEXT);
+            ''')
+            c.execute('INSERT INTO session_v2 VALUES (?,?,?,?,?,?,?,?,?,?,?)',
+                      ('native-session', self.run['expected_cwd'], json.dumps(self.model), None,
+                       None, 'succeeded', 30, 20, 12, 80, 10))
+            c.execute('INSERT INTO session_message VALUES (?,?,?,?,?)',
+                      ('u', 'native-session', 'user', 1, json.dumps({'text': benchmark.t3_runs.PROMPT})))
+            c.execute('INSERT INTO session_message VALUES (?,?,?,?,?)',
+                      ('a', 'native-session', 'assistant', 2, json.dumps(self.message)))
+
+    def tearDown(self) -> None:
+        self.temporary.cleanup()
+
+    def reconcile(self):
+        return benchmark.reconcile_opencode_usage(
+            self.run, self.turn['turnTokenUsage'], 1767225601000, 1767225604000, self.native,
+        )
+
+    def save_message(self):
+        with closing(sqlite3.connect(self.native)) as c, c:
+            c.execute('UPDATE session_message SET data=? WHERE id="a"', (json.dumps(self.message),))
+
+    def test_exact_native_reconciliation_preserves_raw_status_and_collection(self):
+        evidence = self.reconcile()
+        self.assertEqual(evidence['total'], 140)
+        self.assertEqual(evidence['original_t3_usage_status'], 'partial')
+        original = benchmark.reconcile_opencode_usage
+        with mock.patch.object(benchmark, 'reconcile_opencode_usage',
+                               side_effect=lambda run, raw, start, end: original(run, raw, start, end, self.native)):
+            result = benchmark.collect_t3_opencode(self.run, self.home)
+        self.assertEqual(result.tested.total, 140)
+        self.assertEqual(result.raw_tested_events[0]['turnTokenUsage']['usageStatus'], 'partial')
+        report = benchmark.render_statistics(result)
+        self.assertIn('original T3 usageStatus remains partial', report)
+        self.assertIn('opencode_sqlite_v2', report)
+        benchmark.check_report_arithmetic(report, Path('native-report.md'))
+
+    def test_partial_usage_still_requires_explicit_reconciliation(self):
+        self.run.pop('t3_native_usage_reconciliation')
+        with self.assertRaises(benchmark.BenchmarkError):
+            benchmark.collect_t3_opencode(self.run, self.home)
+
+    def test_rejects_wrong_session_and_identity(self):
+        for field, value in [('directory', '/wrong'), ('model', '{}'), ('parent_id', 'parent'),
+                             ('fork_session_id', 'fork'), ('idle_outcome', 'failed')]:
+            with self.subTest(field=field), closing(sqlite3.connect(self.native)) as c:
+                previous = c.execute(f'SELECT {field} FROM session_v2').fetchone()[0]
+                with c: c.execute(f'UPDATE session_v2 SET {field}=?', (value,))
+                with self.assertRaises(benchmark.BenchmarkError): self.reconcile()
+                with c: c.execute(f'UPDATE session_v2 SET {field}=?', (previous,))
+        self.run['t3_native_usage_reconciliation']['session_id'] = 'other-session'
+        with self.assertRaises(benchmark.BenchmarkError): self.reconcile()
+
+    def test_rejects_message_model_mismatch(self):
+        self.message['model'] = {**self.model, 'variant': 'low'}
+        self.save_message()
+        with self.assertRaises(benchmark.BenchmarkError): self.reconcile()
+
+    def test_rejects_incomplete_error_missing_and_out_of_turn_records(self):
+        original = copy.deepcopy(self.message)
+        for mutate in [lambda m: m['time'].pop('completed'), lambda m: m.update(error={'name': 'overload'}),
+                       lambda m: m.pop('tokens'), lambda m: m.update(finish='tool-calls'),
+                       lambda m: m['time'].update(completed=1767225605000),
+                       lambda m: m['tokens'].update(input=-1), lambda m: m['tokens'].update(output=True)]:
+            self.message = copy.deepcopy(original)
+            mutate(self.message)
+            self.save_message()
+            with self.assertRaises(benchmark.BenchmarkError): self.reconcile()
+
+    def test_rejects_message_session_or_t3_token_mismatches(self):
+        self.message['tokens']['input'] += 1
+        self.save_message()
+        with self.assertRaisesRegex(benchmark.BenchmarkError, 'token mismatch'): self.reconcile()
+        self.message['tokens']['input'] -= 1
+        self.save_message()
+        with closing(sqlite3.connect(self.native)) as c, c:
+            c.execute('UPDATE session_v2 SET tokens_input=31')
+        with self.assertRaisesRegex(benchmark.BenchmarkError, 'token mismatch'): self.reconcile()
+        with closing(sqlite3.connect(self.native)) as c, c:
+            c.execute('UPDATE session_v2 SET tokens_input=30')
+        self.turn['turnTokenUsage']['cachedInputTokens'] += 1
+        with self.assertRaisesRegex(benchmark.BenchmarkError, 'token mismatch'): self.reconcile()
+
+    def test_rejects_multiple_native_prompts_and_children(self):
+        with closing(sqlite3.connect(self.native)) as c, c:
+            c.execute('INSERT INTO session_message VALUES (?,?,?,?,?)', ('u2', 'native-session', 'user', 3, '{}'))
+        with self.assertRaises(benchmark.BenchmarkError): self.reconcile()
+        with closing(sqlite3.connect(self.native)) as c, c:
+            c.execute('DELETE FROM session_message WHERE id="u2"')
+            c.execute('INSERT INTO session_v2 (id,parent_id) VALUES (?,?)', ('child', 'native-session'))
+        with self.assertRaises(benchmark.BenchmarkError): self.reconcile()
+
+    def test_rejects_other_harnesses_interruption_subagents_and_notifications(self):
+        for changes in [{'harness': 't3_codex'}, {'interrupted': {'reason': 'x'}},
+                        {'t3_subagents': [{}]}, {'t3_notification_turns': [{}]}]:
+            with self.subTest(changes=changes), self.assertRaises(benchmark.BenchmarkError):
+                benchmark.reconcile_opencode_usage({**self.run, **changes}, self.turn['turnTokenUsage'],
+                                                   1767225601000, 1767225604000, self.native)
 
 
 if __name__ == "__main__":

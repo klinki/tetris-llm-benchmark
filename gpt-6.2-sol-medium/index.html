@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f5f2eb">
+  <title>TetrisJS</title>
+  <link rel="icon" href="data:,">
+  <link rel="stylesheet" href="./styles.css">
+  <script type="module" src="./dist/main.js"></script>
+</head>
+<body>
+  <div class="shell">
+    <header class="masthead">
+      <div class="wordmark">
+        <span class="mark" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
+        <h1>Tetris<span>JS</span></h1>
+      </div>
+      <button type="button" id="session" class="session" aria-keyshortcuts="Escape" disabled>Pause</button>
+    </header>
+
+    <main class="game" aria-label="Tetris game">
+      <aside class="left">
+        <section class="panel scorecard" aria-label="Game statistics">
+          <h2>Score</h2>
+          <div id="score" class="score">0</div>
+          <dl>
+            <div><dt>Level</dt><dd id="level">01</dd></div>
+            <div><dt>Lines</dt><dd id="lines">00</dd></div>
+          </dl>
+        </section>
+        <section class="panel hold">
+          <h2>Hold <kbd>C</kbd></h2>
+          <div id="hold" class="hold-piece"></div>
+        </section>
+      </aside>
+
+      <section class="board-frame" aria-label="Playfield">
+        <canvas id="board" width="320" height="640" role="img" aria-label="10 by 20 falling-block playfield">Your browser needs canvas support to display the playfield.</canvas>
+        <div id="overlay" class="overlay">
+          <div class="overlay-card">
+            <h2 id="overlay-title">Ready to play?</h2>
+            <p id="overlay-detail">Stack the pieces and clear full rows.</p>
+            <button type="button" id="primary" class="primary">Start game <span aria-hidden="true">→</span></button>
+          </div>
+        </div>
+      </section>
+
+      <aside class="right">
+        <section class="panel next">
+          <h2>Next</h2>
+          <ol id="next" aria-label="Upcoming pieces"></ol>
+        </section>
+        <section class="panel controls">
+          <h2>Controls</h2>
+          <dl>
+            <div><dt>Move</dt><dd><kbd>←</kbd> <kbd>→</kbd></dd></div>
+            <div><dt>Rotate ↻</dt><dd><kbd>↑</kbd> <kbd>X</kbd></dd></div>
+            <div><dt>Rotate ↺</dt><dd><kbd>Z</kbd> <kbd>Left Ctrl</kbd></dd></div>
+            <div><dt>Soft drop</dt><dd><kbd>↓</kbd></dd></div>
+            <div><dt>Hard drop</dt><dd><kbd>Space</kbd></dd></div>
+            <div><dt>Hold</dt><dd><kbd>C</kbd></dd></div>
+            <div><dt>Restart</dt><dd><kbd>R</kbd></dd></div>
+          </dl>
+        </section>
+      </aside>
+
+      <div class="touch-controls" aria-label="On-screen controls">
+        <button type="button" data-action="left" aria-label="Move left">←</button>
+        <button type="button" data-action="soft" aria-label="Soft drop">↓</button>
+        <button type="button" data-action="right" aria-label="Move right">→</button>
+        <button type="button" data-action="ccw" aria-label="Rotate counterclockwise">↺</button>
+        <button type="button" data-action="cw" aria-label="Rotate clockwise">↻</button>
+        <button type="button" data-action="hold">Hold</button>
+        <button type="button" data-action="hard">Drop</button>
+      </div>
+      <p id="announcement" class="sr-only" role="status"></p>
+    </main>
+  </div>
+</body>
+</html>

@@ -13,7 +13,7 @@
     {"name": "DeepSeek", "tiers": ["Pro", "Flash"]},
     {"name": "Google", "tiers": ["Gemini"]},
     {"name": "Meituan", "tiers": ["LongCat"]},
-    {"name": "Tencent", "tiers": ["Hy"]},
+    {"name": "Tencent", "tiers": ["Hy", "Hy Flash"]},
     {"name": "NVIDIA", "tiers": ["Nemotron Ultra", "Nemotron Super"]},
     {"name": "Z.ai", "tiers": ["GLM", "GLM Flash"]},
     {"name": "Xiaomi", "tiers": ["MiMo Flash"]},
@@ -77,6 +77,14 @@
       "evidence": "official",
       "source": "https://developers.openai.com/api/docs/models/gpt-6.1-sol",
       "note": "Standard tier. Requests with more than 272K input tokens are billed at 2x input and cache rates and 1.5x output; T3 records only whole-turn totals, so the estimate is a lower bound."
+    },
+    "gpt-6.2-sol": {
+      "label": "GPT-6.2 Sol",
+      "family": "OpenAI", "tier": "Sol", "version": "6.2",
+      "prices": {"input": 2.00, "cache_read": 0.10, "cache_write": 2.50, "output": 10.00},
+      "evidence": "official",
+      "source": "https://developers.openai.com/api/docs/models/gpt-6.2-sol",
+      "note": "Standard tier, checked 2026-11-17. Requests with more than 272K input tokens are billed at 2x input and cache rates and 1.5x output; T3 records only whole-turn totals, so the estimate is a lower bound."
     },
     "gpt-6.1-terra": {
       "label": "GPT-6.1 Terra",
@@ -207,6 +215,23 @@
       "label": "Space Bunny",
       "family": "Unattributed", "tier": "Space Bunny", "version": "",
       "unpriced": "Anonymous stealth model offered free on OpenCode and OpenRouter; no public per-token price."
+    },
+    "qwen4-max": {
+      "label": "Qwen4 Max",
+      "family": "Alibaba", "tier": "Qwen Max", "version": "4",
+      "prices": {"input": 1.50, "cache_read": 0.075, "cache_write": 1.875, "output": 4.50},
+      "evidence": "official",
+      "source": "https://docs.qwencloud.com/developer-guides/getting-started/pricing",
+      "checked": "2026-11-16",
+      "note": "QwenCloud Singapore public API rates; cache writes use the default 5-minute rate. These match the OpenCode Go token rates and estimate paid API comparison cost, not subscription billing. No input-length price tiers apply."
+    },
+    "hy4-flash-free": {
+      "label": "Hy4 Flash",
+      "family": "Tencent", "tier": "Hy Flash", "version": "4",
+      "unpriced": "The selected OpenCode Go endpoint is free for a limited time. A comparable paid public API rate has not been verified; no paid-model comparison cost is assigned.",
+      "source": "https://opencode.ai/docs/console/go/",
+      "checked": "2026-11-16",
+      "note": "Runs select opencode-go/hy4-flash-free. Advertised free endpoint billing is separate from the benchmark public paid API comparison estimate."
     }
   }
 }

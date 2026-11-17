@@ -2,6 +2,45 @@
 
 This directory contains the reproducible, repository-safe parts of the audit behind [`RANKING.md`](../RANKING.md). Generated builds, copied `node_modules` trees, temporary web servers, browser profiles, and timestamped Playwright artifacts are intentionally excluded.
 
+## GPT-6.2 Sol — November 17, 2026
+
+The [independent GPT-6.1 Sol xhigh audit](gpt62-sol-review.md) scores
+**low6.55 / medium8.50 / high6.50**, in requested low→medium→high order.
+[Numeric evidence](gpt62-sol-evidence.json) includes all39 delivered hashes,
+actual native reviewer model/effort/session/thread provenance, locked builds,
+unchanged4/10/7 own passes,28 states/48 candidate lists/504 real rotations,
+100 real bags per effort, clocks/scoring/boundaries, real keys and six inspected
+Chromium screenshots. Low/high deliver custom polyominoes and cannot express
+canonical spin fixtures; medium passes HD-SPIN-1. All91 previous entries stay
+unchanged. Parent confirmation of completed review and run-project archival
+remain lifecycle steps; generation facts do not affect scoring.
+
+```sh
+python3 .audit/run-gpt62-sol-audit.py --offline
+```
+
+[Runner](run-gpt62-sol-audit.py), [engine fixtures](gpt62-sol-audit.mjs),
+[browser fixtures](gpt62-sol-browser.cjs). Options: `--effort`, `--engine-only`,
+`--review` (PTY screenshot inspection); `--record` intentionally refreshes evidence.
+Only copied low/medium port constants adapt; all copies, logs, PNGs and owned
+server/browser groups are cleaned. No delivery edits, commit, push or PR.
+
+## Hy4 Flash and Qwen4 Max — November 16
+
+The [cohort review](nov16-review.md) and [numeric evidence](nov16-results.json)
+cover all five imported runs, with native GPT-6.1 Sol xhigh subagent provenance.
+Fresh isolated builds and own suites pass. Hy4 Flash none has a confirmed
+CommonJS browser startup failure, with diagnostic engine results recorded
+separately. Its [native token reconciliation](nov16-native-usage.json) preserves
+the T3 partial flag. Shared fixtures, actual-key desktop/phone Chromium,
+screenshots, source hashes, scores and completed parent verification/project archival are
+recorded. The [additional reviewer probes](nov16-reviewer-extra.mjs) cover
+failed actions, lower-row resets and none's frame/input state.
+
+```sh
+python3 .audit/run-nov16-audit.py --offline
+```
+
 ## MiniMax M3.1 Flash — November12
 
 The [independent Sol xhigh review](minimax-m31-flash-review.md) audits all five

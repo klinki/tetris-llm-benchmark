@@ -978,6 +978,82 @@ def usage_from_t3(raw: dict[str, Any], has_subagents: bool = False, interrupted:
     return usage
 
 
+def reconcile_opencode_usage(
+    run: dict[str, Any], raw: dict[str, Any], start_ms: float, end_ms: float,
+    database: Path | None = None,
+) -> dict[str, Any]:
+    """Verify a completed single-turn session against read-only native v2 records."""
+    if not isinstance(raw, dict):
+        raise BenchmarkError("Unsupported T3 usage schema: expected an object")
+    declaration = run.get("t3_native_usage_reconciliation")
+    if declaration != {"source": "opencode_sqlite_v2", "session_id": run["session_id"]}:
+        raise BenchmarkError("Invalid native usage reconciliation declaration")
+    if (run["harness"] != "t3_opencode" or run.get("interrupted") or run.get("t3_subagents")
+            or run.get("t3_notification_turns") or raw.get("usageStatus") != "partial"):
+        raise BenchmarkError("Native reconciliation requires a completed single-turn OpenCode run with partial T3 usage")
+    # Validate every original field, without changing the source object or relaxing usage_from_t3.
+    expected = usage_from_t3({**raw, "usageStatus": "complete"})
+    database = database or Path.home() / ".local/share/opencode/opencode.db"
+    try:
+        with closing(sqlite3.connect(database.resolve().as_uri() + "?mode=ro", uri=True)) as connection:
+            connection.row_factory = sqlite3.Row
+            connection.execute("BEGIN")
+            session = connection.execute("SELECT * FROM session_v2 WHERE id=?", (run["session_id"],)).fetchone()
+            rows = connection.execute(
+                "SELECT id, type, seq, data FROM session_message WHERE session_id=? ORDER BY seq",
+                (run["session_id"],),
+            ).fetchall()
+            children = connection.execute("SELECT id FROM session_v2 WHERE parent_id=?", (run["session_id"],)).fetchall()
+        if session is None:
+            raise BenchmarkError("Native reconciliation session is missing")
+        model = {"id": run["model"], "providerID": run["provider"], "variant": run["reasoning_variant"]}
+        if (session["directory"] != run["expected_cwd"] or json.loads(session["model"]) != model
+                or session["parent_id"] or session["fork_session_id"] or children):
+            raise BenchmarkError("Native reconciliation identity mismatch or non-root session")
+        if session["idle_outcome"] != "succeeded":
+            raise BenchmarkError("Native reconciliation session did not succeed")
+        users = [row for row in rows if row["type"] == "user"]
+        if len(users) != 1 or json.loads(users[0]["data"]).get("text") != t3_runs.PROMPT:
+            raise BenchmarkError("Native reconciliation requires exactly one native user message")
+        assistants = []
+        totals = dict.fromkeys(["input", "output", "reasoning", "cache_read", "cache_write"], 0)
+        for row in rows:
+            if row["type"] != "assistant":
+                continue
+            message = json.loads(row["data"])
+            times = message["time"]
+            if (message.get("model") != model or message.get("error") or
+                    message.get("finish") not in {"tool-calls", "stop"} or
+                    not start_ms <= times["created"] <= times["completed"] <= end_ms):
+                raise BenchmarkError("Native reconciliation has incomplete, failed, out-of-turn or mismatched assistant records")
+            tokens = message["tokens"]
+            counts = {"input": tokens["input"], "output": tokens["output"], "reasoning": tokens["reasoning"],
+                      "cache_read": tokens["cache"]["read"], "cache_write": tokens["cache"]["write"]}
+            if any(type(value) is not int or value < 0 for value in counts.values()):
+                raise BenchmarkError("Native reconciliation has invalid token counts")
+            if counts["reasoning"] > counts["output"]:
+                raise BenchmarkError("Native reasoning must be a subset of output")
+            for key, value in counts.items():
+                totals[key] += value
+            assistants.append({"id": row["id"], "seq": row["seq"], "time": times,
+                               "finish": message["finish"], "tokens": counts})
+        if not assistants or [m["finish"] for m in assistants] != ["tool-calls"] * (len(assistants) - 1) + ["stop"]:
+            raise BenchmarkError("Native reconciliation requires all calls completed and a final stop")
+        if len({row["seq"] for row in rows}) != len(rows):
+            raise BenchmarkError("Native reconciliation has duplicate message sequence numbers")
+        cumulative = {key: session["tokens_" + key] for key in totals}
+        expected_counts = {key: getattr(expected, key) for key in TOKEN_KINDS}
+        expected_counts["reasoning"] = raw["reasoningTokens"]
+        if totals != cumulative or totals != expected_counts:
+            raise BenchmarkError("Native reconciliation token mismatch between messages, session and T3")
+        return {"source": "opencode_sqlite_v2", "database": str(database), "session_id": run["session_id"],
+                "original_t3_usage_status": raw["usageStatus"], "idle_outcome": session["idle_outcome"],
+                "model": model, "directory": session["directory"], "session_totals": cumulative,
+                "assistant_records": assistants, "totals": totals, "total": expected.total}
+    except (sqlite3.Error, OSError, KeyError, TypeError, ValueError) as error:
+        raise BenchmarkError(f"Unsupported or incomplete native reconciliation records: {error}") from error
+
+
 def validate_claude_effort(run: dict[str, Any], t3_home: Path) -> None:
     """Validate the effective SDK effort, which is absent from T3's model options."""
     paths = t3_runs.provider_logs(t3_home, run["t3_thread_id"])
@@ -1175,7 +1251,13 @@ def collect_t3_opencode(run: dict[str, Any], t3_home: Path, codex_home: Path | N
     if end_ms < start_ms:
         raise BenchmarkError(f"T3 response ends before the user message for {run['id']}")
     subagents = run.get("t3_subagents", [])
-    tested = usage_from_t3(raw_usage, bool(subagents), bool(interrupted))
+    reconciliation = None
+    if run.get("t3_native_usage_reconciliation"):
+        reconciliation = reconcile_opencode_usage(run, raw_usage, start_ms, end_ms)
+    tested = usage_from_t3(
+        {**raw_usage, "usageStatus": "complete"} if reconciliation else raw_usage,
+        bool(subagents), bool(interrupted),
+    )
     reasoning = raw_usage["reasoningTokens"]
     raw_subagent_usage = []
     if subagents:
@@ -1193,7 +1275,10 @@ def collect_t3_opencode(run: dict[str, Any], t3_home: Path, codex_home: Path | N
     return RunResult(
         run=run, session_file=str(database), phases=[phase], included_phases=[phase],
         tested=tested, overhead=None, combined=None, overhead_label="Not verified",
-        overhead_count=0, raw_tested_events=[{"turnTokenUsage": raw_usage}, *raw_subagent_usage],
+        overhead_count=0, raw_tested_events=[{
+            "turnTokenUsage": raw_usage,
+            **({"nativeUsageReconciliation": reconciliation} if reconciliation else {}),
+        }, *raw_subagent_usage],
         raw_overhead_events=parent_events, average_duration_ms=0,
         reasoning_output=reasoning,
     )
@@ -1307,6 +1392,8 @@ def render_statistics(result: RunResult) -> str:
             lines.append("- Delivered without `package-lock.json`; isolated checks install with `npm install`")
         if run.get("known_build_failure"):
             lines.append(f"- Known build failure: {run['known_build_failure']}")
+        if run.get("known_browser_failure"):
+            lines.append(f"- Known browser failure: {run['known_browser_failure']}")
         if run.get("known_test_failure"):
             lines.append(f"- Known test failure: {run['known_test_failure']}")
         if run.get("external_actions"):
@@ -1317,6 +1404,12 @@ def render_statistics(result: RunResult) -> str:
             lines.append(
                 f"- Interrupted by the harness; time ends at `{run['interrupted']['implementation_end']}`: "
                 f"{run['interrupted']['reason']}"
+            )
+        if run.get("t3_native_usage_reconciliation"):
+            lines.append(
+                "- Token accounting reconciled against read-only OpenCode SQLite v2 assistant records and "
+                "session cumulative counts. The original T3 usageStatus remains partial. "
+                "All three recorded aggregates agree exactly. Native evidence appears below."
             )
         for turn in run.get("t3_notification_turns", []):
             lines.append(
@@ -1873,6 +1966,7 @@ def import_t3_run(
     build_failure: str | None = None,
     test_failure: str | None = None,
     interrupted: dict[str, str] | None = None,
+    reconcile_native_usage: bool = False,
 ) -> dict[str, Any]:
     t3_home = homes[3]
     state, detail = t3_runs.run_status(t3_home, record)
@@ -1953,6 +2047,10 @@ def import_t3_run(
         entry["isolation"] = {"outside_access": findings}
     if not (Path(record.get("archived_workspace") or record["workspace"]) / "package-lock.json").exists():
         entry["missing_lockfile"] = True
+    if reconcile_native_usage:
+        entry["t3_native_usage_reconciliation"] = {
+            "source": "opencode_sqlite_v2", "session_id": identity["session_id"],
+        }
     if interrupted:
         entry["interrupted"] = interrupted
     if build_failure:
@@ -2302,6 +2400,10 @@ def parse_args(argv: list[str]) -> argparse.Namespace:
         help="Import a turn the harness interrupted while the agent was blocked on one tool call; "
         "TIME is when that call started (ISO 8601) and ends the measured time. Requires --interrupted-reason",
     )
+    import_parser.add_argument(
+        "--reconcile-native-usage", action="store_true",
+        help="Reconcile partial T3 usage against complete matching OpenCode SQLite v2 message/session counts",
+    )
     import_parser.add_argument("--interrupted-reason", metavar="DESCRIPTION", help="What blocked the agent")
     isolation_parser = subparsers.add_parser("isolation", help="Report T3 runs that reached outside their workspace")
     isolation_parser.add_argument("run_id", nargs="?")
@@ -2389,7 +2491,7 @@ def main(argv: list[str] | None = None) -> int:
     elif args.command == "import":
         entry = import_t3_run(
             root, t3_runs.find_pending(root, args.key), homes, args.allow_outside, args.allow_approvals,
-            args.build_failure, args.test_failure, interrupted_option(args),
+            args.build_failure, args.test_failure, interrupted_option(args), args.reconcile_native_usage,
         )
         print(f"Imported {args.key} as {entry['id']} ({entry['label']}); it appears as Pending until it is scored.")
     elif args.command == "isolation":

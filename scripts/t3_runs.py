@@ -380,9 +380,13 @@ def native_session(connection: sqlite3.Connection, thread_id: str) -> str:
 
 
 def is_notification(message_json: str) -> bool:
-    """A user message T3 posts for the harness, e.g. "Background task completed.", not one a person sent."""
+    """A user message T3 posts for the harness, e.g. "Background task completed.", not one a person sent.
+
+    T3 marked these `creationSource: "provider"`; since its November 2026 update a background-command
+    notice is `creationSource: "server"`, `createdBy: "agent"`.
+    """
     payload = json.loads(message_json)
-    return "notification" in payload and payload.get("creationSource") == "provider"
+    return "notification" in payload and payload.get("creationSource") in ("provider", "server")
 
 
 def notification_turns(t3_home: Path, thread_id: str) -> list[dict[str, Any]]:

@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Tetris</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect x='10' y='10' width='38' height='38' fill='%2300d8e8'/><rect x='52' y='10' width='38' height='38' fill='%23ffd500'/><rect x='10' y='52' width='38' height='38' fill='%23c04df0'/><rect x='52' y='52' width='38' height='38' fill='%23ff3b3b'/></svg>">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <h1 class="title">TETRIS</h1>
+  <main class="layout">
+    <aside class="panel">
+      <h2>Hold</h2>
+      <canvas id="hold"></canvas>
+      <div class="stats">
+        <div class="stat"><span class="label">Score</span><span class="value" id="score">0</span></div>
+        <div class="stat"><span class="label">Level</span><span class="value" id="level">1</span></div>
+        <div class="stat"><span class="label">Lines</span><span class="value" id="lines">0</span></div>
+      </div>
+    </aside>
+    <canvas id="board"></canvas>
+    <aside class="panel">
+      <h2>Next</h2>
+      <canvas id="next"></canvas>
+    </aside>
+  </main>
+  <footer class="controls">
+    <span><b>&larr; &rarr;</b> move</span>
+    <span><b>&uarr; / X</b> rotate cw</span>
+    <span><b>Z / Ctrl</b> rotate ccw</span>
+    <span><b>&darr;</b> soft drop</span>
+    <span><b>Space</b> hard drop</span>
+    <span><b>C</b> hold</span>
+    <span><b>R</b> restart</span>
+  </footer>
+  <script type="module" src="dist/main.js"></script>
+</body>
+</html>

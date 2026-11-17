@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0d1018">
+  <title>TetrisJS</title>
+  <link rel="stylesheet" href="./styles.css">
+  <script type="module" src="./dist/main.js"></script>
+</head>
+<body>
+  <header class="topbar">
+    <h1 class="wordmark">
+      <span class="brand-icon" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
+      <span>Tetris<span class="wordmark-accent">JS</span></span>
+    </h1>
+    <button class="pause-button" id="pause" type="button" aria-keyshortcuts="Escape" disabled>
+      <span class="pause-icon" aria-hidden="true"></span><span id="pause-label">Pause</span>
+    </button>
+  </header>
+
+  <main class="layout">
+    <section class="stage panel" aria-labelledby="playfield-heading">
+      <div class="stage-header">
+        <h2 id="playfield-heading">Playfield</h2>
+        <span class="status" id="status" role="status" data-state="ready">Ready</span>
+      </div>
+      <div class="well">
+        <div class="board" id="board" tabindex="-1" aria-label="10 by 20 playfield" role="img"></div>
+        <div class="overlay" id="overlay">
+          <div class="overlay-content">
+            <p class="overlay-title" id="overlay-title" hidden></p>
+            <button class="primary-button" id="activate" type="button">
+              <span class="play-icon" aria-hidden="true"></span>
+              <span id="activate-label">Start game</span>
+            </button>
+            <span class="shortcut-hint">Press <kbd id="activate-key">Enter</kbd></span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="left-rail">
+      <section class="hold panel" aria-labelledby="hold-heading">
+        <div class="card-header"><h2 id="hold-heading">Hold</h2><kbd>C</kbd></div>
+        <div class="hold-slot" id="hold"></div>
+      </section>
+
+      <section class="scorecard panel" aria-labelledby="score-heading">
+        <h2 id="score-heading">Score</h2>
+        <div class="score-value" id="score">0</div>
+        <dl class="metrics">
+          <div><dt>Level</dt><dd id="level">1</dd></div>
+          <div><dt>Lines</dt><dd id="lines">0</dd></div>
+        </dl>
+        <div class="level-progress">
+          <div class="progress-label">
+            <span id="progress-label">Next level</span><span id="progress-value" aria-hidden="true">0 / 10</span>
+          </div>
+          <progress id="progress" max="10" value="0" aria-labelledby="progress-label"></progress>
+        </div>
+      </section>
+    </div>
+
+    <div class="right-rail">
+      <section class="next panel" aria-labelledby="next-heading">
+        <div class="card-header"><h2 id="next-heading">Next</h2></div>
+        <ol class="queue" id="next"></ol>
+      </section>
+
+      <section class="controls panel" aria-labelledby="controls-heading">
+        <h2 id="controls-heading">Keyboard</h2>
+        <dl class="bindings">
+          <div><dt>Move</dt><dd><kbd aria-label="Left arrow">←</kbd><kbd aria-label="Right arrow">→</kbd></dd></div>
+          <div><dt>Rotate right</dt><dd><kbd aria-label="Up arrow">↑</kbd><kbd>X</kbd></dd></div>
+          <div><dt>Rotate left</dt><dd><kbd>Z</kbd><kbd>Left Ctrl</kbd></dd></div>
+          <div><dt>Soft drop</dt><dd><kbd aria-label="Down arrow">↓</kbd></dd></div>
+          <div><dt>Hard drop</dt><dd><kbd>Space</kbd></dd></div>
+          <div><dt>Hold</dt><dd><kbd>C</kbd></dd></div>
+          <div><dt>Restart</dt><dd><kbd>R</kbd></dd></div>
+        </dl>
+      </section>
+    </div>
+
+    <div class="touch-controls" aria-label="On-screen game controls" role="group">
+      <button data-action="left" aria-label="Move left" type="button">←</button>
+      <button data-action="right" aria-label="Move right" type="button">→</button>
+      <button data-action="ccw" aria-label="Rotate left" type="button">↶</button>
+      <button data-action="cw" aria-label="Rotate right" type="button">↷</button>
+      <button data-action="soft" aria-label="Soft drop" type="button">↓</button>
+      <button data-action="hard" aria-label="Hard drop" type="button">Drop</button>
+      <button data-action="hold" aria-label="Hold piece" type="button">Hold</button>
+    </div>
+  </main>
+</body>
+</html>

@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Fluxwell is a falling-block puzzle. Clear rows and keep your streak alive.">
+    <meta name="theme-color" content="#11151e">
+    <title>Fluxwell</title>
+    <link rel="icon" href="data:,">
+    <link rel="stylesheet" href="./styles.css">
+    <script type="module" src="./main.js"></script>
+  </head>
+  <body>
+    <div class="app-shell">
+      <header class="masthead">
+        <div class="brand">
+          <span class="brand-mark" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
+          <div>
+            <h1>Fluxwell</h1>
+            <p>Falling-block puzzle</p>
+          </div>
+        </div>
+        <button class="primary-button" id="play-toggle" type="button">
+          <span id="play-icon" class="button-icon" aria-hidden="true">▶</span>
+          <span id="play-label">Play</span>
+        </button>
+      </header>
+
+      <main class="game-layout">
+        <div class="rail left-rail">
+          <section class="panel score-panel" aria-labelledby="score-heading">
+            <div class="score-total">
+              <div class="section-heading score-heading">
+                <h2 id="score-heading">Score</h2>
+                <span id="streak" class="streak" hidden></span>
+              </div>
+              <p id="score" class="score-number">0</p>
+            </div>
+            <dl class="statistics">
+              <div><dt>Lines</dt><dd id="lines">0</dd></div>
+              <div><dt>Level</dt><dd id="level">1</dd></div>
+            </dl>
+            <progress id="level-progress" class="level-progress" value="0" max="8" aria-label="Progress to next level"></progress>
+          </section>
+
+          <section class="panel hold-panel" aria-labelledby="hold-heading">
+            <div class="section-heading">
+              <h2 id="hold-heading">Hold</h2>
+              <kbd>C</kbd>
+            </div>
+            <div id="hold-preview" class="piece-slot hold-slot" role="img" aria-label="Empty"></div>
+          </section>
+        </div>
+
+        <section class="well" aria-labelledby="well-heading">
+          <div class="well-heading">
+            <h2 id="well-heading">Playfield</h2>
+            <span class="status" id="status" data-status="ready" role="status">
+              <span class="status-light" aria-hidden="true"></span><span id="status-text">Ready</span>
+            </span>
+          </div>
+          <div class="field-frame">
+            <div id="board" class="board" role="img" aria-label="Falling-block playfield" aria-describedby="field-help" tabindex="-1"></div>
+            <div id="overlay" class="field-overlay" hidden>
+              <div class="overlay-panel">
+                <h3 id="overlay-title"></h3>
+                <button id="overlay-action" class="primary-button" type="button"></button>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <div class="rail right-rail">
+          <section class="panel next-panel" aria-labelledby="next-heading">
+            <h2 id="next-heading">Next</h2>
+            <ol id="next-previews" class="next-slots" aria-label="Upcoming pieces"></ol>
+          </section>
+
+          <section class="panel controls-panel" aria-labelledby="controls-heading">
+            <h2 id="controls-heading">Controls</h2>
+            <dl class="key-list">
+              <div><dt>Move</dt><dd><kbd aria-label="Left arrow">←</kbd><kbd aria-label="Right arrow">→</kbd></dd></div>
+              <div><dt>Rotate right</dt><dd><kbd aria-label="Up arrow">↑</kbd><span class="key-separator">/</span><kbd>X</kbd></dd></div>
+              <div><dt>Rotate left</dt><dd><kbd>Z</kbd><span class="key-separator">/</span><kbd>L Ctrl</kbd></dd></div>
+              <div><dt>Soft drop</dt><dd><kbd aria-label="Down arrow">↓</kbd></dd></div>
+              <div><dt>Hard drop</dt><dd><kbd>Space</kbd></dd></div>
+              <div><dt>Hold</dt><dd><kbd>C</kbd></dd></div>
+              <div><dt>Restart</dt><dd><kbd>R</kbd></dd></div>
+            </dl>
+            <p id="field-help" class="field-help">Fill rows to clear them. Clear rows on consecutive pieces to build a streak.</p>
+          </section>
+        </div>
+
+        <div class="touch-controls" role="group" aria-label="On-screen controls">
+          <button type="button" data-action="counterclockwise" aria-label="Rotate left">↶</button>
+          <button type="button" data-action="clockwise" aria-label="Rotate right">↷</button>
+          <button type="button" data-action="hold">Hold</button>
+          <button type="button" data-action="left" aria-label="Move left">←</button>
+          <button type="button" data-action="soft-drop" aria-label="Soft drop">↓</button>
+          <button type="button" data-action="right" aria-label="Move right">→</button>
+          <button type="button" data-action="hard-drop">Drop</button>
+        </div>
+      </main>
+      <noscript><p class="field-help">Enable JavaScript to play Fluxwell.</p></noscript>
+    </div>
+  </body>
+</html>

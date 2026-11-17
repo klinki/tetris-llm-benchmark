@@ -1,0 +1,5857 @@
+{
+  "schema_version": 1,
+  "audited": "2026-11-16",
+  "reviewer": {
+    "model": "gpt-6.1-sol",
+    "effort": "xhigh",
+    "delegated": true,
+    "provider": "codex",
+    "threadId": "thread:delegated-task:command%3Amcp%3A3c3c15dd-be42-4a00-9480-ed5eb183bfdf%3Adelegate-task%3Anov16-sol61-xhigh-independent-review-and-accounting",
+    "threadLink": "<t3-thread://v2/be26fbd3-1b19-4ec5-a479-19a35432c8a1/thread:delegated-task:command%3Amcp%3A3c3c15dd-be42-4a00-9480-ed5eb183bfdf%3Adelegate-task%3Anov16-sol61-xhigh-independent-review-and-accounting>",
+    "nativeSessionId": "01a1e543-0c67-7443-8d00-47055ec01d14",
+    "nativeRollout": "/Users/david/.codex/sessions/2026/11/16/rollout-2026-11-16T17-48-59-01a1e543-0c67-7443-8d00-47055ec01d14.jsonl",
+    "nativeModel": "gpt-6.1-sol",
+    "nativeEffort": "xhigh",
+    "nativeCwd": "/Users/david/projects/own/tetris-llm-benchmark",
+    "actualT3Selection": {
+      "instanceId": "codex",
+      "model": "gpt-6.1-sol",
+      "options": [
+        {
+          "id": "reasoningEffort",
+          "value": "xhigh"
+        },
+        {
+          "id": "serviceTier",
+          "value": "default"
+        }
+      ]
+    },
+    "relationshipToParent": "subagent",
+    "reviewArtifact": ".audit/nov16-review.md",
+    "findingsComplete": true,
+    "providerTurnCompletion": "completed",
+    "rawProvenanceArtifacts": [
+      "output/playwright/nov16/reviewer-t3-provenance.json",
+      "output/playwright/nov16/reviewer-native-provenance.json"
+    ],
+    "completedRunId": "run:thread:thread%3Adelegated-task%3Acommand%253Amcp%253A3c3c15dd-be42-4a00-9480-ed5eb183bfdf%253Adelegate-task%253Anov16-sol61-xhigh-independent-review-and-accounting:ordinal:1",
+    "completedAt": "2026-11-16T17:07:33.646Z",
+    "parentVerifiedAt": "2026-11-16T17:11:44+00:00"
+  },
+  "projects": {
+    "hy4-flash-free-high": {
+      "model": "opencode-go/hy4-flash-free",
+      "effort": "high",
+      "runtime": "full-access",
+      "projectId": "mcp:f9771848-7ad4-441e-b0b8-bb11c21417c9",
+      "threadId": "mcp:launch:532beb0a344dbc0b384fb78258008e9e7bb75b816909c6912b89a7ee394ec732",
+      "sessionId": "ses_e1c415c59ffeLeg0P21halN5fV",
+      "projectArchivedAt": "2026-11-16T13:43:57.652Z",
+      "usage": {
+        "usageScope": "main_agent",
+        "cachedInputTokens": 1077760,
+        "cacheCreationTokens": 0,
+        "reasoningTokens": 25202,
+        "hasSubagents": false,
+        "models": [
+          "opencode-go/hy4-flash-free"
+        ],
+        "usageStatus": "complete",
+        "inputTokens": 1133541,
+        "outputTokens": 39535
+      },
+      "tokens": 1173076,
+      "elapsed": "3m 53.830s",
+      "ownChecks": 25,
+      "engine": {
+        "mode": "hy4",
+        "checks": [
+          {
+            "name": "initial spawn is near the visible field",
+            "actual": false,
+            "expected": true,
+            "pass": false
+          },
+          {
+            "name": "28 canonical rotation states",
+            "actual": [],
+            "expected": [],
+            "pass": true
+          },
+          {
+            "name": "48 ordered SRS kick lists",
+            "actual": [],
+            "expected": [],
+            "pass": true
+          },
+          {
+            "name": "672 actual SRS rotations",
+            "actual": 0,
+            "expected": 0,
+            "pass": true
+          },
+          {
+            "name": "100 actual opening/dealt bags",
+            "actual": 0,
+            "expected": 0,
+            "pass": true
+          },
+          {
+            "name": "hold blocked twice",
+            "actual": "{\"type\":\"I\",\"rotation\":0,\"x\":3,\"y\":-20}",
+            "expected": "{\"type\":\"I\",\"rotation\":0,\"x\":3,\"y\":-20}",
+            "pass": true
+          },
+          {
+            "name": "held retrieval spawn rotation",
+            "actual": 0,
+            "expected": 0,
+            "pass": true
+          },
+          {
+            "name": "ghost I",
+            "actual": 14,
+            "expected": 14,
+            "pass": true
+          },
+          {
+            "name": "hard-drop points I",
+            "actual": 22,
+            "expected": 22,
+            "pass": true
+          },
+          {
+            "name": "ghost J",
+            "actual": 14,
+            "expected": 14,
+            "pass": true
+          },
+          {
+            "name": "hard-drop points J",
+            "actual": 22,
+            "expected": 22,
+            "pass": true
+          },
+          {
+            "name": "ghost L",
+            "actual": 14,
+            "expected": 14,
+            "pass": true
+          },
+          {
+            "name": "hard-drop points L",
+            "actual": 22,
+            "expected": 22,
+            "pass": true
+          },
+          {
+            "name": "ghost O",
+            "actual": 14,
+            "expected": 14,
+            "pass": true
+          },
+          {
+            "name": "hard-drop points O",
+            "actual": 22,
+            "expected": 22,
+            "pass": true
+          },
+          {
+            "name": "ghost S",
+            "actual": 14,
+            "expected": 14,
+            "pass": true
+          },
+          {
+            "name": "hard-drop points S",
+            "actual": 22,
+            "expected": 22,
+            "pass": true
+          },
+          {
+            "name": "ghost T",
+            "actual": 14,
+            "expected": 14,
+            "pass": true
+          },
+          {
+            "name": "hard-drop points T",
+            "actual": 22,
+            "expected": 22,
+            "pass": true
+          },
+          {
+            "name": "ghost Z",
+            "actual": 14,
+            "expected": 14,
+            "pass": true
+          },
+          {
+            "name": "hard-drop points Z",
+            "actual": 22,
+            "expected": 22,
+            "pass": true
+          },
+          {
+            "name": "ordinary 1 line score",
+            "actual": 100,
+            "expected": 100,
+            "pass": true
+          },
+          {
+            "name": "line count 1",
+            "actual": 1,
+            "expected": 1,
+            "pass": true
+          },
+          {
+            "name": "ordinary 2 line score",
+            "actual": 300,
+            "expected": 300,
+            "pass": true
+          },
+          {
+            "name": "line count 2",
+            "actual": 2,
+            "expected": 2,
+            "pass": true
+          },
+          {
+            "name": "ordinary 3 line score",
+            "actual": 500,
+            "expected": 500,
+            "pass": true
+          },
+          {
+            "name": "line count 3",
+            "actual": 3,
+            "expected": 3,
+            "pass": true
+          },
+          {
+            "name": "ordinary 4 line score",
+            "actual": 800,
+            "expected": 800,
+            "pass": true
+          },
+          {
+            "name": "line count 4",
+            "actual": 4,
+            "expected": 4,
+            "pass": true
+          },
+          {
+            "name": "perfect clear 1",
+            "actual": 100,
+            "expected": 900,
+            "pass": false
+          },
+          {
+            "name": "perfect clear 2",
+            "actual": 300,
+            "expected": 1500,
+            "pass": false
+          },
+          {
+            "name": "perfect clear 3",
+            "actual": 500,
+            "expected": 2300,
+            "pass": false
+          },
+          {
+            "name": "perfect clear 4",
+            "actual": 800,
+            "expected": 2800,
+            "pass": false
+          },
+          {
+            "name": "B2B survives a no-clear lock",
+            "actual": 800,
+            "expected": 1200,
+            "pass": false
+          },
+          {
+            "name": "B2B perfect clear plus combo",
+            "actual": 1250,
+            "expected": 4450,
+            "pass": false
+          },
+          {
+            "name": "HD-SPIN-1 travel hard",
+            "actual": 28,
+            "expected": 28,
+            "pass": true
+          },
+          {
+            "name": "HD-SPIN-1 mini hard",
+            "actual": 0,
+            "expected": 100,
+            "pass": false
+          },
+          {
+            "name": "HD-SPIN-1 mini timed",
+            "actual": 0,
+            "expected": 100,
+            "pass": false
+          },
+          {
+            "name": "HD-SPIN-1 full hard",
+            "actual": 0,
+            "expected": 400,
+            "pass": false
+          },
+          {
+            "name": "HD-SPIN-1 full timed",
+            "actual": 0,
+            "expected": 400,
+            "pass": false
+          },
+          {
+            "name": "manual soft descent cancels old spin credit",
+            "actual": 14,
+            "expected": 14,
+            "pass": true
+          },
+          {
+            "name": "landing retains only 100ms lock time",
+            "actual": 0,
+            "expected": 100,
+            "pass": false
+          },
+          {
+            "name": "floor survives 499ms",
+            "actual": 0,
+            "expected": 0,
+            "pass": true
+          },
+          {
+            "name": "floor locks at 500ms",
+            "actual": 4,
+            "expected": 4,
+            "pass": true
+          },
+          {
+            "name": "level 15 gravity rows",
+            "actual": 14,
+            "expected": 14,
+            "pass": true
+          },
+          {
+            "name": "airborne moves do not exhaust later floor reset",
+            "actual": 4,
+            "expected": 0,
+            "pass": false
+          },
+          {
+            "name": "returning to an old lowest row keeps spent resets",
+            "actual": 4,
+            "expected": 4,
+            "pass": true
+          },
+          {
+            "name": "partial hidden lock continues",
+            "actual": false,
+            "expected": false,
+            "pass": true
+          },
+          {
+            "name": "wholly hidden lock ends",
+            "actual": true,
+            "expected": true,
+            "pass": true
+          },
+          {
+            "name": "legal above-buffer lock retains four minos plus support",
+            "actual": 5,
+            "expected": 5,
+            "pass": true
+          },
+          {
+            "name": "20 restarts after three drops begin fresh bags",
+            "actual": 0,
+            "expected": 0,
+            "pass": true
+          }
+        ],
+        "observations": {
+          "initialSpawn": {
+            "minY": -20,
+            "maxY": -19
+          },
+          "rotations": {
+            "total": 672,
+            "mismatches": 0,
+            "examples": []
+          },
+          "bags": 100,
+          "travel-hard": {
+            "score": 28,
+            "pose": {
+              "type": "T",
+              "rotation": 1,
+              "x": 0,
+              "y": 3
+            },
+            "ghost": 17,
+            "distance": 14
+          },
+          "mini-hard": {
+            "score": 0,
+            "pose": {
+              "type": "T",
+              "rotation": 0,
+              "x": 3,
+              "y": 17
+            },
+            "ghost": 17,
+            "distance": 0
+          },
+          "mini-timed": {
+            "score": 0,
+            "pose": {
+              "type": "T",
+              "rotation": 0,
+              "x": 3,
+              "y": 17
+            },
+            "ghost": 17,
+            "distance": 0
+          },
+          "full-hard": {
+            "score": 0,
+            "pose": {
+              "type": "T",
+              "rotation": 0,
+              "x": 3,
+              "y": 17
+            },
+            "ghost": 17,
+            "distance": 0
+          },
+          "full-timed": {
+            "score": 0,
+            "pose": {
+              "type": "T",
+              "rotation": 0,
+              "x": 3,
+              "y": 17
+            },
+            "ghost": 17,
+            "distance": 0
+          },
+          "landing": {
+            "coarse": {
+              "locked": false,
+              "y": 18,
+              "clock": 0
+            },
+            "fine": {
+              "locked": false,
+              "y": 18,
+              "clock": 92
+            }
+          },
+          "oldRowResetCount": 15
+        }
+      },
+      "browser": {
+        "mode": "hy4",
+        "browser": "156.0.8078.4",
+        "views": {
+          "desktop": {
+            "controls": [
+              "ArrowLeft",
+              "ArrowRight",
+              "ArrowUp",
+              "x",
+              "z",
+              "ControlLeft",
+              "ArrowDown",
+              "Space",
+              "c"
+            ],
+            "spins": {
+              "travel": {
+                "pose": {
+                  "type": "T",
+                  "rotation": 1,
+                  "x": 0,
+                  "y": 3
+                },
+                "ghost": 17,
+                "score": 28,
+                "expected": 28
+              },
+              "mini": {
+                "pose": {
+                  "type": "T",
+                  "rotation": 0,
+                  "x": 3,
+                  "y": 17
+                },
+                "ghost": 17,
+                "score": 0,
+                "expected": 100
+              },
+              "full": {
+                "pose": {
+                  "type": "T",
+                  "rotation": 0,
+                  "x": 3,
+                  "y": 17
+                },
+                "ghost": 17,
+                "score": 0,
+                "expected": 400
+              }
+            },
+            "softEntryRows": 1,
+            "terminalDrops": 12,
+            "restarted": {
+              "pose": {
+                "type": "Z",
+                "rotation": 0,
+                "x": 3,
+                "y": -20
+              },
+              "score": 0,
+              "lines": 0,
+              "over": false,
+              "count": 0,
+              "held": null
+            },
+            "restartOpening": [
+              "Z",
+              "S",
+              "T",
+              "L",
+              "O",
+              "J",
+              "I"
+            ],
+            "layout": {
+              "width": 1280,
+              "height": 800,
+              "scrollWidth": 1280,
+              "scrollHeight": 954,
+              "canvases": [
+                {
+                  "id": "board",
+                  "width": 300,
+                  "height": 600,
+                  "rect": {
+                    "x": 406,
+                    "y": 24,
+                    "width": 304,
+                    "height": 604
+                  }
+                },
+                {
+                  "id": "hold",
+                  "width": 120,
+                  "height": 96,
+                  "rect": {
+                    "x": 745,
+                    "y": 58,
+                    "width": 124,
+                    "height": 100
+                  }
+                },
+                {
+                  "id": "next",
+                  "width": 120,
+                  "height": 360,
+                  "rect": {
+                    "x": 745,
+                    "y": 219,
+                    "width": 124,
+                    "height": 364
+                  }
+                }
+              ],
+              "statsTextOverlaps": []
+            },
+            "errors": [],
+            "assets": [],
+            "engine": {
+              "checks": 51,
+              "failures": [
+                {
+                  "name": "initial spawn is near the visible field",
+                  "actual": false,
+                  "expected": true,
+                  "pass": false
+                },
+                {
+                  "name": "perfect clear 1",
+                  "actual": 100,
+                  "expected": 900,
+                  "pass": false
+                },
+                {
+                  "name": "perfect clear 2",
+                  "actual": 300,
+                  "expected": 1500,
+                  "pass": false
+                },
+                {
+                  "name": "perfect clear 3",
+                  "actual": 500,
+                  "expected": 2300,
+                  "pass": false
+                },
+                {
+                  "name": "perfect clear 4",
+                  "actual": 800,
+                  "expected": 2800,
+                  "pass": false
+                },
+                {
+                  "name": "B2B survives a no-clear lock",
+                  "actual": 800,
+                  "expected": 1200,
+                  "pass": false
+                },
+                {
+                  "name": "B2B perfect clear plus combo",
+                  "actual": 1250,
+                  "expected": 4450,
+                  "pass": false
+                },
+                {
+                  "name": "HD-SPIN-1 mini hard",
+                  "actual": 0,
+                  "expected": 100,
+                  "pass": false
+                },
+                {
+                  "name": "HD-SPIN-1 mini timed",
+                  "actual": 0,
+                  "expected": 100,
+                  "pass": false
+                },
+                {
+                  "name": "HD-SPIN-1 full hard",
+                  "actual": 0,
+                  "expected": 400,
+                  "pass": false
+                },
+                {
+                  "name": "HD-SPIN-1 full timed",
+                  "actual": 0,
+                  "expected": 400,
+                  "pass": false
+                },
+                {
+                  "name": "landing retains only 100ms lock time",
+                  "actual": 0,
+                  "expected": 100,
+                  "pass": false
+                },
+                {
+                  "name": "airborne moves do not exhaust later floor reset",
+                  "actual": 4,
+                  "expected": 0,
+                  "pass": false
+                }
+              ],
+              "observations": {
+                "initialSpawn": {
+                  "minY": -20,
+                  "maxY": -19
+                },
+                "rotations": {
+                  "total": 672,
+                  "mismatches": 0,
+                  "examples": []
+                },
+                "bags": 100,
+                "travel-hard": {
+                  "score": 28,
+                  "pose": {
+                    "type": "T",
+                    "rotation": 1,
+                    "x": 0,
+                    "y": 3
+                  },
+                  "ghost": 17,
+                  "distance": 14
+                },
+                "mini-hard": {
+                  "score": 0,
+                  "pose": {
+                    "type": "T",
+                    "rotation": 0,
+                    "x": 3,
+                    "y": 17
+                  },
+                  "ghost": 17,
+                  "distance": 0
+                },
+                "mini-timed": {
+                  "score": 0,
+                  "pose": {
+                    "type": "T",
+                    "rotation": 0,
+                    "x": 3,
+                    "y": 17
+                  },
+                  "ghost": 17,
+                  "distance": 0
+                },
+                "full-hard": {
+                  "score": 0,
+                  "pose": {
+                    "type": "T",
+                    "rotation": 0,
+                    "x": 3,
+                    "y": 17
+                  },
+                  "ghost": 17,
+                  "distance": 0
+                },
+                "full-timed": {
+                  "score": 0,
+                  "pose": {
+                    "type": "T",
+                    "rotation": 0,
+                    "x": 3,
+                    "y": 17
+                  },
+                  "ghost": 17,
+                  "distance": 0
+                },
+                "landing": {
+                  "coarse": {
+                    "locked": false,
+                    "y": 18,
+                    "clock": 0
+                  },
+                  "fine": {
+                    "locked": false,
+                    "y": 18,
+                    "clock": 92
+                  }
+                },
+                "oldRowResetCount": 15
+              }
+            }
+          },
+          "mobile": {
+            "controls": [
+              "ArrowLeft",
+              "ArrowRight",
+              "ArrowUp",
+              "x",
+              "z",
+              "ControlLeft",
+              "ArrowDown",
+              "Space",
+              "c"
+            ],
+            "spins": {
+              "travel": {
+                "pose": {
+                  "type": "T",
+                  "rotation": 1,
+                  "x": 0,
+                  "y": 3
+                },
+                "ghost": 17,
+                "score": 28,
+                "expected": 28
+              },
+              "mini": {
+                "pose": {
+                  "type": "T",
+                  "rotation": 0,
+                  "x": 3,
+                  "y": 17
+                },
+                "ghost": 17,
+                "score": 0,
+                "expected": 100
+              },
+              "full": {
+                "pose": {
+                  "type": "T",
+                  "rotation": 0,
+                  "x": 3,
+                  "y": 17
+                },
+                "ghost": 17,
+                "score": 0,
+                "expected": 400
+              }
+            },
+            "softEntryRows": 1,
+            "terminalDrops": 12,
+            "restarted": {
+              "pose": {
+                "type": "L",
+                "rotation": 0,
+                "x": 3,
+                "y": -20
+              },
+              "score": 0,
+              "lines": 0,
+              "over": false,
+              "count": 0,
+              "held": null
+            },
+            "restartOpening": [
+              "L",
+              "S",
+              "O",
+              "J",
+              "T",
+              "I",
+              "Z"
+            ],
+            "layout": {
+              "width": 390,
+              "height": 844,
+              "scrollWidth": 453,
+              "scrollHeight": 954,
+              "canvases": [
+                {
+                  "id": "board",
+                  "width": 300,
+                  "height": 600,
+                  "rect": {
+                    "x": -39,
+                    "y": 24,
+                    "width": 304,
+                    "height": 604
+                  }
+                },
+                {
+                  "id": "hold",
+                  "width": 120,
+                  "height": 96,
+                  "rect": {
+                    "x": 300,
+                    "y": 58,
+                    "width": 124,
+                    "height": 100
+                  }
+                },
+                {
+                  "id": "next",
+                  "width": 120,
+                  "height": 360,
+                  "rect": {
+                    "x": 300,
+                    "y": 219,
+                    "width": 124,
+                    "height": 364
+                  }
+                }
+              ],
+              "statsTextOverlaps": []
+            },
+            "errors": [],
+            "assets": [],
+            "engine": {
+              "checks": 51,
+              "failures": [
+                {
+                  "name": "initial spawn is near the visible field",
+                  "actual": false,
+                  "expected": true,
+                  "pass": false
+                },
+                {
+                  "name": "perfect clear 1",
+                  "actual": 100,
+                  "expected": 900,
+                  "pass": false
+                },
+                {
+                  "name": "perfect clear 2",
+                  "actual": 300,
+                  "expected": 1500,
+                  "pass": false
+                },
+                {
+                  "name": "perfect clear 3",
+                  "actual": 500,
+                  "expected": 2300,
+                  "pass": false
+                },
+                {
+                  "name": "perfect clear 4",
+                  "actual": 800,
+                  "expected": 2800,
+                  "pass": false
+                },
+                {
+                  "name": "B2B survives a no-clear lock",
+                  "actual": 800,
+                  "expected": 1200,
+                  "pass": false
+                },
+                {
+                  "name": "B2B perfect clear plus combo",
+                  "actual": 1250,
+                  "expected": 4450,
+                  "pass": false
+                },
+                {
+                  "name": "HD-SPIN-1 mini hard",
+                  "actual": 0,
+                  "expected": 100,
+                  "pass": false
+                },
+                {
+                  "name": "HD-SPIN-1 mini timed",
+                  "actual": 0,
+                  "expected": 100,
+                  "pass": false
+                },
+                {
+                  "name": "HD-SPIN-1 full hard",
+                  "actual": 0,
+                  "expected": 400,
+                  "pass": false
+                },
+                {
+                  "name": "HD-SPIN-1 full timed",
+                  "actual": 0,
+                  "expected": 400,
+                  "pass": false
+                },
+                {
+                  "name": "landing retains only 100ms lock time",
+                  "actual": 0,
+                  "expected": 100,
+                  "pass": false
+                },
+                {
+                  "name": "airborne moves do not exhaust later floor reset",
+                  "actual": 4,
+                  "expected": 0,
+                  "pass": false
+                }
+              ],
+              "observations": {
+                "initialSpawn": {
+                  "minY": -20,
+                  "maxY": -19
+                },
+                "rotations": {
+                  "total": 672,
+                  "mismatches": 0,
+                  "examples": []
+                },
+                "bags": 100,
+                "travel-hard": {
+                  "score": 28,
+                  "pose": {
+                    "type": "T",
+                    "rotation": 1,
+                    "x": 0,
+                    "y": 3
+                  },
+                  "ghost": 17,
+                  "distance": 14
+                },
+                "mini-hard": {
+                  "score": 0,
+                  "pose": {
+                    "type": "T",
+                    "rotation": 0,
+                    "x": 3,
+                    "y": 17
+                  },
+                  "ghost": 17,
+                  "distance": 0
+                },
+                "mini-timed": {
+                  "score": 0,
+                  "pose": {
+                    "type": "T",
+                    "rotation": 0,
+                    "x": 3,
+                    "y": 17
+                  },
+                  "ghost": 17,
+                  "distance": 0
+                },
+                "full-hard": {
+                  "score": 0,
+                  "pose": {
+                    "type": "T",
+                    "rotation": 0,
+                    "x": 3,
+                    "y": 17
+                  },
+                  "ghost": 17,
+                  "distance": 0
+                },
+                "full-timed": {
+                  "score": 0,
+                  "pose": {
+                    "type": "T",
+                    "rotation": 0,
+                    "x": 3,
+                    "y": 17
+                  },
+                  "ghost": 17,
+                  "distance": 0
+                },
+                "landing": {
+                  "coarse": {
+                    "locked": false,
+                    "y": 18,
+                    "clock": 0
+                  },
+                  "fine": {
+                    "locked": false,
+                    "y": 18,
+                    "clock": 92
+                  }
+                },
+                "oldRowResetCount": 15
+              }
+            }
+          }
+        }
+      },
+      "sourceHashes": {
+        ".gitignore": "e8bc935ce727f1809c792f4c5d26c5fc75ba2b7df7fc9390c56c8892f6a6007f",
+        "README.md": "36e2097a78fe8b5646e6216338640831cff0a284cc823c4b1f658991c8d40294",
+        "index.html": "9daa473fa221bd11fa2d8ed2d5643eb21e99b71d39649b87c1d5384d88e433c6",
+        "package-lock.json": "41a9f609f98613901748be5ad0833aaf3162a45337214e0e055058834939bc56",
+        "package.json": "2f39c2f741b7f574993c999da57f75b723d32d422e43a1ccbcf137c290545a87",
+        "server.js": "da84261142ca22614dd44fcb7cf78bfc601d8d6f9ddf1ed3a0073755d0c879a4",
+        "src/board.ts": "7149a24bbd04ad005078e8ca1a4186fc23c83094faaf7394f6e36832b30f51c4",
+        "src/constants.ts": "55a6df03ea1cd5f8628938c7c18d6b5d91d7c6890189c8ba2181952e7579ec82",
+        "src/game.ts": "093b625aa7c9847ee9969cdbbd7502080f6c4ddad83296718568e006c10f27b0",
+        "src/index.ts": "8bab51f527585188d7d6af2710b27f2271b7372e2f6dbe529b2f67e5930e354c",
+        "src/input.ts": "4779b624540947dab97f32d50fd4f63161dccf137312b25f8b7fc3e3b41182fc",
+        "src/pieces.ts": "b7d1a5060b4bd9604ef7e0a020bb050eeac179abb78427c553adb1c4926ff396",
+        "src/randomizer.ts": "f57d59e876ab4bfbba4b682b3f59d630653b09f7d83f1b8961795fa4d6ccb14e",
+        "src/renderer.ts": "057f8368246523472cc8e5c1c44b02c883b5bc323abb3bc34c68b8553e811f8c",
+        "src/scoring.ts": "d9786b7b1689e08c1dc89d716695ff7f1dd9a724350b3879477601cd20ed831d",
+        "src/types.ts": "1f987b62a21102e00d2c7fc906934fe47e67508ade5a4bcebe7e1cccf7710d2e",
+        "test/smoke.test.js": "ecbca6607ccbe05a7ebd97198134383857cba2d2bfa6ea1d6459bbd7a914821d",
+        "tsconfig.json": "0241f050f0b87b0119448d43e8ae84cf0cd8efabbc66f87c366b1ef2779ecb73"
+      },
+      "additionalReviewerChecks": [
+        {
+          "name": "mini blocked move actually fails",
+          "actual": "{\"type\":\"T\",\"rotation\":0,\"x\":3,\"y\":17}",
+          "expected": "{\"type\":\"T\",\"rotation\":0,\"x\":3,\"y\":17}",
+          "pass": true
+        },
+        {
+          "name": "mini failed action preserves spin",
+          "actual": 0,
+          "expected": 100,
+          "pass": false
+        },
+        {
+          "name": "full blocked move actually fails",
+          "actual": "{\"type\":\"T\",\"rotation\":0,\"x\":3,\"y\":17}",
+          "expected": "{\"type\":\"T\",\"rotation\":0,\"x\":3,\"y\":17}",
+          "pass": true
+        },
+        {
+          "name": "full failed action preserves spin",
+          "actual": 0,
+          "expected": 400,
+          "pass": false
+        },
+        {
+          "name": "new lowest row restores grounded reset allowance",
+          "actual": 6,
+          "expected": 2,
+          "pass": false
+        }
+      ],
+      "scores": {
+        "correctness": 5.5,
+        "tests": 7.0,
+        "code": 9.0,
+        "simplicity": 8.5,
+        "browser_ux": 7.5
+      },
+      "weightedScore": "7.00",
+      "projectReadback": {
+        "id": "mcp:f9771848-7ad4-441e-b0b8-bb11c21417c9",
+        "archivedAt": "2026-11-16T13:43:57.652Z",
+        "workspaceRoot": "/Users/david/tetris-bench/runs/240403b66670/tetris"
+      }
+    },
+    "qwen4-max-high": {
+      "model": "opencode-go/qwen4-max",
+      "effort": "high",
+      "runtime": "full-access",
+      "projectId": "mcp:9170180b-d4f9-4e84-9d04-a3f8d49d10d7",
+      "threadId": "mcp:launch:b884ca5a1e816a6987b27bf9a443e92ddcc55f1dfd52c819c1d56e541b74df9e",
+      "sessionId": "ses_e1c381015ffeoBFmbyv4KBsgHe",
+      "projectArchivedAt": "2026-11-16T13:43:57.716Z",
+      "usage": {
+        "usageScope": "main_agent",
+        "cachedInputTokens": 1316191,
+        "cacheCreationTokens": 79044,
+        "reasoningTokens": 0,
+        "hasSubagents": false,
+        "models": [
+          "opencode-go/qwen4-max"
+        ],
+        "usageStatus": "complete",
+        "inputTokens": 1395422,
+        "outputTokens": 51046
+      },
+      "tokens": 1446468,
+      "elapsed": "16m 58.085s",
+      "ownChecks": 23,
+      "engine": {
+        "mode": "high",
+        "checks": [
+          {
+            "name": "initial spawn is near the visible field",
+            "actual": true,
+            "expected": true,
+            "pass": true
+          },
+          {
+            "name": "28 canonical rotation states",
+            "actual": [],
+            "expected": [],
+            "pass": true
+          },
+          {
+            "name": "48 ordered SRS kick lists",
+            "actual": [],
+            "expected": [],
+            "pass": true
+          },
+          {
+            "name": "672 actual SRS rotations",
+            "actual": 0,
+            "expected": 0,
+            "pass": true
+          },
+          {
+            "name": "100 actual opening/dealt bags",
+            "actual": 0,
+            "expected": 0,
+            "pass": true
+          },
+          {
+            "name": "hold blocked twice",
+            "actual": "{\"type\":\"I\",\"rotation\":0,\"x\":3,\"y\":-1}",
+            "expected": "{\"type\":\"I\",\"rotation\":0,\"x\":3,\"y\":-1}",
+            "pass": true
+          },
+          {
+            "name": "held retrieval spawn rotation",
+            "actual": 0,
+            "expected": 0,
+            "pass": true
+          },
+          {
+            "name": "ghost I",
+            "actual": 14,
+            "expected": 14,
+            "pass": true
+          },
+          {
+            "name": "hard-drop points I",
+            "actual": 22,
+            "expected": 22,
+            "pass": true
+          },
+          {
+            "name": "ghost J",
+            "actual": 14,
+            "expected": 14,
+            "pass": true
+          },
+          {
+            "name": "hard-drop points J",
+            "actual": 22,
+            "expected": 22,
+            "pass": true
+          },
+          {
+            "name": "ghost L",
+            "actual": 14,
+            "expected": 14,
+            "pass": true
+          },
+          {
+            "name": "hard-drop points L",
+            "actual": 22,
+            "expected": 22,
+            "pass": true
+          },
+          {
+            "name": "ghost O",
+            "actual": 14,
+            "expected": 14,
+            "pass": true
+          },
+          {
+            "name": "hard-drop points O",
+            "actual": 22,
+            "expected": 22,
+            "pass": true
+          },
+          {
+            "name": "ghost S",
+            "actual": 14,
+            "expected": 14,
+            "pass": true
+          },
+          {
+            "name": "hard-drop points S",
+            "actual": 22,
+            "expected": 22,
+            "pass": true
+          },
+          {
+            "name": "ghost T",
+            "actual": 14,
+            "expected": 14,
+            "pass": true
+          },
+          {
+            "name": "hard-drop points T",
+            "actual": 22,
+            "expected": 22,
+            "pass": true
+          },
+          {
+            "name": "ghost Z",
+            "actual": 14,
+            "expected": 14,
+            "pass": true
+          },
+          {
+            "name": "hard-drop points Z",
+            "actual": 22,
+            "expected": 22,
+            "pass": true
+          },
+          {
+            "name": "ordinary 1 line score",
+            "actual": 100,
+            "expected": 100,
+            "pass": true
+          },
+          {
+            "name": "line count 1",
+            "actual": 1,
+            "expected": 1,
+            "pass": true
+          },
+          {
+            "name": "ordinary 2 line score",
+            "actual": 300,
+            "expected": 300,
+            "pass": true
+          },
+          {
+            "name": "line count 2",
+            "actual": 2,
+            "expected": 2,
+            "pass": true
+          },
+          {
+            "name": "ordinary 3 line score",
+            "actual": 500,
+            "expected": 500,
+            "pass": true
+          },
+          {
+            "name": "line count 3",
+            "actual": 3,
+            "expected": 3,
+            "pass": true
+          },
+          {
+            "name": "ordinary 4 line score",
+            "actual": 800,
+            "expected": 800,
+            "pass": true
+          },
+          {
+            "name": "line count 4",
+            "actual": 4,
+            "expected": 4,
+            "pass": true
+          },
+          {
+            "name": "perfect clear 1",
+            "actual": 900,
+            "expected": 900,
+            "pass": true
+          },
+          {
+            "name": "perfect clear 2",
+            "actual": 1500,
+            "expected": 1500,
+            "pass": true
+          },
+          {
+            "name": "perfect clear 3",
+            "actual": 2300,
+            "expected": 2300,
+            "pass": true
+          },
+          {
+            "name": "perfect clear 4",
+            "actual": 2800,
+            "expected": 2800,
+            "pass": true
+          },
+          {
+            "name": "B2B survives a no-clear lock",
+            "actual": 1200,
+            "expected": 1200,
+            "pass": true
+          },
+          {
+            "name": "B2B perfect clear plus combo",
+            "actual": 4450,
+            "expected": 4450,
+            "pass": true
+          },
+          {
+            "name": "HD-SPIN-1 travel hard",
+            "actual": 128,
+            "expected": 28,
+            "pass": false
+          },
+          {
+            "name": "HD-SPIN-1 mini hard",
+            "actual": 100,
+            "expected": 100,
+            "pass": true
+          },
+          {
+            "name": "HD-SPIN-1 mini timed",
+            "actual": 100,
+            "expected": 100,
+            "pass": true
+          },
+          {
+            "name": "HD-SPIN-1 full hard",
+            "actual": 400,
+            "expected": 400,
+            "pass": true
+          },
+          {
+            "name": "HD-SPIN-1 full timed",
+            "actual": 400,
+            "expected": 400,
+            "pass": true
+          },
+          {
+            "name": "manual soft descent cancels old spin credit",
+            "actual": 14,
+            "expected": 14,
+            "pass": true
+          },
+          {
+            "name": "landing retains only 100ms lock time",
+            "actual": 0,
+            "expected": 100,
+            "pass": false
+          },
+          {
+            "name": "floor survives 499ms",
+            "actual": 0,
+            "expected": 0,
+            "pass": true
+          },
+          {
+            "name": "floor locks at 500ms",
+            "actual": 4,
+            "expected": 4,
+            "pass": true
+          },
+          {
+            "name": "soft entry moves at most one row",
+            "actual": false,
+            "expected": true,
+            "pass": false
+          },
+          {
+            "name": "level 15 gravity rows",
+            "actual": 14,
+            "expected": 14,
+            "pass": true
+          },
+          {
+            "name": "airborne moves do not exhaust later floor reset",
+            "actual": 0,
+            "expected": 0,
+            "pass": true
+          },
+          {
+            "name": "returning to an old lowest row keeps spent resets",
+            "actual": 4,
+            "expected": 4,
+            "pass": true
+          },
+          {
+            "name": "partial hidden lock continues",
+            "actual": false,
+            "expected": false,
+            "pass": true
+          },
+          {
+            "name": "wholly hidden lock ends",
+            "actual": true,
+            "expected": true,
+            "pass": true
+          },
+          {
+            "name": "legal above-buffer lock retains four minos plus support",
+            "actual": 4,
+            "expected": 5,
+            "pass": false
+          },
+          {
+            "name": "20 restarts after three drops begin fresh bags",
+            "actual": 20,
+            "expected": 0,
+            "pass": false
+          }
+        ],
+        "observations": {
+          "initialSpawn": {
+            "minY": -1,
+            "maxY": 0
+          },
+          "rotations": {
+            "total": 672,
+            "mismatches": 0,
+            "examples": []
+          },
+          "bags": 100,
+          "travel-hard": {
+            "score": 128,
+            "pose": {
+              "type": "T",
+              "rotation": 1,
+              "x": 0,
+              "y": 3
+            },
+            "ghost": 17,
+            "distance": 14
+          },
+          "mini-hard": {
+            "score": 100,
+            "pose": {
+              "type": "T",
+              "rotation": 0,
+              "x": 3,
+              "y": 17
+            },
+            "ghost": 17,
+            "distance": 0
+          },
+          "mini-timed": {
+            "score": 100,
+            "pose": {
+              "type": "T",
+              "rotation": 0,
+              "x": 3,
+              "y": 17
+            },
+            "ghost": 17,
+            "distance": 0
+          },
+          "full-hard": {
+            "score": 400,
+            "pose": {
+              "type": "T",
+              "rotation": 0,
+              "x": 3,
+              "y": 17
+            },
+            "ghost": 17,
+            "distance": 0
+          },
+          "full-timed": {
+            "score": 400,
+            "pose": {
+              "type": "T",
+              "rotation": 0,
+              "x": 3,
+              "y": 17
+            },
+            "ghost": 17,
+            "distance": 0
+          },
+          "landing": {
+            "coarse": {
+              "locked": true,
+              "y": -1,
+              "clock": 0
+            },
+            "fine": {
+              "locked": false,
+              "y": 18,
+              "clock": 108
+            }
+          },
+          "softEntryRows": 15,
+          "oldRowResetCount": 15
+        }
+      },
+      "browser": {
+        "mode": "high",
+        "browser": "156.0.8078.4",
+        "views": {
+          "desktop": {
+            "controls": [
+              "ArrowLeft",
+              "ArrowRight",
+              "ArrowUp",
+              "x",
+              "z",
+              "ControlLeft",
+              "ArrowDown",
+              "Space",
+              "c"
+            ],
+            "spins": {
+              "travel": {
+                "pose": {
+                  "type": "T",
+                  "rotation": 1,
+                  "x": 0,
+                  "y": 3
+                },
+                "ghost": 17,
+                "score": 128,
+                "expected": 28
+              },
+              "mini": {
+                "pose": {
+                  "type": "T",
+                  "rotation": 0,
+                  "x": 3,
+                  "y": 17
+                },
+                "ghost": 17,
+                "score": 100,
+                "expected": 100
+              },
+              "full": {
+                "pose": {
+                  "type": "T",
+                  "rotation": 0,
+                  "x": 3,
+                  "y": 17
+                },
+                "ghost": 17,
+                "score": 400,
+                "expected": 400
+              }
+            },
+            "softEntryRows": 15,
+            "terminalDrops": 11,
+            "restarted": {
+              "pose": {
+                "type": "Z",
+                "rotation": 0,
+                "x": 3,
+                "y": -1
+              },
+              "score": 0,
+              "lines": 0,
+              "over": false,
+              "count": 0,
+              "held": null
+            },
+            "restartOpening": [
+              "Z",
+              "S",
+              "O",
+              "L",
+              "T",
+              "I",
+              "Z"
+            ],
+            "layout": {
+              "width": 1280,
+              "height": 800,
+              "scrollWidth": 1280,
+              "scrollHeight": 800,
+              "canvases": [
+                {
+                  "id": "hold",
+                  "width": 192,
+                  "height": 144,
+                  "rect": {
+                    "x": 347,
+                    "y": 175.5,
+                    "width": 96,
+                    "height": 72
+                  }
+                },
+                {
+                  "id": "board",
+                  "width": 600,
+                  "height": 1200,
+                  "rect": {
+                    "x": 490,
+                    "y": 94.5,
+                    "width": 300,
+                    "height": 600
+                  }
+                },
+                {
+                  "id": "next",
+                  "width": 192,
+                  "height": 720,
+                  "rect": {
+                    "x": 837,
+                    "y": 129.5,
+                    "width": 96,
+                    "height": 360
+                  }
+                }
+              ],
+              "statsTextOverlaps": []
+            },
+            "errors": [],
+            "assets": [],
+            "engine": {
+              "checks": 52,
+              "failures": [
+                {
+                  "name": "HD-SPIN-1 travel hard",
+                  "actual": 128,
+                  "expected": 28,
+                  "pass": false
+                },
+                {
+                  "name": "landing retains only 100ms lock time",
+                  "actual": 0,
+                  "expected": 100,
+                  "pass": false
+                },
+                {
+                  "name": "soft entry moves at most one row",
+                  "actual": false,
+                  "expected": true,
+                  "pass": false
+                },
+                {
+                  "name": "legal above-buffer lock retains four minos plus support",
+                  "actual": 4,
+                  "expected": 5,
+                  "pass": false
+                },
+                {
+                  "name": "20 restarts after three drops begin fresh bags",
+                  "actual": 20,
+                  "expected": 0,
+                  "pass": false
+                }
+              ],
+              "observations": {
+                "initialSpawn": {
+                  "minY": -1,
+                  "maxY": 0
+                },
+                "rotations": {
+                  "total": 672,
+                  "mismatches": 0,
+                  "examples": []
+                },
+                "bags": 100,
+                "travel-hard": {
+                  "score": 128,
+                  "pose": {
+                    "type": "T",
+                    "rotation": 1,
+                    "x": 0,
+                    "y": 3
+                  },
+                  "ghost": 17,
+                  "distance": 14
+                },
+                "mini-hard": {
+                  "score": 100,
+                  "pose": {
+                    "type": "T",
+                    "rotation": 0,
+                    "x": 3,
+                    "y": 17
+                  },
+                  "ghost": 17,
+                  "distance": 0
+                },
+                "mini-timed": {
+                  "score": 100,
+                  "pose": {
+                    "type": "T",
+                    "rotation": 0,
+                    "x": 3,
+                    "y": 17
+                  },
+                  "ghost": 17,
+                  "distance": 0
+                },
+                "full-hard": {
+                  "score": 400,
+                  "pose": {
+                    "type": "T",
+                    "rotation": 0,
+                    "x": 3,
+                    "y": 17
+                  },
+                  "ghost": 17,
+                  "distance": 0
+                },
+                "full-timed": {
+                  "score": 400,
+                  "pose": {
+                    "type": "T",
+                    "rotation": 0,
+                    "x": 3,
+                    "y": 17
+                  },
+                  "ghost": 17,
+                  "distance": 0
+                },
+                "landing": {
+                  "coarse": {
+                    "locked": true,
+                    "y": -1,
+                    "clock": 0
+                  },
+                  "fine": {
+                    "locked": false,
+                    "y": 18,
+                    "clock": 108
+                  }
+                },
+                "softEntryRows": 15,
+                "oldRowResetCount": 15
+              }
+            }
+          },
+          "mobile": {
+            "controls": [
+              "ArrowLeft",
+              "ArrowRight",
+              "ArrowUp",
+              "x",
+              "z",
+              "ControlLeft",
+              "ArrowDown",
+              "Space",
+              "c"
+            ],
+            "spins": {
+              "travel": {
+                "pose": {
+                  "type": "T",
+                  "rotation": 1,
+                  "x": 0,
+                  "y": 3
+                },
+                "ghost": 17,
+                "score": 128,
+                "expected": 28
+              },
+              "mini": {
+                "pose": {
+                  "type": "T",
+                  "rotation": 0,
+                  "x": 3,
+                  "y": 17
+                },
+                "ghost": 17,
+                "score": 100,
+                "expected": 100
+              },
+              "full": {
+                "pose": {
+                  "type": "T",
+                  "rotation": 0,
+                  "x": 3,
+                  "y": 17
+                },
+                "ghost": 17,
+                "score": 400,
+                "expected": 400
+              }
+            },
+            "softEntryRows": 15,
+            "terminalDrops": 12,
+            "restarted": {
+              "pose": {
+                "type": "J",
+                "rotation": 0,
+                "x": 3,
+                "y": -1
+              },
+              "score": 0,
+              "lines": 0,
+              "over": false,
+              "count": 0,
+              "held": null
+            },
+            "restartOpening": [
+              "J",
+              "T",
+              "Z",
+              "L",
+              "S",
+              "O",
+              "Z"
+            ],
+            "layout": {
+              "width": 390,
+              "height": 844,
+              "scrollWidth": 539,
+              "scrollHeight": 844,
+              "canvases": [
+                {
+                  "id": "hold",
+                  "width": 192,
+                  "height": 144,
+                  "rect": {
+                    "x": -98,
+                    "y": 197.5,
+                    "width": 96,
+                    "height": 72
+                  }
+                },
+                {
+                  "id": "board",
+                  "width": 600,
+                  "height": 1200,
+                  "rect": {
+                    "x": 45,
+                    "y": 116.5,
+                    "width": 300,
+                    "height": 600
+                  }
+                },
+                {
+                  "id": "next",
+                  "width": 192,
+                  "height": 720,
+                  "rect": {
+                    "x": 392,
+                    "y": 151.5,
+                    "width": 96,
+                    "height": 360
+                  }
+                }
+              ],
+              "statsTextOverlaps": []
+            },
+            "errors": [],
+            "assets": [],
+            "engine": {
+              "checks": 52,
+              "failures": [
+                {
+                  "name": "HD-SPIN-1 travel hard",
+                  "actual": 128,
+                  "expected": 28,
+                  "pass": false
+                },
+                {
+                  "name": "landing retains only 100ms lock time",
+                  "actual": 0,
+                  "expected": 100,
+                  "pass": false
+                },
+                {
+                  "name": "soft entry moves at most one row",
+                  "actual": false,
+                  "expected": true,
+                  "pass": false
+                },
+                {
+                  "name": "legal above-buffer lock retains four minos plus support",
+                  "actual": 4,
+                  "expected": 5,
+                  "pass": false
+                },
+                {
+                  "name": "20 restarts after three drops begin fresh bags",
+                  "actual": 20,
+                  "expected": 0,
+                  "pass": false
+                }
+              ],
+              "observations": {
+                "initialSpawn": {
+                  "minY": -1,
+                  "maxY": 0
+                },
+                "rotations": {
+                  "total": 672,
+                  "mismatches": 0,
+                  "examples": []
+                },
+                "bags": 100,
+                "travel-hard": {
+                  "score": 128,
+                  "pose": {
+                    "type": "T",
+                    "rotation": 1,
+                    "x": 0,
+                    "y": 3
+                  },
+                  "ghost": 17,
+                  "distance": 14
+                },
+                "mini-hard": {
+                  "score": 100,
+                  "pose": {
+                    "type": "T",
+                    "rotation": 0,
+                    "x": 3,
+                    "y": 17
+                  },
+                  "ghost": 17,
+                  "distance": 0
+                },
+                "mini-timed": {
+                  "score": 100,
+                  "pose": {
+                    "type": "T",
+                    "rotation": 0,
+                    "x": 3,
+                    "y": 17
+                  },
+                  "ghost": 17,
+                  "distance": 0
+                },
+                "full-hard": {
+                  "score": 400,
+                  "pose": {
+                    "type": "T",
+                    "rotation": 0,
+                    "x": 3,
+                    "y": 17
+                  },
+                  "ghost": 17,
+                  "distance": 0
+                },
+                "full-timed": {
+                  "score": 400,
+                  "pose": {
+                    "type": "T",
+                    "rotation": 0,
+                    "x": 3,
+                    "y": 17
+                  },
+                  "ghost": 17,
+                  "distance": 0
+                },
+                "landing": {
+                  "coarse": {
+                    "locked": true,
+                    "y": -1,
+                    "clock": 0
+                  },
+                  "fine": {
+                    "locked": false,
+                    "y": 18,
+                    "clock": 108
+                  }
+                },
+                "softEntryRows": 15,
+                "oldRowResetCount": 15
+              }
+            }
+          }
+        }
+      },
+      "sourceHashes": {
+        ".gitignore": "c2cd02306ac5c8f0b88e6f5260073bb48cfad088fe53fdd7da3b9ed9fee7d792",
+        "README.md": "36e2097a78fe8b5646e6216338640831cff0a284cc823c4b1f658991c8d40294",
+        "index.html": "80f8eba56b40daea65d042fe9960f00d4a1ad9630675a88152caeb980622211a",
+        "package-lock.json": "f9bd082cc6749671633aecc9b54bbc8ee76b51b16e807b826fbfc1e3f99e0cd5",
+        "package.json": "072054652d85525848f69e4829ff715c6015eb38abb0af129e73764d3c472e9f",
+        "server.js": "a527d195244e8dcd0d85eb44efd12b98da49224c234091d4ba859edac5d641ed",
+        "src/bag.ts": "2aaff8c4f89aff072019a0b1219c74129d9d8882ba0bfa2e468f6f74646cb463",
+        "src/constants.ts": "6f693b85b235fe0e3143d1669067f9846e3eb3ba7957529ac6f26a018d3d3dfd",
+        "src/game.ts": "bc7981cf8bb92b57a7436209b209a6a9777375f0eb7647c84308719e07771788",
+        "src/main.ts": "75ea459b48c162ccb2bb4c90fbdf9ae4618557bc603f740a4ea6e723214dc742",
+        "src/pieces.ts": "dcbd1812ce33083f055943cff333f11b9ae1a63c66a3296a4f6ad3418d197efc",
+        "src/renderer.ts": "8006b23660c1c473776e254257bd7e9f532490a95a5c694f7a5192d8c4820476",
+        "src/smoke.ts": "b8712a5a49febee8ee5be13fb77090ceb5c1f813568cfbed3dfcd60788904848",
+        "src/srs.ts": "29f5bc9c1cd46c1f56cd2a543ae10e750e2239c509b5ffaa28ebdfd38e03a5c7",
+        "style.css": "dae5dfce5350b52e993e64aab7af2073234686cb39a84e408203a7d0ed3eacef",
+        "tsconfig.json": "5597c749ecba073761c874910110ac24596c3e3cdf74efcf49e1b798b1088349"
+      },
+      "additionalReviewerChecks": [
+        {
+          "name": "mini blocked move actually fails",
+          "actual": "{\"type\":\"T\",\"rotation\":0,\"x\":3,\"y\":17}",
+          "expected": "{\"type\":\"T\",\"rotation\":0,\"x\":3,\"y\":17}",
+          "pass": true
+        },
+        {
+          "name": "mini failed action preserves spin",
+          "actual": 100,
+          "expected": 100,
+          "pass": true
+        },
+        {
+          "name": "full blocked move actually fails",
+          "actual": "{\"type\":\"T\",\"rotation\":0,\"x\":3,\"y\":17}",
+          "expected": "{\"type\":\"T\",\"rotation\":0,\"x\":3,\"y\":17}",
+          "pass": true
+        },
+        {
+          "name": "full failed action preserves spin",
+          "actual": 400,
+          "expected": 400,
+          "pass": true
+        },
+        {
+          "name": "new lowest row restores grounded reset allowance",
+          "actual": 2,
+          "expected": 2,
+          "pass": true
+        }
+      ],
+      "scores": {
+        "correctness": 7.0,
+        "tests": 8.0,
+        "code": 9.0,
+        "simplicity": 8.5,
+        "browser_ux": 8.5
+      },
+      "weightedScore": "7.90",
+      "projectReadback": {
+        "id": "mcp:9170180b-d4f9-4e84-9d04-a3f8d49d10d7",
+        "archivedAt": "2026-11-16T13:43:57.716Z",
+        "workspaceRoot": "/Users/david/tetris-bench/runs/b1eeba32fb15/tetris"
+      }
+    },
+    "qwen4-max-low": {
+      "model": "opencode-go/qwen4-max",
+      "effort": "low",
+      "runtime": "full-access",
+      "projectId": "mcp:d4d6d395-7859-46d8-a791-7f69bb43b94f",
+      "threadId": "mcp:launch:3f712704cd9b15c3933f90a109835a1a9c83b5c618ad5c19c7bd36eed18c771e",
+      "sessionId": "ses_e1c27ce7fffeI14wt5ZwCs6LSI",
+      "projectArchivedAt": "2026-11-16T13:43:57.904Z",
+      "usage": {
+        "usageScope": "main_agent",
+        "cachedInputTokens": 1440125,
+        "cacheCreationTokens": 64573,
+        "reasoningTokens": 0,
+        "hasSubagents": false,
+        "models": [
+          "opencode-go/qwen4-max"
+        ],
+        "usageStatus": "complete",
+        "inputTokens": 1504940,
+        "outputTokens": 48340
+      },
+      "tokens": 1553280,
+      "elapsed": "16m 40.863s",
+      "ownChecks": 21,
+      "engine": {
+        "mode": "low",
+        "checks": [
+          {
+            "name": "initial spawn is near the visible field",
+            "actual": true,
+            "expected": true,
+            "pass": true
+          },
+          {
+            "name": "28 canonical rotation states",
+            "actual": [],
+            "expected": [],
+            "pass": true
+          },
+          {
+            "name": "48 ordered SRS kick lists",
+            "actual": [],
+            "expected": [],
+            "pass": true
+          },
+          {
+            "name": "672 actual SRS rotations",
+            "actual": 0,
+            "expected": 0,
+            "pass": true
+          },
+          {
+            "name": "100 actual opening/dealt bags",
+            "actual": 0,
+            "expected": 0,
+            "pass": true
+          },
+          {
+            "name": "hold blocked twice",
+            "actual": "{\"type\":\"S\",\"rotation\":0,\"x\":3,\"y\":-1}",
+            "expected": "{\"type\":\"S\",\"rotation\":0,\"x\":3,\"y\":-1}",
+            "pass": true
+          },
+          {
+            "name": "held retrieval spawn rotation",
+            "actual": 0,
+            "expected": 0,
+            "pass": true
+          },
+          {
+            "name": "ghost I",
+            "actual": 14,
+            "expected": 14,
+            "pass": true
+          },
+          {
+            "name": "hard-drop points I",
+            "actual": 22,
+            "expected": 22,
+            "pass": true
+          },
+          {
+            "name": "ghost J",
+            "actual": 14,
+            "expected": 14,
+            "pass": true
+          },
+          {
+            "name": "hard-drop points J",
+            "actual": 22,
+            "expected": 22,
+            "pass": true
+          },
+          {
+            "name": "ghost L",
+            "actual": 14,
+            "expected": 14,
+            "pass": true
+          },
+          {
+            "name": "hard-drop points L",
+            "actual": 22,
+            "expected": 22,
+            "pass": true
+          },
+          {
+            "name": "ghost O",
+            "actual": 14,
+            "expected": 14,
+            "pass": true
+          },
+          {
+            "name": "hard-drop points O",
+            "actual": 22,
+            "expected": 22,
+            "pass": true
+          },
+          {
+            "name": "ghost S",
+            "actual": 14,
+            "expected": 14,
+            "pass": true
+          },
+          {
+            "name": "hard-drop points S",
+            "actual": 22,
+            "expected": 22,
+            "pass": true
+          },
+          {
+            "name": "ghost T",
+            "actual": 14,
+            "expected": 14,
+            "pass": true
+          },
+          {
+            "name": "hard-drop points T",
+            "actual": 22,
+            "expected": 22,
+            "pass": true
+          },
+          {
+            "name": "ghost Z",
+            "actual": 14,
+            "expected": 14,
+            "pass": true
+          },
+          {
+            "name": "hard-drop points Z",
+            "actual": 22,
+            "expected": 22,
+            "pass": true
+          },
+          {
+            "name": "ordinary 1 line score",
+            "actual": 100,
+            "expected": 100,
+            "pass": true
+          },
+          {
+            "name": "line count 1",
+            "actual": 1,
+            "expected": 1,
+            "pass": true
+          },
+          {
+            "name": "ordinary 2 line score",
+            "actual": 300,
+            "expected": 300,
+            "pass": true
+          },
+          {
+            "name": "line count 2",
+            "actual": 2,
+            "expected": 2,
+            "pass": true
+          },
+          {
+            "name": "ordinary 3 line score",
+            "actual": 500,
+            "expected": 500,
+            "pass": true
+          },
+          {
+            "name": "line count 3",
+            "actual": 3,
+            "expected": 3,
+            "pass": true
+          },
+          {
+            "name": "ordinary 4 line score",
+            "actual": 800,
+            "expected": 800,
+            "pass": true
+          },
+          {
+            "name": "line count 4",
+            "actual": 4,
+            "expected": 4,
+            "pass": true
+          },
+          {
+            "name": "perfect clear 1",
+            "actual": 900,
+            "expected": 900,
+            "pass": true
+          },
+          {
+            "name": "perfect clear 2",
+            "actual": 1500,
+            "expected": 1500,
+            "pass": true
+          },
+          {
+            "name": "perfect clear 3",
+            "actual": 2300,
+            "expected": 2300,
+            "pass": true
+          },
+          {
+            "name": "perfect clear 4",
+            "actual": 2800,
+            "expected": 2800,
+            "pass": true
+          },
+          {
+            "name": "B2B survives a no-clear lock",
+            "actual": 1200,
+            "expected": 1200,
+            "pass": true
+          },
+          {
+            "name": "B2B perfect clear plus combo",
+            "actual": 4450,
+            "expected": 4450,
+            "pass": true
+          },
+          {
+            "name": "HD-SPIN-1 travel hard",
+            "actual": 128,
+            "expected": 28,
+            "pass": false
+          },
+          {
+            "name": "HD-SPIN-1 mini hard",
+            "actual": 100,
+            "expected": 100,
+            "pass": true
+          },
+          {
+            "name": "HD-SPIN-1 mini timed",
+            "actual": 100,
+            "expected": 100,
+            "pass": true
+          },
+          {
+            "name": "HD-SPIN-1 full hard",
+            "actual": 400,
+            "expected": 400,
+            "pass": true
+          },
+          {
+            "name": "HD-SPIN-1 full timed",
+            "actual": 400,
+            "expected": 400,
+            "pass": true
+          },
+          {
+            "name": "manual soft descent cancels old spin credit",
+            "actual": 114,
+            "expected": 14,
+            "pass": false
+          },
+          {
+            "name": "landing retains only 100ms lock time",
+            "actual": 0,
+            "expected": 100,
+            "pass": false
+          },
+          {
+            "name": "floor survives 499ms",
+            "actual": 0,
+            "expected": 0,
+            "pass": true
+          },
+          {
+            "name": "floor locks at 500ms",
+            "actual": 4,
+            "expected": 4,
+            "pass": true
+          },
+          {
+            "name": "soft entry moves at most one row",
+            "actual": false,
+            "expected": true,
+            "pass": false
+          },
+          {
+            "name": "level 15 gravity rows",
+            "actual": 6,
+            "expected": 14,
+            "pass": false
+          },
+          {
+            "name": "airborne moves do not exhaust later floor reset",
+            "actual": 0,
+            "expected": 0,
+            "pass": true
+          },
+          {
+            "name": "returning to an old lowest row keeps spent resets",
+            "actual": 0,
+            "expected": 4,
+            "pass": false
+          },
+          {
+            "name": "partial hidden lock continues",
+            "actual": true,
+            "expected": false,
+            "pass": false
+          },
+          {
+            "name": "wholly hidden lock ends",
+            "actual": true,
+            "expected": true,
+            "pass": true
+          },
+          {
+            "name": "legal above-buffer lock retains four minos plus support",
+            "actual": 5,
+            "expected": 5,
+            "pass": true
+          },
+          {
+            "name": "20 restarts after three drops begin fresh bags",
+            "actual": 0,
+            "expected": 0,
+            "pass": true
+          }
+        ],
+        "observations": {
+          "initialSpawn": {
+            "minY": -1,
+            "maxY": 0
+          },
+          "rotations": {
+            "total": 672,
+            "mismatches": 0,
+            "examples": []
+          },
+          "bags": 100,
+          "travel-hard": {
+            "score": 128,
+            "pose": {
+              "type": "T",
+              "rotation": 1,
+              "x": 0,
+              "y": 3
+            },
+            "ghost": 17,
+            "distance": 14
+          },
+          "mini-hard": {
+            "score": 100,
+            "pose": {
+              "type": "T",
+              "rotation": 0,
+              "x": 3,
+              "y": 17
+            },
+            "ghost": 17,
+            "distance": 0
+          },
+          "mini-timed": {
+            "score": 100,
+            "pose": {
+              "type": "T",
+              "rotation": 0,
+              "x": 3,
+              "y": 17
+            },
+            "ghost": 17,
+            "distance": 0
+          },
+          "full-hard": {
+            "score": 400,
+            "pose": {
+              "type": "T",
+              "rotation": 0,
+              "x": 3,
+              "y": 17
+            },
+            "ghost": 17,
+            "distance": 0
+          },
+          "full-timed": {
+            "score": 400,
+            "pose": {
+              "type": "T",
+              "rotation": 0,
+              "x": 3,
+              "y": 17
+            },
+            "ghost": 17,
+            "distance": 0
+          },
+          "landing": {
+            "coarse": {
+              "locked": false,
+              "y": 18,
+              "clock": 0
+            },
+            "fine": {
+              "locked": false,
+              "y": 18,
+              "clock": 92
+            }
+          },
+          "softEntryRows": 15,
+          "oldRowResetCount": 0
+        }
+      },
+      "browser": {
+        "mode": "low",
+        "browser": "156.0.8078.4",
+        "views": {
+          "desktop": {
+            "controls": [
+              "ArrowLeft",
+              "ArrowRight",
+              "ArrowUp",
+              "x",
+              "z",
+              "ControlLeft",
+              "ArrowDown",
+              "Space",
+              "c"
+            ],
+            "spins": {
+              "travel": {
+                "pose": {
+                  "type": "T",
+                  "rotation": 1,
+                  "x": 0,
+                  "y": 3
+                },
+                "ghost": 17,
+                "score": 128,
+                "expected": 28
+              },
+              "mini": {
+                "pose": {
+                  "type": "T",
+                  "rotation": 0,
+                  "x": 3,
+                  "y": 17
+                },
+                "ghost": 17,
+                "score": 100,
+                "expected": 100
+              },
+              "full": {
+                "pose": {
+                  "type": "T",
+                  "rotation": 0,
+                  "x": 3,
+                  "y": 17
+                },
+                "ghost": 17,
+                "score": 400,
+                "expected": 400
+              }
+            },
+            "softEntryRows": 15,
+            "terminalDrops": 11,
+            "restarted": {
+              "pose": {
+                "type": "T",
+                "rotation": 0,
+                "x": 3,
+                "y": -1
+              },
+              "score": 0,
+              "lines": 0,
+              "over": false,
+              "count": 0,
+              "held": null
+            },
+            "restartOpening": [
+              "T",
+              "Z",
+              "O",
+              "L",
+              "J",
+              "I",
+              "S"
+            ],
+            "layout": {
+              "width": 1280,
+              "height": 800,
+              "scrollWidth": 1280,
+              "scrollHeight": 800,
+              "canvases": [
+                {
+                  "id": "game",
+                  "width": 1320,
+                  "height": 1280,
+                  "rect": {
+                    "x": 310,
+                    "y": 82.5,
+                    "width": 660,
+                    "height": 640
+                  }
+                }
+              ],
+              "statsTextOverlaps": [
+                {
+                  "label": {
+                    "text": "SCORE",
+                    "x": 480,
+                    "y": 430,
+                    "font": "bold 13px monospace",
+                    "top": 422.26220703125,
+                    "bottom": 430.19677734375
+                  },
+                  "value": {
+                    "text": "0",
+                    "x": 480,
+                    "y": 442,
+                    "font": "bold 20px monospace",
+                    "top": 429.36328125,
+                    "bottom": 442.322265625
+                  },
+                  "overlap": 0.83349609375
+                },
+                {
+                  "label": {
+                    "text": "LEVEL",
+                    "x": 480,
+                    "y": 478,
+                    "font": "bold 13px monospace",
+                    "top": 470.4716796875,
+                    "bottom": 478
+                  },
+                  "value": {
+                    "text": "1",
+                    "x": 480,
+                    "y": 490,
+                    "font": "bold 20px monospace",
+                    "top": 477.34375,
+                    "bottom": 490
+                  },
+                  "overlap": 0.65625
+                },
+                {
+                  "label": {
+                    "text": "LINES",
+                    "x": 480,
+                    "y": 526,
+                    "font": "bold 13px monospace",
+                    "top": 518.26220703125,
+                    "bottom": 526.19677734375
+                  },
+                  "value": {
+                    "text": "0",
+                    "x": 480,
+                    "y": 538,
+                    "font": "bold 20px monospace",
+                    "top": 525.36328125,
+                    "bottom": 538.322265625
+                  },
+                  "overlap": 0.83349609375
+                }
+              ]
+            },
+            "errors": [],
+            "assets": [],
+            "engine": {
+              "checks": 52,
+              "failures": [
+                {
+                  "name": "HD-SPIN-1 travel hard",
+                  "actual": 128,
+                  "expected": 28,
+                  "pass": false
+                },
+                {
+                  "name": "manual soft descent cancels old spin credit",
+                  "actual": 114,
+                  "expected": 14,
+                  "pass": false
+                },
+                {
+                  "name": "landing retains only 100ms lock time",
+                  "actual": 0,
+                  "expected": 100,
+                  "pass": false
+                },
+                {
+                  "name": "soft entry moves at most one row",
+                  "actual": false,
+                  "expected": true,
+                  "pass": false
+                },
+                {
+                  "name": "level 15 gravity rows",
+                  "actual": 6,
+                  "expected": 14,
+                  "pass": false
+                },
+                {
+                  "name": "returning to an old lowest row keeps spent resets",
+                  "actual": 0,
+                  "expected": 4,
+                  "pass": false
+                },
+                {
+                  "name": "partial hidden lock continues",
+                  "actual": true,
+                  "expected": false,
+                  "pass": false
+                }
+              ],
+              "observations": {
+                "initialSpawn": {
+                  "minY": -1,
+                  "maxY": 0
+                },
+                "rotations": {
+                  "total": 672,
+                  "mismatches": 0,
+                  "examples": []
+                },
+                "bags": 100,
+                "travel-hard": {
+                  "score": 128,
+                  "pose": {
+                    "type": "T",
+                    "rotation": 1,
+                    "x": 0,
+                    "y": 3
+                  },
+                  "ghost": 17,
+                  "distance": 14
+                },
+                "mini-hard": {
+                  "score": 100,
+                  "pose": {
+                    "type": "T",
+                    "rotation": 0,
+                    "x": 3,
+                    "y": 17
+                  },
+                  "ghost": 17,
+                  "distance": 0
+                },
+                "mini-timed": {
+                  "score": 100,
+                  "pose": {
+                    "type": "T",
+                    "rotation": 0,
+                    "x": 3,
+                    "y": 17
+                  },
+                  "ghost": 17,
+                  "distance": 0
+                },
+                "full-hard": {
+                  "score": 400,
+                  "pose": {
+                    "type": "T",
+                    "rotation": 0,
+                    "x": 3,
+                    "y": 17
+                  },
+                  "ghost": 17,
+                  "distance": 0
+                },
+                "full-timed": {
+                  "score": 400,
+                  "pose": {
+                    "type": "T",
+                    "rotation": 0,
+                    "x": 3,
+                    "y": 17
+                  },
+                  "ghost": 17,
+                  "distance": 0
+                },
+                "landing": {
+                  "coarse": {
+                    "locked": false,
+                    "y": 18,
+                    "clock": 0
+                  },
+                  "fine": {
+                    "locked": false,
+                    "y": 18,
+                    "clock": 92
+                  }
+                },
+                "softEntryRows": 15,
+                "oldRowResetCount": 0
+              }
+            }
+          },
+          "mobile": {
+            "controls": [
+              "ArrowLeft",
+              "ArrowRight",
+              "ArrowUp",
+              "x",
+              "z",
+              "ControlLeft",
+              "ArrowDown",
+              "Space",
+              "c"
+            ],
+            "spins": {
+              "travel": {
+                "pose": {
+                  "type": "T",
+                  "rotation": 1,
+                  "x": 0,
+                  "y": 3
+                },
+                "ghost": 17,
+                "score": 128,
+                "expected": 28
+              },
+              "mini": {
+                "pose": {
+                  "type": "T",
+                  "rotation": 0,
+                  "x": 3,
+                  "y": 17
+                },
+                "ghost": 17,
+                "score": 100,
+                "expected": 100
+              },
+              "full": {
+                "pose": {
+                  "type": "T",
+                  "rotation": 0,
+                  "x": 3,
+                  "y": 17
+                },
+                "ghost": 17,
+                "score": 400,
+                "expected": 400
+              }
+            },
+            "softEntryRows": 15,
+            "terminalDrops": 11,
+            "restarted": {
+              "pose": {
+                "type": "J",
+                "rotation": 0,
+                "x": 3,
+                "y": -1
+              },
+              "score": 0,
+              "lines": 0,
+              "over": false,
+              "count": 0,
+              "held": null
+            },
+            "restartOpening": [
+              "J",
+              "O",
+              "S",
+              "I",
+              "Z",
+              "L",
+              "T"
+            ],
+            "layout": {
+              "width": 390,
+              "height": 844,
+              "scrollWidth": 525,
+              "scrollHeight": 844,
+              "canvases": [
+                {
+                  "id": "game",
+                  "width": 1320,
+                  "height": 1280,
+                  "rect": {
+                    "x": -135,
+                    "y": 98,
+                    "width": 660,
+                    "height": 640
+                  }
+                }
+              ],
+              "statsTextOverlaps": [
+                {
+                  "label": {
+                    "text": "SCORE",
+                    "x": 480,
+                    "y": 430,
+                    "font": "bold 13px monospace",
+                    "top": 420.3515625,
+                    "bottom": 430.18408203125
+                  },
+                  "value": {
+                    "text": "0",
+                    "x": 480,
+                    "y": 442,
+                    "font": "bold 20px monospace",
+                    "top": 427.15625,
+                    "bottom": 442.283203125
+                  },
+                  "overlap": 3.02783203125
+                },
+                {
+                  "label": {
+                    "text": "LEVEL",
+                    "x": 480,
+                    "y": 478,
+                    "font": "bold 13px monospace",
+                    "top": 468.52294921875,
+                    "bottom": 478
+                  },
+                  "value": {
+                    "text": "1",
+                    "x": 480,
+                    "y": 490,
+                    "font": "bold 20px monospace",
+                    "top": 475.419921875,
+                    "bottom": 490
+                  },
+                  "overlap": 2.580078125
+                },
+                {
+                  "label": {
+                    "text": "LINES",
+                    "x": 480,
+                    "y": 526,
+                    "font": "bold 13px monospace",
+                    "top": 516.3515625,
+                    "bottom": 526.18408203125
+                  },
+                  "value": {
+                    "text": "0",
+                    "x": 480,
+                    "y": 538,
+                    "font": "bold 20px monospace",
+                    "top": 523.15625,
+                    "bottom": 538.283203125
+                  },
+                  "overlap": 3.02783203125
+                }
+              ]
+            },
+            "errors": [],
+            "assets": [],
+            "engine": {
+              "checks": 52,
+              "failures": [
+                {
+                  "name": "HD-SPIN-1 travel hard",
+                  "actual": 128,
+                  "expected": 28,
+                  "pass": false
+                },
+                {
+                  "name": "manual soft descent cancels old spin credit",
+                  "actual": 114,
+                  "expected": 14,
+                  "pass": false
+                },
+                {
+                  "name": "landing retains only 100ms lock time",
+                  "actual": 0,
+                  "expected": 100,
+                  "pass": false
+                },
+                {
+                  "name": "soft entry moves at most one row",
+                  "actual": false,
+                  "expected": true,
+                  "pass": false
+                },
+                {
+                  "name": "level 15 gravity rows",
+                  "actual": 6,
+                  "expected": 14,
+                  "pass": false
+                },
+                {
+                  "name": "returning to an old lowest row keeps spent resets",
+                  "actual": 0,
+                  "expected": 4,
+                  "pass": false
+                },
+                {
+                  "name": "partial hidden lock continues",
+                  "actual": true,
+                  "expected": false,
+                  "pass": false
+                }
+              ],
+              "observations": {
+                "initialSpawn": {
+                  "minY": -1,
+                  "maxY": 0
+                },
+                "rotations": {
+                  "total": 672,
+                  "mismatches": 0,
+                  "examples": []
+                },
+                "bags": 100,
+                "travel-hard": {
+                  "score": 128,
+                  "pose": {
+                    "type": "T",
+                    "rotation": 1,
+                    "x": 0,
+                    "y": 3
+                  },
+                  "ghost": 17,
+                  "distance": 14
+                },
+                "mini-hard": {
+                  "score": 100,
+                  "pose": {
+                    "type": "T",
+                    "rotation": 0,
+                    "x": 3,
+                    "y": 17
+                  },
+                  "ghost": 17,
+                  "distance": 0
+                },
+                "mini-timed": {
+                  "score": 100,
+                  "pose": {
+                    "type": "T",
+                    "rotation": 0,
+                    "x": 3,
+                    "y": 17
+                  },
+                  "ghost": 17,
+                  "distance": 0
+                },
+                "full-hard": {
+                  "score": 400,
+                  "pose": {
+                    "type": "T",
+                    "rotation": 0,
+                    "x": 3,
+                    "y": 17
+                  },
+                  "ghost": 17,
+                  "distance": 0
+                },
+                "full-timed": {
+                  "score": 400,
+                  "pose": {
+                    "type": "T",
+                    "rotation": 0,
+                    "x": 3,
+                    "y": 17
+                  },
+                  "ghost": 17,
+                  "distance": 0
+                },
+                "landing": {
+                  "coarse": {
+                    "locked": false,
+                    "y": 18,
+                    "clock": 0
+                  },
+                  "fine": {
+                    "locked": false,
+                    "y": 18,
+                    "clock": 92
+                  }
+                },
+                "softEntryRows": 15,
+                "oldRowResetCount": 0
+              }
+            }
+          }
+        }
+      },
+      "sourceHashes": {
+        ".gitignore": "e8bc935ce727f1809c792f4c5d26c5fc75ba2b7df7fc9390c56c8892f6a6007f",
+        "README.md": "36e2097a78fe8b5646e6216338640831cff0a284cc823c4b1f658991c8d40294",
+        "index.html": "272a659e4919a6b9f9a2992f051fcb95a76e992c2f3dd0e504654ba4e5c7d087",
+        "package-lock.json": "e723fb284710288f5b742a54b3c8cd54dfb6fdd3f5ddf6ddaead1bdcf4b933ee",
+        "package.json": "ae60da653e385d45a39c476590788c42d8165bb3949cb5af5df183887139b987",
+        "server.js": "47c00063b9fe476285bc5604abf1e6c0eb74488b74609aefc64c5a0c44bc3b35",
+        "src/board.ts": "96ed5d610e3b3801f724d703d7ae743cedf4d9b0dcddd6c7b568eb4bf32e014e",
+        "src/constants.ts": "82c9ce161077b8376b0f6506e73ad300dfe37d755b7d61c0e0806f2d4793942d",
+        "src/game.ts": "0f6e026886c3452a3e4b31f5b7b111d9a34f94ae82af50ed079a7416c3330625",
+        "src/input.ts": "6d1dc3e882c12619eff3cf47327d34b05e4dc17a626561944368fbbdc5b80a58",
+        "src/main.ts": "99c1df4117253e9460b0f8e0caf8a3ed6a2c75161746c5c74e436bec7804e53f",
+        "src/pieces.ts": "c738c93db9cb9a1edd2c55551ad37a34b9974a783c33c408d5f1b4df7e0d3abe",
+        "src/random.ts": "4b36f822236655837986102052d7da04084df9969a147820800f487c633eff07",
+        "src/renderer.ts": "55a78a9a89679c1047f42262f5a8230d8d32aa6610c647206623554157eaa17c",
+        "src/scoring.ts": "d1f63ad0b2a323ebf269bb94b36f97207d70514681dd70e28307872f31fcc92c",
+        "src/srs.ts": "ce7d1e0711a67b7aac2c5a887433d8daef7275075c3f5caffaafb3e87d83b0a9",
+        "src/tests/smoke.ts": "a88ddab4dc6eea63fe5f0cf735dc87941f55682c0d8b2cf887fe5aab7f172b31",
+        "src/types.ts": "99ed17df3cb07efcc6e323b5fbec178e862180692bf9ae66ba3a643428f3139e",
+        "tsconfig.json": "7f9488a7838900dec6d6558637de31e574fe7286bf6a4bc8addda96c763f3c4d"
+      },
+      "additionalReviewerChecks": [
+        {
+          "name": "mini blocked move actually fails",
+          "actual": "{\"type\":\"T\",\"rotation\":0,\"x\":3,\"y\":17}",
+          "expected": "{\"type\":\"T\",\"rotation\":0,\"x\":3,\"y\":17}",
+          "pass": true
+        },
+        {
+          "name": "mini failed action preserves spin",
+          "actual": 100,
+          "expected": 100,
+          "pass": true
+        },
+        {
+          "name": "full blocked move actually fails",
+          "actual": "{\"type\":\"T\",\"rotation\":0,\"x\":3,\"y\":17}",
+          "expected": "{\"type\":\"T\",\"rotation\":0,\"x\":3,\"y\":17}",
+          "pass": true
+        },
+        {
+          "name": "full failed action preserves spin",
+          "actual": 400,
+          "expected": 400,
+          "pass": true
+        },
+        {
+          "name": "new lowest row restores grounded reset allowance",
+          "actual": 2,
+          "expected": 2,
+          "pass": true
+        }
+      ],
+      "scores": {
+        "correctness": 6.0,
+        "tests": 7.0,
+        "code": 9.0,
+        "simplicity": 8.5,
+        "browser_ux": 8.0
+      },
+      "weightedScore": "7.25",
+      "projectReadback": {
+        "id": "mcp:d4d6d395-7859-46d8-a791-7f69bb43b94f",
+        "archivedAt": "2026-11-16T13:43:57.904Z",
+        "workspaceRoot": "/Users/david/tetris-bench/runs/77cf707deb4a/tetris"
+      }
+    },
+    "qwen4-max-xhigh": {
+      "model": "opencode-go/qwen4-max",
+      "effort": "xhigh",
+      "runtime": "full-access",
+      "projectId": "mcp:2b091d80-b60f-4692-9d3c-396fd4a5a32a",
+      "threadId": "mcp:launch:a4d011fa320873f9c082b36f6b3ab0275ca6792d48142b48a8e90eb14cea4ca0",
+      "sessionId": "ses_e1c17e00effeSmVTiZVzQgnZAf",
+      "projectArchivedAt": "2026-11-16T13:43:58.021Z",
+      "usage": {
+        "usageScope": "main_agent",
+        "cachedInputTokens": 1367011,
+        "cacheCreationTokens": 90163,
+        "reasoningTokens": 0,
+        "hasSubagents": false,
+        "models": [
+          "opencode-go/qwen4-max"
+        ],
+        "usageStatus": "complete",
+        "inputTokens": 1457332,
+        "outputTokens": 67819
+      },
+      "tokens": 1525151,
+      "elapsed": "21m 44.481s",
+      "ownChecks": 63,
+      "engine": {
+        "mode": "xhigh",
+        "checks": [
+          {
+            "name": "initial spawn is near the visible field",
+            "actual": true,
+            "expected": true,
+            "pass": true
+          },
+          {
+            "name": "28 canonical rotation states",
+            "actual": [],
+            "expected": [],
+            "pass": true
+          },
+          {
+            "name": "48 ordered SRS kick lists",
+            "actual": [],
+            "expected": [],
+            "pass": true
+          },
+          {
+            "name": "672 actual SRS rotations",
+            "actual": 0,
+            "expected": 0,
+            "pass": true
+          },
+          {
+            "name": "100 actual opening/dealt bags",
+            "actual": 0,
+            "expected": 0,
+            "pass": true
+          },
+          {
+            "name": "hold blocked twice",
+            "actual": "{\"type\":\"I\",\"rotation\":0,\"x\":3,\"y\":-2}",
+            "expected": "{\"type\":\"I\",\"rotation\":0,\"x\":3,\"y\":-2}",
+            "pass": true
+          },
+          {
+            "name": "held retrieval spawn rotation",
+            "actual": 0,
+            "expected": 0,
+            "pass": true
+          },
+          {
+            "name": "ghost I",
+            "actual": 14,
+            "expected": 14,
+            "pass": true
+          },
+          {
+            "name": "hard-drop points I",
+            "actual": 22,
+            "expected": 22,
+            "pass": true
+          },
+          {
+            "name": "ghost J",
+            "actual": 14,
+            "expected": 14,
+            "pass": true
+          },
+          {
+            "name": "hard-drop points J",
+            "actual": 22,
+            "expected": 22,
+            "pass": true
+          },
+          {
+            "name": "ghost L",
+            "actual": 14,
+            "expected": 14,
+            "pass": true
+          },
+          {
+            "name": "hard-drop points L",
+            "actual": 22,
+            "expected": 22,
+            "pass": true
+          },
+          {
+            "name": "ghost O",
+            "actual": 14,
+            "expected": 14,
+            "pass": true
+          },
+          {
+            "name": "hard-drop points O",
+            "actual": 22,
+            "expected": 22,
+            "pass": true
+          },
+          {
+            "name": "ghost S",
+            "actual": 14,
+            "expected": 14,
+            "pass": true
+          },
+          {
+            "name": "hard-drop points S",
+            "actual": 22,
+            "expected": 22,
+            "pass": true
+          },
+          {
+            "name": "ghost T",
+            "actual": 14,
+            "expected": 14,
+            "pass": true
+          },
+          {
+            "name": "hard-drop points T",
+            "actual": 22,
+            "expected": 22,
+            "pass": true
+          },
+          {
+            "name": "ghost Z",
+            "actual": 14,
+            "expected": 14,
+            "pass": true
+          },
+          {
+            "name": "hard-drop points Z",
+            "actual": 22,
+            "expected": 22,
+            "pass": true
+          },
+          {
+            "name": "ordinary 1 line score",
+            "actual": 100,
+            "expected": 100,
+            "pass": true
+          },
+          {
+            "name": "line count 1",
+            "actual": 1,
+            "expected": 1,
+            "pass": true
+          },
+          {
+            "name": "ordinary 2 line score",
+            "actual": 300,
+            "expected": 300,
+            "pass": true
+          },
+          {
+            "name": "line count 2",
+            "actual": 2,
+            "expected": 2,
+            "pass": true
+          },
+          {
+            "name": "ordinary 3 line score",
+            "actual": 500,
+            "expected": 500,
+            "pass": true
+          },
+          {
+            "name": "line count 3",
+            "actual": 3,
+            "expected": 3,
+            "pass": true
+          },
+          {
+            "name": "ordinary 4 line score",
+            "actual": 800,
+            "expected": 800,
+            "pass": true
+          },
+          {
+            "name": "line count 4",
+            "actual": 4,
+            "expected": 4,
+            "pass": true
+          },
+          {
+            "name": "perfect clear 1",
+            "actual": 900,
+            "expected": 900,
+            "pass": true
+          },
+          {
+            "name": "perfect clear 2",
+            "actual": 1500,
+            "expected": 1500,
+            "pass": true
+          },
+          {
+            "name": "perfect clear 3",
+            "actual": 2300,
+            "expected": 2300,
+            "pass": true
+          },
+          {
+            "name": "perfect clear 4",
+            "actual": 2800,
+            "expected": 2800,
+            "pass": true
+          },
+          {
+            "name": "B2B survives a no-clear lock",
+            "actual": 1200,
+            "expected": 1200,
+            "pass": true
+          },
+          {
+            "name": "B2B perfect clear plus combo",
+            "actual": 4450,
+            "expected": 4450,
+            "pass": true
+          },
+          {
+            "name": "HD-SPIN-1 travel hard",
+            "actual": 28,
+            "expected": 28,
+            "pass": true
+          },
+          {
+            "name": "HD-SPIN-1 mini hard",
+            "actual": 0,
+            "expected": 100,
+            "pass": false
+          },
+          {
+            "name": "HD-SPIN-1 mini timed",
+            "actual": 100,
+            "expected": 100,
+            "pass": true
+          },
+          {
+            "name": "HD-SPIN-1 full hard",
+            "actual": 0,
+            "expected": 400,
+            "pass": false
+          },
+          {
+            "name": "HD-SPIN-1 full timed",
+            "actual": 400,
+            "expected": 400,
+            "pass": true
+          },
+          {
+            "name": "manual soft descent cancels old spin credit",
+            "actual": 114,
+            "expected": 14,
+            "pass": false
+          },
+          {
+            "name": "landing retains only 100ms lock time",
+            "actual": 100,
+            "expected": 100,
+            "pass": true
+          },
+          {
+            "name": "floor survives 499ms",
+            "actual": 0,
+            "expected": 0,
+            "pass": true
+          },
+          {
+            "name": "floor locks at 500ms",
+            "actual": 4,
+            "expected": 4,
+            "pass": true
+          },
+          {
+            "name": "soft entry moves at most one row",
+            "actual": false,
+            "expected": true,
+            "pass": false
+          },
+          {
+            "name": "level 15 gravity rows",
+            "actual": 14,
+            "expected": 14,
+            "pass": true
+          },
+          {
+            "name": "airborne moves do not exhaust later floor reset",
+            "actual": 0,
+            "expected": 0,
+            "pass": true
+          },
+          {
+            "name": "returning to an old lowest row keeps spent resets",
+            "actual": 4,
+            "expected": 4,
+            "pass": true
+          },
+          {
+            "name": "partial hidden lock continues",
+            "actual": false,
+            "expected": false,
+            "pass": true
+          },
+          {
+            "name": "wholly hidden lock ends",
+            "actual": true,
+            "expected": true,
+            "pass": true
+          },
+          {
+            "name": "legal above-buffer lock retains four minos plus support",
+            "actual": 4,
+            "expected": 5,
+            "pass": false
+          },
+          {
+            "name": "20 restarts after three drops begin fresh bags",
+            "actual": 19,
+            "expected": 0,
+            "pass": false
+          }
+        ],
+        "observations": {
+          "initialSpawn": {
+            "minY": -2,
+            "maxY": -1
+          },
+          "rotations": {
+            "total": 672,
+            "mismatches": 0,
+            "examples": []
+          },
+          "bags": 100,
+          "travel-hard": {
+            "score": 28,
+            "pose": {
+              "type": "T",
+              "rotation": 1,
+              "x": 0,
+              "y": 3
+            },
+            "ghost": 17,
+            "distance": 14
+          },
+          "mini-hard": {
+            "score": 0,
+            "pose": {
+              "type": "T",
+              "rotation": 0,
+              "x": 3,
+              "y": 17
+            },
+            "ghost": 17,
+            "distance": 0
+          },
+          "mini-timed": {
+            "score": 100,
+            "pose": {
+              "type": "T",
+              "rotation": 0,
+              "x": 3,
+              "y": 17
+            },
+            "ghost": 17,
+            "distance": 0
+          },
+          "full-hard": {
+            "score": 0,
+            "pose": {
+              "type": "T",
+              "rotation": 0,
+              "x": 3,
+              "y": 17
+            },
+            "ghost": 17,
+            "distance": 0
+          },
+          "full-timed": {
+            "score": 400,
+            "pose": {
+              "type": "T",
+              "rotation": 0,
+              "x": 3,
+              "y": 17
+            },
+            "ghost": 17,
+            "distance": 0
+          },
+          "landing": {
+            "coarse": {
+              "locked": false,
+              "y": 18,
+              "clock": 100
+            },
+            "fine": {
+              "locked": false,
+              "y": 18,
+              "clock": 100
+            }
+          },
+          "softEntryRows": 15,
+          "oldRowResetCount": 15
+        }
+      },
+      "browser": {
+        "mode": "xhigh",
+        "browser": "156.0.8078.4",
+        "views": {
+          "desktop": {
+            "controls": [
+              "ArrowLeft",
+              "ArrowRight",
+              "ArrowUp",
+              "x",
+              "z",
+              "ControlLeft",
+              "ArrowDown",
+              "Space",
+              "c"
+            ],
+            "spins": {
+              "travel": {
+                "pose": {
+                  "type": "T",
+                  "rotation": 1,
+                  "x": 0,
+                  "y": 3
+                },
+                "ghost": 17,
+                "score": 28,
+                "expected": 28
+              },
+              "mini": {
+                "pose": {
+                  "type": "T",
+                  "rotation": 0,
+                  "x": 3,
+                  "y": 17
+                },
+                "ghost": 17,
+                "score": 0,
+                "expected": 100
+              },
+              "full": {
+                "pose": {
+                  "type": "T",
+                  "rotation": 0,
+                  "x": 3,
+                  "y": 17
+                },
+                "ghost": 17,
+                "score": 0,
+                "expected": 400
+              }
+            },
+            "softEntryRows": 15,
+            "terminalDrops": 13,
+            "restarted": {
+              "pose": {
+                "type": "O",
+                "rotation": 0,
+                "x": 4,
+                "y": -2
+              },
+              "score": 0,
+              "lines": 0,
+              "over": false,
+              "count": 0,
+              "held": null
+            },
+            "restartOpening": [
+              "O",
+              "J",
+              "I",
+              "S",
+              "T",
+              "J",
+              "Z"
+            ],
+            "layout": {
+              "width": 1280,
+              "height": 800,
+              "scrollWidth": 1280,
+              "scrollHeight": 800,
+              "canvases": [
+                {
+                  "id": "hold",
+                  "width": 240,
+                  "height": 160,
+                  "rect": {
+                    "x": 347,
+                    "y": 148,
+                    "width": 120,
+                    "height": 80
+                  }
+                },
+                {
+                  "id": "board",
+                  "width": 600,
+                  "height": 1200,
+                  "rect": {
+                    "x": 490,
+                    "y": 110,
+                    "width": 300,
+                    "height": 600
+                  }
+                },
+                {
+                  "id": "next",
+                  "width": 240,
+                  "height": 660,
+                  "rect": {
+                    "x": 819,
+                    "y": 148,
+                    "width": 120,
+                    "height": 330
+                  }
+                }
+              ],
+              "statsTextOverlaps": []
+            },
+            "errors": [],
+            "assets": [],
+            "engine": {
+              "checks": 52,
+              "failures": [
+                {
+                  "name": "HD-SPIN-1 mini hard",
+                  "actual": 0,
+                  "expected": 100,
+                  "pass": false
+                },
+                {
+                  "name": "HD-SPIN-1 full hard",
+                  "actual": 0,
+                  "expected": 400,
+                  "pass": false
+                },
+                {
+                  "name": "manual soft descent cancels old spin credit",
+                  "actual": 114,
+                  "expected": 14,
+                  "pass": false
+                },
+                {
+                  "name": "soft entry moves at most one row",
+                  "actual": false,
+                  "expected": true,
+                  "pass": false
+                },
+                {
+                  "name": "legal above-buffer lock retains four minos plus support",
+                  "actual": 4,
+                  "expected": 5,
+                  "pass": false
+                },
+                {
+                  "name": "20 restarts after three drops begin fresh bags",
+                  "actual": 19,
+                  "expected": 0,
+                  "pass": false
+                }
+              ],
+              "observations": {
+                "initialSpawn": {
+                  "minY": -2,
+                  "maxY": -1
+                },
+                "rotations": {
+                  "total": 672,
+                  "mismatches": 0,
+                  "examples": []
+                },
+                "bags": 100,
+                "travel-hard": {
+                  "score": 28,
+                  "pose": {
+                    "type": "T",
+                    "rotation": 1,
+                    "x": 0,
+                    "y": 3
+                  },
+                  "ghost": 17,
+                  "distance": 14
+                },
+                "mini-hard": {
+                  "score": 0,
+                  "pose": {
+                    "type": "T",
+                    "rotation": 0,
+                    "x": 3,
+                    "y": 17
+                  },
+                  "ghost": 17,
+                  "distance": 0
+                },
+                "mini-timed": {
+                  "score": 100,
+                  "pose": {
+                    "type": "T",
+                    "rotation": 0,
+                    "x": 3,
+                    "y": 17
+                  },
+                  "ghost": 17,
+                  "distance": 0
+                },
+                "full-hard": {
+                  "score": 0,
+                  "pose": {
+                    "type": "T",
+                    "rotation": 0,
+                    "x": 3,
+                    "y": 17
+                  },
+                  "ghost": 17,
+                  "distance": 0
+                },
+                "full-timed": {
+                  "score": 400,
+                  "pose": {
+                    "type": "T",
+                    "rotation": 0,
+                    "x": 3,
+                    "y": 17
+                  },
+                  "ghost": 17,
+                  "distance": 0
+                },
+                "landing": {
+                  "coarse": {
+                    "locked": false,
+                    "y": 18,
+                    "clock": 100
+                  },
+                  "fine": {
+                    "locked": false,
+                    "y": 18,
+                    "clock": 100
+                  }
+                },
+                "softEntryRows": 15,
+                "oldRowResetCount": 15
+              }
+            }
+          },
+          "mobile": {
+            "controls": [
+              "ArrowLeft",
+              "ArrowRight",
+              "ArrowUp",
+              "x",
+              "z",
+              "ControlLeft",
+              "ArrowDown",
+              "Space",
+              "c"
+            ],
+            "spins": {
+              "travel": {
+                "pose": {
+                  "type": "T",
+                  "rotation": 1,
+                  "x": 0,
+                  "y": 3
+                },
+                "ghost": 17,
+                "score": 28,
+                "expected": 28
+              },
+              "mini": {
+                "pose": {
+                  "type": "T",
+                  "rotation": 0,
+                  "x": 3,
+                  "y": 17
+                },
+                "ghost": 17,
+                "score": 0,
+                "expected": 100
+              },
+              "full": {
+                "pose": {
+                  "type": "T",
+                  "rotation": 0,
+                  "x": 3,
+                  "y": 17
+                },
+                "ghost": 17,
+                "score": 0,
+                "expected": 400
+              }
+            },
+            "softEntryRows": 15,
+            "terminalDrops": 11,
+            "restarted": {
+              "pose": {
+                "type": "L",
+                "rotation": 0,
+                "x": 3,
+                "y": -2
+              },
+              "score": 0,
+              "lines": 0,
+              "over": false,
+              "count": 0,
+              "held": null
+            },
+            "restartOpening": [
+              "L",
+              "Z",
+              "T",
+              "J",
+              "I",
+              "I",
+              "L"
+            ],
+            "layout": {
+              "width": 390,
+              "height": 844,
+              "scrollWidth": 390,
+              "scrollHeight": 1154,
+              "canvases": [
+                {
+                  "id": "hold",
+                  "width": 240,
+                  "height": 160,
+                  "rect": {
+                    "x": 60,
+                    "y": 731,
+                    "width": 120,
+                    "height": 80
+                  }
+                },
+                {
+                  "id": "board",
+                  "width": 600,
+                  "height": 1200,
+                  "rect": {
+                    "x": 45,
+                    "y": 77,
+                    "width": 300,
+                    "height": 600
+                  }
+                },
+                {
+                  "id": "next",
+                  "width": 240,
+                  "height": 660,
+                  "rect": {
+                    "x": 216,
+                    "y": 731,
+                    "width": 120,
+                    "height": 330
+                  }
+                }
+              ],
+              "statsTextOverlaps": []
+            },
+            "errors": [],
+            "assets": [],
+            "engine": {
+              "checks": 52,
+              "failures": [
+                {
+                  "name": "HD-SPIN-1 mini hard",
+                  "actual": 0,
+                  "expected": 100,
+                  "pass": false
+                },
+                {
+                  "name": "HD-SPIN-1 full hard",
+                  "actual": 0,
+                  "expected": 400,
+                  "pass": false
+                },
+                {
+                  "name": "manual soft descent cancels old spin credit",
+                  "actual": 114,
+                  "expected": 14,
+                  "pass": false
+                },
+                {
+                  "name": "soft entry moves at most one row",
+                  "actual": false,
+                  "expected": true,
+                  "pass": false
+                },
+                {
+                  "name": "legal above-buffer lock retains four minos plus support",
+                  "actual": 4,
+                  "expected": 5,
+                  "pass": false
+                },
+                {
+                  "name": "20 restarts after three drops begin fresh bags",
+                  "actual": 19,
+                  "expected": 0,
+                  "pass": false
+                }
+              ],
+              "observations": {
+                "initialSpawn": {
+                  "minY": -2,
+                  "maxY": -1
+                },
+                "rotations": {
+                  "total": 672,
+                  "mismatches": 0,
+                  "examples": []
+                },
+                "bags": 100,
+                "travel-hard": {
+                  "score": 28,
+                  "pose": {
+                    "type": "T",
+                    "rotation": 1,
+                    "x": 0,
+                    "y": 3
+                  },
+                  "ghost": 17,
+                  "distance": 14
+                },
+                "mini-hard": {
+                  "score": 0,
+                  "pose": {
+                    "type": "T",
+                    "rotation": 0,
+                    "x": 3,
+                    "y": 17
+                  },
+                  "ghost": 17,
+                  "distance": 0
+                },
+                "mini-timed": {
+                  "score": 100,
+                  "pose": {
+                    "type": "T",
+                    "rotation": 0,
+                    "x": 3,
+                    "y": 17
+                  },
+                  "ghost": 17,
+                  "distance": 0
+                },
+                "full-hard": {
+                  "score": 0,
+                  "pose": {
+                    "type": "T",
+                    "rotation": 0,
+                    "x": 3,
+                    "y": 17
+                  },
+                  "ghost": 17,
+                  "distance": 0
+                },
+                "full-timed": {
+                  "score": 400,
+                  "pose": {
+                    "type": "T",
+                    "rotation": 0,
+                    "x": 3,
+                    "y": 17
+                  },
+                  "ghost": 17,
+                  "distance": 0
+                },
+                "landing": {
+                  "coarse": {
+                    "locked": false,
+                    "y": 18,
+                    "clock": 100
+                  },
+                  "fine": {
+                    "locked": false,
+                    "y": 18,
+                    "clock": 100
+                  }
+                },
+                "softEntryRows": 15,
+                "oldRowResetCount": 15
+              }
+            }
+          }
+        }
+      },
+      "sourceHashes": {
+        ".gitignore": "790e3169bc19b046fe55ba1da6d13b976c28363c8c00462a2195fe5faf260910",
+        "README.md": "36e2097a78fe8b5646e6216338640831cff0a284cc823c4b1f658991c8d40294",
+        "index.html": "4d1f2243677abf81b58050d9e6fb283ecb6f371e19a70d981f05d89ff523e944",
+        "package-lock.json": "f2a7ef52971fff080ad45eaad43e2dbf04c14d8b6dae6222650ef11f28e2431e",
+        "package.json": "30613fded22adebf75d4c4cdea7a6a370ba78835b425fd4762a9047eb4c6cfba",
+        "server.mjs": "bd29c1b21cb66bf3b87240b9b719631ca86178b2d4f66f95a1544b5ce53b0d6c",
+        "src/board.ts": "21d9b6b58cd90975af3b1e41966326b9b810d58955aadb6581dcc5403451130f",
+        "src/constants.ts": "f48e6c0910a3dbdfebecb32fc946861c49a465697fe0283a71e69b3c2aa95d8d",
+        "src/game.ts": "5a8d5f92c38de3a0712a3a9812c698bdb3581ee18b1872fe104b6d9ac20555a3",
+        "src/input.ts": "2f17a759b99b692e710c2eee93e09a89e51c1cc493e4fbc649dac4a4c6497fef",
+        "src/main.ts": "c126744eb2e39d32abd81499115356da92fbd92d96b46b1dab6e09b0491a2635",
+        "src/pieces.ts": "0402023be95772d02374ab3c1a5d44d46265be04a3d45fd71bdb33d812c58a96",
+        "src/random.ts": "984a5c804ac20491b1396c933e2886c86145c4e39cc64536a81f1c5081aee987",
+        "src/renderer.ts": "bd8203a4af817726f190e5686847de90020de47c8f455fc9ed23f0a61cbeccf8",
+        "src/test.ts": "07c9f45063956e1e19c38d1eee1198268054790d5260d800668cfa3ed8ba85f2",
+        "style.css": "d22dc903da7e01f8fd1489b7a0415155cbffe5b7ef8aa03f28fde485623a761e",
+        "tsconfig.json": "2bc53bb853d735a7c0c320dfc4bcac8d969eb805013bffc7be75602d836e25d4"
+      },
+      "additionalReviewerChecks": [
+        {
+          "name": "mini blocked move actually fails",
+          "actual": "{\"type\":\"T\",\"rotation\":0,\"x\":3,\"y\":17}",
+          "expected": "{\"type\":\"T\",\"rotation\":0,\"x\":3,\"y\":17}",
+          "pass": true
+        },
+        {
+          "name": "mini failed action preserves spin",
+          "actual": 100,
+          "expected": 100,
+          "pass": true
+        },
+        {
+          "name": "full blocked move actually fails",
+          "actual": "{\"type\":\"T\",\"rotation\":0,\"x\":3,\"y\":17}",
+          "expected": "{\"type\":\"T\",\"rotation\":0,\"x\":3,\"y\":17}",
+          "pass": true
+        },
+        {
+          "name": "full failed action preserves spin",
+          "actual": 400,
+          "expected": 400,
+          "pass": true
+        },
+        {
+          "name": "new lowest row restores grounded reset allowance",
+          "actual": 2,
+          "expected": 2,
+          "pass": true
+        }
+      ],
+      "scores": {
+        "correctness": 8.0,
+        "tests": 8.0,
+        "code": 9.0,
+        "simplicity": 8.5,
+        "browser_ux": 9.0
+      },
+      "weightedScore": "8.35",
+      "projectReadback": {
+        "id": "mcp:2b091d80-b60f-4692-9d3c-396fd4a5a32a",
+        "archivedAt": "2026-11-16T13:43:58.021Z",
+        "workspaceRoot": "/Users/david/tetris-bench/runs/1fcc9a129f77/tetris"
+      }
+    },
+    "hy4-flash-free-none": {
+      "model": "opencode-go/hy4-flash-free",
+      "effort": "none",
+      "runtime": "full-access",
+      "projectId": "mcp:718cbd8d-4f48-43df-b029-c85c1092db48",
+      "threadId": "mcp:launch:ada3936c2ec832f576785e058b6f568dd96cc07929fecaff72882073aed7e406",
+      "sessionId": "ses_e1c3cd4a8ffeFQJhTkbmNTSYLg",
+      "projectArchivedAt": "2026-11-16T17:10:04.282Z",
+      "usage": {
+        "usageScope": "main_agent",
+        "cachedInputTokens": 1343232,
+        "cacheCreationTokens": 0,
+        "reasoningTokens": 0,
+        "hasSubagents": false,
+        "models": [
+          "opencode-go/hy4-flash-free"
+        ],
+        "usageStatus": "partial",
+        "inputTokens": 1385321,
+        "outputTokens": 22688
+      },
+      "nativeUsageReconciliation": {
+        "source": "opencode_sqlite_v2",
+        "database": "/Users/david/.local/share/opencode/opencode.db",
+        "session_id": "ses_e1c3cd4a8ffeFQJhTkbmNTSYLg",
+        "original_t3_usage_status": "partial",
+        "idle_outcome": "succeeded",
+        "model": {
+          "id": "hy4-flash-free",
+          "providerID": "opencode-go",
+          "variant": "none"
+        },
+        "directory": "/Users/david/tetris-bench/runs/34c806f93d4f/tetris",
+        "session_totals": {
+          "input": 42089,
+          "output": 22688,
+          "reasoning": 0,
+          "cache_read": 1343232,
+          "cache_write": 0
+        },
+        "assistant_records": [
+          {
+            "id": "msg_1e3c32bb6001REvjfafu77QzCA",
+            "seq": 5,
+            "time": {
+              "created": 1794822581178,
+              "streamed": 1794822583431,
+              "completed": 1794822583439
+            },
+            "finish": "tool-calls",
+            "tokens": {
+              "input": 6536,
+              "output": 30,
+              "reasoning": 0,
+              "cache_read": 3840,
+              "cache_write": 0
+            }
+          },
+          {
+            "id": "msg_1e3c334a000133Mmjqoivp03IG",
+            "seq": 15,
+            "time": {
+              "created": 1794822583458,
+              "streamed": 1794822585899,
+              "completed": 1794822585910
+            },
+            "finish": "tool-calls",
+            "tokens": {
+              "input": 3005,
+              "output": 86,
+              "reasoning": 0,
+              "cache_read": 10240,
+              "cache_write": 0
+            }
+          },
+          {
+            "id": "msg_1e3c33e39001Ba654xqyusHqNR",
+            "seq": 24,
+            "time": {
+              "created": 1794822585914,
+              "streamed": 1794822588560,
+              "completed": 1794822589288
+            },
+            "finish": "tool-calls",
+            "tokens": {
+              "input": 291,
+              "output": 107,
+              "reasoning": 0,
+              "cache_read": 13056,
+              "cache_write": 0
+            }
+          },
+          {
+            "id": "msg_1e3c34b6c001CCOY3H4w06tpdT",
+            "seq": 33,
+            "time": {
+              "created": 1794822589293,
+              "streamed": 1794822591911,
+              "completed": 1794822592402
+            },
+            "finish": "tool-calls",
+            "tokens": {
+              "input": 380,
+              "output": 118,
+              "reasoning": 0,
+              "cache_read": 13312,
+              "cache_write": 0
+            }
+          },
+          {
+            "id": "msg_1e3c35796001W7x17mmMemVd7t",
+            "seq": 42,
+            "time": {
+              "created": 1794822592408,
+              "streamed": 1794822595355,
+              "completed": 1794822595360
+            },
+            "finish": "tool-calls",
+            "tokens": {
+              "input": 315,
+              "output": 195,
+              "reasoning": 0,
+              "cache_read": 13568,
+              "cache_write": 0
+            }
+          },
+          {
+            "id": "msg_1e3c36328001XVxmEKdQTjacHp",
+            "seq": 51,
+            "time": {
+              "created": 1794822595370,
+              "streamed": 1794822600112,
+              "completed": 1794822600118
+            },
+            "finish": "tool-calls",
+            "tokens": {
+              "input": 266,
+              "output": 151,
+              "reasoning": 0,
+              "cache_read": 13824,
+              "cache_write": 0
+            }
+          },
+          {
+            "id": "msg_1e3c375bb001I8205RZeP50ZW2",
+            "seq": 58,
+            "time": {
+              "created": 1794822600124,
+              "streamed": 1794822602566,
+              "completed": 1794822603239
+            },
+            "finish": "tool-calls",
+            "tokens": {
+              "input": 176,
+              "output": 62,
+              "reasoning": 0,
+              "cache_read": 14080,
+              "cache_write": 0
+            }
+          },
+          {
+            "id": "msg_1e3c381eb00187zkB0lEkmkye8",
+            "seq": 67,
+            "time": {
+              "created": 1794822603246,
+              "streamed": 1794822615853,
+              "completed": 1794822615861
+            },
+            "finish": "tool-calls",
+            "tokens": {
+              "input": 272,
+              "output": 3352,
+              "reasoning": 0,
+              "cache_read": 14080,
+              "cache_write": 0
+            }
+          },
+          {
+            "id": "msg_1e3c3b33e001b6HS4Xhl61Uui6",
+            "seq": 76,
+            "time": {
+              "created": 1794822615872,
+              "streamed": 1794822619124,
+              "completed": 1794822619129
+            },
+            "finish": "tool-calls",
+            "tokens": {
+              "input": 3339,
+              "output": 253,
+              "reasoning": 0,
+              "cache_read": 14336,
+              "cache_write": 0
+            }
+          },
+          {
+            "id": "msg_1e3c3c001001yRHlaVC3ggjykf",
+            "seq": 85,
+            "time": {
+              "created": 1794822619139,
+              "streamed": 1794822622836,
+              "completed": 1794822622841
+            },
+            "finish": "tool-calls",
+            "tokens": {
+              "input": 273,
+              "output": 467,
+              "reasoning": 0,
+              "cache_read": 17664,
+              "cache_write": 0
+            }
+          },
+          {
+            "id": "msg_1e3c3ce7e0019sU72m1U0gcLkp",
+            "seq": 94,
+            "time": {
+              "created": 1794822622848,
+              "streamed": 1794822629261,
+              "completed": 1794822629268
+            },
+            "finish": "tool-calls",
+            "tokens": {
+              "input": 494,
+              "output": 1137,
+              "reasoning": 0,
+              "cache_read": 17920,
+              "cache_write": 0
+            }
+          },
+          {
+            "id": "msg_1e3c3e79b001SuygNmdkc754UY",
+            "seq": 103,
+            "time": {
+              "created": 1794822629278,
+              "streamed": 1794822633994,
+              "completed": 1794822633999
+            },
+            "finish": "tool-calls",
+            "tokens": {
+              "input": 1375,
+              "output": 694,
+              "reasoning": 0,
+              "cache_read": 18176,
+              "cache_write": 0
+            }
+          },
+          {
+            "id": "msg_1e3c3fa17001WwyRsrVY0YlJKE",
+            "seq": 112,
+            "time": {
+              "created": 1794822634009,
+              "streamed": 1794822643662,
+              "completed": 1794822643666
+            },
+            "finish": "tool-calls",
+            "tokens": {
+              "input": 791,
+              "output": 2178,
+              "reasoning": 0,
+              "cache_read": 19456,
+              "cache_write": 0
+            }
+          },
+          {
+            "id": "msg_1e3c41fd7001ZK40WFzmGzSXaM",
+            "seq": 121,
+            "time": {
+              "created": 1794822643673,
+              "streamed": 1794822652456,
+              "completed": 1794822652463
+            },
+            "finish": "tool-calls",
+            "tokens": {
+              "input": 2144,
+              "output": 2343,
+              "reasoning": 0,
+              "cache_read": 20224,
+              "cache_write": 0
+            }
+          },
+          {
+            "id": "msg_1e3c44235001kroxjTBWpH4Tvh",
+            "seq": 130,
+            "time": {
+              "created": 1794822652471,
+              "streamed": 1794822655240,
+              "completed": 1794822655248
+            },
+            "finish": "tool-calls",
+            "tokens": {
+              "input": 2392,
+              "output": 196,
+              "reasoning": 0,
+              "cache_read": 22272,
+              "cache_write": 0
+            }
+          },
+          {
+            "id": "msg_1e3c44d17001iS0OB7WeeIYyn1",
+            "seq": 139,
+            "time": {
+              "created": 1794822655257,
+              "streamed": 1794822660768,
+              "completed": 1794822660773
+            },
+            "finish": "tool-calls",
+            "tokens": {
+              "input": 302,
+              "output": 917,
+              "reasoning": 0,
+              "cache_read": 24576,
+              "cache_write": 0
+            }
+          },
+          {
+            "id": "msg_1e3c462a9001VONzB2uLi8cq24",
+            "seq": 148,
+            "time": {
+              "created": 1794822660779,
+              "streamed": 1794822665156,
+              "completed": 1794822665171
+            },
+            "finish": "tool-calls",
+            "tokens": {
+              "input": 954,
+              "output": 621,
+              "reasoning": 0,
+              "cache_read": 24832,
+              "cache_write": 0
+            }
+          },
+          {
+            "id": "msg_1e3c473d8001ByNWMwnFo4TJEC",
+            "seq": 157,
+            "time": {
+              "created": 1794822665177,
+              "streamed": 1794822669206,
+              "completed": 1794822669212
+            },
+            "finish": "tool-calls",
+            "tokens": {
+              "input": 801,
+              "output": 372,
+              "reasoning": 0,
+              "cache_read": 25600,
+              "cache_write": 0
+            }
+          },
+          {
+            "id": "msg_1e3c483a3001byfgBl3mDUDw0Z",
+            "seq": 166,
+            "time": {
+              "created": 1794822669221,
+              "streamed": 1794822680459,
+              "completed": 1794822680466
+            },
+            "finish": "tool-calls",
+            "tokens": {
+              "input": 415,
+              "output": 2340,
+              "reasoning": 0,
+              "cache_read": 26368,
+              "cache_write": 0
+            }
+          },
+          {
+            "id": "msg_1e3c4af9a001otYLN54P0qdq1L",
+            "seq": 175,
+            "time": {
+              "created": 1794822680476,
+              "streamed": 1794822684116,
+              "completed": 1794822684121
+            },
+            "finish": "tool-calls",
+            "tokens": {
+              "input": 2446,
+              "output": 399,
+              "reasoning": 0,
+              "cache_read": 26624,
+              "cache_write": 0
+            }
+          },
+          {
+            "id": "msg_1e3c4bde40015TvCeMvSl5ofWt",
+            "seq": 184,
+            "time": {
+              "created": 1794822684135,
+              "streamed": 1794822688565,
+              "completed": 1794822688570
+            },
+            "finish": "tool-calls",
+            "tokens": {
+              "input": 559,
+              "output": 638,
+              "reasoning": 0,
+              "cache_read": 28928,
+              "cache_write": 0
+            }
+          },
+          {
+            "id": "msg_1e3c4cf420019E1IZLJUcckGN0",
+            "seq": 191,
+            "time": {
+              "created": 1794822688579,
+              "streamed": 1794822692463,
+              "completed": 1794822692465
+            },
+            "finish": "tool-calls",
+            "tokens": {
+              "input": 685,
+              "output": 415,
+              "reasoning": 0,
+              "cache_read": 29440,
+              "cache_write": 0
+            }
+          },
+          {
+            "id": "msg_1e3c4de76001dpLDzzTMbk254g",
+            "seq": 200,
+            "time": {
+              "created": 1794822692472,
+              "streamed": 1794822695167,
+              "completed": 1794822695994
+            },
+            "finish": "tool-calls",
+            "tokens": {
+              "input": 595,
+              "output": 55,
+              "reasoning": 0,
+              "cache_read": 29952,
+              "cache_write": 0
+            }
+          },
+          {
+            "id": "msg_1e3c4ec3e0017U1HcaNUZa4zRA",
+            "seq": 209,
+            "time": {
+              "created": 1794822696000,
+              "streamed": 1794822699434,
+              "completed": 1794822699439
+            },
+            "finish": "tool-calls",
+            "tokens": {
+              "input": 287,
+              "output": 129,
+              "reasoning": 0,
+              "cache_read": 30464,
+              "cache_write": 0
+            }
+          },
+          {
+            "id": "msg_1e3c4f9b7001Adjifn0IRpE6gK",
+            "seq": 218,
+            "time": {
+              "created": 1794822699448,
+              "streamed": 1794822702738,
+              "completed": 1794822702743
+            },
+            "finish": "tool-calls",
+            "tokens": {
+              "input": 176,
+              "output": 81,
+              "reasoning": 0,
+              "cache_read": 30720,
+              "cache_write": 0
+            }
+          },
+          {
+            "id": "msg_1e3c5069e001ZAIfigdip2pgPU",
+            "seq": 225,
+            "time": {
+              "created": 1794822706026,
+              "streamed": 1794822708900,
+              "completed": 1794822709534
+            },
+            "finish": "tool-calls",
+            "tokens": {
+              "input": 278,
+              "output": 82,
+              "reasoning": 0,
+              "cache_read": 30720,
+              "cache_write": 0
+            }
+          },
+          {
+            "id": "msg_1e3c521210019tSaODXlMlHw5j",
+            "seq": 236,
+            "time": {
+              "created": 1794822709539,
+              "streamed": 1794822712486,
+              "completed": 1794822713221
+            },
+            "finish": "tool-calls",
+            "tokens": {
+              "input": 137,
+              "output": 72,
+              "reasoning": 0,
+              "cache_read": 30976,
+              "cache_write": 0
+            }
+          },
+          {
+            "id": "msg_1e3c52f89001FKjl1G7yqTvdwi",
+            "seq": 245,
+            "time": {
+              "created": 1794822713227,
+              "streamed": 1794822718479,
+              "completed": 1794822718486
+            },
+            "finish": "tool-calls",
+            "tokens": {
+              "input": 783,
+              "output": 702,
+              "reasoning": 0,
+              "cache_read": 30976,
+              "cache_write": 0
+            }
+          },
+          {
+            "id": "msg_1e3c5441d001EpS5ROZe30zGvd",
+            "seq": 254,
+            "time": {
+              "created": 1794822718495,
+              "streamed": 1794822721371,
+              "completed": 1794822722190
+            },
+            "finish": "tool-calls",
+            "tokens": {
+              "input": 728,
+              "output": 113,
+              "reasoning": 0,
+              "cache_read": 31744,
+              "cache_write": 0
+            }
+          },
+          {
+            "id": "msg_1e3c55293001yqzKpicSP0NGlX",
+            "seq": 263,
+            "time": {
+              "created": 1794822722197,
+              "streamed": 1794822727598,
+              "completed": 1794822727605
+            },
+            "finish": "tool-calls",
+            "tokens": {
+              "input": 992,
+              "output": 607,
+              "reasoning": 0,
+              "cache_read": 32256,
+              "cache_write": 0
+            }
+          },
+          {
+            "id": "msg_1e3c567bd001l6BNZqJLi8qAx8",
+            "seq": 272,
+            "time": {
+              "created": 1794822727615,
+              "streamed": 1794822730777,
+              "completed": 1794822731497
+            },
+            "finish": "tool-calls",
+            "tokens": {
+              "input": 846,
+              "output": 133,
+              "reasoning": 0,
+              "cache_read": 33024,
+              "cache_write": 0
+            }
+          },
+          {
+            "id": "msg_1e3c576ed001rOD5dsq9lZ6icU",
+            "seq": 281,
+            "time": {
+              "created": 1794822731503,
+              "streamed": 1794822734376,
+              "completed": 1794822734383
+            },
+            "finish": "tool-calls",
+            "tokens": {
+              "input": 534,
+              "output": 80,
+              "reasoning": 0,
+              "cache_read": 33792,
+              "cache_write": 0
+            }
+          },
+          {
+            "id": "msg_1e3c582380013V8SrB0xFNveNN",
+            "seq": 290,
+            "time": {
+              "created": 1794822734394,
+              "streamed": 1794822736899,
+              "completed": 1794822736902
+            },
+            "finish": "tool-calls",
+            "tokens": {
+              "input": 328,
+              "output": 28,
+              "reasoning": 0,
+              "cache_read": 34304,
+              "cache_write": 0
+            }
+          },
+          {
+            "id": "msg_1e3c58c0e001giboty5XsMAZyu",
+            "seq": 299,
+            "time": {
+              "created": 1794822736913,
+              "streamed": 1794822740191,
+              "completed": 1794822740198
+            },
+            "finish": "tool-calls",
+            "tokens": {
+              "input": 2734,
+              "output": 109,
+              "reasoning": 0,
+              "cache_read": 34560,
+              "cache_write": 0
+            }
+          },
+          {
+            "id": "msg_1e3c598ea001lk7aMWhsQ4QX31",
+            "seq": 306,
+            "time": {
+              "created": 1794822740204,
+              "streamed": 1794822743201,
+              "completed": 1794822743266
+            },
+            "finish": "tool-calls",
+            "tokens": {
+              "input": 339,
+              "output": 119,
+              "reasoning": 0,
+              "cache_read": 37120,
+              "cache_write": 0
+            }
+          },
+          {
+            "id": "msg_1e3c5a4e50010gERd6RmpWjfCd",
+            "seq": 315,
+            "time": {
+              "created": 1794822743270,
+              "streamed": 1794822748415,
+              "completed": 1794822748488
+            },
+            "finish": "tool-calls",
+            "tokens": {
+              "input": 271,
+              "output": 558,
+              "reasoning": 0,
+              "cache_read": 37376,
+              "cache_write": 0
+            }
+          },
+          {
+            "id": "msg_1e3c5b94b001GpkqVP72jR1CU5",
+            "seq": 324,
+            "time": {
+              "created": 1794822748493,
+              "streamed": 1794822751659,
+              "completed": 1794822751732
+            },
+            "finish": "tool-calls",
+            "tokens": {
+              "input": 600,
+              "output": 264,
+              "reasoning": 0,
+              "cache_read": 37632,
+              "cache_write": 0
+            }
+          },
+          {
+            "id": "msg_1e3c5c5f80018fy7FmX8VP3lSo",
+            "seq": 333,
+            "time": {
+              "created": 1794822751738,
+              "streamed": 1794822755549,
+              "completed": 1794822755618
+            },
+            "finish": "tool-calls",
+            "tokens": {
+              "input": 381,
+              "output": 299,
+              "reasoning": 0,
+              "cache_read": 38144,
+              "cache_write": 0
+            }
+          },
+          {
+            "id": "msg_1e3c5d525001rUHuD29lKBV9os",
+            "seq": 342,
+            "time": {
+              "created": 1794822755623,
+              "streamed": 1794822761314,
+              "completed": 1794822761316
+            },
+            "finish": "tool-calls",
+            "tokens": {
+              "input": 453,
+              "output": 605,
+              "reasoning": 0,
+              "cache_read": 38400,
+              "cache_write": 0
+            }
+          },
+          {
+            "id": "msg_1e3c5eb68001Ex01s1Cj08Zgb2",
+            "seq": 351,
+            "time": {
+              "created": 1794822761322,
+              "streamed": 1794822764352,
+              "completed": 1794822764359
+            },
+            "finish": "tool-calls",
+            "tokens": {
+              "input": 817,
+              "output": 106,
+              "reasoning": 0,
+              "cache_read": 38656,
+              "cache_write": 0
+            }
+          },
+          {
+            "id": "msg_1e3c5f74e0013EvQqX01Pd6QgJ",
+            "seq": 360,
+            "time": {
+              "created": 1794822764368,
+              "streamed": 1794822767422,
+              "completed": 1794822767428
+            },
+            "finish": "tool-calls",
+            "tokens": {
+              "input": 172,
+              "output": 95,
+              "reasoning": 0,
+              "cache_read": 39424,
+              "cache_write": 0
+            }
+          },
+          {
+            "id": "msg_1e3c6034b001cMAWrXu8tEdRNN",
+            "seq": 367,
+            "time": {
+              "created": 1794822767438,
+              "streamed": 1794822770631,
+              "completed": 1794822770636
+            },
+            "finish": "tool-calls",
+            "tokens": {
+              "input": 287,
+              "output": 100,
+              "reasoning": 0,
+              "cache_read": 39424,
+              "cache_write": 0
+            }
+          },
+          {
+            "id": "msg_1e3c60fd30014RRsoZQP4MPFfj",
+            "seq": 374,
+            "time": {
+              "created": 1794822774219,
+              "streamed": 1794822777677,
+              "completed": 1794822778441
+            },
+            "finish": "tool-calls",
+            "tokens": {
+              "input": 151,
+              "output": 174,
+              "reasoning": 0,
+              "cache_read": 39680,
+              "cache_write": 0
+            }
+          },
+          {
+            "id": "msg_1e3c62e4d001L4wfbRc6pc1CmH",
+            "seq": 385,
+            "time": {
+              "created": 1794822778447,
+              "streamed": 1794822781789,
+              "completed": 1794822781826
+            },
+            "finish": "tool-calls",
+            "tokens": {
+              "input": 646,
+              "output": 150,
+              "reasoning": 0,
+              "cache_read": 39680,
+              "cache_write": 0
+            }
+          },
+          {
+            "id": "msg_1e3c63b860019ovl2mqANSAdjk",
+            "seq": 394,
+            "time": {
+              "created": 1794822790548,
+              "streamed": 1794822795213,
+              "completed": 1794822795242
+            },
+            "finish": "tool-calls",
+            "tokens": {
+              "input": 315,
+              "output": 75,
+              "reasoning": 0,
+              "cache_read": 40192,
+              "cache_write": 0
+            }
+          },
+          {
+            "id": "msg_1e3c66fee001wY9qPsfP1jgusD",
+            "seq": 408,
+            "time": {
+              "created": 1794822795248,
+              "streamed": 1794822798719,
+              "completed": 1794822798791
+            },
+            "finish": "tool-calls",
+            "tokens": {
+              "input": 149,
+              "output": 205,
+              "reasoning": 0,
+              "cache_read": 40448,
+              "cache_write": 0
+            }
+          },
+          {
+            "id": "msg_1e3c67dcb001Q0IZ5GzDKXsyou",
+            "seq": 418,
+            "time": {
+              "created": 1794822798796,
+              "streamed": 1794822802300,
+              "completed": 1794822802317
+            },
+            "finish": "tool-calls",
+            "tokens": {
+              "input": 455,
+              "output": 123,
+              "reasoning": 0,
+              "cache_read": 40448,
+              "cache_write": 0
+            }
+          },
+          {
+            "id": "msg_1e3c68b91001mvUHsLYYSV5u8T",
+            "seq": 427,
+            "time": {
+              "created": 1794822802322,
+              "streamed": 1794822807199,
+              "completed": 1794822807200
+            },
+            "finish": "stop",
+            "tokens": {
+              "input": 424,
+              "output": 553,
+              "reasoning": 0,
+              "cache_read": 40704,
+              "cache_write": 0
+            }
+          }
+        ],
+        "totals": {
+          "input": 42089,
+          "output": 22688,
+          "reasoning": 0,
+          "cache_read": 1343232,
+          "cache_write": 0
+        },
+        "total": 1408009
+      },
+      "tokens": 1408009,
+      "elapsed": "3m 46.644s",
+      "ownChecks": 19,
+      "sourceHashes": {
+        "README.md": "36e2097a78fe8b5646e6216338640831cff0a284cc823c4b1f658991c8d40294",
+        "index.html": "d648ff292fe7a1a15141fc6a8a61e4b8cb5f069bb6bc56dd963ef313d268e44e",
+        "package-lock.json": "76e2bc2e2a9bccf932e5d3b9005f5efbba39dc7d5c977326806e07e38a8a18b9",
+        "package.json": "3ed204643883bd0d63aa62c5d3dc1a3138f6f58417945ea4bb6baf573fec0e82",
+        "server.js": "d96ff89b7edab5d7eff3d51349f04f443ff1472c6aa0e692994dd68fbe86c23c",
+        "src/board.ts": "bd8ab82b65468c85f0009df611211d9fb05d08a8b7c69effd1c8f24bf6456497",
+        "src/constants.ts": "ccc751567e0a011b15642c6acec2b27a5e1f0d55edc7d1377a67febea16b3376",
+        "src/game.ts": "4373923ffe0df7f4cda4b5dbdab37f5127d6460d7303191cb393390ea6503d1c",
+        "src/input.ts": "1a2c9b7c2043ba8e654781bdda029d92e0ee520c0daa8342bff2bdab5d337e7b",
+        "src/main.ts": "2d906ceaa30293eee30448fe90f9738d553cdbde5be1d9dbce13647b43334991",
+        "src/randomizer.ts": "e45dd772cf7993d8e05d6950d8622abefccb8063ca6228f36cc03a3c7bedbb92",
+        "src/renderer.ts": "6c093e57297f8293d71c31620cffc312c622f62ffaa8d8156e08dbbaf22a439c",
+        "src/scoring.ts": "f0f4532006d589a4bfe147cdea7f3145c2009e2336432837d3cdc4275f484a0f",
+        "src/test/smoke.ts": "4bd062ecce7decbc075c3d9d35700c0f3526d9d36c716d924d47becd48e51dba",
+        "src/types.ts": "3e86ad15b2d9543f90f05e63ababe266cd55fef98fc1f38c1f12b05a4bf19206",
+        "style.css": "c1c03b3a126b771e17c9b4edbce8579acbbef6593a2ea2d820ac32d4241571ad",
+        "tsconfig.json": "de67b5e85116a723e60ddfc18e7b08e0801a3eacaf9a971979cd47a889213cd3"
+      },
+      "engine": {
+        "mode": "none",
+        "checks": [
+          {
+            "name": "initial spawn is near the visible field",
+            "actual": true,
+            "expected": true,
+            "pass": true
+          },
+          {
+            "name": "28 canonical rotation states",
+            "actual": [
+              "L3"
+            ],
+            "expected": [],
+            "pass": false
+          },
+          {
+            "name": "48 ordered SRS kick lists",
+            "actual": [],
+            "expected": [],
+            "pass": true
+          },
+          {
+            "name": "672 actual SRS rotations",
+            "actual": 32,
+            "expected": 0,
+            "pass": false
+          },
+          {
+            "name": "100 actual opening/dealt bags",
+            "actual": 0,
+            "expected": 0,
+            "pass": true
+          },
+          {
+            "name": "hold blocked twice",
+            "actual": "{\"type\":\"L\",\"rotation\":0,\"x\":3,\"y\":-1}",
+            "expected": "{\"type\":\"L\",\"rotation\":0,\"x\":3,\"y\":-1}",
+            "pass": true
+          },
+          {
+            "name": "held retrieval spawn rotation",
+            "actual": 0,
+            "expected": 0,
+            "pass": true
+          },
+          {
+            "name": "ghost I",
+            "actual": 14,
+            "expected": 14,
+            "pass": true
+          },
+          {
+            "name": "hard-drop points I",
+            "actual": 22,
+            "expected": 22,
+            "pass": true
+          },
+          {
+            "name": "ghost J",
+            "actual": 14,
+            "expected": 14,
+            "pass": true
+          },
+          {
+            "name": "hard-drop points J",
+            "actual": 22,
+            "expected": 22,
+            "pass": true
+          },
+          {
+            "name": "ghost L",
+            "actual": 14,
+            "expected": 14,
+            "pass": true
+          },
+          {
+            "name": "hard-drop points L",
+            "actual": 22,
+            "expected": 22,
+            "pass": true
+          },
+          {
+            "name": "ghost O",
+            "actual": 14,
+            "expected": 14,
+            "pass": true
+          },
+          {
+            "name": "hard-drop points O",
+            "actual": 22,
+            "expected": 22,
+            "pass": true
+          },
+          {
+            "name": "ghost S",
+            "actual": 14,
+            "expected": 14,
+            "pass": true
+          },
+          {
+            "name": "hard-drop points S",
+            "actual": 22,
+            "expected": 22,
+            "pass": true
+          },
+          {
+            "name": "ghost T",
+            "actual": 14,
+            "expected": 14,
+            "pass": true
+          },
+          {
+            "name": "hard-drop points T",
+            "actual": 22,
+            "expected": 22,
+            "pass": true
+          },
+          {
+            "name": "ghost Z",
+            "actual": 14,
+            "expected": 14,
+            "pass": true
+          },
+          {
+            "name": "hard-drop points Z",
+            "actual": 22,
+            "expected": 22,
+            "pass": true
+          },
+          {
+            "name": "ordinary 1 line score",
+            "actual": 100,
+            "expected": 100,
+            "pass": true
+          },
+          {
+            "name": "line count 1",
+            "actual": 1,
+            "expected": 1,
+            "pass": true
+          },
+          {
+            "name": "ordinary 2 line score",
+            "actual": 300,
+            "expected": 300,
+            "pass": true
+          },
+          {
+            "name": "line count 2",
+            "actual": 2,
+            "expected": 2,
+            "pass": true
+          },
+          {
+            "name": "ordinary 3 line score",
+            "actual": 500,
+            "expected": 500,
+            "pass": true
+          },
+          {
+            "name": "line count 3",
+            "actual": 3,
+            "expected": 3,
+            "pass": true
+          },
+          {
+            "name": "ordinary 4 line score",
+            "actual": 800,
+            "expected": 800,
+            "pass": true
+          },
+          {
+            "name": "line count 4",
+            "actual": 4,
+            "expected": 4,
+            "pass": true
+          },
+          {
+            "name": "perfect clear 1",
+            "actual": 100,
+            "expected": 900,
+            "pass": false
+          },
+          {
+            "name": "perfect clear 2",
+            "actual": 300,
+            "expected": 1500,
+            "pass": false
+          },
+          {
+            "name": "perfect clear 3",
+            "actual": 500,
+            "expected": 2300,
+            "pass": false
+          },
+          {
+            "name": "perfect clear 4",
+            "actual": 800,
+            "expected": 2800,
+            "pass": false
+          },
+          {
+            "name": "B2B survives a no-clear lock",
+            "actual": 1200,
+            "expected": 1200,
+            "pass": true
+          },
+          {
+            "name": "B2B perfect clear plus combo",
+            "actual": 1250,
+            "expected": 4450,
+            "pass": false
+          },
+          {
+            "name": "HD-SPIN-1 travel hard",
+            "actual": 28,
+            "expected": 28,
+            "pass": true
+          },
+          {
+            "name": "HD-SPIN-1 mini hard",
+            "actual": 0,
+            "expected": 100,
+            "pass": false
+          },
+          {
+            "name": "HD-SPIN-1 mini timed",
+            "actual": 0,
+            "expected": 100,
+            "pass": false
+          },
+          {
+            "name": "HD-SPIN-1 full hard",
+            "actual": 0,
+            "expected": 400,
+            "pass": false
+          },
+          {
+            "name": "HD-SPIN-1 full timed",
+            "actual": 0,
+            "expected": 400,
+            "pass": false
+          },
+          {
+            "name": "manual soft descent cancels old spin credit",
+            "actual": 14,
+            "expected": 14,
+            "pass": true
+          },
+          {
+            "name": "landing retains only 100ms lock time",
+            "actual": 100,
+            "expected": 100,
+            "pass": true
+          },
+          {
+            "name": "floor survives 499ms",
+            "actual": 0,
+            "expected": 0,
+            "pass": true
+          },
+          {
+            "name": "floor locks at 500ms",
+            "actual": 4,
+            "expected": 4,
+            "pass": true
+          },
+          {
+            "name": "level 15 gravity rows",
+            "actual": 6,
+            "expected": 14,
+            "pass": false
+          },
+          {
+            "name": "airborne moves do not exhaust later floor reset",
+            "actual": 0,
+            "expected": 0,
+            "pass": true
+          },
+          {
+            "name": "returning to an old lowest row keeps spent resets",
+            "actual": 4,
+            "expected": 4,
+            "pass": true
+          },
+          {
+            "name": "partial hidden lock continues",
+            "actual": true,
+            "expected": false,
+            "pass": false
+          },
+          {
+            "name": "wholly hidden lock ends",
+            "actual": true,
+            "expected": true,
+            "pass": true
+          },
+          {
+            "name": "legal above-buffer lock retains four minos plus support",
+            "actual": 4,
+            "expected": 5,
+            "pass": false
+          },
+          {
+            "name": "20 restarts after three drops begin fresh bags",
+            "actual": 0,
+            "expected": 0,
+            "pass": true
+          }
+        ],
+        "observations": {
+          "initialSpawn": {
+            "minY": -1,
+            "maxY": 0
+          },
+          "rotations": {
+            "total": 672,
+            "mismatches": 32,
+            "examples": [
+              {
+                "before": {
+                  "type": "L",
+                  "rotation": 0,
+                  "x": 0,
+                  "y": -2
+                },
+                "dir": -1,
+                "got": {
+                  "type": "L",
+                  "rotation": 3,
+                  "x": 0,
+                  "y": -2
+                },
+                "want": {
+                  "type": "L",
+                  "rotation": 3,
+                  "x": 0,
+                  "y": -2
+                },
+                "actualCells": [
+                  [
+                    1,
+                    -2
+                  ],
+                  [
+                    2,
+                    -2
+                  ],
+                  [
+                    1,
+                    -1
+                  ],
+                  [
+                    1,
+                    0
+                  ]
+                ],
+                "expectedCells": [
+                  [
+                    0,
+                    -2
+                  ],
+                  [
+                    1,
+                    -2
+                  ],
+                  [
+                    1,
+                    -1
+                  ],
+                  [
+                    1,
+                    0
+                  ]
+                ]
+              },
+              {
+                "before": {
+                  "type": "L",
+                  "rotation": 0,
+                  "x": 3,
+                  "y": -2
+                },
+                "dir": -1,
+                "got": {
+                  "type": "L",
+                  "rotation": 3,
+                  "x": 4,
+                  "y": -2
+                },
+                "want": {
+                  "type": "L",
+                  "rotation": 3,
+                  "x": 4,
+                  "y": -2
+                },
+                "actualCells": [
+                  [
+                    5,
+                    -2
+                  ],
+                  [
+                    6,
+                    -2
+                  ],
+                  [
+                    5,
+                    -1
+                  ],
+                  [
+                    5,
+                    0
+                  ]
+                ],
+                "expectedCells": [
+                  [
+                    4,
+                    -2
+                  ],
+                  [
+                    5,
+                    -2
+                  ],
+                  [
+                    5,
+                    -1
+                  ],
+                  [
+                    5,
+                    0
+                  ]
+                ]
+              },
+              {
+                "before": {
+                  "type": "L",
+                  "rotation": 0,
+                  "x": 7,
+                  "y": -2
+                },
+                "dir": -1,
+                "got": {
+                  "type": "L",
+                  "rotation": 0,
+                  "x": 7,
+                  "y": -2
+                },
+                "want": {
+                  "type": "L",
+                  "rotation": 3,
+                  "x": 8,
+                  "y": -3
+                },
+                "actualCells": [
+                  [
+                    9,
+                    -2
+                  ],
+                  [
+                    7,
+                    -1
+                  ],
+                  [
+                    8,
+                    -1
+                  ],
+                  [
+                    9,
+                    -1
+                  ]
+                ],
+                "expectedCells": [
+                  [
+                    8,
+                    -3
+                  ],
+                  [
+                    9,
+                    -3
+                  ],
+                  [
+                    9,
+                    -2
+                  ],
+                  [
+                    9,
+                    -1
+                  ]
+                ]
+              }
+            ]
+          },
+          "bags": 100,
+          "travel-hard": {
+            "score": 28,
+            "pose": {
+              "type": "T",
+              "rotation": 1,
+              "x": 0,
+              "y": 3
+            },
+            "ghost": 17,
+            "distance": 14
+          },
+          "mini-hard": {
+            "score": 0,
+            "pose": {
+              "type": "T",
+              "rotation": 0,
+              "x": 3,
+              "y": 17
+            },
+            "ghost": 17,
+            "distance": 0
+          },
+          "mini-timed": {
+            "score": 0,
+            "pose": {
+              "type": "T",
+              "rotation": 0,
+              "x": 3,
+              "y": 17
+            },
+            "ghost": 17,
+            "distance": 0
+          },
+          "full-hard": {
+            "score": 0,
+            "pose": {
+              "type": "T",
+              "rotation": 0,
+              "x": 3,
+              "y": 17
+            },
+            "ghost": 17,
+            "distance": 0
+          },
+          "full-timed": {
+            "score": 0,
+            "pose": {
+              "type": "T",
+              "rotation": 0,
+              "x": 3,
+              "y": 17
+            },
+            "ghost": 17,
+            "distance": 0
+          },
+          "landing": {
+            "coarse": {
+              "locked": false,
+              "y": 18,
+              "clock": 100
+            },
+            "fine": {
+              "locked": false,
+              "y": 18,
+              "clock": 100
+            }
+          },
+          "oldRowResetCount": 15
+        }
+      },
+      "browser": {
+        "mode": "none",
+        "browser": "156.0.8078.4",
+        "delivery": "unmodified CommonJS classic-script build",
+        "views": {
+          "desktop": {
+            "errors": [
+              "exports is not defined"
+            ],
+            "assets": [],
+            "before": {
+              "score": "0",
+              "level": "1",
+              "lines": "0",
+              "canvases": [
+                {
+                  "id": "hold",
+                  "width": 300,
+                  "height": 150,
+                  "nonzero": false
+                },
+                {
+                  "id": "board",
+                  "width": 300,
+                  "height": 150,
+                  "nonzero": false
+                },
+                {
+                  "id": "next",
+                  "width": 300,
+                  "height": 150,
+                  "nonzero": false
+                }
+              ]
+            },
+            "after": {
+              "score": "0",
+              "level": "1",
+              "lines": "0",
+              "canvases": [
+                {
+                  "id": "hold",
+                  "width": 300,
+                  "height": 150,
+                  "nonzero": false
+                },
+                {
+                  "id": "board",
+                  "width": 300,
+                  "height": 150,
+                  "nonzero": false
+                },
+                {
+                  "id": "next",
+                  "width": 300,
+                  "height": 150,
+                  "nonzero": false
+                }
+              ]
+            },
+            "layout": {
+              "width": 1280,
+              "height": 800,
+              "dpr": 2,
+              "scrollWidth": 1280,
+              "scrollHeight": 800,
+              "canvases": [
+                {
+                  "id": "hold",
+                  "x": 327,
+                  "y": 224.203125,
+                  "width": 300,
+                  "height": 150
+                },
+                {
+                  "id": "board",
+                  "x": 490,
+                  "y": 191.203125,
+                  "width": 300,
+                  "height": 150
+                },
+                {
+                  "id": "next",
+                  "x": 829,
+                  "y": 224.203125,
+                  "width": 300,
+                  "height": 150
+                }
+              ]
+            },
+            "controlsResponded": false
+          },
+          "mobile": {
+            "errors": [
+              "exports is not defined"
+            ],
+            "assets": [],
+            "before": {
+              "score": "0",
+              "level": "1",
+              "lines": "0",
+              "canvases": [
+                {
+                  "id": "hold",
+                  "width": 300,
+                  "height": 150,
+                  "nonzero": false
+                },
+                {
+                  "id": "board",
+                  "width": 300,
+                  "height": 150,
+                  "nonzero": false
+                },
+                {
+                  "id": "next",
+                  "width": 300,
+                  "height": 150,
+                  "nonzero": false
+                }
+              ]
+            },
+            "after": {
+              "score": "0",
+              "level": "1",
+              "lines": "0",
+              "canvases": [
+                {
+                  "id": "hold",
+                  "width": 300,
+                  "height": 150,
+                  "nonzero": false
+                },
+                {
+                  "id": "board",
+                  "width": 300,
+                  "height": 150,
+                  "nonzero": false
+                },
+                {
+                  "id": "next",
+                  "width": 300,
+                  "height": 150,
+                  "nonzero": false
+                }
+              ]
+            },
+            "layout": {
+              "width": 390,
+              "height": 844,
+              "dpr": 2,
+              "scrollWidth": 438,
+              "scrollHeight": 945,
+              "canvases": [
+                {
+                  "id": "hold",
+                  "x": 138,
+                  "y": -41.6875,
+                  "width": 300,
+                  "height": 150
+                },
+                {
+                  "id": "board",
+                  "x": 45,
+                  "y": 296.3125,
+                  "width": 300,
+                  "height": 150
+                },
+                {
+                  "id": "next",
+                  "x": 138,
+                  "y": 511.3125,
+                  "width": 300,
+                  "height": 150
+                }
+              ]
+            },
+            "controlsResponded": false
+          }
+        }
+      },
+      "additionalReviewerChecks": [
+        {
+          "name": "mini blocked move actually fails",
+          "actual": "{\"type\":\"T\",\"rotation\":0,\"x\":3,\"y\":17}",
+          "expected": "{\"type\":\"T\",\"rotation\":0,\"x\":3,\"y\":17}",
+          "pass": true
+        },
+        {
+          "name": "mini failed action preserves spin",
+          "actual": 0,
+          "expected": 100,
+          "pass": false
+        },
+        {
+          "name": "full blocked move actually fails",
+          "actual": "{\"type\":\"T\",\"rotation\":0,\"x\":3,\"y\":17}",
+          "expected": "{\"type\":\"T\",\"rotation\":0,\"x\":3,\"y\":17}",
+          "pass": true
+        },
+        {
+          "name": "full failed action preserves spin",
+          "actual": 0,
+          "expected": 400,
+          "pass": false
+        },
+        {
+          "name": "new lowest row restores grounded reset allowance",
+          "actual": 6,
+          "expected": 2,
+          "pass": false
+        },
+        {
+          "name": "natural fall keeps airborne grounded flag false",
+          "actual": true,
+          "expected": false,
+          "pass": false
+        },
+        {
+          "name": "airborne action after natural fall spends no reset",
+          "actual": 1,
+          "expected": 0,
+          "pass": false
+        },
+        {
+          "name": "blur releases held movement",
+          "actual": 0,
+          "expected": 2,
+          "pass": false
+        }
+      ],
+      "scores": {
+        "correctness": 0.0,
+        "tests": 7.0,
+        "code": 9.0,
+        "simplicity": 8.5,
+        "browser_ux": 6.5
+      },
+      "weightedScore": "4.70",
+      "projectReadback": {
+        "id": "mcp:718cbd8d-4f48-43df-b029-c85c1092db48",
+        "archivedAt": null,
+        "workspaceRoot": "/Users/david/tetris-bench/runs/34c806f93d4f/tetris"
+      }
+    }
+  },
+  "validation": {
+    "repositoryTests": {
+      "passed": 78,
+      "failed": 0
+    },
+    "reports": "passed",
+    "sourceVerification": "all five passed",
+    "rankingRows": 91,
+    "localLinks": 555,
+    "historicalRegistryEntriesPreserved": 86,
+    "historicalScoresPreserved": 86,
+    "historicalPricesPreserved": true,
+    "deliveredSourcesUnchanged": true,
+    "noneOriginalFileCount": 17,
+    "site": {
+      "pagesChecked": 85,
+      "runPages": 84,
+      "mode": "--skip-games",
+      "status": "passed",
+      "fullGameBuild": "blocked by pre-existing minimax-m3.1-flash-free-xhigh root index.html lookup",
+      "newGamesIndependentlyCheckedAtBothViewports": 5,
+      "noneDelivery": "fails exports is not defined at both sizes"
+    },
+    "archivedProjectsVerified": 5,
+    "reviewerExtraFixtureCorrection": "Initial O ledge fixture still overlapped one support column. Final version leaves both supports before descent. Only corrected results are used.",
+    "limitations": [
+      "Chromium only",
+      "physical touch untested",
+      "focused conformance probes",
+      "full historical game site build remains blocked",
+      "none has Node-only diagnostic engine/input results and failed browser delivery"
+    ],
+    "cleanup": {
+      "temporaryCopiesRemoved": true,
+      "ownedServersStopped": true,
+      "playwrightSessionClosed": true,
+      "sharedPreviewTabClosed": true
+    },
+    "fullAuditRunner": "python3 .audit/run-nov16-audit.py --offline passed with all temporary copies and browser closed"
+  },
+  "supersededReviewer": {
+    "model": "gpt-6.1-sol",
+    "effort": "high",
+    "delegated": false
+  },
+  "previousHold": {
+    "key": "hy4-flash-free-none-34c806f93d4f",
+    "model": "opencode-go/hy4-flash-free",
+    "effort": "none",
+    "projectId": "mcp:718cbd8d-4f48-43df-b029-c85c1092db48",
+    "threadId": "mcp:launch:ada3936c2ec832f576785e058b6f568dd96cc07929fecaff72882073aed7e406",
+    "status": "resolved by exact native reconciliation and import",
+    "reason": "Implementation completed, but import rejected T3 turnTokenUsage.usageStatus=partial after a recovered provider.rate-limit inference overload. Preserve delivered source and original usage without treating partial totals as complete; no rerun. Identity is opencode-go/hy4-flash-free, none, full-access. Quality audit and final import disposition remain outstanding.",
+    "rawPartialUsage": {
+      "usageScope": "main_agent",
+      "cachedInputTokens": 1343232,
+      "cacheCreationTokens": 0,
+      "reasoningTokens": 0,
+      "hasSubagents": false,
+      "models": [
+        "opencode-go/hy4-flash-free"
+      ],
+      "usageStatus": "partial",
+      "inputTokens": 1385321,
+      "outputTokens": 22688
+    },
+    "imported": true,
+    "scored": true,
+    "projectArchived": true,
+    "resolutionEvidence": ".audit/nov16-native-usage.json"
+  },
+  "generationOrder": [
+    "hy4-flash-free-high",
+    "hy4-flash-free-none",
+    "qwen4-max-high",
+    "qwen4-max-low",
+    "qwen4-max-xhigh"
+  ],
+  "completionGate": {
+    "reviewEvidenceComplete": true,
+    "parentCompletedTurnReadbackRequired": false,
+    "reason": "The reviewer cannot observe its own provider turn as completed before returning. AGENTS.md and .audit/SPEC.md require parent verification before finalization and archival.",
+    "remainingSteps": [],
+    "noneProjectArchived": true,
+    "mainProjectUntouched": true,
+    "status": "complete",
+    "parentVerifiedAt": "2026-11-16T17:11:44+00:00",
+    "completedReviewRunId": "run:thread:thread%3Adelegated-task%3Acommand%253Amcp%253A3c3c15dd-be42-4a00-9480-ed5eb183bfdf%253Adelegate-task%253Anov16-sol61-xhigh-independent-review-and-accounting:ordinal:1"
+  }
+}

@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Stack Shift</title>
+<style>
+  :root { color-scheme: dark; font: 16px system-ui; background: #101321; color: #ecf0ff; }
+  body { margin: 0; padding: 1.25rem; }
+  main { width: max-content; max-width: 100%; margin: auto; }
+  h1 { margin: 0 0 .75rem; font-size: 2rem; letter-spacing: -.04em; }
+  .layout { display: flex; align-items: start; gap: .75rem; }
+  canvas { display: block; border-radius: .4rem; background: #171c2e; }
+  #board { width: min(288px, 62vw); height: auto; outline: 1px solid #39435d; }
+  aside { width: clamp(68px, 20vw, 100px); font-size: .8rem; }
+  aside canvas { width: 100%; height: auto; }
+  h2, dt { font-size: .7rem; font-weight: 650; letter-spacing: .1em; text-transform: uppercase; color: #aab6d4; }
+  h2 { margin: .7rem 0 .3rem; }
+  dd { margin: 0 0 .35rem; font-size: 1rem; font-variant-numeric: tabular-nums; }
+  .controls { max-width: 400px; color: #b9c3de; font-size: .8rem; line-height: 1.6; }
+</style>
+<main>
+  <h1>Stack Shift</h1>
+  <div class="layout">
+    <canvas id="board" width="288" height="528" aria-label="Playfield"></canvas>
+    <aside>
+      <dl>
+        <dt>Score</dt><dd id="score">0</dd>
+        <dt>Lines</dt><dd id="lines">0</dd>
+        <dt>Level</dt><dd id="level">1</dd>
+      </dl>
+      <h2>Hold</h2><canvas id="hold" width="100" height="58" aria-label="Held piece"></canvas>
+      <h2>Next</h2><canvas id="next" width="100" height="220" aria-label="Next five pieces"></canvas>
+    </aside>
+  </div>
+  <p class="controls">← → Move · ↑ / X Rotate right · Z / Left Ctrl Rotate left · ↓ Soft drop · Space Hard drop · C Hold · R Restart after game over</p>
+  <p id="status" role="status"></p>
+</main>
+<script type="module" src="./dist/main.js"></script>
+</html>

@@ -22,6 +22,40 @@ Use the [benchmark procedure in README.md](README.md#running-a-benchmark-in-t3-c
 for runs that pass these checks. Preserve its fixed prompt, isolation, runtime,
 cleanup, and import requirements.
 
+## Required independent reviewer
+
+Every new benchmark's final quality audit and scoring must be performed by an
+independent **GPT-6.1 Sol (`gpt-6.1-sol`) subagent at `xhigh` reasoning effort**,
+unless the user explicitly selects a different reviewer. The orchestrator's own
+tests and source inspection are preparation, not the final review.
+
+Before generation, include this reviewer requirement in the execution plan.
+When delegating the audit, select the model and `reasoningEffort: "xhigh"`
+explicitly; do not inherit the orchestrator's model or effort. Use the available
+Codex provider instance and the required delegation tool for explicit settings.
+Pass the task, rubric, evidence, and open objections without the parent history.
+Never silently substitute a self-review, lower effort, or another model.
+
+Before publishing final scores or archiving a completed run project:
+
+1. Confirm that the independent review finished and resolve its findings.
+2. Read back the reviewer's actual model and effort from T3/native session
+   records; the requested settings or a prose claim alone are not sufficient.
+3. Record the review thread link, native session ID, verified model/effort, and
+   review artifact in the audit evidence.
+4. Verify the reports and scores, then archive the dedicated run project and
+   read back `archivedAt` as required below.
+
+If the required reviewer cannot run, leave the quality audit pending and report
+the blocker. Do not describe the benchmark as fully reviewed or complete.
+
+Generation completion, quality review, and token accounting are separate states.
+An unresolved usage record does not prevent auditing the preserved implementation.
+Keep the accounting limitation explicit and reconcile it from native evidence;
+do not rerun completed generation merely to repair reporting.
+
+## Availability and completion
+
 When a provider confirms a persistent availability failure, update
 `UNAVAILABLE_MODELS.md` with the exact provider/model ID, date, error, affected
 scope, and evidence. Stop the remaining efforts when the failure applies to the

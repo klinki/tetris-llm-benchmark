@@ -1,0 +1,13 @@
+{
+  "name": "stack-shift",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "tsc",
+    "start": "node server.mjs",
+    "test": "npm run build && node --test smoke.test.mjs"
+  },
+  "devDependencies": {
+    "typescript": "^5.9.3"
+  }
+}

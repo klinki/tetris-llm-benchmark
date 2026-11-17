@@ -6,6 +6,15 @@ requirements in [`TETRIS.md`](../TETRIS.md) and the
 that every official Tetris title implements the same edge cases. The original
 generation prompt and delivered implementations must remain unchanged.
 
+## Reviewer gate
+
+Future benchmark audits must follow the
+[required independent reviewer policy](../AGENTS.md#required-independent-reviewer):
+GPT-6.1 Sol at xhigh in a separate subagent, unless the user explicitly overrides
+the reviewer. The orchestrator must verify and record the actual reviewer
+identity and effort, completed review, and evidence before finalizing scores or
+archiving the run project. This requirement does not relabel historical audits.
+
 ## HD-SPIN-1: T-spin credit after a hard drop
 
 Adopted **2026-11-04** by the benchmark owner, retaining the earlier

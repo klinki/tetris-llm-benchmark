@@ -21,13 +21,17 @@
       },
       "overhead": {
         "kind": "codex_guardian",
-        "session_ids": ["019fe76a-a36f-7892-911c-d70ed9e5a31e"]
+        "session_ids": [
+          "019fe76a-a36f-7892-911c-d70ed9e5a31e"
+        ]
       }
     },
     {
       "id": "luna-omp",
       "site_excluded": "superseded by the October 2026 GPT-5.6 Luna runs at every effort level",
-      "static_aliases": {"style.css": "src/style.css"},
+      "static_aliases": {
+        "style.css": "src/style.css"
+      },
       "label": "Luna OMP",
       "order": 20,
       "project_dir": "luna-omp",
@@ -88,7 +92,9 @@
       },
       "overhead": {
         "kind": "codex_guardian",
-        "session_ids": ["019fea63-1466-7b12-9a36-fdd3f81aba9a"]
+        "session_ids": [
+          "019fea63-1466-7b12-9a36-fdd3f81aba9a"
+        ]
       }
     },
     {
@@ -175,8 +181,13 @@
         ],
         "review": "Reviewed 2026-10-27 (pre-isolation run in a shared folder): one `ls` of the parent folder, chained after `which tsc`, which failed first, so the listing never ran. No other run's files or results were read."
       },
-      "cutoff": {"through_user_message": 1, "exclude_inter_message_wait": true},
-      "overhead": {"kind": "unknown"}
+      "cutoff": {
+        "through_user_message": 1,
+        "exclude_inter_message_wait": true
+      },
+      "overhead": {
+        "kind": "unknown"
+      }
     },
     {
       "id": "cat-jam",
@@ -197,8 +208,13 @@
         "outside_access": [],
         "review": "Reviewed 2026-10-27 (pre-isolation run in a shared folder): no tool call left the run's folder."
       },
-      "cutoff": {"through_user_message": 1, "exclude_inter_message_wait": true},
-      "overhead": {"kind": "unknown"}
+      "cutoff": {
+        "through_user_message": 1,
+        "exclude_inter_message_wait": true
+      },
+      "overhead": {
+        "kind": "unknown"
+      }
     },
     {
       "id": "gemini-4",
@@ -268,8 +284,13 @@
         ],
         "review": "Reviewed 2026-10-27 (pre-isolation run in a shared folder): its own folder had no README.md, so it searched the parent folder for README files and read five sibling READMEs. Four were the unchanged task spec (identical to TETRIS.md); deepseek-pi's was an older, shorter version of the same spec. It read no other run's code, tests or results."
       },
-      "cutoff": {"through_user_message": 1, "exclude_inter_message_wait": true},
-      "overhead": {"kind": "unknown"}
+      "cutoff": {
+        "through_user_message": 1,
+        "exclude_inter_message_wait": true
+      },
+      "overhead": {
+        "kind": "unknown"
+      }
     },
     {
       "id": "nemotron",
@@ -291,8 +312,13 @@
         "outside_access": [],
         "review": "Reviewed 2026-10-27 (pre-isolation run in a shared folder): no tool call left the run's folder."
       },
-      "cutoff": {"through_user_message": 1, "exclude_inter_message_wait": true},
-      "overhead": {"kind": "unknown"}
+      "cutoff": {
+        "through_user_message": 1,
+        "exclude_inter_message_wait": true
+      },
+      "overhead": {
+        "kind": "unknown"
+      }
     },
     {
       "id": "space-bunny",
@@ -326,8 +352,13 @@
         ],
         "review": "Reviewed 2026-10-27 (pre-isolation run in a shared folder): listed the parent folder once (folder names only); a second listing attempt failed with an unknown-tool error. No other run's files or results were read."
       },
-      "cutoff": {"through_user_message": 1, "exclude_inter_message_wait": true},
-      "overhead": {"kind": "unknown"}
+      "cutoff": {
+        "through_user_message": 1,
+        "exclude_inter_message_wait": true
+      },
+      "overhead": {
+        "kind": "unknown"
+      }
     },
     {
       "id": "opus-5.5",
@@ -388,8 +419,13 @@
         ],
         "review": "Reviewed 2026-10-27 (pre-isolation run inside the repository): read the repository README with the results table and other runs' main defects, plus part of Luna PI's README and its package.json, before implementing. No other run's source was read. Kept as a reference; see comparison_note and the isolated re-run claude-opus-5-5-medium."
       },
-      "cutoff": {"through_user_message": 1, "exclude_inter_message_wait": true},
-      "overhead": {"kind": "unknown"}
+      "cutoff": {
+        "through_user_message": 1,
+        "exclude_inter_message_wait": true
+      },
+      "overhead": {
+        "kind": "unknown"
+      }
     },
     {
       "id": "muse-spark-1.3-medium",
@@ -408,8 +444,13 @@
       "expected_cwd_basename": "tetris-llm-benchmark",
       "expected_task_cwd": "/Users/david/projects/own/tetris-llm-benchmark/muse-spark-1.3-medium",
       "reasoning_variant": "medium",
-      "cutoff": {"through_user_message": 1, "exclude_inter_message_wait": true},
-      "overhead": {"kind": "unknown"},
+      "cutoff": {
+        "through_user_message": 1,
+        "exclude_inter_message_wait": true
+      },
+      "overhead": {
+        "kind": "unknown"
+      },
       "t3_parent": {
         "thread_id": "2df58eb6-f4ef-4be0-af1a-ddf3a1f2009d",
         "session_id": "ses_e9738a531ffe1NyPGZsU4MlKDo",
@@ -452,7 +493,10 @@
     },
     {
       "id": "claude-haiku-5-5-xhigh",
-      "static_aliases": {"index.html": "public/index.html", "style.css": "public/style.css"},
+      "static_aliases": {
+        "index.html": "public/index.html",
+        "style.css": "public/style.css"
+      },
       "label": "Claude Haiku 5.5 (xhigh)",
       "order": 140,
       "project_dir": "claude-haiku-5-5-xhigh",
@@ -483,7 +527,10 @@
     },
     {
       "id": "claude-haiku-5-5-max",
-      "static_aliases": {"index.html": "public/index.html", "style.css": "public/style.css"},
+      "static_aliases": {
+        "index.html": "public/index.html",
+        "style.css": "public/style.css"
+      },
       "label": "Claude Haiku 5.5 (max)",
       "order": 150,
       "project_dir": "claude-haiku-5-5-max",
@@ -849,7 +896,10 @@
     },
     {
       "id": "glm-5.3-flash-free-high",
-      "static_aliases": {"index.html": "public/index.html", "style.css": "public/style.css"},
+      "static_aliases": {
+        "index.html": "public/index.html",
+        "style.css": "public/style.css"
+      },
       "label": "GLM-5.3-Flash (high)",
       "order": 270,
       "project_dir": "glm-5.3-flash-free-high",
@@ -1152,7 +1202,10 @@
     },
     {
       "id": "claude-haiku-5-5-low",
-      "static_aliases": {"index.html": "public/index.html", "style.css": "public/style.css"},
+      "static_aliases": {
+        "index.html": "public/index.html",
+        "style.css": "public/style.css"
+      },
       "label": "Claude Haiku 5.5 (low)",
       "order": 370,
       "project_dir": "claude-haiku-5-5-low",
@@ -1435,7 +1488,7 @@
       "t3_notification_turns": [
         {
           "ordinal": 2,
-          "message": "Background command completed (exit 143): /bin/zsh -lc 'npm start'\n\nOutput tail:\n\n> tetrisjs@1.0.0 start\n> npm run build && node server.mjs\n\n\n> tetrisjs@1.0.0 build\n> tsc\n\nTetrisJS → http://localhost:8321"
+          "message": "Background command completed (exit 143): /bin/zsh -lc 'npm start'\n\nOutput tail:\n\n> tetrisjs@1.0.0 start\n> npm run build && node server.mjs\n\n\n> tetrisjs@1.0.0 build\n> tsc\n\nTetrisJS \u2192 http://localhost:8321"
         }
       ]
     },
@@ -2302,7 +2355,12 @@
     },
     {
       "id": "gpt-6.1-terra-low",
-      "server_generated": {"port": 8321, "paths": ["bundle.js"]},
+      "server_generated": {
+        "port": 8321,
+        "paths": [
+          "bundle.js"
+        ]
+      },
       "label": "GPT-6.1 Terra (low)",
       "order": 650,
       "project_dir": "gpt-6.1-terra-low",
@@ -3273,6 +3331,765 @@
         "sha256": "36e2097a78fe8b5646e6216338640831cff0a284cc823c4b1f658991c8d40294",
         "commit": "9ccddb86aeed72b0d826d61f723d60a38da5245e",
         "modified": false
+      }
+    },
+    {
+      "id": "hy4-flash-free-high",
+      "label": "Hy4 Flash (high)",
+      "order": 870,
+      "project_dir": "hy4-flash-free-high",
+      "harness": "t3_opencode",
+      "harness_label": "T3 Code / OpenCode",
+      "provider": "opencode-go",
+      "provider_label": "opencode-go",
+      "model": "hy4-flash-free",
+      "session_id": "ses_e1c415c59ffeLeg0P21halN5fV",
+      "t3_thread_id": "mcp:launch:532beb0a344dbc0b384fb78258008e9e7bb75b816909c6912b89a7ee394ec732",
+      "expected_cwd": "/Users/david/tetris-bench/runs/240403b66670/tetris",
+      "expected_cwd_basename": "tetris",
+      "reasoning_variant": "high",
+      "web": "open",
+      "cutoff": {
+        "through_user_message": 1,
+        "exclude_inter_message_wait": true
+      },
+      "overhead": {
+        "kind": "unknown"
+      },
+      "spec": {
+        "sha256": "36e2097a78fe8b5646e6216338640831cff0a284cc823c4b1f658991c8d40294",
+        "commit": "d1edda01e671f8f18140b003d3d35a1690ebdc8c",
+        "modified": false
+      }
+    },
+    {
+      "id": "qwen4-max-high",
+      "label": "Qwen4 Max (high)",
+      "order": 890,
+      "project_dir": "qwen4-max-high",
+      "harness": "t3_opencode",
+      "harness_label": "T3 Code / OpenCode",
+      "provider": "opencode-go",
+      "provider_label": "opencode-go",
+      "model": "qwen4-max",
+      "session_id": "ses_e1c381015ffeoBFmbyv4KBsgHe",
+      "t3_thread_id": "mcp:launch:b884ca5a1e816a6987b27bf9a443e92ddcc55f1dfd52c819c1d56e541b74df9e",
+      "expected_cwd": "/Users/david/tetris-bench/runs/b1eeba32fb15/tetris",
+      "expected_cwd_basename": "tetris",
+      "reasoning_variant": "high",
+      "web": "open",
+      "cutoff": {
+        "through_user_message": 1,
+        "exclude_inter_message_wait": true
+      },
+      "overhead": {
+        "kind": "unknown"
+      },
+      "spec": {
+        "sha256": "36e2097a78fe8b5646e6216338640831cff0a284cc823c4b1f658991c8d40294",
+        "commit": "d1edda01e671f8f18140b003d3d35a1690ebdc8c",
+        "modified": false
+      }
+    },
+    {
+      "id": "qwen4-max-low",
+      "label": "Qwen4 Max (low)",
+      "order": 900,
+      "project_dir": "qwen4-max-low",
+      "harness": "t3_opencode",
+      "harness_label": "T3 Code / OpenCode",
+      "provider": "opencode-go",
+      "provider_label": "opencode-go",
+      "model": "qwen4-max",
+      "session_id": "ses_e1c27ce7fffeI14wt5ZwCs6LSI",
+      "t3_thread_id": "mcp:launch:3f712704cd9b15c3933f90a109835a1a9c83b5c618ad5c19c7bd36eed18c771e",
+      "expected_cwd": "/Users/david/tetris-bench/runs/77cf707deb4a/tetris",
+      "expected_cwd_basename": "tetris",
+      "reasoning_variant": "low",
+      "web": "open",
+      "cutoff": {
+        "through_user_message": 1,
+        "exclude_inter_message_wait": true
+      },
+      "overhead": {
+        "kind": "unknown"
+      },
+      "spec": {
+        "sha256": "36e2097a78fe8b5646e6216338640831cff0a284cc823c4b1f658991c8d40294",
+        "commit": "d1edda01e671f8f18140b003d3d35a1690ebdc8c",
+        "modified": false
+      }
+    },
+    {
+      "id": "qwen4-max-xhigh",
+      "label": "Qwen4 Max (xhigh)",
+      "order": 910,
+      "project_dir": "qwen4-max-xhigh",
+      "harness": "t3_opencode",
+      "harness_label": "T3 Code / OpenCode",
+      "provider": "opencode-go",
+      "provider_label": "opencode-go",
+      "model": "qwen4-max",
+      "session_id": "ses_e1c17e00effeSmVTiZVzQgnZAf",
+      "t3_thread_id": "mcp:launch:a4d011fa320873f9c082b36f6b3ab0275ca6792d48142b48a8e90eb14cea4ca0",
+      "expected_cwd": "/Users/david/tetris-bench/runs/1fcc9a129f77/tetris",
+      "expected_cwd_basename": "tetris",
+      "reasoning_variant": "xhigh",
+      "web": "open",
+      "cutoff": {
+        "through_user_message": 1,
+        "exclude_inter_message_wait": true
+      },
+      "overhead": {
+        "kind": "unknown"
+      },
+      "spec": {
+        "sha256": "36e2097a78fe8b5646e6216338640831cff0a284cc823c4b1f658991c8d40294",
+        "commit": "d1edda01e671f8f18140b003d3d35a1690ebdc8c",
+        "modified": false
+      }
+    },
+    {
+      "id": "hy4-flash-free-none",
+      "label": "Hy4 Flash (none)",
+      "order": 880,
+      "project_dir": "hy4-flash-free-none",
+      "harness": "t3_opencode",
+      "harness_label": "T3 Code / OpenCode",
+      "provider": "opencode-go",
+      "provider_label": "opencode-go",
+      "model": "hy4-flash-free",
+      "session_id": "ses_e1c3cd4a8ffeFQJhTkbmNTSYLg",
+      "t3_thread_id": "mcp:launch:ada3936c2ec832f576785e058b6f568dd96cc07929fecaff72882073aed7e406",
+      "expected_cwd": "/Users/david/tetris-bench/runs/34c806f93d4f/tetris",
+      "expected_cwd_basename": "tetris",
+      "reasoning_variant": "none",
+      "web": "open",
+      "cutoff": {
+        "through_user_message": 1,
+        "exclude_inter_message_wait": true
+      },
+      "overhead": {
+        "kind": "unknown"
+      },
+      "spec": {
+        "sha256": "36e2097a78fe8b5646e6216338640831cff0a284cc823c4b1f658991c8d40294",
+        "commit": "d1edda01e671f8f18140b003d3d35a1690ebdc8c",
+        "modified": false
+      },
+      "t3_native_usage_reconciliation": {
+        "source": "opencode_sqlite_v2",
+        "session_id": "ses_e1c3cd4a8ffeFQJhTkbmNTSYLg"
+      },
+      "known_browser_failure": "The delivered TypeScript build emits CommonJS, but index.html loads dist/main.js as a classic script. Chromium throws exports is not defined before initialization. All canvases remain blank and every control is inert."
+    },
+    {
+      "id": "gpt-6.2-sol-low",
+      "label": "GPT-6.2 Sol (low)",
+      "order": 920,
+      "project_dir": "gpt-6.2-sol-low",
+      "harness": "t3_codex",
+      "harness_label": "T3 Code / Codex",
+      "provider": "codex",
+      "provider_label": "Codex",
+      "model": "gpt-6.2-sol",
+      "session_id": "01a1eb38-a1ee-7cf0-a004-e2e3656a0880",
+      "t3_thread_id": "thread:project:23d011f8-c8b8-4e4d-98c6-91702e6d4f66:a38823c8-a42f-40a5-b727-4a1cd8b7e7ea",
+      "expected_cwd": "/Users/david/tetris-bench/runs/6d08c7bd9c97/tetris",
+      "expected_cwd_basename": "tetris",
+      "reasoning_variant": "low",
+      "web": "open",
+      "cutoff": {
+        "through_user_message": 1,
+        "exclude_inter_message_wait": true
+      },
+      "overhead": {
+        "kind": "unknown"
+      },
+      "spec": {
+        "sha256": "36e2097a78fe8b5646e6216338640831cff0a284cc823c4b1f658991c8d40294",
+        "commit": "d1edda01e671f8f18140b003d3d35a1690ebdc8c",
+        "modified": false
+      }
+    },
+    {
+      "id": "gpt-6.2-sol-medium",
+      "label": "GPT-6.2 Sol (medium)",
+      "order": 930,
+      "project_dir": "gpt-6.2-sol-medium",
+      "harness": "t3_codex",
+      "harness_label": "T3 Code / Codex",
+      "provider": "codex",
+      "provider_label": "Codex",
+      "model": "gpt-6.2-sol",
+      "session_id": "01a1eb3a-8e74-76e2-ad89-5125afb28f04",
+      "t3_thread_id": "thread:project:f9074740-9b84-44c9-890a-a55c06078a7a:392af20f-80c7-4381-a75e-c853941f0f39",
+      "expected_cwd": "/Users/david/tetris-bench/runs/194bea401ebe/tetris",
+      "expected_cwd_basename": "tetris",
+      "reasoning_variant": "medium",
+      "web": "open",
+      "cutoff": {
+        "through_user_message": 1,
+        "exclude_inter_message_wait": true
+      },
+      "overhead": {
+        "kind": "unknown"
+      },
+      "spec": {
+        "sha256": "36e2097a78fe8b5646e6216338640831cff0a284cc823c4b1f658991c8d40294",
+        "commit": "d1edda01e671f8f18140b003d3d35a1690ebdc8c",
+        "modified": false
+      },
+      "isolation": {
+        "outside_access": [
+          {
+            "time": "2026-11-17T20:37:43.349Z",
+            "tool": "command_execution",
+            "kind": "command",
+            "reference": "/Users/david/.codex/plugins/cache/openai-curated-remote/sites/1.1.6/skills/sites/SKILL.md"
+          },
+          {
+            "time": "2026-11-17T20:42:28.174Z",
+            "tool": "command_execution",
+            "kind": "command",
+            "reference": "/Users/david/.codex/plugins/cache/openai-curated-remote/sites/1.1.6/skills/sites/references/preview/local.md"
+          },
+          {
+            "time": "2026-11-17T20:42:32.928Z",
+            "tool": "command_execution",
+            "kind": "command",
+            "reference": "/Users/david/.codex/skills/playwright/SKILL.md"
+          },
+          {
+            "time": "2026-11-17T20:42:37.059Z",
+            "tool": "command_execution",
+            "kind": "command",
+            "reference": "/Users/david/.codex/skills/playwright/scripts/playwright_cli.sh"
+          },
+          {
+            "time": "2026-11-17T20:42:41.724Z",
+            "tool": "command_execution",
+            "kind": "command",
+            "reference": "/Users/david/.codex/skills/playwright/scripts/playwright_cli.sh"
+          },
+          {
+            "time": "2026-11-17T20:42:45.615Z",
+            "tool": "command_execution",
+            "kind": "command",
+            "reference": "/Users/david/.codex/skills/playwright/scripts/playwright_cli.sh"
+          },
+          {
+            "time": "2026-11-17T20:42:49.282Z",
+            "tool": "command_execution",
+            "kind": "command",
+            "reference": "/Users/david/.codex/skills/playwright/scripts/playwright_cli.sh"
+          },
+          {
+            "time": "2026-11-17T20:42:54.515Z",
+            "tool": "command_execution",
+            "kind": "command",
+            "reference": "/Users/david/.codex/skills/playwright/scripts/playwright_cli.sh"
+          },
+          {
+            "time": "2026-11-17T20:43:00.937Z",
+            "tool": "command_execution",
+            "kind": "command",
+            "reference": "/Users/david/.codex/skills/playwright/scripts/playwright_cli.sh"
+          },
+          {
+            "time": "2026-11-17T20:43:21.705Z",
+            "tool": "command_execution",
+            "kind": "command",
+            "reference": "/Users/david/.codex/skills/playwright/scripts/playwright_cli.sh"
+          }
+        ],
+        "review": "Reviewed 2026-11-17 by the orchestrator (Claude Opus 5.5), from the native Codex session's tool calls: reads of Codex's own Sites skill doc (~/.codex/plugins/cache/openai-curated-remote/sites/1.1.6, SKILL.md and references/preview/local.md) and Playwright skill doc (~/.codex/skills/playwright/SKILL.md); use of the Playwright skill script ~/.codex/skills/playwright/scripts/playwright_cli.sh, with a /tmp config pointing at the installed Brave binary, to open and check its own game on localhost:8321. One `ls -a ..` listed only its own run folder. Web lookups were Tetris Guideline wiki pages only. No benchmark, T3-data, other-run or external-app access; one turn, full-access mode."
+      }
+    },
+    {
+      "id": "gpt-6.2-sol-high",
+      "label": "GPT-6.2 Sol (high)",
+      "order": 940,
+      "project_dir": "gpt-6.2-sol-high",
+      "harness": "t3_codex",
+      "harness_label": "T3 Code / Codex",
+      "provider": "codex",
+      "provider_label": "Codex",
+      "model": "gpt-6.2-sol",
+      "session_id": "01a1eb41-766e-7db1-9474-5238ecbd8c7b",
+      "t3_thread_id": "thread:project:6a739916-8a20-426c-90b9-d49e03ccb623:980b4832-7883-45a9-9790-0341ac565fcc",
+      "expected_cwd": "/Users/david/tetris-bench/runs/08fd4a6cc803/tetris",
+      "expected_cwd_basename": "tetris",
+      "reasoning_variant": "high",
+      "web": "open",
+      "cutoff": {
+        "through_user_message": 1,
+        "exclude_inter_message_wait": true
+      },
+      "overhead": {
+        "kind": "unknown"
+      },
+      "spec": {
+        "sha256": "36e2097a78fe8b5646e6216338640831cff0a284cc823c4b1f658991c8d40294",
+        "commit": "d1edda01e671f8f18140b003d3d35a1690ebdc8c",
+        "modified": false
+      },
+      "isolation": {
+        "outside_access": [
+          {
+            "time": "2026-11-17T20:45:04.619Z",
+            "tool": "command_execution",
+            "kind": "command",
+            "reference": "../AGENTS.md"
+          },
+          {
+            "time": "2026-11-17T20:45:04.619Z",
+            "tool": "command_execution",
+            "kind": "command",
+            "reference": "../../AGENTS.md"
+          },
+          {
+            "time": "2026-11-17T20:45:04.619Z",
+            "tool": "command_execution",
+            "kind": "command",
+            "reference": "../../../AGENTS.md"
+          },
+          {
+            "time": "2026-11-17T20:45:27.009Z",
+            "tool": "command_execution",
+            "kind": "command",
+            "reference": "/Users/david/.codex/plugins/cache/openai-curated-remote/sites/1.1.6/skills/sites/SKILL.md"
+          },
+          {
+            "time": "2026-11-17T20:46:23.115Z",
+            "tool": "command_execution",
+            "kind": "command",
+            "reference": "/Users/david/.codex/plugins/cache/openai-curated-remote/sites/1.1.6/skills/sites/references/preview/local.md"
+          },
+          {
+            "time": "2026-11-17T20:46:23.117Z",
+            "tool": "command_execution",
+            "kind": "command",
+            "reference": "/Users/david/.codex/skills/playwright"
+          },
+          {
+            "time": "2026-11-17T20:49:08.546Z",
+            "tool": "command_execution",
+            "kind": "command",
+            "reference": "/Users/david/.codex/skills/playwright/SKILL.md"
+          },
+          {
+            "time": "2026-11-17T20:50:40.846Z",
+            "tool": "command_execution",
+            "kind": "command",
+            "reference": "/Users/david/.codex/skills/playwright/scripts/playwright_cli.sh"
+          },
+          {
+            "time": "2026-11-17T20:52:32.710Z",
+            "tool": "command_execution",
+            "kind": "command",
+            "reference": "/Users/david/.codex/skills/playwright/scripts/playwright_cli.sh"
+          },
+          {
+            "time": "2026-11-17T20:53:02.379Z",
+            "tool": "command_execution",
+            "kind": "command",
+            "reference": "/Users/david/.codex/skills/playwright/scripts/playwright_cli.sh"
+          },
+          {
+            "time": "2026-11-17T20:53:02.379Z",
+            "tool": "command_execution",
+            "kind": "command",
+            "reference": "/Users/david/.codex/skills/playwright/scripts/playwright_cli.sh"
+          },
+          {
+            "time": "2026-11-17T20:53:09.679Z",
+            "tool": "command_execution",
+            "kind": "command",
+            "reference": "/Users/david/.codex/skills/playwright/scripts/playwright_cli.sh"
+          }
+        ],
+        "review": "Reviewed 2026-11-17 by the orchestrator (Claude Opus 5.5), from the native Codex session's tool calls: Codex's AGENTS.md existence test (`test -f` then cat) for the run folder, ~/tetris-bench/runs and ~/tetris-bench (none exist; nothing read); reads of Codex's own Sites skill doc (~/.codex/plugins/cache/openai-curated-remote/sites/1.1.6, SKILL.md and references/preview/local.md) and Playwright skill doc and folder listing (~/.codex/skills/playwright); use of the Playwright skill script, then the @playwright/cli binary it had installed in the npx cache (~/.npm/_npx), to open its own game on localhost:8321 in desktop and iPhone-emulated WebKit. The `../dist/*.js` references are imports inside its own tests. Web lookups were Tetris Guideline wiki pages only. No benchmark, T3-data, other-run or external-app access; one turn, full-access mode."
+      }
+    },
+    {
+      "id": "gpt-6.2-sol-xhigh",
+      "label": "GPT-6.2 Sol (xhigh)",
+      "order": 950,
+      "project_dir": "gpt-6.2-sol-xhigh",
+      "harness": "t3_codex",
+      "harness_label": "T3 Code / Codex",
+      "provider": "codex",
+      "provider_label": "Codex",
+      "model": "gpt-6.2-sol",
+      "session_id": "01a1eb8b-3b51-7432-802e-b90e8992bae8",
+      "t3_thread_id": "thread:project:7e2aeb50-dc32-401e-9506-c07591492865:998a8f83-a284-429b-af5a-4bedd33fc6b7",
+      "expected_cwd": "/Users/david/tetris-bench/runs/fdea3be0870e/tetris",
+      "expected_cwd_basename": "tetris",
+      "reasoning_variant": "xhigh",
+      "web": "open",
+      "cutoff": {
+        "through_user_message": 1,
+        "exclude_inter_message_wait": true
+      },
+      "overhead": {
+        "kind": "unknown"
+      },
+      "spec": {
+        "sha256": "36e2097a78fe8b5646e6216338640831cff0a284cc823c4b1f658991c8d40294",
+        "commit": "d1edda01e671f8f18140b003d3d35a1690ebdc8c",
+        "modified": false
+      },
+      "isolation": {
+        "outside_access": [
+          {
+            "time": "2026-11-17T22:05:45.352Z",
+            "tool": "command_execution",
+            "kind": "command",
+            "reference": "/Users/AGENTS.md"
+          },
+          {
+            "time": "2026-11-17T22:05:45.352Z",
+            "tool": "command_execution",
+            "kind": "command",
+            "reference": "/Users/david/AGENTS.md"
+          },
+          {
+            "time": "2026-11-17T22:05:45.352Z",
+            "tool": "command_execution",
+            "kind": "command",
+            "reference": "/Users/david/tetris-bench/AGENTS.md"
+          },
+          {
+            "time": "2026-11-17T22:05:45.352Z",
+            "tool": "command_execution",
+            "kind": "command",
+            "reference": "/Users/david/tetris-bench/runs/AGENTS.md"
+          },
+          {
+            "time": "2026-11-17T22:05:45.352Z",
+            "tool": "command_execution",
+            "kind": "command",
+            "reference": "/Users/david/tetris-bench/runs/fdea3be0870e/AGENTS.md"
+          },
+          {
+            "time": "2026-11-17T22:06:06.909Z",
+            "tool": "command_execution",
+            "kind": "command",
+            "reference": "~/.volta"
+          },
+          {
+            "time": "2026-11-17T22:06:06.909Z",
+            "tool": "command_execution",
+            "kind": "command",
+            "reference": "~/.local/share/mise"
+          },
+          {
+            "time": "2026-11-17T22:13:07.414Z",
+            "tool": "command_execution",
+            "kind": "command",
+            "reference": "/Users/david/.codex/skills/playwright/SKILL.md"
+          },
+          {
+            "time": "2026-11-17T22:13:45.900Z",
+            "tool": "command_execution",
+            "kind": "command",
+            "reference": "/Users/david/.codex/skills/playwright/scripts/playwright_cli.sh"
+          },
+          {
+            "time": "2026-11-17T22:13:45.904Z",
+            "tool": "command_execution",
+            "kind": "command",
+            "reference": "../dist/game.js\\"
+          },
+          {
+            "time": "2026-11-17T22:13:45.904Z",
+            "tool": "command_execution",
+            "kind": "command",
+            "reference": "../dist/pieces.js\\"
+          },
+          {
+            "time": "2026-11-17T22:13:51.577Z",
+            "tool": "command_execution",
+            "kind": "command",
+            "reference": "/Users/david/.codex/skills/playwright/scripts/playwright_cli.sh"
+          },
+          {
+            "time": "2026-11-17T22:13:58.684Z",
+            "tool": "command_execution",
+            "kind": "command",
+            "reference": "/Users/david/.codex/skills/playwright/scripts/playwright_cli.sh"
+          },
+          {
+            "time": "2026-11-17T22:13:58.684Z",
+            "tool": "command_execution",
+            "kind": "command",
+            "reference": "/Users/david/.codex/skills/playwright/scripts/playwright_cli.sh"
+          },
+          {
+            "time": "2026-11-17T22:14:05.527Z",
+            "tool": "command_execution",
+            "kind": "command",
+            "reference": "/Users/david/.codex/skills/playwright/scripts/playwright_cli.sh"
+          },
+          {
+            "time": "2026-11-17T22:14:05.527Z",
+            "tool": "command_execution",
+            "kind": "command",
+            "reference": "/Users/david/.codex/skills/playwright/scripts/playwright_cli.sh"
+          },
+          {
+            "time": "2026-11-17T22:14:10.567Z",
+            "tool": "command_execution",
+            "kind": "command",
+            "reference": "/Users/david/.codex/skills/playwright/scripts/playwright_cli.sh"
+          },
+          {
+            "time": "2026-11-17T22:14:39.426Z",
+            "tool": "command_execution",
+            "kind": "command",
+            "reference": "/Users/david/.codex/skills/playwright/scripts/playwright_cli.sh"
+          },
+          {
+            "time": "2026-11-17T22:14:39.426Z",
+            "tool": "command_execution",
+            "kind": "command",
+            "reference": "/Users/david/.codex/skills/playwright/scripts/playwright_cli.sh"
+          },
+          {
+            "time": "2026-11-17T22:15:04.778Z",
+            "tool": "command_execution",
+            "kind": "command",
+            "reference": "/Users/david/.codex/skills/playwright/scripts/playwright_cli.sh"
+          },
+          {
+            "time": "2026-11-17T22:15:04.778Z",
+            "tool": "command_execution",
+            "kind": "command",
+            "reference": "/Users/david/.codex/skills/playwright/scripts/playwright_cli.sh"
+          },
+          {
+            "time": "2026-11-17T22:16:30.402Z",
+            "tool": "command_execution",
+            "kind": "command",
+            "reference": "/Users/david/.codex/skills/playwright/scripts/playwright_cli.sh"
+          },
+          {
+            "time": "2026-11-17T22:16:30.402Z",
+            "tool": "command_execution",
+            "kind": "command",
+            "reference": "/Users/david/.codex/skills/playwright/scripts/playwright_cli.sh"
+          },
+          {
+            "time": "2026-11-17T22:17:06.620Z",
+            "tool": "command_execution",
+            "kind": "command",
+            "reference": "/Users/david/.codex/skills/playwright/scripts/playwright_cli.sh"
+          }
+        ],
+        "review": "Reviewed 2026-11-17 by the orchestrator (Claude Opus 5.5), from the native Codex session's tool calls: Codex's AGENTS.md existence test (`test -f` then cat) for /, /Users, ~, ~/tetris-bench, ~/tetris-bench/runs and the run folder (none exist; nothing read); toolchain discovery (`ls -d` of ~/.nvm, ~/.volta, ~/.local/share/mise, ~/.cache/ms-playwright, ~/.cache/puppeteer, Homebrew node; `ls -1 /Applications`; `ls -la ..` of its own run folder; HEAD requests to nodejs.org and registry.npmjs.org); read of Codex's Playwright skill doc and use of ~/.codex/skills/playwright/scripts/playwright_cli.sh to check its own game on localhost:8321. The `../dist/*.js` references are imports inside its own tests. Web lookups were the Tetris Guideline wiki and tetris.com only. No benchmark, T3-data, other-run or external-app access; full-access mode. Turn 2 was started by T3's background-command notice after cleanup stopped its npm start; it only restarted the server (no file changes) and is excluded."
+      },
+      "t3_notification_turns": [
+        {
+          "ordinal": 2,
+          "message": "Background command completed (exit 143): /bin/zsh -lc 'PATH=/opt/homebrew/opt/node/bin:$PATH npm start'\n\nOutput tail:\n\n> tetrisjs@1.0.0 start\n> node server.mjs\n\nTetrisJS is available at http://localhost:8321"
+        }
+      ]
+    },
+    {
+      "id": "gpt-6.2-sol-max",
+      "label": "GPT-6.2 Sol (max)",
+      "order": 960,
+      "project_dir": "gpt-6.2-sol-max",
+      "harness": "t3_codex",
+      "harness_label": "T3 Code / Codex",
+      "provider": "codex",
+      "provider_label": "Codex",
+      "model": "gpt-6.2-sol",
+      "session_id": "01a1eb98-0e21-72f0-9f1a-3a132c9b25c7",
+      "t3_thread_id": "thread:project:4851012d-de77-46b7-b634-d08f0e2940b3:9c1cf7d2-8470-4044-b66f-35fb157c37dc",
+      "expected_cwd": "/Users/david/tetris-bench/runs/c6e8bea35321/tetris",
+      "expected_cwd_basename": "tetris",
+      "reasoning_variant": "max",
+      "web": "open",
+      "cutoff": {
+        "through_user_message": 1,
+        "exclude_inter_message_wait": true
+      },
+      "overhead": {
+        "kind": "unknown"
+      },
+      "spec": {
+        "sha256": "36e2097a78fe8b5646e6216338640831cff0a284cc823c4b1f658991c8d40294",
+        "commit": "d1edda01e671f8f18140b003d3d35a1690ebdc8c",
+        "modified": false
+      },
+      "isolation": {
+        "outside_access": [
+          {
+            "time": "2026-11-17T22:19:42.815Z",
+            "tool": "command_execution",
+            "kind": "command",
+            "reference": "/Users/AGENTS.md"
+          },
+          {
+            "time": "2026-11-17T22:19:42.815Z",
+            "tool": "command_execution",
+            "kind": "command",
+            "reference": "/Users/david/AGENTS.md"
+          },
+          {
+            "time": "2026-11-17T22:19:42.815Z",
+            "tool": "command_execution",
+            "kind": "command",
+            "reference": "/Users/david/tetris-bench/AGENTS.md"
+          },
+          {
+            "time": "2026-11-17T22:19:42.815Z",
+            "tool": "command_execution",
+            "kind": "command",
+            "reference": "/Users/david/tetris-bench/runs/AGENTS.md"
+          },
+          {
+            "time": "2026-11-17T22:19:42.815Z",
+            "tool": "command_execution",
+            "kind": "command",
+            "reference": "/Users/david/tetris-bench/runs/c6e8bea35321/AGENTS.md"
+          },
+          {
+            "time": "2026-11-17T22:20:05.390Z",
+            "tool": "command_execution",
+            "kind": "command",
+            "reference": "/Users/david/.codex/plugins/cache/openai-curated-remote/sites/1.1.6/skills/sites/SKILL.md"
+          },
+          {
+            "time": "2026-11-17T22:24:25.355Z",
+            "tool": "command_execution",
+            "kind": "command",
+            "reference": "/Users/david/.codex/plugins/cache/openai-curated-remote/sites/1.1.6/skills/sites/references/preview/local.md"
+          },
+          {
+            "time": "2026-11-17T22:32:38.355Z",
+            "tool": "command_execution",
+            "kind": "command",
+            "reference": "/Users/david/.codex/skills/playwright/SKILL.md"
+          },
+          {
+            "time": "2026-11-17T22:32:56.888Z",
+            "tool": "command_execution",
+            "kind": "command",
+            "reference": "/Users/david/.codex/skills/playwright/references/cli.md"
+          },
+          {
+            "time": "2026-11-17T22:33:07.566Z",
+            "tool": "command_execution",
+            "kind": "command",
+            "reference": "/Users/david/.codex/skills/playwright/scripts/playwright_cli.sh"
+          },
+          {
+            "time": "2026-11-17T22:33:12.371Z",
+            "tool": "command_execution",
+            "kind": "command",
+            "reference": "/Users/david/.codex/skills/playwright/scripts/playwright_cli.sh"
+          },
+          {
+            "time": "2026-11-17T22:33:17.342Z",
+            "tool": "command_execution",
+            "kind": "command",
+            "reference": "/Users/david/.codex/skills/playwright/scripts/playwright_cli.sh"
+          },
+          {
+            "time": "2026-11-17T22:33:17.460Z",
+            "tool": "command_execution",
+            "kind": "command",
+            "reference": "/Users/david/.codex/skills/playwright/scripts/playwright_cli.sh"
+          },
+          {
+            "time": "2026-11-17T22:33:24.148Z",
+            "tool": "command_execution",
+            "kind": "command",
+            "reference": "/Users/david/.codex/skills/playwright/scripts/playwright_cli.sh"
+          },
+          {
+            "time": "2026-11-17T22:33:36.874Z",
+            "tool": "command_execution",
+            "kind": "command",
+            "reference": "/Users/david/.codex/skills/playwright/scripts/playwright_cli.sh"
+          },
+          {
+            "time": "2026-11-17T22:33:50.128Z",
+            "tool": "command_execution",
+            "kind": "command",
+            "reference": "/Users/david/.codex/skills/playwright/scripts/playwright_cli.sh"
+          },
+          {
+            "time": "2026-11-17T22:33:50.128Z",
+            "tool": "command_execution",
+            "kind": "command",
+            "reference": "/Users/david/.codex/skills/playwright/scripts/playwright_cli.sh"
+          },
+          {
+            "time": "2026-11-17T22:33:50.128Z",
+            "tool": "command_execution",
+            "kind": "command",
+            "reference": "/Users/david/.codex/skills/playwright/scripts/playwright_cli.sh"
+          },
+          {
+            "time": "2026-11-17T22:33:58.991Z",
+            "tool": "command_execution",
+            "kind": "command",
+            "reference": "/Users/david/.codex/skills/playwright/scripts/playwright_cli.sh"
+          },
+          {
+            "time": "2026-11-17T22:33:58.991Z",
+            "tool": "command_execution",
+            "kind": "command",
+            "reference": "/Users/david/.codex/skills/playwright/scripts/playwright_cli.sh"
+          },
+          {
+            "time": "2026-11-17T22:34:32.761Z",
+            "tool": "command_execution",
+            "kind": "command",
+            "reference": "/Users/david/.codex/skills/playwright/scripts/playwright_cli.sh"
+          },
+          {
+            "time": "2026-11-17T22:35:17.824Z",
+            "tool": "command_execution",
+            "kind": "command",
+            "reference": "/Users/david/.codex/skills/playwright/scripts/playwright_cli.sh"
+          },
+          {
+            "time": "2026-11-17T22:35:17.824Z",
+            "tool": "command_execution",
+            "kind": "command",
+            "reference": "/Users/david/.codex/skills/playwright/scripts/playwright_cli.sh"
+          },
+          {
+            "time": "2026-11-17T22:37:11.331Z",
+            "tool": "command_execution",
+            "kind": "command",
+            "reference": "/Users/david/.codex/skills/playwright/scripts/playwright_cli.sh"
+          },
+          {
+            "time": "2026-11-17T22:37:11.331Z",
+            "tool": "command_execution",
+            "kind": "command",
+            "reference": "/Users/david/.codex/skills/playwright/scripts/playwright_cli.sh"
+          },
+          {
+            "time": "2026-11-17T22:37:24.779Z",
+            "tool": "command_execution",
+            "kind": "command",
+            "reference": "/Users/david/.codex/skills/playwright/scripts/playwright_cli.sh"
+          },
+          {
+            "time": "2026-11-17T22:37:24.779Z",
+            "tool": "command_execution",
+            "kind": "command",
+            "reference": "/Users/david/.codex/skills/playwright/scripts/playwright_cli.sh"
+          }
+        ],
+        "review": "Reviewed 2026-11-17 by the orchestrator (Claude Opus 5.5), from the native Codex session's tool calls: Codex's AGENTS.md existence test (`test -f` then cat) for /, /Users, ~, ~/tetris-bench, ~/tetris-bench/runs and the run folder (none exist; nothing read); reads of Codex's own Sites skill doc (~/.codex/plugins/cache/openai-curated-remote/sites/1.1.6, SKILL.md and references/preview/local.md) and Playwright skill docs (~/.codex/skills/playwright SKILL.md, references/cli.md); Playwright tooling: the skill script, a grep of the npx-cached playwright-core bundle for its browser-config options, and the cached Chromium (~/Library/Caches/ms-playwright) launched against its own game on localhost:8321. The `../dist/` and `../public/` references are inside its own build scripts and tests. Web lookups were Tetris Guideline wiki pages only. No benchmark, T3-data, other-run or external-app access; one turn, full-access mode."
       }
     }
   ]

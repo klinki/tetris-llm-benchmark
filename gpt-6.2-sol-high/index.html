@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Aftershift is a falling-block arcade game with seven pieces and an 11-column playfield.">
+  <title>Aftershift</title>
+  <link rel="stylesheet" href="./styles.css">
+  <script type="module" src="./main.js"></script>
+</head>
+<body>
+  <main class="app">
+    <header class="app-header">
+      <div class="identity">
+        <span class="brand-mark" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
+        <div>
+          <h1>Aftershift</h1>
+          <p>Falling-block arcade</p>
+        </div>
+      </div>
+      <div class="header-actions">
+        <button class="utility-button" type="button" id="pause" disabled>Pause <kbd>P</kbd></button>
+        <button class="utility-button" type="button" id="restart">Restart <kbd>R</kbd></button>
+      </div>
+    </header>
+
+    <div class="console">
+      <div class="left-rail">
+        <section class="card stats" aria-label="Scoreboard">
+          <dl>
+            <div class="stat score"><dt>Score</dt><dd id="score">0</dd></div>
+            <div class="stat best"><dt>Best</dt><dd id="best">0</dd></div>
+            <div class="stat progression"><dt>Level</dt><dd id="level">01</dd></div>
+            <div class="stat progression"><dt>Lines</dt><dd id="lines">00</dd></div>
+          </dl>
+        </section>
+
+        <section class="card hold" aria-labelledby="hold-label">
+          <div class="card-heading"><h2 id="hold-label">Hold</h2><kbd>C</kbd></div>
+          <div class="hold-tray">
+            <canvas id="held" width="128" height="80" role="img" aria-label="Empty hold slot"></canvas>
+            <span id="hold-empty" aria-hidden="true">Empty</span>
+          </div>
+        </section>
+      </div>
+
+      <section class="machine" aria-labelledby="field-label">
+        <div class="machine-top"><h2 id="field-label">Playfield</h2><span>11 × 18</span></div>
+        <div class="playfield" id="playfield" tabindex="0" aria-label="Playfield" aria-describedby="controls-label">
+          <canvas id="board" width="352" height="576" aria-hidden="true"></canvas>
+          <div class="overlay" id="overlay">
+            <div class="overlay-panel">
+              <h3 id="overlay-title">Ready to play?</h3>
+              <p id="overlay-text">Fill rows to clear them. Keep the stack below the top.</p>
+              <button class="play-button" id="play" type="button">Start game <span aria-hidden="true">→</span></button>
+            </div>
+          </div>
+        </div>
+        <div class="machine-bottom">
+          <div class="status" id="status" data-state="ready" role="status">Standby</div>
+          <span class="streak" id="streak" hidden></span>
+        </div>
+      </section>
+
+      <section class="card next" aria-labelledby="next-label">
+        <div class="card-heading"><h2 id="next-label">Up next</h2></div>
+        <ol>
+          <li><canvas class="preview" width="140" height="72" role="img"></canvas></li>
+          <li><canvas class="preview" width="140" height="72" role="img"></canvas></li>
+          <li><canvas class="preview" width="140" height="72" role="img"></canvas></li>
+        </ol>
+      </section>
+    </div>
+
+    <section class="touch-controls" aria-label="Touch controls">
+      <button type="button" data-action="left" aria-label="Move left">←</button>
+      <button type="button" data-action="right" aria-label="Move right">→</button>
+      <button type="button" data-action="ccw" aria-label="Rotate counterclockwise">↶</button>
+      <button type="button" data-action="cw" aria-label="Rotate clockwise">↷</button>
+      <button type="button" data-action="down" aria-label="Soft drop">↓</button>
+      <button type="button" data-action="hold">Hold</button>
+      <button type="button" data-action="drop" class="touch-drop">Hard drop</button>
+    </section>
+
+    <section class="controls" aria-labelledby="controls-label">
+      <h2 id="controls-label">Keyboard controls</h2>
+      <dl>
+        <div><dt>Move</dt><dd><kbd>←</kbd><kbd>→</kbd></dd></div>
+        <div><dt>Rotate <abbr title="clockwise">CW</abbr></dt><dd><kbd>↑</kbd><span>/</span><kbd>X</kbd></dd></div>
+        <div><dt>Rotate <abbr title="counterclockwise">CCW</abbr></dt><dd><kbd>Z</kbd><span>/</span><kbd>Left Ctrl</kbd></dd></div>
+        <div><dt>Soft drop</dt><dd><kbd>↓</kbd></dd></div>
+        <div><dt>Hard drop</dt><dd><kbd>Space</kbd></dd></div>
+        <div><dt>Hold</dt><dd><kbd>C</kbd></dd></div>
+      </dl>
+    </section>
+  </main>
+</body>
+</html>
