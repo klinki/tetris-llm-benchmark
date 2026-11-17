@@ -3190,6 +3190,7 @@
     },
     {
       "id": "minimax-m3.1-flash-free-max",
+      "web_root": "dist",
       "label": "MiniMax M3.1 Flash (max)",
       "order": 810,
       "project_dir": "minimax-m3.1-flash-free-max",
@@ -3219,6 +3220,7 @@
     },
     {
       "id": "minimax-m3.1-flash-free-xhigh",
+      "web_root": "dist",
       "label": "MiniMax M3.1 Flash (xhigh)",
       "order": 820,
       "project_dir": "minimax-m3.1-flash-free-xhigh",
@@ -3248,6 +3250,7 @@
     },
     {
       "id": "minimax-m3.1-flash-free-high",
+      "web_root": "dist",
       "label": "MiniMax M3.1 Flash (high)",
       "order": 830,
       "project_dir": "minimax-m3.1-flash-free-high",
@@ -3277,6 +3280,7 @@
     },
     {
       "id": "minimax-m3.1-flash-free-medium",
+      "web_root": "dist",
       "label": "MiniMax M3.1 Flash (medium)",
       "order": 840,
       "project_dir": "minimax-m3.1-flash-free-medium",
@@ -3306,6 +3310,7 @@
     },
     {
       "id": "minimax-m3.1-flash-free-low",
+      "web_root": "dist",
       "label": "MiniMax M3.1 Flash (low)",
       "order": 850,
       "project_dir": "minimax-m3.1-flash-free-low",
@@ -3608,6 +3613,7 @@
     },
     {
       "id": "gpt-6.2-sol-high",
+      "web_root": "dist",
       "label": "GPT-6.2 Sol (high)",
       "order": 940,
       "project_dir": "gpt-6.2-sol-high",
@@ -3898,6 +3904,7 @@
     },
     {
       "id": "gpt-6.2-sol-max",
+      "web_root": "dist",
       "label": "GPT-6.2 Sol (max)",
       "order": 960,
       "project_dir": "gpt-6.2-sol-max",

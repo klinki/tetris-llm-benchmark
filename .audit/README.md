@@ -2,6 +2,33 @@
 
 This directory contains the reproducible, repository-safe parts of the audit behind [`RANKING.md`](../RANKING.md). Generated builds, copied `node_modules` trees, temporary web servers, browser profiles, and timestamped Playwright artifacts are intentionally excluded.
 
+## GPT-6.2 Sol xhigh / max — November 18, 2026
+
+The [independent GPT-6.1 Sol xhigh audit](gpt62-sol-xhigh-max-review.md)
+scores **xhigh8.50 / max6.60**, reviewed in that order. The
+[evidence](gpt62-sol-xhigh-max-evidence.json) includes verified native reviewer
+model/effort/session/thread, all27 delivery hashes, locked installs, explicit
+builds, unchanged9/11 own passes,28 states/48 candidate lists/504 real native
+rotations,100 bags each, clocks/scoring/boundaries and desktop/phone Chromium.
+All four final layout screenshots were inspected. Xhigh has PC and fifteenth-
+reset minors; max has a custom9x18 game, nonstandard scoring/gravity and lock
+minor. Exact HD-SPIN-1 passes xhigh; max's native ridge T analogues lack spin
+bonuses and are explicitly separate from the inexpressible10x20 fixtures.
+All94 previous entries and earlier low/medium/high results remain identical.
+Parent confirmation of the completed review and isolated-project archival
+remain lifecycle steps. No delivered files or hosting declarations changed.
+
+```sh
+python3 .audit/run-gpt62-sol-xhigh-max-audit.py --offline
+```
+
+[Runner](run-gpt62-sol-xhigh-max-audit.py), [engine fixtures](gpt62-sol-xhigh-max-audit.mjs),
+[browser fixtures](gpt62-sol-xhigh-max-browser.cjs). Supports `--effort`,
+`--engine-only`, `--review` (PTY inspection) and intentional `--record` refresh.
+Both copied servers honor PORT; no copied source adaptation. All copies,
+logs, PNGs, owned browser/server groups and the preview tab are cleaned.
+No use of8765, model rerun, commit, push or PR.
+
 ## GPT-6.2 Sol — November 17, 2026
 
 The [independent GPT-6.1 Sol xhigh audit](gpt62-sol-review.md) scores

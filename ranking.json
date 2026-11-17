@@ -3336,6 +3336,69 @@
         }
       ],
       "summary": "Custom pieces/scoring/gravity; wrong field and shortened retained lock clocks"
+    },
+    {
+      "run_id": "gpt-6.2-sol-xhigh",
+      "audited": "2026-11-18",
+      "scores": {
+        "correctness": 9.0,
+        "tests": 6.5,
+        "code": 9.0,
+        "simplicity": 9.0,
+        "browser_ux": 9.0
+      },
+      "bugs": [
+        {
+          "severity": "minor",
+          "title": "Perfect-clear bonuses are missing",
+          "detail": "Native grounded I0/O0/T1/I1 complements empty the board for PC1/2/3/4 with 100/300/500/800 points instead of 900/1500/2300/2800. At nine lines PC single gives100 rather than900; non-PC Tetris/no-clear/PC Tetris totals2000 rather than5200. awardPoints has no PC detection or bonus."
+        },
+        {
+          "severity": "minor",
+          "title": "The fifteenth grounded reset immediately locks the piece",
+          "detail": "Grounded I r0(3,18),100ms,then15 alternating successful Right/Left moves: the fifteenth immediately welds4 cells instead of granting its500ms reset. afterManipulation increments lockMoves; checkLanding locks at>=15. Node and actual desktop/phone keys reproduce it; the own test encodes it."
+        }
+      ],
+      "summary": "Missing perfect-clear bonuses; fifteenth grounded reset locks immediately"
+    },
+    {
+      "run_id": "gpt-6.2-sol-max",
+      "audited": "2026-11-18",
+      "scores": {
+        "correctness": 4.5,
+        "tests": 6.0,
+        "code": 9.0,
+        "simplicity": 9.0,
+        "browser_ux": 9.0
+      },
+      "bugs": [
+        {
+          "severity": "major",
+          "title": "Custom three/five-cell pieces and generic kicks replace tetrominoes/SRS",
+          "detail": "elbow has3 cells; cross/pocket have5; J/L/Z tetrominoes are absent. bar/box/ridge/step have I/O/T/S geometry. The same9 offsets serve all directed transitions; box/cross refuse rotation. All48 diagnostic ordered candidate lists differ from SRS. Actual hard drops weld4/3/4/5/4/4/5 cells; 28 ordinal state comparisons are diagnostics, not an identity mapping."
+        },
+        {
+          "severity": "major",
+          "title": "Line and advanced scoring use different rules",
+          "detail": "Native non-PC1/2/3/4 clears score100/300/600/1000 instead of100/300/500/800; actual empty-board PCs give the same points instead of900/1500/2300/2800. The second single adds175 rather than150 (level2:350 rather than300). Separated Tetrises give1000 then1000 rather than800 then1200. No spin history or recognition: native ridge T real rotation into zero-travel mini/full gives0 instead of100/400, including timed locks and actual browser keys. Native travelling control gives24 for12 rows; exact10x20 HD-SPIN-1 fixtures are inexpressible on9x18. These related scoring defects form one group."
+        },
+        {
+          "severity": "major",
+          "title": "Gravity and eight-line progression differ from the Guideline",
+          "detail": "The round(850*0.82**(level-1)) curve gives850/697/384/142ms first-row boundaries at levels1/2/5/10 rather than1000/793/356/65. Level2 starts at8 cleared lines rather than10. Wrong low/middle curve and line cadence form one progression group; no extra floor deduction."
+        },
+        {
+          "severity": "minor",
+          "title": "Lock delay, reset allowance and lower-row clock handling differ",
+          "detail": "450ms and10 resets replace500ms/15. Legal bar0(0,12),supports(0,14),(1,14),10 alternating grounded moves,440ms,Right twice: lands3400ms after departure and locks3410, retaining440ms; unspent control locks3850. Leaving without the440ms wait still retains10 resets at the lower floor;400ms,Right,100ms welds4 cells instead of granting a fresh delay. No airborne lock; contact timing is correctly split."
+        },
+        {
+          "severity": "minor",
+          "title": "Field dimensions are nine by eighteen",
+          "detail": "WIDTH9/HEIGHT18 drive native storage, collision, row clears and162 rendered cells instead of10x20. Both Chromium sizes confirm the smaller board. Hidden setups are illegal and are not reported as hidden-lock conformance."
+        }
+      ],
+      "summary": "Custom pieces/kicks, scoring and gravity; 9x18 field and shortened/stale lock timing"
     }
   ]
 }
