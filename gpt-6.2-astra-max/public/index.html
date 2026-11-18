@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#101124">
+  <meta name="description" content="Play endless Tetris with a ghost piece, hold queue, and classic arcade controls.">
+  <title>Tetris · Endless Arcade</title>
+  <link rel="icon" href="./assets/icon.png" type="image/png">
+  <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+  <main class="arcade">
+    <header class="marquee">
+      <h1><img src="./assets/tetris.png" alt="Tetris" width="287" height="59"></h1>
+      <p class="mode"><span aria-hidden="true"></span>Endless mode<span aria-hidden="true"></span></p>
+    </header>
+
+    <div class="cabinet">
+      <div class="left-rail">
+        <section class="panel score-panel" aria-labelledby="score-heading">
+          <h2 id="score-heading"><i class="icon trophy" aria-hidden="true"></i>Score</h2>
+          <div class="score-number" id="score">000000</div>
+          <div class="best-row"><span>Best</span><span id="best">000000</span></div>
+        </section>
+
+        <section class="panel stats-panel" aria-label="Progress">
+          <div class="stat-row">
+            <h2><i class="icon level" aria-hidden="true"></i>Level</h2>
+            <span class="stat-number" id="level">01</span>
+          </div>
+          <div class="progress" id="progress" role="progressbar" aria-label="Lines toward next level"
+               aria-valuemin="0" aria-valuemax="10" aria-valuenow="0"></div>
+          <div class="stat-row lines-row">
+            <h2><i class="icon lines" aria-hidden="true"></i>Lines</h2>
+            <span class="stat-number" id="lines">000</span>
+          </div>
+        </section>
+
+        <section class="panel hold-panel" aria-labelledby="hold-heading">
+          <div class="panel-heading">
+            <h2 id="hold-heading"><i class="icon hold" aria-hidden="true"></i>Hold</h2>
+            <kbd>C</kbd>
+          </div>
+          <button class="hold-slot" id="hold-button" type="button" title="Hold piece (C)" aria-label="Hold piece. Slot empty.">
+            <canvas id="held" width="128" height="52" hidden></canvas>
+            <span id="empty-hold">Empty</span>
+          </button>
+        </section>
+
+        <div class="utilities">
+          <button type="button" id="pause-button" class="utility" disabled>
+            <i class="icon pause" aria-hidden="true"></i><span id="pause-label">Pause</span><kbd>P</kbd>
+          </button>
+          <button type="button" id="sound-button" class="utility" aria-pressed="true" aria-label="Sound effects">
+            <i class="icon sound" id="sound-icon" aria-hidden="true"></i><span id="sound-label">Sound on</span>
+            <span class="sound-light" aria-hidden="true"></span>
+          </button>
+        </div>
+      </div>
+
+      <div class="board-frame">
+        <div class="board-window" id="playfield" tabindex="-1" role="group" aria-label="Tetris playfield" aria-describedby="key-guide">
+          <canvas id="board" width="300" height="600" role="img" aria-label="Ten-column Tetris board">
+            Tetris uses a 10-column, 20-row playfield.
+          </canvas>
+          <div class="board-prompt" id="prompt">
+            <div class="prompt-content">
+              <div class="prompt-ornament" aria-hidden="true"><b></b></div>
+              <h2 id="prompt-title">Ready?</h2>
+              <p id="prompt-description">Fill a row to clear it.</p>
+              <button class="start-button" id="start-button" type="button">
+                <i class="icon play" aria-hidden="true"></i><span id="start-label">Start game</span>
+              </button>
+              <p class="key-hint">or press <kbd id="start-key">Enter</kbd></p>
+            </div>
+          </div>
+          <div class="clear-notice" id="notice" hidden></div>
+        </div>
+      </div>
+
+      <div class="right-rail">
+        <section class="panel next-panel" aria-labelledby="next-heading">
+          <h2 id="next-heading"><i class="icon next" aria-hidden="true"></i>Next</h2>
+          <ol class="queue">
+            <li><canvas width="128" height="52"></canvas></li>
+            <li><canvas width="80" height="44"></canvas></li>
+            <li><canvas width="80" height="44"></canvas></li>
+          </ol>
+        </section>
+        <section class="panel controls-panel" aria-labelledby="keys-heading" id="key-guide">
+          <h2 id="keys-heading"><i class="icon keys" aria-hidden="true"></i>Controls</h2>
+          <dl class="key-list">
+            <div><dt>Move</dt><dd><kbd>←</kbd><kbd>→</kbd></dd></div>
+            <div><dt>Rotate CW</dt><dd><kbd>↑</kbd><kbd>X</kbd></dd></div>
+            <div><dt>Rotate CCW</dt><dd><kbd>Z</kbd><kbd title="Left Control">Ctrl</kbd></dd></div>
+            <div><dt>Soft drop</dt><dd><kbd>↓</kbd></dd></div>
+            <div><dt>Hard drop</dt><dd><kbd>Space</kbd></dd></div>
+            <div><dt>Hold</dt><dd><kbd>C</kbd></dd></div>
+          </dl>
+        </section>
+      </div>
+    </div>
+
+    <div class="touch-controls" role="group" aria-label="Touch controls">
+      <button data-code="ArrowLeft" aria-label="Move left">←</button>
+      <button data-code="ArrowRight" aria-label="Move right">→</button>
+      <button data-code="KeyZ" aria-label="Rotate counterclockwise">↺</button>
+      <button data-code="KeyX" aria-label="Rotate clockwise">↻</button>
+      <button data-code="ArrowDown" aria-label="Soft drop">↓</button>
+      <button data-code="Space" class="drop-button">Drop</button>
+    </div>
+    <p role="status" class="sr-only" id="announcement"></p>
+    <noscript>Enable JavaScript to play Tetris.</noscript>
+  </main>
+  <script type="module" src="./main.js"></script>
+</body>
+</html>

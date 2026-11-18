@@ -125,6 +125,7 @@ remain recorded completion steps.
 | — | [GPT-6.2 Astra (medium)](gpt-6.2-astra-medium/STATISTICS.md) | `gpt-6.2-astra` | `medium` | T3 Code / Codex | Pending | 174,851 | $0.48 | 2m 42.027s | Not ranked yet |
 | — | [GPT-6.2 Astra (high)](gpt-6.2-astra-high/STATISTICS.md) | `gpt-6.2-astra` | `high` | T3 Code / Codex | Pending | 1,006,194 | $1.52 | 8m 16.645s | Not ranked yet |
 | — | [GPT-6.2 Astra (xhigh)](gpt-6.2-astra-xhigh/STATISTICS.md) | `gpt-6.2-astra` | `xhigh` | T3 Code / Codex | Pending | 1,136,465 | $1.58 | 9m 8.823s | Not ranked yet |
+| — | [GPT-6.2 Astra (max)](gpt-6.2-astra-max/STATISTICS.md) | `gpt-6.2-astra` | `max` | T3 Code / Codex | Pending | 4,350,717 | $4.72 | 23m 36.378s | Not ranked yet |
 
 **† Claude Opus 5.5 (medium, original):** Kept as a reference. This original medium run worked inside the benchmark repository and read its README, including the results table with other runs' scores and main defects, before implementing; it may have realized it was being rated, so it is not an independent comparison. The isolated re-run, Claude Opus 5.5 (medium), is the comparable medium result.
 
