@@ -4147,6 +4147,55 @@
         ],
         "note": "The 5-hour window had reset before the run, so the start reading is the baseline; it rose 0→1→2→3% during the run. The weekly change stayed below one reported point. The independent GPT-6.1 Sol xhigh review (native session `01a1f00f-4630-7512-ae97-2706f49a595e`) used a further 9 points of the 5-hour window (3→12%) and 2 weekly points (56→58%); that is not part of the tested agent's figure."
       }
+    },
+    {
+      "id": "gpt-6.2-astra-medium",
+      "subscription_quota": {
+        "provider": "Codex",
+        "plan": "plus",
+        "source": "the `rate_limits` snapshots in the tested agent's native Codex session log (seven snapshots, 19:33:08Z to 19:35:44Z)",
+        "windows": [
+          {
+            "name": "5-hour",
+            "window_minutes": 300,
+            "used_percent_start": 12,
+            "used_percent_end": 16
+          },
+          {
+            "name": "Weekly",
+            "window_minutes": 10080,
+            "used_percent_start": 58,
+            "used_percent_end": 58
+          }
+        ],
+        "note": "The start reading matches the last snapshot of the preceding GPT-6.2 Astra (low) review session (12% / 58%), so no other Codex usage fell between them. The weekly change stayed below one reported point."
+      },
+      "label": "GPT-6.2 Astra (medium)",
+      "order": 980,
+      "project_dir": "gpt-6.2-astra-medium",
+      "harness": "t3_codex",
+      "harness_label": "T3 Code / Codex",
+      "provider": "codex",
+      "provider_label": "Codex",
+      "model": "gpt-6.2-astra",
+      "session_id": "01a1f025-f5c3-7413-ae48-df4e8d3790fe",
+      "t3_thread_id": "thread:project:e2f07f44-7aff-4f88-bb1a-b8ff0b28113a:6420c7b2-aea3-4037-89e4-c7121798b5e5",
+      "expected_cwd": "/Users/david/tetris-bench/runs/05aaf653f380/tetris",
+      "expected_cwd_basename": "tetris",
+      "reasoning_variant": "medium",
+      "web": "open",
+      "cutoff": {
+        "through_user_message": 1,
+        "exclude_inter_message_wait": true
+      },
+      "overhead": {
+        "kind": "unknown"
+      },
+      "spec": {
+        "sha256": "36e2097a78fe8b5646e6216338640831cff0a284cc823c4b1f658991c8d40294",
+        "commit": "1ed1e1e6f21e974100e83e19422059f54145b87f",
+        "modified": false
+      }
     }
   ]
 }
