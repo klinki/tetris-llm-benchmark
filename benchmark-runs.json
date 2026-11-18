@@ -4304,6 +4304,150 @@
           "message": "Background command completed (exit 143): /bin/zsh -lc 'npm start'\n\nOutput tail:\n\n> tetris-js@1.0.0 start\n> npm run build && node server.mjs\n\n\n> tetris-js@1.0.0 build\n> tsc -p tsconfig.json\n\nTetris is running at http://localhost:8321"
         }
       ]
+    },
+    {
+      "id": "gpt-6.2-astra-xhigh",
+      "subscription_quota": {
+        "provider": "Codex",
+        "plan": "plus",
+        "source": "the `rate_limits` snapshots in the tested agent's native Codex session log (turn 1: 19:48:39Z to 19:57:42Z)",
+        "windows": [
+          {
+            "name": "5-hour",
+            "window_minutes": 300,
+            "used_percent_start": 31,
+            "used_percent_end": 45
+          },
+          {
+            "name": "Weekly",
+            "window_minutes": 10080,
+            "used_percent_start": 61,
+            "used_percent_end": 63
+          }
+        ],
+        "note": "The start reading matches the end of the GPT-6.2 Astra (high) session including its notification turn (31% / 61%). The excluded notification turn 2 used about one more 5-hour point (46% at 19:58:32Z); it is not part of this figure."
+      },
+      "label": "GPT-6.2 Astra (xhigh)",
+      "order": 1000,
+      "project_dir": "gpt-6.2-astra-xhigh",
+      "harness": "t3_codex",
+      "harness_label": "T3 Code / Codex",
+      "provider": "codex",
+      "provider_label": "Codex",
+      "model": "gpt-6.2-astra",
+      "session_id": "01a1f034-2b48-7e11-8fe6-2302b7fd12fc",
+      "t3_thread_id": "thread:project:716c71c2-b87b-42cb-93db-f8ae6d81648f:132f8b8f-9921-4567-b2ab-a25bed275ff0",
+      "expected_cwd": "/Users/david/tetris-bench/runs/851afef9975f/tetris",
+      "expected_cwd_basename": "tetris",
+      "reasoning_variant": "xhigh",
+      "web": "open",
+      "cutoff": {
+        "through_user_message": 1,
+        "exclude_inter_message_wait": true
+      },
+      "overhead": {
+        "kind": "unknown"
+      },
+      "spec": {
+        "sha256": "36e2097a78fe8b5646e6216338640831cff0a284cc823c4b1f658991c8d40294",
+        "commit": "c2b0522fa59f35470b10dbf7f1f12d313bbd5a2c",
+        "modified": false
+      },
+      "isolation": {
+      "review": "Reviewed 2026-11-18 by the orchestrator (Claude Opus 5.5) from the native Codex session's tool calls: `cat` of Codex's own Sites skill docs (~/.codex/plugins/cache/openai-curated-remote/sites/1.1.7: SKILL.md and references/preview/local.md) for local preview guidance, with no Sites tool called and nothing deployed (the only tools used were exec_command, view_image and web__run); Codex's Playwright skill (~/.codex/skills/playwright SKILL.md and playwright_cli.sh) driving a browser against its own game on localhost:8321, with screenshots and a config in /tmp/tetris851-* that cleanup removed. One web search, for Tetris Guideline SRS/scoring/gravity. No benchmark, T3-data, other-run or external-app access. Turn 2 was a harness notification after cleanup stopped `npm start`; it only restarted the server detached (log folder in the user temp dir, removed by the orchestrator) with no file changes, and is excluded from time and usage.",
+        "outside_access": [
+          {
+            "time": "2026-11-18T19:48:45.914Z",
+            "tool": "command_execution",
+            "kind": "command",
+            "reference": "/Users/david/.codex/plugins/cache/openai-curated-remote/sites/1.1.7/skills/sites/SKILL.md"
+          },
+          {
+            "time": "2026-11-18T19:49:12.969Z",
+            "tool": "command_execution",
+            "kind": "command",
+            "reference": "/Users/david/.codex/plugins/cache/openai-curated-remote/sites/1.1.7/skills/sites/references/preview/local.md"
+          },
+          {
+            "time": "2026-11-18T19:54:47.722Z",
+            "tool": "command_execution",
+            "kind": "command",
+            "reference": "/Users/david/.codex/skills/playwright/SKILL.md"
+          },
+          {
+            "time": "2026-11-18T19:55:01.177Z",
+            "tool": "command_execution",
+            "kind": "command",
+            "reference": "/Users/david/.codex/skills/playwright/scripts/playwright_cli.sh"
+          },
+          {
+            "time": "2026-11-18T19:55:06.932Z",
+            "tool": "command_execution",
+            "kind": "command",
+            "reference": "/Users/david/.codex/skills/playwright/scripts/playwright_cli.sh"
+          },
+          {
+            "time": "2026-11-18T19:55:14.147Z",
+            "tool": "command_execution",
+            "kind": "command",
+            "reference": "/Users/david/.codex/skills/playwright/scripts/playwright_cli.sh"
+          },
+          {
+            "time": "2026-11-18T19:55:20.771Z",
+            "tool": "command_execution",
+            "kind": "command",
+            "reference": "/Users/david/.codex/skills/playwright/scripts/playwright_cli.sh"
+          },
+          {
+            "time": "2026-11-18T19:56:25.540Z",
+            "tool": "command_execution",
+            "kind": "command",
+            "reference": "/Users/david/.codex/skills/playwright/scripts/playwright_cli.sh"
+          },
+          {
+            "time": "2026-11-18T19:56:31.410Z",
+            "tool": "command_execution",
+            "kind": "command",
+            "reference": "/Users/david/.codex/skills/playwright/scripts/playwright_cli.sh"
+          },
+          {
+            "time": "2026-11-18T19:56:39.140Z",
+            "tool": "command_execution",
+            "kind": "command",
+            "reference": "/Users/david/.codex/skills/playwright/scripts/playwright_cli.sh"
+          },
+          {
+            "time": "2026-11-18T19:56:46.639Z",
+            "tool": "command_execution",
+            "kind": "command",
+            "reference": "/Users/david/.codex/skills/playwright/scripts/playwright_cli.sh"
+          },
+          {
+            "time": "2026-11-18T19:57:06.991Z",
+            "tool": "command_execution",
+            "kind": "command",
+            "reference": "/Users/david/.codex/skills/playwright/scripts/playwright_cli.sh"
+          },
+          {
+            "time": "2026-11-18T19:57:23.166Z",
+            "tool": "command_execution",
+            "kind": "command",
+            "reference": "/Users/david/.codex/skills/playwright/scripts/playwright_cli.sh"
+          },
+          {
+            "time": "2026-11-18T19:57:23.166Z",
+            "tool": "command_execution",
+            "kind": "command",
+            "reference": "/Users/david/.codex/skills/playwright/scripts/playwright_cli.sh"
+          }
+        ]
+      },
+      "t3_notification_turns": [
+        {
+          "ordinal": 2,
+          "message": "Background command completed (exit 143): /bin/zsh -lc 'npm start'\n\nOutput tail:\n\n> tetrisjs@1.0.0 prestart\n> npm run build\n\n\n> tetrisjs@1.0.0 build\n> tsc -p tsconfig.json\n\n\n> tetrisjs@1.0.0 start\n> node scripts/serve.mjs\n\nTetris is ready at http://localhost:8321"
+        }
+      ]
     }
   ]
 }

@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#f7f5ee" />
+    <title>Tetris · Pocket Arcade</title>
+    <link rel="stylesheet" href="/style.css" />
+    <link
+      rel="icon"
+      href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 4 4'%3E%3Cpath fill='%23ef6446' d='M0 0h4v2H3v2H1V2H0z'/%3E%3C/svg%3E"
+    />
+  </head>
+  <body>
+    <header class="topbar">
+      <div class="topinner">
+        <div class="brand">
+          <span class="brandmark" aria-hidden="true"><i></i><i></i><i></i><i></i></span>Pocket
+          Arcade
+        </div>
+        <button class="audio" id="audio" aria-pressed="true">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M3 9h4l5-4v14l-5-4H3z" />
+            <path class="waves" d="M16 8q4 4 0 8m3-11q7 7 0 14" /></svg
+          ><span>Sound on</span>
+        </button>
+      </div>
+    </header>
+    <main>
+      <section class="machine" aria-label="Tetris game console">
+        <i class="screw tl"></i><i class="screw tr"></i><i class="screw bl"></i
+        ><i class="screw br"></i>
+        <div class="marquee">
+          <h1><canvas id="logo" role="img" aria-label="Tetris">Tetris</canvas></h1>
+          <div class="mode"><i></i>Marathon</div>
+        </div>
+        <div class="console-interior">
+          <div class="screen">
+            <canvas
+              id="board"
+              tabindex="-1"
+              width="300"
+              height="600"
+              aria-label="Tetris playfield, 10 columns by 20 rows"
+            ></canvas>
+            <div id="overlay">
+              <canvas id="message" aria-hidden="true"></canvas>
+              <button id="play">
+                <span class="triangle"></span><span id="play-label">Start game</span>
+              </button>
+              <span class="keyhint" id="hint">or press Enter</span>
+            </div>
+          </div>
+          <div class="readouts">
+            <div class="lcd scorebox">
+              <span class="label">Score</span><span class="digits" id="score">000000</span>
+            </div>
+            <div class="lcd metrics">
+              <div><span class="label">Level</span><strong id="level">01</strong></div>
+              <div><span class="label">Lines</span><strong id="lines">00</strong></div>
+            </div>
+            <div class="lcd well">
+              <span class="label">Next</span>
+              <div id="queue"></div>
+            </div>
+            <div class="lcd well">
+              <div class="hold-title"><span class="label">Hold</span><kbd>C</kbd></div>
+              <canvas id="held" width="120" height="55" aria-label="No piece held"></canvas>
+            </div>
+          </div>
+        </div>
+        <div class="chin">
+          <span class="power"><i></i>Power</span
+          ><button id="pause" disabled aria-label="Pause game"><b>Ⅱ</b> Pause</button>
+          <div class="vent" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i></div>
+        </div>
+      </section>
+      <aside>
+        <section class="card high">
+          <div class="card-head">
+            <canvas id="trophy" width="48" height="44" aria-hidden="true"></canvas>
+            <h2>High score</h2>
+          </div>
+          <span class="digits" id="best">000000</span>
+          <div class="high-stripe" aria-hidden="true"></div>
+        </section>
+        <section class="card controls">
+          <div class="card-head">
+            <svg viewBox="0 0 26 20" aria-hidden="true">
+              <rect x="1" y="2" width="24" height="16" rx="2" />
+              <path d="M5 6h2m2 0h2m2 0h2m2 0h2M5 10h2m2 0h2m2 0h2m2 0h3M8 14h10" />
+            </svg>
+            <h2>Controls</h2>
+          </div>
+          <dl>
+            <div>
+              <dt>Move</dt>
+              <dd><kbd>←</kbd><kbd>→</kbd></dd>
+            </div>
+            <div>
+              <dt>Rotate right</dt>
+              <dd><kbd>↑</kbd><small>/</small><kbd>X</kbd></dd>
+            </div>
+            <div>
+              <dt>Rotate left</dt>
+              <dd><kbd>Z</kbd><small>/</small><kbd>Ctrl</kbd></dd>
+            </div>
+            <div>
+              <dt>Soft drop</dt>
+              <dd><kbd>↓</kbd></dd>
+            </div>
+            <div>
+              <dt>Hard drop</dt>
+              <dd><kbd>Space</kbd></dd>
+            </div>
+            <div>
+              <dt>Hold piece</dt>
+              <dd><kbd>C</kbd></dd>
+            </div>
+            <div>
+              <dt>Pause</dt>
+              <dd><kbd>P</kbd></dd>
+            </div>
+            <div>
+              <dt>Restart<span class="sr"> after game over</span></dt>
+              <dd><kbd>R</kbd></dd>
+            </div>
+          </dl>
+        </section>
+        <div class="pieces-strip" aria-hidden="true"></div>
+      </aside>
+      <div class="touch" aria-label="Touch controls">
+        <button data-action="left" aria-label="Move left">←</button
+        ><button data-action="right" aria-label="Move right">→</button
+        ><button data-action="ccw" aria-label="Rotate left">↶</button
+        ><button data-action="cw" aria-label="Rotate right">↷</button
+        ><button data-action="down">Soft drop</button><button data-action="drop">Drop</button
+        ><button data-action="hold">Hold</button>
+      </div>
+    </main>
+    <p class="sr" id="announcement" role="status"></p>
+    <script type="module" src="/dist/app.js"></script>
+  </body>
+</html>
