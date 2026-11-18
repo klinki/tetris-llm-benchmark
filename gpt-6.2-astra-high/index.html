@@ -1,0 +1,166 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#edece6" />
+    <meta
+      name="description"
+      content="Play Tetris, a keyboard-controlled falling-block arcade game."
+    />
+    <title>Tetris.js · Arcade</title>
+    <link
+      rel="icon"
+      href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpath fill='%23f76439' d='M1 7h30v10H21v10H11V17H1z'/%3E%3C/svg%3E"
+    />
+    <link rel="stylesheet" href="./style.css" />
+  </head>
+  <body>
+    <main>
+      <header class="masthead">
+        <div class="identity">
+          <div class="eyebrow"><i></i> ARCADE CONSOLE</div>
+          <h1 aria-label="Tetris.js">
+            <span id="wordmark" aria-hidden="true"></span
+            ><span class="js-tag">.JS</span>
+          </h1>
+        </div>
+        <div class="buttons">
+          <button id="sound" aria-label="Sound off" aria-pressed="false">
+            <span class="icon" data-icon="mute"></span
+            ><span id="sound-label">Sound off</span>
+          </button>
+          <button id="pause" aria-label="Pause" disabled>
+            <span class="icon" data-icon="pause"></span
+            ><span id="pause-label">Pause</span>
+          </button>
+        </div>
+      </header>
+      <div class="console">
+        <aside class="left">
+          <section class="score-card">
+            <h2><span class="icon" data-icon="score"></span> Score</h2>
+            <div id="score" class="score">000000</div>
+            <div class="best">
+              <span><span class="icon" data-icon="trophy"></span> Best</span
+              ><strong id="best">000000</strong>
+            </div>
+          </section>
+          <section class="panel stats">
+            <div class="stat">
+              <h2>Level</h2>
+              <strong id="level">01</strong>
+            </div>
+            <div class="stat">
+              <h2>Lines</h2>
+              <strong id="lines">000</strong>
+            </div>
+            <div class="progress" aria-hidden="true"><i id="progress"></i></div>
+            <div class="progress-caption">
+              <span>Level progress</span><span id="progress-label">0 / 10</span>
+            </div>
+          </section>
+          <section class="panel hold">
+            <div class="panel-title">
+              <h2><span class="icon" data-icon="hold"></span> Hold</h2>
+              <kbd>C</kbd>
+            </div>
+            <div class="hold-well">
+              <canvas
+                id="hold-piece"
+                width="150"
+                height="60"
+                aria-label="No held piece"
+              ></canvas
+              ><span id="empty-hold">Empty</span>
+            </div>
+          </section>
+          <div class="stripes" aria-hidden="true">
+            <i></i><i></i><i></i><i></i><i></i><i></i><i></i>
+          </div>
+        </aside>
+        <section class="machine" aria-label="Game">
+          <div class="screen-heading">
+            <span><i></i> Playfield</span><span>10 × 20</span>
+          </div>
+          <div class="screen">
+            <canvas
+              id="board"
+              width="320"
+              height="640"
+              aria-label="Tetris playfield"
+            ></canvas>
+            <div class="overlay" id="overlay">
+              <div class="overlay-card">
+                <div
+                  id="overlay-symbol"
+                  class="pixel-t"
+                  aria-hidden="true"
+                ></div>
+                <h2 id="overlay-title">Ready to play?</h2>
+                <button id="action">
+                  <span id="action-icon">▶</span
+                  ><span id="action-label">Start game</span>
+                </button>
+                <small id="shortcut">or press Enter</small>
+              </div>
+            </div>
+          </div>
+          <div class="screen-foot">
+            <span><i id="lamp"></i><b id="status" role="status">Ready</b></span
+            ><span class="vents" aria-hidden="true"></span>
+          </div>
+        </section>
+        <aside class="right">
+          <section class="panel next">
+            <div class="panel-title">
+              <h2><span class="icon" data-icon="queue"></span> Next queue</h2>
+            </div>
+            <div id="queue"></div>
+          </section>
+          <section class="panel controls">
+            <div class="panel-title">
+              <h2><span class="icon" data-icon="keys"></span> Controls</h2>
+            </div>
+            <dl>
+              <div>
+                <dt>Move</dt>
+                <dd><kbd>←</kbd><kbd>→</kbd></dd>
+              </div>
+              <div>
+                <dt>Rotate CW</dt>
+                <dd><kbd>↑</kbd><kbd>X</kbd></dd>
+              </div>
+              <div>
+                <dt>Rotate CCW</dt>
+                <dd><kbd>Z</kbd><kbd>Ctrl</kbd></dd>
+              </div>
+              <div>
+                <dt>Soft drop</dt>
+                <dd><kbd>↓</kbd></dd>
+              </div>
+              <div>
+                <dt>Hard drop</dt>
+                <dd><kbd>Space</kbd></dd>
+              </div>
+              <div>
+                <dt>Hold</dt>
+                <dd><kbd>C</kbd></dd>
+              </div>
+            </dl>
+          </section>
+        </aside>
+      </div>
+      <div class="touch" aria-label="Touch controls">
+        <button data-key="ArrowLeft" aria-label="Move left">←</button
+        ><button data-key="ArrowRight" aria-label="Move right">→</button>
+        <button data-key="KeyZ" aria-label="Rotate counterclockwise">↶</button
+        ><button data-key="KeyX" aria-label="Rotate clockwise">↷</button>
+        <button data-key="ArrowDown" aria-label="Soft drop">↓</button
+        ><button data-key="Space">Drop</button
+        ><button data-key="KeyC">Hold</button>
+      </div>
+    </main>
+    <script type="module" src="./dist/app.js"></script>
+  </body>
+</html>
