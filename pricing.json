@@ -5,7 +5,7 @@
   "basis": "Public pay-as-you-go API list price for the model, in effect on the run date, applied to the tested agent's recorded tokens. It estimates what the run would cost through the provider's API, not what the harness subscription or a free tier actually charged.",
   "checked": "2026-10-23",
   "families": [
-    {"name": "OpenAI", "tiers": ["Sol", "Terra", "Luna"]},
+    {"name": "OpenAI", "tiers": ["Astra", "Sol", "Terra", "Luna"]},
     {"name": "Anthropic", "tiers": ["Fable", "Opus", "Sonnet", "Haiku"]},
     {"name": "Meta", "tiers": ["Muse Spark"]},
     {"name": "MiniMax", "tiers": ["M Flash"]},
@@ -85,6 +85,14 @@
       "evidence": "official",
       "source": "https://developers.openai.com/api/docs/models/gpt-6.2-sol",
       "note": "Standard tier, checked 2026-11-17. Requests with more than 272K input tokens are billed at 2x input and cache rates and 1.5x output; T3 records only whole-turn totals, so the estimate is a lower bound."
+    },
+    "gpt-6.2-astra": {
+      "label": "GPT-6.2 Astra",
+      "family": "OpenAI", "tier": "Astra", "version": "6.2",
+      "prices": {"input": 8.00, "cache_read": 0.40, "cache_write": 10.00, "output": 40.00},
+      "evidence": "official",
+      "source": "https://developers.openai.com/api/docs/models/gpt-6.2-astra",
+      "note": "Standard tier, checked 2026-11-18. Cache writes are the 30-minute rate. Requests with more than 272K input tokens are billed at 2x input and cache rates and 1.5x output; T3 records only whole-turn totals, so the estimate is a lower bound."
     },
     "gpt-6.1-terra": {
       "label": "GPT-6.1 Terra",

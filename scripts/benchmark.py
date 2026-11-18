@@ -233,6 +233,23 @@ def load_manifest(root: Path) -> tuple[dict[str, Any], list[dict[str, Any]]]:
             raise BenchmarkError(
                 f"interrupted for {run['id']} must give the implementation_end time and the reason (T3 runs only)"
             )
+        quota = run.get("subscription_quota")
+        if quota is not None and not (
+            isinstance(quota, dict)
+            and all(isinstance(quota.get(key), str) and quota[key] for key in ("provider", "plan", "source"))
+            and isinstance(quota.get("note", ""), str)
+            and isinstance(quota.get("windows"), list) and quota["windows"]
+            and all(
+                isinstance(window, dict) and isinstance(window.get("name"), str) and window["name"]
+                and all(isinstance(window.get(key), (int, float)) and 0 <= window[key] <= 100
+                        for key in ("used_percent_start", "used_percent_end"))
+                for window in quota["windows"]
+            )
+        ):
+            raise BenchmarkError(
+                f"subscription_quota for {run['id']} must give provider, plan, source and windows "
+                "with used_percent_start/used_percent_end"
+            )
         if not isinstance(run.get("known_browser_failure", ""), str):
             raise BenchmarkError(f"known_browser_failure for {run['id']} must be a description")
         ids.add(run["id"])
@@ -1452,6 +1469,22 @@ def render_statistics(result: RunResult) -> str:
         "| Input | Cache Read | Cache Write | Output | Total |",
         "|---:|---:|---:|---:|---:|",
         usage_row(result.tested),
+    ])
+    quota = run.get("subscription_quota")
+    if quota:
+        lines.extend([
+            "", "## Subscription quota", "",
+            f"{quota['provider']} plan `{quota['plan']}`, read from {quota['source']}. "
+            "The provider reports whole percentages only.", "",
+            "| Window | Used at start | Used at end | Consumed |",
+            "|---|---:|---:|---:|",
+        ])
+        for window in quota["windows"]:
+            start, end = window["used_percent_start"], window["used_percent_end"]
+            lines.append(f"| {window['name']} | {start:g}% | {end:g}% | {end - start:g} pp |")
+        if quota.get("note"):
+            lines.extend(["", quota["note"]])
+    lines.extend([
         "", "## Harness overhead", "",
     ])
     if result.overhead is None:
@@ -1888,6 +1921,7 @@ def site_results(
             "known_test_failure": run.get("known_test_failure"),
             "external_actions": run.get("external_actions"),
             "earlier_attempts": run.get("earlier_attempts"),
+            "subscription_quota": run.get("subscription_quota"),
             "missing_lockfile": bool(run.get("missing_lockfile")),
             "static_aliases": run.get("static_aliases", {}),
             "web_root": run.get("web_root"),

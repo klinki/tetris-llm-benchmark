@@ -2,6 +2,34 @@
 
 This directory contains the reproducible, repository-safe parts of the audit behind [`RANKING.md`](../RANKING.md). Generated builds, copied `node_modules` trees, temporary web servers, browser profiles, and timestamped Playwright artifacts are intentionally excluded.
 
+## GPT-6.2 Astra low — November 18, 2026
+
+The [independent GPT-6.1 Sol xhigh audit](gpt62-astra-low-review.md)
+scores **7.75**: correctness9.0 / own tests4.0 / code8.0 / simplicity9.5 /
+UX8.0. Two grouped minors: retained lock timing/reset state after descent,
+including landing-frame pre-contact time; absent wholly hidden lock-out.
+The [evidence](gpt62-astra-low-evidence.json) records actual native reviewer
+model/effort/session/thread, all12 unchanged delivery hashes, locked build,
+unchanged5/5 own tests,28 states/48 ordered kick lists/576 real rotations,
+100 actual bags, scoring/clock/boundary probes and identical served-module
+results at desktop1280×800 and phone390×844. Both final screenshots inspected;
+required keys, ghost, hold/five-next, game-over and R restart work. Exact
+HD-SPIN-1 and PC1–4/B2B/combo scoring pass; reset15 grants its full500ms.
+All96 old scored entries and registry/pricing/statistics are preserved.
+
+```sh
+python3 .audit/run-gpt62-astra-low-audit.py --offline
+```
+
+[Runner](run-gpt62-astra-low-audit.py), [engine fixtures](gpt62-astra-low-audit.mjs),
+[browser fixtures](gpt62-astra-low-browser.cjs). Supports `--engine-only`,
+`--review` (inspect PNGs before cleanup), and intentional `--record` refresh.
+Uses installed Playwright/Chromium without downloads; only the temporary
+server's port literal changes to a free41000–49999 port. All copies, PNGs,
+logs and owned browser/server groups are removed; owned preview tab closed.
+No generation rerun, accounting update, commit, push, PR or project archival.
+Parent completion confirmation and archival remain lifecycle steps.
+
 ## GPT-6.2 Sol xhigh / max — November 18, 2026
 
 The [independent GPT-6.1 Sol xhigh audit](gpt62-sol-xhigh-max-review.md)

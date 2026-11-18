@@ -4098,6 +4098,55 @@
         ],
         "review": "Reviewed 2026-11-17 by the orchestrator (Claude Opus 5.5), from the native Codex session's tool calls: Codex's AGENTS.md existence test (`test -f` then cat) for /, /Users, ~, ~/tetris-bench, ~/tetris-bench/runs and the run folder (none exist; nothing read); reads of Codex's own Sites skill doc (~/.codex/plugins/cache/openai-curated-remote/sites/1.1.6, SKILL.md and references/preview/local.md) and Playwright skill docs (~/.codex/skills/playwright SKILL.md, references/cli.md); Playwright tooling: the skill script, a grep of the npx-cached playwright-core bundle for its browser-config options, and the cached Chromium (~/Library/Caches/ms-playwright) launched against its own game on localhost:8321. The `../dist/` and `../public/` references are inside its own build scripts and tests. Web lookups were Tetris Guideline wiki pages only. No benchmark, T3-data, other-run or external-app access; one turn, full-access mode."
       }
+    },
+    {
+      "id": "gpt-6.2-astra-low",
+      "label": "GPT-6.2 Astra (low)",
+      "order": 970,
+      "project_dir": "gpt-6.2-astra-low",
+      "harness": "t3_codex",
+      "harness_label": "T3 Code / Codex",
+      "provider": "codex",
+      "provider_label": "Codex",
+      "model": "gpt-6.2-astra",
+      "session_id": "01a1f00a-0f99-7470-9bb9-70ed189f76b8",
+      "t3_thread_id": "thread:project:bf4370d1-1723-42b4-9d46-a54caece0f9f:545319af-e1e8-40e8-a2d3-64b962f7e9bd",
+      "expected_cwd": "/Users/david/tetris-bench/runs/c392bcd7c300/tetris",
+      "expected_cwd_basename": "tetris",
+      "reasoning_variant": "low",
+      "web": "open",
+      "cutoff": {
+        "through_user_message": 1,
+        "exclude_inter_message_wait": true
+      },
+      "overhead": {
+        "kind": "unknown"
+      },
+      "spec": {
+        "sha256": "36e2097a78fe8b5646e6216338640831cff0a284cc823c4b1f658991c8d40294",
+        "commit": "f1a8dad07de0de6ea59c46426bfc98bee78b247b",
+        "modified": false
+      },
+      "subscription_quota": {
+        "provider": "Codex",
+        "plan": "plus",
+        "source": "the `rate_limits` snapshots in the tested agent's native Codex session log (five snapshots, 19:02:41Z to 19:04:14Z)",
+        "windows": [
+          {
+            "name": "5-hour",
+            "window_minutes": 300,
+            "used_percent_start": 0,
+            "used_percent_end": 3
+          },
+          {
+            "name": "Weekly",
+            "window_minutes": 10080,
+            "used_percent_start": 56,
+            "used_percent_end": 56
+          }
+        ],
+        "note": "The 5-hour window had reset before the run, so the start reading is the baseline; it rose 0→1→2→3% during the run. The weekly change stayed below one reported point. The independent GPT-6.1 Sol xhigh review (native session `01a1f00f-4630-7512-ae97-2706f49a595e`) used a further 9 points of the 5-hour window (3→12%) and 2 weekly points (56→58%); that is not part of the tested agent's figure."
+      }
     }
   ]
 }
