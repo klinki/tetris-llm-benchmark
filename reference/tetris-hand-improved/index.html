@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="theme-color" content="#0b0e14" />
+    <meta name="description" content="TetrisJS: a Guideline Tetris game for the browser." />
+    <title>TetrisJS</title>
+    <link
+      rel="icon"
+      href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 3 2'%3E%3Cpath fill='%23b68cf0' d='M1 0h1v1h1v1H0V1h1z'/%3E%3C/svg%3E"
+    />
+    <link rel="stylesheet" href="style.css" />
+    <script type="module" src="dist/main.js"></script>
+  </head>
+  <body>
+    <header class="bar">
+      <h1>Tetris<span>JS</span></h1>
+      <button id="pause" class="ghost-button" disabled>Pause</button>
+      <button id="sound" class="ghost-button" aria-pressed="false" aria-label="Sound">♪</button>
+    </header>
+
+    <main class="game">
+      <div class="column">
+        <section class="card hold" aria-labelledby="hold-title">
+          <h2 id="hold-title">Hold <kbd>C</kbd></h2>
+          <canvas id="hold" role="img" aria-label="Hold is empty"></canvas>
+        </section>
+        <section class="card stats" aria-label="Statistics">
+          <dl>
+            <div class="score"><dt>Score</dt><dd id="score">0</dd></div>
+            <div><dt>Best</dt><dd id="best">0</dd></div>
+            <div><dt>Level</dt><dd id="level">1</dd></div>
+            <div><dt>Lines</dt><dd id="lines">0</dd></div>
+            <div class="time"><dt>Time</dt><dd id="time">0:00</dd></div>
+          </dl>
+        </section>
+      </div>
+
+      <div class="field" id="field">
+        <canvas id="board" role="img" aria-label="Playfield, 10 columns by 20 rows"></canvas>
+        <div class="overlay" id="overlay" aria-live="polite">
+          <h2 id="overlay-title">TetrisJS</h2>
+          <p id="overlay-text">Clear lines by filling rows. Press Enter or tap Play to start.</p>
+          <button id="play" class="primary-button">Play</button>
+        </div>
+        <p class="toast" id="toast" role="status"></p>
+      </div>
+
+      <div class="column">
+        <section class="card next" aria-labelledby="next-title">
+          <h2 id="next-title">Next</h2>
+          <canvas id="next" role="img" aria-label="Next pieces"></canvas>
+        </section>
+        <section class="card keys" aria-labelledby="keys-title">
+          <h2 id="keys-title">Controls</h2>
+          <dl>
+            <dt><kbd>←</kbd> <kbd>→</kbd></dt><dd>Move</dd>
+            <dt><kbd>↑</kbd> <kbd>X</kbd></dt><dd>Rotate right</dd>
+            <dt><kbd>Z</kbd> <kbd>Ctrl</kbd></dt><dd>Rotate left</dd>
+            <dt><kbd>↓</kbd></dt><dd>Soft drop</dd>
+            <dt><kbd>Space</kbd></dt><dd>Hard drop</dd>
+            <dt><kbd>C</kbd></dt><dd>Hold</dd>
+            <dt><kbd>P</kbd> <kbd>Esc</kbd></dt><dd>Pause</dd>
+            <dt><kbd>R</kbd></dt><dd>Restart (game over)</dd>
+          </dl>
+        </section>
+      </div>
+    </main>
+
+    <nav class="touch" aria-label="Touch controls">
+      <button tabindex="-1" data-action="hold" aria-label="Hold">⇄<small>Hold</small></button>
+      <button tabindex="-1" data-action="ccw" aria-label="Rotate left">↺<small>Rotate</small></button>
+      <button tabindex="-1" data-action="cw" aria-label="Rotate right">↻<small>Rotate</small></button>
+      <button tabindex="-1" data-action="drop" aria-label="Hard drop">⤓<small>Drop</small></button>
+      <button tabindex="-1" data-action="left" aria-label="Move left">←<small>Move</small></button>
+      <button tabindex="-1" data-action="soft" aria-label="Soft drop">↓<small>Soft drop</small></button>
+      <button tabindex="-1" data-action="right" aria-label="Move right">→<small>Move</small></button>
+    </nav>
+    <noscript><p class="noscript">TetrisJS needs JavaScript to run.</p></noscript>
+  </body>
+</html>

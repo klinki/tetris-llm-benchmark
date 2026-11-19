@@ -144,6 +144,10 @@ remain recorded completion steps.
 **Harness overhead:** each run's statistics report separate harness requests. For T3 runs they are not verified; unknown does not mean zero.
 <!-- benchmark-results:end -->
 
+A hand-improved [reference implementation](reference/README.md), derived from
+GPT-6.1 Sol (high), is kept outside the results. It is not a model run and is
+not ranked. Its blind Sol xhigh audit scored 9.50.
+
 ## Implementation quality
 
 MiniMax M3.1 Flash completed max → xhigh → high → medium → low. The

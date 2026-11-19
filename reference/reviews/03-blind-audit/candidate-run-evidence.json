@@ -1,0 +1,1677 @@
+{
+  "run_id": "candidate-run",
+  "audited": "2026-11-19",
+  "reviewer": {
+    "model": "gpt-6.1-sol",
+    "effort": "xhigh",
+    "native_session_id": "01a1f469-6282-7a91-8acf-72951c5ea391",
+    "source": "/Users/david/.codex/sessions/2026/11/19/rollout-2026-11-19T16-25-09-01a1f469-6282-7a91-8acf-72951c5ea391.jsonl",
+    "record_type": "turn_context",
+    "timestamp": "2026-11-19T15:25:11.432Z"
+  },
+  "reproducer": {
+    "model": "gpt-6.1-sol",
+    "effort": "xhigh",
+    "native_session_id": "01a1f469-6282-7a91-8acf-72951c5ea391",
+    "source": "/Users/david/.codex/sessions/2026/11/19/rollout-2026-11-19T16-25-09-01a1f469-6282-7a91-8acf-72951c5ea391.jsonl",
+    "record_type": "turn_context",
+    "timestamp": "2026-11-19T15:25:11.432Z"
+  },
+  "delivered_hashes_before": {
+    ".gitignore": "3a3bcf768c25d0483b1e4b81f5a2879def4f8160c994929ae3a997511dbd84ae",
+    "README.md": "77b4f41d6d2b88a090350b34f41f32c4422ac49dc0c4bfc0dc7235fc56f23f2c",
+    "index.html": "dcbe35ab751e069c918235f9e53c85d4ba8802eeecb7250b70b886642e921264",
+    "package-lock.json": "c30ec465cc634a388e29af1e774bb30c94b2dbad471402fa206c0219549f3025",
+    "package.json": "f6cc5752d33522fdfc9e8988c0baa94c5e1d66a77e1798cf029137eabe45f1de",
+    "scripts/serve.mjs": "26f94cd49bbf63f1f8e6c2f8caf2501086e7a179b1ab23c23cbc384f786d5a59",
+    "src/best-score.ts": "394928b4f61f4624922513ebf45449e33a6d1c19ac3f2dd110cfbcdbd4d184a0",
+    "src/controls.ts": "70664ffda2e88ac1a87c205f0c44df6b38cba60d3eeb306226b4801d1132fa18",
+    "src/engine.ts": "06fb185bae4389f7c14106a901730a985e5aa1ce3710af8d5903b83c00ba8733",
+    "src/main.ts": "bdd6aadef62d7188c4cb41507ccf6eb48809b6ab2222d7e04c8c7a0c880f04f1",
+    "src/pieces.ts": "e3cd16542e4717054e11f569530a056c955be12147f992be541a9a5f224592e8",
+    "src/renderer.ts": "8efaf573867584e48189f321b894cb3f8d0adcee6a758054396bd71d1f2f1536",
+    "src/sound.ts": "9350683ad80f0ef575e6c8754d60ae7abaa79c3094d29566cb0428d3e8dfc3be",
+    "style.css": "137e5fe7613740b31f0d4ba91ffe75f35502d167159f789935d59dc375ce9681",
+    "tests/browser.test.mjs": "427f68cd36fa612722f15b9dd8420b5a9d2c65e51c670fce1be4673755b66116",
+    "tests/controls.test.mjs": "9d803cfcd70b97a1503e8f473a679cdfb474e6c323fd2b483688ea3790463c95",
+    "tests/engine.test.mjs": "0ac0b8ab375ac2b3cab4e1a00b5d5d69d801247507c9c295090788ef6d00df4f",
+    "tests/server.test.mjs": "f46662b4259bd86106f9d9ba4e56aa99b5c402b833fc1f362118a4830169c32a",
+    "tsconfig.json": "15e66bc5e089b00e82e78c56dd07e9bcf789ea2f031d3ed384b852acfb7b42c6"
+  },
+  "protected_hashes_before": {
+    "ranking.json": "7df0f087f902e94bc360d06b588bd665f29c882636dc40cd308666e99b9b8d8d",
+    "benchmark-runs.json": "63499333853d8d2d9ae14de6d0692884aa5df9f329d5956aae0d653120aa6334",
+    "pricing.json": "ef3ad14f8fdf0febfdb626293fb460f3b3ea2679cf23f6c6760e0093b52db0a5",
+    ".audit/README.md": "ee3dc927f3da96b919198149b1e3759100dfdd64f6a7dd14fb9df7507b4d5b94"
+  },
+  "toolchain": {
+    "node": "v26.0.0",
+    "npm": "11.17.0"
+  },
+  "install": {
+    "command": [
+      "npm",
+      "ci",
+      "--ignore-scripts",
+      "--offline"
+    ],
+    "exit_code": 0,
+    "stdout": "\nadded 1 package, and audited 2 packages in 145ms\n\nfound 0 vulnerabilities\n",
+    "stderr": ""
+  },
+  "build": {
+    "command": [
+      "npm",
+      "run",
+      "build"
+    ],
+    "exit_code": 0,
+    "stdout": "\n> tetrisjs@1.0.0 build\n> tsc -p tsconfig.json\n\n",
+    "stderr": ""
+  },
+  "own_tests_default": {
+    "command": [
+      "npm",
+      "test"
+    ],
+    "exit_code": 0,
+    "stdout": "\n> tetrisjs@1.0.0 test\n> npm run build && node --test tests/*.test.mjs\n\n\n> tetrisjs@1.0.0 build\n> tsc -p tsconfig.json\n\n\ufe63 Chromium: layout, keyboard, touch and game flow (0.681166ms) # Playwright is not installed (set PLAYWRIGHT_MODULE to its package directory)\n\u2714 keys follow the README controls (1.164875ms)\n\u2714 only known action names are accepted from markup (0.078209ms)\n\u2714 a press acts once; repeated presses of a held source are ignored (0.112959ms)\n\u2714 holding a direction moves once, then repeats after DAS at the ARR (0.073417ms)\n\u2714 auto-repeat timing is the same at any frame rate (1.078625ms)\n\u2714 the newest direction wins and releasing it falls back to the other (0.096708ms)\n\u2714 releasing the older direction or another key does not interrupt movement (0.059125ms)\n\u2714 touch pointers and keys are separate sources (0.063125ms)\n\u2714 reset forgets held inputs, e.g. after the window loses focus (0.074375ms)\n\u2714 advance runs the game clock up to each repeat before the repeat happens (0.103291ms)\n\u2714 a held direction and lock delay agree at any frame rate (repeats are in time order) (1.972084ms)\n\u2714 seven-bag deals every tetromino once per seven pieces for many bags and seeds (3.766792ms)\n\u2714 the same seed produces the same piece sequence (0.091ms)\n\u2714 all 28 orientations match the canonical SRS cell layout (0.163084ms)\n\u2714 each piece has its own color (0.047167ms)\n\u2714 pieces spawn in the Guideline columns and enter the top visible row (0.347042ms)\n\u2714 the next queue always shows five pieces and follows the bag (0.727833ms)\n\u2714 movement stops at walls, the floor, and the stack (0.209708ms)\n\u2714 four rotations either way return a piece to its starting state (0.3905ms)\n\u2714 every SRS kick is tried in the documented order for J, L, S, T, Z and I (9.31775ms)\n\u2714 a rotation with no fitting kick fails and leaves the piece unchanged (0.205291ms)\n\u2714 O rotation never kicks or moves its cells (0.075958ms)\n\u2714 ghost shows the landing position of an obstructed column without moving the piece (0.115209ms)\n\u2714 soft drop moves one row per press for one point and never locks by itself (0.114333ms)\n\u2714 hold swaps once per piece and returns a held piece in spawn state (0.088459ms)\n\u2714 a held piece that cannot spawn ends the game (0.091167ms)\n\u2714 gravity follows the Guideline curve and awards no points (0.190583ms)\n\u2714 held soft drop is twenty times gravity and scores each row (0.054083ms)\n\u2714 starting a soft drop does not cash in accumulated gravity time (0.034625ms)\n\u2714 results do not depend on frame rate (3.128542ms)\n\u2714 a grounded piece locks after exactly 500 ms (0.088459ms)\n\u2714 a piece that falls onto the stack gets the full lock delay after landing (4.077416ms)\n\u2714 moves and rotations reset the lock delay at most fifteen times (0.094958ms)\n\u2714 failed moves and rotations do not reset the lock delay (0.048209ms)\n\u2714 moving off a ledge then landing lower restores the full delay and all resets (1.16875ms)\n\u2714 a downward kick to a new lowest row also restores the lock delay and resets (0.086709ms)\n\u2714 a piece in mid-air never locks, even after its old deadline (0.033458ms)\n\u2714 cleared rows are removed and everything above, including hidden rows, shifts down (0.080666ms)\n\u2714 line clears score 100/300/500/800 times the level (0.187625ms)\n\u2714 ten lines raise the level, and the clear that crosses scores at the old level (0.063333ms)\n\u2714 combos add 50 \u00d7 combo \u00d7 level for consecutive clears and end on a lock without one (0.102667ms)\n\u2714 back-to-back Tetrises earn 1.5\u00d7; a lock without a clear keeps the chain, a single breaks it (0.1865ms)\n\u2714 perfect clears add 800/1200/2000 for single/double/Tetris (0.212417ms)\n\u2714 a back-to-back Tetris perfect clear adds 3200 instead of 2000 (0.083875ms)\n\u2714 T-spin and mini T-spin with no lines score 400 and 100 by hard drop or timed lock (0.132666ms)\n\u2714 T-spin single, double and mini single score 800, 1200 and 200 (0.107833ms)\n\u2714 the fifth SRS kick promotes a mini corner pattern to a full T-spin (0.046292ms)\n\u2714 a T locked in a slot without rotating gets no spin bonus (0.03725ms)\n\u2714 moving or soft dropping after a rotation cancels the spin (0.090709ms)\n\u2714 a hard drop that travels cancels the spin; a zero-distance one keeps it (0.073542ms)\n\u2714 T-spins count toward back-to-back (0.275083ms)\n\u2714 block out: a spawn overlapping the stack ends the game (0.052417ms)\n\u2714 lock out: a piece locked wholly above the field ends the game; partly visible does not (0.097625ms)\n\u2714 after game over every gameplay input is ignored (0.086125ms)\n\u2714 ready and paused games ignore time and actions; play resumes (0.049792ms)\n\u2714 restarting after game over clears everything and deals from a fresh bag (0.090958ms)\n\u2714 lock events describe the clear for the interface (0.0385ms)\n\u2714 the local server serves only the game files (124.17125ms)\n\u2139 tests 59\n\u2139 suites 0\n\u2139 pass 58\n\u2139 fail 0\n\u2139 cancelled 0\n\u2139 skipped 1\n\u2139 todo 0\n\u2139 duration_ms 210.303667\n",
+    "stderr": ""
+  },
+  "own_tests_with_chromium": {
+    "command": [
+      "npm",
+      "test"
+    ],
+    "exit_code": 0,
+    "stdout": "\n> tetrisjs@1.0.0 test\n> npm run build && node --test tests/*.test.mjs\n\n\n> tetrisjs@1.0.0 build\n> tsc -p tsconfig.json\n\n\u25b6 Chromium: layout, keyboard, touch and game flow\n  \u2714 1280\u00d7800 (401.614417ms)\n  \u2714 1366\u00d7640 (293.088166ms)\n  \u2714 390\u00d7844 (452.521125ms)\n  \u2714 320\u00d7568 (449.623916ms)\n\u2714 Chromium: layout, keyboard, touch and game flow (1687.806542ms)\n\u2714 keys follow the README controls (1.153667ms)\n\u2714 only known action names are accepted from markup (0.0805ms)\n\u2714 a press acts once; repeated presses of a held source are ignored (0.113667ms)\n\u2714 holding a direction moves once, then repeats after DAS at the ARR (0.077708ms)\n\u2714 auto-repeat timing is the same at any frame rate (0.992583ms)\n\u2714 the newest direction wins and releasing it falls back to the other (0.080666ms)\n\u2714 releasing the older direction or another key does not interrupt movement (0.05075ms)\n\u2714 touch pointers and keys are separate sources (0.06225ms)\n\u2714 reset forgets held inputs, e.g. after the window loses focus (0.081ms)\n\u2714 advance runs the game clock up to each repeat before the repeat happens (0.100125ms)\n\u2714 a held direction and lock delay agree at any frame rate (repeats are in time order) (2.043125ms)\n\u2714 seven-bag deals every tetromino once per seven pieces for many bags and seeds (4.028083ms)\n\u2714 the same seed produces the same piece sequence (0.08925ms)\n\u2714 all 28 orientations match the canonical SRS cell layout (0.168541ms)\n\u2714 each piece has its own color (0.045625ms)\n\u2714 pieces spawn in the Guideline columns and enter the top visible row (0.35075ms)\n\u2714 the next queue always shows five pieces and follows the bag (0.716417ms)\n\u2714 movement stops at walls, the floor, and the stack (0.222958ms)\n\u2714 four rotations either way return a piece to its starting state (0.48175ms)\n\u2714 every SRS kick is tried in the documented order for J, L, S, T, Z and I (9.655167ms)\n\u2714 a rotation with no fitting kick fails and leaves the piece unchanged (0.160167ms)\n\u2714 O rotation never kicks or moves its cells (0.068959ms)\n\u2714 ghost shows the landing position of an obstructed column without moving the piece (0.105541ms)\n\u2714 soft drop moves one row per press for one point and never locks by itself (0.116167ms)\n\u2714 hold swaps once per piece and returns a held piece in spawn state (0.084708ms)\n\u2714 a held piece that cannot spawn ends the game (0.085458ms)\n\u2714 gravity follows the Guideline curve and awards no points (0.184667ms)\n\u2714 held soft drop is twenty times gravity and scores each row (0.050125ms)\n\u2714 starting a soft drop does not cash in accumulated gravity time (0.034875ms)\n\u2714 results do not depend on frame rate (3.165042ms)\n\u2714 a grounded piece locks after exactly 500 ms (0.056541ms)\n\u2714 a piece that falls onto the stack gets the full lock delay after landing (4.374458ms)\n\u2714 moves and rotations reset the lock delay at most fifteen times (0.112125ms)\n\u2714 failed moves and rotations do not reset the lock delay (0.048041ms)\n\u2714 moving off a ledge then landing lower restores the full delay and all resets (1.196792ms)\n\u2714 a downward kick to a new lowest row also restores the lock delay and resets (0.093542ms)\n\u2714 a piece in mid-air never locks, even after its old deadline (0.033167ms)\n\u2714 cleared rows are removed and everything above, including hidden rows, shifts down (0.083625ms)\n\u2714 line clears score 100/300/500/800 times the level (0.188125ms)\n\u2714 ten lines raise the level, and the clear that crosses scores at the old level (0.0615ms)\n\u2714 combos add 50 \u00d7 combo \u00d7 level for consecutive clears and end on a lock without one (0.102417ms)\n\u2714 back-to-back Tetrises earn 1.5\u00d7; a lock without a clear keeps the chain, a single breaks it (0.181916ms)\n\u2714 perfect clears add 800/1200/2000 for single/double/Tetris (0.179666ms)\n\u2714 a back-to-back Tetris perfect clear adds 3200 instead of 2000 (0.073125ms)\n\u2714 T-spin and mini T-spin with no lines score 400 and 100 by hard drop or timed lock (0.115334ms)\n\u2714 T-spin single, double and mini single score 800, 1200 and 200 (0.138875ms)\n\u2714 the fifth SRS kick promotes a mini corner pattern to a full T-spin (0.048583ms)\n\u2714 a T locked in a slot without rotating gets no spin bonus (0.04ms)\n\u2714 moving or soft dropping after a rotation cancels the spin (0.091125ms)\n\u2714 a hard drop that travels cancels the spin; a zero-distance one keeps it (0.073166ms)\n\u2714 T-spins count toward back-to-back (0.053125ms)\n\u2714 block out: a spawn overlapping the stack ends the game (0.034625ms)\n\u2714 lock out: a piece locked wholly above the field ends the game; partly visible does not (0.075792ms)\n\u2714 after game over every gameplay input is ignored (0.077709ms)\n\u2714 ready and paused games ignore time and actions; play resumes (0.047334ms)\n\u2714 restarting after game over clears everything and deals from a fresh bag (0.089333ms)\n\u2714 lock events describe the clear for the interface (0.037792ms)\n\u2714 the local server serves only the game files (127.940708ms)\n\u2139 tests 63\n\u2139 suites 0\n\u2139 pass 63\n\u2139 fail 0\n\u2139 cancelled 0\n\u2139 skipped 0\n\u2139 todo 0\n\u2139 duration_ms 1909.834917\n",
+    "stderr": ""
+  },
+  "engine": {
+    "srs": {
+      "states": 28,
+      "kickLists": 48,
+      "outcomes": 576,
+      "mismatches": []
+    },
+    "bags": 100,
+    "hold": "pass",
+    "drops": [
+      {
+        "kind": "I",
+        "ghost": 14,
+        "points": 25
+      },
+      {
+        "kind": "J",
+        "ghost": 14,
+        "points": 25
+      },
+      {
+        "kind": "L",
+        "ghost": 14,
+        "points": 25
+      },
+      {
+        "kind": "O",
+        "ghost": 14,
+        "points": 25
+      },
+      {
+        "kind": "S",
+        "ghost": 14,
+        "points": 25
+      },
+      {
+        "kind": "T",
+        "ghost": 14,
+        "points": 25
+      },
+      {
+        "kind": "Z",
+        "ghost": 14,
+        "points": 25
+      }
+    ],
+    "clocks": {
+      "boundary": [
+        0,
+        1
+      ],
+      "moveReset": "pass",
+      "resetCap": 15,
+      "failedWall": "pass",
+      "ledges": [
+        {
+          "exhausted": false,
+          "landingAfterMove": 6000,
+          "fullDelay": true,
+          "freshResets": true
+        },
+        {
+          "exhausted": true,
+          "landingAfterMove": 6000,
+          "fullDelay": true,
+          "freshResets": true
+        }
+      ],
+      "downwardKick": "pass",
+      "naturalContact": 1500
+    },
+    "gravity": [
+      {
+        "level": 1,
+        "actual": 1000,
+        "expected": 1000
+      },
+      {
+        "level": 2,
+        "actual": 793,
+        "expected": 793
+      },
+      {
+        "level": 3,
+        "actual": 618,
+        "expected": 618
+      },
+      {
+        "level": 4,
+        "actual": 473,
+        "expected": 473
+      },
+      {
+        "level": 5,
+        "actual": 356,
+        "expected": 356
+      },
+      {
+        "level": 6,
+        "actual": 263,
+        "expected": 263
+      },
+      {
+        "level": 7,
+        "actual": 190,
+        "expected": 190
+      },
+      {
+        "level": 8,
+        "actual": 135,
+        "expected": 135
+      },
+      {
+        "level": 9,
+        "actual": 94,
+        "expected": 94
+      },
+      {
+        "level": 10,
+        "actual": 65,
+        "expected": 65
+      },
+      {
+        "level": 11,
+        "actual": 43,
+        "expected": 43
+      },
+      {
+        "level": 12,
+        "actual": 29,
+        "expected": 29
+      },
+      {
+        "level": 13,
+        "actual": 19,
+        "expected": 19
+      },
+      {
+        "level": 14,
+        "actual": 12,
+        "expected": 12
+      },
+      {
+        "level": 15,
+        "actual": 8,
+        "expected": 8
+      },
+      {
+        "level": 16,
+        "actual": 5,
+        "expected": 5
+      },
+      {
+        "level": 17,
+        "actual": 3,
+        "expected": 3
+      },
+      {
+        "level": 18,
+        "actual": 2,
+        "expected": 2
+      },
+      {
+        "level": 19,
+        "actual": 1,
+        "expected": 1
+      },
+      {
+        "level": 20,
+        "actual": 1,
+        "expected": 1
+      }
+    ],
+    "softEntry": {
+      "actualRows": 1,
+      "actualPoints": 1,
+      "expectedRows": 1,
+      "expectedPoints": 1
+    },
+    "refresh": [
+      {
+        "hz": 60,
+        "rows": 9,
+        "points": 0
+      },
+      {
+        "hz": 144,
+        "rows": 9,
+        "points": 0
+      }
+    ],
+    "compaction": "pass",
+    "scoring": {
+      "normal": [
+        100,
+        300,
+        500,
+        800
+      ],
+      "perfect": [
+        900,
+        1500,
+        2300,
+        2800
+      ],
+      "b2bBreak": 2150,
+      "consecutiveTetrises": 2050,
+      "b2bPc": 5200,
+      "level2Combo": 300,
+      "crossing": [
+        100,
+        10,
+        2
+      ]
+    },
+    "spins": {
+      "hard-mini-zero": {
+        "actual": 100,
+        "expected": 100
+      },
+      "hard-mini-single": {
+        "actual": 200,
+        "expected": 200
+      },
+      "hard-full-zero": {
+        "actual": 400,
+        "expected": 400
+      },
+      "hard-full-single": {
+        "actual": 800,
+        "expected": 800
+      },
+      "timed-mini-zero": {
+        "actual": 100,
+        "expected": 100
+      },
+      "timed-mini-single": {
+        "actual": 200,
+        "expected": 200
+      },
+      "timed-full-zero": {
+        "actual": 400,
+        "expected": 400
+      },
+      "timed-full-single": {
+        "actual": 800,
+        "expected": 800
+      },
+      "facings": [
+        {
+          "r": 0,
+          "full": false,
+          "actual": 100,
+          "expected": 100
+        },
+        {
+          "r": 0,
+          "full": true,
+          "actual": 400,
+          "expected": 400
+        },
+        {
+          "r": 1,
+          "full": false,
+          "actual": 100,
+          "expected": 100
+        },
+        {
+          "r": 1,
+          "full": true,
+          "actual": 400,
+          "expected": 400
+        },
+        {
+          "r": 2,
+          "full": false,
+          "actual": 100,
+          "expected": 100
+        },
+        {
+          "r": 2,
+          "full": true,
+          "actual": 400,
+          "expected": 400
+        },
+        {
+          "r": 3,
+          "full": false,
+          "actual": 100,
+          "expected": 100
+        },
+        {
+          "r": 3,
+          "full": true,
+          "actual": 400,
+          "expected": 400
+        }
+      ],
+      "double": 1200,
+      "fifthKick": 800,
+      "noRotation": 0,
+      "hardTravel": {
+        "actual": 28,
+        "expected": 28,
+        "spin": null
+      },
+      "softTravel": {
+        "actual": 14,
+        "expected": 14,
+        "spin": null
+      },
+      "lateralCancel": 0,
+      "b2b": 2000,
+      "failedSoftRetains": 400,
+      "failedMovesRetain": 400
+    },
+    "topOut": {
+      "hidden": {
+        "pose": {
+          "kind": "T",
+          "rotation": 0,
+          "x": 6,
+          "y": -2
+        },
+        "status": "over"
+      },
+      "partial": "pass",
+      "blockedHold": "pass",
+      "blockedAndRestart": "pass"
+    },
+    "naturalGames": [
+      {
+        "seed": 1,
+        "locks": 12,
+        "restartBag": [
+          "S",
+          "O",
+          "J",
+          "I",
+          "T",
+          "L",
+          "Z"
+        ]
+      },
+      {
+        "seed": 2,
+        "locks": 11,
+        "restartBag": [
+          "Z",
+          "L",
+          "S",
+          "T",
+          "O",
+          "I",
+          "J"
+        ]
+      },
+      {
+        "seed": 3,
+        "locks": 12,
+        "restartBag": [
+          "J",
+          "Z",
+          "L",
+          "I",
+          "T",
+          "O",
+          "S"
+        ]
+      }
+    ]
+  },
+  "browser_port": 47447,
+  "browser": {
+    "version": "156.0.8078.4",
+    "views": {
+      "desktop": {
+        "engine": {
+          "srs": {
+            "states": 28,
+            "kickLists": 48,
+            "outcomes": 576,
+            "mismatches": []
+          },
+          "bags": 100,
+          "hold": "pass",
+          "drops": [
+            {
+              "kind": "I",
+              "ghost": 14,
+              "points": 25
+            },
+            {
+              "kind": "J",
+              "ghost": 14,
+              "points": 25
+            },
+            {
+              "kind": "L",
+              "ghost": 14,
+              "points": 25
+            },
+            {
+              "kind": "O",
+              "ghost": 14,
+              "points": 25
+            },
+            {
+              "kind": "S",
+              "ghost": 14,
+              "points": 25
+            },
+            {
+              "kind": "T",
+              "ghost": 14,
+              "points": 25
+            },
+            {
+              "kind": "Z",
+              "ghost": 14,
+              "points": 25
+            }
+          ],
+          "clocks": {
+            "boundary": [
+              0,
+              1
+            ],
+            "moveReset": "pass",
+            "resetCap": 15,
+            "failedWall": "pass",
+            "ledges": [
+              {
+                "exhausted": false,
+                "landingAfterMove": 6000,
+                "fullDelay": true,
+                "freshResets": true
+              },
+              {
+                "exhausted": true,
+                "landingAfterMove": 6000,
+                "fullDelay": true,
+                "freshResets": true
+              }
+            ],
+            "downwardKick": "pass",
+            "naturalContact": 1500
+          },
+          "gravity": [
+            {
+              "level": 1,
+              "actual": 1000,
+              "expected": 1000
+            },
+            {
+              "level": 2,
+              "actual": 793,
+              "expected": 793
+            },
+            {
+              "level": 3,
+              "actual": 618,
+              "expected": 618
+            },
+            {
+              "level": 4,
+              "actual": 473,
+              "expected": 473
+            },
+            {
+              "level": 5,
+              "actual": 356,
+              "expected": 356
+            },
+            {
+              "level": 6,
+              "actual": 263,
+              "expected": 263
+            },
+            {
+              "level": 7,
+              "actual": 190,
+              "expected": 190
+            },
+            {
+              "level": 8,
+              "actual": 135,
+              "expected": 135
+            },
+            {
+              "level": 9,
+              "actual": 94,
+              "expected": 94
+            },
+            {
+              "level": 10,
+              "actual": 65,
+              "expected": 65
+            },
+            {
+              "level": 11,
+              "actual": 43,
+              "expected": 43
+            },
+            {
+              "level": 12,
+              "actual": 29,
+              "expected": 29
+            },
+            {
+              "level": 13,
+              "actual": 19,
+              "expected": 19
+            },
+            {
+              "level": 14,
+              "actual": 12,
+              "expected": 12
+            },
+            {
+              "level": 15,
+              "actual": 8,
+              "expected": 8
+            },
+            {
+              "level": 16,
+              "actual": 5,
+              "expected": 5
+            },
+            {
+              "level": 17,
+              "actual": 3,
+              "expected": 3
+            },
+            {
+              "level": 18,
+              "actual": 2,
+              "expected": 2
+            },
+            {
+              "level": 19,
+              "actual": 1,
+              "expected": 1
+            },
+            {
+              "level": 20,
+              "actual": 1,
+              "expected": 1
+            }
+          ],
+          "softEntry": {
+            "actualRows": 1,
+            "actualPoints": 1,
+            "expectedRows": 1,
+            "expectedPoints": 1
+          },
+          "refresh": [
+            {
+              "hz": 60,
+              "rows": 9,
+              "points": 0
+            },
+            {
+              "hz": 144,
+              "rows": 9,
+              "points": 0
+            }
+          ],
+          "compaction": "pass",
+          "scoring": {
+            "normal": [
+              100,
+              300,
+              500,
+              800
+            ],
+            "perfect": [
+              900,
+              1500,
+              2300,
+              2800
+            ],
+            "b2bBreak": 2150,
+            "consecutiveTetrises": 2050,
+            "b2bPc": 5200,
+            "level2Combo": 300,
+            "crossing": [
+              100,
+              10,
+              2
+            ]
+          },
+          "spins": {
+            "hard-mini-zero": {
+              "actual": 100,
+              "expected": 100
+            },
+            "hard-mini-single": {
+              "actual": 200,
+              "expected": 200
+            },
+            "hard-full-zero": {
+              "actual": 400,
+              "expected": 400
+            },
+            "hard-full-single": {
+              "actual": 800,
+              "expected": 800
+            },
+            "timed-mini-zero": {
+              "actual": 100,
+              "expected": 100
+            },
+            "timed-mini-single": {
+              "actual": 200,
+              "expected": 200
+            },
+            "timed-full-zero": {
+              "actual": 400,
+              "expected": 400
+            },
+            "timed-full-single": {
+              "actual": 800,
+              "expected": 800
+            },
+            "facings": [
+              {
+                "r": 0,
+                "full": false,
+                "actual": 100,
+                "expected": 100
+              },
+              {
+                "r": 0,
+                "full": true,
+                "actual": 400,
+                "expected": 400
+              },
+              {
+                "r": 1,
+                "full": false,
+                "actual": 100,
+                "expected": 100
+              },
+              {
+                "r": 1,
+                "full": true,
+                "actual": 400,
+                "expected": 400
+              },
+              {
+                "r": 2,
+                "full": false,
+                "actual": 100,
+                "expected": 100
+              },
+              {
+                "r": 2,
+                "full": true,
+                "actual": 400,
+                "expected": 400
+              },
+              {
+                "r": 3,
+                "full": false,
+                "actual": 100,
+                "expected": 100
+              },
+              {
+                "r": 3,
+                "full": true,
+                "actual": 400,
+                "expected": 400
+              }
+            ],
+            "double": 1200,
+            "fifthKick": 800,
+            "noRotation": 0,
+            "hardTravel": {
+              "actual": 28,
+              "expected": 28,
+              "spin": null
+            },
+            "softTravel": {
+              "actual": 14,
+              "expected": 14,
+              "spin": null
+            },
+            "lateralCancel": 0,
+            "b2b": 2000,
+            "failedSoftRetains": 400,
+            "failedMovesRetain": 400
+          },
+          "topOut": {
+            "hidden": {
+              "pose": {
+                "kind": "T",
+                "rotation": 0,
+                "x": 6,
+                "y": -2
+              },
+              "status": "over"
+            },
+            "partial": "pass",
+            "blockedHold": "pass",
+            "blockedAndRestart": "pass"
+          },
+          "naturalGames": [
+            {
+              "seed": 1,
+              "locks": 12,
+              "restartBag": [
+                "S",
+                "O",
+                "J",
+                "I",
+                "T",
+                "L",
+                "Z"
+              ]
+            },
+            {
+              "seed": 2,
+              "locks": 11,
+              "restartBag": [
+                "Z",
+                "L",
+                "S",
+                "T",
+                "O",
+                "I",
+                "J"
+              ]
+            },
+            {
+              "seed": 3,
+              "locks": 12,
+              "restartBag": [
+                "J",
+                "Z",
+                "L",
+                "I",
+                "T",
+                "O",
+                "S"
+              ]
+            }
+          ]
+        },
+        "controls": [
+          "ArrowLeft",
+          "ArrowRight",
+          "ArrowUp",
+          "x",
+          "z",
+          "ControlLeft",
+          "ArrowDown",
+          "Space",
+          "c"
+        ],
+        "softEntry": {
+          "actualRows": 1,
+          "actualPoints": 1,
+          "expectedRows": 1,
+          "expectedPoints": 1
+        },
+        "rafRefresh": [
+          {
+            "hz": 60,
+            "rows": 9,
+            "points": 0
+          },
+          {
+            "hz": 144,
+            "rows": 9,
+            "points": 0
+          }
+        ],
+        "hd": [
+          {
+            "mode": "travel",
+            "pose": {
+              "kind": "T",
+              "rotation": 1,
+              "x": 0,
+              "y": 3
+            },
+            "ghost": {
+              "kind": "T",
+              "rotation": 1,
+              "x": 0,
+              "y": 17
+            },
+            "actual": 28,
+            "expected": 28
+          },
+          {
+            "mode": "mini",
+            "pose": {
+              "kind": "T",
+              "rotation": 0,
+              "x": 3,
+              "y": 17
+            },
+            "ghost": {
+              "kind": "T",
+              "rotation": 0,
+              "x": 3,
+              "y": 17
+            },
+            "actual": 100,
+            "expected": 100
+          },
+          {
+            "mode": "full",
+            "pose": {
+              "kind": "T",
+              "rotation": 0,
+              "x": 3,
+              "y": 17
+            },
+            "ghost": {
+              "kind": "T",
+              "rotation": 0,
+              "x": 3,
+              "y": 17
+            },
+            "actual": 400,
+            "expected": 400
+          }
+        ],
+        "focus": [
+          {
+            "clicks": [
+              "#sound"
+            ],
+            "hardDropped": true
+          },
+          {
+            "clicks": [
+              "#pause",
+              "#pause"
+            ],
+            "hardDropped": true
+          }
+        ],
+        "touchActions": [],
+        "layout": {
+          "documentWidth": 1280,
+          "documentHeight": 800,
+          "board": {
+            "x": 471,
+            "y": 61,
+            "width": 338,
+            "height": 676
+          },
+          "canvases": [
+            {
+              "id": "hold",
+              "x": 322,
+              "y": 104,
+              "width": 96,
+              "height": 57.59375,
+              "backing": [
+                96,
+                58
+              ],
+              "aspect": 1
+            },
+            {
+              "id": "board",
+              "x": 471,
+              "y": 61,
+              "width": 338,
+              "height": 676,
+              "backing": [
+                338,
+                676
+              ],
+              "aspect": 1
+            },
+            {
+              "id": "next",
+              "x": 862,
+              "y": 96,
+              "width": 96,
+              "height": 288,
+              "backing": [
+                96,
+                288
+              ],
+              "aspect": 1
+            }
+          ],
+          "touch": [
+            {
+              "action": "hold",
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            {
+              "action": "ccw",
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            {
+              "action": "cw",
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            {
+              "action": "drop",
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            {
+              "action": "left",
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            {
+              "action": "soft",
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            {
+              "action": "right",
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            }
+          ]
+        },
+        "errors": [],
+        "failed": []
+      },
+      "phone": {
+        "engine": {
+          "srs": {
+            "states": 28,
+            "kickLists": 48,
+            "outcomes": 576,
+            "mismatches": []
+          },
+          "bags": 100,
+          "hold": "pass",
+          "drops": [
+            {
+              "kind": "I",
+              "ghost": 14,
+              "points": 25
+            },
+            {
+              "kind": "J",
+              "ghost": 14,
+              "points": 25
+            },
+            {
+              "kind": "L",
+              "ghost": 14,
+              "points": 25
+            },
+            {
+              "kind": "O",
+              "ghost": 14,
+              "points": 25
+            },
+            {
+              "kind": "S",
+              "ghost": 14,
+              "points": 25
+            },
+            {
+              "kind": "T",
+              "ghost": 14,
+              "points": 25
+            },
+            {
+              "kind": "Z",
+              "ghost": 14,
+              "points": 25
+            }
+          ],
+          "clocks": {
+            "boundary": [
+              0,
+              1
+            ],
+            "moveReset": "pass",
+            "resetCap": 15,
+            "failedWall": "pass",
+            "ledges": [
+              {
+                "exhausted": false,
+                "landingAfterMove": 6000,
+                "fullDelay": true,
+                "freshResets": true
+              },
+              {
+                "exhausted": true,
+                "landingAfterMove": 6000,
+                "fullDelay": true,
+                "freshResets": true
+              }
+            ],
+            "downwardKick": "pass",
+            "naturalContact": 1500
+          },
+          "gravity": [
+            {
+              "level": 1,
+              "actual": 1000,
+              "expected": 1000
+            },
+            {
+              "level": 2,
+              "actual": 793,
+              "expected": 793
+            },
+            {
+              "level": 3,
+              "actual": 618,
+              "expected": 618
+            },
+            {
+              "level": 4,
+              "actual": 473,
+              "expected": 473
+            },
+            {
+              "level": 5,
+              "actual": 356,
+              "expected": 356
+            },
+            {
+              "level": 6,
+              "actual": 263,
+              "expected": 263
+            },
+            {
+              "level": 7,
+              "actual": 190,
+              "expected": 190
+            },
+            {
+              "level": 8,
+              "actual": 135,
+              "expected": 135
+            },
+            {
+              "level": 9,
+              "actual": 94,
+              "expected": 94
+            },
+            {
+              "level": 10,
+              "actual": 65,
+              "expected": 65
+            },
+            {
+              "level": 11,
+              "actual": 43,
+              "expected": 43
+            },
+            {
+              "level": 12,
+              "actual": 29,
+              "expected": 29
+            },
+            {
+              "level": 13,
+              "actual": 19,
+              "expected": 19
+            },
+            {
+              "level": 14,
+              "actual": 12,
+              "expected": 12
+            },
+            {
+              "level": 15,
+              "actual": 8,
+              "expected": 8
+            },
+            {
+              "level": 16,
+              "actual": 5,
+              "expected": 5
+            },
+            {
+              "level": 17,
+              "actual": 3,
+              "expected": 3
+            },
+            {
+              "level": 18,
+              "actual": 2,
+              "expected": 2
+            },
+            {
+              "level": 19,
+              "actual": 1,
+              "expected": 1
+            },
+            {
+              "level": 20,
+              "actual": 1,
+              "expected": 1
+            }
+          ],
+          "softEntry": {
+            "actualRows": 1,
+            "actualPoints": 1,
+            "expectedRows": 1,
+            "expectedPoints": 1
+          },
+          "refresh": [
+            {
+              "hz": 60,
+              "rows": 9,
+              "points": 0
+            },
+            {
+              "hz": 144,
+              "rows": 9,
+              "points": 0
+            }
+          ],
+          "compaction": "pass",
+          "scoring": {
+            "normal": [
+              100,
+              300,
+              500,
+              800
+            ],
+            "perfect": [
+              900,
+              1500,
+              2300,
+              2800
+            ],
+            "b2bBreak": 2150,
+            "consecutiveTetrises": 2050,
+            "b2bPc": 5200,
+            "level2Combo": 300,
+            "crossing": [
+              100,
+              10,
+              2
+            ]
+          },
+          "spins": {
+            "hard-mini-zero": {
+              "actual": 100,
+              "expected": 100
+            },
+            "hard-mini-single": {
+              "actual": 200,
+              "expected": 200
+            },
+            "hard-full-zero": {
+              "actual": 400,
+              "expected": 400
+            },
+            "hard-full-single": {
+              "actual": 800,
+              "expected": 800
+            },
+            "timed-mini-zero": {
+              "actual": 100,
+              "expected": 100
+            },
+            "timed-mini-single": {
+              "actual": 200,
+              "expected": 200
+            },
+            "timed-full-zero": {
+              "actual": 400,
+              "expected": 400
+            },
+            "timed-full-single": {
+              "actual": 800,
+              "expected": 800
+            },
+            "facings": [
+              {
+                "r": 0,
+                "full": false,
+                "actual": 100,
+                "expected": 100
+              },
+              {
+                "r": 0,
+                "full": true,
+                "actual": 400,
+                "expected": 400
+              },
+              {
+                "r": 1,
+                "full": false,
+                "actual": 100,
+                "expected": 100
+              },
+              {
+                "r": 1,
+                "full": true,
+                "actual": 400,
+                "expected": 400
+              },
+              {
+                "r": 2,
+                "full": false,
+                "actual": 100,
+                "expected": 100
+              },
+              {
+                "r": 2,
+                "full": true,
+                "actual": 400,
+                "expected": 400
+              },
+              {
+                "r": 3,
+                "full": false,
+                "actual": 100,
+                "expected": 100
+              },
+              {
+                "r": 3,
+                "full": true,
+                "actual": 400,
+                "expected": 400
+              }
+            ],
+            "double": 1200,
+            "fifthKick": 800,
+            "noRotation": 0,
+            "hardTravel": {
+              "actual": 28,
+              "expected": 28,
+              "spin": null
+            },
+            "softTravel": {
+              "actual": 14,
+              "expected": 14,
+              "spin": null
+            },
+            "lateralCancel": 0,
+            "b2b": 2000,
+            "failedSoftRetains": 400,
+            "failedMovesRetain": 400
+          },
+          "topOut": {
+            "hidden": {
+              "pose": {
+                "kind": "T",
+                "rotation": 0,
+                "x": 6,
+                "y": -2
+              },
+              "status": "over"
+            },
+            "partial": "pass",
+            "blockedHold": "pass",
+            "blockedAndRestart": "pass"
+          },
+          "naturalGames": [
+            {
+              "seed": 1,
+              "locks": 12,
+              "restartBag": [
+                "S",
+                "O",
+                "J",
+                "I",
+                "T",
+                "L",
+                "Z"
+              ]
+            },
+            {
+              "seed": 2,
+              "locks": 11,
+              "restartBag": [
+                "Z",
+                "L",
+                "S",
+                "T",
+                "O",
+                "I",
+                "J"
+              ]
+            },
+            {
+              "seed": 3,
+              "locks": 12,
+              "restartBag": [
+                "J",
+                "Z",
+                "L",
+                "I",
+                "T",
+                "O",
+                "S"
+              ]
+            }
+          ]
+        },
+        "controls": [
+          "ArrowLeft",
+          "ArrowRight",
+          "ArrowUp",
+          "x",
+          "z",
+          "ControlLeft",
+          "ArrowDown",
+          "Space",
+          "c"
+        ],
+        "softEntry": {
+          "actualRows": 1,
+          "actualPoints": 1,
+          "expectedRows": 1,
+          "expectedPoints": 1
+        },
+        "rafRefresh": [
+          {
+            "hz": 60,
+            "rows": 9,
+            "points": 0
+          },
+          {
+            "hz": 144,
+            "rows": 9,
+            "points": 0
+          }
+        ],
+        "hd": [
+          {
+            "mode": "travel",
+            "pose": {
+              "kind": "T",
+              "rotation": 1,
+              "x": 0,
+              "y": 3
+            },
+            "ghost": {
+              "kind": "T",
+              "rotation": 1,
+              "x": 0,
+              "y": 17
+            },
+            "actual": 28,
+            "expected": 28
+          },
+          {
+            "mode": "mini",
+            "pose": {
+              "kind": "T",
+              "rotation": 0,
+              "x": 3,
+              "y": 17
+            },
+            "ghost": {
+              "kind": "T",
+              "rotation": 0,
+              "x": 3,
+              "y": 17
+            },
+            "actual": 100,
+            "expected": 100
+          },
+          {
+            "mode": "full",
+            "pose": {
+              "kind": "T",
+              "rotation": 0,
+              "x": 3,
+              "y": 17
+            },
+            "ghost": {
+              "kind": "T",
+              "rotation": 0,
+              "x": 3,
+              "y": 17
+            },
+            "actual": 400,
+            "expected": 400
+          }
+        ],
+        "focus": [
+          {
+            "clicks": [
+              "#sound"
+            ],
+            "hardDropped": true
+          },
+          {
+            "clicks": [
+              "#pause",
+              "#pause"
+            ],
+            "hardDropped": true
+          }
+        ],
+        "touchActions": [
+          "left",
+          "right",
+          "cw",
+          "ccw",
+          "soft",
+          "drop",
+          "hold"
+        ],
+        "layout": {
+          "documentWidth": 390,
+          "documentHeight": 844,
+          "board": {
+            "x": 23,
+            "y": 111,
+            "width": 260,
+            "height": 520
+          },
+          "canvases": [
+            {
+              "id": "hold",
+              "x": 299,
+              "y": 139,
+              "width": 62,
+              "height": 37.1875,
+              "backing": [
+                62,
+                37
+              ],
+              "aspect": 1
+            },
+            {
+              "id": "board",
+              "x": 23,
+              "y": 111,
+              "width": 260,
+              "height": 520,
+              "backing": [
+                260,
+                520
+              ],
+              "aspect": 1
+            },
+            {
+              "id": "next",
+              "x": 299,
+              "y": 222.1875,
+              "width": 62,
+              "height": 186,
+              "backing": [
+                62,
+                186
+              ],
+              "aspect": 1
+            }
+          ],
+          "touch": [
+            {
+              "action": "hold",
+              "x": 16,
+              "y": 648,
+              "width": 83.5,
+              "height": 56
+            },
+            {
+              "action": "ccw",
+              "x": 107.5,
+              "y": 648,
+              "width": 83.5,
+              "height": 56
+            },
+            {
+              "action": "cw",
+              "x": 199,
+              "y": 648,
+              "width": 83.5,
+              "height": 56
+            },
+            {
+              "action": "drop",
+              "x": 290.5,
+              "y": 648,
+              "width": 83.5,
+              "height": 120
+            },
+            {
+              "action": "left",
+              "x": 16,
+              "y": 712,
+              "width": 83.5,
+              "height": 56
+            },
+            {
+              "action": "soft",
+              "x": 107.5,
+              "y": 712,
+              "width": 83.5,
+              "height": 56
+            },
+            {
+              "action": "right",
+              "x": 199,
+              "y": 712,
+              "width": 83.5,
+              "height": 56
+            }
+          ]
+        },
+        "errors": [],
+        "failed": []
+      }
+    }
+  },
+  "screenshots_visually_inspected": true,
+  "cleanup": {
+    "temporary_copy_removed": true,
+    "server_exit_code": -15,
+    "browser_closed": true,
+    "screenshots_removed": true
+  },
+  "delivered_hashes_after": {
+    ".gitignore": "3a3bcf768c25d0483b1e4b81f5a2879def4f8160c994929ae3a997511dbd84ae",
+    "README.md": "77b4f41d6d2b88a090350b34f41f32c4422ac49dc0c4bfc0dc7235fc56f23f2c",
+    "index.html": "dcbe35ab751e069c918235f9e53c85d4ba8802eeecb7250b70b886642e921264",
+    "package-lock.json": "c30ec465cc634a388e29af1e774bb30c94b2dbad471402fa206c0219549f3025",
+    "package.json": "f6cc5752d33522fdfc9e8988c0baa94c5e1d66a77e1798cf029137eabe45f1de",
+    "scripts/serve.mjs": "26f94cd49bbf63f1f8e6c2f8caf2501086e7a179b1ab23c23cbc384f786d5a59",
+    "src/best-score.ts": "394928b4f61f4624922513ebf45449e33a6d1c19ac3f2dd110cfbcdbd4d184a0",
+    "src/controls.ts": "70664ffda2e88ac1a87c205f0c44df6b38cba60d3eeb306226b4801d1132fa18",
+    "src/engine.ts": "06fb185bae4389f7c14106a901730a985e5aa1ce3710af8d5903b83c00ba8733",
+    "src/main.ts": "bdd6aadef62d7188c4cb41507ccf6eb48809b6ab2222d7e04c8c7a0c880f04f1",
+    "src/pieces.ts": "e3cd16542e4717054e11f569530a056c955be12147f992be541a9a5f224592e8",
+    "src/renderer.ts": "8efaf573867584e48189f321b894cb3f8d0adcee6a758054396bd71d1f2f1536",
+    "src/sound.ts": "9350683ad80f0ef575e6c8754d60ae7abaa79c3094d29566cb0428d3e8dfc3be",
+    "style.css": "137e5fe7613740b31f0d4ba91ffe75f35502d167159f789935d59dc375ce9681",
+    "tests/browser.test.mjs": "427f68cd36fa612722f15b9dd8420b5a9d2c65e51c670fce1be4673755b66116",
+    "tests/controls.test.mjs": "9d803cfcd70b97a1503e8f473a679cdfb474e6c323fd2b483688ea3790463c95",
+    "tests/engine.test.mjs": "0ac0b8ab375ac2b3cab4e1a00b5d5d69d801247507c9c295090788ef6d00df4f",
+    "tests/server.test.mjs": "f46662b4259bd86106f9d9ba4e56aa99b5c402b833fc1f362118a4830169c32a",
+    "tsconfig.json": "15e66bc5e089b00e82e78c56dd07e9bcf789ea2f031d3ed384b852acfb7b42c6"
+  },
+  "delivered_hashes_unchanged": true,
+  "protected_files_unchanged": true,
+  "scores": {
+    "correctness": 10.0,
+    "tests": 9.5,
+    "code": 9.0,
+    "simplicity": 9.0,
+    "browser_ux": 9.0
+  },
+  "weighted_total": 9.5,
+  "bugs": [],
+  "summary": "No confirmed defect in the audited scope; canonical SRS, precise lock timing and benchmark scoring with a broad delivered engine/input/browser suite.",
+  "review_artifact": ".audit/candidate-run-review.md",
+  "audit_notes": [
+    "Candidate model, generation effort and harness undisclosed; no transcripts or ~/.t3 read.",
+    "Reviewer identity read only from own native session turn_context, never inferred from requested settings.",
+    "Early sandbox server-test attempt was stopped; approved local-network execution passed unchanged tests. This is an environment limitation, not a candidate defect.",
+    "Audit fixture corrections: the r3 mini pocket needed bottom-left support; synthetic RAF time now reads the actual lastFrame clock after play/resume. Neither required an implementation edit.",
+    "Delivered PORT=0 test listeners bounded to 41000\u201349999 by a temporary NODE_OPTIONS net.Server.listen hook; test source and all game rule bodies unchanged.",
+    "Chromium full engine probe results are recorded independently for each viewport; real key HD-SPIN-1 fixtures additionally assert distinct actual/expected points."
+  ],
+  "coverage_limits": [
+    "Chromium only; no physical-device, high-DPI or long-duration certification.",
+    "Full spin triple, mini double and fourth-kick-vs-fifth-kick classification lack separate final-audit integration fixtures; tables reviewed and fifth-kick single exercised.",
+    "Automatic-gravity spin eligibility remains unresolved by SPEC and receives no deduction.",
+    "Focused finite probes are not exhaustive state-space proof."
+  ]
+}
