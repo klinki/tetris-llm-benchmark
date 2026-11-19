@@ -470,19 +470,24 @@ def run_status(t3_home: Path, record: dict[str, Any]) -> tuple[str, str]:
 
 
 def project_state(t3_home: Path, thread_id: str) -> dict[str, Any] | None:
-    """A run thread's project, with its workspace and archive time, and the thread's settle time."""
+    """A run thread's project, with its workspace and archive time, and the thread's settle and archive times."""
     with closing(connect(t3_home)) as connection:
         row = connection.execute("""
-            SELECT t.project_id, p.workspace_root, p.archived_at, json_extract(t.payload_json, '$.settledAt') AS settled_at
+            SELECT t.project_id, p.workspace_root, p.archived_at, json_extract(t.payload_json, '$.settledAt') AS settled_at,
+                   t.archived_at AS thread_archived_at
             FROM orchestration_v2_projection_threads t LEFT JOIN projection_projects p ON p.project_id = t.project_id
             WHERE t.thread_id = ?
         """, (thread_id,)).fetchone()
     return dict(row) if row else None
 
 
-def finish_runs(root: Path, t3_home: Path, threads: list[str], projects: list[str]) -> dict[str, list[str]]:
-    """Settle threads and archive projects through T3's internal API (see scripts/t3-finish.mjs)."""
-    request = {"t3Home": str(t3_home), "threads": threads, "projects": projects}
+def finish_runs(
+    root: Path, t3_home: Path, threads: list[str], projects: list[str], archive_threads: list[str] = (),
+) -> dict[str, list[str]]:
+    """Settle threads, archive projects, then archive threads through T3's internal API (see scripts/t3-finish.mjs).
+
+    Archiving a project leaves its threads in T3's list of settled threads, so they are archived too."""
+    request = {"t3Home": str(t3_home), "threads": threads, "projects": projects, "archiveThreads": list(archive_threads)}
     process = subprocess.run(
         ["node", str(root / "scripts" / "t3-finish.mjs")], input=json.dumps(request), text=True, capture_output=True,
     )

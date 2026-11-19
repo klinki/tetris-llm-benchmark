@@ -1,5 +1,6 @@
 // Settle finished run threads and archive their T3 projects through the local server's internal RPC API.
-// Reads {"t3Home", "threads": [threadId], "projects": [projectId]} on stdin and prints {"settled", "archived"}.
+// Reads {"t3Home", "threads": [threadId], "projects": [projectId], "archiveThreads": [threadId]} on stdin
+// and prints {"settled", "archived", "archivedThreads"}.
 // Like t3-launch.mjs, this uses T3's undocumented API with a five-minute session that can only operate
 // threads and projects; it works from any terminal, unlike T3's own tools in a thread that is not full-access.
 import { execFileSync } from "node:child_process";
@@ -53,8 +54,13 @@ const calls = [
     kind: "archived", id: projectId, tag: "projects.mutate",
     payload: { type: "project.update", commandId: randomUUID(), projectId, archived: true },
   })),
+  // Finished threads in a project that stays open, such as the repository's own audit threads.
+  ...(request.archiveThreads ?? []).map((threadId) => ({
+    kind: "archivedThreads", id: threadId, tag: "orchestration.dispatchCommand",
+    payload: { type: "thread.archive", commandId: randomUUID(), threadId },
+  })),
 ];
-const done = { settled: [], archived: [] };
+const done = { settled: [], archived: [], archivedThreads: [] };
 
 const url = new URL("/ws", runtime.origin.replace(/^http/, "ws"));
 url.searchParams.set("orchestrationProtocol", "2");

@@ -2715,12 +2715,12 @@ def archive_runs(
     root: Path, runs: list[dict[str, Any]], ranking: dict[str, Any], t3_home: Path,
     finish: Any = t3_runs.finish_runs, state: Any = t3_runs.project_state,
 ) -> list[str]:
-    """The last completion step: settle each scored run's thread and archive its own T3 project.
+    """The last completion step: settle each scored run's thread and archive it and its own T3 project.
 
     Only a scored run is finished, and only a project whose workspace is that run's isolated
     workspace is archived, never the repository's. Both are read back from T3 afterwards."""
     scored = {entry["run_id"] for entry in ranking.get("entries", [])}
-    threads, projects, lines = [], [], []
+    threads, projects, archive_threads, lines = [], [], [], []
     for run in runs:
         if not run["harness"].startswith("t3_"):
             raise BenchmarkError(f"{run['id']} did not run in T3, so it has no T3 project to archive")
@@ -2739,13 +2739,15 @@ def archive_runs(
             threads.append(run["t3_thread_id"])
         if not found["archived_at"] and found["project_id"] not in projects:
             projects.append(found["project_id"])
-    if threads or projects:
-        finish(root, t3_home, threads, projects)
+        if not found.get("thread_archived_at"):
+            archive_threads.append(run["t3_thread_id"])
+    if threads or projects or archive_threads:
+        finish(root, t3_home, threads, projects, archive_threads)
     for run in runs:
         found = state(t3_home, run["t3_thread_id"])
-        if not (found and found["settled_at"] and found["archived_at"]):
+        if not (found and found["settled_at"] and found["archived_at"] and found.get("thread_archived_at")):
             raise BenchmarkError(f"T3 does not show {run['id']} as settled and archived: {found}")
-        lines.append(f"{run['id']}: thread settled {found['settled_at'][:19]}, "
+        lines.append(f"{run['id']}: thread settled {found['settled_at'][:19]} and archived {found['thread_archived_at'][:19]}, "
                      f"project {found['project_id']} archived {found['archived_at'][:19]}")
     return lines
 

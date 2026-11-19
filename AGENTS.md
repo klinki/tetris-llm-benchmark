@@ -69,9 +69,9 @@ block and retain the dated history.
 After a run is imported, audited, scored, and its results are saved and verified,
 archive the dedicated T3 Code project used for that run. This is a required
 completion step in addition to workspace cleanup and settling the run's thread.
-Run `python3 scripts/benchmark.py archive <run id…>`: it settles the run's
-thread, archives the run's own project (found from its thread) and reads both
-back, and it refuses unscored runs and any project that is not the run's
+Run `python3 scripts/benchmark.py archive <run id…>`: it settles and archives the
+run's thread, archives the run's own project (found from its thread) and reads
+both back, and it refuses unscored runs and any project that is not the run's
 isolated workspace. Report archiving as done only when it prints the archive
 time. Archiving preserves the project's threads and files.
 Archive only the isolated run project, never the main benchmark repository

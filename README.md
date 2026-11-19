@@ -647,8 +647,8 @@ Generation, quality review, and accounting are separate: a completed
 implementation can be audited while its usage data is being reconciled.
 
 After import and the completed independent review, save and verify the results,
-and complete workspace cleanup. Then settle the run's thread and archive the
-dedicated T3 Code project used for the run:
+and complete workspace cleanup. Then settle and archive the run's thread and
+archive the dedicated T3 Code project used for the run:
 
 ```sh
 python3 scripts/benchmark.py archive <run id…>
@@ -656,10 +656,12 @@ python3 scripts/benchmark.py archive <run id…>
 
 `archive` refuses a run that is not scored yet and any project whose workspace
 is not the run's own isolated workspace, finds the project from the run's
-thread, sends `thread.settle` and `project.update` with `archived: true` through
-T3's internal API ([`scripts/t3-finish.mjs`](scripts/t3-finish.mjs), with the
-same five-minute session as `--launch`), and reads `settledAt` and `archived_at`
-back from T3's database. It works from any terminal or thread; T3's own
+thread, sends `thread.settle`, `project.update` with `archived: true` and
+`thread.archive` through T3's internal API
+([`scripts/t3-finish.mjs`](scripts/t3-finish.mjs), with the same five-minute
+session as `--launch`), and reads `settledAt` and both `archived_at` times back
+from T3's database. Archiving a project does not archive its threads, which
+would otherwise stay in T3's list of settled threads. It works from any terminal or thread; T3's own
 `t3_project_update` and `t3_thread_organize` tools refuse this from a thread
 that is not in full-access mode. Running it again changes nothing.
 
@@ -797,8 +799,8 @@ until the thread reaches a final state. The orchestrating thread runs:
 6. Delegate the final audit to the required Sol xhigh reviewer with the
    [brief](.audit/REVIEW_BRIEF.md), then record it with `audit-record`, which
    verifies its actual settings. Once scoring and the saved results have
-   been verified, run `archive`, which settles the run's thread, archives its
-   T3 project and confirms both, as described in
+   been verified, run `archive`, which settles and archives the run's thread,
+   archives its T3 project and confirms all three, as described in
    [Completing a benchmark](#completing-a-benchmark).
 
 This removes the undocumented `orchestration.launchThread` RPC, the
