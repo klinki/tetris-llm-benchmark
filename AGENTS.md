@@ -42,7 +42,9 @@ Before publishing final scores or archiving a completed run project:
 2. Read back the reviewer's actual model and effort from T3/native session
    records; the requested settings or a prose claim alone are not sufficient.
 3. Record the review thread link, native session ID, verified model/effort, and
-   review artifact in the audit evidence.
+   review artifact in the audit evidence. Brief the reviewer from
+   [.audit/REVIEW_BRIEF.md](.audit/REVIEW_BRIEF.md); `benchmark.py audit-record`
+   performs step 2 and records the reviewer's check and quota.
 4. Verify the reports and scores, then archive the dedicated run project and
    read back `archivedAt` as required below.
 

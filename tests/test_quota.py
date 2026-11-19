@@ -121,5 +121,69 @@ class RequirePriceTests(unittest.TestCase):
             benchmark.require_price(self.PRICING, "gpt-7")
 
 
+class RecordAuditTests(unittest.TestCase):
+    REVIEWER_SESSION = "01a1f37e-ba41-7451-bb2b-2bbe885f9431"
+
+    def setUp(self) -> None:
+        self.directory = tempfile.TemporaryDirectory()
+        self.root = Path(self.directory.name)
+        self.codex = self.root / "codex"
+        rollout = self.codex / "sessions" / "2026" / "11" / "19" / f"rollout-x-{self.REVIEWER_SESSION}.jsonl"
+        rollout.parent.mkdir(parents=True)
+        events = [
+            {"timestamp": "2026-11-19T11:08:50.000Z", "type": "turn_context",
+             "payload": {"model": "gpt-6.1-sol", "effort": "xhigh", "cwd": "/repo", "service_tier": None}},
+            {"timestamp": "2026-11-19T11:08:59.000Z", "type": "event_msg",
+             "payload": {"type": "token_count", "rate_limits": limits(39, 90)}},
+            {"timestamp": "2026-11-19T11:16:35.000Z", "type": "event_msg",
+             "payload": {"type": "token_count", "rate_limits": limits(48, 92)}},
+        ]
+        rollout.write_text("".join(json.dumps(event) + "\n" for event in events))
+        (self.root / "benchmark-runs.json").write_text(json.dumps({"runs": [
+            {"id": "a-xhigh", "subscription_quota": {"windows": [], "note": "Turn 2 is excluded."}},
+            {"id": "a-max", "subscription_quota": {"windows": [], "note": ""}},
+        ]}, indent=2, ensure_ascii=False) + "\n")
+        self.audit = self.root / ".audit"
+        self.audit.mkdir()
+        self.review = self.audit / "a-xhigh-max-review.md"
+        self.review.write_text("# Audit\n\nReviewer: Sol.\n\n## Scores\n\n| x |\n")
+        import hashlib
+        self.old_hash = hashlib.sha256(self.review.read_bytes()).hexdigest()
+        (self.audit / "a-xhigh-max-evidence.json").write_text(json.dumps(
+            {"runs": {"xhigh": {"review_artifact_sha256": self.old_hash}}}) + "\n")
+
+    def tearDown(self) -> None:
+        self.directory.cleanup()
+
+    def record(self, expected=benchmark.REVIEWER) -> list[str]:
+        manifest = lambda root: (None, json.loads((root / "benchmark-runs.json").read_text())["runs"])
+        with mock.patch.object(benchmark, "load_manifest", side_effect=manifest):
+            return benchmark.record_audit(
+                self.root, self.review, self.REVIEWER_SESSION, ["a-xhigh", "a-max"], self.codex, expected,
+            )
+
+    def test_records_the_verified_reviewer_and_its_quota_everywhere_once(self) -> None:
+        self.record()
+        review = self.review.read_text()
+        self.assertIn("model=gpt-6.1-sol, effort=xhigh", review)
+        self.assertIn("5-hour 39→48% (9 points), Weekly 90→92% (2 points)", review)
+        self.assertLess(review.index("Orchestrator check:"), review.index("## Scores"))
+        evidence = json.loads((self.audit / "a-xhigh-max-evidence.json").read_text())
+        import hashlib
+        self.assertEqual(evidence["runs"]["xhigh"]["review_artifact_sha256"], hashlib.sha256(review.encode()).hexdigest())
+        self.assertEqual(evidence["orchestrator_check"]["effort"], "xhigh")
+        runs = {run["id"]: run for run in json.loads((self.root / "benchmark-runs.json").read_text())["runs"]}
+        self.assertTrue(runs["a-xhigh"]["subscription_quota"]["note"].startswith("Turn 2 is excluded. The independent"))
+        self.assertIn("covered a-xhigh, a-max together", runs["a-max"]["subscription_quota"]["note"])
+        before = (self.root / "benchmark-runs.json").read_text(), review
+        self.record()
+        self.assertEqual(((self.root / "benchmark-runs.json").read_text(), self.review.read_text()), before)
+
+    def test_another_reviewer_than_required_is_refused(self) -> None:
+        with self.assertRaises(benchmark.BenchmarkError):
+            self.record(expected=("gpt-6.1-sol", "max"))
+        self.assertNotIn("Orchestrator check:", self.review.read_text())
+
+
 if __name__ == "__main__":
     unittest.main()

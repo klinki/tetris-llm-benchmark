@@ -626,6 +626,23 @@ explicitly, verify the actual model/effort from T3/native records, and retain th
 completed review's thread/session identity and artifact. Its own checks do not
 replace that review. See the [reviewer gate in AGENTS.md](AGENTS.md#required-independent-reviewer).
 
+Brief the reviewer from [`.audit/REVIEW_BRIEF.md`](.audit/REVIEW_BRIEF.md),
+which holds the rubric, method, and deliverables every audit has used; it lives
+in `.audit`, which is locked during runs, because it describes how runs are
+scored. One review can cover two efforts of the same model for about the
+quota of one. Once the review is done, record it:
+
+```sh
+python3 scripts/benchmark.py audit-record .audit/<slug>-review.md <run ids…> --session <reviewer session>
+```
+
+`audit-record` reads the reviewer's own native Codex `turn_context` and refuses
+anything other than `gpt-6.1-sol` at `xhigh` (unless `--reviewer` names the
+user's choice). It then adds that check and the review's quota to the review
+header, writes both into the evidence (updating any `sha256` of the review file
+it changed), appends the quota to each run's `subscription_quota` note, and
+refreshes the runs. Running it again changes nothing.
+
 Generation, quality review, and accounting are separate: a completed
 implementation can be audited while its usage data is being reconciled.
 

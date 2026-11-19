@@ -2560,6 +2560,14 @@ def parse_args(argv: list[str]) -> argparse.Namespace:
     import_parser.add_argument("--interrupted-reason", metavar="DESCRIPTION", help="What blocked the agent")
     isolation_parser = subparsers.add_parser("isolation", help="Report T3 runs that reached outside their workspace")
     isolation_parser.add_argument("run_id", nargs="?")
+    audit_parser = subparsers.add_parser(
+        "audit-record", help="Verify a finished review's reviewer and record its quota in the audit and the runs",
+    )
+    audit_parser.add_argument("review", type=Path, help="The review file, e.g. .audit/<runs>-review.md")
+    audit_parser.add_argument("run_ids", nargs="+", metavar="RUN_ID", help="The runs it scored")
+    audit_parser.add_argument("--session", required=True, help="The reviewer's native Codex session ID")
+    audit_parser.add_argument("--reviewer", nargs=2, metavar=("MODEL", "EFFORT"), default=list(REVIEWER),
+                              help="Expected reviewer, when the user chose another (default: gpt-6.1-sol xhigh)")
     subparsers.add_parser("quota", help="Show how much of the Codex subscription windows is used, and when they reset")
     overlaps_parser = subparsers.add_parser(
         "overlaps", help="Report /tmp entries and localhost ports that concurrent T3 runs shared",
@@ -2603,6 +2611,100 @@ def release_lock(root: Path, t3_home: Path, command: str, force: bool) -> None:
         )
     if unlocked := t3_runs.unlock_sources(root):
         print(f"Unlocked {len(unlocked)} path(s) locked during the run")
+
+
+# The required independent reviewer (AGENTS.md); `audit-record` refuses any other unless told.
+REVIEWER = ("gpt-6.1-sol", "xhigh")
+ORCHESTRATOR_CHECK = "Orchestrator check:"
+
+
+def set_quota_note(root: Path, run_id: str, note: str) -> None:
+    """Replace one run's subscription-quota note without reformatting the hand-maintained manifest."""
+    path = root / "benchmark-runs.json"
+    text = path.read_text()
+    start = text.find(f'"id": {json.dumps(run_id)}')
+    following = text.find('"id": "', start + 1)
+    end = len(text) if following < 0 else following
+    quota = text.find('"subscription_quota"', start, end)
+    key = text.find('"note": ', quota, end) if quota >= 0 else -1
+    if start < 0 or key < 0:
+        raise BenchmarkError(f"{run_id} has no subscription_quota note to add the review to")
+    value_start = key + len('"note": ')
+    _, value_end = json.JSONDecoder().raw_decode(text, value_start)
+    updated = text[:value_start] + json.dumps(note, ensure_ascii=False) + text[value_end:]
+    json.loads(updated)
+    atomic_write(path, updated)
+
+
+def replace_hashes(value: Any, old: str, new: str) -> Any:
+    """Every `*sha256` field in audit evidence that recorded the review file's old hash, updated."""
+    if isinstance(value, dict):
+        return {key: (new if key.endswith("sha256") and item == old else replace_hashes(item, old, new))
+                for key, item in value.items()}
+    if isinstance(value, list):
+        return [replace_hashes(item, old, new) for item in value]
+    return value
+
+
+def record_audit(
+    root: Path, review: Path, session_id: str, run_ids: list[str], codex_home: Path,
+    expected: tuple[str, str] = REVIEWER,
+) -> list[str]:
+    """Record a finished independent review: verify the reviewer from its own native session, then add
+    its quota to the review header, its evidence, and each run's quota note. Running it again changes nothing."""
+    import hashlib
+    evidence_path = review.with_name(review.name.replace("-review.md", "-evidence.json"))
+    if not review.is_file() or evidence_path == review or not evidence_path.is_file():
+        raise BenchmarkError(f"Expected {review} and its -evidence.json beside it")
+    context = t3_runs.codex_turn_context(codex_home, session_id)
+    if (context["model"], context["effort"]) != expected:
+        raise BenchmarkError(
+            f"Reviewer session {session_id} ran {context['model']} at {context['effort']}, not {expected[0]} at {expected[1]}"
+        )
+    quota = t3_runs.codex_quota(codex_home, session_id, whole_session=True)
+    used = [] if not quota else [
+        f"{window['name']} {window['used_percent_start']:g}→{window['used_percent_end']:g}% "
+        f"({window['used_percent_end'] - window['used_percent_start']:g} points)"
+        for window in quota["windows"]
+    ]
+    scope = "this review" if len(run_ids) == 1 else f"this review of {len(run_ids)} runs together"
+    header = (f"{ORCHESTRATOR_CHECK} the reviewer's own native Codex `turn_context` reads model={context['model']}, "
+              f"effort={context['effort']} (session `{session_id}`)."
+              + (f" Codex quota used by {scope} ({quota['plan']} plan): {', '.join(used)}." if used else ""))
+    lines = []
+    text = review.read_text()
+    old_hash = hashlib.sha256(text.encode()).hexdigest()
+    if ORCHESTRATOR_CHECK not in text:
+        heading = text.find("\n## ")
+        text = text + "\n" + header + "\n" if heading < 0 else text[:heading] + "\n" + header + "\n" + text[heading:]
+        review.write_text(text)
+        lines.append(f"added the orchestrator check to {review.name}")
+    new_hash = hashlib.sha256(text.encode()).hexdigest()
+    evidence = replace_hashes(json.loads(evidence_path.read_text()), old_hash, new_hash)
+    evidence["orchestrator_check"] = {
+        "reviewer_session_id": session_id, "model": context["model"], "effort": context["effort"],
+        "source": "the reviewer's own native Codex turn_context", "runs": run_ids, "codex_quota": quota,
+    }
+    evidence["post_audit_changes"] = (
+        "The orchestrator added the check line to the review header after the audit (sha256 fields that "
+        f"recorded {old_hash} now give the updated file), and regenerated STATISTICS.md to add this review's quota."
+    )
+    evidence_path.write_text(json.dumps(evidence, indent=2, ensure_ascii=False) + "\n")
+    lines.append(f"recorded the reviewer and its quota in {evidence_path.name}")
+    if used:
+        together = "" if len(run_ids) == 1 else f" covered {', '.join(run_ids)} together and"
+        sentence = (f"The independent {context['model']} {context['effort']} review (native session `{session_id}`)"
+                    f"{together} used {', '.join(used)}; that is not part of the tested agent's figure.")
+        _, runs = load_manifest(root)
+        by_id = {run["id"]: run for run in runs}
+        for run_id in run_ids:
+            note = (by_id[run_id].get("subscription_quota") or {}).get("note")
+            if note is None:
+                lines.append(f"{run_id} has no subscription quota; its review quota is only in the evidence")
+            elif session_id not in note:
+                set_quota_note(root, run_id, f"{note} {sentence}".strip())
+                lines.append(f"added the review quota to {run_id}")
+    return lines
 
 
 def require_price(pricing: dict[str, Any], model: str) -> None:
@@ -2710,6 +2812,15 @@ def main(argv: list[str] | None = None) -> int:
         if args.run_id and args.run_id not in by_id:
             raise BenchmarkError(f"Unknown run ID: {args.run_id}")
         return 1 if isolation_report(root, selected, t3_home) else 0
+    elif args.command == "audit-record":
+        unknown = [run_id for run_id in args.run_ids if run_id not in by_id]
+        if unknown:
+            raise BenchmarkError(f"Unknown run ID: {', '.join(unknown)}")
+        for line in record_audit(root, args.review.resolve(), args.session, args.run_ids, codex_home, tuple(args.reviewer)):
+            print(line)
+        _, runs = load_manifest(root)
+        selected = [run for run in runs if run["id"] in args.run_ids]
+        refresh(root, runs, ranking, load_pricing(root, runs), selected, codex_home, omp_home, pi_home, t3_home, False)
     elif args.command == "quota":
         print("\n".join(quota_report(t3_runs.codex_quota_now(codex_home), time.time())))
     elif args.command == "overlaps":
