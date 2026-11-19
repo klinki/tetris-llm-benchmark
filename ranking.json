@@ -3471,6 +3471,49 @@
         }
       ],
       "summary": "Strong standard engine and deterministic tests; missing wholly hidden lock-out and mild hold-preview stretching"
+    },
+    {
+      "run_id": "gpt-6.2-astra-xhigh",
+      "audited": "2026-11-19",
+      "scores": {
+        "correctness": 9.0,
+        "tests": 7.5,
+        "code": 9.0,
+        "simplicity": 9.0,
+        "browser_ux": 9.0
+      },
+      "bugs": [
+        {
+          "severity": "minor",
+          "title": "The fifteenth reset loses its delay on the next tick",
+          "detail": "Grounded O at native (3,38), wait100ms,15 alternating successful Right/Left moves. After move15 lockTime=0 and no stored minos; tick(1) writes4 instead of granting500ms. Fourteen-reset control passes499/500ms. Both Chromium key paths agree."
+        },
+        {
+          "severity": "minor",
+          "title": "A clicked Sound button captures Space instead of hard drop",
+          "detail": "During play mouse-click Sound (#audio), then actual Space. At desktop and390x844, sound toggles false\u2192true while stored cells4, score28 and active O(4,-1) stay unchanged. Expected hard drop and unchanged sound. The focused-visible-button key guard returns and Sound retains focus."
+        }
+      ],
+      "summary": "Complete tested scoring and hidden lock-out; fifteenth-reset and focused-Sound Space minors"
+    },
+    {
+      "run_id": "gpt-6.2-astra-max",
+      "audited": "2026-11-19",
+      "scores": {
+        "correctness": 9.5,
+        "tests": 8.5,
+        "code": 9.0,
+        "simplicity": 9.0,
+        "browser_ux": 9.0
+      },
+      "bugs": [
+        {
+          "severity": "minor",
+          "title": "The fifteenth grounded reset locks immediately",
+          "detail": "Grounded O at native (2,38), contact established, wait100ms,15 alternating successful Right/Left moves. Move15 immediately stores4 minos and spawns the next piece instead of granting500ms. Fourteen-reset control passes499/500ms. updateContact locks at lockMoves>=15; its own test expects that early lock. Actual keys agree in both Chromium sizes."
+        }
+      ],
+      "summary": "Broad own suite and complete tested SRS/scoring/top-out; fifteenth-reset boundary minor"
     }
   ]
 }

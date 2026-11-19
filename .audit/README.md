@@ -2,6 +2,40 @@
 
 This directory contains the reproducible, repository-safe parts of the audit behind [`RANKING.md`](../RANKING.md). Generated builds, copied `node_modules` trees, temporary web servers, browser profiles, and timestamped Playwright artifacts are intentionally excluded.
 
+## GPT-6.2 Astra xhigh / max — November 19, 2026
+
+The [independent GPT-6.1 Sol xhigh audit](gpt62-astra-xhigh-max-review.md)
+scores **xhigh8.70 / max9.10**, reviewed in that order. Category scores
+(correctness/own tests/code/simplicity/UX): **9.0/7.5/9.0/9.0/9.0** and
+**9.5/8.5/9.0/9.0/9.0**. Xhigh has two minors: reset15 loses its delay on
+the next tick and clicked Sound captures Space. Max has one minor: immediate
+reset15 lock. Both fix earlier hidden lock-out and retained lower-row state;
+both preserve square preview cells, and max passes clicked-Sound Space.
+
+The [evidence](gpt62-astra-xhigh-max-evidence.json) records actual reviewer
+native model/effort/session/turn, all38 unchanged delivery hashes, locked
+installs/builds and unchanged12/20 own passes. Each run has28 canonical
+states,48 ordered kick lists,576 real rotations,100 bags and matching Node/
+served-module results in desktop1280×800 and phone390×844 Chromium. Exact
+HD-SPIN-1, normal/mini/full/PC1–4/B2B/combo, clocks/descent/contact, hidden/
+partial locks, real keys, pause, phone buttons and R restart are covered.
+Four gameplay PNGs and four held-O diagnostics inspected before deletion.
+All99 earlier ranking entries and registry/pricing/statistics are unchanged.
+
+```sh
+python3 .audit/run-gpt62-astra-xhigh-max-audit.py --offline
+```
+
+[Runner](run-gpt62-astra-xhigh-max-audit.py),
+[engine probes](gpt62-astra-xhigh-max-audit.mjs),
+[browser probes](gpt62-astra-xhigh-max-browser.cjs). Supports `--effort`,
+`--engine-only`, `--review` (inspect before deletion), intentional `--record`.
+Installed Playwright/Chromium only, no downloads; free41000–49999 ports.
+Both unchanged intended servers honor PORT; max serves dist/. All owned
+processes and temporary copies/logs/screenshots are cleaned. No generation,
+accounting update, commit, push, PR or archival. Parent completion verification
+and isolated-project lifecycle steps remain outside this review.
+
 ## GPT-6.2 Astra medium / high — November 19, 2026
 
 The [independent GPT-6.1 Sol xhigh audit](gpt62-astra-medium-high-review.md)

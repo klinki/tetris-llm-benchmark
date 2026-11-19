@@ -1,0 +1,6127 @@
+{
+  "audited": "2026-11-19",
+  "reviewer": {
+    "model": "gpt-6.1-sol",
+    "effort": "xhigh",
+    "native_session_id": "01a1f137-1330-7bb1-9f06-baba09195ffa",
+    "native_rollout": "/Users/david/.codex/sessions/2026/11/19/rollout-2026-11-19T01-31-20-01a1f137-1330-7bb1-9f06-baba09195ffa.jsonl",
+    "turn_id": "01a1f137-14c6-7d51-a1f5-50a493c3f889",
+    "source": "own native Codex turn_context",
+    "t3_thread_id": "thread:delegated-task:command%3Amcp%3A4bf63111-3991-42bb-b316-58c1cf772400%3Adelegate-task%3A5d727c5c-acb9-455f-b594-d2e7c95052a4",
+    "t3_thread_link": "t3-thread://v2/be26fbd3-1b19-4ec5-a479-19a35432c8a1/thread:delegated-task:command%3Amcp%3A4bf63111-3991-42bb-b316-58c1cf772400%3Adelegate-task%3A5d727c5c-acb9-455f-b594-d2e7c95052a4",
+    "orchestrator_verification": "Claude Opus 5.5 read turn_context model=gpt-6.1-sol effort=xhigh from the native rollout on 2026-11-19",
+    "codex_quota": {
+      "five_hour_used_percent": [
+        12,
+        24
+      ],
+      "weekly_used_percent": [
+        72,
+        74
+      ],
+      "first_snapshot": "2026-11-19T00:31:28.855Z",
+      "last_snapshot": "2026-11-19T00:43:00.119Z"
+    }
+  },
+  "runs": {
+    "xhigh": {
+      "run_id": "gpt-6.2-astra-xhigh",
+      "audited": "2026-11-19",
+      "hashes": {
+        ".gitignore": "790e3169bc19b046fe55ba1da6d13b976c28363c8c00462a2195fe5faf260910",
+        "README.md": "36e2097a78fe8b5646e6216338640831cff0a284cc823c4b1f658991c8d40294",
+        "STATISTICS.md": "78f318277ddd6c1a41850c093ebb278a07cafc19bd3f97c606a14fd32c9d162c",
+        "index.html": "e07c2de8cbacd7610091e26f82e03856fc3e06471ea3bff63140f1c0d38c386c",
+        "package-lock.json": "faaf9dc47889addc46cf05ed05b3897a29c30388d46151de185d1722a2a7b1e2",
+        "package.json": "8f4a488a5bb785132cf17927d230de041f75be5221cd012fc02c7d3b1dce5f9f",
+        "scripts/serve.mjs": "db3c9955f27098b643e0749cd9c54ac38fcb0e0ed57d5264a441f73931227c81",
+        "src/app.ts": "adefc353049b094939710350d7868c8ab2e85072debebd2ff8722193572f9a98",
+        "src/art.ts": "ec2576942e46fddf78452b7d26a0ab335fe31579b4d3fedc17ecb70e0bd04dfc",
+        "src/game.ts": "2ab5250f45bf4a48f6c6590bee72df19c231c56e94f1b8f9fdf58b4599b65d6e",
+        "src/pieces.ts": "06bb7162cab6f3cb7c687fc63fb6fa8714945c6182227319c291f794c1343804",
+        "style.css": "6b151d2edf55e774f50594922583df01d5ffe1f5c57f5d829578121d6c3acb93",
+        "tests/game.test.mjs": "72d444241adf17c71ee50105ea88758d52ff08aef30d3c28b48c517ce79ca724",
+        "tsconfig.json": "24d062e33ee82889103ed64962e76600f26250217d6b34fd68cd66c30ed66c1e"
+      },
+      "workflow": {
+        "install": "\nadded 1 package, and audited 2 packages in 147ms\n\nfound 0 vulnerabilities\n",
+        "build": "\n> tetrisjs@1.0.0 build\n> tsc -p tsconfig.json\n\n",
+        "unchanged_npm_test": "\n> tetrisjs@1.0.0 test\n> npm run build && node --test tests/*.test.mjs\n\n\n> tetrisjs@1.0.0 build\n> tsc -p tsconfig.json\n\n✔ each bag contains all seven tetrominoes and maintains the preview queue (1.27925ms)\n✔ all pieces rotate in both directions and close a four-turn cycle (0.476208ms)\n✔ JLSTZ and I rotations kick out of a wall and off the floor (0.074334ms)\n✔ a trapped rotation fails without shifting the piece (0.076417ms)\n✔ ghost predicts the landing cells and soft and hard drops score by distance (0.177291ms)\n✔ hold consumes at most one piece per turn and swaps in spawn orientation (0.089792ms)\n✔ gravity accelerates with level and soft drop runs at 20 times gravity (0.076417ms)\n✔ landing gets a 500 ms delay and grounded movement resets it (0.119792ms)\n✔ repeated grounded movement cannot postpone locking indefinitely (0.201041ms)\n✔ line removal, perfect clears, combos and back-to-back bonuses stack (0.15825ms)\n✔ T-spin scoring distinguishes full and mini spins after a successful rotation (0.094584ms)\n✔ a blocked spawn tops out and game-over input is inert (0.090834ms)\nℹ tests 12\nℹ suites 0\nℹ pass 12\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 69.980375\n"
+      },
+      "engine": {
+        "srs": {
+          "states": [],
+          "kickLists": [],
+          "outcomes": [],
+          "attempts": 576
+        },
+        "bags": 100,
+        "hold": "pass",
+        "drops": [
+          {
+            "k": "I",
+            "ghost": 14,
+            "points": 25
+          },
+          {
+            "k": "J",
+            "ghost": 14,
+            "points": 25
+          },
+          {
+            "k": "L",
+            "ghost": 14,
+            "points": 25
+          },
+          {
+            "k": "O",
+            "ghost": 14,
+            "points": 25
+          },
+          {
+            "k": "S",
+            "ghost": 14,
+            "points": 25
+          },
+          {
+            "k": "T",
+            "ghost": 14,
+            "points": 25
+          },
+          {
+            "k": "Z",
+            "ghost": 14,
+            "points": 25
+          }
+        ],
+        "clocks": {
+          "boundary": "pass",
+          "reset": "pass",
+          "after15": {
+            "cells": 0,
+            "resets": 15
+          },
+          "after15plus499": 4,
+          "after16plus1": 4,
+          "failedWall": 4,
+          "capBoundary": [
+            {
+              "moves": 14,
+              "afterMoves": 0,
+              "after1": 0,
+              "after499": 0,
+              "after500": 4,
+              "expected": {
+                "afterMoves": 0,
+                "after1": 0,
+                "after499": 0,
+                "after500": 4
+              }
+            },
+            {
+              "moves": 15,
+              "afterMoves": 0,
+              "after1": 4,
+              "after499": 4,
+              "after500": 4,
+              "expected": {
+                "afterMoves": 0,
+                "after1": 0,
+                "after499": 0,
+                "after500": 4
+              }
+            }
+          ],
+          "ledges": [
+            {
+              "exhausted": false,
+              "start": 0,
+              "land": 6000,
+              "lock": 6500,
+              "expectedLock": 6500
+            },
+            {
+              "exhausted": true,
+              "start": 0,
+              "land": 6000,
+              "lock": 6500,
+              "expectedLock": 6500
+            }
+          ],
+          "newLowest": {
+            "resets": 0,
+            "cells": 1,
+            "expectedCells": 1
+          },
+          "contact": [
+            {
+              "dt": 10,
+              "actual": 1500,
+              "expected": 1500
+            },
+            {
+              "dt": 100,
+              "actual": 1500,
+              "expected": 1500
+            },
+            {
+              "dt": 16.666666666666668,
+              "actual": 1516.6666666666679,
+              "expected": 1500
+            },
+            {
+              "dt": 6.944444444444445,
+              "actual": 1499.9999999999945,
+              "expected": 1500
+            }
+          ]
+        },
+        "gravity": [
+          {
+            "level": 1,
+            "actual": 1000,
+            "expected": 1000,
+            "policy": "curve, high-level cap/floor not scored"
+          },
+          {
+            "level": 2,
+            "actual": 793,
+            "expected": 793,
+            "policy": "curve, high-level cap/floor not scored"
+          },
+          {
+            "level": 3,
+            "actual": 617.8,
+            "expected": 617.796,
+            "policy": "curve, high-level cap/floor not scored"
+          },
+          {
+            "level": 4,
+            "actual": 472.8,
+            "expected": 472.72913900000003,
+            "policy": "curve, high-level cap/floor not scored"
+          },
+          {
+            "level": 5,
+            "actual": 355.2,
+            "expected": 355.19692825600004,
+            "policy": "curve, high-level cap/floor not scored"
+          },
+          {
+            "level": 6,
+            "actual": 262.1,
+            "expected": 262.003549978125,
+            "policy": "curve, high-level cap/floor not scored"
+          },
+          {
+            "level": 7,
+            "actual": 189.7,
+            "expected": 189.67724533271814,
+            "policy": "curve, high-level cap/floor not scored"
+          },
+          {
+            "level": 8,
+            "actual": 134.8,
+            "expected": 134.7347308155587,
+            "policy": "curve, high-level cap/floor not scored"
+          },
+          {
+            "level": 9,
+            "actual": 93.9,
+            "expected": 93.88224890421264,
+            "policy": "curve, high-level cap/floor not scored"
+          },
+          {
+            "level": 10,
+            "actual": 64.2,
+            "expected": 64.15158495985582,
+            "policy": "curve, high-level cap/floor not scored"
+          },
+          {
+            "level": 11,
+            "actual": 43,
+            "expected": 42.976258297035564,
+            "policy": "curve, high-level cap/floor not scored"
+          },
+          {
+            "level": 12,
+            "actual": 28.3,
+            "expected": 28.21767780121165,
+            "policy": "curve, high-level cap/floor not scored"
+          },
+          {
+            "level": 13,
+            "actual": 18.2,
+            "expected": 18.153328543517738,
+            "policy": "curve, high-level cap/floor not scored"
+          },
+          {
+            "level": 14,
+            "actual": 11.5,
+            "expected": 11.43934234680738,
+            "policy": "curve, high-level cap/floor not scored"
+          },
+          {
+            "level": 15,
+            "actual": 7.1,
+            "expected": 7.058616220934218,
+            "policy": "curve, high-level cap/floor not scored"
+          },
+          {
+            "level": 16,
+            "actual": 4.3,
+            "expected": 4.263556954438949,
+            "policy": "curve, high-level cap/floor not scored"
+          },
+          {
+            "level": 17,
+            "actual": 2.6,
+            "expected": 2.5200839695077955,
+            "policy": "curve, high-level cap/floor not scored"
+          },
+          {
+            "level": 18,
+            "actual": 1.5,
+            "expected": 1.4571387328407777,
+            "policy": "curve, high-level cap/floor not scored"
+          },
+          {
+            "level": 19,
+            "actual": 0.9,
+            "expected": 0.8239068955658087,
+            "policy": "curve, high-level cap/floor not scored"
+          },
+          {
+            "level": 20,
+            "actual": 0.9,
+            "expected": 0.45539771210842706,
+            "policy": "curve, high-level cap/floor not scored"
+          }
+        ],
+        "softTiming": [
+          {
+            "phase": 0,
+            "rows": 0,
+            "points": 0
+          },
+          {
+            "phase": 49,
+            "rows": 1,
+            "points": 1
+          },
+          {
+            "phase": 100,
+            "rows": 1,
+            "points": 1
+          },
+          {
+            "phase": 900,
+            "rows": 1,
+            "points": 1
+          },
+          {
+            "phase": 999,
+            "rows": 1,
+            "points": 1
+          }
+        ],
+        "cadence": [
+          {
+            "hz": 60,
+            "rows": 2,
+            "score": 0
+          },
+          {
+            "hz": 144,
+            "rows": 2,
+            "score": 0
+          }
+        ],
+        "scoring": {
+          "clears": [
+            100,
+            300,
+            500,
+            800
+          ],
+          "pc": [
+            900,
+            1500,
+            2300,
+            2800
+          ],
+          "combo": {
+            "deltas": [
+              100,
+              150
+            ],
+            "total": 250
+          },
+          "b2b": {
+            "deltas": [
+              800,
+              0,
+              1200
+            ],
+            "total": 2000
+          },
+          "break": {
+            "deltas": [
+              800,
+              150,
+              900
+            ],
+            "total": 1850
+          },
+          "pcB2b": {
+            "deltas": [
+              800,
+              0,
+              4400
+            ],
+            "total": 5200
+          },
+          "crossing": {
+            "score": 900,
+            "level": 2,
+            "lines": 10
+          },
+          "comboLevel2": 300
+        },
+        "spins": {
+          "hard-mini-zero": 100,
+          "hard-mini-single": 200,
+          "hard-full-zero": 400,
+          "hard-full-single": 800,
+          "timed-mini-zero": 100,
+          "timed-mini-single": 200,
+          "timed-full-zero": 400,
+          "timed-full-single": 800,
+          "facings": [
+            {
+              "r": 0,
+              "full": false,
+              "score": 100
+            },
+            {
+              "r": 0,
+              "full": true,
+              "score": 400
+            },
+            {
+              "r": 1,
+              "full": false,
+              "score": 100
+            },
+            {
+              "r": 1,
+              "full": true,
+              "score": 400
+            },
+            {
+              "r": 2,
+              "full": false,
+              "score": 100
+            },
+            {
+              "r": 2,
+              "full": true,
+              "score": 400
+            },
+            {
+              "r": 3,
+              "full": false,
+              "score": 100
+            },
+            {
+              "r": 3,
+              "full": true,
+              "score": 400
+            }
+          ],
+          "hardTravel": 28,
+          "softTravel": 14,
+          "failedActions": 400,
+          "noRotation": 0,
+          "fourthKick": {
+            "pose": {
+              "kind": "T",
+              "r": 0,
+              "x": 3,
+              "y": 15
+            },
+            "credit": true,
+            "score": 100
+          },
+          "fifthKick": {
+            "pose": {
+              "kind": "T",
+              "r": 2,
+              "x": 4,
+              "y": 15
+            },
+            "credit": true,
+            "score": 400
+          },
+          "double": {
+            "score": 1200,
+            "lines": 2
+          },
+          "twoCorners": 0,
+          "lateralCancel": 0,
+          "b2bWithNoClear": [
+            800,
+            0,
+            1200
+          ]
+        },
+        "publicHidden": [
+          {
+            "partial": false,
+            "spawn": {
+              "kind": "T",
+              "r": 0,
+              "x": 3,
+              "y": -1
+            },
+            "before": {
+              "kind": "T",
+              "r": 0,
+              "x": 0,
+              "y": -2
+            },
+            "distance": 0,
+            "over": true,
+            "cells": 7,
+            "expectedOver": true
+          },
+          {
+            "partial": true,
+            "spawn": {
+              "kind": "T",
+              "r": 0,
+              "x": 3,
+              "y": -1
+            },
+            "before": {
+              "kind": "T",
+              "r": 0,
+              "x": 7,
+              "y": -1
+            },
+            "distance": 0,
+            "over": false,
+            "cells": 5,
+            "expectedOver": false
+          }
+        ],
+        "hidden": [
+          {
+            "partial": false,
+            "over": true,
+            "cells": 5
+          },
+          {
+            "partial": true,
+            "over": false,
+            "cells": 5
+          }
+        ],
+        "terminal": "pass",
+        "compaction": "pass",
+        "restart": [
+          12,
+          12,
+          11
+        ]
+      },
+      "browser": {
+        "browser": "156.0.8078.4",
+        "views": {
+          "desktop": {
+            "baseline": {
+              "title": "Tetris · Pocket Arcade",
+              "overlay": true
+            },
+            "engine": {
+              "srs": {
+                "states": [],
+                "kickLists": [],
+                "outcomes": [],
+                "attempts": 576
+              },
+              "bags": 100,
+              "hold": "pass",
+              "drops": [
+                {
+                  "k": "I",
+                  "ghost": 14,
+                  "points": 25
+                },
+                {
+                  "k": "J",
+                  "ghost": 14,
+                  "points": 25
+                },
+                {
+                  "k": "L",
+                  "ghost": 14,
+                  "points": 25
+                },
+                {
+                  "k": "O",
+                  "ghost": 14,
+                  "points": 25
+                },
+                {
+                  "k": "S",
+                  "ghost": 14,
+                  "points": 25
+                },
+                {
+                  "k": "T",
+                  "ghost": 14,
+                  "points": 25
+                },
+                {
+                  "k": "Z",
+                  "ghost": 14,
+                  "points": 25
+                }
+              ],
+              "clocks": {
+                "boundary": "pass",
+                "reset": "pass",
+                "after15": {
+                  "cells": 0,
+                  "resets": 15
+                },
+                "after15plus499": 4,
+                "after16plus1": 4,
+                "failedWall": 4,
+                "capBoundary": [
+                  {
+                    "moves": 14,
+                    "afterMoves": 0,
+                    "after1": 0,
+                    "after499": 0,
+                    "after500": 4,
+                    "expected": {
+                      "afterMoves": 0,
+                      "after1": 0,
+                      "after499": 0,
+                      "after500": 4
+                    }
+                  },
+                  {
+                    "moves": 15,
+                    "afterMoves": 0,
+                    "after1": 4,
+                    "after499": 4,
+                    "after500": 4,
+                    "expected": {
+                      "afterMoves": 0,
+                      "after1": 0,
+                      "after499": 0,
+                      "after500": 4
+                    }
+                  }
+                ],
+                "ledges": [
+                  {
+                    "exhausted": false,
+                    "start": 0,
+                    "land": 6000,
+                    "lock": 6500,
+                    "expectedLock": 6500
+                  },
+                  {
+                    "exhausted": true,
+                    "start": 0,
+                    "land": 6000,
+                    "lock": 6500,
+                    "expectedLock": 6500
+                  }
+                ],
+                "newLowest": {
+                  "resets": 0,
+                  "cells": 1,
+                  "expectedCells": 1
+                },
+                "contact": [
+                  {
+                    "dt": 10,
+                    "actual": 1500,
+                    "expected": 1500
+                  },
+                  {
+                    "dt": 100,
+                    "actual": 1500,
+                    "expected": 1500
+                  },
+                  {
+                    "dt": 16.666666666666668,
+                    "actual": 1516.6666666666679,
+                    "expected": 1500
+                  },
+                  {
+                    "dt": 6.944444444444445,
+                    "actual": 1499.9999999999945,
+                    "expected": 1500
+                  }
+                ]
+              },
+              "gravity": [
+                {
+                  "level": 1,
+                  "actual": 1000,
+                  "expected": 1000,
+                  "policy": "curve, high-level cap/floor not scored"
+                },
+                {
+                  "level": 2,
+                  "actual": 793,
+                  "expected": 793,
+                  "policy": "curve, high-level cap/floor not scored"
+                },
+                {
+                  "level": 3,
+                  "actual": 617.8,
+                  "expected": 617.796,
+                  "policy": "curve, high-level cap/floor not scored"
+                },
+                {
+                  "level": 4,
+                  "actual": 472.8,
+                  "expected": 472.72913900000003,
+                  "policy": "curve, high-level cap/floor not scored"
+                },
+                {
+                  "level": 5,
+                  "actual": 355.2,
+                  "expected": 355.19692825600004,
+                  "policy": "curve, high-level cap/floor not scored"
+                },
+                {
+                  "level": 6,
+                  "actual": 262.1,
+                  "expected": 262.003549978125,
+                  "policy": "curve, high-level cap/floor not scored"
+                },
+                {
+                  "level": 7,
+                  "actual": 189.7,
+                  "expected": 189.67724533271814,
+                  "policy": "curve, high-level cap/floor not scored"
+                },
+                {
+                  "level": 8,
+                  "actual": 134.8,
+                  "expected": 134.7347308155587,
+                  "policy": "curve, high-level cap/floor not scored"
+                },
+                {
+                  "level": 9,
+                  "actual": 93.9,
+                  "expected": 93.88224890421264,
+                  "policy": "curve, high-level cap/floor not scored"
+                },
+                {
+                  "level": 10,
+                  "actual": 64.2,
+                  "expected": 64.15158495985582,
+                  "policy": "curve, high-level cap/floor not scored"
+                },
+                {
+                  "level": 11,
+                  "actual": 43,
+                  "expected": 42.976258297035564,
+                  "policy": "curve, high-level cap/floor not scored"
+                },
+                {
+                  "level": 12,
+                  "actual": 28.3,
+                  "expected": 28.21767780121165,
+                  "policy": "curve, high-level cap/floor not scored"
+                },
+                {
+                  "level": 13,
+                  "actual": 18.2,
+                  "expected": 18.153328543517738,
+                  "policy": "curve, high-level cap/floor not scored"
+                },
+                {
+                  "level": 14,
+                  "actual": 11.5,
+                  "expected": 11.43934234680738,
+                  "policy": "curve, high-level cap/floor not scored"
+                },
+                {
+                  "level": 15,
+                  "actual": 7.1,
+                  "expected": 7.058616220934218,
+                  "policy": "curve, high-level cap/floor not scored"
+                },
+                {
+                  "level": 16,
+                  "actual": 4.3,
+                  "expected": 4.263556954438949,
+                  "policy": "curve, high-level cap/floor not scored"
+                },
+                {
+                  "level": 17,
+                  "actual": 2.6,
+                  "expected": 2.5200839695077955,
+                  "policy": "curve, high-level cap/floor not scored"
+                },
+                {
+                  "level": 18,
+                  "actual": 1.5,
+                  "expected": 1.4571387328407777,
+                  "policy": "curve, high-level cap/floor not scored"
+                },
+                {
+                  "level": 19,
+                  "actual": 0.9,
+                  "expected": 0.8239068955658087,
+                  "policy": "curve, high-level cap/floor not scored"
+                },
+                {
+                  "level": 20,
+                  "actual": 0.9,
+                  "expected": 0.45539771210842706,
+                  "policy": "curve, high-level cap/floor not scored"
+                }
+              ],
+              "softTiming": [
+                {
+                  "phase": 0,
+                  "rows": 0,
+                  "points": 0
+                },
+                {
+                  "phase": 49,
+                  "rows": 1,
+                  "points": 1
+                },
+                {
+                  "phase": 100,
+                  "rows": 1,
+                  "points": 1
+                },
+                {
+                  "phase": 900,
+                  "rows": 1,
+                  "points": 1
+                },
+                {
+                  "phase": 999,
+                  "rows": 1,
+                  "points": 1
+                }
+              ],
+              "cadence": [
+                {
+                  "hz": 60,
+                  "rows": 2,
+                  "score": 0
+                },
+                {
+                  "hz": 144,
+                  "rows": 2,
+                  "score": 0
+                }
+              ],
+              "scoring": {
+                "clears": [
+                  100,
+                  300,
+                  500,
+                  800
+                ],
+                "pc": [
+                  900,
+                  1500,
+                  2300,
+                  2800
+                ],
+                "combo": {
+                  "deltas": [
+                    100,
+                    150
+                  ],
+                  "total": 250
+                },
+                "b2b": {
+                  "deltas": [
+                    800,
+                    0,
+                    1200
+                  ],
+                  "total": 2000
+                },
+                "break": {
+                  "deltas": [
+                    800,
+                    150,
+                    900
+                  ],
+                  "total": 1850
+                },
+                "pcB2b": {
+                  "deltas": [
+                    800,
+                    0,
+                    4400
+                  ],
+                  "total": 5200
+                },
+                "crossing": {
+                  "score": 900,
+                  "level": 2,
+                  "lines": 10
+                },
+                "comboLevel2": 300
+              },
+              "spins": {
+                "hard-mini-zero": 100,
+                "hard-mini-single": 200,
+                "hard-full-zero": 400,
+                "hard-full-single": 800,
+                "timed-mini-zero": 100,
+                "timed-mini-single": 200,
+                "timed-full-zero": 400,
+                "timed-full-single": 800,
+                "facings": [
+                  {
+                    "r": 0,
+                    "full": false,
+                    "score": 100
+                  },
+                  {
+                    "r": 0,
+                    "full": true,
+                    "score": 400
+                  },
+                  {
+                    "r": 1,
+                    "full": false,
+                    "score": 100
+                  },
+                  {
+                    "r": 1,
+                    "full": true,
+                    "score": 400
+                  },
+                  {
+                    "r": 2,
+                    "full": false,
+                    "score": 100
+                  },
+                  {
+                    "r": 2,
+                    "full": true,
+                    "score": 400
+                  },
+                  {
+                    "r": 3,
+                    "full": false,
+                    "score": 100
+                  },
+                  {
+                    "r": 3,
+                    "full": true,
+                    "score": 400
+                  }
+                ],
+                "hardTravel": 28,
+                "softTravel": 14,
+                "failedActions": 400,
+                "noRotation": 0,
+                "fourthKick": {
+                  "pose": {
+                    "kind": "T",
+                    "r": 0,
+                    "x": 3,
+                    "y": 15
+                  },
+                  "credit": true,
+                  "score": 100
+                },
+                "fifthKick": {
+                  "pose": {
+                    "kind": "T",
+                    "r": 2,
+                    "x": 4,
+                    "y": 15
+                  },
+                  "credit": true,
+                  "score": 400
+                },
+                "double": {
+                  "score": 1200,
+                  "lines": 2
+                },
+                "twoCorners": 0,
+                "lateralCancel": 0,
+                "b2bWithNoClear": [
+                  800,
+                  0,
+                  1200
+                ]
+              },
+              "publicHidden": [
+                {
+                  "partial": false,
+                  "spawn": {
+                    "kind": "T",
+                    "r": 0,
+                    "x": 3,
+                    "y": -1
+                  },
+                  "before": {
+                    "kind": "T",
+                    "r": 0,
+                    "x": 0,
+                    "y": -2
+                  },
+                  "distance": 0,
+                  "over": true,
+                  "cells": 7,
+                  "expectedOver": true
+                },
+                {
+                  "partial": true,
+                  "spawn": {
+                    "kind": "T",
+                    "r": 0,
+                    "x": 3,
+                    "y": -1
+                  },
+                  "before": {
+                    "kind": "T",
+                    "r": 0,
+                    "x": 7,
+                    "y": -1
+                  },
+                  "distance": 0,
+                  "over": false,
+                  "cells": 5,
+                  "expectedOver": false
+                }
+              ],
+              "hidden": [
+                {
+                  "partial": false,
+                  "over": true,
+                  "cells": 5
+                },
+                {
+                  "partial": true,
+                  "over": false,
+                  "cells": 5
+                }
+              ],
+              "terminal": "pass",
+              "compaction": "pass",
+              "restart": [
+                12,
+                12,
+                11
+              ]
+            },
+            "keys": [
+              {
+                "key": "ArrowLeft",
+                "before": {
+                  "pose": {
+                    "kind": "T",
+                    "r": 0,
+                    "x": 3,
+                    "y": 4
+                  },
+                  "count": 0,
+                  "score": 0,
+                  "held": null,
+                  "used": false,
+                  "over": false
+                },
+                "after": {
+                  "pose": {
+                    "kind": "T",
+                    "r": 0,
+                    "x": 2,
+                    "y": 4
+                  },
+                  "count": 0,
+                  "score": 0,
+                  "held": null,
+                  "used": false,
+                  "over": false
+                }
+              },
+              {
+                "key": "ArrowRight",
+                "before": {
+                  "pose": {
+                    "kind": "T",
+                    "r": 0,
+                    "x": 2,
+                    "y": 4
+                  },
+                  "count": 0,
+                  "score": 0,
+                  "held": null,
+                  "used": false,
+                  "over": false
+                },
+                "after": {
+                  "pose": {
+                    "kind": "T",
+                    "r": 0,
+                    "x": 3,
+                    "y": 4
+                  },
+                  "count": 0,
+                  "score": 0,
+                  "held": null,
+                  "used": false,
+                  "over": false
+                }
+              },
+              {
+                "key": "ArrowUp",
+                "before": {
+                  "pose": {
+                    "kind": "T",
+                    "r": 0,
+                    "x": 3,
+                    "y": 4
+                  },
+                  "count": 0,
+                  "score": 0,
+                  "held": null,
+                  "used": false,
+                  "over": false
+                },
+                "after": {
+                  "pose": {
+                    "kind": "T",
+                    "r": 1,
+                    "x": 3,
+                    "y": 4
+                  },
+                  "count": 0,
+                  "score": 0,
+                  "held": null,
+                  "used": false,
+                  "over": false
+                }
+              },
+              {
+                "key": "x",
+                "before": {
+                  "pose": {
+                    "kind": "T",
+                    "r": 1,
+                    "x": 3,
+                    "y": 4
+                  },
+                  "count": 0,
+                  "score": 0,
+                  "held": null,
+                  "used": false,
+                  "over": false
+                },
+                "after": {
+                  "pose": {
+                    "kind": "T",
+                    "r": 2,
+                    "x": 3,
+                    "y": 4
+                  },
+                  "count": 0,
+                  "score": 0,
+                  "held": null,
+                  "used": false,
+                  "over": false
+                }
+              },
+              {
+                "key": "z",
+                "before": {
+                  "pose": {
+                    "kind": "T",
+                    "r": 2,
+                    "x": 3,
+                    "y": 4
+                  },
+                  "count": 0,
+                  "score": 0,
+                  "held": null,
+                  "used": false,
+                  "over": false
+                },
+                "after": {
+                  "pose": {
+                    "kind": "T",
+                    "r": 1,
+                    "x": 3,
+                    "y": 4
+                  },
+                  "count": 0,
+                  "score": 0,
+                  "held": null,
+                  "used": false,
+                  "over": false
+                }
+              },
+              {
+                "key": "ControlLeft",
+                "before": {
+                  "pose": {
+                    "kind": "T",
+                    "r": 1,
+                    "x": 3,
+                    "y": 4
+                  },
+                  "count": 0,
+                  "score": 0,
+                  "held": null,
+                  "used": false,
+                  "over": false
+                },
+                "after": {
+                  "pose": {
+                    "kind": "T",
+                    "r": 0,
+                    "x": 3,
+                    "y": 4
+                  },
+                  "count": 0,
+                  "score": 0,
+                  "held": null,
+                  "used": false,
+                  "over": false
+                }
+              },
+              {
+                "key": "ArrowDown",
+                "before": {
+                  "pose": {
+                    "kind": "T",
+                    "r": 0,
+                    "x": 3,
+                    "y": 4
+                  },
+                  "count": 0,
+                  "score": 0,
+                  "held": null,
+                  "used": false,
+                  "over": false
+                },
+                "after": {
+                  "pose": {
+                    "kind": "T",
+                    "r": 0,
+                    "x": 3,
+                    "y": 5
+                  },
+                  "count": 0,
+                  "score": 1,
+                  "held": null,
+                  "used": false,
+                  "over": false
+                }
+              },
+              {
+                "key": "Space",
+                "before": {
+                  "pose": {
+                    "kind": "T",
+                    "r": 0,
+                    "x": 3,
+                    "y": 5
+                  },
+                  "count": 0,
+                  "score": 1,
+                  "held": null,
+                  "used": false,
+                  "over": false
+                },
+                "after": {
+                  "pose": {
+                    "kind": "O",
+                    "r": 0,
+                    "x": 4,
+                    "y": -1
+                  },
+                  "count": 4,
+                  "score": 27,
+                  "held": null,
+                  "used": false,
+                  "over": false
+                }
+              },
+              {
+                "key": "c",
+                "before": {
+                  "pose": {
+                    "kind": "O",
+                    "r": 0,
+                    "x": 4,
+                    "y": -1
+                  },
+                  "count": 4,
+                  "score": 27,
+                  "held": null,
+                  "used": false,
+                  "over": false
+                },
+                "after": {
+                  "pose": {
+                    "kind": "Z",
+                    "r": 0,
+                    "x": 3,
+                    "y": -1
+                  },
+                  "count": 4,
+                  "score": 27,
+                  "held": "O",
+                  "used": true,
+                  "over": false
+                }
+              }
+            ],
+            "spins": {
+              "travel": {
+                "distance": 14,
+                "actual": 28,
+                "expected": 28
+              },
+              "mini": {
+                "distance": 0,
+                "actual": 100,
+                "expected": 100
+              },
+              "full": {
+                "distance": 0,
+                "actual": 400,
+                "expected": 400
+              }
+            },
+            "lockCap": {
+              "after14": {
+                "pose": {
+                  "kind": "O",
+                  "r": 0,
+                  "x": 3,
+                  "y": 18
+                },
+                "count": 0,
+                "score": 0,
+                "held": null,
+                "used": false,
+                "over": false
+              },
+              "after15": {
+                "pose": {
+                  "kind": "O",
+                  "r": 0,
+                  "x": 4,
+                  "y": 18
+                },
+                "count": 0,
+                "score": 0,
+                "held": null,
+                "used": false,
+                "over": false
+              },
+              "after1": {
+                "pose": {
+                  "kind": "O",
+                  "r": 0,
+                  "x": 4,
+                  "y": -1
+                },
+                "count": 4,
+                "score": 0,
+                "held": null,
+                "used": false,
+                "over": false
+              }
+            },
+            "ledge": {
+              "resets": 0,
+              "before": {
+                "pose": {
+                  "kind": "O",
+                  "r": 0,
+                  "x": 1,
+                  "y": 18
+                },
+                "count": 1,
+                "score": 0,
+                "held": null,
+                "used": false,
+                "over": false
+              },
+              "after": {
+                "pose": {
+                  "kind": "O",
+                  "r": 0,
+                  "x": 2,
+                  "y": 18
+                },
+                "count": 1,
+                "score": 0,
+                "held": null,
+                "used": false,
+                "over": false
+              }
+            },
+            "hidden": [
+              {
+                "partial": false,
+                "state": {
+                  "pose": {
+                    "kind": "O",
+                    "r": 0,
+                    "x": 0,
+                    "y": -2
+                  },
+                  "count": 5,
+                  "score": 0,
+                  "held": null,
+                  "used": false,
+                  "over": true
+                }
+              },
+              {
+                "partial": true,
+                "state": {
+                  "pose": {
+                    "kind": "I",
+                    "r": 0,
+                    "x": 3,
+                    "y": -1
+                  },
+                  "count": 5,
+                  "score": 0,
+                  "held": null,
+                  "used": false,
+                  "over": false
+                }
+              }
+            ],
+            "contact": {
+              "actual": 1500,
+              "expected": 1500
+            },
+            "gameover": {
+              "state": {
+                "pose": {
+                  "kind": "S",
+                  "r": 0,
+                  "x": 3,
+                  "y": -2
+                },
+                "count": 44,
+                "score": 198,
+                "held": null,
+                "used": false,
+                "over": true
+              },
+              "overlay": true
+            },
+            "restarted": {
+              "pose": {
+                "kind": "Z",
+                "r": 0,
+                "x": 3,
+                "y": -1
+              },
+              "count": 0,
+              "score": 0,
+              "held": null,
+              "used": false,
+              "over": false
+            },
+            "focusedSpace": {
+              "before": {
+                "pose": {
+                  "kind": "T",
+                  "r": 0,
+                  "x": 3,
+                  "y": 4
+                },
+                "count": 0,
+                "score": 0,
+                "held": null,
+                "used": false,
+                "over": false
+              },
+              "after": {
+                "pose": {
+                  "kind": "O",
+                  "r": 0,
+                  "x": 4,
+                  "y": -1
+                },
+                "count": 4,
+                "score": 28,
+                "held": null,
+                "used": false,
+                "over": false
+              }
+            },
+            "touch": [],
+            "soundSpace": {
+              "before": {
+                "pose": {
+                  "kind": "O",
+                  "r": 0,
+                  "x": 4,
+                  "y": -1
+                },
+                "count": 4,
+                "score": 28,
+                "held": null,
+                "used": false,
+                "over": false
+              },
+              "after": {
+                "pose": {
+                  "kind": "O",
+                  "r": 0,
+                  "x": 4,
+                  "y": -1
+                },
+                "count": 4,
+                "score": 28,
+                "held": null,
+                "used": false,
+                "over": false
+              },
+              "soundBefore": "false",
+              "soundAfter": "true"
+            },
+            "layout": {
+              "viewport": [
+                1280,
+                800
+              ],
+              "scrollWidth": 1280,
+              "scrollHeight": 800,
+              "board": {
+                "x": 304,
+                "y": 195.671875,
+                "width": 244,
+                "height": 488
+              },
+              "previewCells": [
+                {
+                  "id": "held",
+                  "rect": {
+                    "x": 580,
+                    "y": 619.890625,
+                    "width": 100,
+                    "height": 45.828125
+                  },
+                  "backing": [
+                    120,
+                    55
+                  ],
+                  "objectFit": "contain",
+                  "rawAspect": 1.0001136492783271
+                },
+                {
+                  "id": "",
+                  "rect": {
+                    "x": 580,
+                    "y": 390.484375,
+                    "width": 100,
+                    "height": 40
+                  },
+                  "backing": [
+                    140,
+                    56
+                  ],
+                  "objectFit": "contain",
+                  "rawAspect": 1
+                },
+                {
+                  "id": "",
+                  "rect": {
+                    "x": 580,
+                    "y": 446.296875,
+                    "width": 100,
+                    "height": 40
+                  },
+                  "backing": [
+                    140,
+                    56
+                  ],
+                  "objectFit": "contain",
+                  "rawAspect": 1
+                },
+                {
+                  "id": "",
+                  "rect": {
+                    "x": 580,
+                    "y": 502.125,
+                    "width": 100,
+                    "height": 40
+                  },
+                  "backing": [
+                    140,
+                    56
+                  ],
+                  "objectFit": "contain",
+                  "rawAspect": 1
+                }
+              ],
+              "buttons": 10,
+              "nextPieces": [
+                "Z",
+                "T",
+                "L"
+              ],
+              "held": "T",
+              "ghost": [
+                {
+                  "cell": [
+                    4,
+                    18
+                  ],
+                  "edge": [
+                    125,
+                    102,
+                    160,
+                    255
+                  ],
+                  "center": [
+                    32,
+                    39,
+                    44,
+                    255
+                  ]
+                },
+                {
+                  "cell": [
+                    3,
+                    19
+                  ],
+                  "edge": [
+                    125,
+                    102,
+                    160,
+                    255
+                  ],
+                  "center": [
+                    32,
+                    39,
+                    44,
+                    255
+                  ]
+                },
+                {
+                  "cell": [
+                    4,
+                    19
+                  ],
+                  "edge": [
+                    125,
+                    102,
+                    160,
+                    255
+                  ],
+                  "center": [
+                    32,
+                    39,
+                    44,
+                    255
+                  ]
+                },
+                {
+                  "cell": [
+                    5,
+                    19
+                  ],
+                  "edge": [
+                    125,
+                    102,
+                    160,
+                    255
+                  ],
+                  "center": [
+                    32,
+                    39,
+                    44,
+                    255
+                  ]
+                }
+              ],
+              "score": "",
+              "overlay": false
+            },
+            "errors": [],
+            "failedAssets": []
+          },
+          "mobile": {
+            "baseline": {
+              "title": "Tetris · Pocket Arcade",
+              "overlay": true
+            },
+            "engine": {
+              "srs": {
+                "states": [],
+                "kickLists": [],
+                "outcomes": [],
+                "attempts": 576
+              },
+              "bags": 100,
+              "hold": "pass",
+              "drops": [
+                {
+                  "k": "I",
+                  "ghost": 14,
+                  "points": 25
+                },
+                {
+                  "k": "J",
+                  "ghost": 14,
+                  "points": 25
+                },
+                {
+                  "k": "L",
+                  "ghost": 14,
+                  "points": 25
+                },
+                {
+                  "k": "O",
+                  "ghost": 14,
+                  "points": 25
+                },
+                {
+                  "k": "S",
+                  "ghost": 14,
+                  "points": 25
+                },
+                {
+                  "k": "T",
+                  "ghost": 14,
+                  "points": 25
+                },
+                {
+                  "k": "Z",
+                  "ghost": 14,
+                  "points": 25
+                }
+              ],
+              "clocks": {
+                "boundary": "pass",
+                "reset": "pass",
+                "after15": {
+                  "cells": 0,
+                  "resets": 15
+                },
+                "after15plus499": 4,
+                "after16plus1": 4,
+                "failedWall": 4,
+                "capBoundary": [
+                  {
+                    "moves": 14,
+                    "afterMoves": 0,
+                    "after1": 0,
+                    "after499": 0,
+                    "after500": 4,
+                    "expected": {
+                      "afterMoves": 0,
+                      "after1": 0,
+                      "after499": 0,
+                      "after500": 4
+                    }
+                  },
+                  {
+                    "moves": 15,
+                    "afterMoves": 0,
+                    "after1": 4,
+                    "after499": 4,
+                    "after500": 4,
+                    "expected": {
+                      "afterMoves": 0,
+                      "after1": 0,
+                      "after499": 0,
+                      "after500": 4
+                    }
+                  }
+                ],
+                "ledges": [
+                  {
+                    "exhausted": false,
+                    "start": 0,
+                    "land": 6000,
+                    "lock": 6500,
+                    "expectedLock": 6500
+                  },
+                  {
+                    "exhausted": true,
+                    "start": 0,
+                    "land": 6000,
+                    "lock": 6500,
+                    "expectedLock": 6500
+                  }
+                ],
+                "newLowest": {
+                  "resets": 0,
+                  "cells": 1,
+                  "expectedCells": 1
+                },
+                "contact": [
+                  {
+                    "dt": 10,
+                    "actual": 1500,
+                    "expected": 1500
+                  },
+                  {
+                    "dt": 100,
+                    "actual": 1500,
+                    "expected": 1500
+                  },
+                  {
+                    "dt": 16.666666666666668,
+                    "actual": 1516.6666666666679,
+                    "expected": 1500
+                  },
+                  {
+                    "dt": 6.944444444444445,
+                    "actual": 1499.9999999999945,
+                    "expected": 1500
+                  }
+                ]
+              },
+              "gravity": [
+                {
+                  "level": 1,
+                  "actual": 1000,
+                  "expected": 1000,
+                  "policy": "curve, high-level cap/floor not scored"
+                },
+                {
+                  "level": 2,
+                  "actual": 793,
+                  "expected": 793,
+                  "policy": "curve, high-level cap/floor not scored"
+                },
+                {
+                  "level": 3,
+                  "actual": 617.8,
+                  "expected": 617.796,
+                  "policy": "curve, high-level cap/floor not scored"
+                },
+                {
+                  "level": 4,
+                  "actual": 472.8,
+                  "expected": 472.72913900000003,
+                  "policy": "curve, high-level cap/floor not scored"
+                },
+                {
+                  "level": 5,
+                  "actual": 355.2,
+                  "expected": 355.19692825600004,
+                  "policy": "curve, high-level cap/floor not scored"
+                },
+                {
+                  "level": 6,
+                  "actual": 262.1,
+                  "expected": 262.003549978125,
+                  "policy": "curve, high-level cap/floor not scored"
+                },
+                {
+                  "level": 7,
+                  "actual": 189.7,
+                  "expected": 189.67724533271814,
+                  "policy": "curve, high-level cap/floor not scored"
+                },
+                {
+                  "level": 8,
+                  "actual": 134.8,
+                  "expected": 134.7347308155587,
+                  "policy": "curve, high-level cap/floor not scored"
+                },
+                {
+                  "level": 9,
+                  "actual": 93.9,
+                  "expected": 93.88224890421264,
+                  "policy": "curve, high-level cap/floor not scored"
+                },
+                {
+                  "level": 10,
+                  "actual": 64.2,
+                  "expected": 64.15158495985582,
+                  "policy": "curve, high-level cap/floor not scored"
+                },
+                {
+                  "level": 11,
+                  "actual": 43,
+                  "expected": 42.976258297035564,
+                  "policy": "curve, high-level cap/floor not scored"
+                },
+                {
+                  "level": 12,
+                  "actual": 28.3,
+                  "expected": 28.21767780121165,
+                  "policy": "curve, high-level cap/floor not scored"
+                },
+                {
+                  "level": 13,
+                  "actual": 18.2,
+                  "expected": 18.153328543517738,
+                  "policy": "curve, high-level cap/floor not scored"
+                },
+                {
+                  "level": 14,
+                  "actual": 11.5,
+                  "expected": 11.43934234680738,
+                  "policy": "curve, high-level cap/floor not scored"
+                },
+                {
+                  "level": 15,
+                  "actual": 7.1,
+                  "expected": 7.058616220934218,
+                  "policy": "curve, high-level cap/floor not scored"
+                },
+                {
+                  "level": 16,
+                  "actual": 4.3,
+                  "expected": 4.263556954438949,
+                  "policy": "curve, high-level cap/floor not scored"
+                },
+                {
+                  "level": 17,
+                  "actual": 2.6,
+                  "expected": 2.5200839695077955,
+                  "policy": "curve, high-level cap/floor not scored"
+                },
+                {
+                  "level": 18,
+                  "actual": 1.5,
+                  "expected": 1.4571387328407777,
+                  "policy": "curve, high-level cap/floor not scored"
+                },
+                {
+                  "level": 19,
+                  "actual": 0.9,
+                  "expected": 0.8239068955658087,
+                  "policy": "curve, high-level cap/floor not scored"
+                },
+                {
+                  "level": 20,
+                  "actual": 0.9,
+                  "expected": 0.45539771210842706,
+                  "policy": "curve, high-level cap/floor not scored"
+                }
+              ],
+              "softTiming": [
+                {
+                  "phase": 0,
+                  "rows": 0,
+                  "points": 0
+                },
+                {
+                  "phase": 49,
+                  "rows": 1,
+                  "points": 1
+                },
+                {
+                  "phase": 100,
+                  "rows": 1,
+                  "points": 1
+                },
+                {
+                  "phase": 900,
+                  "rows": 1,
+                  "points": 1
+                },
+                {
+                  "phase": 999,
+                  "rows": 1,
+                  "points": 1
+                }
+              ],
+              "cadence": [
+                {
+                  "hz": 60,
+                  "rows": 2,
+                  "score": 0
+                },
+                {
+                  "hz": 144,
+                  "rows": 2,
+                  "score": 0
+                }
+              ],
+              "scoring": {
+                "clears": [
+                  100,
+                  300,
+                  500,
+                  800
+                ],
+                "pc": [
+                  900,
+                  1500,
+                  2300,
+                  2800
+                ],
+                "combo": {
+                  "deltas": [
+                    100,
+                    150
+                  ],
+                  "total": 250
+                },
+                "b2b": {
+                  "deltas": [
+                    800,
+                    0,
+                    1200
+                  ],
+                  "total": 2000
+                },
+                "break": {
+                  "deltas": [
+                    800,
+                    150,
+                    900
+                  ],
+                  "total": 1850
+                },
+                "pcB2b": {
+                  "deltas": [
+                    800,
+                    0,
+                    4400
+                  ],
+                  "total": 5200
+                },
+                "crossing": {
+                  "score": 900,
+                  "level": 2,
+                  "lines": 10
+                },
+                "comboLevel2": 300
+              },
+              "spins": {
+                "hard-mini-zero": 100,
+                "hard-mini-single": 200,
+                "hard-full-zero": 400,
+                "hard-full-single": 800,
+                "timed-mini-zero": 100,
+                "timed-mini-single": 200,
+                "timed-full-zero": 400,
+                "timed-full-single": 800,
+                "facings": [
+                  {
+                    "r": 0,
+                    "full": false,
+                    "score": 100
+                  },
+                  {
+                    "r": 0,
+                    "full": true,
+                    "score": 400
+                  },
+                  {
+                    "r": 1,
+                    "full": false,
+                    "score": 100
+                  },
+                  {
+                    "r": 1,
+                    "full": true,
+                    "score": 400
+                  },
+                  {
+                    "r": 2,
+                    "full": false,
+                    "score": 100
+                  },
+                  {
+                    "r": 2,
+                    "full": true,
+                    "score": 400
+                  },
+                  {
+                    "r": 3,
+                    "full": false,
+                    "score": 100
+                  },
+                  {
+                    "r": 3,
+                    "full": true,
+                    "score": 400
+                  }
+                ],
+                "hardTravel": 28,
+                "softTravel": 14,
+                "failedActions": 400,
+                "noRotation": 0,
+                "fourthKick": {
+                  "pose": {
+                    "kind": "T",
+                    "r": 0,
+                    "x": 3,
+                    "y": 15
+                  },
+                  "credit": true,
+                  "score": 100
+                },
+                "fifthKick": {
+                  "pose": {
+                    "kind": "T",
+                    "r": 2,
+                    "x": 4,
+                    "y": 15
+                  },
+                  "credit": true,
+                  "score": 400
+                },
+                "double": {
+                  "score": 1200,
+                  "lines": 2
+                },
+                "twoCorners": 0,
+                "lateralCancel": 0,
+                "b2bWithNoClear": [
+                  800,
+                  0,
+                  1200
+                ]
+              },
+              "publicHidden": [
+                {
+                  "partial": false,
+                  "spawn": {
+                    "kind": "T",
+                    "r": 0,
+                    "x": 3,
+                    "y": -1
+                  },
+                  "before": {
+                    "kind": "T",
+                    "r": 0,
+                    "x": 0,
+                    "y": -2
+                  },
+                  "distance": 0,
+                  "over": true,
+                  "cells": 7,
+                  "expectedOver": true
+                },
+                {
+                  "partial": true,
+                  "spawn": {
+                    "kind": "T",
+                    "r": 0,
+                    "x": 3,
+                    "y": -1
+                  },
+                  "before": {
+                    "kind": "T",
+                    "r": 0,
+                    "x": 7,
+                    "y": -1
+                  },
+                  "distance": 0,
+                  "over": false,
+                  "cells": 5,
+                  "expectedOver": false
+                }
+              ],
+              "hidden": [
+                {
+                  "partial": false,
+                  "over": true,
+                  "cells": 5
+                },
+                {
+                  "partial": true,
+                  "over": false,
+                  "cells": 5
+                }
+              ],
+              "terminal": "pass",
+              "compaction": "pass",
+              "restart": [
+                12,
+                12,
+                11
+              ]
+            },
+            "keys": [
+              {
+                "key": "ArrowLeft",
+                "before": {
+                  "pose": {
+                    "kind": "T",
+                    "r": 0,
+                    "x": 3,
+                    "y": 4
+                  },
+                  "count": 0,
+                  "score": 0,
+                  "held": null,
+                  "used": false,
+                  "over": false
+                },
+                "after": {
+                  "pose": {
+                    "kind": "T",
+                    "r": 0,
+                    "x": 2,
+                    "y": 4
+                  },
+                  "count": 0,
+                  "score": 0,
+                  "held": null,
+                  "used": false,
+                  "over": false
+                }
+              },
+              {
+                "key": "ArrowRight",
+                "before": {
+                  "pose": {
+                    "kind": "T",
+                    "r": 0,
+                    "x": 2,
+                    "y": 4
+                  },
+                  "count": 0,
+                  "score": 0,
+                  "held": null,
+                  "used": false,
+                  "over": false
+                },
+                "after": {
+                  "pose": {
+                    "kind": "T",
+                    "r": 0,
+                    "x": 3,
+                    "y": 4
+                  },
+                  "count": 0,
+                  "score": 0,
+                  "held": null,
+                  "used": false,
+                  "over": false
+                }
+              },
+              {
+                "key": "ArrowUp",
+                "before": {
+                  "pose": {
+                    "kind": "T",
+                    "r": 0,
+                    "x": 3,
+                    "y": 4
+                  },
+                  "count": 0,
+                  "score": 0,
+                  "held": null,
+                  "used": false,
+                  "over": false
+                },
+                "after": {
+                  "pose": {
+                    "kind": "T",
+                    "r": 1,
+                    "x": 3,
+                    "y": 4
+                  },
+                  "count": 0,
+                  "score": 0,
+                  "held": null,
+                  "used": false,
+                  "over": false
+                }
+              },
+              {
+                "key": "x",
+                "before": {
+                  "pose": {
+                    "kind": "T",
+                    "r": 1,
+                    "x": 3,
+                    "y": 4
+                  },
+                  "count": 0,
+                  "score": 0,
+                  "held": null,
+                  "used": false,
+                  "over": false
+                },
+                "after": {
+                  "pose": {
+                    "kind": "T",
+                    "r": 2,
+                    "x": 3,
+                    "y": 4
+                  },
+                  "count": 0,
+                  "score": 0,
+                  "held": null,
+                  "used": false,
+                  "over": false
+                }
+              },
+              {
+                "key": "z",
+                "before": {
+                  "pose": {
+                    "kind": "T",
+                    "r": 2,
+                    "x": 3,
+                    "y": 4
+                  },
+                  "count": 0,
+                  "score": 0,
+                  "held": null,
+                  "used": false,
+                  "over": false
+                },
+                "after": {
+                  "pose": {
+                    "kind": "T",
+                    "r": 1,
+                    "x": 3,
+                    "y": 4
+                  },
+                  "count": 0,
+                  "score": 0,
+                  "held": null,
+                  "used": false,
+                  "over": false
+                }
+              },
+              {
+                "key": "ControlLeft",
+                "before": {
+                  "pose": {
+                    "kind": "T",
+                    "r": 1,
+                    "x": 3,
+                    "y": 4
+                  },
+                  "count": 0,
+                  "score": 0,
+                  "held": null,
+                  "used": false,
+                  "over": false
+                },
+                "after": {
+                  "pose": {
+                    "kind": "T",
+                    "r": 0,
+                    "x": 3,
+                    "y": 4
+                  },
+                  "count": 0,
+                  "score": 0,
+                  "held": null,
+                  "used": false,
+                  "over": false
+                }
+              },
+              {
+                "key": "ArrowDown",
+                "before": {
+                  "pose": {
+                    "kind": "T",
+                    "r": 0,
+                    "x": 3,
+                    "y": 4
+                  },
+                  "count": 0,
+                  "score": 0,
+                  "held": null,
+                  "used": false,
+                  "over": false
+                },
+                "after": {
+                  "pose": {
+                    "kind": "T",
+                    "r": 0,
+                    "x": 3,
+                    "y": 5
+                  },
+                  "count": 0,
+                  "score": 1,
+                  "held": null,
+                  "used": false,
+                  "over": false
+                }
+              },
+              {
+                "key": "Space",
+                "before": {
+                  "pose": {
+                    "kind": "T",
+                    "r": 0,
+                    "x": 3,
+                    "y": 5
+                  },
+                  "count": 0,
+                  "score": 1,
+                  "held": null,
+                  "used": false,
+                  "over": false
+                },
+                "after": {
+                  "pose": {
+                    "kind": "O",
+                    "r": 0,
+                    "x": 4,
+                    "y": -1
+                  },
+                  "count": 4,
+                  "score": 27,
+                  "held": null,
+                  "used": false,
+                  "over": false
+                }
+              },
+              {
+                "key": "c",
+                "before": {
+                  "pose": {
+                    "kind": "O",
+                    "r": 0,
+                    "x": 4,
+                    "y": -1
+                  },
+                  "count": 4,
+                  "score": 27,
+                  "held": null,
+                  "used": false,
+                  "over": false
+                },
+                "after": {
+                  "pose": {
+                    "kind": "Z",
+                    "r": 0,
+                    "x": 3,
+                    "y": -1
+                  },
+                  "count": 4,
+                  "score": 27,
+                  "held": "O",
+                  "used": true,
+                  "over": false
+                }
+              }
+            ],
+            "spins": {
+              "travel": {
+                "distance": 14,
+                "actual": 28,
+                "expected": 28
+              },
+              "mini": {
+                "distance": 0,
+                "actual": 100,
+                "expected": 100
+              },
+              "full": {
+                "distance": 0,
+                "actual": 400,
+                "expected": 400
+              }
+            },
+            "lockCap": {
+              "after14": {
+                "pose": {
+                  "kind": "O",
+                  "r": 0,
+                  "x": 3,
+                  "y": 18
+                },
+                "count": 0,
+                "score": 0,
+                "held": null,
+                "used": false,
+                "over": false
+              },
+              "after15": {
+                "pose": {
+                  "kind": "O",
+                  "r": 0,
+                  "x": 4,
+                  "y": 18
+                },
+                "count": 0,
+                "score": 0,
+                "held": null,
+                "used": false,
+                "over": false
+              },
+              "after1": {
+                "pose": {
+                  "kind": "O",
+                  "r": 0,
+                  "x": 4,
+                  "y": -1
+                },
+                "count": 4,
+                "score": 0,
+                "held": null,
+                "used": false,
+                "over": false
+              }
+            },
+            "ledge": {
+              "resets": 0,
+              "before": {
+                "pose": {
+                  "kind": "O",
+                  "r": 0,
+                  "x": 1,
+                  "y": 18
+                },
+                "count": 1,
+                "score": 0,
+                "held": null,
+                "used": false,
+                "over": false
+              },
+              "after": {
+                "pose": {
+                  "kind": "O",
+                  "r": 0,
+                  "x": 2,
+                  "y": 18
+                },
+                "count": 1,
+                "score": 0,
+                "held": null,
+                "used": false,
+                "over": false
+              }
+            },
+            "hidden": [
+              {
+                "partial": false,
+                "state": {
+                  "pose": {
+                    "kind": "O",
+                    "r": 0,
+                    "x": 0,
+                    "y": -2
+                  },
+                  "count": 5,
+                  "score": 0,
+                  "held": null,
+                  "used": false,
+                  "over": true
+                }
+              },
+              {
+                "partial": true,
+                "state": {
+                  "pose": {
+                    "kind": "I",
+                    "r": 0,
+                    "x": 3,
+                    "y": -1
+                  },
+                  "count": 5,
+                  "score": 0,
+                  "held": null,
+                  "used": false,
+                  "over": false
+                }
+              }
+            ],
+            "contact": {
+              "actual": 1500,
+              "expected": 1500
+            },
+            "gameover": {
+              "state": {
+                "pose": {
+                  "kind": "S",
+                  "r": 0,
+                  "x": 3,
+                  "y": -2
+                },
+                "count": 44,
+                "score": 198,
+                "held": null,
+                "used": false,
+                "over": true
+              },
+              "overlay": true
+            },
+            "restarted": {
+              "pose": {
+                "kind": "Z",
+                "r": 0,
+                "x": 3,
+                "y": -1
+              },
+              "count": 0,
+              "score": 0,
+              "held": null,
+              "used": false,
+              "over": false
+            },
+            "focusedSpace": {
+              "before": {
+                "pose": {
+                  "kind": "T",
+                  "r": 0,
+                  "x": 3,
+                  "y": 4
+                },
+                "count": 0,
+                "score": 0,
+                "held": null,
+                "used": false,
+                "over": false
+              },
+              "after": {
+                "pose": {
+                  "kind": "O",
+                  "r": 0,
+                  "x": 4,
+                  "y": -1
+                },
+                "count": 4,
+                "score": 28,
+                "held": null,
+                "used": false,
+                "over": false
+              }
+            },
+            "touch": [
+              {
+                "code": "left",
+                "before": {
+                  "pose": {
+                    "kind": "T",
+                    "r": 0,
+                    "x": 3,
+                    "y": 4
+                  },
+                  "count": 0,
+                  "score": 0,
+                  "held": null,
+                  "used": false,
+                  "over": false
+                },
+                "after": {
+                  "pose": {
+                    "kind": "T",
+                    "r": 0,
+                    "x": 2,
+                    "y": 4
+                  },
+                  "count": 0,
+                  "score": 0,
+                  "held": null,
+                  "used": false,
+                  "over": false
+                }
+              },
+              {
+                "code": "right",
+                "before": {
+                  "pose": {
+                    "kind": "T",
+                    "r": 0,
+                    "x": 3,
+                    "y": 4
+                  },
+                  "count": 0,
+                  "score": 0,
+                  "held": null,
+                  "used": false,
+                  "over": false
+                },
+                "after": {
+                  "pose": {
+                    "kind": "T",
+                    "r": 0,
+                    "x": 4,
+                    "y": 4
+                  },
+                  "count": 0,
+                  "score": 0,
+                  "held": null,
+                  "used": false,
+                  "over": false
+                }
+              },
+              {
+                "code": "ccw",
+                "before": {
+                  "pose": {
+                    "kind": "T",
+                    "r": 0,
+                    "x": 3,
+                    "y": 4
+                  },
+                  "count": 0,
+                  "score": 0,
+                  "held": null,
+                  "used": false,
+                  "over": false
+                },
+                "after": {
+                  "pose": {
+                    "kind": "T",
+                    "r": 3,
+                    "x": 3,
+                    "y": 4
+                  },
+                  "count": 0,
+                  "score": 0,
+                  "held": null,
+                  "used": false,
+                  "over": false
+                }
+              },
+              {
+                "code": "cw",
+                "before": {
+                  "pose": {
+                    "kind": "T",
+                    "r": 0,
+                    "x": 3,
+                    "y": 4
+                  },
+                  "count": 0,
+                  "score": 0,
+                  "held": null,
+                  "used": false,
+                  "over": false
+                },
+                "after": {
+                  "pose": {
+                    "kind": "T",
+                    "r": 1,
+                    "x": 3,
+                    "y": 4
+                  },
+                  "count": 0,
+                  "score": 0,
+                  "held": null,
+                  "used": false,
+                  "over": false
+                }
+              },
+              {
+                "code": "down",
+                "before": {
+                  "pose": {
+                    "kind": "T",
+                    "r": 0,
+                    "x": 3,
+                    "y": 4
+                  },
+                  "count": 0,
+                  "score": 0,
+                  "held": null,
+                  "used": false,
+                  "over": false
+                },
+                "after": {
+                  "pose": {
+                    "kind": "T",
+                    "r": 0,
+                    "x": 3,
+                    "y": 5
+                  },
+                  "count": 0,
+                  "score": 1,
+                  "held": null,
+                  "used": false,
+                  "over": false
+                }
+              },
+              {
+                "code": "drop",
+                "before": {
+                  "pose": {
+                    "kind": "T",
+                    "r": 0,
+                    "x": 3,
+                    "y": 4
+                  },
+                  "count": 0,
+                  "score": 0,
+                  "held": null,
+                  "used": false,
+                  "over": false
+                },
+                "after": {
+                  "pose": {
+                    "kind": "O",
+                    "r": 0,
+                    "x": 4,
+                    "y": -1
+                  },
+                  "count": 4,
+                  "score": 28,
+                  "held": null,
+                  "used": false,
+                  "over": false
+                }
+              },
+              {
+                "code": "hold",
+                "before": {
+                  "pose": {
+                    "kind": "T",
+                    "r": 0,
+                    "x": 3,
+                    "y": 4
+                  },
+                  "count": 0,
+                  "score": 0,
+                  "held": null,
+                  "used": false,
+                  "over": false
+                },
+                "after": {
+                  "pose": {
+                    "kind": "O",
+                    "r": 0,
+                    "x": 4,
+                    "y": -1
+                  },
+                  "count": 0,
+                  "score": 0,
+                  "held": "T",
+                  "used": true,
+                  "over": false
+                }
+              }
+            ],
+            "soundSpace": {
+              "before": {
+                "pose": {
+                  "kind": "O",
+                  "r": 0,
+                  "x": 4,
+                  "y": -1
+                },
+                "count": 4,
+                "score": 28,
+                "held": null,
+                "used": false,
+                "over": false
+              },
+              "after": {
+                "pose": {
+                  "kind": "O",
+                  "r": 0,
+                  "x": 4,
+                  "y": -1
+                },
+                "count": 4,
+                "score": 28,
+                "held": null,
+                "used": false,
+                "over": false
+              },
+              "soundBefore": "false",
+              "soundAfter": "true"
+            },
+            "layout": {
+              "viewport": [
+                390,
+                844
+              ],
+              "scrollWidth": 390,
+              "scrollHeight": 1135,
+              "board": {
+                "x": 32.703125,
+                "y": 150.75,
+                "width": 210.59375,
+                "height": 421.1875
+              },
+              "previewCells": [
+                {
+                  "id": "held",
+                  "rect": {
+                    "x": 266.296875,
+                    "y": 513.890625,
+                    "width": 85,
+                    "height": 38.953125
+                  },
+                  "backing": [
+                    120,
+                    55
+                  ],
+                  "objectFit": "contain",
+                  "rawAspect": 1.0001337077149353
+                },
+                {
+                  "id": "",
+                  "rect": {
+                    "x": 266.296875,
+                    "y": 314.5,
+                    "width": 85,
+                    "height": 34
+                  },
+                  "backing": [
+                    140,
+                    56
+                  ],
+                  "objectFit": "contain",
+                  "rawAspect": 1
+                },
+                {
+                  "id": "",
+                  "rect": {
+                    "x": 266.296875,
+                    "y": 362.265625,
+                    "width": 85,
+                    "height": 34
+                  },
+                  "backing": [
+                    140,
+                    56
+                  ],
+                  "objectFit": "contain",
+                  "rawAspect": 1
+                },
+                {
+                  "id": "",
+                  "rect": {
+                    "x": 266.296875,
+                    "y": 410.03125,
+                    "width": 85,
+                    "height": 34
+                  },
+                  "backing": [
+                    140,
+                    56
+                  ],
+                  "objectFit": "contain",
+                  "rawAspect": 1
+                }
+              ],
+              "buttons": 10,
+              "nextPieces": [
+                "Z",
+                "T",
+                "L"
+              ],
+              "held": "T",
+              "ghost": [
+                {
+                  "cell": [
+                    4,
+                    18
+                  ],
+                  "edge": [
+                    117,
+                    97,
+                    151,
+                    255
+                  ],
+                  "center": [
+                    32,
+                    39,
+                    44,
+                    255
+                  ]
+                },
+                {
+                  "cell": [
+                    3,
+                    19
+                  ],
+                  "edge": [
+                    117,
+                    97,
+                    151,
+                    255
+                  ],
+                  "center": [
+                    32,
+                    39,
+                    44,
+                    255
+                  ]
+                },
+                {
+                  "cell": [
+                    4,
+                    19
+                  ],
+                  "edge": [
+                    117,
+                    97,
+                    151,
+                    255
+                  ],
+                  "center": [
+                    32,
+                    39,
+                    44,
+                    255
+                  ]
+                },
+                {
+                  "cell": [
+                    5,
+                    19
+                  ],
+                  "edge": [
+                    117,
+                    97,
+                    151,
+                    255
+                  ],
+                  "center": [
+                    32,
+                    39,
+                    44,
+                    255
+                  ]
+                }
+              ],
+              "score": "",
+              "overlay": false
+            },
+            "errors": [],
+            "failedAssets": []
+          }
+        }
+      }
+    },
+    "max": {
+      "run_id": "gpt-6.2-astra-max",
+      "audited": "2026-11-19",
+      "hashes": {
+        ".gitignore": "3a3bcf768c25d0483b1e4b81f5a2879def4f8160c994929ae3a997511dbd84ae",
+        "README.md": "36e2097a78fe8b5646e6216338640831cff0a284cc823c4b1f658991c8d40294",
+        "STATISTICS.md": "51f089d0c0e7ae3ac029d1853032512ce7b2e691cd2d581b00e9b63404f76f20",
+        "package-lock.json": "7401e103c097021a5916211d2fa76e4540f6f0ec28ca27d5e173c09a0383238f",
+        "package.json": "b176ac22fada1adc92887f69423dc07c692094ca5a70f59d3957e78628a449fd",
+        "public/assets/icon.png": "c859e2463fd7b8cf345a209a50289fcf258a32601f9f57c40b9f470bff28723f",
+        "public/assets/icons.png": "2e977285de1b3d4d03b4e80388a5259a74597b0cc384037b5125c948ebc0f8dd",
+        "public/assets/night-city.png": "b5e0bed2bd0fdc66900c3c7987f9d7e5c7e67a69ea415593ddac725b0e608ad9",
+        "public/assets/tetris.png": "6ae02eb725a970ba7463d878312ed7833c196a6364c9a99dea577b48845d544e",
+        "public/fonts/Bitcount-LICENSE.txt": "061dfb7681d7fff942e04f5217c40e05d2fe5a3cea6001222039fea4b0432254",
+        "public/fonts/SpaceMono-LICENSE.txt": "8e4ee42b2553e1e01504e61cb0d46d148cd8c9e5eacaa3622a7df2d4f2955b9f",
+        "public/fonts/bitcount.woff2": "b0378c72dbabc6358b6d7df75137f2af07e62a56ef2b4ae9f96da6afaa2944bf",
+        "public/fonts/space-mono.woff2": "fb4a81a2d0a893e5c38c394a7e716a1cef0b24610a0af49c96f6d529bd66bf2b",
+        "public/index.html": "5cae77915e3187897b72eccf4047879a871f75dad24f833d5b2cb2886c573ee8",
+        "public/styles.css": "a7b8c308b3c8131b5e0fe9e709f28ed1092623d3df778c95af6b3a457b38ee1d",
+        "scripts/copy-assets.mjs": "643552501f7cd729a3143a3c0eda57452050351e64aa95a27b5474cdfd465d86",
+        "scripts/serve.mjs": "571aaa52ebce19e3ebfe5f3f1a5ec309c3ab940ebf15688263dbc7aa5de8a794",
+        "src/game.ts": "4c61bc850ccccb3b18e1e9b345737ca29ac01123e47ee614b1de14cb80488f66",
+        "src/main.ts": "082d14fcf4b9dcd16164a5b9186d405f5ecf431533b7b4744e4c7d62480d125f",
+        "src/pieces.ts": "561103e01ef48e3ed075f23ed9d45d86398a5ee66000a77df1f331b1c21e310e",
+        "src/render.ts": "66db276b97f38ba6968006c1c5a0c54dc4e36995a1dc20386564956f38c15a1e",
+        "src/sound.ts": "71dc967267414d2f6177473e55f934be58bddefc3d3a3f6e0867276d7cb50478",
+        "tests/game.test.mjs": "b7be2b06cfd6c0513b57224286d7fb18ccc98a3d4a602e266155426a590549b9",
+        "tsconfig.json": "b4379271e1a8ee18277f469c1696f9ef9e95ca2120204bf909a5ab60a5bffd2d"
+      },
+      "workflow": {
+        "install": "\nadded 1 package, and audited 2 packages in 151ms\n\nfound 0 vulnerabilities\n",
+        "build": "\n> tetris-js@1.0.0 build\n> tsc && node scripts/copy-assets.mjs\n\n",
+        "unchanged_npm_test": "\n> tetris-js@1.0.0 test\n> npm run build && node --test tests/*.test.mjs\n\n\n> tetris-js@1.0.0 build\n> tsc && node scripts/copy-assets.mjs\n\n✔ each shuffled bag contains exactly one of every tetromino (1.645583ms)\n✔ a new game has an empty field, centered spawn and a populated queue (0.196167ms)\n✔ all seven pieces rotate in both directions around their SRS pivots (0.355542ms)\n✔ SRS kicks a T one cell and an I two cells away from the wall (0.110083ms)\n✔ floor kicks use the correct vertical sign and the I-specific fifth test (0.092375ms)\n✔ a rotation that fails all five kicks leaves the piece in place (0.0765ms)\n✔ ghost projection, soft drop and hard drop agree on the landing cells (0.185709ms)\n✔ gravity accumulates elapsed time and held soft drop runs at twenty times gravity (0.07675ms)\n✔ lock delay starts at contact, even when landing halfway through an update (0.077083ms)\n✔ grounded moves renew the timer, and the fifteenth adjustment locks the piece (0.215167ms)\n✔ failed slides and blocked soft drops do not renew lock delay (0.077666ms)\n✔ falling below the previous lowest position restores the lock move budget (0.0915ms)\n✔ hold consumes the queue once, and a swap restores the held piece's spawn state (0.070417ms)\n✔ one through four completed rows clear and score at the pre-clear level (0.414833ms)\n✔ nonadjacent full rows collapse together without scrambling intervening rows (0.09925ms)\n✔ back-to-back survives an empty placement, while a normal clear breaks the chain (0.104458ms)\n✔ a T-spin double receives spin scoring and starts a back-to-back chain (0.076958ms)\n✔ the facing corners distinguish mini and full zero-line T-spins (0.066625ms)\n✔ perfect clears add their bonus, including a back-to-back four-line perfect clear (0.062875ms)\n✔ a blocked spawn tops out from both the queue and hold, and freezes the field (0.200375ms)\nℹ tests 20\nℹ suites 0\nℹ pass 20\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 71.372708\n"
+      },
+      "engine": {
+        "srs": {
+          "states": [],
+          "kickLists": [],
+          "outcomes": [],
+          "attempts": 576
+        },
+        "bags": 100,
+        "hold": "pass",
+        "drops": [
+          {
+            "k": "I",
+            "ghost": 14,
+            "points": 25
+          },
+          {
+            "k": "J",
+            "ghost": 14,
+            "points": 25
+          },
+          {
+            "k": "L",
+            "ghost": 14,
+            "points": 25
+          },
+          {
+            "k": "O",
+            "ghost": 14,
+            "points": 25
+          },
+          {
+            "k": "S",
+            "ghost": 14,
+            "points": 25
+          },
+          {
+            "k": "T",
+            "ghost": 14,
+            "points": 25
+          },
+          {
+            "k": "Z",
+            "ghost": 14,
+            "points": 25
+          }
+        ],
+        "clocks": {
+          "boundary": "pass",
+          "reset": "pass",
+          "after15": {
+            "cells": 4,
+            "resets": 0
+          },
+          "after15plus499": 4,
+          "after16plus1": 4,
+          "failedWall": 4,
+          "capBoundary": [
+            {
+              "moves": 14,
+              "afterMoves": 0,
+              "after1": 0,
+              "after499": 0,
+              "after500": 4,
+              "expected": {
+                "afterMoves": 0,
+                "after1": 0,
+                "after499": 0,
+                "after500": 4
+              }
+            },
+            {
+              "moves": 15,
+              "afterMoves": 4,
+              "after1": 4,
+              "after499": 4,
+              "after500": 4,
+              "expected": {
+                "afterMoves": 0,
+                "after1": 0,
+                "after499": 0,
+                "after500": 4
+              }
+            }
+          ],
+          "ledges": [
+            {
+              "exhausted": false,
+              "start": 490,
+              "land": 6000,
+              "lock": 6500,
+              "expectedLock": 6500
+            },
+            {
+              "exhausted": true,
+              "start": 0,
+              "land": 6000,
+              "lock": 6500,
+              "expectedLock": 6500
+            }
+          ],
+          "newLowest": {
+            "resets": 0,
+            "cells": 1,
+            "expectedCells": 1
+          },
+          "contact": [
+            {
+              "dt": 10,
+              "actual": 1500,
+              "expected": 1500
+            },
+            {
+              "dt": 100,
+              "actual": 1500,
+              "expected": 1500
+            },
+            {
+              "dt": 16.666666666666668,
+              "actual": 1516.6666666666679,
+              "expected": 1500
+            },
+            {
+              "dt": 6.944444444444445,
+              "actual": 1499.9999999999945,
+              "expected": 1500
+            }
+          ]
+        },
+        "gravity": [
+          {
+            "level": 1,
+            "actual": 1000,
+            "expected": 1000,
+            "policy": "curve, high-level cap/floor not scored"
+          },
+          {
+            "level": 2,
+            "actual": 793,
+            "expected": 793,
+            "policy": "curve, high-level cap/floor not scored"
+          },
+          {
+            "level": 3,
+            "actual": 617.8,
+            "expected": 617.796,
+            "policy": "curve, high-level cap/floor not scored"
+          },
+          {
+            "level": 4,
+            "actual": 472.8,
+            "expected": 472.72913900000003,
+            "policy": "curve, high-level cap/floor not scored"
+          },
+          {
+            "level": 5,
+            "actual": 355.2,
+            "expected": 355.19692825600004,
+            "policy": "curve, high-level cap/floor not scored"
+          },
+          {
+            "level": 6,
+            "actual": 262.1,
+            "expected": 262.003549978125,
+            "policy": "curve, high-level cap/floor not scored"
+          },
+          {
+            "level": 7,
+            "actual": 189.7,
+            "expected": 189.67724533271814,
+            "policy": "curve, high-level cap/floor not scored"
+          },
+          {
+            "level": 8,
+            "actual": 134.8,
+            "expected": 134.7347308155587,
+            "policy": "curve, high-level cap/floor not scored"
+          },
+          {
+            "level": 9,
+            "actual": 93.9,
+            "expected": 93.88224890421264,
+            "policy": "curve, high-level cap/floor not scored"
+          },
+          {
+            "level": 10,
+            "actual": 64.2,
+            "expected": 64.15158495985582,
+            "policy": "curve, high-level cap/floor not scored"
+          },
+          {
+            "level": 11,
+            "actual": 43,
+            "expected": 42.976258297035564,
+            "policy": "curve, high-level cap/floor not scored"
+          },
+          {
+            "level": 12,
+            "actual": 28.3,
+            "expected": 28.21767780121165,
+            "policy": "curve, high-level cap/floor not scored"
+          },
+          {
+            "level": 13,
+            "actual": 18.2,
+            "expected": 18.153328543517738,
+            "policy": "curve, high-level cap/floor not scored"
+          },
+          {
+            "level": 14,
+            "actual": 11.5,
+            "expected": 11.43934234680738,
+            "policy": "curve, high-level cap/floor not scored"
+          },
+          {
+            "level": 15,
+            "actual": 7.1,
+            "expected": 7.058616220934218,
+            "policy": "curve, high-level cap/floor not scored"
+          },
+          {
+            "level": 16,
+            "actual": 4.3,
+            "expected": 4.263556954438949,
+            "policy": "curve, high-level cap/floor not scored"
+          },
+          {
+            "level": 17,
+            "actual": 2.6,
+            "expected": 2.5200839695077955,
+            "policy": "curve, high-level cap/floor not scored"
+          },
+          {
+            "level": 18,
+            "actual": 1.5,
+            "expected": 1.4571387328407777,
+            "policy": "curve, high-level cap/floor not scored"
+          },
+          {
+            "level": 19,
+            "actual": 0.9,
+            "expected": 0.8239068955658087,
+            "policy": "curve, high-level cap/floor not scored"
+          },
+          {
+            "level": 20,
+            "actual": 0.9,
+            "expected": 0.45539771210842706,
+            "policy": "curve, high-level cap/floor not scored"
+          }
+        ],
+        "softTiming": [
+          {
+            "phase": 0,
+            "rows": 0,
+            "points": 0
+          },
+          {
+            "phase": 49,
+            "rows": 0,
+            "points": 0
+          },
+          {
+            "phase": 100,
+            "rows": 0,
+            "points": 0
+          },
+          {
+            "phase": 900,
+            "rows": 0,
+            "points": 0
+          },
+          {
+            "phase": 999,
+            "rows": 1,
+            "points": 1
+          }
+        ],
+        "cadence": [
+          {
+            "hz": 60,
+            "rows": 2,
+            "score": 0
+          },
+          {
+            "hz": 144,
+            "rows": 2,
+            "score": 0
+          }
+        ],
+        "scoring": {
+          "clears": [
+            100,
+            300,
+            500,
+            800
+          ],
+          "pc": [
+            900,
+            1500,
+            2300,
+            2800
+          ],
+          "combo": {
+            "deltas": [
+              100,
+              150
+            ],
+            "total": 250
+          },
+          "b2b": {
+            "deltas": [
+              800,
+              0,
+              1200
+            ],
+            "total": 2000
+          },
+          "break": {
+            "deltas": [
+              800,
+              150,
+              900
+            ],
+            "total": 1850
+          },
+          "pcB2b": {
+            "deltas": [
+              800,
+              0,
+              4400
+            ],
+            "total": 5200
+          },
+          "crossing": {
+            "score": 900,
+            "level": 2,
+            "lines": 10
+          },
+          "comboLevel2": 300
+        },
+        "spins": {
+          "hard-mini-zero": 100,
+          "hard-mini-single": 200,
+          "hard-full-zero": 400,
+          "hard-full-single": 800,
+          "timed-mini-zero": 100,
+          "timed-mini-single": 200,
+          "timed-full-zero": 400,
+          "timed-full-single": 800,
+          "facings": [
+            {
+              "r": 0,
+              "full": false,
+              "score": 100
+            },
+            {
+              "r": 0,
+              "full": true,
+              "score": 400
+            },
+            {
+              "r": 1,
+              "full": false,
+              "score": 100
+            },
+            {
+              "r": 1,
+              "full": true,
+              "score": 400
+            },
+            {
+              "r": 2,
+              "full": false,
+              "score": 100
+            },
+            {
+              "r": 2,
+              "full": true,
+              "score": 400
+            },
+            {
+              "r": 3,
+              "full": false,
+              "score": 100
+            },
+            {
+              "r": 3,
+              "full": true,
+              "score": 400
+            }
+          ],
+          "hardTravel": 28,
+          "softTravel": 14,
+          "failedActions": 400,
+          "noRotation": 0,
+          "fourthKick": {
+            "pose": {
+              "kind": "T",
+              "r": 0,
+              "x": 3,
+              "y": 15
+            },
+            "credit": true,
+            "score": 100
+          },
+          "fifthKick": {
+            "pose": {
+              "kind": "T",
+              "r": 2,
+              "x": 4,
+              "y": 15
+            },
+            "credit": true,
+            "score": 400
+          },
+          "double": {
+            "score": 1200,
+            "lines": 2
+          },
+          "twoCorners": 0,
+          "lateralCancel": 0,
+          "b2bWithNoClear": [
+            800,
+            0,
+            1200
+          ]
+        },
+        "publicHidden": [
+          {
+            "partial": false,
+            "spawn": {
+              "kind": "T",
+              "r": 0,
+              "x": 3,
+              "y": -1
+            },
+            "before": {
+              "kind": "T",
+              "r": 0,
+              "x": 0,
+              "y": -2
+            },
+            "distance": 0,
+            "over": true,
+            "cells": 7,
+            "expectedOver": true
+          },
+          {
+            "partial": true,
+            "spawn": {
+              "kind": "T",
+              "r": 0,
+              "x": 3,
+              "y": -1
+            },
+            "before": {
+              "kind": "T",
+              "r": 0,
+              "x": 7,
+              "y": -1
+            },
+            "distance": 0,
+            "over": false,
+            "cells": 5,
+            "expectedOver": false
+          }
+        ],
+        "hidden": [
+          {
+            "partial": false,
+            "over": true,
+            "cells": 5
+          },
+          {
+            "partial": true,
+            "over": false,
+            "cells": 5
+          }
+        ],
+        "terminal": "pass",
+        "compaction": "pass",
+        "restart": [
+          12,
+          11,
+          12
+        ]
+      },
+      "browser": {
+        "browser": "156.0.8078.4",
+        "views": {
+          "desktop": {
+            "baseline": {
+              "title": "Tetris · Endless Arcade",
+              "overlay": true
+            },
+            "engine": {
+              "srs": {
+                "states": [],
+                "kickLists": [],
+                "outcomes": [],
+                "attempts": 576
+              },
+              "bags": 100,
+              "hold": "pass",
+              "drops": [
+                {
+                  "k": "I",
+                  "ghost": 14,
+                  "points": 25
+                },
+                {
+                  "k": "J",
+                  "ghost": 14,
+                  "points": 25
+                },
+                {
+                  "k": "L",
+                  "ghost": 14,
+                  "points": 25
+                },
+                {
+                  "k": "O",
+                  "ghost": 14,
+                  "points": 25
+                },
+                {
+                  "k": "S",
+                  "ghost": 14,
+                  "points": 25
+                },
+                {
+                  "k": "T",
+                  "ghost": 14,
+                  "points": 25
+                },
+                {
+                  "k": "Z",
+                  "ghost": 14,
+                  "points": 25
+                }
+              ],
+              "clocks": {
+                "boundary": "pass",
+                "reset": "pass",
+                "after15": {
+                  "cells": 4,
+                  "resets": 0
+                },
+                "after15plus499": 4,
+                "after16plus1": 4,
+                "failedWall": 4,
+                "capBoundary": [
+                  {
+                    "moves": 14,
+                    "afterMoves": 0,
+                    "after1": 0,
+                    "after499": 0,
+                    "after500": 4,
+                    "expected": {
+                      "afterMoves": 0,
+                      "after1": 0,
+                      "after499": 0,
+                      "after500": 4
+                    }
+                  },
+                  {
+                    "moves": 15,
+                    "afterMoves": 4,
+                    "after1": 4,
+                    "after499": 4,
+                    "after500": 4,
+                    "expected": {
+                      "afterMoves": 0,
+                      "after1": 0,
+                      "after499": 0,
+                      "after500": 4
+                    }
+                  }
+                ],
+                "ledges": [
+                  {
+                    "exhausted": false,
+                    "start": 490,
+                    "land": 6000,
+                    "lock": 6500,
+                    "expectedLock": 6500
+                  },
+                  {
+                    "exhausted": true,
+                    "start": 0,
+                    "land": 6000,
+                    "lock": 6500,
+                    "expectedLock": 6500
+                  }
+                ],
+                "newLowest": {
+                  "resets": 0,
+                  "cells": 1,
+                  "expectedCells": 1
+                },
+                "contact": [
+                  {
+                    "dt": 10,
+                    "actual": 1500,
+                    "expected": 1500
+                  },
+                  {
+                    "dt": 100,
+                    "actual": 1500,
+                    "expected": 1500
+                  },
+                  {
+                    "dt": 16.666666666666668,
+                    "actual": 1516.6666666666679,
+                    "expected": 1500
+                  },
+                  {
+                    "dt": 6.944444444444445,
+                    "actual": 1499.9999999999945,
+                    "expected": 1500
+                  }
+                ]
+              },
+              "gravity": [
+                {
+                  "level": 1,
+                  "actual": 1000,
+                  "expected": 1000,
+                  "policy": "curve, high-level cap/floor not scored"
+                },
+                {
+                  "level": 2,
+                  "actual": 793,
+                  "expected": 793,
+                  "policy": "curve, high-level cap/floor not scored"
+                },
+                {
+                  "level": 3,
+                  "actual": 617.8,
+                  "expected": 617.796,
+                  "policy": "curve, high-level cap/floor not scored"
+                },
+                {
+                  "level": 4,
+                  "actual": 472.8,
+                  "expected": 472.72913900000003,
+                  "policy": "curve, high-level cap/floor not scored"
+                },
+                {
+                  "level": 5,
+                  "actual": 355.2,
+                  "expected": 355.19692825600004,
+                  "policy": "curve, high-level cap/floor not scored"
+                },
+                {
+                  "level": 6,
+                  "actual": 262.1,
+                  "expected": 262.003549978125,
+                  "policy": "curve, high-level cap/floor not scored"
+                },
+                {
+                  "level": 7,
+                  "actual": 189.7,
+                  "expected": 189.67724533271814,
+                  "policy": "curve, high-level cap/floor not scored"
+                },
+                {
+                  "level": 8,
+                  "actual": 134.8,
+                  "expected": 134.7347308155587,
+                  "policy": "curve, high-level cap/floor not scored"
+                },
+                {
+                  "level": 9,
+                  "actual": 93.9,
+                  "expected": 93.88224890421264,
+                  "policy": "curve, high-level cap/floor not scored"
+                },
+                {
+                  "level": 10,
+                  "actual": 64.2,
+                  "expected": 64.15158495985582,
+                  "policy": "curve, high-level cap/floor not scored"
+                },
+                {
+                  "level": 11,
+                  "actual": 43,
+                  "expected": 42.976258297035564,
+                  "policy": "curve, high-level cap/floor not scored"
+                },
+                {
+                  "level": 12,
+                  "actual": 28.3,
+                  "expected": 28.21767780121165,
+                  "policy": "curve, high-level cap/floor not scored"
+                },
+                {
+                  "level": 13,
+                  "actual": 18.2,
+                  "expected": 18.153328543517738,
+                  "policy": "curve, high-level cap/floor not scored"
+                },
+                {
+                  "level": 14,
+                  "actual": 11.5,
+                  "expected": 11.43934234680738,
+                  "policy": "curve, high-level cap/floor not scored"
+                },
+                {
+                  "level": 15,
+                  "actual": 7.1,
+                  "expected": 7.058616220934218,
+                  "policy": "curve, high-level cap/floor not scored"
+                },
+                {
+                  "level": 16,
+                  "actual": 4.3,
+                  "expected": 4.263556954438949,
+                  "policy": "curve, high-level cap/floor not scored"
+                },
+                {
+                  "level": 17,
+                  "actual": 2.6,
+                  "expected": 2.5200839695077955,
+                  "policy": "curve, high-level cap/floor not scored"
+                },
+                {
+                  "level": 18,
+                  "actual": 1.5,
+                  "expected": 1.4571387328407777,
+                  "policy": "curve, high-level cap/floor not scored"
+                },
+                {
+                  "level": 19,
+                  "actual": 0.9,
+                  "expected": 0.8239068955658087,
+                  "policy": "curve, high-level cap/floor not scored"
+                },
+                {
+                  "level": 20,
+                  "actual": 0.9,
+                  "expected": 0.45539771210842706,
+                  "policy": "curve, high-level cap/floor not scored"
+                }
+              ],
+              "softTiming": [
+                {
+                  "phase": 0,
+                  "rows": 0,
+                  "points": 0
+                },
+                {
+                  "phase": 49,
+                  "rows": 0,
+                  "points": 0
+                },
+                {
+                  "phase": 100,
+                  "rows": 0,
+                  "points": 0
+                },
+                {
+                  "phase": 900,
+                  "rows": 0,
+                  "points": 0
+                },
+                {
+                  "phase": 999,
+                  "rows": 1,
+                  "points": 1
+                }
+              ],
+              "cadence": [
+                {
+                  "hz": 60,
+                  "rows": 2,
+                  "score": 0
+                },
+                {
+                  "hz": 144,
+                  "rows": 2,
+                  "score": 0
+                }
+              ],
+              "scoring": {
+                "clears": [
+                  100,
+                  300,
+                  500,
+                  800
+                ],
+                "pc": [
+                  900,
+                  1500,
+                  2300,
+                  2800
+                ],
+                "combo": {
+                  "deltas": [
+                    100,
+                    150
+                  ],
+                  "total": 250
+                },
+                "b2b": {
+                  "deltas": [
+                    800,
+                    0,
+                    1200
+                  ],
+                  "total": 2000
+                },
+                "break": {
+                  "deltas": [
+                    800,
+                    150,
+                    900
+                  ],
+                  "total": 1850
+                },
+                "pcB2b": {
+                  "deltas": [
+                    800,
+                    0,
+                    4400
+                  ],
+                  "total": 5200
+                },
+                "crossing": {
+                  "score": 900,
+                  "level": 2,
+                  "lines": 10
+                },
+                "comboLevel2": 300
+              },
+              "spins": {
+                "hard-mini-zero": 100,
+                "hard-mini-single": 200,
+                "hard-full-zero": 400,
+                "hard-full-single": 800,
+                "timed-mini-zero": 100,
+                "timed-mini-single": 200,
+                "timed-full-zero": 400,
+                "timed-full-single": 800,
+                "facings": [
+                  {
+                    "r": 0,
+                    "full": false,
+                    "score": 100
+                  },
+                  {
+                    "r": 0,
+                    "full": true,
+                    "score": 400
+                  },
+                  {
+                    "r": 1,
+                    "full": false,
+                    "score": 100
+                  },
+                  {
+                    "r": 1,
+                    "full": true,
+                    "score": 400
+                  },
+                  {
+                    "r": 2,
+                    "full": false,
+                    "score": 100
+                  },
+                  {
+                    "r": 2,
+                    "full": true,
+                    "score": 400
+                  },
+                  {
+                    "r": 3,
+                    "full": false,
+                    "score": 100
+                  },
+                  {
+                    "r": 3,
+                    "full": true,
+                    "score": 400
+                  }
+                ],
+                "hardTravel": 28,
+                "softTravel": 14,
+                "failedActions": 400,
+                "noRotation": 0,
+                "fourthKick": {
+                  "pose": {
+                    "kind": "T",
+                    "r": 0,
+                    "x": 3,
+                    "y": 15
+                  },
+                  "credit": true,
+                  "score": 100
+                },
+                "fifthKick": {
+                  "pose": {
+                    "kind": "T",
+                    "r": 2,
+                    "x": 4,
+                    "y": 15
+                  },
+                  "credit": true,
+                  "score": 400
+                },
+                "double": {
+                  "score": 1200,
+                  "lines": 2
+                },
+                "twoCorners": 0,
+                "lateralCancel": 0,
+                "b2bWithNoClear": [
+                  800,
+                  0,
+                  1200
+                ]
+              },
+              "publicHidden": [
+                {
+                  "partial": false,
+                  "spawn": {
+                    "kind": "T",
+                    "r": 0,
+                    "x": 3,
+                    "y": -1
+                  },
+                  "before": {
+                    "kind": "T",
+                    "r": 0,
+                    "x": 0,
+                    "y": -2
+                  },
+                  "distance": 0,
+                  "over": true,
+                  "cells": 7,
+                  "expectedOver": true
+                },
+                {
+                  "partial": true,
+                  "spawn": {
+                    "kind": "T",
+                    "r": 0,
+                    "x": 3,
+                    "y": -1
+                  },
+                  "before": {
+                    "kind": "T",
+                    "r": 0,
+                    "x": 7,
+                    "y": -1
+                  },
+                  "distance": 0,
+                  "over": false,
+                  "cells": 5,
+                  "expectedOver": false
+                }
+              ],
+              "hidden": [
+                {
+                  "partial": false,
+                  "over": true,
+                  "cells": 5
+                },
+                {
+                  "partial": true,
+                  "over": false,
+                  "cells": 5
+                }
+              ],
+              "terminal": "pass",
+              "compaction": "pass",
+              "restart": [
+                12,
+                11,
+                12
+              ]
+            },
+            "keys": [
+              {
+                "key": "ArrowLeft",
+                "before": {
+                  "pose": {
+                    "kind": "T",
+                    "r": 0,
+                    "x": 3,
+                    "y": 4
+                  },
+                  "count": 0,
+                  "score": 0,
+                  "held": null,
+                  "used": false,
+                  "over": false
+                },
+                "after": {
+                  "pose": {
+                    "kind": "T",
+                    "r": 0,
+                    "x": 2,
+                    "y": 4
+                  },
+                  "count": 0,
+                  "score": 0,
+                  "held": null,
+                  "used": false,
+                  "over": false
+                }
+              },
+              {
+                "key": "ArrowRight",
+                "before": {
+                  "pose": {
+                    "kind": "T",
+                    "r": 0,
+                    "x": 2,
+                    "y": 4
+                  },
+                  "count": 0,
+                  "score": 0,
+                  "held": null,
+                  "used": false,
+                  "over": false
+                },
+                "after": {
+                  "pose": {
+                    "kind": "T",
+                    "r": 0,
+                    "x": 3,
+                    "y": 4
+                  },
+                  "count": 0,
+                  "score": 0,
+                  "held": null,
+                  "used": false,
+                  "over": false
+                }
+              },
+              {
+                "key": "ArrowUp",
+                "before": {
+                  "pose": {
+                    "kind": "T",
+                    "r": 0,
+                    "x": 3,
+                    "y": 4
+                  },
+                  "count": 0,
+                  "score": 0,
+                  "held": null,
+                  "used": false,
+                  "over": false
+                },
+                "after": {
+                  "pose": {
+                    "kind": "T",
+                    "r": 1,
+                    "x": 3,
+                    "y": 4
+                  },
+                  "count": 0,
+                  "score": 0,
+                  "held": null,
+                  "used": false,
+                  "over": false
+                }
+              },
+              {
+                "key": "x",
+                "before": {
+                  "pose": {
+                    "kind": "T",
+                    "r": 1,
+                    "x": 3,
+                    "y": 4
+                  },
+                  "count": 0,
+                  "score": 0,
+                  "held": null,
+                  "used": false,
+                  "over": false
+                },
+                "after": {
+                  "pose": {
+                    "kind": "T",
+                    "r": 2,
+                    "x": 3,
+                    "y": 4
+                  },
+                  "count": 0,
+                  "score": 0,
+                  "held": null,
+                  "used": false,
+                  "over": false
+                }
+              },
+              {
+                "key": "z",
+                "before": {
+                  "pose": {
+                    "kind": "T",
+                    "r": 2,
+                    "x": 3,
+                    "y": 4
+                  },
+                  "count": 0,
+                  "score": 0,
+                  "held": null,
+                  "used": false,
+                  "over": false
+                },
+                "after": {
+                  "pose": {
+                    "kind": "T",
+                    "r": 1,
+                    "x": 3,
+                    "y": 4
+                  },
+                  "count": 0,
+                  "score": 0,
+                  "held": null,
+                  "used": false,
+                  "over": false
+                }
+              },
+              {
+                "key": "ControlLeft",
+                "before": {
+                  "pose": {
+                    "kind": "T",
+                    "r": 1,
+                    "x": 3,
+                    "y": 4
+                  },
+                  "count": 0,
+                  "score": 0,
+                  "held": null,
+                  "used": false,
+                  "over": false
+                },
+                "after": {
+                  "pose": {
+                    "kind": "T",
+                    "r": 0,
+                    "x": 3,
+                    "y": 4
+                  },
+                  "count": 0,
+                  "score": 0,
+                  "held": null,
+                  "used": false,
+                  "over": false
+                }
+              },
+              {
+                "key": "ArrowDown",
+                "before": {
+                  "pose": {
+                    "kind": "T",
+                    "r": 0,
+                    "x": 3,
+                    "y": 4
+                  },
+                  "count": 0,
+                  "score": 0,
+                  "held": null,
+                  "used": false,
+                  "over": false
+                },
+                "after": {
+                  "pose": {
+                    "kind": "T",
+                    "r": 0,
+                    "x": 3,
+                    "y": 5
+                  },
+                  "count": 0,
+                  "score": 1,
+                  "held": null,
+                  "used": false,
+                  "over": false
+                }
+              },
+              {
+                "key": "Space",
+                "before": {
+                  "pose": {
+                    "kind": "T",
+                    "r": 0,
+                    "x": 3,
+                    "y": 5
+                  },
+                  "count": 0,
+                  "score": 1,
+                  "held": null,
+                  "used": false,
+                  "over": false
+                },
+                "after": {
+                  "pose": {
+                    "kind": "I",
+                    "r": 0,
+                    "x": 3,
+                    "y": -1
+                  },
+                  "count": 4,
+                  "score": 27,
+                  "held": null,
+                  "used": false,
+                  "over": false
+                }
+              },
+              {
+                "key": "c",
+                "before": {
+                  "pose": {
+                    "kind": "I",
+                    "r": 0,
+                    "x": 3,
+                    "y": -1
+                  },
+                  "count": 4,
+                  "score": 27,
+                  "held": null,
+                  "used": false,
+                  "over": false
+                },
+                "after": {
+                  "pose": {
+                    "kind": "L",
+                    "r": 0,
+                    "x": 3,
+                    "y": -1
+                  },
+                  "count": 4,
+                  "score": 27,
+                  "held": "I",
+                  "used": true,
+                  "over": false
+                }
+              }
+            ],
+            "spins": {
+              "travel": {
+                "distance": 14,
+                "actual": 28,
+                "expected": 28
+              },
+              "mini": {
+                "distance": 0,
+                "actual": 100,
+                "expected": 100
+              },
+              "full": {
+                "distance": 0,
+                "actual": 400,
+                "expected": 400
+              }
+            },
+            "lockCap": {
+              "after14": {
+                "pose": {
+                  "kind": "O",
+                  "r": 0,
+                  "x": 3,
+                  "y": 18
+                },
+                "count": 0,
+                "score": 0,
+                "held": null,
+                "used": false,
+                "over": false
+              },
+              "after15": {
+                "pose": {
+                  "kind": "I",
+                  "r": 0,
+                  "x": 3,
+                  "y": -1
+                },
+                "count": 4,
+                "score": 0,
+                "held": null,
+                "used": false,
+                "over": false
+              },
+              "after1": {
+                "pose": {
+                  "kind": "I",
+                  "r": 0,
+                  "x": 3,
+                  "y": -1
+                },
+                "count": 4,
+                "score": 0,
+                "held": null,
+                "used": false,
+                "over": false
+              }
+            },
+            "ledge": {
+              "resets": 0,
+              "before": {
+                "pose": {
+                  "kind": "O",
+                  "r": 0,
+                  "x": 1,
+                  "y": 18
+                },
+                "count": 1,
+                "score": 0,
+                "held": null,
+                "used": false,
+                "over": false
+              },
+              "after": {
+                "pose": {
+                  "kind": "O",
+                  "r": 0,
+                  "x": 2,
+                  "y": 18
+                },
+                "count": 1,
+                "score": 0,
+                "held": null,
+                "used": false,
+                "over": false
+              }
+            },
+            "hidden": [
+              {
+                "partial": false,
+                "state": {
+                  "pose": {
+                    "kind": "O",
+                    "r": 0,
+                    "x": 0,
+                    "y": -2
+                  },
+                  "count": 5,
+                  "score": 0,
+                  "held": null,
+                  "used": false,
+                  "over": true
+                }
+              },
+              {
+                "partial": true,
+                "state": {
+                  "pose": {
+                    "kind": "I",
+                    "r": 0,
+                    "x": 3,
+                    "y": -1
+                  },
+                  "count": 5,
+                  "score": 0,
+                  "held": null,
+                  "used": false,
+                  "over": false
+                }
+              }
+            ],
+            "contact": {
+              "actual": 1500,
+              "expected": 1500
+            },
+            "gameover": {
+              "state": {
+                "pose": {
+                  "kind": "L",
+                  "r": 0,
+                  "x": 3,
+                  "y": -2
+                },
+                "count": 48,
+                "score": 210,
+                "held": null,
+                "used": false,
+                "over": true
+              },
+              "overlay": true
+            },
+            "restarted": {
+              "pose": {
+                "kind": "L",
+                "r": 0,
+                "x": 3,
+                "y": -1
+              },
+              "count": 0,
+              "score": 0,
+              "held": null,
+              "used": false,
+              "over": false
+            },
+            "focusedSpace": {
+              "before": {
+                "pose": {
+                  "kind": "T",
+                  "r": 0,
+                  "x": 3,
+                  "y": 4
+                },
+                "count": 0,
+                "score": 0,
+                "held": null,
+                "used": false,
+                "over": false
+              },
+              "after": {
+                "pose": {
+                  "kind": "I",
+                  "r": 0,
+                  "x": 3,
+                  "y": -1
+                },
+                "count": 4,
+                "score": 28,
+                "held": null,
+                "used": false,
+                "over": false
+              }
+            },
+            "touch": [],
+            "soundSpace": {
+              "before": {
+                "pose": {
+                  "kind": "I",
+                  "r": 0,
+                  "x": 3,
+                  "y": -1
+                },
+                "count": 4,
+                "score": 28,
+                "held": null,
+                "used": false,
+                "over": false
+              },
+              "after": {
+                "pose": {
+                  "kind": "L",
+                  "r": 0,
+                  "x": 3,
+                  "y": -1
+                },
+                "count": 8,
+                "score": 62,
+                "held": null,
+                "used": false,
+                "over": false
+              },
+              "soundBefore": "false",
+              "soundAfter": "false"
+            },
+            "layout": {
+              "viewport": [
+                1280,
+                800
+              ],
+              "scrollWidth": 1280,
+              "scrollHeight": 804,
+              "board": {
+                "x": 484.5,
+                "y": 135.1875,
+                "width": 311,
+                "height": 622
+              },
+              "previewCells": [
+                {
+                  "id": "held",
+                  "rect": {
+                    "x": 291.671875,
+                    "y": 493.9375,
+                    "width": 128,
+                    "height": 52
+                  },
+                  "backing": [
+                    128,
+                    52
+                  ],
+                  "objectFit": "contain",
+                  "rawAspect": 1
+                },
+                {
+                  "id": "",
+                  "rect": {
+                    "x": 860.328125,
+                    "y": 180.6875,
+                    "width": 128,
+                    "height": 52
+                  },
+                  "backing": [
+                    128,
+                    52
+                  ],
+                  "objectFit": "contain",
+                  "rawAspect": 1
+                },
+                {
+                  "id": "",
+                  "rect": {
+                    "x": 884.328125,
+                    "y": 243.1875,
+                    "width": 80,
+                    "height": 44
+                  },
+                  "backing": [
+                    80,
+                    44
+                  ],
+                  "objectFit": "contain",
+                  "rawAspect": 1
+                },
+                {
+                  "id": "",
+                  "rect": {
+                    "x": 884.328125,
+                    "y": 297.6875,
+                    "width": 80,
+                    "height": 44
+                  },
+                  "backing": [
+                    80,
+                    44
+                  ],
+                  "objectFit": "contain",
+                  "rawAspect": 1
+                }
+              ],
+              "buttons": 10,
+              "nextPieces": [
+                "L",
+                "T",
+                "Z"
+              ],
+              "held": "T",
+              "ghost": [
+                {
+                  "cell": [
+                    4,
+                    18
+                  ],
+                  "edge": [
+                    112,
+                    86,
+                    155,
+                    255
+                  ],
+                  "center": [
+                    28,
+                    26,
+                    47,
+                    255
+                  ]
+                },
+                {
+                  "cell": [
+                    3,
+                    19
+                  ],
+                  "edge": [
+                    112,
+                    86,
+                    155,
+                    255
+                  ],
+                  "center": [
+                    28,
+                    26,
+                    47,
+                    255
+                  ]
+                },
+                {
+                  "cell": [
+                    4,
+                    19
+                  ],
+                  "edge": [
+                    112,
+                    86,
+                    155,
+                    255
+                  ],
+                  "center": [
+                    28,
+                    26,
+                    47,
+                    255
+                  ]
+                },
+                {
+                  "cell": [
+                    5,
+                    19
+                  ],
+                  "edge": [
+                    112,
+                    86,
+                    155,
+                    255
+                  ],
+                  "center": [
+                    28,
+                    26,
+                    47,
+                    255
+                  ]
+                }
+              ],
+              "score": "000000",
+              "overlay": false
+            },
+            "errors": [],
+            "failedAssets": []
+          },
+          "mobile": {
+            "baseline": {
+              "title": "Tetris · Endless Arcade",
+              "overlay": true
+            },
+            "engine": {
+              "srs": {
+                "states": [],
+                "kickLists": [],
+                "outcomes": [],
+                "attempts": 576
+              },
+              "bags": 100,
+              "hold": "pass",
+              "drops": [
+                {
+                  "k": "I",
+                  "ghost": 14,
+                  "points": 25
+                },
+                {
+                  "k": "J",
+                  "ghost": 14,
+                  "points": 25
+                },
+                {
+                  "k": "L",
+                  "ghost": 14,
+                  "points": 25
+                },
+                {
+                  "k": "O",
+                  "ghost": 14,
+                  "points": 25
+                },
+                {
+                  "k": "S",
+                  "ghost": 14,
+                  "points": 25
+                },
+                {
+                  "k": "T",
+                  "ghost": 14,
+                  "points": 25
+                },
+                {
+                  "k": "Z",
+                  "ghost": 14,
+                  "points": 25
+                }
+              ],
+              "clocks": {
+                "boundary": "pass",
+                "reset": "pass",
+                "after15": {
+                  "cells": 4,
+                  "resets": 0
+                },
+                "after15plus499": 4,
+                "after16plus1": 4,
+                "failedWall": 4,
+                "capBoundary": [
+                  {
+                    "moves": 14,
+                    "afterMoves": 0,
+                    "after1": 0,
+                    "after499": 0,
+                    "after500": 4,
+                    "expected": {
+                      "afterMoves": 0,
+                      "after1": 0,
+                      "after499": 0,
+                      "after500": 4
+                    }
+                  },
+                  {
+                    "moves": 15,
+                    "afterMoves": 4,
+                    "after1": 4,
+                    "after499": 4,
+                    "after500": 4,
+                    "expected": {
+                      "afterMoves": 0,
+                      "after1": 0,
+                      "after499": 0,
+                      "after500": 4
+                    }
+                  }
+                ],
+                "ledges": [
+                  {
+                    "exhausted": false,
+                    "start": 490,
+                    "land": 6000,
+                    "lock": 6500,
+                    "expectedLock": 6500
+                  },
+                  {
+                    "exhausted": true,
+                    "start": 0,
+                    "land": 6000,
+                    "lock": 6500,
+                    "expectedLock": 6500
+                  }
+                ],
+                "newLowest": {
+                  "resets": 0,
+                  "cells": 1,
+                  "expectedCells": 1
+                },
+                "contact": [
+                  {
+                    "dt": 10,
+                    "actual": 1500,
+                    "expected": 1500
+                  },
+                  {
+                    "dt": 100,
+                    "actual": 1500,
+                    "expected": 1500
+                  },
+                  {
+                    "dt": 16.666666666666668,
+                    "actual": 1516.6666666666679,
+                    "expected": 1500
+                  },
+                  {
+                    "dt": 6.944444444444445,
+                    "actual": 1499.9999999999945,
+                    "expected": 1500
+                  }
+                ]
+              },
+              "gravity": [
+                {
+                  "level": 1,
+                  "actual": 1000,
+                  "expected": 1000,
+                  "policy": "curve, high-level cap/floor not scored"
+                },
+                {
+                  "level": 2,
+                  "actual": 793,
+                  "expected": 793,
+                  "policy": "curve, high-level cap/floor not scored"
+                },
+                {
+                  "level": 3,
+                  "actual": 617.8,
+                  "expected": 617.796,
+                  "policy": "curve, high-level cap/floor not scored"
+                },
+                {
+                  "level": 4,
+                  "actual": 472.8,
+                  "expected": 472.72913900000003,
+                  "policy": "curve, high-level cap/floor not scored"
+                },
+                {
+                  "level": 5,
+                  "actual": 355.2,
+                  "expected": 355.19692825600004,
+                  "policy": "curve, high-level cap/floor not scored"
+                },
+                {
+                  "level": 6,
+                  "actual": 262.1,
+                  "expected": 262.003549978125,
+                  "policy": "curve, high-level cap/floor not scored"
+                },
+                {
+                  "level": 7,
+                  "actual": 189.7,
+                  "expected": 189.67724533271814,
+                  "policy": "curve, high-level cap/floor not scored"
+                },
+                {
+                  "level": 8,
+                  "actual": 134.8,
+                  "expected": 134.7347308155587,
+                  "policy": "curve, high-level cap/floor not scored"
+                },
+                {
+                  "level": 9,
+                  "actual": 93.9,
+                  "expected": 93.88224890421264,
+                  "policy": "curve, high-level cap/floor not scored"
+                },
+                {
+                  "level": 10,
+                  "actual": 64.2,
+                  "expected": 64.15158495985582,
+                  "policy": "curve, high-level cap/floor not scored"
+                },
+                {
+                  "level": 11,
+                  "actual": 43,
+                  "expected": 42.976258297035564,
+                  "policy": "curve, high-level cap/floor not scored"
+                },
+                {
+                  "level": 12,
+                  "actual": 28.3,
+                  "expected": 28.21767780121165,
+                  "policy": "curve, high-level cap/floor not scored"
+                },
+                {
+                  "level": 13,
+                  "actual": 18.2,
+                  "expected": 18.153328543517738,
+                  "policy": "curve, high-level cap/floor not scored"
+                },
+                {
+                  "level": 14,
+                  "actual": 11.5,
+                  "expected": 11.43934234680738,
+                  "policy": "curve, high-level cap/floor not scored"
+                },
+                {
+                  "level": 15,
+                  "actual": 7.1,
+                  "expected": 7.058616220934218,
+                  "policy": "curve, high-level cap/floor not scored"
+                },
+                {
+                  "level": 16,
+                  "actual": 4.3,
+                  "expected": 4.263556954438949,
+                  "policy": "curve, high-level cap/floor not scored"
+                },
+                {
+                  "level": 17,
+                  "actual": 2.6,
+                  "expected": 2.5200839695077955,
+                  "policy": "curve, high-level cap/floor not scored"
+                },
+                {
+                  "level": 18,
+                  "actual": 1.5,
+                  "expected": 1.4571387328407777,
+                  "policy": "curve, high-level cap/floor not scored"
+                },
+                {
+                  "level": 19,
+                  "actual": 0.9,
+                  "expected": 0.8239068955658087,
+                  "policy": "curve, high-level cap/floor not scored"
+                },
+                {
+                  "level": 20,
+                  "actual": 0.9,
+                  "expected": 0.45539771210842706,
+                  "policy": "curve, high-level cap/floor not scored"
+                }
+              ],
+              "softTiming": [
+                {
+                  "phase": 0,
+                  "rows": 0,
+                  "points": 0
+                },
+                {
+                  "phase": 49,
+                  "rows": 0,
+                  "points": 0
+                },
+                {
+                  "phase": 100,
+                  "rows": 0,
+                  "points": 0
+                },
+                {
+                  "phase": 900,
+                  "rows": 0,
+                  "points": 0
+                },
+                {
+                  "phase": 999,
+                  "rows": 1,
+                  "points": 1
+                }
+              ],
+              "cadence": [
+                {
+                  "hz": 60,
+                  "rows": 2,
+                  "score": 0
+                },
+                {
+                  "hz": 144,
+                  "rows": 2,
+                  "score": 0
+                }
+              ],
+              "scoring": {
+                "clears": [
+                  100,
+                  300,
+                  500,
+                  800
+                ],
+                "pc": [
+                  900,
+                  1500,
+                  2300,
+                  2800
+                ],
+                "combo": {
+                  "deltas": [
+                    100,
+                    150
+                  ],
+                  "total": 250
+                },
+                "b2b": {
+                  "deltas": [
+                    800,
+                    0,
+                    1200
+                  ],
+                  "total": 2000
+                },
+                "break": {
+                  "deltas": [
+                    800,
+                    150,
+                    900
+                  ],
+                  "total": 1850
+                },
+                "pcB2b": {
+                  "deltas": [
+                    800,
+                    0,
+                    4400
+                  ],
+                  "total": 5200
+                },
+                "crossing": {
+                  "score": 900,
+                  "level": 2,
+                  "lines": 10
+                },
+                "comboLevel2": 300
+              },
+              "spins": {
+                "hard-mini-zero": 100,
+                "hard-mini-single": 200,
+                "hard-full-zero": 400,
+                "hard-full-single": 800,
+                "timed-mini-zero": 100,
+                "timed-mini-single": 200,
+                "timed-full-zero": 400,
+                "timed-full-single": 800,
+                "facings": [
+                  {
+                    "r": 0,
+                    "full": false,
+                    "score": 100
+                  },
+                  {
+                    "r": 0,
+                    "full": true,
+                    "score": 400
+                  },
+                  {
+                    "r": 1,
+                    "full": false,
+                    "score": 100
+                  },
+                  {
+                    "r": 1,
+                    "full": true,
+                    "score": 400
+                  },
+                  {
+                    "r": 2,
+                    "full": false,
+                    "score": 100
+                  },
+                  {
+                    "r": 2,
+                    "full": true,
+                    "score": 400
+                  },
+                  {
+                    "r": 3,
+                    "full": false,
+                    "score": 100
+                  },
+                  {
+                    "r": 3,
+                    "full": true,
+                    "score": 400
+                  }
+                ],
+                "hardTravel": 28,
+                "softTravel": 14,
+                "failedActions": 400,
+                "noRotation": 0,
+                "fourthKick": {
+                  "pose": {
+                    "kind": "T",
+                    "r": 0,
+                    "x": 3,
+                    "y": 15
+                  },
+                  "credit": true,
+                  "score": 100
+                },
+                "fifthKick": {
+                  "pose": {
+                    "kind": "T",
+                    "r": 2,
+                    "x": 4,
+                    "y": 15
+                  },
+                  "credit": true,
+                  "score": 400
+                },
+                "double": {
+                  "score": 1200,
+                  "lines": 2
+                },
+                "twoCorners": 0,
+                "lateralCancel": 0,
+                "b2bWithNoClear": [
+                  800,
+                  0,
+                  1200
+                ]
+              },
+              "publicHidden": [
+                {
+                  "partial": false,
+                  "spawn": {
+                    "kind": "T",
+                    "r": 0,
+                    "x": 3,
+                    "y": -1
+                  },
+                  "before": {
+                    "kind": "T",
+                    "r": 0,
+                    "x": 0,
+                    "y": -2
+                  },
+                  "distance": 0,
+                  "over": true,
+                  "cells": 7,
+                  "expectedOver": true
+                },
+                {
+                  "partial": true,
+                  "spawn": {
+                    "kind": "T",
+                    "r": 0,
+                    "x": 3,
+                    "y": -1
+                  },
+                  "before": {
+                    "kind": "T",
+                    "r": 0,
+                    "x": 7,
+                    "y": -1
+                  },
+                  "distance": 0,
+                  "over": false,
+                  "cells": 5,
+                  "expectedOver": false
+                }
+              ],
+              "hidden": [
+                {
+                  "partial": false,
+                  "over": true,
+                  "cells": 5
+                },
+                {
+                  "partial": true,
+                  "over": false,
+                  "cells": 5
+                }
+              ],
+              "terminal": "pass",
+              "compaction": "pass",
+              "restart": [
+                12,
+                11,
+                12
+              ]
+            },
+            "keys": [
+              {
+                "key": "ArrowLeft",
+                "before": {
+                  "pose": {
+                    "kind": "T",
+                    "r": 0,
+                    "x": 3,
+                    "y": 4
+                  },
+                  "count": 0,
+                  "score": 0,
+                  "held": null,
+                  "used": false,
+                  "over": false
+                },
+                "after": {
+                  "pose": {
+                    "kind": "T",
+                    "r": 0,
+                    "x": 2,
+                    "y": 4
+                  },
+                  "count": 0,
+                  "score": 0,
+                  "held": null,
+                  "used": false,
+                  "over": false
+                }
+              },
+              {
+                "key": "ArrowRight",
+                "before": {
+                  "pose": {
+                    "kind": "T",
+                    "r": 0,
+                    "x": 2,
+                    "y": 4
+                  },
+                  "count": 0,
+                  "score": 0,
+                  "held": null,
+                  "used": false,
+                  "over": false
+                },
+                "after": {
+                  "pose": {
+                    "kind": "T",
+                    "r": 0,
+                    "x": 3,
+                    "y": 4
+                  },
+                  "count": 0,
+                  "score": 0,
+                  "held": null,
+                  "used": false,
+                  "over": false
+                }
+              },
+              {
+                "key": "ArrowUp",
+                "before": {
+                  "pose": {
+                    "kind": "T",
+                    "r": 0,
+                    "x": 3,
+                    "y": 4
+                  },
+                  "count": 0,
+                  "score": 0,
+                  "held": null,
+                  "used": false,
+                  "over": false
+                },
+                "after": {
+                  "pose": {
+                    "kind": "T",
+                    "r": 1,
+                    "x": 3,
+                    "y": 4
+                  },
+                  "count": 0,
+                  "score": 0,
+                  "held": null,
+                  "used": false,
+                  "over": false
+                }
+              },
+              {
+                "key": "x",
+                "before": {
+                  "pose": {
+                    "kind": "T",
+                    "r": 1,
+                    "x": 3,
+                    "y": 4
+                  },
+                  "count": 0,
+                  "score": 0,
+                  "held": null,
+                  "used": false,
+                  "over": false
+                },
+                "after": {
+                  "pose": {
+                    "kind": "T",
+                    "r": 2,
+                    "x": 3,
+                    "y": 4
+                  },
+                  "count": 0,
+                  "score": 0,
+                  "held": null,
+                  "used": false,
+                  "over": false
+                }
+              },
+              {
+                "key": "z",
+                "before": {
+                  "pose": {
+                    "kind": "T",
+                    "r": 2,
+                    "x": 3,
+                    "y": 4
+                  },
+                  "count": 0,
+                  "score": 0,
+                  "held": null,
+                  "used": false,
+                  "over": false
+                },
+                "after": {
+                  "pose": {
+                    "kind": "T",
+                    "r": 1,
+                    "x": 3,
+                    "y": 4
+                  },
+                  "count": 0,
+                  "score": 0,
+                  "held": null,
+                  "used": false,
+                  "over": false
+                }
+              },
+              {
+                "key": "ControlLeft",
+                "before": {
+                  "pose": {
+                    "kind": "T",
+                    "r": 1,
+                    "x": 3,
+                    "y": 4
+                  },
+                  "count": 0,
+                  "score": 0,
+                  "held": null,
+                  "used": false,
+                  "over": false
+                },
+                "after": {
+                  "pose": {
+                    "kind": "T",
+                    "r": 0,
+                    "x": 3,
+                    "y": 4
+                  },
+                  "count": 0,
+                  "score": 0,
+                  "held": null,
+                  "used": false,
+                  "over": false
+                }
+              },
+              {
+                "key": "ArrowDown",
+                "before": {
+                  "pose": {
+                    "kind": "T",
+                    "r": 0,
+                    "x": 3,
+                    "y": 4
+                  },
+                  "count": 0,
+                  "score": 0,
+                  "held": null,
+                  "used": false,
+                  "over": false
+                },
+                "after": {
+                  "pose": {
+                    "kind": "T",
+                    "r": 0,
+                    "x": 3,
+                    "y": 5
+                  },
+                  "count": 0,
+                  "score": 1,
+                  "held": null,
+                  "used": false,
+                  "over": false
+                }
+              },
+              {
+                "key": "Space",
+                "before": {
+                  "pose": {
+                    "kind": "T",
+                    "r": 0,
+                    "x": 3,
+                    "y": 5
+                  },
+                  "count": 0,
+                  "score": 1,
+                  "held": null,
+                  "used": false,
+                  "over": false
+                },
+                "after": {
+                  "pose": {
+                    "kind": "I",
+                    "r": 0,
+                    "x": 3,
+                    "y": -1
+                  },
+                  "count": 4,
+                  "score": 27,
+                  "held": null,
+                  "used": false,
+                  "over": false
+                }
+              },
+              {
+                "key": "c",
+                "before": {
+                  "pose": {
+                    "kind": "I",
+                    "r": 0,
+                    "x": 3,
+                    "y": -1
+                  },
+                  "count": 4,
+                  "score": 27,
+                  "held": null,
+                  "used": false,
+                  "over": false
+                },
+                "after": {
+                  "pose": {
+                    "kind": "L",
+                    "r": 0,
+                    "x": 3,
+                    "y": -1
+                  },
+                  "count": 4,
+                  "score": 27,
+                  "held": "I",
+                  "used": true,
+                  "over": false
+                }
+              }
+            ],
+            "spins": {
+              "travel": {
+                "distance": 14,
+                "actual": 28,
+                "expected": 28
+              },
+              "mini": {
+                "distance": 0,
+                "actual": 100,
+                "expected": 100
+              },
+              "full": {
+                "distance": 0,
+                "actual": 400,
+                "expected": 400
+              }
+            },
+            "lockCap": {
+              "after14": {
+                "pose": {
+                  "kind": "O",
+                  "r": 0,
+                  "x": 3,
+                  "y": 18
+                },
+                "count": 0,
+                "score": 0,
+                "held": null,
+                "used": false,
+                "over": false
+              },
+              "after15": {
+                "pose": {
+                  "kind": "I",
+                  "r": 0,
+                  "x": 3,
+                  "y": -1
+                },
+                "count": 4,
+                "score": 0,
+                "held": null,
+                "used": false,
+                "over": false
+              },
+              "after1": {
+                "pose": {
+                  "kind": "I",
+                  "r": 0,
+                  "x": 3,
+                  "y": -1
+                },
+                "count": 4,
+                "score": 0,
+                "held": null,
+                "used": false,
+                "over": false
+              }
+            },
+            "ledge": {
+              "resets": 0,
+              "before": {
+                "pose": {
+                  "kind": "O",
+                  "r": 0,
+                  "x": 1,
+                  "y": 18
+                },
+                "count": 1,
+                "score": 0,
+                "held": null,
+                "used": false,
+                "over": false
+              },
+              "after": {
+                "pose": {
+                  "kind": "O",
+                  "r": 0,
+                  "x": 2,
+                  "y": 18
+                },
+                "count": 1,
+                "score": 0,
+                "held": null,
+                "used": false,
+                "over": false
+              }
+            },
+            "hidden": [
+              {
+                "partial": false,
+                "state": {
+                  "pose": {
+                    "kind": "O",
+                    "r": 0,
+                    "x": 0,
+                    "y": -2
+                  },
+                  "count": 5,
+                  "score": 0,
+                  "held": null,
+                  "used": false,
+                  "over": true
+                }
+              },
+              {
+                "partial": true,
+                "state": {
+                  "pose": {
+                    "kind": "I",
+                    "r": 0,
+                    "x": 3,
+                    "y": -1
+                  },
+                  "count": 5,
+                  "score": 0,
+                  "held": null,
+                  "used": false,
+                  "over": false
+                }
+              }
+            ],
+            "contact": {
+              "actual": 1500,
+              "expected": 1500
+            },
+            "gameover": {
+              "state": {
+                "pose": {
+                  "kind": "L",
+                  "r": 0,
+                  "x": 3,
+                  "y": -2
+                },
+                "count": 48,
+                "score": 210,
+                "held": null,
+                "used": false,
+                "over": true
+              },
+              "overlay": true
+            },
+            "restarted": {
+              "pose": {
+                "kind": "L",
+                "r": 0,
+                "x": 3,
+                "y": -1
+              },
+              "count": 0,
+              "score": 0,
+              "held": null,
+              "used": false,
+              "over": false
+            },
+            "focusedSpace": {
+              "before": {
+                "pose": {
+                  "kind": "T",
+                  "r": 0,
+                  "x": 3,
+                  "y": 4
+                },
+                "count": 0,
+                "score": 0,
+                "held": null,
+                "used": false,
+                "over": false
+              },
+              "after": {
+                "pose": {
+                  "kind": "I",
+                  "r": 0,
+                  "x": 3,
+                  "y": -1
+                },
+                "count": 4,
+                "score": 28,
+                "held": null,
+                "used": false,
+                "over": false
+              }
+            },
+            "touch": [
+              {
+                "code": "ArrowLeft",
+                "before": {
+                  "pose": {
+                    "kind": "T",
+                    "r": 0,
+                    "x": 3,
+                    "y": 4
+                  },
+                  "count": 0,
+                  "score": 0,
+                  "held": null,
+                  "used": false,
+                  "over": false
+                },
+                "after": {
+                  "pose": {
+                    "kind": "T",
+                    "r": 0,
+                    "x": 2,
+                    "y": 4
+                  },
+                  "count": 0,
+                  "score": 0,
+                  "held": null,
+                  "used": false,
+                  "over": false
+                }
+              },
+              {
+                "code": "ArrowRight",
+                "before": {
+                  "pose": {
+                    "kind": "T",
+                    "r": 0,
+                    "x": 3,
+                    "y": 4
+                  },
+                  "count": 0,
+                  "score": 0,
+                  "held": null,
+                  "used": false,
+                  "over": false
+                },
+                "after": {
+                  "pose": {
+                    "kind": "T",
+                    "r": 0,
+                    "x": 4,
+                    "y": 4
+                  },
+                  "count": 0,
+                  "score": 0,
+                  "held": null,
+                  "used": false,
+                  "over": false
+                }
+              },
+              {
+                "code": "KeyZ",
+                "before": {
+                  "pose": {
+                    "kind": "T",
+                    "r": 0,
+                    "x": 3,
+                    "y": 4
+                  },
+                  "count": 0,
+                  "score": 0,
+                  "held": null,
+                  "used": false,
+                  "over": false
+                },
+                "after": {
+                  "pose": {
+                    "kind": "T",
+                    "r": 3,
+                    "x": 3,
+                    "y": 4
+                  },
+                  "count": 0,
+                  "score": 0,
+                  "held": null,
+                  "used": false,
+                  "over": false
+                }
+              },
+              {
+                "code": "KeyX",
+                "before": {
+                  "pose": {
+                    "kind": "T",
+                    "r": 0,
+                    "x": 3,
+                    "y": 4
+                  },
+                  "count": 0,
+                  "score": 0,
+                  "held": null,
+                  "used": false,
+                  "over": false
+                },
+                "after": {
+                  "pose": {
+                    "kind": "T",
+                    "r": 1,
+                    "x": 3,
+                    "y": 4
+                  },
+                  "count": 0,
+                  "score": 0,
+                  "held": null,
+                  "used": false,
+                  "over": false
+                }
+              },
+              {
+                "code": "ArrowDown",
+                "before": {
+                  "pose": {
+                    "kind": "T",
+                    "r": 0,
+                    "x": 3,
+                    "y": 4
+                  },
+                  "count": 0,
+                  "score": 0,
+                  "held": null,
+                  "used": false,
+                  "over": false
+                },
+                "after": {
+                  "pose": {
+                    "kind": "T",
+                    "r": 0,
+                    "x": 3,
+                    "y": 5
+                  },
+                  "count": 0,
+                  "score": 1,
+                  "held": null,
+                  "used": false,
+                  "over": false
+                }
+              },
+              {
+                "code": "Space",
+                "before": {
+                  "pose": {
+                    "kind": "T",
+                    "r": 0,
+                    "x": 3,
+                    "y": 4
+                  },
+                  "count": 0,
+                  "score": 0,
+                  "held": null,
+                  "used": false,
+                  "over": false
+                },
+                "after": {
+                  "pose": {
+                    "kind": "I",
+                    "r": 0,
+                    "x": 3,
+                    "y": -1
+                  },
+                  "count": 4,
+                  "score": 28,
+                  "held": null,
+                  "used": false,
+                  "over": false
+                }
+              },
+              {
+                "code": "hold",
+                "before": {
+                  "pose": {
+                    "kind": "T",
+                    "r": 0,
+                    "x": 3,
+                    "y": 4
+                  },
+                  "count": 0,
+                  "score": 0,
+                  "held": null,
+                  "used": false,
+                  "over": false
+                },
+                "after": {
+                  "pose": {
+                    "kind": "I",
+                    "r": 0,
+                    "x": 3,
+                    "y": -1
+                  },
+                  "count": 0,
+                  "score": 0,
+                  "held": "T",
+                  "used": true,
+                  "over": false
+                }
+              }
+            ],
+            "soundSpace": {
+              "before": {
+                "pose": {
+                  "kind": "I",
+                  "r": 0,
+                  "x": 3,
+                  "y": -1
+                },
+                "count": 4,
+                "score": 28,
+                "held": null,
+                "used": false,
+                "over": false
+              },
+              "after": {
+                "pose": {
+                  "kind": "L",
+                  "r": 0,
+                  "x": 3,
+                  "y": -1
+                },
+                "count": 8,
+                "score": 62,
+                "held": null,
+                "used": false,
+                "over": false
+              },
+              "soundBefore": "false",
+              "soundAfter": "false"
+            },
+            "layout": {
+              "viewport": [
+                390,
+                844
+              ],
+              "scrollWidth": 390,
+              "scrollHeight": 844,
+              "board": {
+                "x": 15.5,
+                "y": 197,
+                "width": 233,
+                "height": 466
+              },
+              "previewCells": [
+                {
+                  "id": "held",
+                  "rect": {
+                    "x": 281.5,
+                    "y": 418,
+                    "width": 82,
+                    "height": 36
+                  },
+                  "backing": [
+                    128,
+                    52
+                  ],
+                  "objectFit": "contain",
+                  "rawAspect": 0.9253472222222222
+                },
+                {
+                  "id": "",
+                  "rect": {
+                    "x": 279.5,
+                    "y": 508,
+                    "width": 86,
+                    "height": 34.9375
+                  },
+                  "backing": [
+                    128,
+                    52
+                  ],
+                  "objectFit": "contain",
+                  "rawAspect": 1
+                },
+                {
+                  "id": "",
+                  "rect": {
+                    "x": 274.5,
+                    "y": 543.9375,
+                    "width": 48,
+                    "height": 26.390625
+                  },
+                  "backing": [
+                    80,
+                    44
+                  ],
+                  "objectFit": "contain",
+                  "rawAspect": 1.0003552397868563
+                },
+                {
+                  "id": "",
+                  "rect": {
+                    "x": 322.5,
+                    "y": 543.9375,
+                    "width": 48,
+                    "height": 26.390625
+                  },
+                  "backing": [
+                    80,
+                    44
+                  ],
+                  "objectFit": "contain",
+                  "rawAspect": 1.0003552397868563
+                }
+              ],
+              "buttons": 10,
+              "nextPieces": [
+                "L",
+                "T",
+                "Z"
+              ],
+              "held": "T",
+              "ghost": [
+                {
+                  "cell": [
+                    4,
+                    18
+                  ],
+                  "edge": [
+                    112,
+                    86,
+                    155,
+                    255
+                  ],
+                  "center": [
+                    28,
+                    26,
+                    47,
+                    255
+                  ]
+                },
+                {
+                  "cell": [
+                    3,
+                    19
+                  ],
+                  "edge": [
+                    112,
+                    86,
+                    155,
+                    255
+                  ],
+                  "center": [
+                    28,
+                    26,
+                    47,
+                    255
+                  ]
+                },
+                {
+                  "cell": [
+                    4,
+                    19
+                  ],
+                  "edge": [
+                    112,
+                    86,
+                    155,
+                    255
+                  ],
+                  "center": [
+                    28,
+                    26,
+                    47,
+                    255
+                  ]
+                },
+                {
+                  "cell": [
+                    5,
+                    19
+                  ],
+                  "edge": [
+                    112,
+                    86,
+                    155,
+                    255
+                  ],
+                  "center": [
+                    28,
+                    26,
+                    47,
+                    255
+                  ]
+                }
+              ],
+              "score": "000000",
+              "overlay": false
+            },
+            "errors": [],
+            "failedAssets": []
+          }
+        }
+      }
+    }
+  },
+  "environment": {
+    "node": "v26.0.0",
+    "npm": "11.17.0",
+    "python": "Python 3.14.5",
+    "playwright": "1.64.0"
+  },
+  "review": {
+    "artifact": ".audit/gpt62-astra-xhigh-max-review.md",
+    "order": [
+      "xhigh",
+      "max"
+    ],
+    "scores_and_findings": [
+      {
+        "run_id": "gpt-6.2-astra-xhigh",
+        "audited": "2026-11-19",
+        "scores": {
+          "correctness": 9.0,
+          "tests": 7.5,
+          "code": 9.0,
+          "simplicity": 9.0,
+          "browser_ux": 9.0
+        },
+        "bugs": [
+          {
+            "severity": "minor",
+            "title": "The fifteenth reset loses its delay on the next tick",
+            "detail": "Grounded O at native (3,38), wait100ms,15 alternating successful Right/Left moves. After move15 lockTime=0 and no stored minos; tick(1) writes4 instead of granting500ms. Fourteen-reset control passes499/500ms. Both Chromium key paths agree."
+          },
+          {
+            "severity": "minor",
+            "title": "A clicked Sound button captures Space instead of hard drop",
+            "detail": "During play mouse-click Sound (#audio), then actual Space. At desktop and390x844, sound toggles false→true while stored cells4, score28 and active O(4,-1) stay unchanged. Expected hard drop and unchanged sound. The focused-visible-button key guard returns and Sound retains focus."
+          }
+        ],
+        "summary": "Complete tested scoring and hidden lock-out; fifteenth-reset and focused-Sound Space minors"
+      },
+      {
+        "run_id": "gpt-6.2-astra-max",
+        "audited": "2026-11-19",
+        "scores": {
+          "correctness": 9.5,
+          "tests": 8.5,
+          "code": 9.0,
+          "simplicity": 9.0,
+          "browser_ux": 9.0
+        },
+        "bugs": [
+          {
+            "severity": "minor",
+            "title": "The fifteenth grounded reset locks immediately",
+            "detail": "Grounded O at native (2,38), contact established, wait100ms,15 alternating successful Right/Left moves. Move15 immediately stores4 minos and spawns the next piece instead of granting500ms. Fourteen-reset control passes499/500ms. updateContact locks at lockMoves>=15; its own test expects that early lock. Actual keys agree in both Chromium sizes."
+          }
+        ],
+        "summary": "Broad own suite and complete tested SRS/scoring/top-out; fifteenth-reset boundary minor"
+      }
+    ],
+    "weighted": {
+      "xhigh": 8.7,
+      "max": 9.1
+    },
+    "independent": true,
+    "delegated_by_reviewer": false,
+    "tested_model_transcripts_read": false,
+    "t3_files_read": false,
+    "coverage_limits": [
+      "focused conformance, not exhaustive state space",
+      "Chromium only; no physical-touch, high-DPI or long-duration certification",
+      "spin triples/mini doubles source-reviewed without separate integration fixture",
+      "automatic-gravity spin policy unresolved; unscored"
+    ],
+    "calibration": {
+      "astra_low": 7.75,
+      "astra_medium": 7.9,
+      "astra_high": 8.6,
+      "lock_cap_minor_reference": ".audit/gpt62-sol-xhigh-max-review.md",
+      "focused_sound_minor_reference": ".audit/gpt61-sol-review.md#xhigh--925",
+      "preview_scaling": "object-fit:contain preserves square minos despite CSS box aspect; no defect",
+      "generation_accounting_affects_quality": false
+    }
+  },
+  "preservation": {
+    "protected_root_hashes": {
+      "benchmark-runs.json": "6bcbb2ec610714a21b4e4044cca9aa3c46163a14b392f8df7eb1b3418b192c80",
+      "pricing.json": "ac79d3c88aae17cc88bde432cfbbeedcac8b059fa95af12299103d5866c0e772"
+    },
+    "unchanged_previous_ranking_entries": 99,
+    "delivered_hashes_checked_unchanged": 38,
+    "temporary_copies_servers_browsers_logs_screenshots_removed": true
+  },
+  "screenshots_inspected": {
+    "xhigh": [
+      "desktop.png",
+      "mobile.png",
+      "desktop-held-O.png",
+      "mobile-held-O.png"
+    ],
+    "max": [
+      "desktop.png",
+      "mobile.png",
+      "desktop-held-O.png",
+      "mobile-held-O.png"
+    ],
+    "retained": false
+  },
+  "validation": {
+    "full_recorded_workflow": "passed xhigh then max; npm ci offline, explicit build, unchanged npm test, Node and both Chromium sizes",
+    "pinned_fresh_copy_reproduction": "passed xhigh then max, exact engine/browser outcomes and hashes",
+    "benchmark_render": {
+      "command": "python3 scripts/benchmark.py render",
+      "exit_code": 0
+    },
+    "benchmark_verify": {
+      "command": "python3 scripts/benchmark.py verify",
+      "exit_code": 0
+    },
+    "ranking_validator": {
+      "command": "node .audit/verify-ranking.mjs",
+      "exit_code": 0,
+      "local_links": 605,
+      "score_rows": 101
+    },
+    "javascript_syntax": "both probes passed node --check",
+    "python_syntax": "runner ast.parse passed",
+    "diff_check": "git diff --check passed",
+    "cleanup": "all random audit copies, screenshots, logs, owned servers and Chromium contexts removed"
+  }
+}
