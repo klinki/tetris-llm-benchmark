@@ -49,7 +49,12 @@ SYSTEM_PREFIXES = (
     "/dev/", "/usr/", "/bin/", "/sbin/", "/etc/", "/tmp/", "/private/tmp/", "/var/folders/",
     "/private/var/folders/", "/opt/", "/System/", "/Library/", "/Applications/",
 )
-HOME_CACHES = (".npm", ".cache", ".nvm", ".bun", ".yarn", ".pnpm-store", ".node-gyp", "Library/Caches")
+# Package caches, and the harness's own skill files (Codex reads ~/.codex/skills/playwright to drive a browser).
+HOME_CACHES = (".npm", ".cache", ".nvm", ".bun", ".yarn", ".pnpm-store", ".node-gyp", "Library/Caches", ".codex/skills")
+# Harnesses look for instruction files in every folder above the workspace.
+INSTRUCTION_FILES = ("AGENTS.md", "CLAUDE.md")
+# How a locked or protected path shows up in a listing the lock refused.
+DENIED = re.compile(r"Permission denied|Operation not permitted")
 # Web search queries and fetched URLs; looking up the rules is fine, looking up this benchmark is not.
 WEB_KEYS = {"url", "query", "patterns"}
 WEB_MODES = ("open", "blocked")
@@ -198,9 +203,14 @@ def lock_sources(root: Path, archive: Path | None = None) -> list[str]:
     return [item["path"] for item in locked]
 
 
+def protected_paths(root: Path, archive: Path | None = None) -> list[Path]:
+    """What a tested agent must not read: the repository and everything a run locks."""
+    return [root.resolve(), *lock_paths(root, archive)]
+
 
 def lock_active(root: Path) -> bool:
     return (root / ".bench" / LOCK_STATE).is_file()
+
 
 def unlock_sources(root: Path) -> list[str]:
     """Restore what `lock_sources` locked, once its run has finished (see `release_lock`)."""
@@ -661,10 +671,43 @@ SCREENSHOT_PATH = re.compile(r'"screenshotPath\\?"\s*:\s*\\?"([^"\\]+)')
 SHELL_OUTPUT_PATH = re.compile(r"Output is streaming to: (\S+\.out)")
 
 
+def _resolved(text: str, workspace: Path) -> Path:
+    path = Path(os.path.expanduser(text))
+    return Path(os.path.normpath(path if path.is_absolute() else workspace / path))
+
+
+def _harmless_above(text: str, workspace: Path) -> str | None:
+    """How a reference above the workspace may be harmless: an instruction-file probe, or a listing or search.
+
+    Only in the isolated layout (`runs/<random>/tetris`), whose parents hold no other run; early
+    workspaces sat beside other implementations, and listing their parent found them (Beam)."""
+    if workspace.name != WORKSPACE_NAME:
+        return None
+    resolved = _resolved(text, workspace)
+    if resolved.name in INSTRUCTION_FILES and resolved.parent in workspace.parents:
+        return "instructions"
+    return "listing" if resolved in workspace.parents else None
+
+
+def _exposes(outputs: list[str], protected: list[Path]) -> bool:
+    """Whether a tool's output shows anything readable under a protected path (the repository or a locked folder)."""
+    names = [str(path) for path in protected]
+    for text in outputs:
+        for line in re.split(r"\\n|\n", text):
+            if any(name in line for name in names) and not DENIED.search(line):
+                return True
+    return False
+
+
 def outside_access(
     t3_home: Path, thread_id: str, workspace: str, markers: list[str] | None = None,
+    protected: list[Path] | None = None,
 ) -> list[dict[str, str]]:
-    """Tool calls that left the run's workspace, read T3's own data, or looked up this benchmark."""
+    """Tool calls that left the run's workspace, read T3's own data, or looked up this benchmark.
+
+    Probing the folders above the workspace for AGENTS.md is not a finding, and neither is listing
+    or searching them (Codex searches the home folder for a browser) when `protected` is given and
+    the output shows nothing readable under it: every earlier run answered Permission denied."""
     root = Path(os.path.normpath(workspace))
     t3_data = Path(os.path.normpath(t3_home))
     findings = []
@@ -694,10 +737,15 @@ def outside_access(
                 "reference": json.dumps(payload.get("input"))[:500],
             })
         fields = {key: payload.get(key) for key in ("input", "pattern", "patterns", "fileName", "results") if key in payload}
+        outputs = _strings(payload.get("output")) + _strings(payload.get("results"))
         for kind, text in _references(fields):
             finding = finding_kind(kind, text, root, t3_data, markers or [])
             if finding and os.path.normpath(os.path.expanduser(text)) in own_files:
                 continue
+            if finding in ("path", "command"):
+                above = _harmless_above(text, root)
+                if above == "instructions" or (above == "listing" and protected and not _exposes(outputs, protected)):
+                    continue
             if finding:
                 findings.append({"time": payload.get("startedAt", ""), "tool": tool, "kind": finding, "reference": text})
         for text in _strings(payload.get("output")) + _strings(payload.get("results")):

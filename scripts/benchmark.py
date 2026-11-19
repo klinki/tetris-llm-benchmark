@@ -2022,11 +2022,12 @@ def import_t3_run(
             "Use --allow-approvals to import it anyway."
         )
     markers = t3_runs.benchmark_markers(root)
-    findings = t3_runs.outside_access(t3_home, identity["t3_thread_id"], record["workspace"], markers)
+    protected = t3_runs.protected_paths(root, Path(record["archive"]) if record.get("archive") else None)
+    findings = t3_runs.outside_access(t3_home, identity["t3_thread_id"], record["workspace"], markers, protected)
     for subagent in identity.get("subagents", []):
         findings += [
             {**item, "tool": f"{subagent['title']} {item['tool']}"}
-            for item in t3_runs.outside_access(t3_home, subagent["thread_id"], record["workspace"], markers)
+            for item in t3_runs.outside_access(t3_home, subagent["thread_id"], record["workspace"], markers, protected)
         ]
     if findings and not allow_outside:
         listed = "\n".join(
@@ -2290,14 +2291,15 @@ def run_batch(
 def isolation_report(root: Path, runs: list[dict[str, Any]], t3_home: Path) -> int:
     flagged = 0
     markers = t3_runs.benchmark_markers(root)
+    protected = t3_runs.protected_paths(root, Path("~/tetris-bench").expanduser() / t3_runs.ARCHIVE_NAME)
     for run in runs:
         if not run["harness"].startswith("t3_"):
             continue
-        findings = t3_runs.outside_access(t3_home, run["t3_thread_id"], run["expected_cwd"], markers)
+        findings = t3_runs.outside_access(t3_home, run["t3_thread_id"], run["expected_cwd"], markers, protected)
         for subagent in run.get("t3_subagents", []):
             findings += [
                 {**item, "tool": f"{subagent['title']} {item['tool']}"}
-                for item in t3_runs.outside_access(t3_home, subagent["thread_id"], run["expected_cwd"], markers)
+                for item in t3_runs.outside_access(t3_home, subagent["thread_id"], run["expected_cwd"], markers, protected)
             ]
         flagged += bool(findings)
         print(f"{run['id']}: {'no access outside the workspace' if not findings else f'{len(findings)} outside reference(s)'}")

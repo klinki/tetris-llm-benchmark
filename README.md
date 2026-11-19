@@ -695,6 +695,17 @@ is fine; finding other runs' code or results is not. A run with findings is
 refused unless imported with `--allow-outside`, in which case the findings are
 stored with its registry entry. `python3 scripts/benchmark.py isolation
 [RUN_ID]` runs the same check on registered T3 runs.
+Three things a harness does on its own are not findings. Harnesses look for
+`AGENTS.md` and `CLAUDE.md` in every folder above the workspace, and Codex reads
+its own skill files under `~/.codex/skills` (its Playwright skill drives a
+browser). Listing or searching a folder above the workspace, up to the home
+folder (Codex searches it for a browser), is not a finding either when the
+output shows nothing readable under the repository or a locked folder: every
+earlier run there answered `Permission denied`. These exceptions hold only in
+the isolated `runs/<random>/tetris` layout, whose parents hold no other run.
+Reading the docs of an app that acts on the user's accounts, such as Codex's
+Sites skill, is still reported.
+
 When findings have been reviewed by hand, `isolation.review` records the
 conclusion; the runs that predate isolated workspaces were reviewed this way in
 [`.audit/pre-isolation-runs-review.md`](.audit/pre-isolation-runs-review.md).

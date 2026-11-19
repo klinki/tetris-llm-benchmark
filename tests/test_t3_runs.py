@@ -72,6 +72,55 @@ class OutsideAccessTests(unittest.TestCase):
         self.assertEqual(found, [])
 
 
+class HarmlessAboveWorkspaceTests(unittest.TestCase):
+    """Codex's startup and browser lookups that the run lock already made harmless."""
+    REPO = Path("/Users/someone/projects/tetris-llm-benchmark")
+
+    def setUp(self) -> None:
+        self.temporary = tempfile.TemporaryDirectory()
+        self.home = Path(self.temporary.name) / ".t3"
+        (self.home / "userdata").mkdir(parents=True)
+
+    def tearDown(self) -> None:
+        self.temporary.cleanup()
+
+    def findings(self, *items: tuple, workspace: str = WORKSPACE) -> list[str]:
+        with closing(sqlite3.connect(self.home / "userdata" / "statev2.sqlite")) as connection:
+            connection.execute(
+                "CREATE TABLE orchestration_v2_projection_turn_items (thread_id, type, ordinal, payload_json)"
+            )
+            connection.executemany("INSERT INTO orchestration_v2_projection_turn_items VALUES (?, ?, ?, ?)", items)
+            connection.commit()
+        with mock.patch.object(Path, "home", return_value=Path("/Users/someone")):
+            return [item["reference"] for item in t3_runs.outside_access(
+                self.home, "thread-1", workspace, [], [self.REPO, self.REPO / "space-bunny"],
+            )]
+
+    def test_instruction_files_above_the_workspace_and_skill_files_are_not_findings(self) -> None:
+        found = self.findings(
+            tool_item(1, "command_execution", input="for p in /Users/someone/AGENTS.md /Users/someone/tetris-bench/runs/AGENTS.md; do cat $p; done"),
+            tool_item(2, "command_execution", input="cat /Users/someone/.codex/skills/playwright/SKILL.md"),
+            tool_item(3, "command_execution", input="cat /Users/someone/notes/AGENTS.md"),
+        )
+        self.assertEqual(found, ["/Users/someone/notes/AGENTS.md"])
+
+    def test_a_home_search_is_fine_only_while_every_protected_path_was_denied(self) -> None:
+        denied = f"rg: {self.REPO}/space-bunny: Permission denied (os error 13)\n/Users/someone/.codex/x/playwright.md"
+        exposed = f"{self.REPO}/ranking.json\n{self.REPO}/space-bunny/src/game.ts"
+        found = self.findings(
+            tool_item(1, "command_execution", input="rg --files /Users/someone -g '*playwright*'", output=denied),
+            tool_item(2, "command_execution", input="rg --files /Users/someone -g '*.ts'", output=exposed),
+        )
+        self.assertEqual(found, ["/Users/someone"])
+
+    def test_early_shared_workspaces_keep_their_parent_listings_as_findings(self) -> None:
+        found = self.findings(
+            tool_item(1, "command_execution", input="ls /Users/someone/projects/tetris", output="beam\nspace-bunny"),
+            workspace="/Users/someone/projects/tetris/beam",
+        )
+        self.assertEqual(found, ["/Users/someone/projects/tetris"])
+
+
 class BenchmarkLookupTests(unittest.TestCase):
     MARKERS = ["tetris-llm-benchmark", "owner.github.io/tetris-llm-benchmark"]
 
@@ -452,7 +501,7 @@ class ImportTests(unittest.TestCase):
         finding = {"time": "2026-10-24T10:00:00Z", "tool": "exec", "kind": "path", "reference": "/elsewhere"}
         scanned = []
 
-        def access(home, thread_id, workspace, markers):
+        def access(home, thread_id, workspace, markers, protected=None):
             scanned.append(thread_id)
             return [finding] if thread_id == "sub-1" else []
 
