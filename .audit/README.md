@@ -2,6 +2,40 @@
 
 This directory contains the reproducible, repository-safe parts of the audit behind [`RANKING.md`](../RANKING.md). Generated builds, copied `node_modules` trees, temporary web servers, browser profiles, and timestamped Playwright artifacts are intentionally excluded.
 
+## GPT-6.2 Astra medium / high — November 19, 2026
+
+The [independent GPT-6.1 Sol xhigh audit](gpt62-astra-medium-high-review.md)
+scores **medium7.90 / high8.60**, reviewed in that order. Medium scores
+correctness9.0 / own tests4.5 / code8.0 / simplicity9.5 / UX8.5; high scores
+9.0 /7.0 /9.0 /9.0 /9.0. Each has two minors: medium retains lock timing and
+spent resets after descent (including pre-contact landing time) and lacks
+wholly hidden lock-out; high lacks hidden lock-out and mildly stretches
+held previews. High passes the lower-row and contact-clock controls.
+
+The [evidence](gpt62-astra-medium-high-evidence.json) records actual native
+reviewer model/effort/session/turn, own T3 identifier, all26 unchanged file
+hashes, locked installs/builds, unchanged6/11 own passes,28 canonical states,
+48 ordered kick lists/576 real rotations and100 bags per run, scoring and
+clock/boundary probes identical in Node and both Chromium sizes. Both runs
+pass exact HD-SPIN-1, PC1–4/B2B/combo, real keys, pause, phone buttons and R.
+Four final layout PNGs plus two held-O diagnostics were visually inspected.
+All97 prior ranking entries and registry/pricing/statistics are preserved.
+
+```sh
+python3 .audit/run-gpt62-astra-medium-high-audit.py --offline
+```
+
+[Runner](run-gpt62-astra-medium-high-audit.py),
+[engine probes](gpt62-astra-medium-high-audit.mjs),
+[browser probes](gpt62-astra-medium-high-browser.cjs). Supports `--effort`,
+`--engine-only`, `--review` (inspect before cleanup), intentional `--record`.
+Installed Playwright/Chromium only, no downloads. Only disposable server port
+literals change; free41000–49999 ports. All copies, PNGs, logs and owned
+browser/server groups are deleted. No generation, accounting update, commit,
+push, PR or archival. Automatic review rejected the optional own-thread-link
+lookup; native identity is verified, and the parent can add the thread link
+from its delegation record and perform later lifecycle steps.
+
 ## GPT-6.2 Astra low — November 18, 2026
 
 The [independent GPT-6.1 Sol xhigh audit](gpt62-astra-low-review.md)

@@ -3423,6 +3423,54 @@
         }
       ],
       "summary": "Standard Tetris with strong scoring; retained lock state and absent wholly hidden lock-out; narrow smoke suite"
+    },
+    {
+      "run_id": "gpt-6.2-astra-medium",
+      "audited": "2026-11-19",
+      "scores": {
+        "correctness": 9,
+        "tests": 4.5,
+        "code": 8,
+        "simplicity": 9.5,
+        "browser_ux": 8.5
+      },
+      "bugs": [
+        {
+          "severity": "minor",
+          "title": "Lock timing and spent resets survive descent incorrectly",
+          "detail": "O0(0,12), supports(0,14),(1,14),15 alternating moves,490ms,Right twice: lands5510ms after departure and locks5519 instead of6010. Lower-row control retains resets15;400ms,Right,100ms welds instead of granting a fresh500ms reset. O0(3,17),tick(100) locks1400ms rather than1500 by charging the pre-contact landing frame. These related variants share one minor. Reset15 itself grants500ms."
+        },
+        {
+          "severity": "minor",
+          "title": "A wholly hidden lock does not top out",
+          "detail": "Grounded O0 at visible occupied origin(0,-2),support(0,0),next I,zero-travel hard drop stores four hidden O cells and spawns I with over=false instead of lock-out. Node and desktop/phone actual Space reproduce it. Pose-free T spawn on stack(2,0),(3,1),(4,1),CW,CCW,Left,Left also reaches grounded T0(0,-2) and continues after hard drop. Partial-hidden locks, blocked spawn and terminal guards work."
+        }
+      ],
+      "summary": "Standard Tetris and scoring; retained lock state, missing wholly hidden lock-out; narrow smoke suite"
+    },
+    {
+      "run_id": "gpt-6.2-astra-high",
+      "audited": "2026-11-19",
+      "scores": {
+        "correctness": 9,
+        "tests": 7,
+        "code": 9,
+        "simplicity": 9,
+        "browser_ux": 9
+      },
+      "bugs": [
+        {
+          "severity": "minor",
+          "title": "A wholly hidden lock does not top out",
+          "detail": "Grounded O0 at visible occupied origin(0,-2),support(0,0),next I,zero-travel hard drop stores four hidden O cells and spawns I with over=false instead of lock-out. Node and desktop/phone actual Space reproduce it. Pose-free T spawn on stack(2,0),(3,1),(4,1),CW,CCW,Left,Left also reaches grounded T0(0,-2) and continues after hard drop. Partial-hidden locks, blocked spawn and terminal guards work."
+        },
+        {
+          "severity": "minor",
+          "title": "Hold previews scale square cells non-uniformly",
+          "detail": "Display preview uses logical100x42 with independent x/y scaling, but hold CSS is120x48 on desktop:16-unit cells become19.2x18.286px (aspect1.05). At390x844 hold is77.203125x34px (aspect0.953686), mildly taller than wide; phone next aspect0.98 shares this group. Held O screenshots confirm the small authored distortion. Board and all previews fit; expected isotropic scaling. Same preview-aspect class as earlier minors."
+        }
+      ],
+      "summary": "Strong standard engine and deterministic tests; missing wholly hidden lock-out and mild hold-preview stretching"
     }
   ]
 }
