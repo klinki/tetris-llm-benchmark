@@ -609,6 +609,14 @@ and rolls everything back if any step fails. The run shows as `Pending` until
 it is audited and scored. Its model needs a [`pricing.json`](pricing.json)
 entry first.
 
+For Codex runs, `import` also records `subscription_quota`: how much of the
+subscription's 5-hour and weekly windows the benchmark turn used, read from the
+`rate_limits` snapshots in the native session log. Notification turns are noted
+but not counted. The figure has no effect on scores; a review's quota is added
+to the run's note once the review is recorded. `python3 scripts/benchmark.py quota`
+shows where the windows stand now and when each resets, to check that the next
+run or review fits.
+
 ### Completing a benchmark
 
 The final quality audit and scoring must come from an independent
@@ -865,6 +873,16 @@ import refusal such as an isolation finding or failing tests. That run stays
 pending to inspect, then import (with `--allow-outside`, `--build-failure`, or
 `--test-failure` as appropriate) or `discard`. Quality audits are a separate
 step.
+
+For Codex models, `batch` checks the subscription windows before each effort
+after the first. It expects the next effort to use up to three times what the
+previous one used (GPT-6.2 Astra max used 3.1 times xhigh's 5-hour share). If
+that does not fit, it waits for the window to reset, at most `--max-quota-wait`
+hours (default 6), and stops when the effort could not fit even a fresh
+window, since a run that hits a limit stalls and its time is spoiled.
+`--no-quota-check` turns this off. `new` and `batch` also refuse a model that
+has no `pricing.json` entry, which `import` would otherwise refuse after the
+run.
 
 ## Adding a benchmark run
 

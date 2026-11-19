@@ -2095,6 +2095,13 @@ def import_t3_run(
     later_turns = t3_runs.notification_turns(t3_home, identity["t3_thread_id"])
     if later_turns:
         entry["t3_notification_turns"] = later_turns
+    if identity["driver"] == "codex":
+        # Quota is accounting on top of the run; a session log without snapshots leaves it out.
+        try:
+            if quota := t3_runs.codex_quota(homes[0], identity["session_id"]):
+                entry["subscription_quota"] = quota
+        except t3_runs.RunError as error:
+            print(f"No subscription quota recorded: {error}")
 
     destination = root / run_id
     original_manifest = append_manifest_entry(root, entry)
@@ -2247,9 +2254,48 @@ def commit_run(root: Path, entry: dict[str, Any]) -> str:
     return subprocess.run(["git", "log", "--oneline", "-1"], cwd=root, text=True, capture_output=True).stdout.strip()
 
 
+# Each effort step can use several times the quota of the one before: GPT-6.2 Astra max used 3.1 times
+# the 5-hour share of xhigh, and GPT-6 Astra high 6 times that of medium. A batch plans for 3 times.
+QUOTA_GROWTH = 3.0
+
+
+def quota_used(entry: dict[str, Any]) -> dict[str, float]:
+    """How many points of each subscription window an imported run used."""
+    windows = (entry.get("subscription_quota") or {}).get("windows", [])
+    return {window["name"]: window["used_percent_end"] - window["used_percent_start"] for window in windows}
+
+
+def quota_plan(
+    latest: dict[str, Any] | None, now: float, last_use: dict[str, float], max_wait: float,
+) -> tuple[str, float, str]:
+    """Whether the next effort fits the subscription windows: ("go" | "wait" | "stop", seconds, reason).
+
+    It is projected as QUOTA_GROWTH times what the previous effort used. A run that hits a limit
+    stalls on rate limits, which spoils its time, so a batch waits for the window to reset or stops."""
+    if not latest:
+        return "go", 0.0, ""
+    for key, name in t3_runs.QUOTA_WINDOWS:
+        window, previous = latest.get(key), last_use.get(name)
+        if not window or previous is None:
+            continue
+        need = previous * QUOTA_GROWTH
+        used = 0.0 if window["resets_at"] <= now else window["used_percent"]
+        if used + need <= 100:
+            continue
+        if need > 100:
+            return "stop", 0.0, (f"the next effort is projected to use about {need:.0f}% of the {name} window "
+                                 f"({QUOTA_GROWTH:g} x the previous {previous:g} points), more than a whole window")
+        wait = window["resets_at"] - now
+        reason = f"the next effort needs about {need:.0f}% of the {name} window, which has {100 - used:g}% left"
+        if wait > max_wait:
+            return "stop", 0.0, f"{reason}; it resets in {wait / 3600:.1f}h, longer than --max-quota-wait"
+        return "wait", wait + 60, f"{reason}; waiting {wait / 60:.0f} min for it to reset"
+    return "go", 0.0, ""
+
+
 def run_batch(
     root: Path, homes: tuple[Path, Path, Path, Path], model: str, efforts: list[str], workspaces: Path,
-    instance: str | None, commit: bool, interval: float,
+    instance: str | None, commit: bool, interval: float, max_quota_wait: float | None = 6 * 3600,
 ) -> list[str]:
     """Run one model at several efforts, one at a time, cleaning up around each run.
 
@@ -2257,7 +2303,16 @@ def run_batch(
     isolation finding, or failing tests. That run stays pending to inspect, import, or discard."""
     t3_home = homes[3]
     imported: list[str] = []
+    last_use: dict[str, float] = {}
     for effort in efforts:
+        while max_quota_wait is not None and last_use:
+            action, seconds, reason = quota_plan(t3_runs.codex_quota_now(homes[0]), time.time(), last_use, max_quota_wait)
+            if action == "go":
+                break
+            if action == "stop":
+                raise BenchmarkError(f"stopped before {effort}: {reason}")
+            print(f"  quota: {reason}", flush=True)
+            time.sleep(seconds)
         _, runs = load_manifest(root)
         for line in preflight(root, runs, workspaces):
             print(f"  preflight: {line}", flush=True)
@@ -2282,6 +2337,7 @@ def run_batch(
             print(f"  cleanup: {line}", flush=True)
         entry = import_t3_run(root, record, homes, allow_outside=False, allow_approvals=False)
         imported.append(entry["id"])
+        last_use = quota_used(entry)
         print(f"{record['key']}: imported as {entry['id']}", flush=True)
         if commit:
             print(f"  committed {commit_run(root, entry)}", flush=True)
@@ -2306,6 +2362,24 @@ def isolation_report(root: Path, runs: list[dict[str, Any]], t3_home: Path) -> i
         for item in findings:
             print(f"  {item['time'][11:19]} {item['tool']} {item['kind']}: {item['reference'][:160]}")
     return flagged
+
+
+def quota_report(latest: dict[str, Any] | None, now: float) -> list[str]:
+    """Where the Codex windows stand: a window whose reset time has passed is empty again."""
+    if not latest:
+        return ["No Codex session has recorded rate limits yet."]
+    lines = [f"Codex plan `{latest.get('plan_type') or 'unknown'}`, last reading at {latest['at'][:19]}Z:"]
+    for key, name in t3_runs.QUOTA_WINDOWS:
+        window = latest.get(key)
+        if not window:
+            continue
+        resets = dt.datetime.fromtimestamp(window["resets_at"]).astimezone()
+        if window["resets_at"] <= now:
+            lines.append(f"  {name}: 0% used (it reset at {resets:%a %H:%M} after the reading of {window['used_percent']:g}%)")
+        else:
+            left = int(window["resets_at"] - now) // 60
+            lines.append(f"  {name}: {window['used_percent']:g}% used, resets {resets:%a %H:%M} (in {left // 60}h {left % 60:02d}m)")
+    return lines
 
 
 def overlap_report(root: Path, by_id: dict[str, dict[str, Any]], t3_home: Path, keys: list[str]) -> int:
@@ -2436,6 +2510,11 @@ def parse_args(argv: list[str]) -> argparse.Namespace:
     batch_parser.add_argument("--instance", help="T3 provider instance, when more than one is enabled")
     batch_parser.add_argument("--commit", action="store_true", help="Commit each run as soon as it is imported")
     batch_parser.add_argument("--interval", type=float, default=20, help="Seconds between status checks (default: 20)")
+    batch_parser.add_argument(
+        "--max-quota-wait", type=float, default=6, metavar="HOURS",
+        help="Wait at most this long for a Codex window to reset before the next effort, else stop (default: 6)",
+    )
+    batch_parser.add_argument("--no-quota-check", action="store_true", help="Do not check Codex quota between efforts")
     batch_parser.add_argument("--workspaces", type=Path, default=Path("~/tetris-bench/runs"), help=argparse.SUPPRESS)
     cleanup_parser = subparsers.add_parser(
         "cleanup", help="After a run: remove its /tmp files and stop what it left running",
@@ -2481,6 +2560,7 @@ def parse_args(argv: list[str]) -> argparse.Namespace:
     import_parser.add_argument("--interrupted-reason", metavar="DESCRIPTION", help="What blocked the agent")
     isolation_parser = subparsers.add_parser("isolation", help="Report T3 runs that reached outside their workspace")
     isolation_parser.add_argument("run_id", nargs="?")
+    subparsers.add_parser("quota", help="Show how much of the Codex subscription windows is used, and when they reset")
     overlaps_parser = subparsers.add_parser(
         "overlaps", help="Report /tmp entries and localhost ports that concurrent T3 runs shared",
     )
@@ -2525,6 +2605,19 @@ def release_lock(root: Path, t3_home: Path, command: str, force: bool) -> None:
         print(f"Unlocked {len(unlocked)} path(s) locked during the run")
 
 
+def require_price(pricing: dict[str, Any], model: str) -> None:
+    """Refuse a run whose model `import` could not price, before it spends any quota.
+
+    T3 may name a model with its provider (`opencode-go/gemini-4-argon-contributor`); import
+    looks the price up by the model T3 recorded, which can itself contain a slash."""
+    names = {model, model.split("/", 1)[-1], model.split("/")[-1]}
+    if not names & set(pricing.get("models", {})):
+        raise BenchmarkError(
+            f"pricing.json has no entry for {model}; add its price (or an `unpriced` reason) before the run, "
+            "since `import` refuses an unpriced model"
+        )
+
+
 def main(argv: list[str] | None = None) -> int:
     args = parse_args(argv or sys.argv[1:])
     root = repository_root()
@@ -2546,6 +2639,8 @@ def main(argv: list[str] | None = None) -> int:
     ranking = load_ranking(root, runs)
     pricing = load_pricing(root, runs)
     by_id = {run["id"]: run for run in runs}
+    if args.command in ("new", "batch"):
+        require_price(pricing, args.model)
     if args.command == "refresh":
         if args.all:
             selected = runs
@@ -2588,6 +2683,7 @@ def main(argv: list[str] | None = None) -> int:
     elif args.command == "batch":
         imported = run_batch(
             root, homes, args.model, args.efforts, args.workspaces, args.instance, args.commit, args.interval,
+            None if args.no_quota_check else args.max_quota_wait * 3600,
         )
         print(f"Imported {len(imported)} run(s): {', '.join(imported)}")
         if imported:
@@ -2614,6 +2710,8 @@ def main(argv: list[str] | None = None) -> int:
         if args.run_id and args.run_id not in by_id:
             raise BenchmarkError(f"Unknown run ID: {args.run_id}")
         return 1 if isolation_report(root, selected, t3_home) else 0
+    elif args.command == "quota":
+        print("\n".join(quota_report(t3_runs.codex_quota_now(codex_home), time.time())))
     elif args.command == "overlaps":
         return overlap_report(root, by_id, t3_home, args.keys)
     else:

@@ -512,13 +512,84 @@ def codex_home() -> Path:
     return Path(os.environ.get("CODEX_HOME", Path.home() / ".codex")).expanduser()
 
 
-def codex_turn_context(home: Path, session_id: str) -> dict[str, Any]:
-    """The model, effort, cwd, and service tier Codex itself recorded for a session, which T3 does not store."""
+QUOTA_WINDOWS = (("primary", "5-hour"), ("secondary", "Weekly"))
+
+
+def codex_rollout(home: Path, session_id: str) -> Path:
     paths = sorted((home / "sessions").glob(f"**/rollout-*-{glob.escape(session_id)}.jsonl"))
     if len(paths) != 1:
         raise RunError(f"Found {len(paths)} Codex rollouts for session {session_id} under {home}")
+    return paths[0]
+
+
+def codex_quota(home: Path, session_id: str, whole_session: bool = False) -> dict[str, Any] | None:
+    """How much of the subscription's rate-limit windows the benchmark turn used, from Codex's own snapshots.
+
+    Codex attaches `rate_limits` to its token_count events. The first snapshot comes after the first
+    request, so the start reading can trail the true start by part of a point. Later (notification)
+    turns are reported in the note, not in the figure."""
+    snapshots: list[tuple[str, int, dict[str, Any]]] = []
+    turn = 0
+    for line in codex_rollout(home, session_id).read_text().splitlines():
+        record = json.loads(line)
+        payload = record.get("payload") or {}
+        if payload.get("type") == "task_started":
+            turn += 1
+        elif payload.get("type") == "token_count" and payload.get("rate_limits"):
+            snapshots.append((record["timestamp"], max(turn, 1), payload["rate_limits"]))
+    # A tested run is measured over its benchmark turn; a review over its whole session.
+    first = snapshots if whole_session else [snapshot for snapshot in snapshots if snapshot[1] == 1]
+    if not first:
+        return None
+    (start_time, _, start), (end_time, _, end) = first[0], first[-1]
+    windows, notes = [], []
+    for key, name in QUOTA_WINDOWS:
+        if not (start.get(key) and end.get(key)):
+            continue
+        windows.append({
+            "name": name, "window_minutes": end[key]["window_minutes"],
+            "used_percent_start": start[key]["used_percent"], "used_percent_end": end[key]["used_percent"],
+        })
+        # The reported reset time jitters by a few seconds; a real reset moves it by a whole window.
+        if abs((end[key].get("resets_at") or 0) - (start[key].get("resets_at") or 0)) > 600:
+            notes.append(f"The {name} window reset during the run, so its change understates the use.")
+    later = [] if whole_session else [snapshot for snapshot in snapshots if snapshot[1] > 1]
+    if later:
+        last_time, last_turn, last = later[-1]
+        used = ", ".join(f"{name} {last[key]['used_percent']:g}%" for key, name in QUOTA_WINDOWS if last.get(key))
+        notes.append(
+            f"Later notification turns (through turn {last_turn}) are not part of this figure; "
+            f"after them the windows read {used} at {last_time[11:19]}Z."
+        )
+    return {
+        "provider": "Codex", "plan": end.get("plan_type") or "unknown",
+        "source": (f"the `rate_limits` snapshots in the tested agent's native Codex session log "
+                   f"({len(first)} snapshots{'' if whole_session else ' in turn 1'}, "
+                   f"{start_time[11:19]}Z to {end_time[11:19]}Z)"),
+        "windows": windows,
+        # Always present, so a review's quota can be added to it later.
+        "note": " ".join(notes),
+    }
+
+
+def codex_quota_now(home: Path) -> dict[str, Any] | None:
+    """The newest rate-limit snapshot any Codex session recorded, with its time."""
+    for path in sorted((home / "sessions").glob("**/rollout-*.jsonl"), key=lambda item: item.stat().st_mtime, reverse=True):
+        latest = None
+        for line in path.read_text().splitlines():
+            record = json.loads(line)
+            payload = record.get("payload") or {}
+            if payload.get("type") == "token_count" and payload.get("rate_limits"):
+                latest = {"at": record["timestamp"], **payload["rate_limits"]}
+        if latest:
+            return latest
+    return None
+
+
+def codex_turn_context(home: Path, session_id: str) -> dict[str, Any]:
+    """The model, effort, cwd, and service tier Codex itself recorded for a session, which T3 does not store."""
     contexts = []
-    for line in paths[0].read_text().splitlines():
+    for line in codex_rollout(home, session_id).read_text().splitlines():
         record = json.loads(line)
         if record.get("type") == "turn_context":
             payload = record["payload"]
