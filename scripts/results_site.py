@@ -461,12 +461,16 @@ def relativize_urls(index_html: str) -> tuple[str, list[str]]:
     return ROOT_RELATIVE_ATTRIBUTE.sub(relative, index_html), rewritten
 
 
+# Browser-automation output an agent left behind; it is git-ignored, so only a local build would copy it.
+AGENT_CLUTTER = ("output", ".playwright-cli")
+
+
 def build_game(root: Path, run: dict[str, Any], destination: Path) -> dict[str, Any]:
     with tempfile.TemporaryDirectory(prefix=f"site-{run['id']}-") as temporary:
         work = Path(temporary) / run["project_dir"]
         shutil.copytree(
             root / run["project_dir"], work,
-            ignore=shutil.ignore_patterns(".git", "node_modules", "dist", "STATISTICS.md"),
+            ignore=shutil.ignore_patterns(".git", "node_modules", "dist", "STATISTICS.md", *AGENT_CLUTTER),
         )
         install = ["npm", "install" if run.get("missing_lockfile") else "ci", "--ignore-scripts", "--no-audit", "--no-fund"]
         for command in (install, ["npm", "run", "build"]):
