@@ -1,0 +1,5113 @@
+{
+  "runs": {
+    "medium": {
+      "run_id": "gpt-6-astra-medium",
+      "audited": "2026-11-19",
+      "hashes": {
+        ".gitignore": "790e3169bc19b046fe55ba1da6d13b976c28363c8c00462a2195fe5faf260910",
+        "README.md": "36e2097a78fe8b5646e6216338640831cff0a284cc823c4b1f658991c8d40294",
+        "STATISTICS.md": "3a819521abb3d6bac03a288198d4dad0b359da957fa2f6726827578ee7c08c25",
+        "index.html": "8213fb4e7817cdaf24cc2a0ef783ffd969103c65f46c26bf80b790db9578a90d",
+        "package-lock.json": "096c98b9ed899459d3f1f10036858b13cb19230e5cf15200d74879252f8d89eb",
+        "package.json": "f488b26ce36c7d8e7aa63f091eccc6260ee407263e07e40480e13b8fc2b16ca3",
+        "server.mjs": "0a58aa7b828868e482c9c04ce69bf8ecb3607d6c3609bea1b4c75620d6b8f783",
+        "src/game.ts": "75c8c5a00f5437c98d1730a1292917993bf995dac1dbbef4b305411c641a75f4",
+        "src/main.ts": "4f0a46f27929b4b6412018e7471dba1a50af52812eb556d541e5b16ba6adf05a",
+        "style.css": "3e01d9940f79cdc3a573a88fcd60457ac889d8a246af7da683420a127b73c814",
+        "tests/game.test.mjs": "822fe53f3034a2bfdb9e8b0dec470148b705c43051664edc5771dfdfce743607",
+        "tsconfig.json": "ce9616bf5949188d6a11475aac61c7e04227f46b0544c4dc9c313e3bb6eb144d"
+      },
+      "workflow": {
+        "install": "\nadded 1 package, and audited 2 packages in 146ms\n\nfound 0 vulnerabilities\n",
+        "build": "\n> tetrisjs@1.0.0 build\n> tsc\n\n",
+        "unchanged_npm_test": "\n> tetrisjs@1.0.0 test\n> npm run build && node --test tests/*.test.mjs\n\n\n> tetrisjs@1.0.0 build\n> tsc\n\n✔ bags contain all seven shapes (1.154958ms)\n✔ hold is restricted until a piece locks (0.201167ms)\n✔ ghost and hard drop land without overlaps (0.351917ms)\n✔ I rotation kicks away from wall (0.112125ms)\n✔ four rows clear and award Tetris plus perfect clear (0.103208ms)\n✔ grounded piece waits 500ms before locking (0.101083ms)\n✔ blocked spawn ends game (0.043291ms)\n✔ pause freezes simulation and controls (0.066125ms)\n✔ four rotations restore every shape (0.274875ms)\nℹ tests 9\nℹ suites 0\nℹ pass 9\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 70.382958\n"
+      },
+      "engine": {
+        "srs": {
+          "states": [],
+          "kickLists": [],
+          "outcomes": [],
+          "attempts": 576
+        },
+        "bags": 100,
+        "hold": "pass",
+        "holdClocks": "pass",
+        "drops": [
+          {
+            "k": "I",
+            "ghost": 14,
+            "points": 25
+          },
+          {
+            "k": "J",
+            "ghost": 14,
+            "points": 25
+          },
+          {
+            "k": "L",
+            "ghost": 14,
+            "points": 25
+          },
+          {
+            "k": "O",
+            "ghost": 14,
+            "points": 25
+          },
+          {
+            "k": "S",
+            "ghost": 14,
+            "points": 25
+          },
+          {
+            "k": "T",
+            "ghost": 14,
+            "points": 25
+          },
+          {
+            "k": "Z",
+            "ghost": 14,
+            "points": 25
+          }
+        ],
+        "clocks": {
+          "boundary": "pass",
+          "reset": "pass",
+          "after15": {
+            "cells": 0,
+            "resets": 15
+          },
+          "after15plus499": 0,
+          "after16plus1": 4,
+          "failedWall": 4,
+          "ledges": [
+            {
+              "exhausted": false,
+              "start": 0,
+              "land": 5510,
+              "lock": 6009,
+              "expectedLock": 6010
+            },
+            {
+              "exhausted": true,
+              "start": 490,
+              "land": 5510,
+              "lock": 6009,
+              "expectedLock": 6010
+            }
+          ],
+          "newLowest": {
+            "resets": 15,
+            "cells": 6,
+            "expectedCells": 2
+          },
+          "contact": [
+            {
+              "dt": 10,
+              "actual": 1490,
+              "expected": 1500
+            },
+            {
+              "dt": 100,
+              "actual": 1400,
+              "expected": 1500
+            },
+            {
+              "dt": 16.666666666666668,
+              "actual": 1500.0000000000011,
+              "expected": 1500
+            },
+            {
+              "dt": 6.944444444444445,
+              "actual": 1493.0555555555502,
+              "expected": 1500
+            }
+          ]
+        },
+        "softEntry": {
+          "before": {
+            "kind": "O",
+            "r": 0,
+            "x": 3,
+            "y": 0
+          },
+          "after": {
+            "kind": "O",
+            "r": 0,
+            "x": 3,
+            "y": 16
+          },
+          "score": 16,
+          "expectedRows": 0,
+          "expectedPoints": 0
+        },
+        "softEntryLedge": {
+          "before": {
+            "pose": {
+              "kind": "O",
+              "r": 0,
+              "x": 0,
+              "y": 12
+            },
+            "fall": 800,
+            "lock": 400
+          },
+          "after": {
+            "kind": "O",
+            "r": 0,
+            "x": 2,
+            "y": 18
+          },
+          "score": 6,
+          "expectedY": 12,
+          "expectedScore": 0
+        },
+        "gravity": [
+          {
+            "level": 1,
+            "actual": 1000,
+            "expected": 1000
+          },
+          {
+            "level": 2,
+            "actual": 793,
+            "expected": 793
+          },
+          {
+            "level": 3,
+            "actual": 617.8,
+            "expected": 617.796
+          },
+          {
+            "level": 4,
+            "actual": 472.8,
+            "expected": 472.72913900000003
+          },
+          {
+            "level": 5,
+            "actual": 355.2,
+            "expected": 355.19692825600004
+          },
+          {
+            "level": 6,
+            "actual": 262.1,
+            "expected": 262.003549978125
+          },
+          {
+            "level": 7,
+            "actual": 189.7,
+            "expected": 189.67724533271814
+          },
+          {
+            "level": 8,
+            "actual": 134.8,
+            "expected": 134.7347308155587
+          },
+          {
+            "level": 9,
+            "actual": 93.9,
+            "expected": 93.88224890421264
+          },
+          {
+            "level": 10,
+            "actual": 64.2,
+            "expected": 64.15158495985582
+          },
+          {
+            "level": 11,
+            "actual": 43,
+            "expected": 42.976258297035564
+          },
+          {
+            "level": 12,
+            "actual": 28.3,
+            "expected": 28.21767780121165
+          },
+          {
+            "level": 13,
+            "actual": 18.2,
+            "expected": 18.153328543517738
+          },
+          {
+            "level": 14,
+            "actual": 11.5,
+            "expected": 11.43934234680738
+          },
+          {
+            "level": 15,
+            "actual": 7.1,
+            "expected": 7.058616220934218
+          },
+          {
+            "level": 16,
+            "actual": 4.3,
+            "expected": 4.263556954438949
+          },
+          {
+            "level": 17,
+            "actual": 2.6,
+            "expected": 2.5200839695077955
+          },
+          {
+            "level": 18,
+            "actual": 1.5,
+            "expected": 1.4571387328407777
+          },
+          {
+            "level": 19,
+            "actual": 1.1,
+            "expected": 0.8239068955658087
+          },
+          {
+            "level": 20,
+            "actual": 1.1,
+            "expected": 0.45539771210842706
+          }
+        ],
+        "scoring": {
+          "clears": [
+            100,
+            300,
+            500,
+            800
+          ],
+          "pc": [
+            900,
+            1500,
+            2300,
+            2800
+          ],
+          "combo": {
+            "deltas": [
+              100,
+              150
+            ],
+            "total": 250
+          },
+          "b2b": {
+            "deltas": [
+              800,
+              0,
+              1200
+            ],
+            "total": 2000
+          },
+          "break": {
+            "deltas": [
+              800,
+              150,
+              900
+            ],
+            "total": 1850
+          },
+          "pcB2b": {
+            "deltas": [
+              800,
+              0,
+              3200
+            ],
+            "total": 4000
+          },
+          "crossing": {
+            "score": 900,
+            "level": 2,
+            "lines": 10
+          },
+          "comboLevel2": 300
+        },
+        "spins": {
+          "hard-mini-zero": 100,
+          "hard-mini-single": 200,
+          "hard-full-zero": 400,
+          "hard-full-single": 800,
+          "timed-mini-zero": 100,
+          "timed-mini-single": 200,
+          "timed-full-zero": 400,
+          "timed-full-single": 800,
+          "facings": [
+            {
+              "r": 0,
+              "full": false,
+              "score": 100
+            },
+            {
+              "r": 0,
+              "full": true,
+              "score": 400
+            },
+            {
+              "r": 1,
+              "full": false,
+              "score": 100
+            },
+            {
+              "r": 1,
+              "full": true,
+              "score": 400
+            },
+            {
+              "r": 2,
+              "full": false,
+              "score": 100
+            },
+            {
+              "r": 2,
+              "full": true,
+              "score": 400
+            },
+            {
+              "r": 3,
+              "full": false,
+              "score": 100
+            },
+            {
+              "r": 3,
+              "full": true,
+              "score": 400
+            }
+          ],
+          "hardTravel": 128,
+          "softTravel": 14,
+          "failedActions": 400,
+          "noRotation": 0,
+          "fourthKick": {
+            "pose": {
+              "kind": "T",
+              "r": 0,
+              "x": 3,
+              "y": 15
+            },
+            "credit": {
+              "rotated": true,
+              "kick": 3
+            },
+            "score": 100
+          },
+          "fifthKick": {
+            "pose": {
+              "kind": "T",
+              "r": 2,
+              "x": 4,
+              "y": 15
+            },
+            "credit": {
+              "rotated": true,
+              "kick": 4
+            },
+            "score": 400
+          },
+          "double": {
+            "score": 1200,
+            "lines": 2
+          },
+          "twoCorners": 0
+        },
+        "hidden": [
+          {
+            "partial": false,
+            "over": false,
+            "cells": 5
+          },
+          {
+            "partial": true,
+            "over": false,
+            "cells": 5
+          }
+        ],
+        "terminal": "pass",
+        "compaction": "pass",
+        "restart": [
+          12,
+          12,
+          11
+        ]
+      },
+      "browser": {
+        "browser": "156.0.8078.4",
+        "views": {
+          "desktop": {
+            "baseline": {
+              "started": true,
+              "hardDropPointsPositive": true
+            },
+            "engine": {
+              "srs": {
+                "states": [],
+                "kickLists": [],
+                "outcomes": [],
+                "attempts": 576
+              },
+              "bags": 100,
+              "hold": "pass",
+              "holdClocks": "pass",
+              "drops": [
+                {
+                  "k": "I",
+                  "ghost": 14,
+                  "points": 25
+                },
+                {
+                  "k": "J",
+                  "ghost": 14,
+                  "points": 25
+                },
+                {
+                  "k": "L",
+                  "ghost": 14,
+                  "points": 25
+                },
+                {
+                  "k": "O",
+                  "ghost": 14,
+                  "points": 25
+                },
+                {
+                  "k": "S",
+                  "ghost": 14,
+                  "points": 25
+                },
+                {
+                  "k": "T",
+                  "ghost": 14,
+                  "points": 25
+                },
+                {
+                  "k": "Z",
+                  "ghost": 14,
+                  "points": 25
+                }
+              ],
+              "clocks": {
+                "boundary": "pass",
+                "reset": "pass",
+                "after15": {
+                  "cells": 0,
+                  "resets": 15
+                },
+                "after15plus499": 0,
+                "after16plus1": 4,
+                "failedWall": 4,
+                "ledges": [
+                  {
+                    "exhausted": false,
+                    "start": 0,
+                    "land": 5510,
+                    "lock": 6009,
+                    "expectedLock": 6010
+                  },
+                  {
+                    "exhausted": true,
+                    "start": 490,
+                    "land": 5510,
+                    "lock": 6009,
+                    "expectedLock": 6010
+                  }
+                ],
+                "newLowest": {
+                  "resets": 15,
+                  "cells": 6,
+                  "expectedCells": 2
+                },
+                "contact": [
+                  {
+                    "dt": 10,
+                    "actual": 1490,
+                    "expected": 1500
+                  },
+                  {
+                    "dt": 100,
+                    "actual": 1400,
+                    "expected": 1500
+                  },
+                  {
+                    "dt": 16.666666666666668,
+                    "actual": 1500.0000000000011,
+                    "expected": 1500
+                  },
+                  {
+                    "dt": 6.944444444444445,
+                    "actual": 1493.0555555555502,
+                    "expected": 1500
+                  }
+                ]
+              },
+              "softEntry": {
+                "before": {
+                  "kind": "O",
+                  "r": 0,
+                  "x": 3,
+                  "y": 0
+                },
+                "after": {
+                  "kind": "O",
+                  "r": 0,
+                  "x": 3,
+                  "y": 16
+                },
+                "score": 16,
+                "expectedRows": 0,
+                "expectedPoints": 0
+              },
+              "softEntryLedge": {
+                "before": {
+                  "pose": {
+                    "kind": "O",
+                    "r": 0,
+                    "x": 0,
+                    "y": 12
+                  },
+                  "fall": 800,
+                  "lock": 400
+                },
+                "after": {
+                  "kind": "O",
+                  "r": 0,
+                  "x": 2,
+                  "y": 18
+                },
+                "score": 6,
+                "expectedY": 12,
+                "expectedScore": 0
+              },
+              "gravity": [
+                {
+                  "level": 1,
+                  "actual": 1000,
+                  "expected": 1000
+                },
+                {
+                  "level": 2,
+                  "actual": 793,
+                  "expected": 793
+                },
+                {
+                  "level": 3,
+                  "actual": 617.8,
+                  "expected": 617.796
+                },
+                {
+                  "level": 4,
+                  "actual": 472.8,
+                  "expected": 472.72913900000003
+                },
+                {
+                  "level": 5,
+                  "actual": 355.2,
+                  "expected": 355.19692825600004
+                },
+                {
+                  "level": 6,
+                  "actual": 262.1,
+                  "expected": 262.003549978125
+                },
+                {
+                  "level": 7,
+                  "actual": 189.7,
+                  "expected": 189.67724533271814
+                },
+                {
+                  "level": 8,
+                  "actual": 134.8,
+                  "expected": 134.7347308155587
+                },
+                {
+                  "level": 9,
+                  "actual": 93.9,
+                  "expected": 93.88224890421264
+                },
+                {
+                  "level": 10,
+                  "actual": 64.2,
+                  "expected": 64.15158495985582
+                },
+                {
+                  "level": 11,
+                  "actual": 43,
+                  "expected": 42.976258297035564
+                },
+                {
+                  "level": 12,
+                  "actual": 28.3,
+                  "expected": 28.21767780121165
+                },
+                {
+                  "level": 13,
+                  "actual": 18.2,
+                  "expected": 18.153328543517738
+                },
+                {
+                  "level": 14,
+                  "actual": 11.5,
+                  "expected": 11.43934234680738
+                },
+                {
+                  "level": 15,
+                  "actual": 7.1,
+                  "expected": 7.058616220934218
+                },
+                {
+                  "level": 16,
+                  "actual": 4.3,
+                  "expected": 4.263556954438949
+                },
+                {
+                  "level": 17,
+                  "actual": 2.6,
+                  "expected": 2.5200839695077955
+                },
+                {
+                  "level": 18,
+                  "actual": 1.5,
+                  "expected": 1.4571387328407777
+                },
+                {
+                  "level": 19,
+                  "actual": 1.1,
+                  "expected": 0.8239068955658087
+                },
+                {
+                  "level": 20,
+                  "actual": 1.1,
+                  "expected": 0.45539771210842706
+                }
+              ],
+              "scoring": {
+                "clears": [
+                  100,
+                  300,
+                  500,
+                  800
+                ],
+                "pc": [
+                  900,
+                  1500,
+                  2300,
+                  2800
+                ],
+                "combo": {
+                  "deltas": [
+                    100,
+                    150
+                  ],
+                  "total": 250
+                },
+                "b2b": {
+                  "deltas": [
+                    800,
+                    0,
+                    1200
+                  ],
+                  "total": 2000
+                },
+                "break": {
+                  "deltas": [
+                    800,
+                    150,
+                    900
+                  ],
+                  "total": 1850
+                },
+                "pcB2b": {
+                  "deltas": [
+                    800,
+                    0,
+                    3200
+                  ],
+                  "total": 4000
+                },
+                "crossing": {
+                  "score": 900,
+                  "level": 2,
+                  "lines": 10
+                },
+                "comboLevel2": 300
+              },
+              "spins": {
+                "hard-mini-zero": 100,
+                "hard-mini-single": 200,
+                "hard-full-zero": 400,
+                "hard-full-single": 800,
+                "timed-mini-zero": 100,
+                "timed-mini-single": 200,
+                "timed-full-zero": 400,
+                "timed-full-single": 800,
+                "facings": [
+                  {
+                    "r": 0,
+                    "full": false,
+                    "score": 100
+                  },
+                  {
+                    "r": 0,
+                    "full": true,
+                    "score": 400
+                  },
+                  {
+                    "r": 1,
+                    "full": false,
+                    "score": 100
+                  },
+                  {
+                    "r": 1,
+                    "full": true,
+                    "score": 400
+                  },
+                  {
+                    "r": 2,
+                    "full": false,
+                    "score": 100
+                  },
+                  {
+                    "r": 2,
+                    "full": true,
+                    "score": 400
+                  },
+                  {
+                    "r": 3,
+                    "full": false,
+                    "score": 100
+                  },
+                  {
+                    "r": 3,
+                    "full": true,
+                    "score": 400
+                  }
+                ],
+                "hardTravel": 128,
+                "softTravel": 14,
+                "failedActions": 400,
+                "noRotation": 0,
+                "fourthKick": {
+                  "pose": {
+                    "kind": "T",
+                    "r": 0,
+                    "x": 3,
+                    "y": 15
+                  },
+                  "credit": {
+                    "rotated": true,
+                    "kick": 3
+                  },
+                  "score": 100
+                },
+                "fifthKick": {
+                  "pose": {
+                    "kind": "T",
+                    "r": 2,
+                    "x": 4,
+                    "y": 15
+                  },
+                  "credit": {
+                    "rotated": true,
+                    "kick": 4
+                  },
+                  "score": 400
+                },
+                "double": {
+                  "score": 1200,
+                  "lines": 2
+                },
+                "twoCorners": 0
+              },
+              "hidden": [
+                {
+                  "partial": false,
+                  "over": false,
+                  "cells": 5
+                },
+                {
+                  "partial": true,
+                  "over": false,
+                  "cells": 5
+                }
+              ],
+              "terminal": "pass",
+              "compaction": "pass",
+              "restart": [
+                12,
+                12,
+                11
+              ]
+            },
+            "keys": [
+              {
+                "key": "ArrowLeft",
+                "before": {
+                  "pose": {
+                    "kind": "T",
+                    "r": 0,
+                    "x": 3,
+                    "y": 4
+                  },
+                  "count": 0,
+                  "score": 0,
+                  "held": null,
+                  "used": false,
+                  "over": false
+                },
+                "after": {
+                  "pose": {
+                    "kind": "T",
+                    "r": 0,
+                    "x": 2,
+                    "y": 4
+                  },
+                  "count": 0,
+                  "score": 0,
+                  "held": null,
+                  "used": false,
+                  "over": false
+                }
+              },
+              {
+                "key": "ArrowRight",
+                "before": {
+                  "pose": {
+                    "kind": "T",
+                    "r": 0,
+                    "x": 2,
+                    "y": 4
+                  },
+                  "count": 0,
+                  "score": 0,
+                  "held": null,
+                  "used": false,
+                  "over": false
+                },
+                "after": {
+                  "pose": {
+                    "kind": "T",
+                    "r": 0,
+                    "x": 3,
+                    "y": 4
+                  },
+                  "count": 0,
+                  "score": 0,
+                  "held": null,
+                  "used": false,
+                  "over": false
+                }
+              },
+              {
+                "key": "ArrowUp",
+                "before": {
+                  "pose": {
+                    "kind": "T",
+                    "r": 0,
+                    "x": 3,
+                    "y": 4
+                  },
+                  "count": 0,
+                  "score": 0,
+                  "held": null,
+                  "used": false,
+                  "over": false
+                },
+                "after": {
+                  "pose": {
+                    "kind": "T",
+                    "r": 1,
+                    "x": 3,
+                    "y": 4
+                  },
+                  "count": 0,
+                  "score": 0,
+                  "held": null,
+                  "used": false,
+                  "over": false
+                }
+              },
+              {
+                "key": "x",
+                "before": {
+                  "pose": {
+                    "kind": "T",
+                    "r": 1,
+                    "x": 3,
+                    "y": 4
+                  },
+                  "count": 0,
+                  "score": 0,
+                  "held": null,
+                  "used": false,
+                  "over": false
+                },
+                "after": {
+                  "pose": {
+                    "kind": "T",
+                    "r": 2,
+                    "x": 3,
+                    "y": 4
+                  },
+                  "count": 0,
+                  "score": 0,
+                  "held": null,
+                  "used": false,
+                  "over": false
+                }
+              },
+              {
+                "key": "z",
+                "before": {
+                  "pose": {
+                    "kind": "T",
+                    "r": 2,
+                    "x": 3,
+                    "y": 4
+                  },
+                  "count": 0,
+                  "score": 0,
+                  "held": null,
+                  "used": false,
+                  "over": false
+                },
+                "after": {
+                  "pose": {
+                    "kind": "T",
+                    "r": 1,
+                    "x": 3,
+                    "y": 4
+                  },
+                  "count": 0,
+                  "score": 0,
+                  "held": null,
+                  "used": false,
+                  "over": false
+                }
+              },
+              {
+                "key": "ControlLeft",
+                "before": {
+                  "pose": {
+                    "kind": "T",
+                    "r": 1,
+                    "x": 3,
+                    "y": 4
+                  },
+                  "count": 0,
+                  "score": 0,
+                  "held": null,
+                  "used": false,
+                  "over": false
+                },
+                "after": {
+                  "pose": {
+                    "kind": "T",
+                    "r": 0,
+                    "x": 3,
+                    "y": 4
+                  },
+                  "count": 0,
+                  "score": 0,
+                  "held": null,
+                  "used": false,
+                  "over": false
+                }
+              },
+              {
+                "key": "ArrowDown",
+                "before": {
+                  "pose": {
+                    "kind": "T",
+                    "r": 0,
+                    "x": 3,
+                    "y": 4
+                  },
+                  "count": 0,
+                  "score": 0,
+                  "held": null,
+                  "used": false,
+                  "over": false
+                },
+                "after": {
+                  "pose": {
+                    "kind": "T",
+                    "r": 0,
+                    "x": 3,
+                    "y": 5
+                  },
+                  "count": 0,
+                  "score": 1,
+                  "held": null,
+                  "used": false,
+                  "over": false
+                }
+              },
+              {
+                "key": "Space",
+                "before": {
+                  "pose": {
+                    "kind": "T",
+                    "r": 0,
+                    "x": 3,
+                    "y": 5
+                  },
+                  "count": 0,
+                  "score": 1,
+                  "held": null,
+                  "used": false,
+                  "over": false
+                },
+                "after": {
+                  "pose": {
+                    "kind": "O",
+                    "r": 0,
+                    "x": 3,
+                    "y": -2
+                  },
+                  "count": 4,
+                  "score": 27,
+                  "held": null,
+                  "used": false,
+                  "over": false
+                }
+              },
+              {
+                "key": "c",
+                "before": {
+                  "pose": {
+                    "kind": "O",
+                    "r": 0,
+                    "x": 3,
+                    "y": -2
+                  },
+                  "count": 4,
+                  "score": 27,
+                  "held": null,
+                  "used": false,
+                  "over": false
+                },
+                "after": {
+                  "pose": {
+                    "kind": "Z",
+                    "r": 0,
+                    "x": 3,
+                    "y": -2
+                  },
+                  "count": 4,
+                  "score": 27,
+                  "held": "O",
+                  "used": true,
+                  "over": false
+                }
+              }
+            ],
+            "spins": {
+              "travel": {
+                "distance": 14,
+                "actual": 128,
+                "expected": 28
+              },
+              "mini": {
+                "distance": 0,
+                "actual": 100,
+                "expected": 100
+              },
+              "full": {
+                "distance": 0,
+                "actual": 400,
+                "expected": 400
+              }
+            },
+            "lockCap": {
+              "after15": {
+                "pose": {
+                  "kind": "O",
+                  "r": 0,
+                  "x": 4,
+                  "y": 18
+                },
+                "count": 0,
+                "score": 0,
+                "held": null,
+                "used": false,
+                "over": false
+              },
+              "after499": {
+                "pose": {
+                  "kind": "O",
+                  "r": 0,
+                  "x": 4,
+                  "y": 18
+                },
+                "count": 0,
+                "score": 0,
+                "held": null,
+                "used": false,
+                "over": false
+              }
+            },
+            "ledges": [
+              {
+                "retained": false,
+                "resets": 15,
+                "land": 6000,
+                "before": {
+                  "pose": {
+                    "kind": "O",
+                    "r": 0,
+                    "x": 1,
+                    "y": 18
+                  },
+                  "count": 2,
+                  "score": 0,
+                  "held": null,
+                  "used": false,
+                  "over": false
+                },
+                "after": {
+                  "pose": {
+                    "kind": "O",
+                    "r": 0,
+                    "x": 3,
+                    "y": -2
+                  },
+                  "count": 6,
+                  "score": 0,
+                  "held": null,
+                  "used": false,
+                  "over": false
+                }
+              },
+              {
+                "retained": true,
+                "resets": 15,
+                "land": 5510,
+                "before": {
+                  "pose": {
+                    "kind": "O",
+                    "r": 0,
+                    "x": 2,
+                    "y": 18
+                  },
+                  "count": 2,
+                  "score": 0,
+                  "held": null,
+                  "used": false,
+                  "over": false
+                },
+                "after": {
+                  "pose": {
+                    "kind": "O",
+                    "r": 0,
+                    "x": 2,
+                    "y": 18
+                  },
+                  "count": 2,
+                  "score": 0,
+                  "held": null,
+                  "used": false,
+                  "over": false
+                }
+              }
+            ],
+            "hidden": [
+              {
+                "partial": false,
+                "state": {
+                  "pose": {
+                    "kind": "I",
+                    "r": 0,
+                    "x": 3,
+                    "y": -2
+                  },
+                  "count": 5,
+                  "score": 0,
+                  "held": null,
+                  "used": false,
+                  "over": false
+                }
+              },
+              {
+                "partial": true,
+                "state": {
+                  "pose": {
+                    "kind": "I",
+                    "r": 0,
+                    "x": 3,
+                    "y": -2
+                  },
+                  "count": 5,
+                  "score": 0,
+                  "held": null,
+                  "used": false,
+                  "over": false
+                }
+              }
+            ],
+            "contact": {
+              "actual": 1400,
+              "expected": 1500
+            },
+            "softEntry": {
+              "pose": {
+                "kind": "O",
+                "r": 0,
+                "x": 3,
+                "y": 17
+              },
+              "count": 0,
+              "score": 17,
+              "held": null,
+              "used": false,
+              "over": false
+            },
+            "softEntryLedge": {
+              "pose": {
+                "kind": "O",
+                "r": 0,
+                "x": 2,
+                "y": 18
+              },
+              "count": 2,
+              "score": 6,
+              "held": null,
+              "used": false,
+              "over": false
+            },
+            "refresh": [
+              {
+                "hz": 60,
+                "state": {
+                  "pose": {
+                    "kind": "O",
+                    "r": 0,
+                    "x": 3,
+                    "y": 2
+                  },
+                  "count": 0,
+                  "score": 0,
+                  "held": null,
+                  "used": false,
+                  "over": false
+                }
+              },
+              {
+                "hz": 144,
+                "state": {
+                  "pose": {
+                    "kind": "O",
+                    "r": 0,
+                    "x": 3,
+                    "y": 2
+                  },
+                  "count": 0,
+                  "score": 0,
+                  "held": null,
+                  "used": false,
+                  "over": false
+                }
+              }
+            ],
+            "pauseAndBlur": "pass",
+            "gameover": {
+              "state": {
+                "pose": {
+                  "kind": "S",
+                  "r": 0,
+                  "x": 3,
+                  "y": -2
+                },
+                "count": 44,
+                "score": 218,
+                "held": null,
+                "used": false,
+                "over": true
+              },
+              "message": "Game over218 points · Press R to try againPlay again",
+              "overlay": "flex"
+            },
+            "restarted": {
+              "pose": {
+                "kind": "L",
+                "r": 0,
+                "x": 3,
+                "y": -2
+              },
+              "count": 0,
+              "score": 0,
+              "held": null,
+              "used": false,
+              "over": false
+            },
+            "layout": {
+              "viewport": [
+                1280,
+                800
+              ],
+              "scrollWidth": 1280,
+              "scrollHeight": 1039,
+              "board": {
+                "x": 490,
+                "y": 273.09375,
+                "width": 300,
+                "height": 600
+              },
+              "hold": {
+                "x": 301,
+                "y": 321.09375,
+                "width": 144,
+                "height": 90
+              },
+              "next": {
+                "x": 835,
+                "y": 312.09375,
+                "width": 144,
+                "height": 370
+              },
+              "footer": {
+                "x": 135,
+                "y": 981.09375,
+                "width": 1010,
+                "height": 58
+              },
+              "held": "O",
+              "overlay": "none"
+            },
+            "buttonSpace": {
+              "before": {
+                "pose": {
+                  "kind": "T",
+                  "r": 0,
+                  "x": 3,
+                  "y": 4
+                },
+                "count": 0,
+                "score": 0,
+                "held": null,
+                "used": false,
+                "over": false
+              },
+              "after": {
+                "pose": {
+                  "kind": "O",
+                  "r": 0,
+                  "x": 3,
+                  "y": -2
+                },
+                "count": 4,
+                "score": 28,
+                "held": null,
+                "used": false,
+                "over": false
+              }
+            },
+            "errors": [],
+            "failedAssets": []
+          },
+          "mobile": {
+            "baseline": {
+              "started": true,
+              "hardDropPointsPositive": true
+            },
+            "engine": {
+              "srs": {
+                "states": [],
+                "kickLists": [],
+                "outcomes": [],
+                "attempts": 576
+              },
+              "bags": 100,
+              "hold": "pass",
+              "holdClocks": "pass",
+              "drops": [
+                {
+                  "k": "I",
+                  "ghost": 14,
+                  "points": 25
+                },
+                {
+                  "k": "J",
+                  "ghost": 14,
+                  "points": 25
+                },
+                {
+                  "k": "L",
+                  "ghost": 14,
+                  "points": 25
+                },
+                {
+                  "k": "O",
+                  "ghost": 14,
+                  "points": 25
+                },
+                {
+                  "k": "S",
+                  "ghost": 14,
+                  "points": 25
+                },
+                {
+                  "k": "T",
+                  "ghost": 14,
+                  "points": 25
+                },
+                {
+                  "k": "Z",
+                  "ghost": 14,
+                  "points": 25
+                }
+              ],
+              "clocks": {
+                "boundary": "pass",
+                "reset": "pass",
+                "after15": {
+                  "cells": 0,
+                  "resets": 15
+                },
+                "after15plus499": 0,
+                "after16plus1": 4,
+                "failedWall": 4,
+                "ledges": [
+                  {
+                    "exhausted": false,
+                    "start": 0,
+                    "land": 5510,
+                    "lock": 6009,
+                    "expectedLock": 6010
+                  },
+                  {
+                    "exhausted": true,
+                    "start": 490,
+                    "land": 5510,
+                    "lock": 6009,
+                    "expectedLock": 6010
+                  }
+                ],
+                "newLowest": {
+                  "resets": 15,
+                  "cells": 6,
+                  "expectedCells": 2
+                },
+                "contact": [
+                  {
+                    "dt": 10,
+                    "actual": 1490,
+                    "expected": 1500
+                  },
+                  {
+                    "dt": 100,
+                    "actual": 1400,
+                    "expected": 1500
+                  },
+                  {
+                    "dt": 16.666666666666668,
+                    "actual": 1500.0000000000011,
+                    "expected": 1500
+                  },
+                  {
+                    "dt": 6.944444444444445,
+                    "actual": 1493.0555555555502,
+                    "expected": 1500
+                  }
+                ]
+              },
+              "softEntry": {
+                "before": {
+                  "kind": "O",
+                  "r": 0,
+                  "x": 3,
+                  "y": 0
+                },
+                "after": {
+                  "kind": "O",
+                  "r": 0,
+                  "x": 3,
+                  "y": 16
+                },
+                "score": 16,
+                "expectedRows": 0,
+                "expectedPoints": 0
+              },
+              "softEntryLedge": {
+                "before": {
+                  "pose": {
+                    "kind": "O",
+                    "r": 0,
+                    "x": 0,
+                    "y": 12
+                  },
+                  "fall": 800,
+                  "lock": 400
+                },
+                "after": {
+                  "kind": "O",
+                  "r": 0,
+                  "x": 2,
+                  "y": 18
+                },
+                "score": 6,
+                "expectedY": 12,
+                "expectedScore": 0
+              },
+              "gravity": [
+                {
+                  "level": 1,
+                  "actual": 1000,
+                  "expected": 1000
+                },
+                {
+                  "level": 2,
+                  "actual": 793,
+                  "expected": 793
+                },
+                {
+                  "level": 3,
+                  "actual": 617.8,
+                  "expected": 617.796
+                },
+                {
+                  "level": 4,
+                  "actual": 472.8,
+                  "expected": 472.72913900000003
+                },
+                {
+                  "level": 5,
+                  "actual": 355.2,
+                  "expected": 355.19692825600004
+                },
+                {
+                  "level": 6,
+                  "actual": 262.1,
+                  "expected": 262.003549978125
+                },
+                {
+                  "level": 7,
+                  "actual": 189.7,
+                  "expected": 189.67724533271814
+                },
+                {
+                  "level": 8,
+                  "actual": 134.8,
+                  "expected": 134.7347308155587
+                },
+                {
+                  "level": 9,
+                  "actual": 93.9,
+                  "expected": 93.88224890421264
+                },
+                {
+                  "level": 10,
+                  "actual": 64.2,
+                  "expected": 64.15158495985582
+                },
+                {
+                  "level": 11,
+                  "actual": 43,
+                  "expected": 42.976258297035564
+                },
+                {
+                  "level": 12,
+                  "actual": 28.3,
+                  "expected": 28.21767780121165
+                },
+                {
+                  "level": 13,
+                  "actual": 18.2,
+                  "expected": 18.153328543517738
+                },
+                {
+                  "level": 14,
+                  "actual": 11.5,
+                  "expected": 11.43934234680738
+                },
+                {
+                  "level": 15,
+                  "actual": 7.1,
+                  "expected": 7.058616220934218
+                },
+                {
+                  "level": 16,
+                  "actual": 4.3,
+                  "expected": 4.263556954438949
+                },
+                {
+                  "level": 17,
+                  "actual": 2.6,
+                  "expected": 2.5200839695077955
+                },
+                {
+                  "level": 18,
+                  "actual": 1.5,
+                  "expected": 1.4571387328407777
+                },
+                {
+                  "level": 19,
+                  "actual": 1.1,
+                  "expected": 0.8239068955658087
+                },
+                {
+                  "level": 20,
+                  "actual": 1.1,
+                  "expected": 0.45539771210842706
+                }
+              ],
+              "scoring": {
+                "clears": [
+                  100,
+                  300,
+                  500,
+                  800
+                ],
+                "pc": [
+                  900,
+                  1500,
+                  2300,
+                  2800
+                ],
+                "combo": {
+                  "deltas": [
+                    100,
+                    150
+                  ],
+                  "total": 250
+                },
+                "b2b": {
+                  "deltas": [
+                    800,
+                    0,
+                    1200
+                  ],
+                  "total": 2000
+                },
+                "break": {
+                  "deltas": [
+                    800,
+                    150,
+                    900
+                  ],
+                  "total": 1850
+                },
+                "pcB2b": {
+                  "deltas": [
+                    800,
+                    0,
+                    3200
+                  ],
+                  "total": 4000
+                },
+                "crossing": {
+                  "score": 900,
+                  "level": 2,
+                  "lines": 10
+                },
+                "comboLevel2": 300
+              },
+              "spins": {
+                "hard-mini-zero": 100,
+                "hard-mini-single": 200,
+                "hard-full-zero": 400,
+                "hard-full-single": 800,
+                "timed-mini-zero": 100,
+                "timed-mini-single": 200,
+                "timed-full-zero": 400,
+                "timed-full-single": 800,
+                "facings": [
+                  {
+                    "r": 0,
+                    "full": false,
+                    "score": 100
+                  },
+                  {
+                    "r": 0,
+                    "full": true,
+                    "score": 400
+                  },
+                  {
+                    "r": 1,
+                    "full": false,
+                    "score": 100
+                  },
+                  {
+                    "r": 1,
+                    "full": true,
+                    "score": 400
+                  },
+                  {
+                    "r": 2,
+                    "full": false,
+                    "score": 100
+                  },
+                  {
+                    "r": 2,
+                    "full": true,
+                    "score": 400
+                  },
+                  {
+                    "r": 3,
+                    "full": false,
+                    "score": 100
+                  },
+                  {
+                    "r": 3,
+                    "full": true,
+                    "score": 400
+                  }
+                ],
+                "hardTravel": 128,
+                "softTravel": 14,
+                "failedActions": 400,
+                "noRotation": 0,
+                "fourthKick": {
+                  "pose": {
+                    "kind": "T",
+                    "r": 0,
+                    "x": 3,
+                    "y": 15
+                  },
+                  "credit": {
+                    "rotated": true,
+                    "kick": 3
+                  },
+                  "score": 100
+                },
+                "fifthKick": {
+                  "pose": {
+                    "kind": "T",
+                    "r": 2,
+                    "x": 4,
+                    "y": 15
+                  },
+                  "credit": {
+                    "rotated": true,
+                    "kick": 4
+                  },
+                  "score": 400
+                },
+                "double": {
+                  "score": 1200,
+                  "lines": 2
+                },
+                "twoCorners": 0
+              },
+              "hidden": [
+                {
+                  "partial": false,
+                  "over": false,
+                  "cells": 5
+                },
+                {
+                  "partial": true,
+                  "over": false,
+                  "cells": 5
+                }
+              ],
+              "terminal": "pass",
+              "compaction": "pass",
+              "restart": [
+                12,
+                12,
+                11
+              ]
+            },
+            "keys": [
+              {
+                "key": "ArrowLeft",
+                "before": {
+                  "pose": {
+                    "kind": "T",
+                    "r": 0,
+                    "x": 3,
+                    "y": 4
+                  },
+                  "count": 0,
+                  "score": 0,
+                  "held": null,
+                  "used": false,
+                  "over": false
+                },
+                "after": {
+                  "pose": {
+                    "kind": "T",
+                    "r": 0,
+                    "x": 2,
+                    "y": 4
+                  },
+                  "count": 0,
+                  "score": 0,
+                  "held": null,
+                  "used": false,
+                  "over": false
+                }
+              },
+              {
+                "key": "ArrowRight",
+                "before": {
+                  "pose": {
+                    "kind": "T",
+                    "r": 0,
+                    "x": 2,
+                    "y": 4
+                  },
+                  "count": 0,
+                  "score": 0,
+                  "held": null,
+                  "used": false,
+                  "over": false
+                },
+                "after": {
+                  "pose": {
+                    "kind": "T",
+                    "r": 0,
+                    "x": 3,
+                    "y": 4
+                  },
+                  "count": 0,
+                  "score": 0,
+                  "held": null,
+                  "used": false,
+                  "over": false
+                }
+              },
+              {
+                "key": "ArrowUp",
+                "before": {
+                  "pose": {
+                    "kind": "T",
+                    "r": 0,
+                    "x": 3,
+                    "y": 4
+                  },
+                  "count": 0,
+                  "score": 0,
+                  "held": null,
+                  "used": false,
+                  "over": false
+                },
+                "after": {
+                  "pose": {
+                    "kind": "T",
+                    "r": 1,
+                    "x": 3,
+                    "y": 4
+                  },
+                  "count": 0,
+                  "score": 0,
+                  "held": null,
+                  "used": false,
+                  "over": false
+                }
+              },
+              {
+                "key": "x",
+                "before": {
+                  "pose": {
+                    "kind": "T",
+                    "r": 1,
+                    "x": 3,
+                    "y": 4
+                  },
+                  "count": 0,
+                  "score": 0,
+                  "held": null,
+                  "used": false,
+                  "over": false
+                },
+                "after": {
+                  "pose": {
+                    "kind": "T",
+                    "r": 2,
+                    "x": 3,
+                    "y": 4
+                  },
+                  "count": 0,
+                  "score": 0,
+                  "held": null,
+                  "used": false,
+                  "over": false
+                }
+              },
+              {
+                "key": "z",
+                "before": {
+                  "pose": {
+                    "kind": "T",
+                    "r": 2,
+                    "x": 3,
+                    "y": 4
+                  },
+                  "count": 0,
+                  "score": 0,
+                  "held": null,
+                  "used": false,
+                  "over": false
+                },
+                "after": {
+                  "pose": {
+                    "kind": "T",
+                    "r": 1,
+                    "x": 3,
+                    "y": 4
+                  },
+                  "count": 0,
+                  "score": 0,
+                  "held": null,
+                  "used": false,
+                  "over": false
+                }
+              },
+              {
+                "key": "ControlLeft",
+                "before": {
+                  "pose": {
+                    "kind": "T",
+                    "r": 1,
+                    "x": 3,
+                    "y": 4
+                  },
+                  "count": 0,
+                  "score": 0,
+                  "held": null,
+                  "used": false,
+                  "over": false
+                },
+                "after": {
+                  "pose": {
+                    "kind": "T",
+                    "r": 0,
+                    "x": 3,
+                    "y": 4
+                  },
+                  "count": 0,
+                  "score": 0,
+                  "held": null,
+                  "used": false,
+                  "over": false
+                }
+              },
+              {
+                "key": "ArrowDown",
+                "before": {
+                  "pose": {
+                    "kind": "T",
+                    "r": 0,
+                    "x": 3,
+                    "y": 4
+                  },
+                  "count": 0,
+                  "score": 0,
+                  "held": null,
+                  "used": false,
+                  "over": false
+                },
+                "after": {
+                  "pose": {
+                    "kind": "T",
+                    "r": 0,
+                    "x": 3,
+                    "y": 5
+                  },
+                  "count": 0,
+                  "score": 1,
+                  "held": null,
+                  "used": false,
+                  "over": false
+                }
+              },
+              {
+                "key": "Space",
+                "before": {
+                  "pose": {
+                    "kind": "T",
+                    "r": 0,
+                    "x": 3,
+                    "y": 5
+                  },
+                  "count": 0,
+                  "score": 1,
+                  "held": null,
+                  "used": false,
+                  "over": false
+                },
+                "after": {
+                  "pose": {
+                    "kind": "O",
+                    "r": 0,
+                    "x": 3,
+                    "y": -2
+                  },
+                  "count": 4,
+                  "score": 27,
+                  "held": null,
+                  "used": false,
+                  "over": false
+                }
+              },
+              {
+                "key": "c",
+                "before": {
+                  "pose": {
+                    "kind": "O",
+                    "r": 0,
+                    "x": 3,
+                    "y": -2
+                  },
+                  "count": 4,
+                  "score": 27,
+                  "held": null,
+                  "used": false,
+                  "over": false
+                },
+                "after": {
+                  "pose": {
+                    "kind": "Z",
+                    "r": 0,
+                    "x": 3,
+                    "y": -2
+                  },
+                  "count": 4,
+                  "score": 27,
+                  "held": "O",
+                  "used": true,
+                  "over": false
+                }
+              }
+            ],
+            "spins": {
+              "travel": {
+                "distance": 14,
+                "actual": 128,
+                "expected": 28
+              },
+              "mini": {
+                "distance": 0,
+                "actual": 100,
+                "expected": 100
+              },
+              "full": {
+                "distance": 0,
+                "actual": 400,
+                "expected": 400
+              }
+            },
+            "lockCap": {
+              "after15": {
+                "pose": {
+                  "kind": "O",
+                  "r": 0,
+                  "x": 4,
+                  "y": 18
+                },
+                "count": 0,
+                "score": 0,
+                "held": null,
+                "used": false,
+                "over": false
+              },
+              "after499": {
+                "pose": {
+                  "kind": "O",
+                  "r": 0,
+                  "x": 4,
+                  "y": 18
+                },
+                "count": 0,
+                "score": 0,
+                "held": null,
+                "used": false,
+                "over": false
+              }
+            },
+            "ledges": [
+              {
+                "retained": false,
+                "resets": 15,
+                "land": 6000,
+                "before": {
+                  "pose": {
+                    "kind": "O",
+                    "r": 0,
+                    "x": 1,
+                    "y": 18
+                  },
+                  "count": 2,
+                  "score": 0,
+                  "held": null,
+                  "used": false,
+                  "over": false
+                },
+                "after": {
+                  "pose": {
+                    "kind": "O",
+                    "r": 0,
+                    "x": 3,
+                    "y": -2
+                  },
+                  "count": 6,
+                  "score": 0,
+                  "held": null,
+                  "used": false,
+                  "over": false
+                }
+              },
+              {
+                "retained": true,
+                "resets": 15,
+                "land": 5510,
+                "before": {
+                  "pose": {
+                    "kind": "O",
+                    "r": 0,
+                    "x": 2,
+                    "y": 18
+                  },
+                  "count": 2,
+                  "score": 0,
+                  "held": null,
+                  "used": false,
+                  "over": false
+                },
+                "after": {
+                  "pose": {
+                    "kind": "O",
+                    "r": 0,
+                    "x": 2,
+                    "y": 18
+                  },
+                  "count": 2,
+                  "score": 0,
+                  "held": null,
+                  "used": false,
+                  "over": false
+                }
+              }
+            ],
+            "hidden": [
+              {
+                "partial": false,
+                "state": {
+                  "pose": {
+                    "kind": "I",
+                    "r": 0,
+                    "x": 3,
+                    "y": -2
+                  },
+                  "count": 5,
+                  "score": 0,
+                  "held": null,
+                  "used": false,
+                  "over": false
+                }
+              },
+              {
+                "partial": true,
+                "state": {
+                  "pose": {
+                    "kind": "I",
+                    "r": 0,
+                    "x": 3,
+                    "y": -2
+                  },
+                  "count": 5,
+                  "score": 0,
+                  "held": null,
+                  "used": false,
+                  "over": false
+                }
+              }
+            ],
+            "contact": {
+              "actual": 1400,
+              "expected": 1500
+            },
+            "softEntry": {
+              "pose": {
+                "kind": "O",
+                "r": 0,
+                "x": 3,
+                "y": 17
+              },
+              "count": 0,
+              "score": 17,
+              "held": null,
+              "used": false,
+              "over": false
+            },
+            "softEntryLedge": {
+              "pose": {
+                "kind": "O",
+                "r": 0,
+                "x": 2,
+                "y": 18
+              },
+              "count": 2,
+              "score": 6,
+              "held": null,
+              "used": false,
+              "over": false
+            },
+            "refresh": [
+              {
+                "hz": 60,
+                "state": {
+                  "pose": {
+                    "kind": "O",
+                    "r": 0,
+                    "x": 3,
+                    "y": 2
+                  },
+                  "count": 0,
+                  "score": 0,
+                  "held": null,
+                  "used": false,
+                  "over": false
+                }
+              },
+              {
+                "hz": 144,
+                "state": {
+                  "pose": {
+                    "kind": "O",
+                    "r": 0,
+                    "x": 3,
+                    "y": 2
+                  },
+                  "count": 0,
+                  "score": 0,
+                  "held": null,
+                  "used": false,
+                  "over": false
+                }
+              }
+            ],
+            "pauseAndBlur": "pass",
+            "gameover": {
+              "state": {
+                "pose": {
+                  "kind": "S",
+                  "r": 0,
+                  "x": 3,
+                  "y": -2
+                },
+                "count": 44,
+                "score": 218,
+                "held": null,
+                "used": false,
+                "over": true
+              },
+              "message": "Game over218 points · Press R to try againPlay again",
+              "overlay": "flex"
+            },
+            "restarted": {
+              "pose": {
+                "kind": "L",
+                "r": 0,
+                "x": 3,
+                "y": -2
+              },
+              "count": 0,
+              "score": 0,
+              "held": null,
+              "used": false,
+              "over": false
+            },
+            "layout": {
+              "viewport": [
+                390,
+                844
+              ],
+              "scrollWidth": 390,
+              "scrollHeight": 977,
+              "board": {
+                "x": 130,
+                "y": 225.09375,
+                "width": 247,
+                "height": 494
+              },
+              "hold": {
+                "x": 23,
+                "y": 266.09375,
+                "width": 83,
+                "height": 51.875
+              },
+              "next": {
+                "x": 0,
+                "y": 0,
+                "width": 0,
+                "height": 0
+              },
+              "footer": {
+                "x": 0,
+                "y": 921.09375,
+                "width": 390,
+                "height": 56.296875
+              },
+              "held": "O",
+              "overlay": "none"
+            },
+            "buttonSpace": {
+              "before": {
+                "pose": {
+                  "kind": "T",
+                  "r": 0,
+                  "x": 3,
+                  "y": 4
+                },
+                "count": 0,
+                "score": 0,
+                "held": null,
+                "used": false,
+                "over": false
+              },
+              "after": {
+                "pose": {
+                  "kind": "O",
+                  "r": 0,
+                  "x": 3,
+                  "y": -2
+                },
+                "count": 4,
+                "score": 28,
+                "held": null,
+                "used": false,
+                "over": false
+              }
+            },
+            "errors": [],
+            "failedAssets": []
+          }
+        }
+      },
+      "environment": {
+        "node": "v26.0.0",
+        "npm": "11.17.0",
+        "python": "Python 3.14.5",
+        "playwright": "1.64.0"
+      },
+      "reviewer": {
+        "model": "gpt-6.1-sol",
+        "effort": "xhigh",
+        "native_session_id": "01a1f29f-d9bf-73f0-8a1b-f8a05bf7d49f",
+        "native_rollout": "/Users/david/.codex/sessions/2026/11/19/rollout-2026-11-19T08-05-24-01a1f29f-d9bf-73f0-8a1b-f8a05bf7d49f.jsonl",
+        "turn_id": "01a1f29f-dc32-7180-b431-99cc34ec654f",
+        "source": "own native Codex turn_context",
+        "t3_thread_id": "thread:delegated-task:command%3Amcp%3Af5cbf383-63f4-4751-8a6e-737cd109491b%3Adelegate-task%3Aeb73b709-2c62-4249-9399-386a2a370107",
+        "thread_link": "[Audit GPT-6 Astra medium + high](t3-thread://v2/be26fbd3-1b19-4ec5-a479-19a35432c8a1/thread:delegated-task:command%3Amcp%3Af5cbf383-63f4-4751-8a6e-737cd109491b%3Adelegate-task%3Aeb73b709-2c62-4249-9399-386a2a370107)",
+        "t3_metadata_confirmation": {
+          "thread_id": "thread:delegated-task:command%3Amcp%3Af5cbf383-63f4-4751-8a6e-737cd109491b%3Adelegate-task%3Aeb73b709-2c62-4249-9399-386a2a370107",
+          "link": "[Audit GPT-6 Astra medium + high](t3-thread://v2/be26fbd3-1b19-4ec5-a479-19a35432c8a1/thread:delegated-task:command%3Amcp%3Af5cbf383-63f4-4751-8a6e-737cd109491b%3Adelegate-task%3Aeb73b709-2c62-4249-9399-386a2a370107)",
+          "model": "gpt-6.1-sol",
+          "provider": "codex",
+          "relationship_to_parent": "subagent"
+        }
+      },
+      "screenshots_inspected": [
+        "desktop-baseline.png",
+        "mobile-baseline.png",
+        "desktop.png",
+        "mobile.png"
+      ],
+      "review": {
+        "run_id": "gpt-6-astra-medium",
+        "audited": "2026-11-19",
+        "scores": {
+          "correctness": 7.0,
+          "tests": 5.5,
+          "code": 7.0,
+          "simplicity": 8.5,
+          "browser_ux": 8.5
+        },
+        "bugs": [
+          {
+            "severity": "minor",
+            "title": "Back-to-back Tetris perfect clear uses the ordinary bonus",
+            "detail": "Tetris/no-clear/Tetris-PC totals 4000 instead of 5200; final award 1200+2000 rather than 1200+3200. Ordinary PC1–4 pass."
+          },
+          {
+            "severity": "minor",
+            "title": "Travelling hard drop retains stale T-spin credit",
+            "detail": "Exact HD-SPIN-1: stack (0,17),(0,19),(2,19), T0(0,3), real CW, ghost T1(0,17), hard drop14 rows scores128 instead of28. Real Up/Space agrees in both views; zero-travel mini/full100/400 pass."
+          },
+          {
+            "severity": "minor",
+            "title": "Soft-drop entry spends accumulated normal-gravity time",
+            "detail": "O0(3,0), ordinary800ms then tick(1,true) moves16 rows and awards16 points. Actual Down then1ms yields17 rows/17 points instead of1/1 in both views."
+          },
+          {
+            "severity": "minor",
+            "title": "Lower-row reset allowance and landing-time accounting are wrong",
+            "detail": "O0(-1,12), supports(0,14),(1,14), fourteen alternating moves then Right twice: lower landing retains resets15;400ms,Right,100ms welds instead of granting a fresh reset. O0(3,17) locks1400ms with100ms steps instead of1500; related lock-policy symptoms grouped once. Old clock is cleared in air; reset15 itself grants500ms."
+          },
+          {
+            "severity": "minor",
+            "title": "Wholly hidden locks do not top out",
+            "detail": "Legal grounded O0(-1,-2), support(0,0), next I, zero-travel hard drop stores four hidden minos and spawns I with over=false/cells5. Real Space agrees both sizes; partial-hidden control and blocked spawn pass."
+          },
+          {
+            "severity": "minor",
+            "title": "Phone stylesheet hides the entire next queue",
+            "detail": "At390×844, .right is display:none and #next has0×0 bounds with no alternate preview. Board247×494 and hold fit; all five desktop previews work."
+          }
+        ],
+        "summary": "Playable canonical Tetris; six minor scoring, timing, hidden-lock and phone-queue gaps; dense code, narrow nine-test suite"
+      },
+      "validation": {
+        "locked_install_build_unchanged_own_tests": true,
+        "node_and_both_chromium_engine_results_identical": true,
+        "separate_fresh_copy_pinned_reproduction_passed": true,
+        "delivered_and_copied_hashes_unchanged": true,
+        "owned_servers_browsers_copies_pngs_logs_removed": true
+      }
+    },
+    "high": {
+      "run_id": "gpt-6-astra-high",
+      "audited": "2026-11-19",
+      "hashes": {
+        ".gitignore": "f7d66fb92dcf955624a5e4536628cbd0d0516d457a4f8824930d2c2e8e9ca704",
+        ".playwright-cli/page-2026-11-19T06-37-47-408Z.yml": "c1c6d6aec0c607b64f39906a072039513eefa13e9e31be0249f3d7107144ed6e",
+        ".playwright-cli/page-2026-11-19T06-38-26-911Z.yml": "b3100496f13317c76d8f450d106431bacd2dd464f00df38c359d890c29e79046",
+        ".playwright-cli/page-2026-11-19T06-39-19-699Z.yml": "4247484ddb1cb8dd0c1fc9721f560499092a433c3fd4cfe10e610ad697226c25",
+        "README.md": "900469b961bbd82ddaf4367ca5d45da3a39941df358686f117ea835fa271dd98",
+        "STATISTICS.md": "891131dff653dc73e6f52907c959c7f7eb555465cb6c0bc8934ee3d87479c9c3",
+        "index.html": "fc4bd4a627961c9a8298bbe161b7980b6439ab6e5c8998a01508dd936494d7f9",
+        "output/playwright/cli.config.json": "86c1eac54131dd2677469a4c0db6d745e8a4ac3c19bc994fdc879b4353b2c13d",
+        "output/playwright/desktop-compact.png": "0592c66a6b4003322a19ef3b46bda46b61c7dc55df1a10c2799253289eec4b22",
+        "output/playwright/desktop.png": "ef62ecf1bbe8e6919214f7ea5573d14b8940ad9f440fcf9b377b3440c1a1365d",
+        "output/playwright/mobile.png": "bb9f1225f9dbd9c71739587a3e6f2a809c27c3707b747b1e9cfe5594faf86295",
+        "package-lock.json": "bff9d80313b352bf2eaf7d534f2ad895cb068603a5c8a8e4ddf2a573f97160be",
+        "package.json": "e6d9f2bbf3f08c2db8053e753827b3593200415a2fbd3565271046bc3f0d58e6",
+        "scripts/serve.mjs": "9062bc621baf3fbb203dc89d3fa91df5da60d9ce5aba0d8ce094f6e496620ee0",
+        "src/game.ts": "f57170d74df63a22a4fba30244a89fc3c32a3b4e4221d3c3bfddb91f77f3a7e7",
+        "src/main.ts": "1470f216990bd5c6dd1b657be6a687a88e6bf5678de6552bbba5c4692a7ad590",
+        "src/pieces.ts": "5727193cf42c0cf436e16333f86095b9190da497faf5cec59af876e8d1ac8032",
+        "src/render.ts": "0ae34b7fcbfacd289cadd525cf03009277619b87f7369424835c3feda9312dfa",
+        "styles.css": "8733c409226ceb5135e936eda76086b1aed7942cd8910c17441a6cbe9da24edb",
+        "tests/game.test.mjs": "e0bf288f8e78e068df5a8744e90edf2c218917f0a64abde3b1759b8f69751734",
+        "tsconfig.json": "ebe64375cbc3f2bc206073bb13a833e57f3df841cf37826968b49bc9a7c78d76"
+      },
+      "workflow": {
+        "install": "\nadded 1 package, and audited 2 packages in 147ms\n\nfound 0 vulnerabilities\n",
+        "build": "\n> tetris-js@1.0.0 build\n> tsc\n\n",
+        "unchanged_npm_test": "\n> tetris-js@1.0.0 test\n> npm run build && node --test tests/*.test.mjs\n\n\n> tetris-js@1.0.0 build\n> tsc\n\n✔ every seven-bag contains all seven shapes (1.661583ms)\n✔ spawn has five previews, valid cells and a landing ghost (0.274042ms)\n✔ all shapes rotate back to their original cells after four turns (0.485042ms)\n✔ horizontal moves stop at walls and occupied cells (0.065834ms)\n✔ SRS kicks T away from the left wall (0.056333ms)\n✔ SRS kicks I two columns away from the left wall (0.057709ms)\n✔ SRS floor kick lifts a T and blocked rotations preserve the piece (0.080916ms)\n✔ hold is limited to once per piece and swaps in spawn orientation (0.392666ms)\n✔ soft and hard drop points are based on actual distance (0.104542ms)\n✔ grounded piece waits 500ms; soft drop does not force lock (0.147667ms)\n✔ grounded movement resets lock delay only fifteen times (0.571333ms)\n✔ gravity progresses with level and soft dropping is faster (0.08325ms)\n✔ single, double and Tetris scoring plus combo and back-to-back (0.228833ms)\n✔ triple clear uses 500 points and pre-clear level (0.09075ms)\n✔ no clear resets combo but preserves back-to-back (0.081875ms)\n✔ perfect-clear bonus is added to normal score (0.053167ms)\n✔ three occupied corners recognize full and mini T-spins (0.086167ms)\n✔ T-spin single scores 800 and starts back-to-back chain (0.063833ms)\n✔ blocked spawn, including a hold swap, causes game over (0.068166ms)\n✔ locking entirely above the visible field tops out (0.0425ms)\n✔ pause blocks simulation and input; restart clears all round state (0.071083ms)\n✔ deterministic random play preserves board and active-piece invariants (7.524ms)\nℹ tests 22\nℹ suites 0\nℹ pass 22\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 81.549875\n"
+      },
+      "engine": {
+        "srs": {
+          "states": [],
+          "kickLists": [],
+          "outcomes": [],
+          "attempts": 576
+        },
+        "bags": 100,
+        "hold": "pass",
+        "holdClocks": "pass",
+        "drops": [
+          {
+            "k": "I",
+            "ghost": 14,
+            "points": 25
+          },
+          {
+            "k": "J",
+            "ghost": 14,
+            "points": 25
+          },
+          {
+            "k": "L",
+            "ghost": 14,
+            "points": 25
+          },
+          {
+            "k": "O",
+            "ghost": 14,
+            "points": 25
+          },
+          {
+            "k": "S",
+            "ghost": 14,
+            "points": 25
+          },
+          {
+            "k": "T",
+            "ghost": 14,
+            "points": 25
+          },
+          {
+            "k": "Z",
+            "ghost": 14,
+            "points": 25
+          }
+        ],
+        "clocks": {
+          "boundary": "pass",
+          "reset": "pass",
+          "after15": {
+            "cells": 0,
+            "resets": 15
+          },
+          "after15plus499": 0,
+          "after16plus1": 4,
+          "failedWall": 4,
+          "ledges": [
+            {
+              "exhausted": false,
+              "start": 0,
+              "land": 5510,
+              "lock": 6010,
+              "expectedLock": 6010
+            },
+            {
+              "exhausted": true,
+              "start": 490,
+              "land": 5510,
+              "lock": 5520,
+              "expectedLock": 6010
+            }
+          ],
+          "newLowest": {
+            "resets": 15,
+            "cells": 6,
+            "expectedCells": 2
+          },
+          "contact": [
+            {
+              "dt": 10,
+              "actual": 1500,
+              "expected": 1500
+            },
+            {
+              "dt": 100,
+              "actual": 1500,
+              "expected": 1500
+            },
+            {
+              "dt": 16.666666666666668,
+              "actual": 1516.6666666666679,
+              "expected": 1500
+            },
+            {
+              "dt": 6.944444444444445,
+              "actual": 1499.9999999999945,
+              "expected": 1500
+            }
+          ]
+        },
+        "softEntry": {
+          "before": {
+            "kind": "O",
+            "r": 0,
+            "x": 3,
+            "y": 0
+          },
+          "after": {
+            "kind": "O",
+            "r": 0,
+            "x": 3,
+            "y": 16
+          },
+          "score": 16,
+          "expectedRows": 0,
+          "expectedPoints": 0
+        },
+        "softEntryLedge": {
+          "before": {
+            "pose": {
+              "kind": "O",
+              "r": 0,
+              "x": 0,
+              "y": 12
+            },
+            "fall": 800,
+            "lock": 400
+          },
+          "after": {
+            "kind": "O",
+            "r": 0,
+            "x": 2,
+            "y": 18
+          },
+          "score": 6,
+          "expectedY": 12,
+          "expectedScore": 0
+        },
+        "gravity": [
+          {
+            "level": 1,
+            "actual": 1000,
+            "expected": 1000
+          },
+          {
+            "level": 2,
+            "actual": 793,
+            "expected": 793
+          },
+          {
+            "level": 3,
+            "actual": 617.8,
+            "expected": 617.796
+          },
+          {
+            "level": 4,
+            "actual": 472.8,
+            "expected": 472.72913900000003
+          },
+          {
+            "level": 5,
+            "actual": 355.2,
+            "expected": 355.19692825600004
+          },
+          {
+            "level": 6,
+            "actual": 262.1,
+            "expected": 262.003549978125
+          },
+          {
+            "level": 7,
+            "actual": 189.7,
+            "expected": 189.67724533271814
+          },
+          {
+            "level": 8,
+            "actual": 134.8,
+            "expected": 134.7347308155587
+          },
+          {
+            "level": 9,
+            "actual": 93.9,
+            "expected": 93.88224890421264
+          },
+          {
+            "level": 10,
+            "actual": 64.2,
+            "expected": 64.15158495985582
+          },
+          {
+            "level": 11,
+            "actual": 43,
+            "expected": 42.976258297035564
+          },
+          {
+            "level": 12,
+            "actual": 28.3,
+            "expected": 28.21767780121165
+          },
+          {
+            "level": 13,
+            "actual": 18.2,
+            "expected": 18.153328543517738
+          },
+          {
+            "level": 14,
+            "actual": 11.5,
+            "expected": 11.43934234680738
+          },
+          {
+            "level": 15,
+            "actual": 7.1,
+            "expected": 7.058616220934218
+          },
+          {
+            "level": 16,
+            "actual": 4.3,
+            "expected": 4.263556954438949
+          },
+          {
+            "level": 17,
+            "actual": 2.6,
+            "expected": 2.5200839695077955
+          },
+          {
+            "level": 18,
+            "actual": 1.5,
+            "expected": 1.4571387328407777
+          },
+          {
+            "level": 19,
+            "actual": 0.9,
+            "expected": 0.8239068955658087
+          },
+          {
+            "level": 20,
+            "actual": 0.9,
+            "expected": 0.45539771210842706
+          }
+        ],
+        "scoring": {
+          "clears": [
+            100,
+            300,
+            500,
+            800
+          ],
+          "pc": [
+            900,
+            1500,
+            2300,
+            2800
+          ],
+          "combo": {
+            "deltas": [
+              100,
+              150
+            ],
+            "total": 250
+          },
+          "b2b": {
+            "deltas": [
+              800,
+              0,
+              1200
+            ],
+            "total": 2000
+          },
+          "break": {
+            "deltas": [
+              800,
+              150,
+              900
+            ],
+            "total": 1850
+          },
+          "pcB2b": {
+            "deltas": [
+              800,
+              0,
+              4400
+            ],
+            "total": 5200
+          },
+          "crossing": {
+            "score": 900,
+            "level": 2,
+            "lines": 10
+          },
+          "comboLevel2": 300
+        },
+        "spins": {
+          "hard-mini-zero": 100,
+          "hard-mini-single": 200,
+          "hard-full-zero": 400,
+          "hard-full-single": 800,
+          "timed-mini-zero": 100,
+          "timed-mini-single": 200,
+          "timed-full-zero": 400,
+          "timed-full-single": 800,
+          "facings": [
+            {
+              "r": 0,
+              "full": false,
+              "score": 100
+            },
+            {
+              "r": 0,
+              "full": true,
+              "score": 400
+            },
+            {
+              "r": 1,
+              "full": false,
+              "score": 100
+            },
+            {
+              "r": 1,
+              "full": true,
+              "score": 400
+            },
+            {
+              "r": 2,
+              "full": false,
+              "score": 100
+            },
+            {
+              "r": 2,
+              "full": true,
+              "score": 400
+            },
+            {
+              "r": 3,
+              "full": false,
+              "score": 100
+            },
+            {
+              "r": 3,
+              "full": true,
+              "score": 400
+            }
+          ],
+          "hardTravel": 28,
+          "softTravel": 14,
+          "failedActions": 400,
+          "noRotation": 0,
+          "fourthKick": {
+            "pose": {
+              "kind": "T",
+              "r": 0,
+              "x": 3,
+              "y": 15
+            },
+            "credit": {
+              "rotated": true,
+              "kick": 3
+            },
+            "score": 100
+          },
+          "fifthKick": {
+            "pose": {
+              "kind": "T",
+              "r": 2,
+              "x": 4,
+              "y": 15
+            },
+            "credit": {
+              "rotated": true,
+              "kick": 4
+            },
+            "score": 400
+          },
+          "double": {
+            "score": 1200,
+            "lines": 2
+          },
+          "twoCorners": 0
+        },
+        "hidden": [
+          {
+            "partial": false,
+            "over": true,
+            "cells": 5
+          },
+          {
+            "partial": true,
+            "over": false,
+            "cells": 5
+          }
+        ],
+        "terminal": "pass",
+        "compaction": "pass",
+        "restart": [
+          12,
+          11,
+          12
+        ]
+      },
+      "browser": {
+        "browser": "156.0.8078.4",
+        "views": {
+          "desktop": {
+            "baseline": {
+              "started": true,
+              "hardDropPointsPositive": true
+            },
+            "engine": {
+              "srs": {
+                "states": [],
+                "kickLists": [],
+                "outcomes": [],
+                "attempts": 576
+              },
+              "bags": 100,
+              "hold": "pass",
+              "holdClocks": "pass",
+              "drops": [
+                {
+                  "k": "I",
+                  "ghost": 14,
+                  "points": 25
+                },
+                {
+                  "k": "J",
+                  "ghost": 14,
+                  "points": 25
+                },
+                {
+                  "k": "L",
+                  "ghost": 14,
+                  "points": 25
+                },
+                {
+                  "k": "O",
+                  "ghost": 14,
+                  "points": 25
+                },
+                {
+                  "k": "S",
+                  "ghost": 14,
+                  "points": 25
+                },
+                {
+                  "k": "T",
+                  "ghost": 14,
+                  "points": 25
+                },
+                {
+                  "k": "Z",
+                  "ghost": 14,
+                  "points": 25
+                }
+              ],
+              "clocks": {
+                "boundary": "pass",
+                "reset": "pass",
+                "after15": {
+                  "cells": 0,
+                  "resets": 15
+                },
+                "after15plus499": 0,
+                "after16plus1": 4,
+                "failedWall": 4,
+                "ledges": [
+                  {
+                    "exhausted": false,
+                    "start": 0,
+                    "land": 5510,
+                    "lock": 6010,
+                    "expectedLock": 6010
+                  },
+                  {
+                    "exhausted": true,
+                    "start": 490,
+                    "land": 5510,
+                    "lock": 5520,
+                    "expectedLock": 6010
+                  }
+                ],
+                "newLowest": {
+                  "resets": 15,
+                  "cells": 6,
+                  "expectedCells": 2
+                },
+                "contact": [
+                  {
+                    "dt": 10,
+                    "actual": 1500,
+                    "expected": 1500
+                  },
+                  {
+                    "dt": 100,
+                    "actual": 1500,
+                    "expected": 1500
+                  },
+                  {
+                    "dt": 16.666666666666668,
+                    "actual": 1516.6666666666679,
+                    "expected": 1500
+                  },
+                  {
+                    "dt": 6.944444444444445,
+                    "actual": 1499.9999999999945,
+                    "expected": 1500
+                  }
+                ]
+              },
+              "softEntry": {
+                "before": {
+                  "kind": "O",
+                  "r": 0,
+                  "x": 3,
+                  "y": 0
+                },
+                "after": {
+                  "kind": "O",
+                  "r": 0,
+                  "x": 3,
+                  "y": 16
+                },
+                "score": 16,
+                "expectedRows": 0,
+                "expectedPoints": 0
+              },
+              "softEntryLedge": {
+                "before": {
+                  "pose": {
+                    "kind": "O",
+                    "r": 0,
+                    "x": 0,
+                    "y": 12
+                  },
+                  "fall": 800,
+                  "lock": 400
+                },
+                "after": {
+                  "kind": "O",
+                  "r": 0,
+                  "x": 2,
+                  "y": 18
+                },
+                "score": 6,
+                "expectedY": 12,
+                "expectedScore": 0
+              },
+              "gravity": [
+                {
+                  "level": 1,
+                  "actual": 1000,
+                  "expected": 1000
+                },
+                {
+                  "level": 2,
+                  "actual": 793,
+                  "expected": 793
+                },
+                {
+                  "level": 3,
+                  "actual": 617.8,
+                  "expected": 617.796
+                },
+                {
+                  "level": 4,
+                  "actual": 472.8,
+                  "expected": 472.72913900000003
+                },
+                {
+                  "level": 5,
+                  "actual": 355.2,
+                  "expected": 355.19692825600004
+                },
+                {
+                  "level": 6,
+                  "actual": 262.1,
+                  "expected": 262.003549978125
+                },
+                {
+                  "level": 7,
+                  "actual": 189.7,
+                  "expected": 189.67724533271814
+                },
+                {
+                  "level": 8,
+                  "actual": 134.8,
+                  "expected": 134.7347308155587
+                },
+                {
+                  "level": 9,
+                  "actual": 93.9,
+                  "expected": 93.88224890421264
+                },
+                {
+                  "level": 10,
+                  "actual": 64.2,
+                  "expected": 64.15158495985582
+                },
+                {
+                  "level": 11,
+                  "actual": 43,
+                  "expected": 42.976258297035564
+                },
+                {
+                  "level": 12,
+                  "actual": 28.3,
+                  "expected": 28.21767780121165
+                },
+                {
+                  "level": 13,
+                  "actual": 18.2,
+                  "expected": 18.153328543517738
+                },
+                {
+                  "level": 14,
+                  "actual": 11.5,
+                  "expected": 11.43934234680738
+                },
+                {
+                  "level": 15,
+                  "actual": 7.1,
+                  "expected": 7.058616220934218
+                },
+                {
+                  "level": 16,
+                  "actual": 4.3,
+                  "expected": 4.263556954438949
+                },
+                {
+                  "level": 17,
+                  "actual": 2.6,
+                  "expected": 2.5200839695077955
+                },
+                {
+                  "level": 18,
+                  "actual": 1.5,
+                  "expected": 1.4571387328407777
+                },
+                {
+                  "level": 19,
+                  "actual": 0.9,
+                  "expected": 0.8239068955658087
+                },
+                {
+                  "level": 20,
+                  "actual": 0.9,
+                  "expected": 0.45539771210842706
+                }
+              ],
+              "scoring": {
+                "clears": [
+                  100,
+                  300,
+                  500,
+                  800
+                ],
+                "pc": [
+                  900,
+                  1500,
+                  2300,
+                  2800
+                ],
+                "combo": {
+                  "deltas": [
+                    100,
+                    150
+                  ],
+                  "total": 250
+                },
+                "b2b": {
+                  "deltas": [
+                    800,
+                    0,
+                    1200
+                  ],
+                  "total": 2000
+                },
+                "break": {
+                  "deltas": [
+                    800,
+                    150,
+                    900
+                  ],
+                  "total": 1850
+                },
+                "pcB2b": {
+                  "deltas": [
+                    800,
+                    0,
+                    4400
+                  ],
+                  "total": 5200
+                },
+                "crossing": {
+                  "score": 900,
+                  "level": 2,
+                  "lines": 10
+                },
+                "comboLevel2": 300
+              },
+              "spins": {
+                "hard-mini-zero": 100,
+                "hard-mini-single": 200,
+                "hard-full-zero": 400,
+                "hard-full-single": 800,
+                "timed-mini-zero": 100,
+                "timed-mini-single": 200,
+                "timed-full-zero": 400,
+                "timed-full-single": 800,
+                "facings": [
+                  {
+                    "r": 0,
+                    "full": false,
+                    "score": 100
+                  },
+                  {
+                    "r": 0,
+                    "full": true,
+                    "score": 400
+                  },
+                  {
+                    "r": 1,
+                    "full": false,
+                    "score": 100
+                  },
+                  {
+                    "r": 1,
+                    "full": true,
+                    "score": 400
+                  },
+                  {
+                    "r": 2,
+                    "full": false,
+                    "score": 100
+                  },
+                  {
+                    "r": 2,
+                    "full": true,
+                    "score": 400
+                  },
+                  {
+                    "r": 3,
+                    "full": false,
+                    "score": 100
+                  },
+                  {
+                    "r": 3,
+                    "full": true,
+                    "score": 400
+                  }
+                ],
+                "hardTravel": 28,
+                "softTravel": 14,
+                "failedActions": 400,
+                "noRotation": 0,
+                "fourthKick": {
+                  "pose": {
+                    "kind": "T",
+                    "r": 0,
+                    "x": 3,
+                    "y": 15
+                  },
+                  "credit": {
+                    "rotated": true,
+                    "kick": 3
+                  },
+                  "score": 100
+                },
+                "fifthKick": {
+                  "pose": {
+                    "kind": "T",
+                    "r": 2,
+                    "x": 4,
+                    "y": 15
+                  },
+                  "credit": {
+                    "rotated": true,
+                    "kick": 4
+                  },
+                  "score": 400
+                },
+                "double": {
+                  "score": 1200,
+                  "lines": 2
+                },
+                "twoCorners": 0
+              },
+              "hidden": [
+                {
+                  "partial": false,
+                  "over": true,
+                  "cells": 5
+                },
+                {
+                  "partial": true,
+                  "over": false,
+                  "cells": 5
+                }
+              ],
+              "terminal": "pass",
+              "compaction": "pass",
+              "restart": [
+                12,
+                11,
+                12
+              ]
+            },
+            "keys": [
+              {
+                "key": "ArrowLeft",
+                "before": {
+                  "pose": {
+                    "kind": "T",
+                    "r": 0,
+                    "x": 3,
+                    "y": 4
+                  },
+                  "count": 0,
+                  "score": 0,
+                  "held": null,
+                  "used": false,
+                  "over": false
+                },
+                "after": {
+                  "pose": {
+                    "kind": "T",
+                    "r": 0,
+                    "x": 2,
+                    "y": 4
+                  },
+                  "count": 0,
+                  "score": 0,
+                  "held": null,
+                  "used": false,
+                  "over": false
+                }
+              },
+              {
+                "key": "ArrowRight",
+                "before": {
+                  "pose": {
+                    "kind": "T",
+                    "r": 0,
+                    "x": 2,
+                    "y": 4
+                  },
+                  "count": 0,
+                  "score": 0,
+                  "held": null,
+                  "used": false,
+                  "over": false
+                },
+                "after": {
+                  "pose": {
+                    "kind": "T",
+                    "r": 0,
+                    "x": 3,
+                    "y": 4
+                  },
+                  "count": 0,
+                  "score": 0,
+                  "held": null,
+                  "used": false,
+                  "over": false
+                }
+              },
+              {
+                "key": "ArrowUp",
+                "before": {
+                  "pose": {
+                    "kind": "T",
+                    "r": 0,
+                    "x": 3,
+                    "y": 4
+                  },
+                  "count": 0,
+                  "score": 0,
+                  "held": null,
+                  "used": false,
+                  "over": false
+                },
+                "after": {
+                  "pose": {
+                    "kind": "T",
+                    "r": 1,
+                    "x": 3,
+                    "y": 4
+                  },
+                  "count": 0,
+                  "score": 0,
+                  "held": null,
+                  "used": false,
+                  "over": false
+                }
+              },
+              {
+                "key": "x",
+                "before": {
+                  "pose": {
+                    "kind": "T",
+                    "r": 1,
+                    "x": 3,
+                    "y": 4
+                  },
+                  "count": 0,
+                  "score": 0,
+                  "held": null,
+                  "used": false,
+                  "over": false
+                },
+                "after": {
+                  "pose": {
+                    "kind": "T",
+                    "r": 2,
+                    "x": 3,
+                    "y": 4
+                  },
+                  "count": 0,
+                  "score": 0,
+                  "held": null,
+                  "used": false,
+                  "over": false
+                }
+              },
+              {
+                "key": "z",
+                "before": {
+                  "pose": {
+                    "kind": "T",
+                    "r": 2,
+                    "x": 3,
+                    "y": 4
+                  },
+                  "count": 0,
+                  "score": 0,
+                  "held": null,
+                  "used": false,
+                  "over": false
+                },
+                "after": {
+                  "pose": {
+                    "kind": "T",
+                    "r": 1,
+                    "x": 3,
+                    "y": 4
+                  },
+                  "count": 0,
+                  "score": 0,
+                  "held": null,
+                  "used": false,
+                  "over": false
+                }
+              },
+              {
+                "key": "ControlLeft",
+                "before": {
+                  "pose": {
+                    "kind": "T",
+                    "r": 1,
+                    "x": 3,
+                    "y": 4
+                  },
+                  "count": 0,
+                  "score": 0,
+                  "held": null,
+                  "used": false,
+                  "over": false
+                },
+                "after": {
+                  "pose": {
+                    "kind": "T",
+                    "r": 0,
+                    "x": 3,
+                    "y": 4
+                  },
+                  "count": 0,
+                  "score": 0,
+                  "held": null,
+                  "used": false,
+                  "over": false
+                }
+              },
+              {
+                "key": "ArrowDown",
+                "before": {
+                  "pose": {
+                    "kind": "T",
+                    "r": 0,
+                    "x": 3,
+                    "y": 4
+                  },
+                  "count": 0,
+                  "score": 0,
+                  "held": null,
+                  "used": false,
+                  "over": false
+                },
+                "after": {
+                  "pose": {
+                    "kind": "T",
+                    "r": 0,
+                    "x": 3,
+                    "y": 5
+                  },
+                  "count": 0,
+                  "score": 1,
+                  "held": null,
+                  "used": false,
+                  "over": false
+                }
+              },
+              {
+                "key": "Space",
+                "before": {
+                  "pose": {
+                    "kind": "T",
+                    "r": 0,
+                    "x": 3,
+                    "y": 5
+                  },
+                  "count": 0,
+                  "score": 1,
+                  "held": null,
+                  "used": false,
+                  "over": false
+                },
+                "after": {
+                  "pose": {
+                    "kind": "I",
+                    "r": 0,
+                    "x": 3,
+                    "y": -1
+                  },
+                  "count": 4,
+                  "score": 27,
+                  "held": null,
+                  "used": false,
+                  "over": false
+                }
+              },
+              {
+                "key": "c",
+                "before": {
+                  "pose": {
+                    "kind": "I",
+                    "r": 0,
+                    "x": 3,
+                    "y": -1
+                  },
+                  "count": 4,
+                  "score": 27,
+                  "held": null,
+                  "used": false,
+                  "over": false
+                },
+                "after": {
+                  "pose": {
+                    "kind": "S",
+                    "r": 0,
+                    "x": 3,
+                    "y": -1
+                  },
+                  "count": 4,
+                  "score": 27,
+                  "held": "I",
+                  "used": true,
+                  "over": false
+                }
+              }
+            ],
+            "spins": {
+              "travel": {
+                "distance": 14,
+                "actual": 28,
+                "expected": 28
+              },
+              "mini": {
+                "distance": 0,
+                "actual": 100,
+                "expected": 100
+              },
+              "full": {
+                "distance": 0,
+                "actual": 400,
+                "expected": 400
+              }
+            },
+            "lockCap": {
+              "after15": {
+                "pose": {
+                  "kind": "O",
+                  "r": 0,
+                  "x": 4,
+                  "y": 18
+                },
+                "count": 0,
+                "score": 0,
+                "held": null,
+                "used": false,
+                "over": false
+              },
+              "after499": {
+                "pose": {
+                  "kind": "O",
+                  "r": 0,
+                  "x": 4,
+                  "y": 18
+                },
+                "count": 0,
+                "score": 0,
+                "held": null,
+                "used": false,
+                "over": false
+              }
+            },
+            "ledges": [
+              {
+                "retained": false,
+                "resets": 15,
+                "land": 6000,
+                "before": {
+                  "pose": {
+                    "kind": "O",
+                    "r": 0,
+                    "x": 1,
+                    "y": 18
+                  },
+                  "count": 2,
+                  "score": 0,
+                  "held": null,
+                  "used": false,
+                  "over": false
+                },
+                "after": {
+                  "pose": {
+                    "kind": "I",
+                    "r": 0,
+                    "x": 3,
+                    "y": -1
+                  },
+                  "count": 6,
+                  "score": 0,
+                  "held": null,
+                  "used": false,
+                  "over": false
+                }
+              },
+              {
+                "retained": true,
+                "resets": 15,
+                "land": 5510,
+                "before": {
+                  "pose": {
+                    "kind": "O",
+                    "r": 0,
+                    "x": 2,
+                    "y": 18
+                  },
+                  "count": 2,
+                  "score": 0,
+                  "held": null,
+                  "used": false,
+                  "over": false
+                },
+                "after": {
+                  "pose": {
+                    "kind": "I",
+                    "r": 0,
+                    "x": 3,
+                    "y": -1
+                  },
+                  "count": 6,
+                  "score": 0,
+                  "held": null,
+                  "used": false,
+                  "over": false
+                }
+              }
+            ],
+            "hidden": [
+              {
+                "partial": false,
+                "state": {
+                  "pose": {
+                    "kind": "O",
+                    "r": 0,
+                    "x": -1,
+                    "y": -2
+                  },
+                  "count": 5,
+                  "score": 0,
+                  "held": null,
+                  "used": false,
+                  "over": true
+                }
+              },
+              {
+                "partial": true,
+                "state": {
+                  "pose": {
+                    "kind": "I",
+                    "r": 0,
+                    "x": 3,
+                    "y": -1
+                  },
+                  "count": 5,
+                  "score": 0,
+                  "held": null,
+                  "used": false,
+                  "over": false
+                }
+              }
+            ],
+            "contact": {
+              "actual": 1500,
+              "expected": 1500
+            },
+            "softEntry": {
+              "pose": {
+                "kind": "O",
+                "r": 0,
+                "x": 3,
+                "y": 1
+              },
+              "count": 0,
+              "score": 1,
+              "held": null,
+              "used": false,
+              "over": false
+            },
+            "softEntryLedge": {
+              "pose": {
+                "kind": "O",
+                "r": 0,
+                "x": 2,
+                "y": 18
+              },
+              "count": 2,
+              "score": 6,
+              "held": null,
+              "used": false,
+              "over": false
+            },
+            "refresh": [
+              {
+                "hz": 60,
+                "state": {
+                  "pose": {
+                    "kind": "O",
+                    "r": 0,
+                    "x": 3,
+                    "y": 2
+                  },
+                  "count": 0,
+                  "score": 0,
+                  "held": null,
+                  "used": false,
+                  "over": false
+                }
+              },
+              {
+                "hz": 144,
+                "state": {
+                  "pose": {
+                    "kind": "O",
+                    "r": 0,
+                    "x": 3,
+                    "y": 2
+                  },
+                  "count": 0,
+                  "score": 0,
+                  "held": null,
+                  "used": false,
+                  "over": false
+                }
+              }
+            ],
+            "pauseAndBlur": "pass",
+            "gameover": {
+              "state": {
+                "pose": {
+                  "kind": "O",
+                  "r": 0,
+                  "x": 3,
+                  "y": -2
+                },
+                "count": 48,
+                "score": 206,
+                "held": null,
+                "used": false,
+                "over": true
+              },
+              "message": "\n              NICE RUN.Go again?206 points · 0 lines clearedPlay again ↗or press R to restart\n            ",
+              "overlay": "grid"
+            },
+            "restarted": {
+              "pose": {
+                "kind": "Z",
+                "r": 0,
+                "x": 3,
+                "y": -1
+              },
+              "count": 0,
+              "score": 0,
+              "held": null,
+              "used": false,
+              "over": false
+            },
+            "layout": {
+              "viewport": [
+                1280,
+                800
+              ],
+              "scrollWidth": 1280,
+              "scrollHeight": 871,
+              "board": {
+                "x": 503.5,
+                "y": 202.5,
+                "width": 273,
+                "height": 546
+              },
+              "hold": {
+                "x": 284,
+                "y": 240.5,
+                "width": 175.5,
+                "height": 80
+              },
+              "next": {
+                "x": 820.5,
+                "y": 240.5,
+                "width": 175.5,
+                "height": 230
+              },
+              "footer": {
+                "x": 102,
+                "y": 810.5,
+                "width": 1076,
+                "height": 60
+              },
+              "held": "O",
+              "overlay": "none"
+            },
+            "buttonSpace": {
+              "before": {
+                "pose": {
+                  "kind": "T",
+                  "r": 0,
+                  "x": 3,
+                  "y": 4
+                },
+                "count": 0,
+                "score": 0,
+                "held": null,
+                "used": false,
+                "over": false
+              },
+              "after": {
+                "pose": {
+                  "kind": "I",
+                  "r": 0,
+                  "x": 3,
+                  "y": -1
+                },
+                "count": 4,
+                "score": 28,
+                "held": null,
+                "used": false,
+                "over": false
+              }
+            },
+            "errors": [],
+            "failedAssets": []
+          },
+          "mobile": {
+            "baseline": {
+              "started": true,
+              "hardDropPointsPositive": true
+            },
+            "engine": {
+              "srs": {
+                "states": [],
+                "kickLists": [],
+                "outcomes": [],
+                "attempts": 576
+              },
+              "bags": 100,
+              "hold": "pass",
+              "holdClocks": "pass",
+              "drops": [
+                {
+                  "k": "I",
+                  "ghost": 14,
+                  "points": 25
+                },
+                {
+                  "k": "J",
+                  "ghost": 14,
+                  "points": 25
+                },
+                {
+                  "k": "L",
+                  "ghost": 14,
+                  "points": 25
+                },
+                {
+                  "k": "O",
+                  "ghost": 14,
+                  "points": 25
+                },
+                {
+                  "k": "S",
+                  "ghost": 14,
+                  "points": 25
+                },
+                {
+                  "k": "T",
+                  "ghost": 14,
+                  "points": 25
+                },
+                {
+                  "k": "Z",
+                  "ghost": 14,
+                  "points": 25
+                }
+              ],
+              "clocks": {
+                "boundary": "pass",
+                "reset": "pass",
+                "after15": {
+                  "cells": 0,
+                  "resets": 15
+                },
+                "after15plus499": 0,
+                "after16plus1": 4,
+                "failedWall": 4,
+                "ledges": [
+                  {
+                    "exhausted": false,
+                    "start": 0,
+                    "land": 5510,
+                    "lock": 6010,
+                    "expectedLock": 6010
+                  },
+                  {
+                    "exhausted": true,
+                    "start": 490,
+                    "land": 5510,
+                    "lock": 5520,
+                    "expectedLock": 6010
+                  }
+                ],
+                "newLowest": {
+                  "resets": 15,
+                  "cells": 6,
+                  "expectedCells": 2
+                },
+                "contact": [
+                  {
+                    "dt": 10,
+                    "actual": 1500,
+                    "expected": 1500
+                  },
+                  {
+                    "dt": 100,
+                    "actual": 1500,
+                    "expected": 1500
+                  },
+                  {
+                    "dt": 16.666666666666668,
+                    "actual": 1516.6666666666679,
+                    "expected": 1500
+                  },
+                  {
+                    "dt": 6.944444444444445,
+                    "actual": 1499.9999999999945,
+                    "expected": 1500
+                  }
+                ]
+              },
+              "softEntry": {
+                "before": {
+                  "kind": "O",
+                  "r": 0,
+                  "x": 3,
+                  "y": 0
+                },
+                "after": {
+                  "kind": "O",
+                  "r": 0,
+                  "x": 3,
+                  "y": 16
+                },
+                "score": 16,
+                "expectedRows": 0,
+                "expectedPoints": 0
+              },
+              "softEntryLedge": {
+                "before": {
+                  "pose": {
+                    "kind": "O",
+                    "r": 0,
+                    "x": 0,
+                    "y": 12
+                  },
+                  "fall": 800,
+                  "lock": 400
+                },
+                "after": {
+                  "kind": "O",
+                  "r": 0,
+                  "x": 2,
+                  "y": 18
+                },
+                "score": 6,
+                "expectedY": 12,
+                "expectedScore": 0
+              },
+              "gravity": [
+                {
+                  "level": 1,
+                  "actual": 1000,
+                  "expected": 1000
+                },
+                {
+                  "level": 2,
+                  "actual": 793,
+                  "expected": 793
+                },
+                {
+                  "level": 3,
+                  "actual": 617.8,
+                  "expected": 617.796
+                },
+                {
+                  "level": 4,
+                  "actual": 472.8,
+                  "expected": 472.72913900000003
+                },
+                {
+                  "level": 5,
+                  "actual": 355.2,
+                  "expected": 355.19692825600004
+                },
+                {
+                  "level": 6,
+                  "actual": 262.1,
+                  "expected": 262.003549978125
+                },
+                {
+                  "level": 7,
+                  "actual": 189.7,
+                  "expected": 189.67724533271814
+                },
+                {
+                  "level": 8,
+                  "actual": 134.8,
+                  "expected": 134.7347308155587
+                },
+                {
+                  "level": 9,
+                  "actual": 93.9,
+                  "expected": 93.88224890421264
+                },
+                {
+                  "level": 10,
+                  "actual": 64.2,
+                  "expected": 64.15158495985582
+                },
+                {
+                  "level": 11,
+                  "actual": 43,
+                  "expected": 42.976258297035564
+                },
+                {
+                  "level": 12,
+                  "actual": 28.3,
+                  "expected": 28.21767780121165
+                },
+                {
+                  "level": 13,
+                  "actual": 18.2,
+                  "expected": 18.153328543517738
+                },
+                {
+                  "level": 14,
+                  "actual": 11.5,
+                  "expected": 11.43934234680738
+                },
+                {
+                  "level": 15,
+                  "actual": 7.1,
+                  "expected": 7.058616220934218
+                },
+                {
+                  "level": 16,
+                  "actual": 4.3,
+                  "expected": 4.263556954438949
+                },
+                {
+                  "level": 17,
+                  "actual": 2.6,
+                  "expected": 2.5200839695077955
+                },
+                {
+                  "level": 18,
+                  "actual": 1.5,
+                  "expected": 1.4571387328407777
+                },
+                {
+                  "level": 19,
+                  "actual": 0.9,
+                  "expected": 0.8239068955658087
+                },
+                {
+                  "level": 20,
+                  "actual": 0.9,
+                  "expected": 0.45539771210842706
+                }
+              ],
+              "scoring": {
+                "clears": [
+                  100,
+                  300,
+                  500,
+                  800
+                ],
+                "pc": [
+                  900,
+                  1500,
+                  2300,
+                  2800
+                ],
+                "combo": {
+                  "deltas": [
+                    100,
+                    150
+                  ],
+                  "total": 250
+                },
+                "b2b": {
+                  "deltas": [
+                    800,
+                    0,
+                    1200
+                  ],
+                  "total": 2000
+                },
+                "break": {
+                  "deltas": [
+                    800,
+                    150,
+                    900
+                  ],
+                  "total": 1850
+                },
+                "pcB2b": {
+                  "deltas": [
+                    800,
+                    0,
+                    4400
+                  ],
+                  "total": 5200
+                },
+                "crossing": {
+                  "score": 900,
+                  "level": 2,
+                  "lines": 10
+                },
+                "comboLevel2": 300
+              },
+              "spins": {
+                "hard-mini-zero": 100,
+                "hard-mini-single": 200,
+                "hard-full-zero": 400,
+                "hard-full-single": 800,
+                "timed-mini-zero": 100,
+                "timed-mini-single": 200,
+                "timed-full-zero": 400,
+                "timed-full-single": 800,
+                "facings": [
+                  {
+                    "r": 0,
+                    "full": false,
+                    "score": 100
+                  },
+                  {
+                    "r": 0,
+                    "full": true,
+                    "score": 400
+                  },
+                  {
+                    "r": 1,
+                    "full": false,
+                    "score": 100
+                  },
+                  {
+                    "r": 1,
+                    "full": true,
+                    "score": 400
+                  },
+                  {
+                    "r": 2,
+                    "full": false,
+                    "score": 100
+                  },
+                  {
+                    "r": 2,
+                    "full": true,
+                    "score": 400
+                  },
+                  {
+                    "r": 3,
+                    "full": false,
+                    "score": 100
+                  },
+                  {
+                    "r": 3,
+                    "full": true,
+                    "score": 400
+                  }
+                ],
+                "hardTravel": 28,
+                "softTravel": 14,
+                "failedActions": 400,
+                "noRotation": 0,
+                "fourthKick": {
+                  "pose": {
+                    "kind": "T",
+                    "r": 0,
+                    "x": 3,
+                    "y": 15
+                  },
+                  "credit": {
+                    "rotated": true,
+                    "kick": 3
+                  },
+                  "score": 100
+                },
+                "fifthKick": {
+                  "pose": {
+                    "kind": "T",
+                    "r": 2,
+                    "x": 4,
+                    "y": 15
+                  },
+                  "credit": {
+                    "rotated": true,
+                    "kick": 4
+                  },
+                  "score": 400
+                },
+                "double": {
+                  "score": 1200,
+                  "lines": 2
+                },
+                "twoCorners": 0
+              },
+              "hidden": [
+                {
+                  "partial": false,
+                  "over": true,
+                  "cells": 5
+                },
+                {
+                  "partial": true,
+                  "over": false,
+                  "cells": 5
+                }
+              ],
+              "terminal": "pass",
+              "compaction": "pass",
+              "restart": [
+                12,
+                11,
+                12
+              ]
+            },
+            "keys": [
+              {
+                "key": "ArrowLeft",
+                "before": {
+                  "pose": {
+                    "kind": "T",
+                    "r": 0,
+                    "x": 3,
+                    "y": 4
+                  },
+                  "count": 0,
+                  "score": 0,
+                  "held": null,
+                  "used": false,
+                  "over": false
+                },
+                "after": {
+                  "pose": {
+                    "kind": "T",
+                    "r": 0,
+                    "x": 2,
+                    "y": 4
+                  },
+                  "count": 0,
+                  "score": 0,
+                  "held": null,
+                  "used": false,
+                  "over": false
+                }
+              },
+              {
+                "key": "ArrowRight",
+                "before": {
+                  "pose": {
+                    "kind": "T",
+                    "r": 0,
+                    "x": 2,
+                    "y": 4
+                  },
+                  "count": 0,
+                  "score": 0,
+                  "held": null,
+                  "used": false,
+                  "over": false
+                },
+                "after": {
+                  "pose": {
+                    "kind": "T",
+                    "r": 0,
+                    "x": 3,
+                    "y": 4
+                  },
+                  "count": 0,
+                  "score": 0,
+                  "held": null,
+                  "used": false,
+                  "over": false
+                }
+              },
+              {
+                "key": "ArrowUp",
+                "before": {
+                  "pose": {
+                    "kind": "T",
+                    "r": 0,
+                    "x": 3,
+                    "y": 4
+                  },
+                  "count": 0,
+                  "score": 0,
+                  "held": null,
+                  "used": false,
+                  "over": false
+                },
+                "after": {
+                  "pose": {
+                    "kind": "T",
+                    "r": 1,
+                    "x": 3,
+                    "y": 4
+                  },
+                  "count": 0,
+                  "score": 0,
+                  "held": null,
+                  "used": false,
+                  "over": false
+                }
+              },
+              {
+                "key": "x",
+                "before": {
+                  "pose": {
+                    "kind": "T",
+                    "r": 1,
+                    "x": 3,
+                    "y": 4
+                  },
+                  "count": 0,
+                  "score": 0,
+                  "held": null,
+                  "used": false,
+                  "over": false
+                },
+                "after": {
+                  "pose": {
+                    "kind": "T",
+                    "r": 2,
+                    "x": 3,
+                    "y": 4
+                  },
+                  "count": 0,
+                  "score": 0,
+                  "held": null,
+                  "used": false,
+                  "over": false
+                }
+              },
+              {
+                "key": "z",
+                "before": {
+                  "pose": {
+                    "kind": "T",
+                    "r": 2,
+                    "x": 3,
+                    "y": 4
+                  },
+                  "count": 0,
+                  "score": 0,
+                  "held": null,
+                  "used": false,
+                  "over": false
+                },
+                "after": {
+                  "pose": {
+                    "kind": "T",
+                    "r": 1,
+                    "x": 3,
+                    "y": 4
+                  },
+                  "count": 0,
+                  "score": 0,
+                  "held": null,
+                  "used": false,
+                  "over": false
+                }
+              },
+              {
+                "key": "ControlLeft",
+                "before": {
+                  "pose": {
+                    "kind": "T",
+                    "r": 1,
+                    "x": 3,
+                    "y": 4
+                  },
+                  "count": 0,
+                  "score": 0,
+                  "held": null,
+                  "used": false,
+                  "over": false
+                },
+                "after": {
+                  "pose": {
+                    "kind": "T",
+                    "r": 0,
+                    "x": 3,
+                    "y": 4
+                  },
+                  "count": 0,
+                  "score": 0,
+                  "held": null,
+                  "used": false,
+                  "over": false
+                }
+              },
+              {
+                "key": "ArrowDown",
+                "before": {
+                  "pose": {
+                    "kind": "T",
+                    "r": 0,
+                    "x": 3,
+                    "y": 4
+                  },
+                  "count": 0,
+                  "score": 0,
+                  "held": null,
+                  "used": false,
+                  "over": false
+                },
+                "after": {
+                  "pose": {
+                    "kind": "T",
+                    "r": 0,
+                    "x": 3,
+                    "y": 5
+                  },
+                  "count": 0,
+                  "score": 1,
+                  "held": null,
+                  "used": false,
+                  "over": false
+                }
+              },
+              {
+                "key": "Space",
+                "before": {
+                  "pose": {
+                    "kind": "T",
+                    "r": 0,
+                    "x": 3,
+                    "y": 5
+                  },
+                  "count": 0,
+                  "score": 1,
+                  "held": null,
+                  "used": false,
+                  "over": false
+                },
+                "after": {
+                  "pose": {
+                    "kind": "I",
+                    "r": 0,
+                    "x": 3,
+                    "y": -1
+                  },
+                  "count": 4,
+                  "score": 27,
+                  "held": null,
+                  "used": false,
+                  "over": false
+                }
+              },
+              {
+                "key": "c",
+                "before": {
+                  "pose": {
+                    "kind": "I",
+                    "r": 0,
+                    "x": 3,
+                    "y": -1
+                  },
+                  "count": 4,
+                  "score": 27,
+                  "held": null,
+                  "used": false,
+                  "over": false
+                },
+                "after": {
+                  "pose": {
+                    "kind": "S",
+                    "r": 0,
+                    "x": 3,
+                    "y": -1
+                  },
+                  "count": 4,
+                  "score": 27,
+                  "held": "I",
+                  "used": true,
+                  "over": false
+                }
+              }
+            ],
+            "spins": {
+              "travel": {
+                "distance": 14,
+                "actual": 28,
+                "expected": 28
+              },
+              "mini": {
+                "distance": 0,
+                "actual": 100,
+                "expected": 100
+              },
+              "full": {
+                "distance": 0,
+                "actual": 400,
+                "expected": 400
+              }
+            },
+            "lockCap": {
+              "after15": {
+                "pose": {
+                  "kind": "O",
+                  "r": 0,
+                  "x": 4,
+                  "y": 18
+                },
+                "count": 0,
+                "score": 0,
+                "held": null,
+                "used": false,
+                "over": false
+              },
+              "after499": {
+                "pose": {
+                  "kind": "O",
+                  "r": 0,
+                  "x": 4,
+                  "y": 18
+                },
+                "count": 0,
+                "score": 0,
+                "held": null,
+                "used": false,
+                "over": false
+              }
+            },
+            "ledges": [
+              {
+                "retained": false,
+                "resets": 15,
+                "land": 6000,
+                "before": {
+                  "pose": {
+                    "kind": "O",
+                    "r": 0,
+                    "x": 1,
+                    "y": 18
+                  },
+                  "count": 2,
+                  "score": 0,
+                  "held": null,
+                  "used": false,
+                  "over": false
+                },
+                "after": {
+                  "pose": {
+                    "kind": "I",
+                    "r": 0,
+                    "x": 3,
+                    "y": -1
+                  },
+                  "count": 6,
+                  "score": 0,
+                  "held": null,
+                  "used": false,
+                  "over": false
+                }
+              },
+              {
+                "retained": true,
+                "resets": 15,
+                "land": 5510,
+                "before": {
+                  "pose": {
+                    "kind": "O",
+                    "r": 0,
+                    "x": 2,
+                    "y": 18
+                  },
+                  "count": 2,
+                  "score": 0,
+                  "held": null,
+                  "used": false,
+                  "over": false
+                },
+                "after": {
+                  "pose": {
+                    "kind": "I",
+                    "r": 0,
+                    "x": 3,
+                    "y": -1
+                  },
+                  "count": 6,
+                  "score": 0,
+                  "held": null,
+                  "used": false,
+                  "over": false
+                }
+              }
+            ],
+            "hidden": [
+              {
+                "partial": false,
+                "state": {
+                  "pose": {
+                    "kind": "O",
+                    "r": 0,
+                    "x": -1,
+                    "y": -2
+                  },
+                  "count": 5,
+                  "score": 0,
+                  "held": null,
+                  "used": false,
+                  "over": true
+                }
+              },
+              {
+                "partial": true,
+                "state": {
+                  "pose": {
+                    "kind": "I",
+                    "r": 0,
+                    "x": 3,
+                    "y": -1
+                  },
+                  "count": 5,
+                  "score": 0,
+                  "held": null,
+                  "used": false,
+                  "over": false
+                }
+              }
+            ],
+            "contact": {
+              "actual": 1500,
+              "expected": 1500
+            },
+            "softEntry": {
+              "pose": {
+                "kind": "O",
+                "r": 0,
+                "x": 3,
+                "y": 1
+              },
+              "count": 0,
+              "score": 1,
+              "held": null,
+              "used": false,
+              "over": false
+            },
+            "softEntryLedge": {
+              "pose": {
+                "kind": "O",
+                "r": 0,
+                "x": 2,
+                "y": 18
+              },
+              "count": 2,
+              "score": 6,
+              "held": null,
+              "used": false,
+              "over": false
+            },
+            "refresh": [
+              {
+                "hz": 60,
+                "state": {
+                  "pose": {
+                    "kind": "O",
+                    "r": 0,
+                    "x": 3,
+                    "y": 2
+                  },
+                  "count": 0,
+                  "score": 0,
+                  "held": null,
+                  "used": false,
+                  "over": false
+                }
+              },
+              {
+                "hz": 144,
+                "state": {
+                  "pose": {
+                    "kind": "O",
+                    "r": 0,
+                    "x": 3,
+                    "y": 2
+                  },
+                  "count": 0,
+                  "score": 0,
+                  "held": null,
+                  "used": false,
+                  "over": false
+                }
+              }
+            ],
+            "pauseAndBlur": "pass",
+            "gameover": {
+              "state": {
+                "pose": {
+                  "kind": "O",
+                  "r": 0,
+                  "x": 3,
+                  "y": -2
+                },
+                "count": 48,
+                "score": 206,
+                "held": null,
+                "used": false,
+                "over": true
+              },
+              "message": "\n              NICE RUN.Go again?206 points · 0 lines clearedPlay again ↗or press R to restart\n            ",
+              "overlay": "grid"
+            },
+            "restarted": {
+              "pose": {
+                "kind": "Z",
+                "r": 0,
+                "x": 3,
+                "y": -1
+              },
+              "count": 0,
+              "score": 0,
+              "held": null,
+              "used": false,
+              "over": false
+            },
+            "layout": {
+              "viewport": [
+                390,
+                844
+              ],
+              "scrollWidth": 390,
+              "scrollHeight": 952,
+              "board": {
+                "x": 119,
+                "y": 179,
+                "width": 257,
+                "height": 514
+              },
+              "hold": {
+                "x": 24,
+                "y": 209,
+                "width": 73,
+                "height": 42
+              },
+              "next": {
+                "x": 24,
+                "y": 591,
+                "width": 73,
+                "height": 130
+              },
+              "footer": {
+                "x": 13,
+                "y": 882,
+                "width": 364,
+                "height": 70
+              },
+              "held": "O",
+              "overlay": "none"
+            },
+            "buttonSpace": {
+              "before": {
+                "pose": {
+                  "kind": "T",
+                  "r": 0,
+                  "x": 3,
+                  "y": 4
+                },
+                "count": 0,
+                "score": 0,
+                "held": null,
+                "used": false,
+                "over": false
+              },
+              "after": {
+                "pose": {
+                  "kind": "I",
+                  "r": 0,
+                  "x": 3,
+                  "y": -1
+                },
+                "count": 4,
+                "score": 28,
+                "held": null,
+                "used": false,
+                "over": false
+              }
+            },
+            "errors": [],
+            "failedAssets": []
+          }
+        }
+      },
+      "environment": {
+        "node": "v26.0.0",
+        "npm": "11.17.0",
+        "python": "Python 3.14.5",
+        "playwright": "1.64.0"
+      },
+      "reviewer": {
+        "model": "gpt-6.1-sol",
+        "effort": "xhigh",
+        "native_session_id": "01a1f29f-d9bf-73f0-8a1b-f8a05bf7d49f",
+        "native_rollout": "/Users/david/.codex/sessions/2026/11/19/rollout-2026-11-19T08-05-24-01a1f29f-d9bf-73f0-8a1b-f8a05bf7d49f.jsonl",
+        "turn_id": "01a1f29f-dc32-7180-b431-99cc34ec654f",
+        "source": "own native Codex turn_context",
+        "t3_thread_id": "thread:delegated-task:command%3Amcp%3Af5cbf383-63f4-4751-8a6e-737cd109491b%3Adelegate-task%3Aeb73b709-2c62-4249-9399-386a2a370107",
+        "thread_link": "[Audit GPT-6 Astra medium + high](t3-thread://v2/be26fbd3-1b19-4ec5-a479-19a35432c8a1/thread:delegated-task:command%3Amcp%3Af5cbf383-63f4-4751-8a6e-737cd109491b%3Adelegate-task%3Aeb73b709-2c62-4249-9399-386a2a370107)",
+        "t3_metadata_confirmation": {
+          "thread_id": "thread:delegated-task:command%3Amcp%3Af5cbf383-63f4-4751-8a6e-737cd109491b%3Adelegate-task%3Aeb73b709-2c62-4249-9399-386a2a370107",
+          "link": "[Audit GPT-6 Astra medium + high](t3-thread://v2/be26fbd3-1b19-4ec5-a479-19a35432c8a1/thread:delegated-task:command%3Amcp%3Af5cbf383-63f4-4751-8a6e-737cd109491b%3Adelegate-task%3Aeb73b709-2c62-4249-9399-386a2a370107)",
+          "model": "gpt-6.1-sol",
+          "provider": "codex",
+          "relationship_to_parent": "subagent"
+        }
+      },
+      "screenshots_inspected": [
+        "desktop-baseline.png",
+        "mobile-baseline.png",
+        "desktop.png",
+        "mobile.png"
+      ],
+      "review": {
+        "run_id": "gpt-6-astra-high",
+        "audited": "2026-11-19",
+        "scores": {
+          "correctness": 9.0,
+          "tests": 8.5,
+          "code": 9.0,
+          "simplicity": 9.0,
+          "browser_ux": 9.0
+        },
+        "bugs": [
+          {
+            "severity": "minor",
+            "title": "Spent lock clock and reset allowance survive lower descent",
+            "detail": "O0(-1,12), supports(0,14),(1,14),15 alternating moves,490ms,Right twice: land5510ms after departure and lock5520ms,10ms after landing rather than500ms. Lower floor keeps lockResets15 and rejects a fresh movement reset. Related clock/budget defects grouped once; ordinary contact and reset15 boundaries pass."
+          },
+          {
+            "severity": "minor",
+            "title": "Blocked soft-drop entry spends old normal-gravity time",
+            "detail": "O0(-1,12), supports(0,14),(1,14):400ms,Right,400ms reaches gravityTime800/lockTime400. Hold Down while blocked,Right twice,1ms frame: six rows/six points immediately instead of zero. Actual keys agree both views. Unblocked Down correctly clears the clock and gives one row/point."
+          }
+        ],
+        "summary": "Readable full-featured Tetris with broad 22-test suite; retained lower-row lock state and blocked soft-entry timing gaps"
+      },
+      "validation": {
+        "locked_install_build_unchanged_own_tests": true,
+        "node_and_both_chromium_engine_results_identical": true,
+        "separate_fresh_copy_pinned_reproduction_passed": true,
+        "delivered_and_copied_hashes_unchanged": true,
+        "owned_servers_browsers_copies_pngs_logs_removed": true
+      }
+    }
+  },
+  "reviewer": {
+    "model": "gpt-6.1-sol",
+    "effort": "xhigh",
+    "native_session_id": "01a1f29f-d9bf-73f0-8a1b-f8a05bf7d49f",
+    "native_rollout": "/Users/david/.codex/sessions/2026/11/19/rollout-2026-11-19T08-05-24-01a1f29f-d9bf-73f0-8a1b-f8a05bf7d49f.jsonl",
+    "turn_id": "01a1f29f-dc32-7180-b431-99cc34ec654f",
+    "source": "own native Codex turn_context",
+    "t3_thread_id": "thread:delegated-task:command%3Amcp%3Af5cbf383-63f4-4751-8a6e-737cd109491b%3Adelegate-task%3Aeb73b709-2c62-4249-9399-386a2a370107",
+    "thread_link": "[Audit GPT-6 Astra medium + high](t3-thread://v2/be26fbd3-1b19-4ec5-a479-19a35432c8a1/thread:delegated-task:command%3Amcp%3Af5cbf383-63f4-4751-8a6e-737cd109491b%3Adelegate-task%3Aeb73b709-2c62-4249-9399-386a2a370107)",
+    "t3_metadata_confirmation": {
+      "thread_id": "thread:delegated-task:command%3Amcp%3Af5cbf383-63f4-4751-8a6e-737cd109491b%3Adelegate-task%3Aeb73b709-2c62-4249-9399-386a2a370107",
+      "link": "[Audit GPT-6 Astra medium + high](t3-thread://v2/be26fbd3-1b19-4ec5-a479-19a35432c8a1/thread:delegated-task:command%3Amcp%3Af5cbf383-63f4-4751-8a6e-737cd109491b%3Adelegate-task%3Aeb73b709-2c62-4249-9399-386a2a370107)",
+      "model": "gpt-6.1-sol",
+      "provider": "codex",
+      "relationship_to_parent": "subagent"
+    },
+    "orchestrator_verification": "Claude Opus 5.5 read turn_context model=gpt-6.1-sol effort=xhigh from the native rollout of session 01a1f29f-d9bf-73f0-8a1b-f8a05bf7d49f on 2026-11-19",
+    "codex_quota": {
+      "five_hour_used_percent": [
+        53,
+        66
+      ],
+      "weekly_used_percent": [
+        82,
+        84
+      ],
+      "first_snapshot": "2026-11-19T07:05:32.076Z",
+      "last_snapshot": "2026-11-19T07:19:15.529Z"
+    }
+  },
+  "audited": "2026-11-19",
+  "review_artifact": ".audit/gpt6-astra-medium-high-review.md",
+  "method": {
+    "review_order": [
+      "medium",
+      "high"
+    ],
+    "delegation": false,
+    "tested_model_or_other_run_transcripts_read": false,
+    "other_native_sessions_read": false,
+    "t3_private_files_read": false,
+    "downloads": false,
+    "fixture_coordinates": "visible x0..9/y0..19; native y=visible+20; normalized shim uses two hidden rows for inherited probes",
+    "instrumentation": "thin names/coordinate adapter and browser state/reset/render accessors; delivered rule actions unchanged; sacrificial collision override only for ordered kick-list diagnostic",
+    "baseline": "unchanged entry and natural RAF startup/hard drop before deterministic probes",
+    "temporary_port_policy": "free41000–49999; medium literal adapted/restored; high PORT env unchanged",
+    "limitations": [
+      "no exhaustive state-space or long-play proof",
+      "no physical touch/HiDPI/OS-repeat or non-Chromium certification",
+      "spin triple/mini-double and every scoring-chain combination inspected rather than forced",
+      "automatic-gravity spin-history interpretation unscored"
+    ],
+    "ignored_high_diagnostics": "output/playwright PNGs/config and .playwright-cli snapshots hashed; not game code or own-test credit; immaterial clutter"
+  },
+  "preservation": {
+    "protected_file_count": 137,
+    "protected_sha256": {
+      "benchmark-runs.json": "9b44185209874885697219c31e5699778131c8741f5bce1cf8afc313289d45f6",
+      "pricing.json": "ef3ad14f8fdf0febfdb626293fb460f3b3ea2679cf23f6c6760e0093b52db0a5",
+      "gpt-6-astra-medium/index.html": "8213fb4e7817cdaf24cc2a0ef783ffd969103c65f46c26bf80b790db9578a90d",
+      "gpt-6-astra-medium/STATISTICS.md": "3a819521abb3d6bac03a288198d4dad0b359da957fa2f6726827578ee7c08c25",
+      "gpt-6-astra-medium/README.md": "36e2097a78fe8b5646e6216338640831cff0a284cc823c4b1f658991c8d40294",
+      "gpt-6-astra-medium/.gitignore": "790e3169bc19b046fe55ba1da6d13b976c28363c8c00462a2195fe5faf260910",
+      "gpt-6-astra-medium/package-lock.json": "096c98b9ed899459d3f1f10036858b13cb19230e5cf15200d74879252f8d89eb",
+      "gpt-6-astra-medium/package.json": "f488b26ce36c7d8e7aa63f091eccc6260ee407263e07e40480e13b8fc2b16ca3",
+      "gpt-6-astra-medium/style.css": "3e01d9940f79cdc3a573a88fcd60457ac889d8a246af7da683420a127b73c814",
+      "gpt-6-astra-medium/server.mjs": "0a58aa7b828868e482c9c04ce69bf8ecb3607d6c3609bea1b4c75620d6b8f783",
+      "gpt-6-astra-medium/tsconfig.json": "ce9616bf5949188d6a11475aac61c7e04227f46b0544c4dc9c313e3bb6eb144d",
+      "gpt-6-astra-medium/tests/game.test.mjs": "822fe53f3034a2bfdb9e8b0dec470148b705c43051664edc5771dfdfce743607",
+      "gpt-6-astra-medium/src/main.ts": "4f0a46f27929b4b6412018e7471dba1a50af52812eb556d541e5b16ba6adf05a",
+      "gpt-6-astra-medium/src/game.ts": "75c8c5a00f5437c98d1730a1292917993bf995dac1dbbef4b305411c641a75f4",
+      "gpt-6-astra-high/index.html": "fc4bd4a627961c9a8298bbe161b7980b6439ab6e5c8998a01508dd936494d7f9",
+      "gpt-6-astra-high/styles.css": "8733c409226ceb5135e936eda76086b1aed7942cd8910c17441a6cbe9da24edb",
+      "gpt-6-astra-high/STATISTICS.md": "891131dff653dc73e6f52907c959c7f7eb555465cb6c0bc8934ee3d87479c9c3",
+      "gpt-6-astra-high/README.md": "900469b961bbd82ddaf4367ca5d45da3a39941df358686f117ea835fa271dd98",
+      "gpt-6-astra-high/.gitignore": "f7d66fb92dcf955624a5e4536628cbd0d0516d457a4f8824930d2c2e8e9ca704",
+      "gpt-6-astra-high/package-lock.json": "bff9d80313b352bf2eaf7d534f2ad895cb068603a5c8a8e4ddf2a573f97160be",
+      "gpt-6-astra-high/package.json": "e6d9f2bbf3f08c2db8053e753827b3593200415a2fbd3565271046bc3f0d58e6",
+      "gpt-6-astra-high/tsconfig.json": "ebe64375cbc3f2bc206073bb13a833e57f3df841cf37826968b49bc9a7c78d76",
+      "gpt-6-astra-high/tests/game.test.mjs": "e0bf288f8e78e068df5a8744e90edf2c218917f0a64abde3b1759b8f69751734",
+      "gpt-6-astra-high/scripts/serve.mjs": "9062bc621baf3fbb203dc89d3fa91df5da60d9ce5aba0d8ce094f6e496620ee0",
+      "gpt-6-astra-high/.playwright-cli/page-2026-11-19T06-39-19-699Z.yml": "4247484ddb1cb8dd0c1fc9721f560499092a433c3fd4cfe10e610ad697226c25",
+      "gpt-6-astra-high/.playwright-cli/page-2026-11-19T06-38-26-911Z.yml": "b3100496f13317c76d8f450d106431bacd2dd464f00df38c359d890c29e79046",
+      "gpt-6-astra-high/.playwright-cli/page-2026-11-19T06-37-47-408Z.yml": "c1c6d6aec0c607b64f39906a072039513eefa13e9e31be0249f3d7107144ed6e",
+      "gpt-6-astra-high/src/main.ts": "1470f216990bd5c6dd1b657be6a687a88e6bf5678de6552bbba5c4692a7ad590",
+      "gpt-6-astra-high/src/pieces.ts": "5727193cf42c0cf436e16333f86095b9190da497faf5cec59af876e8d1ac8032",
+      "gpt-6-astra-high/src/game.ts": "f57170d74df63a22a4fba30244a89fc3c32a3b4e4221d3c3bfddb91f77f3a7e7",
+      "gpt-6-astra-high/src/render.ts": "0ae34b7fcbfacd289cadd525cf03009277619b87f7369424835c3feda9312dfa",
+      "gpt-6-astra-high/output/playwright/desktop.png": "ef62ecf1bbe8e6919214f7ea5573d14b8940ad9f440fcf9b377b3440c1a1365d",
+      "gpt-6-astra-high/output/playwright/desktop-compact.png": "0592c66a6b4003322a19ef3b46bda46b61c7dc55df1a10c2799253289eec4b22",
+      "gpt-6-astra-high/output/playwright/cli.config.json": "86c1eac54131dd2677469a4c0db6d745e8a4ac3c19bc994fdc879b4353b2c13d",
+      "gpt-6-astra-high/output/playwright/mobile.png": "bb9f1225f9dbd9c71739587a3e6f2a809c27c3707b747b1e9cfe5594faf86295",
+      "gpt-5.6-luna-low/STATISTICS.md": "203e2e5c9ad0d3448db0fae18bc19bda08710b12fb7c460e24b3b692295e5f32",
+      "glm-5.3-low/STATISTICS.md": "147bfbfebba8ca06d18f1130b685bedd8d2100ef7f7b7565f7c5b6045ef07699",
+      "gpt-5.6-sol-medium/STATISTICS.md": "e825d1301ff75717d577fd8c9c50916bb5afdff5fd31230471a36ef392b35c6d",
+      "gemini-4-argon-contributor-high/STATISTICS.md": "346cbac125429b72c8e0a698aafc8975a9dd7a73cabcd064866ca5a90a4ab2c6",
+      "gpt-6.1-sol-xhigh/STATISTICS.md": "265cbf8af89957e7a67abcfc2e3053ffb3453c5bc0497f0e496863f9cd9fce16",
+      "gpt-5.6-sol-low/STATISTICS.md": "68172e19c1933b9e2ee4047782d32b03dbf68bd744a8794656cc5956df5e3210",
+      "gpt-6.2-sol-low/STATISTICS.md": "f7a096263ac1bfd18c1e57df45582af03fdea767276bbb1338bdc38fd285676a",
+      "claude-sonnet-5-5-medium/STATISTICS.md": "dca138c379b6d4ef23574bf5f0a46ab20afb0d64aad0d2372e90dc72144e1866",
+      "gpt-5.6-sol-xhigh/STATISTICS.md": "a2a9a2d08515532bc498d3fc2d9f9509622cd228b509ebded224dcaa6263bb89",
+      "luna-pi/STATISTICS.md": "f467ee34cae301cb838702f9a4b1b3abdc41a46256a87831e0c7cf1696fa74ce",
+      "qwen3.8-max-medium/STATISTICS.md": "683cda01115fbe570bd1e32a0a98e23d350e0e58d74385d12dbd20265da4eb8d",
+      "gpt-6.1-terra-xhigh/STATISTICS.md": "09470b3933b22cd512e9190c714530863920686b0a9b83e5ca780883bd578724",
+      "gpt-6-luna-low/STATISTICS.md": "d201cf6f658c954b64fa088d73eb9431814f5f260c039b4cafa546688ce3ffad",
+      "gpt-6.1-terra-low/STATISTICS.md": "81905cd77ed9f8d1d99d7ef6687104f3c3d3f80197aa95a9c91b7b29924d4e91",
+      "space-bunny/STATISTICS.md": "07ed9eaba37a0630ad92fc398646a58a3f1f831599a0be9b97d5e81fbc959f1f",
+      "glm-5.3-flash-free-high/STATISTICS.md": "4733cb1d5165b4f8d7020d459e6a60d6b91a8dd627298e230822ab101cbb5d87",
+      "gpt-5.6-terra-low/STATISTICS.md": "398178f3b441a1ae345195f656269dd168f4b144d5ca23e80e1246434f7050ca",
+      "qwen4-max-high/STATISTICS.md": "29563620e310e511b7f39a149b8bf6e1a2c0421500650eea131900d1bef67592",
+      "qwen3.8-max-low/STATISTICS.md": "671b1a01c9bb7518ca21c884c1aff646c95cac87b1e0ac0e799f5a1834b1ee7d",
+      "gpt-5.6-luna-medium/STATISTICS.md": "328c6679d623f4b465060c43390aa7035ac9c703f35704118d81430e72260630",
+      "muse-spark-1.3-contributor-minimal/STATISTICS.md": "8ccd31e5233d2d05616ce2f73e9aea0fa878f007e8d243e28c2c780ab0522241",
+      "sol-omp/STATISTICS.md": "bf21dff0472645df48d6348ff1f14ec96ab1f8da100e98bca449a7e8512d670d",
+      "gpt-6.1-terra-high/STATISTICS.md": "ae68275fbdec23e215abebb41a82b8f7335408ec2348e63a63a98717c488c316",
+      "muse-spark-1.3-contributor-low/STATISTICS.md": "a27b308bdc73686b381cd5a97eefa80e8527d25151bdad7532aed77d404aa68d",
+      "minimax-m3.1-flash-free-high/STATISTICS.md": "92a129c7acfa3e52ac027fdb98f22393131ceed2f67489d4c07da9fa90ef2765",
+      "gpt-6.1-sol-low/STATISTICS.md": "5642a88e49d8fb8a5e541d6485d766a0e6672b11bb6fe2eb23c0740322b03827",
+      "muse-spark-1.3-contributor-high/STATISTICS.md": "bede0f125a8e8dc5e00111b09c6df3e71e5dd17551de60dc59753c69c8d96f1e",
+      "minimax-m3.1-flash-free-xhigh/STATISTICS.md": "a5d7921a100fdda6a6c1522759538e54138aa477bebd960e8eb6b19ace3b11b0",
+      "claude-haiku-5-5-max/STATISTICS.md": "e9a1e94ede732d15861b24fa4289fdf115334235109a4593da758f64f6214d17",
+      "gpt-6.2-sol-medium/STATISTICS.md": "18c1840306f736c7ea31c8b634c44d980ff9066294f199e8f71901738f2d1aa6",
+      "gpt-6.2-astra-max/STATISTICS.md": "32ee1a5e5f8f0c2c79636a9cc392e8c8933753a7dbf4f68ad6bcd6f1dbd34a75",
+      "gpt-5.6-luna-xhigh/STATISTICS.md": "529ea6c5f86e6adc60442ed4197065d2083cc2913e38c82b210dfcb0c03a7bbd",
+      "qwen3.8-flash-xhigh/STATISTICS.md": "af3084acb0fb3af48d6ea037953cf5cd563df1767881f146daa0c3e63f6a0d14",
+      "gpt-5.6-sol-high/STATISTICS.md": "0450e2d0bc841cf0535eec87381fee5c78d1c4ac4ee1cf06f11129ee5b07d9ea",
+      "gpt-6.2-sol-high/STATISTICS.md": "28fa8dca7c64ee82693c1ad035a44357e621960dd021102ba9a665fca486f2e2",
+      "gpt-6.2-astra-xhigh/STATISTICS.md": "8946bf5a5acff82c616b32d5bfda2b9d15032bdb020f8bb21f59316d9ddec83c",
+      "gpt-6.1-terra-ultra/STATISTICS.md": "95485c7f5b0ae5f6b88c295318c4f0e0f1f3cc75615273f3b62e9ee4a628a5bb",
+      "gpt-6-luna-high/STATISTICS.md": "5ff84346fda42e102ba3d674758a7fb4adedc499ddb4e57ddc9cfe0c9f761a80",
+      "gpt-6.2-astra-medium/STATISTICS.md": "26bb1d4a302e59588b97db2073eb766b95bc92b37faa0225b8d87213e2b74c8e",
+      "qwen3.8-flash-low/STATISTICS.md": "debd82f3a9f6f21d2a1a48458f5aaff05e214431809f93281c0aac5c145d31af",
+      "hy4-flash-free-high/STATISTICS.md": "777d4d78e87463842f0c431ecc10adef286de98c12bd97bcd92b055e1aaf68e2",
+      "minimax-m3.1-flash-free-max/STATISTICS.md": "bee15c3b4e102ef4b622e12646fca14439dab429adc35b2afefd84edf41633b8",
+      "deepseek-v4.1-flash-low/STATISTICS.md": "6724e9c48361416c5680230ebc2edeeb1029a8498c97c41d84f50ded4d6eb05b",
+      "beam-free-low/STATISTICS.md": "fe545cd77ba498a699c8959212e56ca3497a04ebe375e7ced0ee5bf12531bccc",
+      "deepseek-pi/STATISTICS.md": "cbcc1c11eceaacb74abb30866aaf1668f3458cd99bb92c95e863d214fa61d27e",
+      "glm-5.3-flash-free-max/STATISTICS.md": "5f26a9f684c0447725c9c51713a834035014d124d5d56e254e33fada3ee83731",
+      "gpt-6-luna-xhigh/STATISTICS.md": "26eefada17e12d922f08a2be4da7793eb4c8c6108eb2c79a0f31e0222ab993bf",
+      "claude-opus-5-5-medium/STATISTICS.md": "3075b37929da9f783f523e630bbb866892b560f8dabf77fd6b6f1616b531bd65",
+      "hy4-high/STATISTICS.md": "8bede05a2efc1a2cd88ee2c5914133985a6e7d5472e4021c406a41ca04e2a235",
+      "opus-5.5/STATISTICS.md": "6c36697de92eaeadc43ad35dd79f6435c5579c06d0fcef4539ba3eba46c554d7",
+      "qwen4-max-xhigh/STATISTICS.md": "2c276b5111ef3a3ad29625efcfd75518a7a6fa6af78ce241f519afdc28a4316d",
+      "gpt-5.6-terra-medium/STATISTICS.md": "6f4bcd0c2b9e90d4c7bc1130beda5d98106d647809c488e0bccebb096cd2d134",
+      "gpt-6.1-terra-max/STATISTICS.md": "91749fa9b463913680ed7c57ed7b19ec868d6f31793cb333ba9b639f6d2fc080",
+      "gpt-5.6-terra-high/STATISTICS.md": "84a9592c5b5fed523cc289d89ce1ed42b46b9c8dfee59f1453be6e31cd11baf4",
+      "gpt-6-luna-max/STATISTICS.md": "586b0be62faacd066f866c3ef73c5608c6ea445ca6cc9b2d0ed8509497d628f4",
+      "luna-omp/STATISTICS.md": "72d57d7a990ecd41285b41e4416878fbe525f102c4fcb7f5816fe66ff5524673",
+      "gpt-6-luna-medium/STATISTICS.md": "9e764cb3c72c27b303f04f930599afbd4fed06faa9768a5644e2fe4696dc9233",
+      "luna-codex/STATISTICS.md": "178ad9624084b587ad55d03f90c67681c28c480da9474faee223f0c8aa2d915b",
+      "mimo-v2.6-flash-default/STATISTICS.md": "3c43911328b81cb3986c11291fea0b307f6f4ae247410c8692c11d7d054fa045",
+      "muse-spark-1.3-contributor-medium/STATISTICS.md": "4a3351067bfde746ca56ec64849e4069727a52ac6f1dabefb6eedddf619753db",
+      "gpt-5.6-terra-max/STATISTICS.md": "4faea61eec4ef0137dc12d71fb24c549f901278d8c5df7aec923a67181df0823",
+      "claude-haiku-5-5-high/STATISTICS.md": "7acd39ccf823add92f3f1bf6e14809108acf7a2112ad83f339bef51996d7db9d",
+      "claude-haiku-5-5-medium/STATISTICS.md": "e321bd717f2367edf2b20fed674deb5e9b08386009c3ff31cffb67068b582925",
+      "hy4-flash-free-none/STATISTICS.md": "c24c6cae6cda3c2933be21f440dc9491e0d7ba5f6b17cdee00597b029854fdf6",
+      "gpt-5.6-luna-max/STATISTICS.md": "3576e32131aafe201998d80cacd8f33e539a36d757efca45d014c7aa54513e8c",
+      "claude-sonnet-5-5-low/STATISTICS.md": "cf0bd37416511bd6f587eb3eac2b62c424450a7be66dcc28e264234c370a7286",
+      "gpt-5.6-luna-high/STATISTICS.md": "ad3121b9d73967c5c1bc78fd8fbb49d6d9b19e4711b5cbb7aeb5555bc7708836",
+      "glm-5.3-max/STATISTICS.md": "7d101e2291000f8c889f75b92772ab6f3aefee8f263c7357b5bd8d02e953e92f",
+      "deepseek-v4.1-flash-high/STATISTICS.md": "425175e8d78f9696ee799380d0a362aee4948bb7e2d14fae66cc1eaeef43ab66",
+      "gpt-6.1-sol-medium/STATISTICS.md": "a2764999765d1cf2fbb7d00d0fe514296a4df2de8cef9a57c23d43ccd437c76a",
+      "gpt-6.2-sol-max/STATISTICS.md": "39d252c24fe00603ec6e22cd90121413de8aaf6a8d82140949611d5c298f712b",
+      "muse-spark-1.3-medium/STATISTICS.md": "b27b6c1e53f787c3c195a2ad8d7af3fb758fdf06651cf21abb7962b99c5008d9",
+      "gpt-6.2-sol-xhigh/STATISTICS.md": "e556876c5ae9785e2aa2cac2e3f770f6949ebbeea6dd42470fcc2d57767c8b19",
+      "glm-5.3-high/STATISTICS.md": "6da949ca09f85ceb66024d5758f5a1d5f836f9254f6e0f8bda24ef16110fbaac",
+      "beam/STATISTICS.md": "9359b8d5aafac583ed688d30d6d9357043bb1cd30637b8700526c57f94781982",
+      "gpt-6.1-terra-medium/STATISTICS.md": "c589682ac340948ae25f2808b7a05d0dc10bfdeb4fd9ad6429e978f2a9e045d6",
+      "qwen3.8-flash-medium/STATISTICS.md": "ad647d61bf79babae91b57dc38ac31812196aad03ed099f7296e5e145dd0e7c0",
+      "beam-free-medium/STATISTICS.md": "a97ef6d0ce6dec0ecc9e9dbd277ac5ce110e72af71e03458b8b8ed03e41b8c14",
+      "gpt-6.1-sol-high/STATISTICS.md": "9f438a4f13ab9a36975313c4aea0c11d1b515afbb7fff5810ade1b6545e581a7",
+      "claude-sonnet-5-5-high/STATISTICS.md": "9cd2b86ee3d13da932edb5f8e0ceacdd4feead0f5234d6a18f4641574955f79a",
+      "cat-jam/STATISTICS.md": "bdf7fcc0231e7d12f66ec20b62f7830af65f719fe6b983041acb3e7bc3d0f14c",
+      "deepseek-v4.1-flash-max/STATISTICS.md": "433651ba6c0f6e7f59601d08ff41f38f7a302392d6eca9fc64bf1bc14c2b7da9",
+      "glm-5.3-flash-free-low/STATISTICS.md": "a402a75e33c25340a47e70acf22ffc6cfe8599b6d9f40817e5fe95c41a3055de",
+      "minimax-m3.1-flash-free-low/STATISTICS.md": "9bac859d15cf0df42548236f6a8824ff72b61a6a2237deabb317cb7c2a9d77d6",
+      "muse-spark-1.3-contributor-xhigh/STATISTICS.md": "08e88433aeb0843281b7c928ee7018c8b67350792fe9739fc61d43abca37ac2d",
+      "claude-opus-5-5-low/STATISTICS.md": "56e1d000ed2440a92600fd1304595deb1d9137770296817c982010a9b52de03a",
+      "claude-haiku-5-5-low/STATISTICS.md": "9680cade1458b1b0d3626062edf589e75f2d886ad616ca1b526673e4bba619b6",
+      "qwen4-max-low/STATISTICS.md": "775abb125063644957eeb0bd0c23526e3cfe058719f9ff107e850012330b5c97",
+      "gpt-5.6-terra-xhigh/STATISTICS.md": "df1307afb4a97387961b318c4c21745ebc883ada3612f559511a0fb2233468db",
+      "qwen3.8-max-xhigh/STATISTICS.md": "05d8141175d893a50cf9b13cfa759942bedc2de82593e345bca4092d67c9880a",
+      "minimax-m3.1-flash-free-medium/STATISTICS.md": "84b339937090d2d7d2e6f54aa07fa33063d94938b36ad7a9f153ce5c082b8f0b",
+      "gpt-6.1-sol-max/STATISTICS.md": "95d8b05759ae2a0450749ce5f505368d8f0f42ba1fc27d50d3da48ebdce8fdeb",
+      "gpt-6-astra-low/STATISTICS.md": "456282c100db95b650f505ab21921acf8062c7feefc4fb8f780666727281c387",
+      "gpt-6.2-astra-high/STATISTICS.md": "181a603d0e889b333969b178d43142e57c9d04b4ebdb9d6324747b99f95321e7",
+      "claude-sonnet-5-5-xhigh/STATISTICS.md": "4230220d1e8651611ef1701af3e76088319bd495fc19a2c9a8682e28a392efc5",
+      "sol-codex/STATISTICS.md": "8ae4de7b47bff4ea134d6e94037815c4529b3cee8a29cf83999d7e9efcd906c6",
+      "claude-haiku-5-5-xhigh/STATISTICS.md": "166ed21b648b94482db5e9d1fb1f75b0a473474944fc5036c7d59ce8165563bf",
+      "nemotron/STATISTICS.md": "0ff23ffbda2f5e5117e1e9996a48fc07d9feb48efc98caadc853c21071582c4b",
+      "gpt-6.2-astra-low/STATISTICS.md": "1964d6c87fbf828d260b211201f26ebab9f6a01f2c96cf4ef818ac6ee839de8b",
+      "claude-opus-5-5-high/STATISTICS.md": "adfae9bb825240da21954c0bb6b01f6ad629954bb7bc5efbb4020ca22cbd9f5a",
+      "gemini-4/STATISTICS.md": "7a1270f6695d9924ac0fa93435c3d8b103729f7917dcccca0bc73da7a30fcc3b",
+      "claude-opus-5-5-xhigh/STATISTICS.md": "e997106273a38ff0c11e1e980d7605cf15930edaa3a8c1b1085989e50e61a8ee"
+    },
+    "all_match": true,
+    "earlier_ranking_entry_count": 102,
+    "earlier_ranking_entries_unchanged": true,
+    "earlier_ranking_entries_canonical_sha256": "d5ed34fb7aa9628364f4be4595368f295bccdfb7c90f6e6697cccba0e0c4ac2e",
+    "delivered_files": 33,
+    "temporary_directories_remaining": [],
+    "archival_generation_commit_push_pr": false
+  },
+  "validation": {
+    "render": {
+      "command": "python3 scripts/benchmark.py render",
+      "exit_code": 0
+    },
+    "verify": {
+      "command": "python3 scripts/benchmark.py verify",
+      "exit_code": 0
+    },
+    "ranking": {
+      "command": "node .audit/verify-ranking.mjs",
+      "exit_code": 0,
+      "local_links": 624,
+      "scored_rows": 104
+    },
+    "syntax": {
+      "node_check_both_probes": true,
+      "python_ast_parse": true
+    },
+    "git_diff_check": true
+  },
+  "review_artifact_sha256": "a1637b370511f2e6e5f25d68ca6aec667ace9316ffe2b476c690eb1977ded08b",
+  "post_audit_changes": "The orchestrator added the quota line to the review header after the audit (reviewer's hash was b38b335a00662eb49f264cb55c5f819090792e21e5f5a937c3e3c09c01fb0208); review_artifact_sha256 is the updated file. Both runs' STATISTICS.md were regenerated only to add this review's quota note, so their audited hashes predate that."
+}

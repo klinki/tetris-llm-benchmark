@@ -3553,6 +3553,74 @@
         }
       ],
       "summary": "Standard playable Tetris; missing PC, stale hard-drop spin, soft-entry burst, lower-row/contact lock edges and absent hidden lock-out; compressed code and narrow smoke suite"
+    },
+    {
+      "run_id": "gpt-6-astra-medium",
+      "audited": "2026-11-19",
+      "scores": {
+        "correctness": 7.0,
+        "tests": 5.5,
+        "code": 7.0,
+        "simplicity": 8.5,
+        "browser_ux": 8.5
+      },
+      "bugs": [
+        {
+          "severity": "minor",
+          "title": "Back-to-back Tetris perfect clear uses the ordinary bonus",
+          "detail": "Tetris/no-clear/Tetris-PC totals 4000 instead of 5200; final award 1200+2000 rather than 1200+3200. Ordinary PC1\u20134 pass."
+        },
+        {
+          "severity": "minor",
+          "title": "Travelling hard drop retains stale T-spin credit",
+          "detail": "Exact HD-SPIN-1: stack (0,17),(0,19),(2,19), T0(0,3), real CW, ghost T1(0,17), hard drop14 rows scores128 instead of28. Real Up/Space agrees in both views; zero-travel mini/full100/400 pass."
+        },
+        {
+          "severity": "minor",
+          "title": "Soft-drop entry spends accumulated normal-gravity time",
+          "detail": "O0(3,0), ordinary800ms then tick(1,true) moves16 rows and awards16 points. Actual Down then1ms yields17 rows/17 points instead of1/1 in both views."
+        },
+        {
+          "severity": "minor",
+          "title": "Lower-row reset allowance and landing-time accounting are wrong",
+          "detail": "O0(-1,12), supports(0,14),(1,14), fourteen alternating moves then Right twice: lower landing retains resets15;400ms,Right,100ms welds instead of granting a fresh reset. O0(3,17) locks1400ms with100ms steps instead of1500; related lock-policy symptoms grouped once. Old clock is cleared in air; reset15 itself grants500ms."
+        },
+        {
+          "severity": "minor",
+          "title": "Wholly hidden locks do not top out",
+          "detail": "Legal grounded O0(-1,-2), support(0,0), next I, zero-travel hard drop stores four hidden minos and spawns I with over=false/cells5. Real Space agrees both sizes; partial-hidden control and blocked spawn pass."
+        },
+        {
+          "severity": "minor",
+          "title": "Phone stylesheet hides the entire next queue",
+          "detail": "At390\u00d7844, .right is display:none and #next has0\u00d70 bounds with no alternate preview. Board247\u00d7494 and hold fit; all five desktop previews work."
+        }
+      ],
+      "summary": "Playable canonical Tetris; six minor scoring, timing, hidden-lock and phone-queue gaps; dense code, narrow nine-test suite"
+    },
+    {
+      "run_id": "gpt-6-astra-high",
+      "audited": "2026-11-19",
+      "scores": {
+        "correctness": 9.0,
+        "tests": 8.5,
+        "code": 9.0,
+        "simplicity": 9.0,
+        "browser_ux": 9.0
+      },
+      "bugs": [
+        {
+          "severity": "minor",
+          "title": "Spent lock clock and reset allowance survive lower descent",
+          "detail": "O0(-1,12), supports(0,14),(1,14),15 alternating moves,490ms,Right twice: land5510ms after departure and lock5520ms,10ms after landing rather than500ms. Lower floor keeps lockResets15 and rejects a fresh movement reset. Related clock/budget defects grouped once; ordinary contact and reset15 boundaries pass."
+        },
+        {
+          "severity": "minor",
+          "title": "Blocked soft-drop entry spends old normal-gravity time",
+          "detail": "O0(-1,12), supports(0,14),(1,14):400ms,Right,400ms reaches gravityTime800/lockTime400. Hold Down while blocked,Right twice,1ms frame: six rows/six points immediately instead of zero. Actual keys agree both views. Unblocked Down correctly clears the clock and gives one row/point."
+        }
+      ],
+      "summary": "Readable full-featured Tetris with broad 22-test suite; retained lower-row lock state and blocked soft-entry timing gaps"
     }
   ]
 }

@@ -2,6 +2,45 @@
 
 This directory contains the reproducible, repository-safe parts of the audit behind [`RANKING.md`](../RANKING.md). Generated builds, copied `node_modules` trees, temporary web servers, browser profiles, and timestamped Playwright artifacts are intentionally excluded.
 
+## GPT-6 Astra medium / high — November 19, 2026
+
+The [independent GPT-6.1 Sol xhigh audit](gpt6-astra-medium-high-review.md)
+reviews medium then high, scoring **7.00 / 8.90**. Category scores
+(correctness/own tests/code/simplicity/UX): **7.0/5.5/7.0/8.5/8.5** and
+**9.0/8.5/9.0/9.0/9.0**. Medium has six minors: B2B-PC bonus, travelling
+hard-drop spin credit, soft-entry accumulator burst, grouped lower-row
+budget/contact timing, hidden lock-out and hidden phone next. High has two:
+grouped retained lower-row clock/budget, and blocked soft-entry time reuse.
+High's normal Down entry correctly resets its clock; actual blocked Down,
+ledge departure and a1ms frame reproduce the six-row burst.
+
+The [evidence](gpt6-astra-medium-high-evidence.json) records verified own
+native reviewer model/effort/session/turn and own-thread link,33 unchanged
+file hashes (including high's ignored diagnostics), locked install/build
+and unchanged9/22 own passes. Each has28 canonical states,48 ordered kick
+lists,576 actual rotations,100 bags and identical Node/served-module probes
+at1280×800 and390×844. Scoring/PC/spin/B2B/combo, clocks/reset/descent,
+gravity/levels, hidden/partial lock, actual aliases/HD-SPIN-1, soft entry,
+pause/blur,60/144Hz callbacks, clicked-Pause Space and R are covered.
+All eight screenshots inspected before cleanup. Both fit viewport width;
+medium hides the phone queue; high preserves square previews and all panels.
+All102 earlier ranking entries and137 protected file hashes are unchanged.
+
+```sh
+python3 .audit/run-gpt6-astra-medium-high-audit.py --effort medium --offline
+python3 .audit/run-gpt6-astra-medium-high-audit.py --effort high --offline
+```
+
+[Runner](run-gpt6-astra-medium-high-audit.py),
+[engine](gpt6-astra-medium-high-audit.mjs),
+[browser](gpt6-astra-medium-high-browser.cjs). Supports `--engine-only`,
+`--review` (inspect PNGs before deletion) and intentional `--record`.
+Installed Playwright/Chromium only, no downloads. Free41000–49999 ports;
+only medium's temporary listen literal is adapted/restored. All owned
+copies, logs, PNGs, server/browser groups are removed. Passing reproduces
+known defects as well as conformance. No generation, accounting change,
+commit/push/PR or archival; parent completion/lifecycle remain separate.
+
 ## GPT-6 Astra low — November 19, 2026
 
 The [independent GPT-6.1 Sol xhigh audit](gpt6-astra-low-review.md)

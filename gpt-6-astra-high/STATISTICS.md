@@ -48,7 +48,7 @@ Codex plan `plus`, read from the `rate_limits` snapshots in the tested agent's n
 | 5-hour | 20% | 51% | 31 pp |
 | Weekly | 77% | 82% | 5 pp |
 
-The start reading is one 5-hour point above the end of the preceding GPT-6 Astra (medium) run (19% / 77%), so up to one point may come from other Codex usage. The excluded notification turn 2, started when cleanup stopped the agent's server, used about one more 5-hour point (52% at 06:41:05Z); it is not part of this figure. The independent review is not yet included.
+The start reading is one 5-hour point above the end of the preceding GPT-6 Astra (medium) run (19% / 77%), so up to one point may come from other Codex usage. The excluded notification turn 2, started when cleanup stopped the agent's server, used about one more 5-hour point (52% at 06:41:05Z); it is not part of this figure. The independent GPT-6.1 Sol xhigh review covered the medium and high runs together (native session `01a1f29f-d9bf-73f0-8a1b-f8a05bf7d49f`) and used 13 points of the 5-hour window (53→66%) and 2 weekly points (82→84%) for both; that is not part of the tested agent's figure.
 
 ## Harness overhead
 
