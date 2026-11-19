@@ -3621,6 +3621,25 @@
         }
       ],
       "summary": "Readable full-featured Tetris with broad 22-test suite; retained lower-row lock state and blocked soft-entry timing gaps"
+    },
+    {
+      "run_id": "gpt-6-astra-xhigh",
+      "audited": "2026-11-19",
+      "scores": {
+        "correctness": 9.5,
+        "tests": 8.5,
+        "code": 9.0,
+        "simplicity": 9.0,
+        "browser_ux": 9.0
+      },
+      "bugs": [
+        {
+          "severity": "minor",
+          "title": "Spent lock timer and reset allowance survive lower descent",
+          "detail": "Visible O r0(-1,12), supports(0,14),(1,14), fifteen alternating successful Right/Left actions,490ms,Right twice: lower landing occurs6000ms after departure, lock6010ms instead of6500ms. Fourteen alternating actions then Right twice without that wait also retain resets15 at the lower floor;400ms,Right,100ms welds four minos instead of renewing the500ms movement delay. Actual keys/frames reproduce both at1280\u00d7800 and390\u00d7844. Related timer/budget symptoms form one minor; stationary500ms, reset15 and contact partitioning pass."
+        }
+      ],
+      "summary": "Playable canonical Tetris with broad 28-test suite and responsive controls; one retained lower-row lock-state minor"
     }
   ]
 }

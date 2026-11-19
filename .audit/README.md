@@ -2,6 +2,39 @@
 
 This directory contains the reproducible, repository-safe parts of the audit behind [`RANKING.md`](../RANKING.md). Generated builds, copied `node_modules` trees, temporary web servers, browser profiles, and timestamped Playwright artifacts are intentionally excluded.
 
+## GPT-6 Astra xhigh — November 19, 2026
+
+The [independent GPT-6.1 Sol xhigh audit](gpt6-astra-xhigh-review.md)
+scores **9.10**: correctness9.5 / own tests8.5 / code9.0 / simplicity9.0 /
+UX9.0. One grouped minor: spent lock clock/reset allowance survive lower
+descent. Reset15, contact partitioning and ordinary/blocked browser soft-entry
+pass; earlier high's blocked-entry burst is fixed. Canonical SRS, advanced
+scoring/PC/B2B, hidden lock-out and all five phone previews pass.
+
+The [evidence](gpt6-astra-xhigh-evidence.json) records actual own native
+model/effort/session/turn and review-thread link,27 unchanged delivered
+hashes including ignored diagnostics, locked build and28 unchanged own
+passes. Node and served modules at1280×800/390×844 agree:28 states,48 kick
+lists,576 actual rotations,100 bags, hold/ghost/drop, clocks/descent/contact,
+gravity/levels, scoring/spins/HD-SPIN-1 and top-out/restart. Actual required
+keys, pause/blur,60/144Hz callbacks, Pause/Space, phone buttons and R pass.
+Four screenshots inspected before deletion; no horizontal overflow, square
+previews, visible hold/next. All104 prior score entries and protected files
+are unchanged.
+
+```sh
+python3 .audit/run-gpt6-astra-xhigh-audit.py --offline
+```
+
+[Runner](run-gpt6-astra-xhigh-audit.py),
+[engine](gpt6-astra-xhigh-audit.mjs),
+[browser](gpt6-astra-xhigh-browser.cjs). Supports `--engine-only`, `--review`
+(interactive PNG inspection) and intentional `--record`. Installed
+Playwright/Chromium only, no downloads. Auditor ports41000–49999; unchanged
+PORT-aware server. All owned copies, logs, PNGs, servers and browsers removed.
+Passing reproduces the confirmed minor as well as conformance. No generation,
+accounting edits, commit/push/PR or archival; parent lifecycle remains separate.
+
 ## GPT-6 Astra medium / high — November 19, 2026
 
 The [independent GPT-6.1 Sol xhigh audit](gpt6-astra-medium-high-review.md)
