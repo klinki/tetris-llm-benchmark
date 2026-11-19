@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#101217">
+    <meta name="description" content="A modern, distraction-free Tetris game. Find your rhythm, clear your mind, and keep the blocks falling.">
+    <title>Tetris — Find your flow</title>
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpath fill='%23b68afa' d='M11 1h10v10H11zM0 12h10v10H0zm11 0h10v10H11zm11 0h10v10H22z'/%3E%3C/svg%3E">
+    <link rel="stylesheet" href="styles.css">
+    <script type="module" src="dist/main.js"></script>
+  </head>
+  <body>
+    <div class="app-shell">
+      <header class="header">
+        <a class="brand" href="./" aria-label="Tetris home">
+          <span class="brand-icon" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
+          TETRIS<span class="brand-dot">.</span>
+        </a>
+        <span class="header-note">A little focus. A little flow.</span>
+        <button id="pause" class="quiet-button" disabled aria-label="Pause game">Ⅱ <span>Pause</span><kbd>P</kbd></button>
+      </header>
+
+      <main>
+        <div class="game-heading"><span class="eyebrow"><span class="live-dot"></span> ENDLESS MARATHON</span><span id="game-status">Your next high score starts here.</span></div>
+        <div class="game-layout">
+          <aside class="left-panel" aria-label="Hold and statistics">
+            <section class="panel hold-panel">
+              <div class="panel-heading"><h2>HOLD</h2><kbd>C</kbd></div>
+              <canvas id="hold" width="144" height="86" role="img" aria-label="No piece held"></canvas>
+              <span id="hold-hint" class="panel-hint">Save it for later</span>
+            </section>
+            <section class="panel stats-panel" aria-label="Game statistics">
+              <div class="stat score-stat"><h2>SCORE</h2><output id="score">0</output></div>
+              <div class="stat"><h2>BEST</h2><output id="best">0</output></div>
+              <div class="stat-pair"><div class="stat"><h2>LEVEL</h2><output id="level">01</output></div><div class="stat"><h2>LINES</h2><output id="lines">0</output></div></div>
+              <div class="level-progress" role="progressbar" aria-label="Progress to next level" aria-valuemin="0" aria-valuemax="10" aria-valuenow="0" id="progress"><span id="progress-fill"></span></div>
+              <span id="level-hint" class="panel-hint">10 lines to level 2</span>
+            </section>
+            <div class="session-time"><span>PLAY TIME</span><output id="time">00:00</output></div>
+          </aside>
+
+          <section class="board-section" aria-label="Tetris game">
+            <div class="board-frame">
+              <canvas id="board" width="300" height="600" role="img" aria-label="Tetris playfield, 10 columns and 20 rows"></canvas>
+              <div id="overlay" class="overlay">
+                <div class="overlay-mark" aria-hidden="true">✦</div>
+                <span id="overlay-eyebrow" class="eyebrow">MAKE ROOM FOR PLAY</span>
+                <h1 id="overlay-title">Find your<br><span>flow.</span></h1>
+                <p id="overlay-copy">One block at a time.<br>How far can you go?</p>
+                <label class="level-select" id="start-level-label">Starting level
+                  <select id="start-level" aria-label="Starting level">
+                    <option>1</option><option>2</option><option>3</option><option>4</option><option>5</option>
+                    <option>6</option><option>7</option><option>8</option><option>9</option><option>10</option>
+                    <option>11</option><option>12</option><option>13</option><option>14</option><option>15</option>
+                  </select>
+                </label>
+                <button id="play" class="play-button">Let's play <span aria-hidden="true">→</span></button>
+                <span id="overlay-hint" class="overlay-hint">or press Enter</span>
+              </div>
+              <div id="clear-message" class="clear-message" role="status" aria-live="polite"></div>
+            </div>
+            <div class="board-caption"><span><i></i> <span id="board-state">READY WHEN YOU ARE</span></span><span>10 × 20</span></div>
+          </section>
+
+          <aside class="right-panel" aria-label="Upcoming pieces">
+            <section class="panel next-panel">
+              <div class="panel-heading"><h2>NEXT</h2><span class="tiny-label">5</span></div>
+              <canvas id="next" width="144" height="370" role="img" aria-label="Next five pieces"></canvas>
+            </section>
+            <div class="tip"><span class="tip-icon" aria-hidden="true">✧</span><p>Leave a little<br>room for possibility.</p></div>
+          </aside>
+        </div>
+
+        <nav class="touch-controls" aria-label="On-screen game controls">
+          <button data-action="hold" aria-label="Hold piece">Hold</button>
+          <button data-action="ccw" aria-label="Rotate anticlockwise">↶</button>
+          <button data-action="cw" aria-label="Rotate clockwise">↷</button>
+          <button data-action="drop" aria-label="Hard drop">Drop ↓</button>
+          <button data-action="left" aria-label="Move left">←</button>
+          <button data-action="soft" aria-label="Soft drop">↓</button>
+          <button data-action="right" aria-label="Move right">→</button>
+        </nav>
+
+        <section class="controls" aria-label="Keyboard controls">
+          <div><span><kbd>←</kbd><kbd>→</kbd></span><span>Move</span></div>
+          <div><span><kbd>↑</kbd><kbd>X</kbd></span><span>Rotate ↻</span></div>
+          <div><span><kbd>Z</kbd><kbd>Ctrl</kbd></span><span>Rotate ↺</span></div>
+          <div><kbd>↓</kbd><span>Soft drop</span></div>
+          <div><kbd>Space</kbd><span>Hard drop</span></div>
+          <div><kbd>C</kbd><span>Hold</span></div>
+        </section>
+      </main>
+      <footer><span>STACK. CLEAR. REPEAT.</span><span>Built for the love of the game.</span></footer>
+      <noscript>This game needs JavaScript enabled to play.</noscript>
+    </div>
+  </body>
+</html>

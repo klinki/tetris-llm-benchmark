@@ -129,6 +129,7 @@ remain recorded completion steps.
 | 102 | [GPT-6 Luna (medium)](gpt-6-luna-medium/STATISTICS.md) | `gpt-6-luna` | `medium` | T3 Code / Codex | **3.80** | 160,641 | $0.01 | 1m 35.743s | Does not build or start; diagnostic source has wrong SRS, scoring and gravity |
 | 103 | [Beam (medium)](beam-free-medium/STATISTICS.md) | `beam-free` | `medium` | T3 Code / OpenCode | **3.80** | 419,090 | — | 38.039s | CommonJS prevents browser startup; diagnostic SRS, scoring, gravity, lock clocks and supporting UI fail |
 | 104 | [Beam (low)](beam-free-low/STATISTICS.md) | `beam-free` | `low` | T3 Code / OpenCode | **2.95** | 82,729 | — | 16.402s | Basic falling blocks; missing hold/ghost/next/SRS, incomplete scoring, wrong gravity and broken restart |
+| — | [GPT-6 Astra (xhigh)](gpt-6-astra-xhigh/STATISTICS.md) | `gpt-6-astra` | `xhigh` | T3 Code / Codex | Pending | 1,753,485 | $4.49 | 13m 7.492s | Not ranked yet |
 
 **† Claude Opus 5.5 (medium, original):** Kept as a reference. This original medium run worked inside the benchmark repository and read its README, including the results table with other runs' scores and main defects, before implementing; it may have realized it was being rated, so it is not an independent comparison. The isolated re-run, Claude Opus 5.5 (medium), is the comparable medium result.
 
