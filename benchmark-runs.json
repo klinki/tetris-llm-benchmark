@@ -4666,6 +4666,55 @@
         "commit": "282ee09bbb4513a8500612acdf3afe6baa538ef3",
         "modified": false
       }
+    },
+    {
+      "id": "gpt-6-astra-medium",
+      "label": "GPT-6 Astra (medium)",
+      "order": 1030,
+      "project_dir": "gpt-6-astra-medium",
+      "harness": "t3_codex",
+      "harness_label": "T3 Code / Codex",
+      "provider": "codex",
+      "provider_label": "Codex",
+      "model": "gpt-6-astra",
+      "session_id": "01a1f277-d5b9-71e2-87ab-b8b3947ddb91",
+      "t3_thread_id": "thread:project:ae841236-e474-447f-8e49-30e300739bce:3e3b5300-5b92-41b4-bafc-0750c78e1295",
+      "expected_cwd": "/Users/david/tetris-bench/runs/fbebb98edeff/tetris",
+      "expected_cwd_basename": "tetris",
+      "reasoning_variant": "medium",
+      "web": "open",
+      "cutoff": {
+        "through_user_message": 1,
+        "exclude_inter_message_wait": true
+      },
+      "overhead": {
+        "kind": "unknown"
+      },
+      "subscription_quota": {
+        "provider": "Codex",
+        "plan": "plus",
+        "source": "the `rate_limits` snapshots in the tested agent's native Codex session log (seven snapshots, 06:21:51Z to 06:24:38Z)",
+        "windows": [
+          {
+            "name": "5-hour",
+            "window_minutes": 300,
+            "used_percent_start": 14,
+            "used_percent_end": 19
+          },
+          {
+            "name": "Weekly",
+            "window_minutes": 10080,
+            "used_percent_start": 76,
+            "used_percent_end": 77
+          }
+        ],
+        "note": "The start reading matches the last snapshot of the preceding GPT-6 Astra (low) review session (14% / 76%), so no other Codex usage fell between them. The independent review is not yet included."
+      },
+      "spec": {
+        "sha256": "36e2097a78fe8b5646e6216338640831cff0a284cc823c4b1f658991c8d40294",
+        "commit": "b7420be037b455f286c318162bed06ce669e8617",
+        "modified": false
+      }
     }
   ]
 }

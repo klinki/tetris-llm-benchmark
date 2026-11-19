@@ -1,0 +1,12 @@
+import {test} from 'node:test';
+import assert from 'node:assert/strict';
+import {Game,cells,TYPES} from '../dist/game.js';
+test('bags contain all seven shapes',()=>{const g=new Game();const sequence=[g.active.kind,...g.queue];assert.equal(new Set(sequence.slice(0,7)).size,7);assert.deepEqual([...sequence.slice(0,7)].sort(),[...TYPES].sort());});
+test('hold is restricted until a piece locks',()=>{const g=new Game();const first=g.active.kind;g.hold();assert.equal(g.held,first);const second=g.active.kind;g.hold();assert.equal(g.active.kind,second);g.hardDrop();g.hold();assert.equal(g.active.kind,first);});
+test('ghost and hard drop land without overlaps',()=>{const g=new Game();const ghost=g.ghost();assert(g.fits(ghost));assert(!g.fits({...ghost,y:ghost.y+1}));g.hardDrop();assert.equal(g.board.flat().filter(Boolean).length,4);assert(g.score>0);});
+test('I rotation kicks away from wall',()=>{const g=new Game();g.active={kind:'I',rotation:1,x:-2,y:25};assert(g.fits(g.active));assert(g.rotate(-1));assert(g.fits(g.active));assert.equal(g.active.rotation,0);});
+test('four rows clear and award Tetris plus perfect clear',()=>{const g=new Game();for(let y=36;y<40;y++)g.board[y]=Array.from({length:10},(_,x)=>x===4?null:'J');g.active={kind:'I',rotation:1,x:2,y:36};g.lock();assert.equal(g.lines,4);assert.equal(g.score,2800);assert(g.board.flat().every(v=>v===null));});
+test('grounded piece waits 500ms before locking',()=>{const g=new Game();g.active=g.ghost();g.tick(499);assert.equal(g.board.flat().filter(Boolean).length,0);g.tick(1);assert.equal(g.board.flat().filter(Boolean).length,4);});
+test('blocked spawn ends game',()=>{const g=new Game();g.board[18]=Array(10).fill('Z');g.board[19]=Array(10).fill('Z');g.spawn('O');assert(g.over);});
+test('pause freezes simulation and controls',()=>{const g=new Game();const before={...g.active};g.paused=true;g.tick(5000);g.hardDrop();g.rotate(1);g.hold();assert.deepEqual(g.active,before);assert.equal(g.held,null);});
+test('four rotations restore every shape',()=>{for(const kind of TYPES){const g=new Game();g.active={kind,x:3,y:24,rotation:0};const before=cells(g.active);for(let i=0;i<4;i++)assert(g.rotate(1));assert.deepEqual(cells(g.active),before);}});
