@@ -543,8 +543,11 @@ notification, such as OpenCode's "Background task completed." when a server the
 agent left running in the background is stopped after the run. Such turns must
 come after the benchmark turn ended and be declared as `t3_notification_turns`
 in the registry (`import` records them); they are excluded from usage and time
-and listed in `STATISTICS.md`. Cleanup now stops the harness process before its
-leftover children, so the notification cannot start a turn. Partial usage, subagents, extra turns, identity/configuration
+and listed in `STATISTICS.md`. Cleanup stops OpenCode's and Claude's harness
+process before its leftover children, so their notification cannot start a turn.
+Codex has no such process to stop first: every Codex run that left `npm start`
+running still got one, so `cleanup` waits for that turn to end and stops what it
+restarted (see [Running several benchmarks](#running-several-benchmarks)). Partial usage, subagents, extra turns, identity/configuration
 mismatches, or unsupported schemas fail explicitly. A completed single-turn
 OpenCode run can explicitly opt into `import --reconcile-native-usage` when
 T3 reports partial usage. The collector reads OpenCode SQLite v2 read-only and
@@ -803,7 +806,9 @@ time, which also keeps elapsed time free of CPU contention, and after each run:
   it started) and stops anything still running from its workspace. The
   harness's own processes are left alone, except that OpenCode's server or
   Claude's agent process is stopped before a leftover child, since stopping
-  the child alone makes the harness start a new turn;
+  the child alone makes the harness start a new turn. Codex starts that turn
+  anyway, so after stopping a Codex run's server `cleanup` waits up to 20 seconds
+  for the notification turn, lets it finish, and stops whatever it restarted;
 - `preflight`, before the next run, stops any process listening on a port or
   running from a benchmark folder (an active or archived workspace, or a run
   folder in the repository; an old Opus 5.5 server held port 8321 this way)

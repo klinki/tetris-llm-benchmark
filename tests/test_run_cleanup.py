@@ -99,5 +99,34 @@ class RepositoryJobTests(unittest.TestCase):
         self.assertEqual(jobs, [site, check])
 
 
+class NotificationTurnTests(unittest.TestCase):
+    """Codex starts a turn when cleanup stops a background command; cleanup waits it out."""
+
+    def settle(self, timeline: list[list[str]], restarted: list[str]) -> list[str]:
+        clock = iter(range(0, 10_000))
+        with mock.patch.object(benchmark.t3_runs, "turn_statuses", side_effect=timeline + [timeline[-1]] * 400), \
+             mock.patch.object(benchmark, "stop_leftovers", return_value=restarted) as stop:
+            lines = benchmark.settle_notification_turn(
+                Path("/t3"), {"key": "k"}, 1, start_wait=5, finish_wait=10, sleep=lambda _: None,
+                clock=lambda: next(clock),
+            )
+        self.calls = stop.call_count
+        return lines
+
+    def test_waits_for_the_turn_then_stops_what_it_restarted(self) -> None:
+        lines = self.settle([["completed"], ["completed", "running"], ["completed", "completed"]], ["stopped 9: node server.mjs"])
+        self.assertEqual(lines, ["notification turn 2 ended; stopped what it restarted:", "stopped 9: node server.mjs"])
+        self.assertEqual(self.calls, 1)
+
+    def test_no_turn_means_nothing_to_do(self) -> None:
+        self.assertEqual(self.settle([["completed"]], []), [])
+        self.assertEqual(self.calls, 0)
+
+    def test_a_turn_that_does_not_end_is_reported(self) -> None:
+        lines = self.settle([["completed", "running"]], [])
+        self.assertIn("still running", lines[0])
+        self.assertEqual(self.calls, 0)
+
+
 if __name__ == "__main__":
     unittest.main()

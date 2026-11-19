@@ -418,6 +418,18 @@ def notification_turns(t3_home: Path, thread_id: str) -> list[dict[str, Any]]:
     return [{"ordinal": ordinal, "message": json.loads(notice).get("text")} for ordinal, notice in zip(ordinals, notices)]
 
 
+def turn_statuses(t3_home: Path, record: dict[str, Any]) -> list[str]:
+    """The status of every provider turn of a run's thread, in order."""
+    with closing(connect(t3_home)) as connection:
+        thread = thread_for(connection, record)
+        if thread is None:
+            return []
+        return [row["status"] for row in connection.execute(
+            "SELECT status FROM orchestration_v2_projection_provider_turns WHERE thread_id=? ORDER BY ordinal",
+            (thread["thread_id"],),
+        )]
+
+
 def run_status(t3_home: Path, record: dict[str, Any]) -> tuple[str, str]:
     """Return (state, detail) where state is waiting, running, completed, or failed."""
     with closing(connect(t3_home)) as connection:

@@ -2168,9 +2168,39 @@ def cleanup_run(t3_home: Path, record: dict[str, Any]) -> list[str]:
     for thread_id in threads:
         places.update(t3_runs.shared_places(t3_home, thread_id))
     lines = run_cleanup.remove_scratch(places, parse_iso_ms(started) / 1000)
+    turns = len(t3_runs.turn_statuses(t3_home, record))
+    stopped = stop_leftovers(record)
+    lines += stopped
+    if stopped and not any(parent in line for parent in run_cleanup.NOTIFYING_PARENTS for line in stopped):
+        # OpenCode and Claude were stopped before their child above, so no turn follows. Codex turns a stopped background command into a notification turn, and has no harness
+        # process that could be stopped first; wait for that turn, then stop what it restarted.
+        lines += settle_notification_turn(t3_home, record, turns)
+    return lines
+
+
+def stop_leftovers(record: dict[str, Any]) -> list[str]:
     processes = run_cleanup.list_processes()
     targets = run_cleanup.leftovers(processes, [Path(record["workspace"])])
-    return lines + run_cleanup.stop(run_cleanup.stop_order(processes, targets))
+    return run_cleanup.stop(run_cleanup.stop_order(processes, targets))
+
+
+def settle_notification_turn(
+    t3_home: Path, record: dict[str, Any], turns_before: int, start_wait: float = 20.0, finish_wait: float = 300.0,
+    sleep: Any = time.sleep, clock: Any = time.monotonic,
+) -> list[str]:
+    """Wait briefly for a notification turn after cleanup stopped something; once it ends, clean up again."""
+    started = clock()
+    while len(statuses := t3_runs.turn_statuses(t3_home, record)) <= turns_before:
+        if clock() - started > start_wait:
+            return []
+        sleep(1.0)
+    while not all(status in t3_runs.FINISHED_TURN_STATUSES for status in statuses):
+        if clock() - started > start_wait + finish_wait:
+            return [f"notification turn {len(statuses)} is still running; run `cleanup` again once it ends"]
+        sleep(2.0)
+        statuses = t3_runs.turn_statuses(t3_home, record)
+    again = stop_leftovers(record)
+    return [f"notification turn {len(statuses)} ended" + ("; stopped what it restarted:" if again else "; nothing left running")] + again
 
 
 def benchmark_folders(root: Path, runs: list[dict[str, Any]], workspaces: Path) -> list[Path]:
