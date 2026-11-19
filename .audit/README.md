@@ -2,6 +2,38 @@
 
 This directory contains the reproducible, repository-safe parts of the audit behind [`RANKING.md`](../RANKING.md). Generated builds, copied `node_modules` trees, temporary web servers, browser profiles, and timestamped Playwright artifacts are intentionally excluded.
 
+## GPT-6 Astra low — November 19, 2026
+
+The [independent GPT-6.1 Sol xhigh audit](gpt6-astra-low-review.md)
+scores **7.00**: correctness7.5 / own tests4.5 / code7.0 / simplicity8.5 /
+UX8.5. Five minors: missing perfect-clear bonuses, stale spin credit after
+travelling hard drop, soft-entry accumulator burst, grouped lower-row reset/
+contact timing, and missing wholly hidden lock-out. Standard geometry/SRS,
+normal/mini/full/B2B/combo scoring, ordinary drop points and restart work.
+
+The [evidence](gpt6-astra-low-evidence.json) records actual native reviewer
+model/effort/session/turn and review-thread link, all12 unchanged delivery
+hashes, locked install/build and unchanged7/7 own tests. Node and both served
+Chromium sizes agree on28 states,48 kick lists,576 actual rotations,100 bags,
+hold/ghost/drop, clocks/cap/descent/contact, levels/scoring/top-out. Exact
+HD-SPIN-1 and real required keys, soft-entry, pause/blur, refresh and R are
+covered. Four screenshots inspected: desktop scrolls vertically;390×844 fits
+board/support/legend, with square previews and no horizontal overflow.
+All101 earlier ranking entries and104 registry/pricing/statistics hashes
+are preserved.
+
+```sh
+python3 .audit/run-gpt6-astra-low-audit.py --offline
+```
+
+[Runner](run-gpt6-astra-low-audit.py), [engine](gpt6-astra-low-audit.mjs),
+[browser](gpt6-astra-low-browser.cjs). Supports `--engine-only`, `--review`,
+intentional `--record`. Installed Playwright/Chromium only; no downloads.
+Only the temporary hard-coded listen port is adapted/restored; free41000–49999
+ports. Copies/logs/PNGs and owned browsers/servers are deleted. No generation,
+accounting change, commit, push, PR or archival; parent review confirmation
+and run-project lifecycle remain separate.
+
 ## GPT-6.2 Astra xhigh / max — November 19, 2026
 
 The [independent GPT-6.1 Sol xhigh audit](gpt62-astra-xhigh-max-review.md)

@@ -3514,6 +3514,45 @@
         }
       ],
       "summary": "Broad own suite and complete tested SRS/scoring/top-out; fifteenth-reset boundary minor"
+    },
+    {
+      "run_id": "gpt-6-astra-low",
+      "audited": "2026-11-19",
+      "scores": {
+        "correctness": 7.5,
+        "tests": 4.5,
+        "code": 7.0,
+        "simplicity": 8.5,
+        "browser_ux": 8.5
+      },
+      "bugs": [
+        {
+          "severity": "minor",
+          "title": "Perfect-clear bonuses are missing",
+          "detail": "Native grounded I0/O0/T1/I1 bottom-row complements empty the board for PC1/2/3/4 with100/300/500/800 instead of900/1500/2300/2800. Nine-line PC single gives100 rather than900; Tetris/no-clear/PC Tetris totals2000 rather than5200. One absent-PC feature group."
+        },
+        {
+          "severity": "minor",
+          "title": "Travelling hard drop retains stale T-spin credit",
+          "detail": "Exact HD-SPIN-1: stack(0,17),(0,19),(2,19),T0(0,3),real CW,T1 ghost(0,17),hard drop14rows gives128 rather than28. Zero-travel mini/full100/400 and timed controls work. Actual Up/Space agrees in both Chromium views; hardDrop does not clear rotated."
+        },
+        {
+          "severity": "minor",
+          "title": "Starting soft drop converts accumulated ordinary gravity time",
+          "detail": "O0(3,0),ordinary800ms with no descent,then tick(1,true) immediately moves16rows and awards16points instead of zero after1ms of the new50ms cadence. Actual Down plus1ms reproduces both sizes. The old fall accumulator is reused against the faster interval."
+        },
+        {
+          "severity": "minor",
+          "title": "Lower-row reset state and contact-time accounting are wrong",
+          "detail": "O0(-1,12),supports(0,14),(1,14),14alternating moves then Right twice: lower landing keeps resets15;400ms,Right,100ms welds6cells instead of granting fresh500ms. O0(3,17) locks1400ms with100ms partitions,1490ms with10ms,1450ms through50ms browser frames instead of1500. These variants share one minor. Old lock time is cleared in air; reset15 correctly grants500ms."
+        },
+        {
+          "severity": "minor",
+          "title": "A wholly hidden lock does not top out",
+          "detail": "Legal grounded O0(-1,-2),support(0,0),next I,zero-travel hard drop stores4hidden O minos and spawns I with over=false/cells5 instead of lock-out. Actual Space agrees both sizes. Partial-hidden control continues correctly; blocked spawn, terminal guards and R restart pass."
+        }
+      ],
+      "summary": "Standard playable Tetris; missing PC, stale hard-drop spin, soft-entry burst, lower-row/contact lock edges and absent hidden lock-out; compressed code and narrow smoke suite"
     }
   ]
 }

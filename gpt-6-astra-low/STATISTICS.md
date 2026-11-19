@@ -36,7 +36,7 @@ Codex plan `plus`, read from the `rate_limits` snapshots in the tested agent's n
 | 5-hour | 0% | 3% | 3 pp |
 | Weekly | 74% | 74% | 0 pp |
 
-The 5-hour window had reset before the run, so the start reading is the baseline. The weekly change stayed below one reported point. The independent review is not yet included.
+The 5-hour window had reset before the run, so the start reading is the baseline. The weekly change stayed below one reported point. The independent GPT-6.1 Sol xhigh review (native session `01a1f267-34fa-7ac3-b049-a38ce2cc2621`) used a further 10 points of the 5-hour window (4→14%) and 2 weekly points (74→76%); that is not part of the tested agent's figure.
 
 ## Harness overhead
 

@@ -4659,7 +4659,7 @@
             "used_percent_end": 74
           }
         ],
-        "note": "The 5-hour window had reset before the run, so the start reading is the baseline. The weekly change stayed below one reported point. The independent review is not yet included."
+        "note": "The 5-hour window had reset before the run, so the start reading is the baseline. The weekly change stayed below one reported point. The independent GPT-6.1 Sol xhigh review (native session `01a1f267-34fa-7ac3-b049-a38ce2cc2621`) used a further 10 points of the 5-hour window (4→14%) and 2 weekly points (74→76%); that is not part of the tested agent's figure."
       },
       "spec": {
         "sha256": "36e2097a78fe8b5646e6216338640831cff0a284cc823c4b1f658991c8d40294",
