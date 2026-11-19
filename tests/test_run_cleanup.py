@@ -87,5 +87,17 @@ class ScratchTests(unittest.TestCase):
             self.assertTrue(os.path.exists("/etc/hosts"))
 
 
+
+class RepositoryJobTests(unittest.TestCase):
+    def test_other_benchmark_jobs_are_found_but_not_this_command_or_its_shell(self) -> None:
+        shell = Process(100, 1, "/bin/zsh -c python3 scripts/benchmark.py new m high")
+        me = Process(101, 100, "python3 scripts/benchmark.py new m high")
+        site = Process(200, 1, "python3 scripts/benchmark.py site")
+        check = Process(300, 1, "node scripts/check-site.mjs _site")
+        other = Process(400, 1, "node server.mjs")
+        jobs = run_cleanup.repository_jobs(table(shell, me, site, check, other), own_pid=101)
+        self.assertEqual(jobs, [site, check])
+
+
 if __name__ == "__main__":
     unittest.main()

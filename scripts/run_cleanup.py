@@ -108,6 +108,23 @@ def remove_scratch(places: Iterable[str], started: float) -> list[str]:
     return lines
 
 
+# Benchmark jobs that read the repository; a run's lock would make them fail halfway.
+REPOSITORY_JOBS = ("scripts/benchmark.py", "scripts/check-site.mjs")
+
+
+def repository_jobs(processes: dict[int, Process], own_pid: int) -> list[Process]:
+    """Other benchmark commands or site checks still running, excluding this process and its ancestors."""
+    mine = set()
+    pid = own_pid
+    while pid in processes and pid not in mine:
+        mine.add(pid)
+        pid = processes[pid].ppid
+    return [
+        process for process in processes.values()
+        if process.pid not in mine and any(job in process.command for job in REPOSITORY_JOBS)
+    ]
+
+
 def foreign_listeners(processes: dict[int, Process], ports: Iterable[int] = COMMON_PORTS) -> list[Process]:
     """Processes listening on a common game port, other than the operating system's own (e.g. AirPlay on 5000)."""
     wanted = set(ports)

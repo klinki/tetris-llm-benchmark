@@ -656,8 +656,14 @@ and the manifest, ranking and pricing files (so `.git` and all implementations
 are locked), `.bench/abandoned`, `.bench/held` and `.bench/imported` (which name
 earlier workspaces), the archive, and any folder listed one per line in the untracked
 `.bench/lock-extra`. The original permissions are stored in
-`.bench/locked.json`; the next `benchmark.py` command of any kind restores
-them first, so `cleanup` and `import` find the repository as it was. The agent
+`.bench/locked.json`. The lock lasts as long as the run: while a pending run
+is still working, every `benchmark.py` command refuses to start (it would need
+the repository, and lifting the lock would expose it), except `watch`, which
+keeps the lock and lifts it once the run ends, and `hold` or `discard`, which
+end the run on purpose. `--force` overrides this. Once the run has finished, the
+next command restores the permissions first, so `cleanup` and `import` find the
+repository as it was. `new` and `batch` also refuse while another benchmark
+command or site check is still running, since the lock would make it fail halfway. The agent
 runs as you and could restore the permissions itself, but that is a deliberate
 act the isolation check below would report. The lock keeps an agent that is
 merely looking around from finding other runs; it does not stop one that sets
@@ -732,7 +738,9 @@ until the thread reaches a final state. The orchestrating thread runs:
 2. `t3_thread_launch` with that project ID, the model and effort, full-access
    mode, the fixed prompt `Read the README.md file and implement it` as the
    message, and the same prompt as the title, as `--launch` does.
-3. `t3_thread_wait` on the returned thread ID.
+3. Wait with `python3 scripts/benchmark.py watch` (in the background), which
+   returns once every pending run has finished and keeps the run's lock until
+   then. `t3_thread_wait` can return while the turn is still running.
 4. `python3 scripts/benchmark.py cleanup <key>`, then
    `python3 scripts/benchmark.py import <key>` in its shell.
 5. `t3_thread_organize` with `action: "settle"` on the run's thread, so

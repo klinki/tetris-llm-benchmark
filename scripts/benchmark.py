@@ -2134,6 +2134,10 @@ def watch(root: Path, homes: tuple[Path, Path, Path, Path], interval: float, aut
             if reported.get(record["key"]) != line:
                 print(line, flush=True)
                 reported[record["key"]] = line
+            if state in ("completed", "failed") and not live_runs(root, homes[3]):
+                # The lock is kept while any run is live and lifted once none is, before its import.
+                if unlocked := t3_runs.unlock_sources(root):
+                    print(f"Unlocked {len(unlocked)} path(s) locked during the run", flush=True)
             if state == "completed" and auto_import:
                 try:
                     for cleaned in cleanup_run(homes[3], record):
@@ -2356,6 +2360,10 @@ def verify_source(
 def parse_args(argv: list[str]) -> argparse.Namespace:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--manifest", type=Path, help="Path to benchmark-runs.json")
+    parser.add_argument(
+        "--force", action="store_true",
+        help="Run even while a benchmark run is live, lifting its lock (this exposes earlier runs to the agent)",
+    )
     subparsers = parser.add_subparsers(dest="command", required=True)
     refresh_parser = subparsers.add_parser("refresh", help="Collect, test, and render runs")
     target = refresh_parser.add_mutually_exclusive_group(required=True)
@@ -2448,23 +2456,64 @@ def parse_args(argv: list[str]) -> argparse.Namespace:
     return parser.parse_args(argv)
 
 
+# Commands that end a live run on purpose, so they may lift its lock while the agent still works.
+ABORTING_COMMANDS = {"hold", "discard"}
+
+
+def live_runs(root: Path, t3_home: Path) -> list[str]:
+    """Pending runs whose agent may still be working: not yet started, running, or of unknown state."""
+    live = []
+    for record in t3_runs.load_pending(root):
+        try:
+            state, _ = t3_runs.run_status(t3_home, record)
+        except t3_runs.RunError:
+            state = "unknown"
+        if state not in ("completed", "failed"):
+            live.append(record["key"])
+    return live
+
+
+def release_lock(root: Path, t3_home: Path, command: str, force: bool) -> None:
+    """Lift a run's lock once the run is over; refuse to touch the repository while it is live.
+
+    Every command used to unlock first, so a `render`, `verify`, or `watch` during a run silently
+    reopened `.git` and every earlier implementation to the agent. `watch` keeps the lock and lifts
+    it itself before importing a finished run."""
+    if not t3_runs.lock_active(root):
+        return
+    live = live_runs(root, t3_home)
+    if live and command == "watch":
+        return
+    if live and command not in ABORTING_COMMANDS and not force:
+        raise BenchmarkError(
+            f"{', '.join(live)} is still running with earlier implementations locked; wait until it finishes "
+            f"(`watch --import`), or pass --force to `{command}` anyway, which unlocks them while the agent works"
+        )
+    if unlocked := t3_runs.unlock_sources(root):
+        print(f"Unlocked {len(unlocked)} path(s) locked during the run")
+
+
 def main(argv: list[str] | None = None) -> int:
     args = parse_args(argv or sys.argv[1:])
     root = repository_root()
     if args.manifest:
         root = args.manifest.resolve().parent
-    # A run's lock ends with the run: whatever the next command is, it needs the repository back.
-    if unlocked := t3_runs.unlock_sources(root):
-        print(f"Unlocked {len(unlocked)} path(s) locked during the run")
-    _, runs = load_manifest(root)
-    ranking = load_ranking(root, runs)
-    pricing = load_pricing(root, runs)
-    by_id = {run["id"]: run for run in runs}
     codex_home = Path(os.environ.get("CODEX_HOME", Path.home() / ".codex")).expanduser()
     omp_home = Path(os.environ.get("OMP_HOME", Path.home() / ".omp")).expanduser()
     pi_home = Path(os.environ.get("PI_HOME", Path.home() / ".pi")).expanduser()
     t3_home = Path(os.environ.get("T3_HOME", Path.home() / ".t3")).expanduser()
     homes = (codex_home, omp_home, pi_home, t3_home)
+    release_lock(root, t3_home, args.command, args.force)
+    if args.command in ("new", "batch") and (jobs := run_cleanup.repository_jobs(run_cleanup.list_processes(), os.getpid())):
+        # A run locks the repository; a site build or render still reading it would fail halfway.
+        raise BenchmarkError(
+            "wait for these benchmark jobs to finish before starting a run:\n"
+            + "\n".join(f"  {job.pid}: {job.command[:120]}" for job in jobs)
+        )
+    _, runs = load_manifest(root)
+    ranking = load_ranking(root, runs)
+    pricing = load_pricing(root, runs)
+    by_id = {run["id"]: run for run in runs}
     if args.command == "refresh":
         if args.all:
             selected = runs

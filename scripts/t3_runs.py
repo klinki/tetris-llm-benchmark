@@ -198,8 +198,12 @@ def lock_sources(root: Path, archive: Path | None = None) -> list[str]:
     return [item["path"] for item in locked]
 
 
+
+def lock_active(root: Path) -> bool:
+    return (root / ".bench" / LOCK_STATE).is_file()
+
 def unlock_sources(root: Path) -> list[str]:
-    """Restore what `lock_sources` locked; every command does this first."""
+    """Restore what `lock_sources` locked, once its run has finished (see `release_lock`)."""
     state = root / ".bench" / LOCK_STATE
     if not state.is_file():
         return []
