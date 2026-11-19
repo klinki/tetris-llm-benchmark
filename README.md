@@ -146,7 +146,7 @@ remain recorded completion steps.
 
 A hand-improved [reference implementation](reference/README.md), derived from
 GPT-6.1 Sol (high), is kept outside the results. It is not a model run and is
-not ranked. Its blind Sol xhigh audit scored 9.50.
+not ranked.
 
 ## Implementation quality
 
