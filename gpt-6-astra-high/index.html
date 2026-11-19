@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#111719">
+  <meta name="description" content="A modern, dependency-free Tetris game. Find your flow, build your stack, and chase a new high score.">
+  <title>Tetris — Find your flow</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpath fill='%238ee7c4' d='M11 1h10v10H11zM0 12h10v10H0zm11 0h10v10H11zm11 0h10v10H22z'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="styles.css">
+  <script type="module" src="dist/main.js"></script>
+</head>
+<body>
+  <div class="app">
+    <header class="header">
+      <a class="brand" href="./" aria-label="Tetris home"><span class="brand-mark" aria-hidden="true"><i></i><i></i><i></i><i></i></span>TETRIS<span class="edition">JS</span></a>
+      <div class="header-note"><span class="status-dot"></span>A little focus. A little flow.</div>
+      <button id="pause" class="quiet-button" disabled aria-label="Pause game">Ⅱ <span>Pause</span><kbd>P</kbd></button>
+    </header>
+
+    <main>
+      <div class="intro"><div><p class="eyebrow">THE CLASSIC, REIMAGINED</p><h1>Find your flow<span>.</span></h1></div><p>Make space.<br>Keep moving.</p></div>
+      <div class="game-layout">
+        <aside class="left-rail" aria-label="Game statistics and held piece">
+          <section class="panel hold-panel"><div class="panel-heading"><h2>HOLD</h2><kbd>C</kbd></div><canvas id="hold" width="144" height="80" role="img" aria-label="No held piece"></canvas><p id="hold-hint" class="small-note">Save it for later</p></section>
+          <section class="panel score-panel"><h2>SCORE</h2><p id="score" class="score">0</p><div class="best-row"><span>PERSONAL BEST</span><span id="best">0</span></div></section>
+          <section class="panel stats-panel"><div class="stat"><h2>LEVEL</h2><p id="level">01</p></div><div class="level-track" role="progressbar" aria-label="Lines toward next level" aria-valuemin="0" aria-valuemax="10" aria-valuenow="0"><div id="progress"></div></div><p class="small-note"><span id="remaining">10</span> lines to level up</p><div class="stat lines-stat"><h2>LINES</h2><p id="lines">0</p></div></section>
+          <div class="session"><span class="status-dot"></span><span id="session-status">READY WHEN YOU ARE</span></div>
+        </aside>
+
+        <section class="board-section" aria-label="Tetris game">
+          <div class="board-top"><span>MARATHON</span><span>10 × 20</span></div>
+          <div class="board-wrap">
+            <canvas id="board" width="320" height="640" role="img" aria-label="Tetris playfield, 10 columns and 20 rows"></canvas>
+            <div id="overlay" class="overlay">
+              <div class="overlay-content"><span id="overlay-tag" class="eyebrow">ONE MORE LINE.</span><h2 id="overlay-title">Ready to<br>drop in?</h2><p id="overlay-copy">A familiar game.<br>A fresh start.</p><button id="play" class="primary-button">Let’s play <span aria-hidden="true">↗</span></button><span id="overlay-hint" class="overlay-hint">or press Enter</span></div>
+            </div>
+          </div>
+          <div class="board-bottom"><span id="feedback" role="status" aria-live="polite">A clear mind. A clean board.</span><span id="time">00:00</span></div>
+        </section>
+
+        <aside class="right-rail" aria-label="Upcoming pieces and controls">
+          <section class="panel next-panel"><div class="panel-heading"><h2>UP NEXT</h2><span class="queue-count">05</span></div><canvas id="next" width="144" height="320" role="img" aria-label="Next five pieces"></canvas></section>
+          <section class="controls"><h2>MAKE YOUR MOVE</h2><dl><div><dt>Move</dt><dd><kbd>←</kbd><kbd>→</kbd></dd></div><div><dt>Rotate right</dt><dd><kbd>↑</kbd><kbd>X</kbd></dd></div><div><dt>Rotate left</dt><dd><kbd>Z</kbd><kbd>Ctrl</kbd></dd></div><div><dt>Soft drop</dt><dd><kbd>↓</kbd></dd></div><div><dt>Hard drop</dt><dd><kbd>Space</kbd></dd></div><div><dt>Hold</dt><dd><kbd>C</kbd></dd></div><div><dt>Pause</dt><dd><kbd>P</kbd><kbd>Esc</kbd></dd></div></dl></section>
+        </aside>
+      </div>
+      <div class="touch-controls" aria-label="Touch game controls"><button data-action="hold" aria-label="Hold piece">HOLD</button><button data-action="left" aria-label="Move left">←</button><button data-action="ccw" aria-label="Rotate counterclockwise">↶</button><button data-action="cw" aria-label="Rotate clockwise">↷</button><button data-action="right" aria-label="Move right">→</button><button data-action="down" aria-label="Soft drop">↓</button><button data-action="drop" class="drop-button" aria-label="Hard drop">DROP ↓</button></div>
+    </main>
+    <footer><span>STACK. CLEAR. REPEAT.</span><span>Built for the love of the game<span class="footer-dot">·</span>No distractions.</span></footer>
+  </div>
+  <noscript>This game needs JavaScript enabled to play.</noscript>
+</body>
+</html>
