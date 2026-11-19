@@ -469,6 +469,28 @@ def run_status(t3_home: Path, record: dict[str, Any]) -> tuple[str, str]:
     return "completed", f"thread {thread['thread_id']}"
 
 
+def project_state(t3_home: Path, thread_id: str) -> dict[str, Any] | None:
+    """A run thread's project, with its workspace and archive time, and the thread's settle time."""
+    with closing(connect(t3_home)) as connection:
+        row = connection.execute("""
+            SELECT t.project_id, p.workspace_root, p.archived_at, json_extract(t.payload_json, '$.settledAt') AS settled_at
+            FROM orchestration_v2_projection_threads t LEFT JOIN projection_projects p ON p.project_id = t.project_id
+            WHERE t.thread_id = ?
+        """, (thread_id,)).fetchone()
+    return dict(row) if row else None
+
+
+def finish_runs(root: Path, t3_home: Path, threads: list[str], projects: list[str]) -> dict[str, list[str]]:
+    """Settle threads and archive projects through T3's internal API (see scripts/t3-finish.mjs)."""
+    request = {"t3Home": str(t3_home), "threads": threads, "projects": projects}
+    process = subprocess.run(
+        ["node", str(root / "scripts" / "t3-finish.mjs")], input=json.dumps(request), text=True, capture_output=True,
+    )
+    if process.returncode:
+        raise RunError(f"Settling and archiving through T3's API failed: {process.stderr.strip() or process.stdout.strip()}")
+    return json.loads(process.stdout)
+
+
 def items_started_after(t3_home: Path, thread_id: str, after_ms: float) -> list[dict[str, Any]]:
     """Timeline items of a thread that started at or after a time, with their type."""
     with closing(connect(t3_home)) as connection:

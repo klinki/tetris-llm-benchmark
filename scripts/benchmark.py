@@ -2568,6 +2568,10 @@ def parse_args(argv: list[str]) -> argparse.Namespace:
     audit_parser.add_argument("--session", required=True, help="The reviewer's native Codex session ID")
     audit_parser.add_argument("--reviewer", nargs=2, metavar=("MODEL", "EFFORT"), default=list(REVIEWER),
                               help="Expected reviewer, when the user chose another (default: gpt-6.1-sol xhigh)")
+    archive_parser = subparsers.add_parser(
+        "archive", help="Settle scored runs' T3 threads and archive their T3 projects, then read both back",
+    )
+    archive_parser.add_argument("run_ids", nargs="+", metavar="RUN_ID")
     subparsers.add_parser("quota", help="Show how much of the Codex subscription windows is used, and when they reset")
     overlaps_parser = subparsers.add_parser(
         "overlaps", help="Report /tmp entries and localhost ports that concurrent T3 runs shared",
@@ -2707,6 +2711,45 @@ def record_audit(
     return lines
 
 
+def archive_runs(
+    root: Path, runs: list[dict[str, Any]], ranking: dict[str, Any], t3_home: Path,
+    finish: Any = t3_runs.finish_runs, state: Any = t3_runs.project_state,
+) -> list[str]:
+    """The last completion step: settle each scored run's thread and archive its own T3 project.
+
+    Only a scored run is finished, and only a project whose workspace is that run's isolated
+    workspace is archived, never the repository's. Both are read back from T3 afterwards."""
+    scored = {entry["run_id"] for entry in ranking.get("entries", [])}
+    threads, projects, lines = [], [], []
+    for run in runs:
+        if not run["harness"].startswith("t3_"):
+            raise BenchmarkError(f"{run['id']} did not run in T3, so it has no T3 project to archive")
+        if run["id"] not in scored:
+            raise BenchmarkError(f"{run['id']} is not scored yet; archive a run only after its audit")
+        found = state(t3_home, run["t3_thread_id"])
+        if not found or not found.get("workspace_root"):
+            raise BenchmarkError(f"T3 has no project for {run['id']}'s thread {run['t3_thread_id']}")
+        workspace = os.path.normpath(found["workspace_root"])
+        if workspace != os.path.normpath(run["expected_cwd"]) or Path(workspace) == root.resolve():
+            raise BenchmarkError(
+                f"{run['id']}'s thread is in project {found['project_id']} at {workspace}, not its own workspace; "
+                "only a run's isolated project is archived"
+            )
+        if not found["settled_at"]:
+            threads.append(run["t3_thread_id"])
+        if not found["archived_at"] and found["project_id"] not in projects:
+            projects.append(found["project_id"])
+    if threads or projects:
+        finish(root, t3_home, threads, projects)
+    for run in runs:
+        found = state(t3_home, run["t3_thread_id"])
+        if not (found and found["settled_at"] and found["archived_at"]):
+            raise BenchmarkError(f"T3 does not show {run['id']} as settled and archived: {found}")
+        lines.append(f"{run['id']}: thread settled {found['settled_at'][:19]}, "
+                     f"project {found['project_id']} archived {found['archived_at'][:19]}")
+    return lines
+
+
 def require_price(pricing: dict[str, Any], model: str) -> None:
     """Refuse a run whose model `import` could not price, before it spends any quota.
 
@@ -2821,6 +2864,12 @@ def main(argv: list[str] | None = None) -> int:
         _, runs = load_manifest(root)
         selected = [run for run in runs if run["id"] in args.run_ids]
         refresh(root, runs, ranking, load_pricing(root, runs), selected, codex_home, omp_home, pi_home, t3_home, False)
+    elif args.command == "archive":
+        unknown = [run_id for run_id in args.run_ids if run_id not in by_id]
+        if unknown:
+            raise BenchmarkError(f"Unknown run ID: {', '.join(unknown)}")
+        for line in archive_runs(root, [by_id[run_id] for run_id in args.run_ids], ranking, t3_home):
+            print(line)
     elif args.command == "quota":
         print("\n".join(quota_report(t3_runs.codex_quota_now(codex_home), time.time())))
     elif args.command == "overlaps":

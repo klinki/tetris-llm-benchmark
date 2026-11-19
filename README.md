@@ -647,11 +647,21 @@ Generation, quality review, and accounting are separate: a completed
 implementation can be audited while its usage data is being reconciled.
 
 After import and the completed independent review, save and verify the results,
-and complete workspace cleanup. Then archive the dedicated T3 Code project used
-for the run with `t3_project_update`, passing its `projectId` and `archived: true`.
-Use `t3_project_read` to confirm that `archivedAt` is set. The project ID is
-recorded as `t3_project_id` in the local run record; if it is missing, read the
-run's T3 thread to identify the project.
+and complete workspace cleanup. Then settle the run's thread and archive the
+dedicated T3 Code project used for the run:
+
+```sh
+python3 scripts/benchmark.py archive <run id…>
+```
+
+`archive` refuses a run that is not scored yet and any project whose workspace
+is not the run's own isolated workspace, finds the project from the run's
+thread, sends `thread.settle` and `project.update` with `archived: true` through
+T3's internal API ([`scripts/t3-finish.mjs`](scripts/t3-finish.mjs), with the
+same five-minute session as `--launch`), and reads `settledAt` and `archived_at`
+back from T3's database. It works from any terminal or thread; T3's own
+`t3_project_update` and `t3_thread_organize` tools refuse this from a thread
+that is not in full-access mode. Running it again changes nothing.
 
 This step applies to manual, `watch --import`, and `batch` runs once their audits
 are complete. Import alone leaves a run pending audit. Archiving the T3 project
@@ -782,13 +792,14 @@ until the thread reaches a final state. The orchestrating thread runs:
    then. `t3_thread_wait` can return while the turn is still running.
 4. `python3 scripts/benchmark.py cleanup <key>`, then
    `python3 scripts/benchmark.py import <key>` in its shell.
-5. `t3_thread_organize` with `action: "settle"` on the run's thread, so
-   finished benchmark threads leave T3's active list. Settle each audit's
-   thread too once its results are committed.
-6. Delegate the final audit to the required Sol xhigh reviewer and verify its
-   actual settings and completed review evidence. Once scoring and the saved results have
-   been verified, archive the run's T3 project and confirm `archivedAt`, as
-   described in [Completing a benchmark](#completing-a-benchmark).
+5. Settle each audit's thread with `t3_thread_organize` once its results are
+   committed. The run's own thread is settled by `archive` in step 6.
+6. Delegate the final audit to the required Sol xhigh reviewer with the
+   [brief](.audit/REVIEW_BRIEF.md), then record it with `audit-record`, which
+   verifies its actual settings. Once scoring and the saved results have
+   been verified, run `archive`, which settles the run's thread, archives its
+   T3 project and confirms both, as described in
+   [Completing a benchmark](#completing-a-benchmark).
 
 This removes the undocumented `orchestration.launchThread` RPC, the
 `t3 auth session issue` token, the WebSocket client, and the 20-second polling
