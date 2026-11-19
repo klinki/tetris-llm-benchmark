@@ -4168,7 +4168,7 @@
             "used_percent_end": 58
           }
         ],
-        "note": "The start reading matches the last snapshot of the preceding GPT-6.2 Astra (low) review session (12% / 58%), so no other Codex usage fell between them. The weekly change stayed below one reported point."
+        "note": "The start reading matches the last snapshot of the preceding GPT-6.2 Astra (low) review session (12% / 58%), so no other Codex usage fell between them. The weekly change stayed below one reported point. The independent GPT-6.1 Sol xhigh review covered the medium and high runs together (native session `01a1f125-7151-7582-b6f7-0e1c1fc36b1c`) and used 12 points of the 5-hour window (0→12%) and 2 weekly points (70→72%) for both; that is not part of the tested agent's figure."
       },
       "label": "GPT-6.2 Astra (medium)",
       "order": 980,
@@ -4217,7 +4217,7 @@
             "used_percent_end": 60
           }
         ],
-        "note": "The start reading matches the end of the preceding GPT-6.2 Astra (medium) run (16% / 58%). The excluded notification turn 2, started when cleanup stopped the agent's server, used about one more point of each window (31% / 61% at 19:47:12Z); it is not part of this figure."
+        "note": "The start reading matches the end of the preceding GPT-6.2 Astra (medium) run (16% / 58%). The excluded notification turn 2, started when cleanup stopped the agent's server, used about one more point of each window (31% / 61% at 19:47:12Z); it is not part of this figure. The independent GPT-6.1 Sol xhigh review covered the medium and high runs together (native session `01a1f125-7151-7582-b6f7-0e1c1fc36b1c`) and used 12 points of the 5-hour window (0→12%) and 2 weekly points (70→72%) for both; that is not part of the tested agent's figure."
       },
       "label": "GPT-6.2 Astra (high)",
       "order": 990,
@@ -4325,7 +4325,7 @@
             "used_percent_end": 63
           }
         ],
-        "note": "The start reading matches the end of the GPT-6.2 Astra (high) session including its notification turn (31% / 61%). The excluded notification turn 2 used about one more 5-hour point (46% at 19:58:32Z); it is not part of this figure."
+        "note": "The start reading matches the end of the GPT-6.2 Astra (high) session including its notification turn (31% / 61%). The excluded notification turn 2 used about one more 5-hour point (46% at 19:58:32Z); it is not part of this figure. The independent GPT-6.1 Sol xhigh review covered the xhigh and max runs together (native session `01a1f137-1330-7bb1-9f06-baba09195ffa`) and used 12 points of the 5-hour window (12→24%) and 2 weekly points (72→74%) for both; that is not part of the tested agent's figure."
       },
       "label": "GPT-6.2 Astra (xhigh)",
       "order": 1000,
@@ -4469,7 +4469,7 @@
             "used_percent_end": 70
           }
         ],
-        "note": "The start reading follows the GPT-6.2 Astra (xhigh) session's notification turn (46%, then 47% at this run's first snapshot), so up to one point of the 5-hour change may predate this run. No notification turn followed this run."
+        "note": "The start reading follows the GPT-6.2 Astra (xhigh) session's notification turn (46%, then 47% at this run's first snapshot), so up to one point of the 5-hour change may predate this run. No notification turn followed this run. The independent GPT-6.1 Sol xhigh review covered the xhigh and max runs together (native session `01a1f137-1330-7bb1-9f06-baba09195ffa`) and used 12 points of the 5-hour window (12→24%) and 2 weekly points (72→74%) for both; that is not part of the tested agent's figure."
       },
       "web_root": "dist",
       "label": "GPT-6.2 Astra (max)",
@@ -4616,6 +4616,55 @@
             "reference": "/Users/david/.codex/skills/playwright/scripts/playwright_cli.sh"
           }
         ]
+      }
+    },
+    {
+      "id": "gpt-6-astra-low",
+      "label": "GPT-6 Astra (low)",
+      "order": 1020,
+      "project_dir": "gpt-6-astra-low",
+      "harness": "t3_codex",
+      "harness_label": "T3 Code / Codex",
+      "provider": "codex",
+      "provider_label": "Codex",
+      "model": "gpt-6-astra",
+      "session_id": "01a1f256-1b42-7eb0-b065-5076a1cf0c01",
+      "t3_thread_id": "thread:project:35b3c205-b439-46e1-8701-e479dfa9f6ee:eea0d7da-3450-4af5-8245-146b0f11704c",
+      "expected_cwd": "/Users/david/tetris-bench/runs/a6bf8566f6bc/tetris",
+      "expected_cwd_basename": "tetris",
+      "reasoning_variant": "low",
+      "web": "open",
+      "cutoff": {
+        "through_user_message": 1,
+        "exclude_inter_message_wait": true
+      },
+      "overhead": {
+        "kind": "unknown"
+      },
+      "subscription_quota": {
+        "provider": "Codex",
+        "plan": "plus",
+        "source": "the `rate_limits` snapshots in the tested agent's native Codex session log (four snapshots, 05:44:59Z to 05:46:52Z)",
+        "windows": [
+          {
+            "name": "5-hour",
+            "window_minutes": 300,
+            "used_percent_start": 0,
+            "used_percent_end": 3
+          },
+          {
+            "name": "Weekly",
+            "window_minutes": 10080,
+            "used_percent_start": 74,
+            "used_percent_end": 74
+          }
+        ],
+        "note": "The 5-hour window had reset before the run, so the start reading is the baseline. The weekly change stayed below one reported point. The independent review is not yet included."
+      },
+      "spec": {
+        "sha256": "36e2097a78fe8b5646e6216338640831cff0a284cc823c4b1f658991c8d40294",
+        "commit": "282ee09bbb4513a8500612acdf3afe6baa538ef3",
+        "modified": false
       }
     }
   ]

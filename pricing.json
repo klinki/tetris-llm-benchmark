@@ -94,6 +94,14 @@
       "source": "https://developers.openai.com/api/docs/models/gpt-6.2-astra",
       "note": "Standard tier, checked 2026-11-18. Cache writes are the 30-minute rate. Requests with more than 272K input tokens are billed at 2x input and cache rates and 1.5x output; T3 records only whole-turn totals, so the estimate is a lower bound."
     },
+    "gpt-6-astra": {
+      "label": "GPT-6 Astra",
+      "family": "OpenAI", "tier": "Astra", "version": "6",
+      "prices": {"input": 10.00, "cache_read": 1.00, "cache_write": 12.50, "output": 50.00},
+      "evidence": "official",
+      "source": "https://developers.openai.com/api/docs/models/gpt-6-astra",
+      "note": "Standard tier, checked 2026-11-19. Cache writes are billed at 1.25x uncached input; the page does not state a cache duration."
+    },
     "gpt-6.1-terra": {
       "label": "GPT-6.1 Terra",
       "family": "OpenAI", "tier": "Terra", "version": "6.1",

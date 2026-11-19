@@ -1,0 +1,10 @@
+import {test} from 'node:test';
+import assert from 'node:assert/strict';
+import {Game,cells} from '../dist/game.js';
+test('bags contain all seven pieces',()=>{const g=new Game();assert.equal(new Set([g.active.kind,...g.queue.slice(0,6)]).size,7);});
+test('hold is limited until locking',()=>{const g=new Game();const first=g.active.kind;g.hold();assert.equal(g.held,first);const second=g.active.kind;g.hold();assert.equal(g.active.kind,second);g.hardDrop();assert.equal(g.usedHold,false);});
+test('hard drop locks four cells and awards points',()=>{const g=new Game();g.hardDrop();assert.equal(g.board.flat().filter(Boolean).length,4);assert.ok(g.score>0);});
+test('walls reject movement and rotations preserve four cells',()=>{const g=new Game();for(let i=0;i<20;i++)g.move(-1);assert.equal(g.move(-1),false);g.rotate(1);assert.equal(cells(g.active).length,4);assert.ok(g.valid(g.active));});
+test('line clear scores and removes full row',()=>{const g=new Game();g.board[21]=Array(10).fill('J');g.board[21][4]=null;g.board[21][5]=null;g.active={kind:'O',x:3,y:20,r:0};g.place();assert.equal(g.lines,1);assert.equal(g.score,100);});
+test('blocked spawn tops out',()=>{const g=new Game();g.board[0]=Array(10).fill('J');g.board[1]=Array(10).fill('J');g.spawn('T');assert.equal(g.over,true);});
+test('grounded piece waits for lock delay',()=>{const g=new Game();g.active=g.ghost();g.tick(499);assert.equal(g.board.flat().filter(Boolean).length,0);g.tick(1);assert.equal(g.board.flat().filter(Boolean).length,4);});
